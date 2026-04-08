@@ -25,4 +25,4 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I'm blablabla Blabla blabla
+I'm a PhD Student at the Division of Energy Processes at KTH and part of the research project KUSK. My research is primarily focused on socio-economic impact modelling energy transition. I have previously worked as a Policy Analyst at the Swedish Energy Agency, focused on impact assessment and policy assumptions in scenario work. 
