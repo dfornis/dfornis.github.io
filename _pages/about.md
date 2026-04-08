@@ -2,7 +2,7 @@
 layout: about
 title: About
 permalink: /
-subtitle: "<b>PhD Student at </b> <a href='https://www.kth.se/ket/energy-processes/division-of-energy-processes-1.30908'>KTH, Division of Energy Processes</a>"
+subtitle: "<b>PhD Student at </b> <a href='https://www.kth.se/ket/energy-processes/division-of-energy-processes-1.30908'>KTH</a>"
 profile:
   align: right
   image: prof_pic.jpg
