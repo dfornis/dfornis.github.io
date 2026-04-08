@@ -3,9 +3,6 @@
 ---
 @charset "utf-8";
 
-/* 1. Hämta in Kudhrus snygga font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 /* Built-in Sass modules you’ll likely use across partials */
 @use "sass:math";
 @use "sass:string";
@@ -41,6 +38,9 @@
 @use "font-awesome/solid";
 @use "font-awesome/regular";
 
+/* 1. Hämta in Kudhrus snygga font - MÅSTE ligga under @use-reglerna! */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
   /* Detta är Kudhrus färger, översatta till al-folios språk */
   --global-bg-color: #F5F0E8 !important;         /* Hans --bg (off-white/beige) */
@@ -54,4 +54,9 @@
 /* Extra säkerhetsspärr för att garantera att menyn inte är genomskinlig */
 header .navbar {
   background-color: var(--global-bg-color) !important;
+}
+
+/* Ta bort tjock/smal-effekten i loggan längst upp till vänster */
+header .navbar .navbar-brand span {
+  font-weight: 500 !important;
 }
