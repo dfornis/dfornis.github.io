@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 ---
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
@@ -37,3 +38,13 @@
 @use "font-awesome/brands";
 @use "font-awesome/solid";
 @use "font-awesome/regular";
+
+:root {
+  /* Detta är Kudhrus färger, översatta till al-folios språk */
+  --global-bg-color: #F5F0E8 !important;         /* Hans --bg (off-white/beige) */
+  --global-text-color: #1A1A1A !important;       /* Hans --text (mörkgrå nästan svart) */
+  --global-theme-color: #2D2D2D !important;      /* Hans --accent (mörkare grå) */
+  
+  /* Här lägger vi in Kudhrus "Inter"-font som standard */
+  --global-font-family: 'Inter', system-ui, sans-serif !important;
+}
