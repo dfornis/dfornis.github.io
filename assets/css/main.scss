@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 ---
 # Only the main Sass file needs front matter (the dashes are enough)
 ---
 @charset "utf-8";
+
+/* 1. Hämta in Kudhrus snygga font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Built-in Sass modules you’ll likely use across partials */
 @use "sass:math";
@@ -47,4 +49,9 @@
   
   /* Här lägger vi in Kudhrus "Inter"-font som standard */
   --global-font-family: 'Inter', system-ui, sans-serif !important;
+}
+
+/* Extra säkerhetsspärr för att garantera att menyn inte är genomskinlig */
+header .navbar {
+  background-color: var(--global-bg-color) !important;
 }
