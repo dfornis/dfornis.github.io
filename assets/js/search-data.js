@@ -28,8 +28,8 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-i-will-be-presenting-an-upcoming-paper-at-the-2026-rsa-annual-conference-on-june-17-governing-the-energy-transition-socio-economic-impact-assessments-as-governance-artefacts",
-          title: 'I will be presenting an upcoming paper at the 2026 RSA Annual Conference...',
+            },},{id: "news-i-m-presenting-an-upcoming-paper-governing-the-energy-transition-socio-economic-impact-assessments-as-governance-artefacts-at-the-2026-rsa-annual-conference-on-june-17",
+          title: 'I’m presenting an upcoming paper, “Governing the Energy Transition: Socio-economic Impact Assessments as...',
           description: "",
           section: "News",},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
