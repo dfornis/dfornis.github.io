@@ -61,7 +61,9 @@ header .navbar .navbar-brand span {
   font-weight: 500 !important;
 }
 
-/* Dölj rubriken "news" på förstasidan */
-.news h2 {
+/* Dölj rubriken "news" (testar två olika sätt för att vara helt säker) */
+h2:has(a[href*="/news/"]), 
+.news h2,
+.post > h2:first-of-type + .news {
   display: none !important;
 }
