@@ -60,3 +60,8 @@ header .navbar {
 header .navbar .navbar-brand span {
   font-weight: 500 !important;
 }
+
+/* Dölj rubriken "news" på förstasidan */
+.news h2 {
+  display: none !important;
+}
