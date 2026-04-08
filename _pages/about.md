@@ -23,7 +23,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am a PhD Student at the Division of Energy Processes at KTH Royal Institute of Technology, where my research explores the intersection of energy systems and society. As part of the [KUSK]([https://adressen-den-går-till.se](https://www.iiiee.lu.se/research/iiiee-current-research-projects/kusk) research project, I focus on combining techno-economic and socio-economic impact modeling to better understand the broader consequences of the energy transition.
+I am a PhD Student at the Division of Energy Processes at KTH Royal Institute of Technology, where my research explores the intersection of energy systems and society. As part of the [KUSK](https://www.iiiee.lu.se/research/iiiee-current-research-projects/kusk) research project, I focus on combining techno-economic and socio-economic impact modeling to better understand the broader consequences of the energy transition.
 
 Before joining KTH, I worked as a Policy Analyst at the Swedish Energy Agency. There, I specialized in impact assessments and developing policy assumptions for national, regional, and EU-level energy scenarios. My background in policy-making informs my current academic research interests which is oriented towards real-world application and policy relevance. 
 
