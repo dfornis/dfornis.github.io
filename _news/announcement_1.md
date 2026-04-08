@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I will be presenting an upcoming paper at the 2026 RSA Annual Conference on June 17: "Governing the Energy Transition: Socio-economic Impact Assessments as Governance Artefacts"
+I'm presenting an upcoming paper, *"Governing the Energy Transition: Socio-economic Impact Assessments as Governance Artefacts,"* at the [**2026 RSA Annual Conference**](https://www.regionalstudies.org/events/rsa26/) on June 17.
