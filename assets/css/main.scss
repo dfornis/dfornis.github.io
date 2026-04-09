@@ -68,3 +68,15 @@ h2:has(a[href*="/news/"]),
 .post > h2:first-of-type + .news {
   display: none !important;
 }
+/* --- LÖSNING FÖR PUBLIKATIONS-HOPPET --- */
+/* Tvingar fram en rullningslist på alla sidor för att ge en enhetlig bredd */
+html {
+  overflow-y: scroll !important;
+}
+
+/* --- LÖSNING FÖR PROFILBILDEN --- */
+/* Gör profilbilden på 'About'-sidan mindre och rund/oval */
+.profile img {
+  max-width: 180px !important;    /* Justera denna siffra för att ändra storleken */
+ margin-right: 15px !important;  /* Ger lite luft till vänster om bilden (mot texten) */
+}
