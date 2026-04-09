@@ -85,3 +85,15 @@ html {
 footer {
   display: none !important;
 }
+
+/* Gör brödtexten (alla stycken och listor) något mindre */
+p, li {
+  font-size: 0.93rem !important; /* Testa 0.95 för en subtil ändring, eller 0.9 för tydligare effekt */
+  line-height: 1.6 !important;  /* Bra att ha ett luftigt radavstånd när texten är mindre */
+  letter-spacing: 0.01rem !important; /* Ger lite extra "andrum" mellan bokstäverna */
+}
+
+/* Om du även vill att datumet i dina nyheter ska hänga med i storleken */
+.news table tr td {
+  font-size: 0.85rem !important;
+}
