@@ -80,3 +80,8 @@ html {
   max-width: 180px !important;    /* Justera denna siffra för att ändra storleken */
  margin-right: 15px !important;  /* Ger lite luft till vänster om bilden (mot texten) */
 }
+
+/* Ta bort footern helt och hållet */
+footer {
+  display: none !important;
+}
