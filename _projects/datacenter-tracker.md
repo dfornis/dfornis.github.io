@@ -39,6 +39,32 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 </div>
 
+<div id="summary-box" class="summary-box"></div>
+
+<div class="table-wrapper">
+  <table id="tracker-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Project</th>
+        <th>Developer</th>
+        <th>Zone</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Reported MW</th>
+        <th>Est. IT load MW</th>
+        <th>Est. grid load MW</th>
+        <th>Est. TWh/year</th>
+        <th>PUE</th>
+        <th>Load factor</th>
+        <th>Expected operation</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
 <div class="after-table-space"></div>
 
 
