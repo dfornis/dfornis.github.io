@@ -31,7 +31,12 @@ ninja.data = [{
             },},{id: "news-i-m-presenting-an-upcoming-paper-governing-the-energy-transition-socio-economic-impact-assessments-as-governance-artefacts-at-the-2026-rsa-annual-conference-on-june-17",
           title: 'I’m presenting an upcoming paper, “Governing the Energy Transition: Socio-economic Impact Assessments as...',
           description: "",
-          section: "News",},{id: "teachings-data-science-fundamentals",
+          section: "News",},{id: "projects-swedish-data-center-tracker",
+          title: 'Swedish data center tracker',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/datacenter-tracker/";
+            },},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
           description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
           section: "Teachings",handler: () => {
