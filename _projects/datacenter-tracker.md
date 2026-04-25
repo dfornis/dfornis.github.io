@@ -56,7 +56,6 @@ The overview table shows one row per project or campus. Capacity phases and repo
         <th>Type</th>
         <th>Status</th>
         <th>Reported MW</th>
-        <th>Capacity basis</th>
         <th>Est. IT load MW</th>
         <th>Est. grid load MW</th>
         <th>Est. TWh/year</th>
@@ -140,14 +139,14 @@ The assumptions follow the standard data center energy accounting distinction be
 #tracker-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.74rem;
-  line-height: 1.22;
+  font-size: 0.66rem;
+  line-height: 1.18;
 }
 
 #tracker-table th,
 #tracker-table td {
   border-bottom: 1px solid #e2e2e2;
-  padding: 0.28rem 0.38rem;
+  padding: 0.22rem 0.32rem;
   vertical-align: top;
   text-align: left;
 }
@@ -188,6 +187,15 @@ The assumptions follow the standard data center energy accounting distinction be
   max-width: 320px;
   font-size: 0.72rem;
   color: #444;
+}
+  #tracker-table td.capacity-cell {
+  min-width: 92px;
+}
+
+#tracker-table td.capacity-cell .muted {
+  display: block;
+  margin-top: 0.08rem;
+  text-align: right;
 }
 
 .toggle-button {
@@ -252,7 +260,7 @@ The assumptions follow the standard data center energy accounting distinction be
 
 .muted {
   color: #777;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
 }
 </style>
 
@@ -584,8 +592,8 @@ function renderTable(rows) {
     const detailButton =
       "<button class='toggle-button' id='toggle-" + escapeHtml(row.project_id) + "' onclick=\"toggleDetails('" + escapeHtml(row.project_id) + "')\">+</button>";
 
-    const entryInfo = row.overview_entry_id
-      ? "<br><span class='muted'>" + escapeHtml(row.overview_entry_id) + "; " + escapeHtml(row.scenario_tag) + "</span>"
+    const capacityBasisInfo = row.capacity_basis
+      ? "<br><span class='muted'>" + escapeHtml(row.capacity_basis) + "</span>"
       : "";
 
     tr.innerHTML =
@@ -595,8 +603,7 @@ function renderTable(rows) {
       "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
       "<td>" + escapeHtml(row.type) + "</td>" +
       "<td>" + escapeHtml(row.status) + "</td>" +
-      "<td class='number-cell'>" + round(row.reported_capacity_mw, 1) + "</td>" +
-      "<td>" + escapeHtml(row.capacity_basis) + entryInfo + "</td>" +
+      "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 1) + capacityBasisInfo + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 1) + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 1) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 2) + "</td>" +
@@ -612,7 +619,7 @@ function renderTable(rows) {
     detailTr.id = "details-" + row.project_id;
 
     detailTr.innerHTML =
-      "<td class='detail-cell' colspan='15'>" +
+      "<td class='detail-cell' colspan='14'>" +
       renderEntryTable(row.project_id) +
       "</td>";
 
