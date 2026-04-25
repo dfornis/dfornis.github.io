@@ -12,8 +12,13 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
 
-![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map.png' | relative_url }})
-
+<figure class="scenario-map-figure">
+  <img
+    src="{{ '/assets/images/datacenter_scenario_map.png' | relative_url }}"
+    alt="Scenario map of interpreted data-centre load additions in Swedish bidding zones"
+    class="scenario-map-image"
+  >
+</figure>
 
 <div class="tracker-controls">
   <label>
@@ -44,30 +49,6 @@ The map below shows calculated additional grid load from data-centre projects ac
     </select>
   </label>
 
-<div id="summary-box" class="summary-box"></div>
-
-<div class="table-wrapper">
-  <table id="tracker-table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Project</th>
-        <th>Developer</th>
-        <th>Zone</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th>Reported MW</th>
-        <th>Est. IT load MW</th>
-        <th>Est. grid load MW</th>
-        <th>Est. TWh/year</th>
-        <th>PUE</th>
-        <th>Load factor</th>
-        <th>Expected operation</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 </div>
 
 <div class="after-table-space"></div>
@@ -373,6 +354,20 @@ pre {
   padding: 0.45rem 0.65rem !important;
   margin: 0.6rem 0 0.8rem 0 !important;
 }
+
+ .scenario-map-figure {
+  margin: 1.2rem 0 1.8rem 0;
+  text-align: center;
+}
+
+.scenario-map-image {
+  display: block;
+  max-width: 760px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+  
 </style>
 
 <script>
