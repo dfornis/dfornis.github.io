@@ -12,9 +12,7 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
 
-![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map_edit.png' | relative_url }})
-
-[Open PDF version]({{ '/assets/images/datacenter_scenario_map_edit.pdf' | relative_url }})
+![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map_edit.pdf' | relative_url }})
 
 <div class="tracker-controls">
   <label>
