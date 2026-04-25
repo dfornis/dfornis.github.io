@@ -8,6 +8,14 @@ This page tracks publicly reported data center projects in Sweden. The dataset i
 
 Capacity phases and reported capacity entries can be expanded under each project. Assumptions are stated below.
 
+## Scenario map
+
+The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
+
+![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map.png' | relative_url }})
+
+[Open PDF version]({{ '/assets/images/datacenter_scenario_map.pdf' | relative_url }})
+
 <div class="tracker-controls">
   <label>
     Bidding zone
