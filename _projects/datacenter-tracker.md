@@ -262,6 +262,50 @@ The assumptions follow the standard data center energy accounting distinction be
   color: #777;
   font-size: 0.62rem;
 }
+
+/* Force compact tracker table */
+#tracker-table,
+#tracker-table thead,
+#tracker-table tbody,
+#tracker-table tr,
+#tracker-table th,
+#tracker-table td {
+  font-size: 12px !important;
+  line-height: 1.15 !important;
+}
+
+#tracker-table th,
+#tracker-table td {
+  padding: 4px 6px !important;
+}
+
+/* Force compact expanded phase table */
+.entry-table,
+.entry-table thead,
+.entry-table tbody,
+.entry-table tr,
+.entry-table th,
+.entry-table td {
+  font-size: 11px !important;
+  line-height: 1.12 !important;
+}
+
+.entry-table th,
+.entry-table td {
+  padding: 3px 5px !important;
+}
+
+/* Keep notes slightly smaller */
+#tracker-table td.notes-cell {
+  font-size: 11px !important;
+  line-height: 1.15 !important;
+}
+
+.entry-table td.entry-notes {
+  font-size: 10.5px !important;
+  line-height: 1.15 !important;
+}
+  
 </style>
 
 <script>
