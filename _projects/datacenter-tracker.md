@@ -654,10 +654,10 @@ function renderTable(rows) {
       "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
       "<td>" + escapeHtml(row.type) + "</td>" +
       "<td>" + escapeHtml(row.status) + "</td>" +
-      "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 1) + capacityBasisInfo + "</td>" +
-      "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 1) + "</td>" +
-      "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 1) + "</td>" +
-      "<td class='number-cell'>" + round(row.estimated_twh_year, 2) + "</td>" +
+      "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
+      "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
+      "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 0) + "</td>" +
+      "<td class='number-cell'>" + round(row.estimated_twh_year, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.pue, 2) + "</td>" +
       "<td class='number-cell'>" + round(row.load_factor, 2) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
