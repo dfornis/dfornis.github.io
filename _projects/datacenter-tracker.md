@@ -37,11 +37,6 @@ Capacity phases and reported capacity entries can be expanded under each project
     </select>
   </label>
 
-  <label>
-    Search
-    <input id="filter-search" type="search" placeholder="Project, developer, notes..." />
-  </label>
-
 <div id="summary-box" class="summary-box"></div>
 
 <div class="table-wrapper">
@@ -564,7 +559,6 @@ function getFilters() {
     status: document.getElementById("filter-status").value,
     type: document.getElementById("filter-type").value,
     scenario: document.getElementById("filter-scenario").value,
-    search: document.getElementById("filter-search").value.toLowerCase().trim()
   };
 }
 
@@ -759,7 +753,7 @@ async function initTracker() {
   const allScenarios = uniqueSorted(capacity.map(entry => entry.scenario_tag));
   populateSelect("filter-scenario", allScenarios);
 
-  ["filter-zone", "filter-status", "filter-type", "filter-scenario", "filter-search"].forEach(id => {
+  ["filter-zone", "filter-status", "filter-type", "filter-scenario"].forEach(id => {
     document.getElementById(id).addEventListener("input", () => redraw(rows));
     document.getElementById(id).addEventListener("change", () => redraw(rows));
   });
