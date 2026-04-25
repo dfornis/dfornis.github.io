@@ -1,17 +1,19 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Swedish data center tracker | David Fornborg </title> <meta name="author" content="David Fornborg"> <meta name="description" content="David Fornborg, PhD student in energy processes at KTH, Stockholm "> <meta name="keywords" content=""> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%AC%9C%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://dfornis.github.io/projects/datacenter-tracker/"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> David Fornborg </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">About </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">Publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">Projects <span class="sr-only">(current)</span> </a> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Swedish data center tracker</h1> <p class="post-description"></p> </header> <article> <p>This page tracks publicly reported data center projects in Sweden. The dataset and methodology is under development.</p> <p>The table combines project-level information with reported capacity claims. Where possible, reported capacity is translated into estimated grid load and annual electricity use using assumptions stated at the bottom of the page.</p> <div class="tracker-controls"> <label> Bidding zone <select id="filter-zone"> <option value="">All</option> </select> </label> <label> Status <select id="filter-status"> <option value="">All</option> </select> </label> <label> Type <select id="filter-type"> <option value="">All</option> </select> </label> <label> Scenario tag <select id="filter-scenario"> <option value="">All</option> </select> </label> <label> Search <input id="filter-search" type="search" placeholder="Project, developer, notes..."> </label> </div> <div id="summary-box" class="summary-box"></div> <div class="table-wrapper"> <table id="tracker-table"> <thead> <tr> <th>Project</th> <th>Developer</th> <th>Zone</th> <th>Type</th> <th>Status</th> <th>Reported MW</th> <th>Capacity basis</th> <th>Est. IT load MW</th> <th>Est. grid load MW</th> <th>Est. TWh/year</th> <th>PUE</th> <th>Load factor</th> <th>Expected operation</th> <th>Notes</th> </tr> </thead> <tbody></tbody> </table> </div> <h2 id="capacity-interpretation-and-derived-load-estimates">Capacity interpretation and derived load estimates</h2> <p>Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to IT load, cumulative site capacity, an incremental expansion, full campus build-out potential, backup generation capacity, or generation capacity associated with a proposed co-located energy source. These concepts are not equivalent and have different implications for electricity-system analysis.</p> <p>The tracker therefore separates the reported capacity value from its interpreted <code class="language-plaintext highlighter-rouge">capacity_basis</code>. The reported value is stored as <code class="language-plaintext highlighter-rouge">reported_capacity_mw</code> in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:</p> <pre>
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title> Swedish data center tracker | David Fornborg </title> <meta name="author" content="David Fornborg"> <meta name="description" content="David Fornborg, PhD student in energy processes at KTH, Stockholm "> <meta name="keywords" content=""> <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; media-src 'self' https:; frame-src 'self' https:; connect-src 'self' https:;"> <link rel="stylesheet" href="/assets/css/bootstrap.min.css?v=a4b3f509e79c54a512b890d73235ef04"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link defer rel="stylesheet" href="/assets/css/academicons.min.css?v=f0b7046b84e425c55f3463ac249818f5"> <link defer rel="stylesheet" href="/assets/css/scholar-icons.css?v=62b2ac103a88034e6882a5be5f3e2772"> <link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap"> <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?v=591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%AC%9C%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;"> <link rel="stylesheet" href="/assets/css/main.css?v=d41d8cd98f00b204e9800998ecf8427e"> <link rel="canonical" href="https://dfornis.github.io/projects/datacenter-tracker/"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> David Fornborg </a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">About </a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">Publications </a> </li> <li class="nav-item active"> <a class="nav-link" href="/projects/">Projects <span class="sr-only">(current)</span> </a> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5" role="main"> <div class="post"> <header class="post-header"> <h1 class="post-title">Swedish data center tracker</h1> <p class="post-description"></p> </header> <article> <p>This page tracks publicly reported data center projects in Sweden. The dataset and methodology is under development.</p> <p>The overview table shows one row per project or campus. Capacity phases and reported capacity entries can be expanded under each project. Summary values are based only on the selected overview entry for each project, not on all underlying capacity entries.</p> <div class="tracker-controls"> <label> Bidding zone <select id="filter-zone"> <option value="">All</option> </select> </label> <label> Status <select id="filter-status"> <option value="">All</option> </select> </label> <label> Type <select id="filter-type"> <option value="">All</option> </select> </label> <label> Scenario tag <select id="filter-scenario"> <option value="">All</option> </select> </label> <label> Search <input id="filter-search" type="search" placeholder="Project, developer, notes..."> </label> </div> <div id="summary-box" class="summary-box"></div> <div class="table-wrapper"> <table id="tracker-table"> <thead> <tr> <th></th> <th>Project</th> <th>Developer</th> <th>Zone</th> <th>Type</th> <th>Status</th> <th>Reported MW</th> <th>Capacity basis</th> <th>Est. IT load MW</th> <th>Est. grid load MW</th> <th>Est. TWh/year</th> <th>PUE</th> <th>Load factor</th> <th>Expected operation</th> <th>Notes</th> </tr> </thead> <tbody></tbody> </table> </div> <h2 id="capacity-interpretation-and-derived-load-estimates">Capacity interpretation and derived load estimates</h2> <p>Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to IT load, cumulative site capacity, an incremental expansion, full campus build-out potential, backup generation capacity, or generation capacity associated with a proposed co-located energy source. These concepts are not equivalent and have different implications for electricity-system analysis.</p> <p>The tracker therefore separates the reported capacity value from its interpreted <code class="language-plaintext highlighter-rouge">capacity_basis</code>. The reported value is stored as <code class="language-plaintext highlighter-rouge">reported_capacity_mw</code> in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:</p> <pre>
 reported_capacity_mw
 interpreted_it_load_mw
 interpreted_grid_load_mw
 pue
 load_factor
-</pre> <p>For claims interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:</p> <pre>
+</pre> <p>For entries interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:</p> <pre>
 estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000
-</pre> <p>Backup power permits and reactor capacity claims are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.</p> <p>The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.</p> <style>.tracker-controls{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.25rem 0 1rem 0;align-items:end}.tracker-controls label{display:flex;flex-direction:column;font-size:.82rem;gap:.2rem;color:#444}.tracker-controls select,.tracker-controls input{padding:.28rem .35rem;min-width:145px;font-size:.82rem;border:1px solid #cfcfcf;border-radius:4px;background:#fff}.summary-box{margin:.75rem 0 1rem 0;padding:.55rem .75rem;border:1px solid #ddd;border-radius:6px;background:#f7f6f2;font-size:.85rem;color:#333}.table-wrapper{overflow-x:auto;border:1px solid #ddd;border-radius:6px}#tracker-table{width:100%;border-collapse:collapse;font-size:.74rem;line-height:1.22}#tracker-table th,#tracker-table td{border-bottom:1px solid #e2e2e2;padding:.28rem .38rem;vertical-align:top;text-align:left}#tracker-table th{font-weight:600;white-space:nowrap;background:#f0eee8;color:#222;position:sticky;top:0;z-index:1}#tracker-table tbody tr:nth-child(odd){background:#fff}#tracker-table tbody tr:nth-child(even){background:#faf8f3}#tracker-table tbody tr:hover{background:#f1eadf}#tracker-table td.project-cell{font-weight:500;min-width:145px}#tracker-table td.number-cell{text-align:right;white-space:nowrap}#tracker-table td.notes-cell{max-width:320px;font-size:.72rem;color:#444}.muted{color:#777;font-size:.7rem}</style> <script>
+</pre> <p>Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.</p> <p>The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.</p> <style>.tracker-controls{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.25rem 0 1rem 0;align-items:end}.tracker-controls label{display:flex;flex-direction:column;font-size:.82rem;gap:.2rem;color:#444}.tracker-controls select,.tracker-controls input{padding:.28rem .35rem;min-width:145px;font-size:.82rem;border:1px solid #cfcfcf;border-radius:4px;background:#fff}.summary-box{margin:.75rem 0 1rem 0;padding:.55rem .75rem;border:1px solid #ddd;border-radius:6px;background:#f7f6f2;font-size:.85rem;color:#333}.table-wrapper{overflow-x:auto;border:1px solid #ddd;border-radius:6px}#tracker-table{width:100%;border-collapse:collapse;font-size:.74rem;line-height:1.22}#tracker-table th,#tracker-table td{border-bottom:1px solid #e2e2e2;padding:.28rem .38rem;vertical-align:top;text-align:left}#tracker-table th{font-weight:600;white-space:nowrap;background:#f0eee8;color:#222;position:sticky;top:0;z-index:1}#tracker-table tbody tr.project-row:nth-child(4n+1){background:#fff}#tracker-table tbody tr.project-row:nth-child(4n+3){background:#faf8f3}#tracker-table tbody tr.project-row:hover{background:#f1eadf}#tracker-table td.project-cell{font-weight:500;min-width:145px}#tracker-table td.number-cell{text-align:right;white-space:nowrap}#tracker-table td.notes-cell{max-width:320px;font-size:.72rem;color:#444}.toggle-button{border:1px solid #cfcfcf;background:#fff;border-radius:4px;padding:.1rem .35rem;font-size:.72rem;cursor:pointer}.toggle-button:hover{background:#f1eadf}.detail-row{display:none;background:#fbfaf7}.detail-cell{padding:.65rem .75rem!important;border-bottom:1px solid #d8d8d8!important}.detail-title{font-size:.78rem;font-weight:600;margin-bottom:.4rem}.entry-table{width:100%;border-collapse:collapse;font-size:.71rem;line-height:1.2;background:#fff;border:1px solid #e0ded8}.entry-table th,.entry-table td{padding:.25rem .35rem;border-bottom:1px solid #ece9e2;vertical-align:top}.entry-table th{background:#f5f3ee;font-weight:600;white-space:nowrap}.entry-table td.number-cell{text-align:right}.entry-table td.entry-notes{max-width:420px;color:#444}.muted{color:#777;font-size:.7rem}</style> <script>
 const DATA_PATHS = {
   projects: "/assets/data/datacenters/projects.json",
   capacity: "/assets/data/datacenters/capacity.json",
   assumptions: "/assets/data/datacenters/assumptions.json"
 };
+
+let capacityEntriesByProject = {};
 
 async function loadJson(path) {
   const response = await fetch(path);
@@ -27,6 +29,17 @@ function isBlank(value) {
 
 function blank(value) {
   return isBlank(value) ? "" : value;
+}
+
+function escapeHtml(value) {
+  if (isBlank(value)) return "";
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function num(value) {
@@ -80,10 +93,10 @@ function capacityPriority(capacityType) {
   return priorities[capacityType] || 99;
 }
 
-function chooseDisplayCapacity(claims) {
-  if (!claims || claims.length === 0) return null;
+function chooseOverviewEntry(entries) {
+  if (!entries || entries.length === 0) return null;
 
-  return [...claims].sort((a, b) => {
+  return [...entries].sort((a, b) => {
     const startA = num(a.start_year);
     const startB = num(b.start_year);
 
@@ -106,21 +119,54 @@ function chooseDisplayCapacity(claims) {
   })[0];
 }
 
-function estimatedTwhFromClaim(claim) {
-  if (!claim) return null;
+function estimatedTwh(entry) {
+  if (!entry) return null;
 
-  const gridLoad = num(claim.interpreted_grid_load_mw);
-  const loadFactor = num(claim.load_factor);
+  const gridLoad = num(entry.interpreted_grid_load_mw);
+  const loadFactor = num(entry.load_factor);
 
   if (gridLoad === null || loadFactor === null) return null;
 
   return gridLoad * loadFactor * 8760 / 1000;
 }
 
-function buildProjectRows(projects, capacityClaims) {
+function buildCapacityIndex(capacityEntries) {
+  const index = {};
+
+  capacityEntries.forEach(entry => {
+    if (!index[entry.project_id]) {
+      index[entry.project_id] = [];
+    }
+
+    index[entry.project_id].push(entry);
+  });
+
+  Object.keys(index).forEach(projectId => {
+    index[projectId].sort((a, b) => {
+      const startA = num(a.start_year);
+      const startB = num(b.start_year);
+
+      if (startA !== null && startB !== null && startA !== startB) {
+        return startA - startB;
+      }
+
+      if (startA !== null && startB === null) return -1;
+      if (startA === null && startB !== null) return 1;
+
+      return capacityPriority(a.capacity_type) - capacityPriority(b.capacity_type);
+    });
+  });
+
+  return index;
+}
+
+function buildProjectRows(projects, capacityEntries) {
+  const index = buildCapacityIndex(capacityEntries);
+  capacityEntriesByProject = index;
+
   return projects.map(project => {
-    const claims = capacityClaims.filter(c => c.project_id === project.project_id);
-    const displayClaim = chooseDisplayCapacity(claims);
+    const entries = index[project.project_id] || [];
+    const overviewEntry = chooseOverviewEntry(entries);
 
     return {
       project_id: project.project_id,
@@ -131,16 +177,17 @@ function buildProjectRows(projects, capacityClaims) {
       status: project.status,
       expected_operational_years: project.expected_operational_years,
       notes: project.notes,
-      selected_claim_id: displayClaim ? displayClaim.claim_id : "",
-      phase: displayClaim ? displayClaim.phase : "",
-      scenario_tag: displayClaim ? displayClaim.scenario_tag : "",
-      capacity_basis: displayClaim ? displayClaim.capacity_type : "unknown",
-      reported_capacity_mw: displayClaim ? displayClaim.reported_capacity_mw : project.max_reported_capacity_mw,
-      interpreted_it_load_mw: displayClaim ? displayClaim.interpreted_it_load_mw : null,
-      interpreted_grid_load_mw: displayClaim ? displayClaim.interpreted_grid_load_mw : null,
-      estimated_twh_year: estimatedTwhFromClaim(displayClaim),
-      pue: displayClaim ? displayClaim.pue : null,
-      load_factor: displayClaim ? displayClaim.load_factor : null
+      entry_count: entries.length,
+      overview_entry_id: overviewEntry ? overviewEntry.claim_id : "",
+      phase: overviewEntry ? overviewEntry.phase : "",
+      scenario_tag: overviewEntry ? overviewEntry.scenario_tag : "",
+      capacity_basis: overviewEntry ? overviewEntry.capacity_type : "unknown",
+      reported_capacity_mw: overviewEntry ? overviewEntry.reported_capacity_mw : project.max_reported_capacity_mw,
+      interpreted_it_load_mw: overviewEntry ? overviewEntry.interpreted_it_load_mw : null,
+      interpreted_grid_load_mw: overviewEntry ? overviewEntry.interpreted_grid_load_mw : null,
+      estimated_twh_year: estimatedTwh(overviewEntry),
+      pue: overviewEntry ? overviewEntry.pue : null,
+      load_factor: overviewEntry ? overviewEntry.load_factor : null
     };
   });
 }
@@ -158,6 +205,14 @@ function getFilters() {
 function rowMatches(row, filters) {
   const tags = splitTags(row.type);
 
+  const entries = capacityEntriesByProject[row.project_id] || [];
+  const entryText = entries.map(entry => [
+    entry.phase,
+    entry.capacity_type,
+    entry.scenario_tag,
+    entry.notes
+  ].join(" ")).join(" ");
+
   const text = [
     row.project_name,
     row.developer,
@@ -166,14 +221,19 @@ function rowMatches(row, filters) {
     row.status,
     row.capacity_basis,
     row.scenario_tag,
-    row.notes
+    row.notes,
+    entryText
   ].join(" ").toLowerCase();
+
+  const scenarioMatch =
+    !filters.scenario ||
+    entries.some(entry => entry.scenario_tag === filters.scenario);
 
   return (
     (!filters.zone || row.bidding_zone === filters.zone) &&
     (!filters.status || row.status === filters.status) &&
     (!filters.type || tags.includes(filters.type)) &&
-    (!filters.scenario || row.scenario_tag === filters.scenario) &&
+    scenarioMatch &&
     (!filters.search || text.includes(filters.search))
   );
 }
@@ -205,34 +265,108 @@ function renderSummary(rows) {
     "<strong>" + round(totalTwh, 1) + "</strong> estimated TWh/year";
 }
 
+function renderEntryTable(projectId) {
+  const entries = capacityEntriesByProject[projectId] || [];
+
+  if (entries.length === 0) {
+    return "<div class='muted'>No capacity entries available.</div>";
+  }
+
+  let html = "";
+  html += "<div class='detail-title'>Capacity phases and reported entries</div>";
+  html += "<table class='entry-table'>";
+  html += "<thead><tr>";
+  html += "<th>Entry ID</th>";
+  html += "<th>Phase</th>";
+  html += "<th>Capacity basis</th>";
+  html += "<th>Scenario</th>";
+  html += "<th>Start year</th>";
+  html += "<th>Reported MW</th>";
+  html += "<th>IT load MW</th>";
+  html += "<th>Grid load MW</th>";
+  html += "<th>TWh/year</th>";
+  html += "<th>PUE</th>";
+  html += "<th>Load factor</th>";
+  html += "<th>Notes</th>";
+  html += "</tr></thead><tbody>";
+
+  entries.forEach(entry => {
+    html += "<tr>";
+    html += "<td>" + escapeHtml(entry.claim_id) + "</td>";
+    html += "<td>" + escapeHtml(entry.phase) + "</td>";
+    html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
+    html += "<td>" + escapeHtml(entry.scenario_tag) + "</td>";
+    html += "<td>" + escapeHtml(entry.start_year) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 1) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 1) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.interpreted_grid_load_mw, 1) + "</td>";
+    html += "<td class='number-cell'>" + round(estimatedTwh(entry), 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.load_factor, 2) + "</td>";
+    html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
+    html += "</tr>";
+  });
+
+  html += "</tbody></table>";
+  return html;
+}
+
+function toggleDetails(projectId) {
+  const detailRow = document.getElementById("details-" + projectId);
+  const button = document.getElementById("toggle-" + projectId);
+
+  if (!detailRow || !button) return;
+
+  const isOpen = detailRow.style.display === "table-row";
+
+  detailRow.style.display = isOpen ? "none" : "table-row";
+  button.textContent = isOpen ? "+" : "–";
+}
+
 function renderTable(rows) {
   const tbody = document.querySelector("#tracker-table tbody");
   tbody.innerHTML = "";
 
   rows.forEach(row => {
     const tr = document.createElement("tr");
+    tr.className = "project-row";
 
-    const claimInfo = row.selected_claim_id
-      ? "<br><span class='muted'>" + row.selected_claim_id + "; " + blank(row.scenario_tag) + "</span>"
+    const detailButton =
+      "<button class='toggle-button' id='toggle-" + escapeHtml(row.project_id) + "' onclick=\"toggleDetails('" + escapeHtml(row.project_id) + "')\">+</button>";
+
+    const entryInfo = row.overview_entry_id
+      ? "<br><span class='muted'>" + escapeHtml(row.overview_entry_id) + "; " + escapeHtml(row.scenario_tag) + "</span>"
       : "";
 
     tr.innerHTML =
-      "<td class='project-cell'>" + blank(row.project_name) + "</td>" +
-      "<td>" + blank(row.developer) + "</td>" +
-      "<td>" + blank(row.bidding_zone) + "</td>" +
-      "<td>" + blank(row.type) + "</td>" +
-      "<td>" + blank(row.status) + "</td>" +
+      "<td>" + detailButton + "</td>" +
+      "<td class='project-cell'>" + escapeHtml(row.project_name) + "</td>" +
+      "<td>" + escapeHtml(row.developer) + "</td>" +
+      "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
+      "<td>" + escapeHtml(row.type) + "</td>" +
+      "<td>" + escapeHtml(row.status) + "</td>" +
       "<td class='number-cell'>" + round(row.reported_capacity_mw, 1) + "</td>" +
-      "<td>" + blank(row.capacity_basis) + claimInfo + "</td>" +
+      "<td>" + escapeHtml(row.capacity_basis) + entryInfo + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 1) + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 1) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 2) + "</td>" +
       "<td class='number-cell'>" + round(row.pue, 2) + "</td>" +
       "<td class='number-cell'>" + round(row.load_factor, 2) + "</td>" +
-      "<td>" + blank(row.expected_operational_years) + "</td>" +
-      "<td class='notes-cell'>" + truncateText(row.notes) + "</td>";
+      "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
+      "<td class='notes-cell'>" + escapeHtml(truncateText(row.notes)) + "</td>";
 
     tbody.appendChild(tr);
+
+    const detailTr = document.createElement("tr");
+    detailTr.className = "detail-row";
+    detailTr.id = "details-" + row.project_id;
+
+    detailTr.innerHTML =
+      "<td class='detail-cell' colspan='15'>" +
+      renderEntryTable(row.project_id) +
+      "</td>";
+
+    tbody.appendChild(detailTr);
   });
 }
 
@@ -257,7 +391,8 @@ async function initTracker() {
   const allTypes = uniqueSorted(rows.flatMap(r => splitTags(r.type)));
   populateSelect("filter-type", allTypes);
 
-  populateSelect("filter-scenario", uniqueSorted(rows.map(r => r.scenario_tag)));
+  const allScenarios = uniqueSorted(capacity.map(entry => entry.scenario_tag));
+  populateSelect("filter-scenario", allScenarios);
 
   ["filter-zone", "filter-status", "filter-type", "filter-scenario", "filter-search"].forEach(id => {
     document.getElementById(id).addEventListener("input", () => redraw(rows));
