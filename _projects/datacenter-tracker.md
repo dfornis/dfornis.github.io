@@ -4,7 +4,7 @@ title: Swedish data center tracker
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part due to that it offers both  renewable electricitiy and a favourable climate for cooling. Given broader public interest in this ongoing development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations based on news reports and press releases. The dataset and methodology is under development.
+This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers renewable electricity and a favourable climate for cooling. Given broader public interest in this ongoing development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations based on news reports and press releases. The dataset and methodology is under development.
 
 Capacity phases and reported capacity entries can be expanded under each project. Assumptions are stated below.
 
@@ -65,9 +65,9 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 <div class="after-table-space"></div>
 
-### Capacity interpretation and derived load estimates
+## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of assumptions and interpretation to applied for  comparibility. 
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of assumptions and interpretation to applied for  comparability. 
 
 The tracker therefore separates the reported capacity value from its interpreted `capacity_basis`. The reported value is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
 
