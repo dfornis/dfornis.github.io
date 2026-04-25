@@ -69,9 +69,9 @@ Capacity phases and reported capacity entries can be expanded under each project
   </table>
 </div>
 
-## Capacity interpretation and derived load estimates
+### Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to IT load, cumulative site capacity, an incremental expansion, full campus build-out potential, backup generation capacity, or generation capacity associated with a proposed co-located energy source. These concepts are not equivalent and have different implications for electricity-system analysis.
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent and have different implications for electricity-system analysis.
 
 The tracker therefore separates the reported capacity value from its interpreted `capacity_basis`. The reported value is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
 
@@ -83,7 +83,7 @@ pue
 load_factor
 </pre>
 
-For entries interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:
+For entries interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption which is specific for data center type. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:
 
 <pre>
 estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000
@@ -91,7 +91,7 @@ estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000
 
 Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
 
-The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.
+The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. (2016) use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.
 
 <style>
 .tracker-controls {
