@@ -139,14 +139,14 @@ The assumptions follow the standard data center energy accounting distinction be
 #tracker-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.66rem;
-  line-height: 1.18;
+  font-size: 0.5rem;
+  line-height: 1.1;
 }
 
 #tracker-table th,
 #tracker-table td {
   border-bottom: 1px solid #e2e2e2;
-  padding: 0.22rem 0.32rem;
+  padding: 0.2rem 0.28rem;
   vertical-align: top;
   text-align: left;
 }
