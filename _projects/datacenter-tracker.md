@@ -8,6 +8,12 @@ This page tracks publicly reported data center projects in Sweden. The dataset i
 
 Capacity phases and reported capacity entries can be expanded under each project. Assumptions are stated below.
 
+## Scenario map
+
+The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
+
+![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map.png' | relative_url }})
+
 
 <div class="tracker-controls">
   <label>
@@ -90,12 +96,6 @@ estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000
 Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
 
 The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. (2016) use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.
-
-## Scenario map
-
-The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
-
-![Scenario map of interpreted data-centre load additions in Swedish bidding zones]({{ '/assets/images/datacenter_scenario_map.png' | relative_url }})
 
 <style>
 .tracker-controls {
