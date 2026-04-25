@@ -37,6 +37,11 @@ Capacity phases and reported capacity entries can be expanded under each project
     </select>
   </label>
 
+  <label>
+    Search
+    <input id="filter-search" type="search" placeholder="Project, developer, notes..." />
+  </label>
+
 <div id="summary-box" class="summary-box"></div>
 
 <div class="table-wrapper">
