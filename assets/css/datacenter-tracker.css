@@ -1,0 +1,39 @@
+.dc-tracker {
+  margin-top: 1rem;
+}
+
+.dc-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dc-controls label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.dc-controls select {
+  min-width: 160px;
+  padding: 0.35rem;
+}
+
+#dc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+#dc-table th,
+#dc-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.45rem;
+  text-align: left;
+}
+
+#dc-table th {
+  font-weight: 600;
+}
