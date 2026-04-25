@@ -69,7 +69,9 @@ Capacity phases and reported capacity entries can be expanded under each project
   </table>
 </div>
 
-### Capacity interpretation and derived load estimates
+<div class="after-table-space"></div>
+
+## Capacity interpretation and derived load estimates
 
 Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent and have different implications for electricity-system analysis.
 
@@ -339,7 +341,36 @@ The assumptions follow the standard data center energy accounting distinction be
 .table-wrapper {
   margin-top: 0.85rem !important;
 }
-  
+
+  /* Space below main table before the method section */
+.table-wrapper {
+  margin-bottom: 2rem !important;
+}
+
+/* Smaller text in the summary box */
+#summary-box.summary-box,
+div#summary-box.summary-box,
+.summary-box,
+.summary-box * {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+#summary-box.summary-box {
+  padding: 0.4rem 0.6rem !important;
+}
+
+.after-table-space {
+  height: 1.25rem;
+}
+
+  /* Smaller method-code boxes */
+pre {
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+  padding: 0.45rem 0.65rem !important;
+  margin: 0.6rem 0 0.8rem 0 !important;
+}
 </style>
 
 <script>
