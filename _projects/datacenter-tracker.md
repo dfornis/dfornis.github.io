@@ -313,6 +313,33 @@ The assumptions follow the standard data center energy accounting distinction be
   color: #333 !important;
   letter-spacing: 0.01em;
 }
+
+/* Smaller column headers */
+#tracker-table th {
+  font-size: 11px !important;
+  line-height: 1.12 !important;
+  font-weight: 500 !important;
+}
+
+/* Smaller expanded-table headers */
+.entry-table th {
+  font-size: 10.5px !important;
+  line-height: 1.12 !important;
+  font-weight: 500 !important;
+}
+
+/* Smaller summary / pink-beige box text */
+.summary-box {
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+  padding: 0.45rem 0.65rem !important;
+}
+
+/* Add space between summary box and table */
+.table-wrapper {
+  margin-top: 0.85rem !important;
+}
+  
 </style>
 
 <script>
