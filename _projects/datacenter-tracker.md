@@ -270,7 +270,7 @@ The assumptions follow the standard data center energy accounting distinction be
 #tracker-table tr,
 #tracker-table th,
 #tracker-table td {
-  font-size: 10px !important;
+  font-size: 11px !important;
   line-height: 1.15 !important;
 }
 
@@ -286,7 +286,7 @@ The assumptions follow the standard data center energy accounting distinction be
 .entry-table tr,
 .entry-table th,
 .entry-table td {
-  font-size: 9px !important;
+  font-size: 10px !important;
   line-height: 1 !important;
 }
 
@@ -297,13 +297,13 @@ The assumptions follow the standard data center energy accounting distinction be
 
 /* Keep notes slightly smaller */
 #tracker-table td.notes-cell {
-  font-size: 11px !important;
-  line-height: 1.15 !important;
+  font-size: 10px !important;
+  line-height: 1.1 !important;
 }
 
 .entry-table td.entry-notes {
-  font-size: 10.5px !important;
-  line-height: 1.15 !important;
+  font-size: 9px !important;
+  line-height: 1.1 !important;
 }
   
 /* Softer table headers */
@@ -606,10 +606,10 @@ function renderEntryTable(projectId) {
     html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
     html += "<td>" + escapeHtml(entry.scenario_tag) + "</td>";
     html += "<td>" + escapeHtml(entry.start_year) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 1) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 1) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.interpreted_grid_load_mw, 1) + "</td>";
-    html += "<td class='number-cell'>" + round(estimatedTwh(entry), 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 0) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.interpreted_grid_load_mw, 0) + "</td>";
+    html += "<td class='number-cell'>" + round(estimatedTwh(entry), 0) + "</td>";
     html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
     html += "<td class='number-cell'>" + round(entry.load_factor, 2) + "</td>";
     html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
