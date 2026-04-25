@@ -1,0 +1,16 @@
+
+assumption_id,assumption_type,value,unit,description,source
+PUE_Hyperscale,PUE,1.13,ratio,Power Usage Effectiveness (PUE) assumed for Hyperscale data centers,Shehabi et al. 2016
+LOAD_FACTOR_Hyperscale,Load Factor,0.75,ratio,Load factor assumption for Hyperscale data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_Hyperscale_AI,PUE,1.13,ratio,Power Usage Effectiveness (PUE) assumed for Hyperscale/AI data centers,Shehabi et al. 2016
+LOAD_FACTOR_Hyperscale_AI,Load Factor,0.8,ratio,Load factor assumption for Hyperscale/AI data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_AI_Hyperscale,PUE,1.13,ratio,Power Usage Effectiveness (PUE) assumed for AI/Hyperscale data centers,Shehabi et al. 2016
+LOAD_FACTOR_AI_Hyperscale,Load Factor,0.8,ratio,Load factor assumption for AI/Hyperscale data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_AI_HPC,PUE,1.3,ratio,Power Usage Effectiveness (PUE) assumed for AI/HPC data centers,Shehabi et al. 2016
+LOAD_FACTOR_AI_HPC,Load Factor,0.85,ratio,Load factor assumption for AI/HPC data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_Research_SMR,PUE,1.3,ratio,Power Usage Effectiveness (PUE) assumed for Research/SMR data centers,Shehabi et al. 2016
+LOAD_FACTOR_Research_SMR,Load Factor,0.85,ratio,Load factor assumption for Research/SMR data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_Colocation_AI,PUE,1.5,ratio,Power Usage Effectiveness (PUE) assumed for Colocation/AI data centers,Shehabi et al. 2016
+LOAD_FACTOR_Colocation_AI,Load Factor,0.6,ratio,Load factor assumption for Colocation/AI data centers,Assumption based on industry and Shehabi et al. 2016
+PUE_Colocation,PUE,1.5,ratio,Power Usage Effectiveness (PUE) assumed for Colocation data centers,Shehabi et al. 2016
+LOAD_FACTOR_Colocation,Load Factor,0.55,ratio,Load factor assumption for Colocation data centers,Assumption based on industry and Shehabi et al. 2016
