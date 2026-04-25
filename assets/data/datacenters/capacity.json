@@ -16,22 +16,6 @@
     "notes": "Planerad data­center­campus på upp till 1 000 MW; tidsplan ännu inte offentliggjord."
   },
   {
-    "claim_id": "C002",
-    "project_id": "P001",
-    "project_name": "EdgeConneX Skellefteå gigawatt campus",
-    "phase": "unknown",
-    "capacity_type": "full_campus_potential",
-    "reported_capacity_mw": 1000,
-    "interpreted_it_load_mw": 1000,
-    "interpreted_grid_load_mw": 1130,
-    "start_year": null,
-    "scenario_tag": "high",
-    "pue": 1.13,
-    "load_factor": 0.75,
-    "type": "hyperscale",
-    "notes": "Planerad datacenter-campus på upp till 1 000 MW i Skellefteå; utveckling beroende av tillstånd."
-  },
-  {
     "claim_id": "C003",
     "project_id": "P002",
     "project_name": "Brookfield AI-center Strängnäs",
