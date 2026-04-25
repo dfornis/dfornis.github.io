@@ -67,7 +67,7 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 ## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent and have different implications for electricity-system analysis.
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of assumptions and interpretation to applied for  comparibility. 
 
 The tracker therefore separates the reported capacity value from its interpreted `capacity_basis`. The reported value is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
 
