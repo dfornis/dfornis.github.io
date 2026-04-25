@@ -270,7 +270,7 @@ The assumptions follow the standard data center energy accounting distinction be
 #tracker-table tr,
 #tracker-table th,
 #tracker-table td {
-  font-size: 12px !important;
+  font-size: 10px !important;
   line-height: 1.15 !important;
 }
 
@@ -286,8 +286,8 @@ The assumptions follow the standard data center energy accounting distinction be
 .entry-table tr,
 .entry-table th,
 .entry-table td {
-  font-size: 11px !important;
-  line-height: 1.12 !important;
+  font-size: 9px !important;
+  line-height: 1 !important;
 }
 
 .entry-table th,
@@ -306,6 +306,13 @@ The assumptions follow the standard data center energy accounting distinction be
   line-height: 1.15 !important;
 }
   
+/* Softer table headers */
+#tracker-table th,
+.entry-table th {
+  font-weight: 400 !important;
+  color: #333 !important;
+  letter-spacing: 0.01em;
+}
 </style>
 
 <script>
