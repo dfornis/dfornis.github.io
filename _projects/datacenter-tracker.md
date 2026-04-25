@@ -47,17 +47,15 @@ The table combines project-level information with reported capacity claims. Wher
         <th>Project</th>
         <th>Developer</th>
         <th>Zone</th>
-        <th>Municipality</th>
         <th>Type</th>
         <th>Status</th>
-        <th>Reported MW</th>
         <th>Capacity basis</th>
         <th>Est. grid load MW</th>
         <th>Est. TWh/year</th>
         <th>Expected operation</th>
         <th>Notes</th>
-      </tr>
-    </thead>
+  </tr>
+</thead>
     <tbody></tbody>
   </table>
 </div>
@@ -66,47 +64,56 @@ The table combines project-level information with reported capacity claims. Wher
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1.5rem 0;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1rem 0;
   align-items: end;
 }
 
 .tracker-controls label {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
-  gap: 0.25rem;
+  font-size: 0.82rem;
+  gap: 0.2rem;
+  color: #444;
 }
 
 .tracker-controls select,
 .tracker-controls input {
-  padding: 0.35rem;
-  min-width: 160px;
+  padding: 0.28rem 0.35rem;
+  min-width: 145px;
+  font-size: 0.82rem;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  background: #fff;
 }
 
 .summary-box {
-  margin: 1rem 0;
-  padding: 0.75rem 1rem;
+  margin: 0.75rem 0 1rem 0;
+  padding: 0.55rem 0.75rem;
   border: 1px solid #ddd;
   border-radius: 6px;
-  background: #fafafa;
-  font-size: 0.95rem;
+  background: #f7f6f2;
+  font-size: 0.85rem;
+  color: #333;
 }
 
 .table-wrapper {
   overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
 #tracker-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 #tracker-table th,
 #tracker-table td {
-  border-bottom: 1px solid #ddd;
-  padding: 0.45rem;
+  border-bottom: 1px solid #e2e2e2;
+  padding: 0.32rem 0.42rem;
   vertical-align: top;
   text-align: left;
 }
@@ -114,15 +121,44 @@ The table combines project-level information with reported capacity claims. Wher
 #tracker-table th {
   font-weight: 600;
   white-space: nowrap;
+  background: #f0eee8;
+  color: #222;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#tracker-table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+#tracker-table tbody tr:nth-child(even) {
+  background: #faf8f3;
+}
+
+#tracker-table tbody tr:hover {
+  background: #f1eadf;
+}
+
+#tracker-table td.project-cell {
+  font-weight: 500;
+  min-width: 150px;
+}
+
+#tracker-table td.number-cell {
+  text-align: right;
+  white-space: nowrap;
 }
 
 #tracker-table td.notes-cell {
-  max-width: 360px;
-  font-size: 0.85rem;
+  max-width: 340px;
+  font-size: 0.75rem;
+  color: #444;
 }
 
 .muted {
-  color: #666;
+  color: #777;
+  font-size: 0.72rem;
 }
 </style>
 
@@ -316,18 +352,16 @@ function rowMatches(row, filters) {
 function renderSummary(rows) {
   const totalProjects = rows.length;
 
-  const totalReportedMw = rows.reduce((sum, row) => sum + (num(row.reported_mw) || 0), 0);
   const totalGridLoadMw = rows.reduce((sum, row) => sum + (num(row.estimated_grid_load_mw) || 0), 0);
   const totalTwh = rows.reduce((sum, row) => sum + (num(row.estimated_twh_year) || 0), 0);
 
   document.getElementById("summary-box").innerHTML = `
     <strong>${totalProjects}</strong> projects shown ·
-    <strong>${round(totalReportedMw, 0)}</strong> reported MW ·
     <strong>${round(totalGridLoadMw, 0)}</strong> estimated grid load MW ·
     <strong>${round(totalTwh, 1)}</strong> estimated TWh/year
   `;
 }
-
+<script>
 function renderTable(rows) {
   const tbody = document.querySelector("#tracker-table tbody");
   tbody.innerHTML = "";
@@ -336,19 +370,17 @@ function renderTable(rows) {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${blank(row.project_name)}</td>
+      <td class="project-cell">${blank(row.project_name)}</td>
       <td>${blank(row.developer)}</td>
       <td>${blank(row.bidding_zone)}</td>
-      <td>${blank(row.municipality)}</td>
       <td>${blank(row.type)}</td>
       <td>${blank(row.status)}</td>
-      <td>${round(row.reported_mw, 0)}</td>
       <td>
         ${blank(row.capacity_basis)}
         ${row.selected_claim_id ? `<br><span class="muted">${row.selected_claim_id}</span>` : ""}
       </td>
-      <td>${round(row.estimated_grid_load_mw, 0)}</td>
-      <td>${round(row.estimated_twh_year, 1)}</td>
+      <td class="number-cell">${round(row.estimated_grid_load_mw, 0)}</td>
+      <td class="number-cell">${round(row.estimated_twh_year, 1)}</td>
       <td>${blank(row.expected_operational_years)}</td>
       <td class="notes-cell">${truncateText(row.notes)}</td>
     `;
@@ -356,6 +388,7 @@ function renderTable(rows) {
     tbody.appendChild(tr);
   });
 }
+</script>
 
 function redraw(rows) {
   const filters = getFilters();
