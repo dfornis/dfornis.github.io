@@ -73,15 +73,15 @@ The map below shows calculated additional grid load from data-centre projects ac
 
 | Scenario    | Includes |
 | -------    | ------- |
-| Low 2030   | Projects with a confirmed investment decision, operational before 2030.|
-| Stated 2030| All projects and phases with an announced year of operation by 2030.|
-| Stated 2035| All projects and phases with an announced year of operation by 2035. |
-| High 2035  | All known projects including ones without an announced year of operation |
+| Low 2030   | Projects with a confirmed investment decision, operational before 2030|
+| Stated 2030| All projects and phases with an announced year of operation by 2030|
+| Stated 2035| All projects and phases with an announced year of operation by 2035|
+| High 2035  | All known projects including ones without an announced year of operation|
 
 
 <figure class="scenario-map-figure">
   <img
-    src="{{ '/assets/images/datacenter_scenario_map.svg' | relative_url }}"
+    src="{{ '/assets/images/datacenter_scenario_map_2.png' | relative_url }}"
     alt="Scenario map of interpreted data-centre load additions in Swedish bidding zones"
     class="scenario-map-image"
   >
