@@ -92,27 +92,26 @@ The map below shows estimated additional grid load from data center projects acr
 
 ## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate (grid connection) capacity, IT load, an incremental undefined expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of interpretation to be applied for comparability. This means that reported figures are first classified by `capacity_basis` before any comparison or harmonization is made. The tracker stores the original reported figure as `reported_capcity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. It is then translated into two harmonized capacity-side estimates:
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are first classified by `capacity_basis` before comparison or harmonization. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into two harmonized capacity-side estimates:
 
 <pre>
 interpreted_it_load_mw
 estimated_grid_side_mw
 </pre>
 
-`interpreted_it_load_mw` is the estimate of the IT-side capacity represented by the reported figure. `estimated_grid_side_mw` is the estimated facility- or gride-side capacity after applying the assigned PUE. It is not an estimate of average or peak load.
+`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. `estimated_grid_side_mw` is the corresponding facility- or grid-side capacity after applying the assigned PUE.
 
-
-Annual electricity use is estimated separately using the assigned :
+Annual electricity use is estimated separately using a capacity-utilization proxy:
 
 <pre>
-estimated TWh/year = grid-side MW × Utilization proxy × 8,760 / 1,000,000
+estimated TWh/year = estimated_grid_side_mw × utilization_proxy × 8,760 / 1,000,000
 </pre>
 
-Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
+The utilization proxy is a simplified parameter used to translate estimated grid-side capacity into indicative annual electricity use. It condenses several project- and technology-specific factors, including equipment utilization, workload mix, idle power, operational time, ramp-up, and overdimensioning.
 
-The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. (2016) use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.
+Backup power permits and reactor capacity entries are only translated into grid-side data center capacity where a separate IT load, site load, or grid-connection capacity is reported.
 
-
+The assumptions follow the data center energy accounting framework in Shehabi et al. (2024). Their 2024 report distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. It also models PUE by data center type, cooling system, equipment mix, and location. The assumptions used for this tracker simplifies that framework into PUE and an utilization-proxy by broad project type, including hyperscale, AI/HPC, and colocation categories, in place of undisclosed project information.
 
 <style>
 .tracker-controls {
