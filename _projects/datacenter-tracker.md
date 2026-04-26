@@ -69,7 +69,7 @@ Projects can be expanded to show multiple phases when applicable.
 
 ## Scenario map
 
-The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
+The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
 
 | Scenario    | Includes |
 | -------    | ------- |
@@ -91,7 +91,7 @@ The map below shows calculated additional grid load from data-centre projects ac
 
 Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate (grid connection) capacity, IT load, an incremental undefined expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of interpretation to be applied for comparability. 
 
-The tracker therefore separates the reported capacity value from its interpreted `capacity_basis`. The reported value is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
+The tracker therefore separates the reported capacity value from its estimated `capacity_basis`. The reported value, extracted from press releases and media, is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
 
 <pre>
 reported_capacity_mw
@@ -104,7 +104,7 @@ load_factor
 For entries interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption which is specific for data center type. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:
 
 <pre>
-estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000
+estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000,000
 </pre>
 
 Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
