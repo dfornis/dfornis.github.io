@@ -55,8 +55,6 @@ Projects can be expanded with the **+** sign to show project phases when applica
         <th>Est. IT load MW</th>
         <th>Est. grid-side MW</th>
         <th>Est. TWh/year</th>
-        <th>PUE</th>
-        <th></th>
         <th>Expected operation</th>
         <th>Notes</th>
       </tr>
