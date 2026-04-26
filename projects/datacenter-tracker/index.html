@@ -344,7 +344,7 @@ function renderTable(rows) {
       "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(row.estimated_twh_year, 0) + "</td>" +
+      "<td class='number-cell'>" + round(row.estimated_twh_year, 1) + "</td>" +
       "<td class='number-cell'>" + round(row.pue, 2) + "</td>" +
       "<td class='number-cell'>" + round(row.utilization_proxy, 2) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
