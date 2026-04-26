@@ -660,7 +660,7 @@ function renderSummary(rows) {
     "<strong>" + totalProjects + "</strong> projects shown · " +
     "<strong>" + round(totalReportedMw, 0) + "</strong> reported MW · " +
     "<strong>" + round(totalItLoadMw, 0) + "</strong> interpreted IT load MW · " +
-    "<strong>" + round(totalGridLoadMw, 0) + "</strong> interpreted grid load MW · " +
+    "<strong>" + round(totalGridLoadMw, 0) + "</strong> interpreted grid-side MW · " +
     "<strong>" + round(totalTwh, 1) + "</strong> estimated TWh/year";
 }
 
