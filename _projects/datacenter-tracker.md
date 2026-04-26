@@ -519,12 +519,12 @@ function chooseOverviewEntry(entries) {
 function estimatedTwh(entry) {
   if (!entry) return null;
 
-  const gridLoad = num(entry.interpreted_grid_load_mw);
-  const loadFactor = num(entry.utilization_proxy);
+  const gridSideMw = num(entry.interpreted_grid_load_mw);
+  const utilizationProxy = num(entry.utilization_proxy);
 
-  if (gridLoad === null || loadFactor === null) return null;
+  if (gridSideMw === null || utilizationProxy === null) return null;
 
-  return gridLoad * loadFactor * 8760 / 1000000;
+  return gridSideMw * utilizationProxy * 8760 / 1000000;
 }
 
 function buildCapacityIndex(capacityEntries) {
@@ -629,8 +629,7 @@ function rowMatches(row, filters) {
     (!filters.zone || row.bidding_zone === filters.zone) &&
     (!filters.status || row.status === filters.status) &&
     (!filters.type || tags.includes(filters.type)) &&
-    scenarioMatch &&
-    (!filters.search || text.includes(filters.search))
+    scenarioMatch
   );
 }
 
@@ -745,8 +744,6 @@ function renderTable(rows) {
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 1) + "</td>" +
-      "<td class='number-cell'>" + round(row.pue, 2) + "</td>" +
-      "<td class='number-cell'>" + round(row.utilization_proxy, 2) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
       "<td class='notes-cell'>" + escapeHtml(truncateText(row.notes)) + "</td>";
 
@@ -757,7 +754,7 @@ function renderTable(rows) {
     detailTr.id = "details-" + row.project_id;
 
     detailTr.innerHTML =
-      "<td class='detail-cell' colspan='14'>" +
+      "<td class='detail-cell' colspan='12'>" +
       renderEntryTable(row.project_id) +
       "</td>";
 
