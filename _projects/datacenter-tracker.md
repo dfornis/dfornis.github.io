@@ -71,7 +71,7 @@ Projects can be expanded with the |+| sign to show project phases when applicabl
 
 The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
 
-<div style="font-size: 0.4em;">
+<div style="font-size: 0.8em;" markdown="1">
   
 | Scenario    | Includes |
 | -------    | ------- |
