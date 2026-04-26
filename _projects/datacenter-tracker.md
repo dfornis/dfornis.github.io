@@ -4,7 +4,7 @@ title: Swedish data center tracker
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers renewable electricity and a favourable climate for cooling. Given broader public interest in this ongoing development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations based on news reports and press releases. The dataset and methodology is under development. Key assumptions are stated below.
+This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers cheap renewable electricity and a favourable climate for cooling. Given the growing public interest in this development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations made based on press releases, media reports, permitting documents, or company material. The dataset and methodology is under development. Key assumptions are stated below. Please get in touch for suggestions or data sharing. 
 
 Projects can be expanded with the **+** sign to show project phases when applicable and what scenario the project is included in.  
 
