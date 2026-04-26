@@ -56,7 +56,7 @@ Projects can be expanded with the + sign to show project phases when applicable 
         <th>Est. grid-side MW</th>
         <th>Est. TWh/year</th>
         <th>PUE</th>
-        <th>Load factor</th>
+        <th></th>
         <th>Expected operation</th>
         <th>Notes</th>
       </tr>
@@ -102,10 +102,10 @@ estimated_grid_side_mw
 `interpreted_it_load_mw` is the estimate of the IT-side capacity represented by the reported figure. `estimated_grid_side_mw` is the estimated facility- or gride-side capacity after applying the assigned PUE. It is not an estimate of average or peak load.
 
 
-Annual electricity use is estimated separately using the assigned load factor:
+Annual electricity use is estimated separately using the assigned :
 
 <pre>
-estimated TWh/year = grid-side MW × load factor × 8,760 / 1,000,000
+estimated TWh/year = grid-side MW × Utilization proxy × 8,760 / 1,000,000
 </pre>
 
 Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
@@ -523,7 +523,7 @@ function estimatedTwh(entry) {
   if (!entry) return null;
 
   const gridLoad = num(entry.interpreted_grid_load_mw);
-  const loadFactor = num(entry.load_factor);
+  const loadFactor = num(entry.utilization_proxy);
 
   if (gridLoad === null || loadFactor === null) return null;
 
@@ -587,7 +587,7 @@ function buildProjectRows(projects, capacityEntries) {
       interpreted_grid_load_mw: overviewEntry ? overviewEntry.interpreted_grid_load_mw : null,
       estimated_twh_year: estimatedTwh(overviewEntry),
       pue: overviewEntry ? overviewEntry.pue : null,
-      load_factor: overviewEntry ? overviewEntry.load_factor : null
+      utilization_proxy: overviewEntry ? overviewEntry.utilization_proxy : null
     };
   });
 }
@@ -685,7 +685,7 @@ function renderEntryTable(projectId) {
   html += "<th>Grid load MW</th>";
   html += "<th>TWh/year</th>";
   html += "<th>PUE</th>";
-  html += "<th>Load factor</th>";
+  html += "<th>Util. proxy</th>";
   html += "<th>Notes</th>";
   html += "</tr></thead><tbody>";
 
@@ -701,7 +701,7 @@ function renderEntryTable(projectId) {
     html += "<td class='number-cell'>" + round(entry.interpreted_grid_load_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedTwh(entry), 0) + "</td>";
     html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.load_factor, 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.utilization_proxy, 2) + "</td>";
     html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
     html += "</tr>";
   });
@@ -749,7 +749,7 @@ function renderTable(rows) {
       "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.pue, 2) + "</td>" +
-      "<td class='number-cell'>" + round(row.load_factor, 2) + "</td>" +
+      "<td class='number-cell'>" + round(row.utilization_proxy, 2) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
       "<td class='notes-cell'>" + escapeHtml(truncateText(row.notes)) + "</td>";
 
