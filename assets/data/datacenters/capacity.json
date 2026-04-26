@@ -16,22 +16,6 @@
     "notes": "Planned data-centre campus of up to 1,000 MW. No public commissioning schedule has been announced."
   },
   {
-    "claim_id": "C002",
-    "project_id": "P001",
-    "project_name": "EdgeConneX Skellefteå gigawatt campus",
-    "phase": "unknown",
-    "capacity_type": "full_campus_potential",
-    "reported_capacity_mw": 1000,
-    "interpreted_it_load_mw": 1000,
-    "interpreted_grid_load_mw": 1200,
-    "start_year": null,
-    "scenario_tag": null,
-    "pue": 1.2,
-    "utilization_proxy": 0.5,
-    "type": "hyperscale",
-    "notes": "Planned data-centre campus of up to 1,000 MW in Skellefteå. Development depends on permitting."
-  },
-  {
     "claim_id": "C003",
     "project_id": "P002",
     "project_name": "Brookfield AI-center Strängnäs",
