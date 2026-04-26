@@ -4,9 +4,9 @@ title: Swedish data center tracker
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers renewable electricity and a favourable climate for cooling. Given broader public interest in this ongoing development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations based on news reports and press releases. The dataset and methodology is under development.
+This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers renewable electricity and a favourable climate for cooling. Given broader public interest in this ongoing development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations based on news reports and press releases. The dataset and methodology is under development. Key assumptions are stated below.
 
-Capacity phases and reported capacity entries can be expanded under each project. Assumptions are stated below.
+Projects can be expanded to show multiple phases when applicable. 
 
 <div class="tracker-controls">
   <label>
@@ -67,10 +67,29 @@ Capacity phases and reported capacity entries can be expanded under each project
 
 <div class="after-table-space"></div>
 
+## Scenario map
+
+The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
+
+| Scenario    | Includes |
+| -------    | ------- |
+| Low 2030   | Projects with a confirmed investment decision, operational before 2030.|
+| Stated 2030| All projects and phases with an announced year of operation by 2030.|
+| Stated 2035| All projects and phases with an announced year of operation by 2035. |
+| High 2035  | All known projects including ones without an announced year of operation |
+
+
+<figure class="scenario-map-figure">
+  <img
+    src="{{ '/assets/images/datacenter_scenario_map.svg' | relative_url }}"
+    alt="Scenario map of interpreted data-centre load additions in Swedish bidding zones"
+    class="scenario-map-image"
+  >
+</figure>
 
 ## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate grid capacity, IT load, an incremental expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of assumptions and interpretation to applied for  comparability. 
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate (grid connection) capacity, IT load, an incremental undefined expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of interpretation to be applied for comparability. 
 
 The tracker therefore separates the reported capacity value from its interpreted `capacity_basis`. The reported value is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
 
@@ -92,17 +111,7 @@ Backup power permits and reactor capacity entries are not treated as data center
 
 The assumptions follow the standard data center energy accounting distinction between IT equipment energy and total facility energy. Shehabi et al. (2016) use Power Usage Effectiveness (PUE) to translate IT equipment energy into total data center energy and report typical PUE values of 1.2 for hyperscale facilities, 1.7 for high-end data centers, 1.9 for mid-tier data centers, 2.0 for localized data centers and 2.5 for server rooms. The assumptions file used for this tracker applies PUE and load-factor values by broad project type, including hyperscale, AI/HPC and colocation categories.
 
-## Scenario map
 
-The map below shows calculated additional grid load from data-centre projects across Swedish bidding zones under four deployment scenarios that I'm developing for the paper.
-
-<figure class="scenario-map-figure">
-  <img
-    src="{{ '/assets/images/datacenter_scenario_map.png' | relative_url }}"
-    alt="Scenario map of interpreted data-centre load additions in Swedish bidding zones"
-    class="scenario-map-image"
-  >
-</figure>
 
 <style>
 .tracker-controls {
