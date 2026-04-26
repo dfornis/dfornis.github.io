@@ -9,29 +9,27 @@ This page tracks publicly reported data center projects in Sweden. The dataset i
 Projects can be expanded with the **+** sign to show project phases when applicable and what scenario the project is included in.
 
 <div class="tracker-controls">
-  <label>
-    Bidding zone
-    <select id="filter-zone">
-      <option value="">All</option>
-    </select>
-  </label>
 
-  <label>
-    Type
-    <select id="filter-type">
-      <option value="">All</option>
-    </select>
-  </label>
-</div>
+  <details class="filter-dropdown">
+    <summary>Bidding zone</summary>
+    <div id="filter-zone-group" class="checkbox-filter-options"></div>
+  </details>
 
-<div class="checkbox-filter-block">
-  <div class="checkbox-filter-title">Status</div>
-  <div id="filter-status-group" class="checkbox-filter-options"></div>
-</div>
+  <details class="filter-dropdown">
+    <summary>Status</summary>
+    <div id="filter-status-group" class="checkbox-filter-options"></div>
+  </details>
 
-<div class="checkbox-filter-block">
-  <div class="checkbox-filter-title">Scenario</div>
-  <div id="filter-scenario-group" class="checkbox-filter-options"></div>
+  <details class="filter-dropdown">
+    <summary>Type</summary>
+    <div id="filter-type-group" class="checkbox-filter-options"></div>
+  </details>
+
+  <details class="filter-dropdown">
+    <summary>Scenario</summary>
+    <div id="filter-scenario-group" class="checkbox-filter-options"></div>
+  </details>
+
 </div>
 
 <div id="summary-box" class="summary-box"></div>
@@ -110,98 +108,137 @@ The assumptions follow the data center energy accounting framework in Shehabi et
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 1.25rem 0 0.7rem 0;
-  align-items: end;
+  gap: 0.65rem;
+  margin: 1.25rem 0 0.9rem 0;
+  align-items: flex-start;
 }
 
-.tracker-controls label {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.82rem;
-  gap: 0.2rem;
-  color: #444;
+.filter-dropdown {
+  position: relative;
+  min-width: 150px;
+  font-size: 11px;
 }
 
-.tracker-controls select,
-.tracker-controls input {
-  padding: 0.28rem 0.35rem;
-  min-width: 145px;
-  font-size: 0.82rem;
+.filter-dropdown summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.32rem 0.45rem;
   border: 1px solid #cfcfcf;
   border-radius: 4px;
   background: #fff;
+  color: #333;
+  user-select: none;
 }
 
-.checkbox-filter-block {
-  margin: 0.55rem 0;
+.filter-dropdown summary::-webkit-details-marker {
+  display: none;
 }
 
-.checkbox-filter-title {
-  font-size: 11px;
-  font-weight: 500;
-  color: #444;
-  margin-bottom: 0.25rem;
+.filter-dropdown summary::after {
+  content: "▾";
+  float: right;
+  color: #777;
+  margin-left: 0.5rem;
+}
+
+.filter-dropdown[open] summary::after {
+  content: "▴";
+}
+
+.filter-dropdown .checkbox-filter-options {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  min-width: 230px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #d6d2ca;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .checkbox-filter-options {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.8rem;
+  flex-direction: column;
+  gap: 0.3rem;
   font-size: 11px;
   color: #444;
 }
 
 .checkbox-filter-options label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  white-space: nowrap;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  line-height: 1.2;
+  cursor: pointer;
 }
 
 .checkbox-filter-options input {
-  margin: 0;
+  margin-top: 0.05rem;
 }
 
 .summary-box {
   margin: 0.75rem 0 1rem 0;
-  padding: 0.55rem 0.75rem;
+  padding: 0.4rem 0.6rem !important;
   border: 1px solid #ddd;
   border-radius: 6px;
   background: #f7f6f2;
-  font-size: 0.85rem;
   color: #333;
+}
+
+#summary-box.summary-box,
+div#summary-box.summary-box,
+.summary-box,
+.summary-box * {
+  font-size: 11px !important;
+  line-height: 1.2 !important;
 }
 
 .table-wrapper {
   overflow-x: auto;
   border: 1px solid #ddd;
   border-radius: 6px;
+  margin-top: 0.85rem !important;
+  margin-bottom: 2rem !important;
 }
 
 #tracker-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.5rem;
-  line-height: 1.1;
+}
+
+#tracker-table,
+#tracker-table thead,
+#tracker-table tbody,
+#tracker-table tr,
+#tracker-table th,
+#tracker-table td {
+  font-size: 11px !important;
+  line-height: 1.15 !important;
 }
 
 #tracker-table th,
 #tracker-table td {
   border-bottom: 1px solid #e2e2e2;
-  padding: 0.2rem 0.28rem;
+  padding: 4px 6px !important;
   vertical-align: top;
   text-align: left;
 }
 
 #tracker-table th {
-  font-weight: 600;
   white-space: nowrap;
   background: #f0eee8;
-  color: #222;
+  color: #333 !important;
   position: sticky;
   top: 0;
   z-index: 1;
+  font-size: 11px !important;
+  line-height: 1.12 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
 }
 
 #tracker-table tbody tr.project-row:nth-child(4n+1) {
@@ -228,7 +265,8 @@ The assumptions follow the data center energy accounting framework in Shehabi et
 
 #tracker-table td.notes-cell {
   max-width: 320px;
-  font-size: 0.72rem;
+  font-size: 10px !important;
+  line-height: 1.1 !important;
   color: #444;
 }
 
@@ -274,56 +312,10 @@ The assumptions follow the data center energy accounting framework in Shehabi et
 .entry-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.71rem;
-  line-height: 1.2;
   background: #fff;
   border: 1px solid #e0ded8;
 }
 
-.entry-table th,
-.entry-table td {
-  padding: 0.25rem 0.35rem;
-  border-bottom: 1px solid #ece9e2;
-  vertical-align: top;
-}
-
-.entry-table th {
-  background: #f5f3ee;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.entry-table td.number-cell {
-  text-align: right;
-}
-
-.entry-table td.entry-notes {
-  max-width: 420px;
-  color: #444;
-}
-
-.muted {
-  color: #777;
-  font-size: 0.62rem;
-}
-
-/* Force compact tracker table */
-#tracker-table,
-#tracker-table thead,
-#tracker-table tbody,
-#tracker-table tr,
-#tracker-table th,
-#tracker-table td {
-  font-size: 11px !important;
-  line-height: 1.15 !important;
-}
-
-#tracker-table th,
-#tracker-table td {
-  padding: 4px 6px !important;
-}
-
-/* Force compact expanded phase table */
 .entry-table,
 .entry-table thead,
 .entry-table tbody,
@@ -337,76 +329,40 @@ The assumptions follow the data center energy accounting framework in Shehabi et
 .entry-table th,
 .entry-table td {
   padding: 3px 5px !important;
+  border-bottom: 1px solid #ece9e2;
+  vertical-align: top;
 }
 
-/* Keep notes slightly smaller */
-#tracker-table td.notes-cell {
-  font-size: 10px !important;
-  line-height: 1.1 !important;
+.entry-table th {
+  background: #f5f3ee;
+  white-space: nowrap;
+  color: #333 !important;
+  font-size: 10.5px !important;
+  line-height: 1.12 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+}
+
+.entry-table td.number-cell {
+  text-align: right;
 }
 
 .entry-table td.entry-notes {
+  max-width: 420px;
+  color: #444;
   font-size: 9px !important;
   line-height: 1.1 !important;
 }
 
-/* Softer table headers */
-#tracker-table th,
-.entry-table th {
-  font-weight: 400 !important;
-  color: #333 !important;
-  letter-spacing: 0.01em;
-}
-
-/* Smaller column headers */
-#tracker-table th {
-  font-size: 11px !important;
-  line-height: 1.12 !important;
-  font-weight: 500 !important;
-}
-
-/* Smaller expanded-table headers */
-.entry-table th {
-  font-size: 10.5px !important;
-  line-height: 1.12 !important;
-  font-weight: 500 !important;
-}
-
-/* Smaller summary / pink-beige box text */
-.summary-box {
-  font-size: 12px !important;
-  line-height: 1.25 !important;
-  padding: 0.45rem 0.65rem !important;
-}
-
-/* Add space between summary box and table */
-.table-wrapper {
-  margin-top: 0.85rem !important;
-}
-
-/* Space below main table before the method section */
-.table-wrapper {
-  margin-bottom: 2rem !important;
-}
-
-/* Smaller text in the summary box */
-#summary-box.summary-box,
-div#summary-box.summary-box,
-.summary-box,
-.summary-box * {
-  font-size: 11px !important;
-  line-height: 1.2 !important;
-}
-
-#summary-box.summary-box {
-  padding: 0.4rem 0.6rem !important;
+.muted {
+  color: #777;
+  font-size: 0.62rem;
 }
 
 .after-table-space {
   height: 1.25rem;
 }
 
-/* Smaller method-code boxes */
 pre {
   font-size: 11px !important;
   line-height: 1.25 !important;
@@ -447,10 +403,6 @@ async function loadJson(path) {
 
 function isBlank(value) {
   return value === null || value === undefined || value === "";
-}
-
-function blank(value) {
-  return isBlank(value) ? "" : value;
 }
 
 function escapeHtml(value) {
@@ -498,17 +450,6 @@ function scenarioLabel(value) {
   };
 
   return labels[value] || value;
-}
-
-function populateSelect(id, values, labelFunction = value => value) {
-  const select = document.getElementById(id);
-
-  values.forEach(value => {
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = labelFunction(value);
-    select.appendChild(option);
-  });
 }
 
 function populateCheckboxGroup(id, values, labelFunction = value => value) {
@@ -653,20 +594,28 @@ function buildProjectRows(projects, capacityEntries) {
 
 function getFilters() {
   return {
-    zone: document.getElementById("filter-zone").value,
-    type: document.getElementById("filter-type").value,
+    zones: getCheckedValues("filter-zone-group"),
     statuses: getCheckedValues("filter-status-group"),
+    types: getCheckedValues("filter-type-group"),
     scenarios: getCheckedValues("filter-scenario-group")
   };
 }
 
 function rowMatches(row, filters) {
-  const typeTags = splitTags(row.type);
+  const rowTypeTags = splitTags(row.type);
   const entries = capacityEntriesByProject[row.project_id] || [];
+
+  const zoneMatch =
+    filters.zones.length === 0 ||
+    filters.zones.includes(row.bidding_zone);
 
   const statusMatch =
     filters.statuses.length === 0 ||
     filters.statuses.includes(row.status);
+
+  const typeMatch =
+    filters.types.length === 0 ||
+    filters.types.some(type => rowTypeTags.includes(type));
 
   const scenarioMatch =
     filters.scenarios.length === 0 ||
@@ -675,12 +624,7 @@ function rowMatches(row, filters) {
       return filters.scenarios.some(scenario => entryScenarios.includes(scenario));
     });
 
-  return (
-    (!filters.zone || row.bidding_zone === filters.zone) &&
-    (!filters.type || typeTags.includes(filters.type)) &&
-    statusMatch &&
-    scenarioMatch
-  );
+  return zoneMatch && statusMatch && typeMatch && scenarioMatch;
 }
 
 function renderSummary(rows) {
@@ -829,14 +773,23 @@ async function initTracker() {
 
   const rows = buildProjectRows(projects, capacity);
 
-  populateSelect("filter-zone", uniqueSorted(rows.map(r => r.bidding_zone)));
-
-  const allTypes = uniqueSorted(rows.flatMap(r => splitTags(r.type)));
-  populateSelect("filter-type", allTypes);
+  populateCheckboxGroup(
+    "filter-zone-group",
+    uniqueSorted(rows.map(r => r.bidding_zone))
+  );
 
   populateCheckboxGroup(
     "filter-status-group",
     uniqueSorted(rows.map(r => r.status))
+  );
+
+  const allTypes = uniqueSorted(
+    rows.flatMap(r => splitTags(r.type))
+  );
+
+  populateCheckboxGroup(
+    "filter-type-group",
+    allTypes
   );
 
   const allScenarios = uniqueSorted(
@@ -848,11 +801,6 @@ async function initTracker() {
     allScenarios,
     scenarioLabel
   );
-
-  ["filter-zone", "filter-type"].forEach(id => {
-    document.getElementById(id).addEventListener("input", () => redraw(rows));
-    document.getElementById(id).addEventListener("change", () => redraw(rows));
-  });
 
   document.querySelectorAll(".checkbox-filter-options input[type='checkbox']").forEach(input => {
     input.addEventListener("change", () => redraw(rows));
