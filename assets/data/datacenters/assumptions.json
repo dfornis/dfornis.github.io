@@ -2,113 +2,97 @@
   {
     "assumption_id": "PUE_Hyperscale",
     "assumption_type": "PUE",
-    "value": 1.13,
+    "value": 1.2,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for Hyperscale data centers",
-    "source": "Shehabi et al. 2016"
+    "description": "Power Usage Effectiveness assumed for hyperscale data centres.",
+    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023, with sector average projected toward 1.15-1.35 by 2028."
   },
   {
-    "assumption_id": "LOAD_FACTOR_Hyperscale",
-    "assumption_type": "Load Factor",
-    "value": 0.75,
+    "assumption_id": "UTILIZATION_Hyperscale",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.5,
     "unit": "ratio",
-    "description": "Load factor assumption for Hyperscale data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
+    "description": "Annual average capacity-utilization proxy for hyperscale facilities.",
+    "source": "Shehabi et al. 2024; hyperscale conventional server operational time around 50% by 2027."
   },
   {
     "assumption_id": "PUE_Hyperscale_AI",
     "assumption_type": "PUE",
-    "value": 1.13,
+    "value": 1.2,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for Hyperscale/AI data centers",
-    "source": "Shehabi et al. 2016"
+    "description": "Power Usage Effectiveness assumed for hyperscale AI data centres.",
+    "source": "Shehabi et al. 2024; AI air/liquid cooling treated separately, with high UPS efficiency assumptions."
   },
   {
-    "assumption_id": "LOAD_FACTOR_Hyperscale_AI",
-    "assumption_type": "Load Factor",
-    "value": 0.8,
+    "assumption_id": "UTILIZATION_Hyperscale_AI",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.6,
     "unit": "ratio",
-    "description": "Load factor assumption for Hyperscale/AI data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "PUE_AI_Hyperscale",
-    "assumption_type": "PUE",
-    "value": 1.13,
-    "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for AI/Hyperscale data centers",
-    "source": "Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "LOAD_FACTOR_AI_Hyperscale",
-    "assumption_type": "Load Factor",
-    "value": 0.8,
-    "unit": "ratio",
-    "description": "Load factor assumption for AI/Hyperscale data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
+    "description": "Annual average capacity-utilization proxy for hyperscale AI facilities.",
+    "source": "Shehabi et al. 2024; AI training operational power and operational-time assumptions."
   },
   {
     "assumption_id": "PUE_AI_HPC",
     "assumption_type": "PUE",
-    "value": 1.3,
+    "value": 1.25,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for AI/HPC data centers",
-    "source": "Shehabi et al. 2016"
+    "description": "Power Usage Effectiveness assumed for AI/HPC-oriented facilities.",
+    "source": "Shehabi et al. 2024; AI data centres modelled separately for air and liquid cooling."
   },
   {
-    "assumption_id": "LOAD_FACTOR_AI_HPC",
-    "assumption_type": "Load Factor",
-    "value": 0.85,
+    "assumption_id": "UTILIZATION_AI_HPC",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.7,
     "unit": "ratio",
-    "description": "Load factor assumption for AI/HPC data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
+    "description": "Annual average capacity-utilization proxy for AI/HPC-oriented facilities.",
+    "source": "Shehabi et al. 2024; AI training operational time 75-85% and operational power 60-80% of rated power."
+  },
+  {
+    "assumption_id": "PUE_Colocation_AI",
+    "assumption_type": "PUE",
+    "value": 1.35,
+    "unit": "ratio",
+    "description": "Power Usage Effectiveness assumed for colocation facilities with AI workloads.",
+    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023."
+  },
+  {
+    "assumption_id": "UTILIZATION_Colocation_AI",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.5,
+    "unit": "ratio",
+    "description": "Annual average capacity-utilization proxy for colocation facilities with AI workloads.",
+    "source": "Shehabi et al. 2024; colocation conventional server operational time around 35% by 2027, adjusted upward for AI/HPC workload."
+  },
+  {
+    "assumption_id": "PUE_Colocation",
+    "assumption_type": "PUE",
+    "value": 1.35,
+    "unit": "ratio",
+    "description": "Power Usage Effectiveness assumed for colocation facilities.",
+    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023."
+  },
+  {
+    "assumption_id": "UTILIZATION_Colocation",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.35,
+    "unit": "ratio",
+    "description": "Annual average capacity-utilization proxy for conventional colocation.",
+    "source": "Shehabi et al. 2024; colocation server operational time around 35% by 2027."
   },
   {
     "assumption_id": "PUE_Research_SMR",
     "assumption_type": "PUE",
     "value": 1.3,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for Research/SMR data centers",
-    "source": "Shehabi et al. 2016"
+    "description": "Placeholder Power Usage Effectiveness for research/SMR-linked concept entries if an IT-load estimate is later specified.",
+    "source": "Assumption aligned with AI/HPC-oriented facilities; concept entries are not translated into grid-side load unless IT load is specified."
   },
   {
-    "assumption_id": "LOAD_FACTOR_Research_SMR",
-    "assumption_type": "Load Factor",
-    "value": 0.85,
+    "assumption_id": "UTILIZATION_Research_SMR",
+    "assumption_type": "Capacity utilization proxy",
+    "value": 0.7,
     "unit": "ratio",
-    "description": "Load factor assumption for Research/SMR data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "PUE_Colocation_AI",
-    "assumption_type": "PUE",
-    "value": 1.5,
-    "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for Colocation/AI data centers",
-    "source": "Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "LOAD_FACTOR_Colocation_AI",
-    "assumption_type": "Load Factor",
-    "value": 0.6,
-    "unit": "ratio",
-    "description": "Load factor assumption for Colocation/AI data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "PUE_Colocation",
-    "assumption_type": "PUE",
-    "value": 1.5,
-    "unit": "ratio",
-    "description": "Power Usage Effectiveness (PUE) assumed for Colocation data centers",
-    "source": "Shehabi et al. 2016"
-  },
-  {
-    "assumption_id": "LOAD_FACTOR_Colocation",
-    "assumption_type": "Load Factor",
-    "value": 0.55,
-    "unit": "ratio",
-    "description": "Load factor assumption for Colocation data centers",
-    "source": "Assumption based on industry and Shehabi et al. 2016"
+    "description": "Placeholder annual average capacity-utilization proxy for research/SMR-linked concept entries if an IT-load estimate is later specified.",
+    "source": "Assumption aligned with AI/HPC-oriented facilities; concept entries are not translated into annual electricity use unless IT/grid-side load is specified."
   }
 ]
