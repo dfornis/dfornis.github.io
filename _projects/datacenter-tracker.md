@@ -71,6 +71,8 @@ Projects can be expanded to show multiple phases when applicable.
 
 The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
 
+<div style="font-size: 0.4em;">
+  
 | Scenario    | Includes |
 | -------    | ------- |
 | Low 2030   | Projects with a confirmed investment decision, operational before 2030|
@@ -78,6 +80,7 @@ The map below shows estimated additional grid load from data center projects acr
 | Stated 2035| All projects and phases with an announced year of operation by 2035|
 | High 2035  | All known projects including ones without an announced year of operation|
 
+</div>
 
 <figure class="scenario-map-figure">
   <img
