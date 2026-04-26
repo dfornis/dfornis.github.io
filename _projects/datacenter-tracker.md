@@ -526,7 +526,7 @@ function estimatedTwh(entry) {
 
   if (gridLoad === null || loadFactor === null) return null;
 
-  return gridLoad * loadFactor * 8760 / 1000;
+  return gridLoad * loadFactor * 8760 / 1000000;
 }
 
 function buildCapacityIndex(capacityEntries) {
