@@ -4,9 +4,9 @@ title: Swedish data center tracker
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers cheap renewable electricity and a favourable climate for cooling. Given the growing public interest in this development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations made based on press releases, media reports, permitting documents, or company material. The dataset and methodology is under development. Key assumptions are stated below. Please get in touch for suggestions or data sharing. 
+This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers cheap renewable electricity and a favourable climate for cooling. Given the growing public interest in this development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations made based on press releases, media reports, permitting documents, or company material. The dataset and methodology is under development. Key assumptions are stated below. Please get in touch for suggestions or data sharing.
 
-Projects can be expanded with the **+** sign to show project phases when applicable and what scenario the project is included in.  
+Projects can be expanded with the **+** sign to show project phases when applicable and what scenario the project is included in.
 
 <div class="tracker-controls">
   <label>
@@ -17,26 +17,21 @@ Projects can be expanded with the **+** sign to show project phases when applica
   </label>
 
   <label>
-    Status
-    <select id="filter-status">
-      <option value="">All</option>
-    </select>
-  </label>
-
-  <label>
     Type
     <select id="filter-type">
       <option value="">All</option>
     </select>
   </label>
+</div>
 
-  <label>
-    Scenario tag
-    <select id="filter-scenario">
-      <option value="">All</option>
-    </select>
-  </label>
+<div class="checkbox-filter-block">
+  <div class="checkbox-filter-title">Status</div>
+  <div id="filter-status-group" class="checkbox-filter-options"></div>
+</div>
 
+<div class="checkbox-filter-block">
+  <div class="checkbox-filter-title">Scenario</div>
+  <div id="filter-scenario-group" class="checkbox-filter-options"></div>
 </div>
 
 <div id="summary-box" class="summary-box"></div>
@@ -70,13 +65,13 @@ Projects can be expanded with the **+** sign to show project phases when applica
 The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article.
 
 <div style="font-size: 0.8em;" markdown="1">
-  
-| Scenario    | Includes |
-| -------    | ------- |
-| Low 2030   | Projects with a confirmed investment decision, operational before 2030|
-| Stated 2030| All projects and phases with an announced year of operation by 2030|
-| Stated 2035| All projects and phases with an announced year of operation by 2035|
-| High 2035  | All known projects including ones without an announced year of operation|
+
+| Scenario | Includes |
+| ------- | ------- |
+| Low 2030 | Projects with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
+| High 2035 | All known projects including ones without an announced year of operation |
 
 </div>
 
@@ -109,14 +104,14 @@ The utilization proxy is a simplified parameter used to translate estimated grid
 
 Backup power permits and reactor capacity entries are only translated into grid-side data center capacity where a separate IT load, site load, or grid-connection capacity is reported.
 
-The assumptions follow the data center energy accounting framework in Shehabi et al. (2024). Their 2024 report distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. It also models PUE by data center type, cooling system, equipment mix, and location. The assumptions used for this tracker simplifies that framework into PUE and an utilization-proxy by broad project type, including hyperscale, AI/HPC, and colocation categories, in place of undisclosed project information.
+The assumptions follow the data center energy accounting framework in Shehabi et al. (2024). Their 2024 report distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. It also models PUE by data center type, cooling system, equipment mix, and location. The assumptions used for this tracker simplify that framework into PUE and a utilization proxy by broad project type, including hyperscale, AI/HPC, and colocation categories, in place of undisclosed project information.
 
 <style>
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin: 1.25rem 0 1rem 0;
+  margin: 1.25rem 0 0.7rem 0;
   align-items: end;
 }
 
@@ -136,6 +131,36 @@ The assumptions follow the data center energy accounting framework in Shehabi et
   border: 1px solid #cfcfcf;
   border-radius: 4px;
   background: #fff;
+}
+
+.checkbox-filter-block {
+  margin: 0.55rem 0;
+}
+
+.checkbox-filter-title {
+  font-size: 11px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 0.25rem;
+}
+
+.checkbox-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  font-size: 11px;
+  color: #444;
+}
+
+.checkbox-filter-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.checkbox-filter-options input {
+  margin: 0;
 }
 
 .summary-box {
@@ -206,7 +231,8 @@ The assumptions follow the data center energy accounting framework in Shehabi et
   font-size: 0.72rem;
   color: #444;
 }
-  #tracker-table td.capacity-cell {
+
+#tracker-table td.capacity-cell {
   min-width: 92px;
 }
 
@@ -323,7 +349,7 @@ The assumptions follow the data center energy accounting framework in Shehabi et
   font-size: 9px !important;
   line-height: 1.1 !important;
 }
-  
+
 /* Softer table headers */
 #tracker-table th,
 .entry-table th {
@@ -358,7 +384,7 @@ The assumptions follow the data center energy accounting framework in Shehabi et
   margin-top: 0.85rem !important;
 }
 
-  /* Space below main table before the method section */
+/* Space below main table before the method section */
 .table-wrapper {
   margin-bottom: 2rem !important;
 }
@@ -380,7 +406,7 @@ div#summary-box.summary-box,
   height: 1.25rem;
 }
 
-  /* Smaller method-code boxes */
+/* Smaller method-code boxes */
 pre {
   font-size: 11px !important;
   line-height: 1.25 !important;
@@ -388,7 +414,7 @@ pre {
   margin: 0.6rem 0 0.8rem 0 !important;
 }
 
- .scenario-map-figure {
+.scenario-map-figure {
   margin: 1.2rem 0 1.8rem 0;
   text-align: center;
 }
@@ -400,7 +426,6 @@ pre {
   height: auto;
   margin: 0 auto;
 }
-  
 </style>
 
 <script>
@@ -464,15 +489,51 @@ function uniqueSorted(values) {
   return [...new Set(values.filter(v => !isBlank(v)))].sort();
 }
 
-function populateSelect(id, values) {
+function scenarioLabel(value) {
+  const labels = {
+    "low_2030": "Low 2030",
+    "stated_2030": "Stated 2030",
+    "stated_2035": "Stated 2035",
+    "high_2035": "High 2035"
+  };
+
+  return labels[value] || value;
+}
+
+function populateSelect(id, values, labelFunction = value => value) {
   const select = document.getElementById(id);
 
   values.forEach(value => {
     const option = document.createElement("option");
     option.value = value;
-    option.textContent = value;
+    option.textContent = labelFunction(value);
     select.appendChild(option);
   });
+}
+
+function populateCheckboxGroup(id, values, labelFunction = value => value) {
+  const container = document.getElementById(id);
+  container.innerHTML = "";
+
+  values.forEach(value => {
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+
+    checkbox.type = "checkbox";
+    checkbox.value = value;
+    checkbox.dataset.filterGroup = id;
+
+    label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(labelFunction(value)));
+
+    container.appendChild(label);
+  });
+}
+
+function getCheckedValues(groupId) {
+  return Array.from(
+    document.querySelectorAll("#" + groupId + " input[type='checkbox']:checked")
+  ).map(input => input.value);
 }
 
 function capacityPriority(capacityType) {
@@ -480,6 +541,7 @@ function capacityPriority(capacityType) {
     "initial_phase_capacity": 1,
     "it_load": 2,
     "cumulative_site_capacity": 3,
+    "incremental_expansion": 4,
     "incremental_expansion_capacity": 4,
     "full_campus_potential": 5,
     "unknown": 6,
@@ -592,43 +654,31 @@ function buildProjectRows(projects, capacityEntries) {
 function getFilters() {
   return {
     zone: document.getElementById("filter-zone").value,
-    status: document.getElementById("filter-status").value,
     type: document.getElementById("filter-type").value,
-    scenario: document.getElementById("filter-scenario").value,
+    statuses: getCheckedValues("filter-status-group"),
+    scenarios: getCheckedValues("filter-scenario-group")
   };
 }
 
 function rowMatches(row, filters) {
-  const tags = splitTags(row.type);
-
+  const typeTags = splitTags(row.type);
   const entries = capacityEntriesByProject[row.project_id] || [];
-  const entryText = entries.map(entry => [
-    entry.phase,
-    entry.capacity_type,
-    entry.scenario_tag,
-    entry.notes
-  ].join(" ")).join(" ");
 
-  const text = [
-    row.project_name,
-    row.developer,
-    row.bidding_zone,
-    row.type,
-    row.status,
-    row.capacity_basis,
-    row.scenario_tag,
-    row.notes,
-    entryText
-  ].join(" ").toLowerCase();
+  const statusMatch =
+    filters.statuses.length === 0 ||
+    filters.statuses.includes(row.status);
 
   const scenarioMatch =
-    !filters.scenario ||
-    entries.some(entry => entry.scenario_tag === filters.scenario);
+    filters.scenarios.length === 0 ||
+    entries.some(entry => {
+      const entryScenarios = splitTags(entry.scenario_tag);
+      return filters.scenarios.some(scenario => entryScenarios.includes(scenario));
+    });
 
   return (
     (!filters.zone || row.bidding_zone === filters.zone) &&
-    (!filters.status || row.status === filters.status) &&
-    (!filters.type || tags.includes(filters.type)) &&
+    (!filters.type || typeTags.includes(filters.type)) &&
+    statusMatch &&
     scenarioMatch
   );
 }
@@ -678,7 +728,7 @@ function renderEntryTable(projectId) {
   html += "<th>Start year</th>";
   html += "<th>Reported MW</th>";
   html += "<th>IT load MW</th>";
-  html += "<th>Grid load MW</th>";
+  html += "<th>Grid-side MW</th>";
   html += "<th>TWh/year</th>";
   html += "<th>PUE</th>";
   html += "<th>Util. proxy</th>";
@@ -686,11 +736,13 @@ function renderEntryTable(projectId) {
   html += "</tr></thead><tbody>";
 
   entries.forEach(entry => {
+    const scenarioText = splitTags(entry.scenario_tag).map(scenarioLabel).join("; ");
+
     html += "<tr>";
     html += "<td>" + escapeHtml(entry.claim_id) + "</td>";
     html += "<td>" + escapeHtml(entry.phase) + "</td>";
     html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
-    html += "<td>" + escapeHtml(entry.scenario_tag) + "</td>";
+    html += "<td>" + escapeHtml(scenarioText) + "</td>";
     html += "<td>" + escapeHtml(entry.start_year) + "</td>";
     html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
@@ -778,17 +830,32 @@ async function initTracker() {
   const rows = buildProjectRows(projects, capacity);
 
   populateSelect("filter-zone", uniqueSorted(rows.map(r => r.bidding_zone)));
-  populateSelect("filter-status", uniqueSorted(rows.map(r => r.status)));
 
   const allTypes = uniqueSorted(rows.flatMap(r => splitTags(r.type)));
   populateSelect("filter-type", allTypes);
 
-  const allScenarios = uniqueSorted(capacity.map(entry => entry.scenario_tag));
-  populateSelect("filter-scenario", allScenarios);
+  populateCheckboxGroup(
+    "filter-status-group",
+    uniqueSorted(rows.map(r => r.status))
+  );
 
-  ["filter-zone", "filter-status", "filter-type", "filter-scenario"].forEach(id => {
+  const allScenarios = uniqueSorted(
+    capacity.flatMap(entry => splitTags(entry.scenario_tag))
+  );
+
+  populateCheckboxGroup(
+    "filter-scenario-group",
+    allScenarios,
+    scenarioLabel
+  );
+
+  ["filter-zone", "filter-type"].forEach(id => {
     document.getElementById(id).addEventListener("input", () => redraw(rows));
     document.getElementById(id).addEventListener("change", () => redraw(rows));
+  });
+
+  document.querySelectorAll(".checkbox-filter-options input[type='checkbox']").forEach(input => {
+    input.addEventListener("change", () => redraw(rows));
   });
 
   redraw(rows);
