@@ -3,17 +3,17 @@
     "claim_id": "C001",
     "project_id": "P001",
     "project_name": "EdgeConneX Skellefteå gigawatt campus",
-    "phase": "unknown",
+    "phase": "Undated full build-out",
     "capacity_type": "full_campus_potential",
     "reported_capacity_mw": 1000,
     "interpreted_it_load_mw": 1000,
     "interpreted_grid_load_mw": 1130,
     "start_year": null,
-    "scenario_tag": "high",
+    "scenario_tag": "high_2035",
     "pue": 1.13,
     "load_factor": 0.8,
     "type": "hyperscale; AI",
-    "notes": "Planerad data­center­campus på upp till 1 000 MW; tidsplan ännu inte offentliggjord."
+    "notes": "Planned data-centre campus of up to 1,000 MW. No public commissioning schedule has been announced."
   },
   {
     "claim_id": "C003",
@@ -25,11 +25,11 @@
     "interpreted_it_load_mw": 750,
     "interpreted_grid_load_mw": 847.5,
     "start_year": 2035,
-    "scenario_tag": "high",
+    "scenario_tag": "stated_2035; high_2035",
     "pue": 1.13,
     "load_factor": 0.8,
     "type": "hyperscale; AI",
-    "notes": "Investeringen på 95 miljarder SEK gör det möjligt att fördubbla kapaciteten från 300 MW till 750 MW; full kapacitet förväntas uppnås över en 10–15-årsperiod."
+    "notes": "SEK 95 billion investment framework enabling expansion from 300 MW to 750 MW. Full build-out is expected over a 10–15 year period."
   },
   {
     "claim_id": "C004",
@@ -41,27 +41,27 @@
     "interpreted_it_load_mw": 600,
     "interpreted_grid_load_mw": 678,
     "start_year": null,
-    "scenario_tag": "high",
+    "scenario_tag": "high_2035",
     "pue": 1.13,
     "load_factor": 0.75,
     "type": "hyperscale",
-    "notes": "Campuset kan enligt plan skala upp till cirka 600 MW. Full kapacitet väntas uppnås successivt efter 2027 (tidpunkt ej fastställd)."
+    "notes": "Planned campus scale-up to around 600 MW. Full build-out is expected to occur gradually after 2027, but no firm commissioning year has been identified."
   },
   {
     "claim_id": "C005",
     "project_id": "P004",
     "project_name": "atNorth Sollefteå; Hamre Industrial Park",
-    "phase": "unknown",
-    "capacity_type": "unknown",
+    "phase": "Full build-out",
+    "capacity_type": "full_campus_potential",
     "reported_capacity_mw": 300,
     "interpreted_it_load_mw": 300,
     "interpreted_grid_load_mw": 390,
     "start_year": 2028,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "300 MW campus i Hamre Industrial Park. Förbereds på 50 hektar med möjlighet till högdensitetsrack; väntas tas i drift H1 2028."
+    "notes": "Planned 300 MW campus at Hamre Industrial Park. The 50-hectare site is prepared for high-density racks and is expected to enter operation in H1 2028."
   },
   {
     "claim_id": "C006",
@@ -73,27 +73,27 @@
     "interpreted_it_load_mw": 300,
     "interpreted_grid_load_mw": 339,
     "start_year": 2030,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030",
     "pue": 1.13,
     "load_factor": 0.8,
     "type": "hyperscale; AI",
-    "notes": "Första fasen av AI-center i Strängnäs bygger på ursprungsplanen om 300 MW innan expansion; exakta start‑/driftår ej offentliggjorda."
+    "notes": "First phase of the Strängnäs AI centre, corresponding to the original 300 MW plan before the later expansion to 750 MW. Exact construction and commissioning dates have not been publicly specified."
   },
   {
     "claim_id": "C007",
     "project_id": "P005",
     "project_name": "EdgeMode HPC Marviken",
-    "phase": "Expansion",
-    "capacity_type": "initial_phase_capacity",
+    "phase": "Expansion / cumulative 2030 capacity",
+    "capacity_type": "cumulative_site_capacity",
     "reported_capacity_mw": 300,
     "interpreted_it_load_mw": 300,
     "interpreted_grid_load_mw": 390,
     "start_year": 2030,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Anläggningen är dimensionerad för att expandera till över 300 MW inom fem år efter den första fasen."
+    "notes": "The facility is designed to expand to more than 300 MW within five years after the first phase. The value is treated as cumulative site capacity, not an incremental addition."
   },
   {
     "claim_id": "C008",
@@ -105,11 +105,11 @@
     "interpreted_it_load_mw": 250,
     "interpreted_grid_load_mw": 282.5,
     "start_year": 2027,
-    "scenario_tag": "stated",
+    "scenario_tag": "low_2030; stated_2030; stated_2035",
     "pue": 1.13,
     "load_factor": 0.75,
     "type": "hyperscale",
-    "notes": "Första fasen av EcoDataCenters ‘mega campus’ vid Kvarnsveden – minst 250 MW kapacitet; de första hallarna planeras stå klara 2027."
+    "notes": "First phase of EcoDataCenter’s mega-campus at Kvarnsveden, with at least 250 MW of capacity. The first halls are planned to be completed in 2027."
   },
   {
     "claim_id": "C009",
@@ -120,28 +120,28 @@
     "reported_capacity_mw": 150,
     "interpreted_it_load_mw": 150,
     "interpreted_grid_load_mw": 169.5,
-    "start_year": 2025,
-    "scenario_tag": "high",
+    "start_year": null,
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.13,
     "load_factor": 0.75,
     "type": "hyperscale",
-    "notes": "Den fulla planen är att skala anläggningen till 150 MW."
+    "notes": "Full build-out plan to scale the facility to 150 MW. No firm commissioning year for the full build-out has been identified."
   },
   {
     "claim_id": "C010",
     "project_id": "P005",
     "project_name": "EdgeMode HPC Marviken",
-    "phase": "Phase 2",
+    "phase": "Phase 2 / cumulative site capacity",
     "capacity_type": "cumulative_site_capacity",
     "reported_capacity_mw": 95,
     "interpreted_it_load_mw": 95,
     "interpreted_grid_load_mw": 123.5,
     "start_year": 2026,
-    "scenario_tag": "stated",
+    "scenario_tag": "",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Andra fasen (75 MW) planeras att byggas ut snabbt; sammanlagd kapacitet omkring 95 MW senast 2026."
+    "notes": "Second phase planned for rapid expansion. Total cumulative capacity is expected to reach around 95 MW by 2026."
   },
   {
     "claim_id": "C011",
@@ -153,27 +153,27 @@
     "interpreted_it_load_mw": null,
     "interpreted_grid_load_mw": null,
     "start_year": 2030,
-    "scenario_tag": "concept",
+    "scenario_tag": "",
     "pue": null,
     "load_factor": null,
     "type": "research; SMR-linked",
-    "notes": "Avsiktsförklaring om att bygga datacenter vid Studsvik som drivs av små modulära reaktorer (SMR) med cirka 55 MW per reaktor; serieproduktion av reaktorer väntas tidigast i början av 2030-talet."
+    "notes": "Memorandum of understanding to investigate a data centre at Studsvik supplied by small modular reactors (SMRs) of around 55 MW per reactor. Serial production of the reactors is expected no earlier than the early 2030s."
   },
   {
     "claim_id": "C012",
     "project_id": "P008",
     "project_name": "atNorth SWE02 Stockholm",
-    "phase": "unknown",
-    "capacity_type": "unknown",
+    "phase": "Planned facility",
+    "capacity_type": "it_load",
     "reported_capacity_mw": 30,
     "interpreted_it_load_mw": 30,
     "interpreted_grid_load_mw": 39,
     "start_year": 2027,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Planerad metroanläggning nära SWE01; ska gå i drift Q4 2027 med 30 MW kapacitet; inkluderar värmeåtervinning och ny elkundsubstation."
+    "notes": "Planned metro data centre near SWE01. Expected to enter operation in Q4 2027 with 30 MW of capacity, including heat-recovery integration and a new customer substation."
   },
   {
     "claim_id": "C013",
@@ -185,27 +185,27 @@
     "interpreted_it_load_mw": 28,
     "interpreted_grid_load_mw": 42,
     "start_year": 2029,
-    "scenario_tag": "high",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.5,
     "load_factor": 0.6,
     "type": "colocation; AI",
-    "notes": "Utvecklingen siktar på en total IT-kapacitet över 28 MW (motsvarande ~40 MW kraftmatning) till 2029, enligt bolagets planer för över 140 MW ytterligare kapacitet i Stockholm."
+    "notes": "Planned full build-out of more than 28 MW of IT capacity, corresponding to approximately 40 MW of power supply, by 2029. The entry reflects the developer’s broader Stockholm expansion plan."
   },
   {
     "claim_id": "C014",
     "project_id": "P010",
     "project_name": "Mistral AI & EcoDataCenter AI-center",
-    "phase": "unknown",
-    "capacity_type": "unknown",
+    "phase": "Planned facility",
+    "capacity_type": "it_load",
     "reported_capacity_mw": 23,
     "interpreted_it_load_mw": 23,
     "interpreted_grid_load_mw": 29.9,
     "start_year": 2027,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Partnership för att bygga AI-fokuserat datacenter på Borlänge-campus; ska öppna 2027; uppskattad datorkraft cirka 23 MW."
+    "notes": "Partnership to build an AI-focused data centre at the Borlänge campus. The facility is expected to open in 2027 with an estimated compute capacity of around 23 MW."
   },
   {
     "claim_id": "C015",
@@ -217,11 +217,11 @@
     "interpreted_it_load_mw": 20,
     "interpreted_grid_load_mw": 22.6,
     "start_year": 2026,
-    "scenario_tag": "stated",
+    "scenario_tag": "",
     "pue": 1.13,
     "load_factor": 0.75,
     "type": "hyperscale",
-    "notes": "Första etapp med 20 MW IT-belastning förväntas stå klar 2026."
+    "notes": "First phase with 20 MW of IT load, expected to be completed in 2026."
   },
   {
     "claim_id": "C016",
@@ -233,27 +233,27 @@
     "interpreted_it_load_mw": 20,
     "interpreted_grid_load_mw": 26,
     "start_year": 2025,
-    "scenario_tag": "stated",
+    "scenario_tag": "low_2030",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Initial fas med 20 MW HPC-kapacitet byggs i Marviken och väntas tas i drift 2025."
+    "notes": "Initial 20 MW HPC phase at Marviken, expected to enter operation in 2025."
   },
   {
     "claim_id": "C017",
     "project_id": "P011",
     "project_name": "Evroc AI-datacenter Arlandastad",
-    "phase": "unknown",
-    "capacity_type": "unknown",
+    "phase": "Planned facility",
+    "capacity_type": "it_load",
     "reported_capacity_mw": 18,
     "interpreted_it_load_mw": 18,
     "interpreted_grid_load_mw": 23.4,
     "start_year": 2026,
-    "scenario_tag": "stated",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "pue": 1.3,
     "load_factor": 0.85,
     "type": "AI; HPC",
-    "notes": "Flaggskepps-AI‑datacenter med 16 000 GPU‑platser. Byggstart första halvåret 2025, drift andra halvåret 2026."
+    "notes": "Flagship AI data centre with 16,000 GPU slots. Construction is planned to start in the first half of 2025, with operation in the second half of 2026."
   },
   {
     "claim_id": "C018",
@@ -265,74 +265,74 @@
     "interpreted_it_load_mw": 14,
     "interpreted_grid_load_mw": 21,
     "start_year": 2027,
-    "scenario_tag": "stated",
+    "scenario_tag": "",
     "pue": 1.5,
     "load_factor": 0.6,
     "type": "colocation; AI",
-    "notes": "Första fasen av det nya Stockholm 5-projektet med ca 14 MW IT-kapacitet (28 MW kraftmatning) planeras gå i drift i juni 2027."
+    "notes": "First phase of the new Stockholm 5 project, with around 14 MW of IT capacity and 28 MW of power supply, planned to enter operation in June 2027."
   },
   {
     "claim_id": "C019",
     "project_id": "P012",
     "project_name": "Conapto Stockholm 4 South expansion",
-    "phase": "Expansion",
+    "phase": "Incremental expansion",
     "capacity_type": "incremental_expansion",
     "reported_capacity_mw": 8,
     "interpreted_it_load_mw": 8,
     "interpreted_grid_load_mw": 12,
     "start_year": 2026,
-    "scenario_tag": "stated",
+    "scenario_tag": "low_2030; stated_2030; stated_2035; high_2035",
     "pue": 1.5,
     "load_factor": 0.55,
     "type": "colocation",
-    "notes": "Utbyggnad som lägger till 8 MW effekt till Stockholm 4 South, vilket ökar anläggningen från 20 MW till 28 MW; ny effekt klar 1 januari 2026."
+    "notes": "Expansion adding 8 MW to Stockholm 4 South, increasing the facility from 20 MW to 28 MW. The additional capacity is expected to be available on 1 January 2026."
   },
   {
     "claim_id": "C020",
     "project_id": "P013",
     "project_name": "ScandiDC I Eskilstuna",
-    "phase": "unknown",
-    "capacity_type": "full_campus_potential",
+    "phase": "Phase 1",
+    "capacity_type": "initial_phase_capacity",
     "reported_capacity_mw": 6,
     "interpreted_it_load_mw": 6,
     "interpreted_grid_load_mw": 9,
     "start_year": 2026,
-    "scenario_tag": "high",
+    "scenario_tag": "low_2030; stated_2030; stated_2035; high_2035",
     "pue": 1.5,
     "load_factor": 0.55,
     "type": "colocation",
-    "notes": "Data­center byggt i bergrum; första etapp på upp till 6 MW ska stå klar Q4 2026."
+    "notes": "Data centre developed in a rock cavern. The first phase, up to 6 MW, is expected to be completed in Q4 2026."
   },
   {
     "claim_id": "C021",
     "project_id": "P014",
     "project_name": "GlobalConnect Stockholm expansion",
-    "phase": "Expansion",
+    "phase": "Incremental expansion",
     "capacity_type": "incremental_expansion",
     "reported_capacity_mw": 1.2,
     "interpreted_it_load_mw": 1.2,
     "interpreted_grid_load_mw": 1.8,
     "start_year": 2026,
-    "scenario_tag": "stated",
+    "scenario_tag": "low_2030; stated_2030; stated_2035; high_2035",
     "pue": 1.5,
     "load_factor": 0.55,
     "type": "colocation",
-    "notes": "Utbyggnad av GlobalConnects befintliga datacenter i södra Stockholm, tillför 1.2 MW kapacitet och tar anläggningen till 2.7 MW (lanseras 2026)."
+    "notes": "Expansion of GlobalConnect’s existing data centre in southern Stockholm. Adds 1.2 MW of capacity, increasing the facility to 2.7 MW, with launch expected in 2026."
   },
   {
     "claim_id": "C022",
     "project_id": "P015",
     "project_name": "Google Horndal; Avesta",
-    "phase": "unknown",
+    "phase": "Permitted backup power / no load estimate",
     "capacity_type": "permit_backup_power",
-    "reported_capacity_mw": null,
+    "reported_capacity_mw": 1500,
     "interpreted_it_load_mw": null,
     "interpreted_grid_load_mw": null,
     "start_year": null,
-    "scenario_tag": "concept",
+    "scenario_tag": "",
     "pue": 1.13,
     "load_factor": 0.75,
     "type": "hyperscale",
-    "notes": "Mark- och miljödomstolen beviljade 2021 tillstånd för ett datacenter med upp till 1 500 MW installerad effekt. Google har ännu inte beslutat att bygga och måste påbörja verksamheten senast 2031 enligt domen. Not: Reservkraftsanläggningens termiska kapacitet på 1 500 MW betyder inte att IT-belastningen är så stor; ingen offentlig siffra finns."
+    "notes": "In 2021, the Land and Environment Court granted a permit for a data centre with up to 1,500 MW of installed backup-power capacity. Google has not made a final investment decision and must commence the permitted activity by 2031. The thermal capacity of the backup-power installation is not treated as IT load or grid load; no public load estimate has been identified."
   }
 ]
