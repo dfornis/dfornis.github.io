@@ -53,7 +53,7 @@ Projects can be expanded with the + sign to show project phases when applicable 
         <th>Status</th>
         <th>Reported MW</th>
         <th>Est. IT load MW</th>
-        <th>Est. grid load MW</th>
+        <th>Est. grid-side MW</th>
         <th>Est. TWh/year</th>
         <th>PUE</th>
         <th>Load factor</th>
@@ -92,22 +92,20 @@ The map below shows estimated additional grid load from data center projects acr
 
 ## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate (grid connection) capacity, IT load, an incremental undefined expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of interpretation to be applied for comparability. 
-
-The tracker therefore separates the reported capacity value from its estimated `capacity_basis`. The reported value, extracted from press releases and media, is stored as `reported_capacity_mw` in the capacity data. The harmonized estimates shown in the table are taken from the processed capacity dataset:
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to name-plate (grid connection) capacity, IT load, an incremental undefined expansion, full campus build-out potential or backup generation capacity. These concepts are not equivalent, requiring a layer of interpretation to be applied for comparability. This means that reported figures are first classified by `capacity_basis` before any comparison or harmonization is made. The tracker stores the original reported figure as `reported_capcity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. It is then translated into two harmonized capacity-side estimates:
 
 <pre>
-reported_capacity_mw
 interpreted_it_load_mw
-interpreted_grid_load_mw
-pue
-load_factor
+estimated_grid_side_mw
 </pre>
 
-For entries interpreted as data center IT or site load, the processed dataset translates reported capacity into estimated grid load using the assigned PUE assumption which is specific for data center type. Annual electricity use is then estimated from the interpreted grid load and the assigned load factor:
+`interpreted_it_load_mw` is the estimate of the IT-side capacity represented by the reported figure. `estimated_grid_side_mw` is the estimated facility- or gride-side capacity after applying the assigned PUE. It is not an estimate of average or peak load.
+
+
+Annual electricity use is estimated separately using the assigned load factor:
 
 <pre>
-estimated TWh/year = interpreted_grid_load_mw × load_factor × 8,760 / 1,000,000
+estimated TWh/year = grid-side MW × load factor × 8,760 / 1,000,000
 </pre>
 
 Backup power permits and reactor capacity entries are not treated as data center grid load unless a separate IT load, site load, or grid-connection capacity is reported. This is why some projects may show a reported capacity but no estimated grid load.
