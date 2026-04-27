@@ -5,15 +5,15 @@
     "value": 1.2,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for hyperscale data centres.",
-    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023, with sector average projected toward 1.15-1.35 by 2028."
+    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with large hyperscale facilities potentially as low as 1.1. Shehabi et al. 2024 supports low hyperscale PUE assumptions."
   },
   {
-    "assumption_id": "UTILIZATION_Hyperscale",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.5,
+    "assumption_id": "LF_Hyperscale",
+    "assumption_type": "Annual load factor",
+    "value": 0.75,
     "unit": "ratio",
-    "description": "Annual average capacity-utilization proxy for hyperscale facilities.",
-    "source": "Shehabi et al. 2024; hyperscale conventional server operational time around 50% by 2027."
+    "description": "Facility-level annual load factor for hyperscale data centres, defined as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity.",
+    "source": "EPRI 2026; observed large hyperscale facility annual load factor of 75% relative to nameplate capacity. Shehabi et al. 2024 used only as supporting evidence on high relative hyperscale server operational time."
   },
   {
     "assumption_id": "PUE_Hyperscale_AI",
@@ -21,15 +21,15 @@
     "value": 1.2,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for hyperscale AI data centres.",
-    "source": "Shehabi et al. 2024; AI air/liquid cooling treated separately, with high UPS efficiency assumptions."
+    "source": "EPRI 2026; large hyperscale facilities with liquid cooling may reach PUE as low as 1.1. Shehabi et al. 2024 models AI data centres separately by cooling system."
   },
   {
-    "assumption_id": "UTILIZATION_Hyperscale_AI",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.6,
+    "assumption_id": "LF_Hyperscale_AI",
+    "assumption_type": "Annual load factor",
+    "value": 0.75,
     "unit": "ratio",
-    "description": "Annual average capacity-utilization proxy for hyperscale AI facilities.",
-    "source": "Shehabi et al. 2024; AI training operational power and operational-time assumptions."
+    "description": "Facility-level annual load factor for hyperscale data centres with substantial AI workloads. Treated as high-utilisation but not full nameplate operation.",
+    "source": "EPRI 2026; hyperscale observed annual load factor of 75% relative to nameplate capacity. Shehabi et al. 2024 distinguishes AI training and inference operational time. Regen/National Grid DSO 2025 notes AI training is relatively flat while inference is peakier."
   },
   {
     "assumption_id": "PUE_AI_HPC",
@@ -37,15 +37,15 @@
     "value": 1.25,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for AI/HPC-oriented facilities.",
-    "source": "Shehabi et al. 2024; AI data centres modelled separately for air and liquid cooling."
+    "source": "Shehabi et al. 2024; AI data centres modelled separately for air and liquid cooling. EPRI 2026 supports lower PUE for newer large facilities."
   },
   {
-    "assumption_id": "UTILIZATION_AI_HPC",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.7,
+    "assumption_id": "LF_AI_HPC",
+    "assumption_type": "Annual load factor",
+    "value": 0.8,
     "unit": "ratio",
-    "description": "Annual average capacity-utilization proxy for AI/HPC-oriented facilities.",
-    "source": "Shehabi et al. 2024; AI training operational time 75-85% and operational power 60-80% of rated power."
+    "description": "Facility-level annual load factor for AI/HPC-oriented facilities, interpreted as training- or batch-compute-dominated.",
+    "source": "Shehabi et al. 2024; AI training server operational time assumed at 80%, varied between 75-85%. EPRI 2026 provides facility-level support that hyperscale load factors can be high but below nameplate."
   },
   {
     "assumption_id": "PUE_Colocation_AI",
@@ -53,15 +53,15 @@
     "value": 1.35,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for colocation facilities with AI workloads.",
-    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023."
+    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
   },
   {
-    "assumption_id": "UTILIZATION_Colocation_AI",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.5,
+    "assumption_id": "LF_Colocation_AI",
+    "assumption_type": "Annual load factor",
+    "value": 0.6,
     "unit": "ratio",
-    "description": "Annual average capacity-utilization proxy for colocation facilities with AI workloads.",
-    "source": "Shehabi et al. 2024; colocation conventional server operational time around 35% by 2027, adjusted upward for AI/HPC workload."
+    "description": "Facility-level annual load factor for colocation facilities with AI-oriented workloads. Set above conventional colocation due to AI/HPC tenants, but below dedicated hyperscale or AI/HPC facilities.",
+    "source": "EPRI 2026; smaller multi-tenant co-location facilities averaged 57% annual load factor relative to nameplate. Regen/National Grid DSO 2025 notes colocation load is relatively consistent due to tenant diversity, while AI workloads may increase variability."
   },
   {
     "assumption_id": "PUE_Colocation",
@@ -69,30 +69,30 @@
     "value": 1.35,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for colocation facilities.",
-    "source": "Shehabi et al. 2024; hyperscale and colocation average PUE below 1.4 in 2023."
+    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
   },
   {
-    "assumption_id": "UTILIZATION_Colocation",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.35,
+    "assumption_id": "LF_Colocation",
+    "assumption_type": "Annual load factor",
+    "value": 0.57,
     "unit": "ratio",
-    "description": "Annual average capacity-utilization proxy for conventional colocation.",
-    "source": "Shehabi et al. 2024; colocation server operational time around 35% by 2027."
+    "description": "Facility-level annual load factor for conventional multi-tenant colocation facilities, defined relative to reported or estimated grid-side/nameplate capacity.",
+    "source": "EPRI 2026; smaller multi-tenant co-location facilities averaged 57% annual load factor relative to nameplate capacity. Regen/National Grid DSO 2025 supports relatively consistent colocation load due to flat storage/cloud use cases and tenant diversity."
   },
   {
     "assumption_id": "PUE_Research_SMR",
     "assumption_type": "PUE",
-    "value": 1.3,
+    "value": 1.25,
     "unit": "ratio",
     "description": "Placeholder Power Usage Effectiveness for research/SMR-linked concept entries if an IT-load estimate is later specified.",
-    "source": "Assumption aligned with AI/HPC-oriented facilities; concept entries are not translated into grid-side load unless IT load is specified."
+    "source": "Placeholder aligned with AI/HPC-oriented facilities. Concept entries are not translated into grid-side load unless IT load is specified."
   },
   {
-    "assumption_id": "UTILIZATION_Research_SMR",
-    "assumption_type": "Capacity utilization proxy",
-    "value": 0.7,
+    "assumption_id": "LF_Research_SMR",
+    "assumption_type": "Annual load factor",
+    "value": 0.8,
     "unit": "ratio",
-    "description": "Placeholder annual average capacity-utilization proxy for research/SMR-linked concept entries if an IT-load estimate is later specified.",
-    "source": "Assumption aligned with AI/HPC-oriented facilities; concept entries are not translated into annual electricity use unless IT/grid-side load is specified."
+    "description": "Placeholder facility-level annual load factor for research/SMR-linked concept entries if an IT-load or grid-side load estimate is later specified.",
+    "source": "Placeholder aligned with AI/HPC-oriented facilities. Concept entries are not translated into annual electricity use unless IT/grid-side load is specified."
   }
 ]
