@@ -83,7 +83,7 @@ The map below shows estimated additional grid load from data center projects acr
   >
 </figure>
 
-## Capacity interpretation and derived load estimates
+## Capacity interpretation and derived estimates
 
 Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
 
