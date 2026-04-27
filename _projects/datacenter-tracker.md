@@ -4,9 +4,9 @@ title: Swedish data center tracker
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers cheap renewable electricity and a favourable climate for cooling. Given the growing public interest in this development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations made based on press releases, media reports, permitting documents, or company material. The dataset and methodology is under development. Key assumptions are stated below. Please get in touch for suggestions or data sharing.
+This page tracks publicly reported data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. Sweden is one of the fastest expanding markets in the world for data centers, in large part because it offers cheap renewable electricity and a favourable climate for cooling. Given the growing public interest in this development, I'm sharing the dataset here as a public resource. Note that all entries are interpretations made based on press releases, media reports, permitting documents, or company material. The dataset and methodology are under development. Key assumptions are stated below. Please get in touch for suggestions or data sharing.
 
-Projects can be expanded with the **+** sign to show project phases when applicable and what scenario the project is included in.
+Projects can be expanded with the **+** sign to show project phases, capacity interpretations, assumptions, and scenario inclusion.
 
 <div class="tracker-controls">
 
@@ -83,26 +83,23 @@ The map below shows estimated additional grid load from data center projects acr
 
 ## Capacity interpretation and derived load estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are first classified by `capacity_basis` before comparison or harmonization. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into two harmonized capacity-side estimates:
+Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
 
 <pre>
 interpreted_it_load_mw
-estimated_grid_side_mw
 </pre>
 
-`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. `estimated_grid_side_mw` is the corresponding facility- or grid-side capacity after applying the assigned PUE.
+`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is then derived by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side data center load unless a separate IT load, site load, or grid-connection capacity is reported.
 
-Annual electricity use is estimated separately using a capacity-utilization proxy:
+Annual electricity use is estimated using an annual load factor:
 
 <pre>
-estimated TWh/year = estimated_grid_side_mw × utilization_proxy × 8,760 / 1,000,000
+estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,000,000
 </pre>
 
-The utilization proxy is a simplified parameter used to translate estimated grid-side capacity into indicative annual electricity use. It condenses several project- and technology-specific factors, including equipment utilization, workload mix, idle power, operational time, ramp-up, and overdimensioning.
+The annual load factor is a facility-level annualisation parameter. It is defined here as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity. It should not be interpreted as server-level CPU/GPU utilisation. The parameter captures the fact that reported MW figures often represent maximum, nameplate, contracted, or headline capacity rather than average realised load. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
 
-Backup power permits and reactor capacity entries are only translated into grid-side data center capacity where a separate IT load, site load, or grid-connection capacity is reported.
-
-The assumptions follow the data center energy accounting framework in Shehabi et al. (2024). Their 2024 report distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. It also models PUE by data center type, cooling system, equipment mix, and location. The assumptions used for this tracker simplify that framework into PUE and a utilization proxy by broad project type, including hyperscale, AI/HPC, and colocation categories, in place of undisclosed project information.
+The assumptions simplify the data center energy accounting framework in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) uses a higher data center load-factor assumption when converting between energy and capacity, while Regen and National Grid DSO (2025) highlight that storage, cloud, AI training, and AI inference can have different load shapes. For this reason, the estimated annual electricity use should be interpreted as an indicative annualisation, not as an observed or validated hourly load profile.
 
 <style>
 .tracker-controls {
@@ -392,6 +389,7 @@ const DATA_PATHS = {
 };
 
 let capacityEntriesByProject = {};
+let assumptionIndex = {};
 
 async function loadJson(path) {
   const response = await fetch(path);
@@ -452,6 +450,68 @@ function scenarioLabel(value) {
   return labels[value] || value;
 }
 
+function typeLabel(value) {
+  const labels = {
+    "hyperscale": "Hyperscale",
+    "AI": "AI",
+    "HPC": "HPC",
+    "colocation": "Colocation",
+    "research": "Research",
+    "SMR-linked": "SMR-linked"
+  };
+
+  return labels[value] || value;
+}
+
+function normalizeTypeTags(value) {
+  return splitTags(value).map(tag => tag.toLowerCase());
+}
+
+function assumptionCategory(typeValue) {
+  const tags = normalizeTypeTags(typeValue);
+
+  const hasHyperscale = tags.includes("hyperscale");
+  const hasAi = tags.includes("ai");
+  const hasHpc = tags.includes("hpc");
+  const hasColocation = tags.includes("colocation");
+  const hasResearch = tags.includes("research") || tags.includes("smr-linked");
+
+  if (hasResearch) return "Research_SMR";
+  if (hasColocation && hasAi) return "Colocation_AI";
+  if (hasColocation) return "Colocation";
+  if (hasAi && hasHpc) return "AI_HPC";
+  if (hasHyperscale && hasAi) return "Hyperscale_AI";
+  if (hasHyperscale) return "Hyperscale";
+  if (hasAi || hasHpc) return "AI_HPC";
+
+  return "Hyperscale";
+}
+
+function buildAssumptionIndex(assumptions) {
+  const index = {};
+
+  assumptions.forEach(item => {
+    index[item.assumption_id] = item;
+  });
+
+  return index;
+}
+
+function assumptionValue(id) {
+  const item = assumptionIndex[id];
+  return item ? num(item.value) : null;
+}
+
+function pueForType(typeValue) {
+  const category = assumptionCategory(typeValue);
+  return assumptionValue("PUE_" + category);
+}
+
+function loadFactorForType(typeValue) {
+  const category = assumptionCategory(typeValue);
+  return assumptionValue("LF_" + category);
+}
+
 function populateCheckboxGroup(id, values, labelFunction = value => value) {
   const container = document.getElementById(id);
   container.innerHTML = "";
@@ -493,6 +553,62 @@ function capacityPriority(capacityType) {
   return priorities[capacityType] || 99;
 }
 
+function isNonLoadCapacity(entry) {
+  return ["permit_backup_power", "reactor_capacity"].includes(entry.capacity_type);
+}
+
+function entryPue(entry) {
+  const direct = num(entry.pue);
+  if (direct !== null) return direct;
+  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return null;
+  return pueForType(entry.type);
+}
+
+function entryLoadFactor(entry) {
+  const direct = num(entry.annual_load_factor);
+  if (direct !== null) return direct;
+
+  const legacy = num(entry.load_factor);
+  if (legacy !== null) return legacy;
+
+  const oldProxy = num(entry.utilization_proxy);
+  if (oldProxy !== null) return oldProxy;
+
+  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return null;
+  return loadFactorForType(entry.type);
+}
+
+function estimatedGridSideMw(entry) {
+  if (!entry) return null;
+
+  const explicitGrid = num(entry.estimated_grid_side_mw);
+  if (explicitGrid !== null) return explicitGrid;
+
+  const legacyGrid = num(entry.interpreted_grid_load_mw);
+  if (legacyGrid !== null) return legacyGrid;
+
+  const gridSide = num(entry.grid_side_capacity_mw);
+  if (gridSide !== null) return gridSide;
+
+  const itLoad = num(entry.interpreted_it_load_mw);
+  const pue = entryPue(entry);
+
+  if (itLoad === null || pue === null) return null;
+
+  return itLoad * pue;
+}
+
+function estimatedTwh(entry) {
+  if (!entry) return null;
+
+  const gridSideMw = estimatedGridSideMw(entry);
+  const loadFactor = entryLoadFactor(entry);
+
+  if (gridSideMw === null || loadFactor === null) return null;
+
+  return gridSideMw * loadFactor * 8760 / 1000000;
+}
+
 function chooseOverviewEntry(entries) {
   if (!entries || entries.length === 0) return null;
 
@@ -517,17 +633,6 @@ function chooseOverviewEntry(entries) {
 
     return vb - va;
   })[0];
-}
-
-function estimatedTwh(entry) {
-  if (!entry) return null;
-
-  const gridSideMw = num(entry.interpreted_grid_load_mw);
-  const utilizationProxy = num(entry.utilization_proxy);
-
-  if (gridSideMw === null || utilizationProxy === null) return null;
-
-  return gridSideMw * utilizationProxy * 8760 / 1000000;
 }
 
 function buildCapacityIndex(capacityEntries) {
@@ -584,10 +689,10 @@ function buildProjectRows(projects, capacityEntries) {
       capacity_basis: overviewEntry ? overviewEntry.capacity_type : "unknown",
       reported_capacity_mw: overviewEntry ? overviewEntry.reported_capacity_mw : project.max_reported_capacity_mw,
       interpreted_it_load_mw: overviewEntry ? overviewEntry.interpreted_it_load_mw : null,
-      interpreted_grid_load_mw: overviewEntry ? overviewEntry.interpreted_grid_load_mw : null,
+      estimated_grid_side_mw: overviewEntry ? estimatedGridSideMw(overviewEntry) : null,
       estimated_twh_year: estimatedTwh(overviewEntry),
-      pue: overviewEntry ? overviewEntry.pue : null,
-      utilization_proxy: overviewEntry ? overviewEntry.utilization_proxy : null
+      pue: overviewEntry ? entryPue(overviewEntry) : null,
+      annual_load_factor: overviewEntry ? entryLoadFactor(overviewEntry) : null
     };
   });
 }
@@ -639,7 +744,7 @@ function renderSummary(rows) {
   }, 0);
 
   const totalGridLoadMw = rows.reduce((sum, row) => {
-    return sum + (num(row.interpreted_grid_load_mw) || 0);
+    return sum + (num(row.estimated_grid_side_mw) || 0);
   }, 0);
 
   const totalTwh = rows.reduce((sum, row) => {
@@ -650,7 +755,7 @@ function renderSummary(rows) {
     "<strong>" + totalProjects + "</strong> projects shown · " +
     "<strong>" + round(totalReportedMw, 0) + "</strong> reported MW · " +
     "<strong>" + round(totalItLoadMw, 0) + "</strong> interpreted IT load MW · " +
-    "<strong>" + round(totalGridLoadMw, 0) + "</strong> interpreted grid-side MW · " +
+    "<strong>" + round(totalGridLoadMw, 0) + "</strong> estimated grid-side MW · " +
     "<strong>" + round(totalTwh, 1) + "</strong> estimated TWh/year";
 }
 
@@ -667,7 +772,7 @@ function renderEntryTable(projectId) {
   html += "<thead><tr>";
   html += "<th>Entry ID</th>";
   html += "<th>Phase</th>";
-  html += "<th>Capacity basis</th>";
+  html += "<th>Capacity type</th>";
   html += "<th>Scenario</th>";
   html += "<th>Start year</th>";
   html += "<th>Reported MW</th>";
@@ -675,7 +780,7 @@ function renderEntryTable(projectId) {
   html += "<th>Grid-side MW</th>";
   html += "<th>TWh/year</th>";
   html += "<th>PUE</th>";
-  html += "<th>Util. proxy</th>";
+  html += "<th>Load factor</th>";
   html += "<th>Notes</th>";
   html += "</tr></thead><tbody>";
 
@@ -690,10 +795,10 @@ function renderEntryTable(projectId) {
     html += "<td>" + escapeHtml(entry.start_year) + "</td>";
     html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.interpreted_grid_load_mw, 0) + "</td>";
+    html += "<td class='number-cell'>" + round(estimatedGridSideMw(entry), 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedTwh(entry), 1) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.utilization_proxy, 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entryPue(entry), 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entryLoadFactor(entry), 2) + "</td>";
     html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
     html += "</tr>";
   });
@@ -738,7 +843,7 @@ function renderTable(rows) {
       "<td>" + escapeHtml(row.status) + "</td>" +
       "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(row.interpreted_grid_load_mw, 0) + "</td>" +
+      "<td class='number-cell'>" + round(row.estimated_grid_side_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 1) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
       "<td class='notes-cell'>" + escapeHtml(truncateText(row.notes)) + "</td>";
@@ -769,7 +874,9 @@ function redraw(rows) {
 async function initTracker() {
   const projects = await loadJson(DATA_PATHS.projects);
   const capacity = await loadJson(DATA_PATHS.capacity);
-  await loadJson(DATA_PATHS.assumptions);
+  const assumptions = await loadJson(DATA_PATHS.assumptions);
+
+  assumptionIndex = buildAssumptionIndex(assumptions);
 
   const rows = buildProjectRows(projects, capacity);
 
@@ -789,7 +896,8 @@ async function initTracker() {
 
   populateCheckboxGroup(
     "filter-type-group",
-    allTypes
+    allTypes,
+    typeLabel
   );
 
   const allScenarios = uniqueSorted(
