@@ -10,7 +10,7 @@
 
   // Use "it_load" to reproduce headline scenario MW values.
   // Use "grid_side" if you want PUE-adjusted grid-side MW and assumptions.json is available.
-  const MAP_METRIC = "it_load";
+  const MAP_METRIC = "grid-side";
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
