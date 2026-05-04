@@ -1,4 +1,4 @@
-/* Interactive D3/SVG scenario map. Designed to look like a figure, not a web map. */
+/* Interactive D3/SVG scenario map. Designed to look like a clean figure, not a web map. */
 
 .dc-scenario-map-root {
   margin: 1.15rem 0 1.9rem 0;
@@ -62,12 +62,6 @@
   stroke: #555;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
-  cursor: pointer;
-}
-
-.dc-zone:hover {
-  stroke: #111;
-  stroke-width: 1.25;
 }
 
 .dc-zone-label {
@@ -84,64 +78,25 @@
   fill: #111;
 }
 
-.dc-callout {
-  cursor: pointer;
-}
-
-.dc-callout.empty {
-  cursor: default;
-}
-
 .dc-callout-line {
-  fill: none;
-  stroke: #5c5c5c;
-  stroke-width: 0.75;
-  opacity: 0.58;
+  stroke: #565656;
+  stroke-width: 0.65;
+  stroke-linecap: round;
+  opacity: 0.42;
   vector-effect: non-scaling-stroke;
+  shape-rendering: geometricPrecision;
 }
 
 .dc-callout.empty .dc-callout-line {
-  opacity: 0.28;
-}
-
-.dc-callout-text {
-  fill: #111;
-  dominant-baseline: middle;
+  opacity: 0.22;
 }
 
 .dc-callout-value {
   font-size: 14px;
-  font-weight: 650;
-}
-
-.dc-callout:not(.empty):hover .dc-callout-value {
-  text-decoration: underline;
-}
-
-.dc-callout-count {
-  font-size: 10px;
   font-weight: 500;
-  fill: #555;
-}
-
-.dc-callout-entry {
-  font-size: 9px;
-  font-weight: 400;
-  fill: #555;
-}
-
-.dc-map-tooltip {
-  position: absolute;
+  fill: #111;
+  letter-spacing: -0.01em;
   pointer-events: none;
-  background: rgba(255, 252, 247, 0.96);
-  border: 1px solid #d7d0c4;
-  border-radius: 5px;
-  padding: 0.35rem 0.45rem;
-  font-size: 11px;
-  line-height: 1.25;
-  color: #111;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  z-index: 5;
 }
 
 @media (max-width: 720px) {
@@ -155,13 +110,5 @@
 
   .dc-callout-value {
     font-size: 12px;
-  }
-
-  .dc-callout-count {
-    font-size: 9px;
-  }
-
-  .dc-callout-entry {
-    font-size: 8px;
   }
 }
