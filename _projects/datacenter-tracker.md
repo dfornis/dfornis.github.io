@@ -64,7 +64,24 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity needed to accomodate the project, adjusted for power used for auxiliary needs, rather than an average load. 
 
+<div style="font-size: 0.7em;" markdown="1">
+
+<div class="after-table-space"></div>
+
+
+| Scenario | Includes |
+| ------- | ------- |
+| Low 2030 | Projects with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
+| High 2035 | All known projects including ones without an announced year of operation |
+
+</div>
+
 <div id="dc-scenario-map"></div>
+
+<div class="after-table-space"></div>
+
 
 <script>
 window.DC_TRACKER_PATHS = {
@@ -78,16 +95,7 @@ window.DC_TRACKER_PATHS = {
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
 
-<div style="font-size: 0.7em;" markdown="1">
 
-| Scenario | Includes |
-| ------- | ------- |
-| Low 2030 | Projects with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | All known projects including ones without an announced year of operation |
-
-</div>
 
 
 ## Capacity interpretation and derived estimates
