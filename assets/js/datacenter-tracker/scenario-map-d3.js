@@ -344,14 +344,16 @@
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
-      zonePaths
-        .transition()
-        .duration(180)
-        .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw));
+   
+     zonePaths
+       .transition()
+       .duration(180)
+       .attr("fill", d => fillForMw(
+         scenarioDetails[activeScenario][d.properties.bidding_zone].mw
+       ));
 
-      title.text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
-      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
-    }
+  renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
+}
   }
 
   if (document.readyState === "loading") {
