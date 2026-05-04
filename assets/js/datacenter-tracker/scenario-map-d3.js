@@ -1,4 +1,4 @@
-/* D3/SVG scenario map for Swedish data centre tracker.
+/* D3/SVG scenario map for Swedish data centre tracker, with direct callout labels.
    Requires:
    - D3 v7 loaded before this script
    - window.DC_TRACKER_PATHS with projects, capacity, biddingZones, assumptions (assumptions optional)
@@ -19,6 +19,8 @@
     { id: "high_2035", label: "High", year: "2035", fullLabel: "High 2035" }
   ];
 
+  const ZONES = ["SE1", "SE2", "SE3", "SE4"];
+
   const BREAKS = [
     { min: 0, max: 0, label: "0", color: "#eef3ff" },
     { min: 1, max: 499, label: "1–499", color: "#c6dbef" },
@@ -27,10 +29,6 @@
     { min: 1500, max: 2499, label: "1,500–2,499", color: "#3182bd" },
     { min: 2500, max: Infinity, label: "2,500+", color: "#08519c" }
   ];
-
-  function isBlank(value) {
-    return value === null || value === undefined || value === "";
-  }
 
   function num(value) {
     const parsed = Number(value);
@@ -124,32 +122,62 @@
     return num(entry.interpreted_it_load_mw);
   }
 
-  function projectZoneIndex(projects) {
+  function projectIndex(projects) {
     const index = {};
     projects.forEach(project => {
-      index[project.project_id] = project.bidding_zone;
+      index[project.project_id] = project;
     });
     return index;
   }
 
-  function aggregateCapacityByScenarioZone(capacity, projects, assumptionIndex) {
-    const zonesByProject = projectZoneIndex(projects);
+  function emptyScenarioZoneObject() {
     const out = {};
-
     SCENARIOS.forEach(s => {
-      out[s.id] = { SE1: 0, SE2: 0, SE3: 0, SE4: 0 };
+      out[s.id] = {};
+      ZONES.forEach(zone => {
+        out[s.id][zone] = {
+          zone,
+          mw: 0,
+          entries: [],
+          projectIds: new Set()
+        };
+      });
     });
+    return out;
+  }
+
+  function aggregateCapacityDetails(capacity, projects, assumptionIndex) {
+    const projectsById = projectIndex(projects);
+    const out = emptyScenarioZoneObject();
 
     capacity.forEach(entry => {
-      const zone = zonesByProject[entry.project_id];
-      if (!zone || !out[SCENARIOS[0].id].hasOwnProperty(zone)) return;
+      const project = projectsById[entry.project_id];
+      const zone = project ? project.bidding_zone : null;
+      if (!zone || !ZONES.includes(zone)) return;
 
       const value = capacityValue(entry, assumptionIndex);
       if (value === null) return;
 
       splitTags(entry.scenario_tag).forEach(scenario => {
-        if (!out[scenario]) return;
-        out[scenario][zone] += value;
+        if (!out[scenario] || !out[scenario][zone]) return;
+
+        out[scenario][zone].mw += value;
+        out[scenario][zone].projectIds.add(entry.project_id);
+        out[scenario][zone].entries.push({
+          ...entry,
+          value_mw: value,
+          project_name: project.project_name,
+          developer: project.developer
+        });
+      });
+    });
+
+    Object.values(out).forEach(zoneObj => {
+      Object.values(zoneObj).forEach(detail => {
+        detail.project_count = detail.projectIds.size;
+        detail.phase_count = detail.entries.length;
+        detail.entries.sort((a, b) => (b.value_mw || 0) - (a.value_mw || 0));
+        delete detail.projectIds;
       });
     });
 
@@ -169,32 +197,10 @@
       .style("opacity", 0);
   }
 
-  function renderLegend(svg, width, height) {
-    const legend = svg.append("g")
-      .attr("class", "dc-map-legend")
-      .attr("transform", `translate(${width - 175}, ${height - 190})`);
-
-    legend.append("text")
-      .attr("class", "dc-map-legend-title")
-      .attr("x", 0)
-      .attr("y", 0)
-      .text("Load additions (MW)");
-
-    BREAKS.forEach((bin, i) => {
-      const y = 24 + i * 20;
-      legend.append("rect")
-        .attr("x", 0)
-        .attr("y", y - 10)
-        .attr("width", 22)
-        .attr("height", 14)
-        .attr("fill", bin.color);
-
-      legend.append("text")
-        .attr("x", 32)
-        .attr("y", y + 2)
-        .attr("class", "dc-map-legend-label")
-        .text(bin.label);
-    });
+  function calloutY(zone, centroidY) {
+    // Small manual offsets keep the expanded text from colliding while preserving geography.
+    const offsets = { SE1: -10, SE2: -3, SE3: 2, SE4: 8 };
+    return centroidY + (offsets[zone] || 0);
   }
 
   function renderScenarioControls(container, activeScenario, onChange) {
@@ -212,6 +218,112 @@
           controls.selectAll("button").classed("active", false);
           d3.select(this).classed("active", true);
           onChange(scenario.id);
+        });
+    });
+  }
+
+  function renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, onToggle) {
+    const labelX = 585;
+
+    const calloutData = geojson.features.map(feature => {
+      const zone = feature.properties.bidding_zone;
+      const centroid = path.centroid(feature);
+      return {
+        feature,
+        zone,
+        x0: centroid[0] + 42,
+        y0: centroid[1],
+        x1: labelX - 16,
+        y1: calloutY(zone, centroid[1]),
+        detail: scenarioDetails[activeScenario][zone]
+      };
+    });
+
+    const groups = calloutG.selectAll("g.dc-callout")
+      .data(calloutData, d => d.zone)
+      .join(
+        enter => {
+          const g = enter.append("g")
+            .attr("class", "dc-callout")
+            .attr("data-zone", d => d.zone);
+
+          g.append("path")
+            .attr("class", "dc-callout-line");
+
+          const text = g.append("text")
+            .attr("class", "dc-callout-text")
+            .attr("x", labelX)
+            .attr("text-anchor", "start");
+
+          text.append("tspan")
+            .attr("class", "dc-callout-value")
+            .attr("x", labelX);
+
+          text.append("tspan")
+            .attr("class", "dc-callout-count")
+            .attr("x", labelX)
+            .attr("dy", 15);
+
+          text.append("tspan")
+            .attr("class", "dc-callout-entry dc-entry-1")
+            .attr("x", labelX)
+            .attr("dy", 15);
+
+          text.append("tspan")
+            .attr("class", "dc-callout-entry dc-entry-2")
+            .attr("x", labelX)
+            .attr("dy", 13);
+
+          text.append("tspan")
+            .attr("class", "dc-callout-entry dc-entry-3")
+            .attr("x", labelX)
+            .attr("dy", 13);
+
+          return g;
+        },
+        update => update,
+        exit => exit.remove()
+      );
+
+    groups
+      .classed("expanded", d => d.zone === expandedZone)
+      .classed("empty", d => !d.detail || d.detail.mw === 0)
+      .on("click", function (event, d) {
+        event.stopPropagation();
+        if (!d.detail || d.detail.mw === 0) return;
+        onToggle(d.zone);
+      });
+
+    groups.select("path.dc-callout-line")
+      .transition()
+      .duration(160)
+      .attr("d", d => `M${d.x0},${d.y0} C${d.x0 + 34},${d.y0} ${d.x1 - 36},${d.y1} ${d.x1},${d.y1}`);
+
+    groups.select("text.dc-callout-text")
+      .transition()
+      .duration(160)
+      .attr("y", d => d.y1 - 3);
+
+    groups.select("tspan.dc-callout-value")
+      .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
+
+    groups.select("tspan.dc-callout-count")
+      .text(d => {
+        if (d.zone !== expandedZone || !d.detail || d.detail.mw === 0) return "";
+        const projects = d.detail.project_count === 1 ? "project" : "projects";
+        const phases = d.detail.phase_count === 1 ? "phase" : "phases";
+        return `${d.detail.project_count} ${projects}, ${d.detail.phase_count} ${phases}`;
+      });
+
+    [1, 2, 3].forEach(i => {
+      groups.select(`tspan.dc-entry-${i}`)
+        .text(d => {
+          if (d.zone !== expandedZone || !d.detail || d.detail.mw === 0) return "";
+          const entry = d.detail.entries[i - 1];
+          if (!entry) return "";
+          const name = entry.project_name || entry.project_id;
+          const shortName = name.length > 34 ? name.slice(0, 31).trim() + "…" : name;
+          return `${shortName}: ${fmtMw(entry.value_mw)} MW`;
         });
     });
   }
@@ -234,14 +346,15 @@
     ]);
 
     const assumptionIndex = buildAssumptionIndex(assumptions);
-    const scenarioZoneMw = aggregateCapacityByScenarioZone(capacity, projects, assumptionIndex);
+    const scenarioDetails = aggregateCapacityDetails(capacity, projects, assumptionIndex);
 
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
+    let expandedZone = null;
 
     const root = d3.select(container)
-      .attr("class", "dc-scenario-map-root");
+      .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
     renderScenarioControls(container, activeScenario, updateScenario);
 
@@ -259,30 +372,38 @@
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
 
-    // Fit Sweden to the left/centre, leaving room for the legend.
-    projection.fitExtent([[70, 35], [555, height - 35]], geojson);
+    // Fit Sweden to the left/centre, leaving room for direct callout labels.
+    projection.fitExtent([[70, 35], [505, height - 35]], geojson);
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
+    const calloutG = svg.append("g").attr("class", "dc-callout-layer");
 
     const zonePaths = mapG.selectAll("path")
       .data(geojson.features)
       .join("path")
       .attr("class", "dc-zone")
       .attr("d", path)
-      .attr("fill", d => fillForMw(scenarioZoneMw[activeScenario][d.properties.bidding_zone]))
+      .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw))
       .on("mousemove", function (event, d) {
         const zone = d.properties.bidding_zone;
-        const mw = scenarioZoneMw[activeScenario][zone] || 0;
+        const detail = scenarioDetails[activeScenario][zone];
         const scenario = SCENARIOS.find(s => s.id === activeScenario);
 
         tooltip
           .style("opacity", 1)
-          .html(`<strong>${zone}</strong><br>${scenario.fullLabel}<br>${fmtMw(mw)} MW`)
+          .html(`<strong>${zone}</strong><br>${scenario.fullLabel}<br>${fmtMw(detail.mw)} MW`)
           .style("left", (event.offsetX + 14) + "px")
           .style("top", (event.offsetY + 14) + "px");
       })
       .on("mouseleave", function () {
         tooltip.style("opacity", 0);
+      })
+      .on("click", function (event, d) {
+        const zone = d.properties.bidding_zone;
+        const detail = scenarioDetails[activeScenario][zone];
+        if (!detail || detail.mw === 0) return;
+        expandedZone = expandedZone === zone ? null : zone;
+        renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
       });
 
     mapG.selectAll("text")
@@ -295,8 +416,6 @@
       .attr("text-anchor", "middle")
       .text(d => d.properties.bidding_zone);
 
-    renderLegend(svg, width, height);
-
     const title = svg.append("text")
       .attr("class", "dc-map-title")
       .attr("x", width / 2)
@@ -304,15 +423,24 @@
       .attr("text-anchor", "middle")
       .text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
 
+    renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
+
+    function toggleZone(zone) {
+      expandedZone = expandedZone === zone ? null : zone;
+      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
+    }
+
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
+      expandedZone = null;
 
       zonePaths
         .transition()
         .duration(180)
-        .attr("fill", d => fillForMw(scenarioZoneMw[activeScenario][d.properties.bidding_zone]));
+        .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw));
 
       title.text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
+      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
     }
   }
 
