@@ -62,7 +62,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity needed to accomodate the project, adjusted for power used for auxiliary needs, rather than an average load. 
+The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity associated with the included projects, adjusted for auxiliary power use through the assigned PUE assumptions. They should not be interpretaed as average realised load. 
 
 <div style="font-size: 0.7em;" markdown="1">
 
@@ -80,7 +80,6 @@ The map below shows estimated additional grid load from data center projects acr
 
 <div id="dc-scenario-map"></div>
 
-<div class="after-table-space"></div>
 
 
 <script>
@@ -94,6 +93,8 @@ window.DC_TRACKER_PATHS = {
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
+
+<div class="after-table-space"></div>
 
 
 
