@@ -1,4 +1,4 @@
-/* D3/SVG scenario map for Swedish data centre tracker, with direct callout labels.
+/* D3/SVG scenario map for Swedish data centre tracker, with clean direct MW callout labels.
    Requires:
    - D3 v7 loaded before this script
    - window.DC_TRACKER_PATHS with projects, capacity, biddingZones, assumptions (assumptions optional)
@@ -190,16 +190,9 @@
     return response.json();
   }
 
-  function createTooltip(container) {
-    return d3.select(container)
-      .append("div")
-      .attr("class", "dc-map-tooltip")
-      .style("opacity", 0);
-  }
-
   function calloutY(zone, centroidY) {
-    // Small manual offsets keep the expanded text from colliding while preserving geography.
-    const offsets = { SE1: -10, SE2: -3, SE3: 2, SE4: 8 };
+    // Manual nudges keep labels balanced while preserving the geographic ordering.
+    const offsets = { SE1: -12, SE2: 0, SE3: 4, SE4: 10 };
     return centroidY + (offsets[zone] || 0);
   }
 
@@ -222,19 +215,22 @@
     });
   }
 
-  function renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, onToggle) {
+  function renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails) {
     const labelX = 585;
+    const lineEndX = labelX - 20;
 
     const calloutData = geojson.features.map(feature => {
       const zone = feature.properties.bidding_zone;
       const centroid = path.centroid(feature);
+      const bounds = path.bounds(feature);
+      const y = calloutY(zone, centroid[1]);
+
       return {
         feature,
         zone,
-        x0: centroid[0] + 42,
-        y0: centroid[1],
-        x1: labelX - 16,
-        y1: calloutY(zone, centroid[1]),
+        x0: bounds[1][0] + 12,
+        y,
+        x1: lineEndX,
         detail: scenarioDetails[activeScenario][zone]
       };
     });
@@ -247,37 +243,14 @@
             .attr("class", "dc-callout")
             .attr("data-zone", d => d.zone);
 
-          g.append("path")
+          g.append("line")
             .attr("class", "dc-callout-line");
 
-          const text = g.append("text")
-            .attr("class", "dc-callout-text")
-            .attr("x", labelX)
-            .attr("text-anchor", "start");
-
-          text.append("tspan")
+          g.append("text")
             .attr("class", "dc-callout-value")
-            .attr("x", labelX);
-
-          text.append("tspan")
-            .attr("class", "dc-callout-count")
             .attr("x", labelX)
-            .attr("dy", 15);
-
-          text.append("tspan")
-            .attr("class", "dc-callout-entry dc-entry-1")
-            .attr("x", labelX)
-            .attr("dy", 15);
-
-          text.append("tspan")
-            .attr("class", "dc-callout-entry dc-entry-2")
-            .attr("x", labelX)
-            .attr("dy", 13);
-
-          text.append("tspan")
-            .attr("class", "dc-callout-entry dc-entry-3")
-            .attr("x", labelX)
-            .attr("dy", 13);
+            .attr("text-anchor", "start")
+            .attr("dominant-baseline", "middle");
 
           return g;
         },
@@ -285,47 +258,23 @@
         exit => exit.remove()
       );
 
-    groups
-      .classed("expanded", d => d.zone === expandedZone)
-      .classed("empty", d => !d.detail || d.detail.mw === 0)
-      .on("click", function (event, d) {
-        event.stopPropagation();
-        if (!d.detail || d.detail.mw === 0) return;
-        onToggle(d.zone);
-      });
+    groups.classed("empty", d => !d.detail || d.detail.mw === 0);
 
-    groups.select("path.dc-callout-line")
+    groups.select("line.dc-callout-line")
       .transition()
       .duration(160)
-      .attr("d", d => `M${d.x0},${d.y0} C${d.x0 + 34},${d.y0} ${d.x1 - 36},${d.y1} ${d.x1},${d.y1}`);
+      .attr("x1", d => d.x0)
+      .attr("y1", d => d.y)
+      .attr("x2", d => Math.max(d.x0 + 28, d.x1))
+      .attr("y2", d => d.y);
 
-    groups.select("text.dc-callout-text")
+    groups.select("text.dc-callout-value")
       .transition()
       .duration(160)
-      .attr("y", d => d.y1 - 3);
+      .attr("y", d => d.y);
 
-    groups.select("tspan.dc-callout-value")
+    groups.select("text.dc-callout-value")
       .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
-
-    groups.select("tspan.dc-callout-count")
-      .text(d => {
-        if (d.zone !== expandedZone || !d.detail || d.detail.mw === 0) return "";
-        const projects = d.detail.project_count === 1 ? "project" : "projects";
-        const phases = d.detail.phase_count === 1 ? "phase" : "phases";
-        return `${d.detail.project_count} ${projects}, ${d.detail.phase_count} ${phases}`;
-      });
-
-    [1, 2, 3].forEach(i => {
-      groups.select(`tspan.dc-entry-${i}`)
-        .text(d => {
-          if (d.zone !== expandedZone || !d.detail || d.detail.mw === 0) return "";
-          const entry = d.detail.entries[i - 1];
-          if (!entry) return "";
-          const name = entry.project_name || entry.project_id;
-          const shortName = name.length > 34 ? name.slice(0, 31).trim() + "…" : name;
-          return `${shortName}: ${fmtMw(entry.value_mw)} MW`;
-        });
-    });
   }
 
   async function initScenarioMap() {
@@ -351,8 +300,6 @@
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
-    let expandedZone = null;
-
     const root = d3.select(container)
       .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
@@ -366,8 +313,6 @@
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("role", "img")
       .attr("aria-label", "Scenario map of Swedish data centre load additions by bidding zone");
-
-    const tooltip = createTooltip(container);
 
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
@@ -383,28 +328,7 @@
       .join("path")
       .attr("class", "dc-zone")
       .attr("d", path)
-      .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw))
-      .on("mousemove", function (event, d) {
-        const zone = d.properties.bidding_zone;
-        const detail = scenarioDetails[activeScenario][zone];
-        const scenario = SCENARIOS.find(s => s.id === activeScenario);
-
-        tooltip
-          .style("opacity", 1)
-          .html(`<strong>${zone}</strong><br>${scenario.fullLabel}<br>${fmtMw(detail.mw)} MW`)
-          .style("left", (event.offsetX + 14) + "px")
-          .style("top", (event.offsetY + 14) + "px");
-      })
-      .on("mouseleave", function () {
-        tooltip.style("opacity", 0);
-      })
-      .on("click", function (event, d) {
-        const zone = d.properties.bidding_zone;
-        const detail = scenarioDetails[activeScenario][zone];
-        if (!detail || detail.mw === 0) return;
-        expandedZone = expandedZone === zone ? null : zone;
-        renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
-      });
+      .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw));
 
     mapG.selectAll("text")
       .data(geojson.features)
@@ -423,24 +347,17 @@
       .attr("text-anchor", "middle")
       .text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
 
-    renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
-
-    function toggleZone(zone) {
-      expandedZone = expandedZone === zone ? null : zone;
-      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
-    }
+    renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
-      expandedZone = null;
-
       zonePaths
         .transition()
         .duration(180)
         .attr("fill", d => fillForMw(scenarioDetails[activeScenario][d.properties.bidding_zone].mw));
 
       title.text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
-      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, expandedZone, toggleZone);
+      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
     }
   }
 
