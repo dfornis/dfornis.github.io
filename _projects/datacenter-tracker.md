@@ -45,13 +45,14 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Developer</th>
         <th>Zone</th>
         <th>Type</th>
-        <th>Status</th>
+        <th>Project status</th>
+        <th>Investment decision</th>
         <th>Reported MW</th>
         <th>Est. IT load MW</th>
         <th>Est. grid-side MW</th>
         <th>Est. TWh/year</th>
         <th>Expected operation</th>
-        <th>Notes</th>
+        <th>Updated</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -62,7 +63,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity associated with the included projects, adjusted for auxiliary power use through the assigned PUE assumptions. They should not be interpretaed as average realised load. 
+The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity associated with the included projects, adjusted for auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average realised load. 
 
 <div style="font-size: 0.7em;" markdown="1">
 
@@ -71,10 +72,10 @@ The map below shows estimated additional grid load from data center projects acr
 
 | Scenario | Includes |
 | ------- | ------- |
-| Low 2030 | Projects with a confirmed investment decision, operational before 2030 |
+| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
 | Stated 2030 | All projects and phases with an announced year of operation by 2030 |
 | Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | All known projects including ones without an announced year of operation |
+| High 2035 | Close to all known projects including ones without an announced year of operation |
 
 </div>
 
@@ -86,7 +87,6 @@ The map below shows estimated additional grid load from data center projects acr
 window.DC_TRACKER_PATHS = {
   projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
   capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}",
-  assumptions: "{{ '/assets/data/datacenters/assumptions.json' | relative_url }}",
   biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}"
 };
 </script>
@@ -107,9 +107,9 @@ Capacity figures reported for data center projects are heterogeneous. A reported
 interpreted_it_load_mw
 </pre>
 
-`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is then derived by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side data center load unless a separate IT load, site load, or grid-connection capacity is reported.
+`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is derived locally in the data build script by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side data center load unless a separate IT load, site load, or grid-connection capacity is reported.
 
-Annual electricity use is estimated using an annual load factor:
+Annual electricity use is estimated in the local data build script using an annual load factor:
 
 <pre>
 estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,000,000
@@ -215,7 +215,8 @@ div#summary-box.summary-box,
 }
 
 .table-wrapper {
-  overflow-x: auto;
+  max-height: 430px;
+  overflow: auto;
   border: 1px solid #ddd;
   border-radius: 6px;
   margin-top: 0.85rem !important;
@@ -280,13 +281,6 @@ div#summary-box.summary-box,
   white-space: nowrap;
 }
 
-#tracker-table td.notes-cell {
-  max-width: 320px;
-  font-size: 10px !important;
-  line-height: 1.1 !important;
-  color: #444;
-}
-
 #tracker-table td.capacity-cell {
   min-width: 92px;
 }
@@ -324,6 +318,16 @@ div#summary-box.summary-box,
   font-size: 0.78rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
+}
+
+.detail-notes {
+  margin: 0 0 0.65rem 0;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #e0ded8;
+  background: #fff;
+  color: #444;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
 }
 
 .entry-table {
@@ -404,12 +408,11 @@ pre {
 <script>
 const DATA_PATHS = {
   projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
-  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}",
-  assumptions: "{{ '/assets/data/datacenters/assumptions.json' | relative_url }}"
+  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}"
 };
 
 let capacityEntriesByProject = {};
-let assumptionIndex = {};
+let projectRowsById = {};
 
 async function loadJson(path) {
   const response = await fetch(path);
@@ -483,55 +486,6 @@ function typeLabel(value) {
   return labels[value] || value;
 }
 
-function normalizeTypeTags(value) {
-  return splitTags(value).map(tag => tag.toLowerCase());
-}
-
-function assumptionCategory(typeValue) {
-  const tags = normalizeTypeTags(typeValue);
-
-  const hasHyperscale = tags.includes("hyperscale");
-  const hasAi = tags.includes("ai");
-  const hasHpc = tags.includes("hpc");
-  const hasColocation = tags.includes("colocation");
-  const hasResearch = tags.includes("research") || tags.includes("smr-linked");
-
-  if (hasResearch) return "Research_SMR";
-  if (hasColocation && hasAi) return "Colocation_AI";
-  if (hasColocation) return "Colocation";
-  if (hasAi && hasHpc) return "AI_HPC";
-  if (hasHyperscale && hasAi) return "Hyperscale_AI";
-  if (hasHyperscale) return "Hyperscale";
-  if (hasAi || hasHpc) return "AI_HPC";
-
-  return "Hyperscale";
-}
-
-function buildAssumptionIndex(assumptions) {
-  const index = {};
-
-  assumptions.forEach(item => {
-    index[item.assumption_id] = item;
-  });
-
-  return index;
-}
-
-function assumptionValue(id) {
-  const item = assumptionIndex[id];
-  return item ? num(item.value) : null;
-}
-
-function pueForType(typeValue) {
-  const category = assumptionCategory(typeValue);
-  return assumptionValue("PUE_" + category);
-}
-
-function loadFactorForType(typeValue) {
-  const category = assumptionCategory(typeValue);
-  return assumptionValue("LF_" + category);
-}
-
 function populateCheckboxGroup(id, values, labelFunction = value => value) {
   const container = document.getElementById(id);
   container.innerHTML = "";
@@ -577,56 +531,14 @@ function isNonLoadCapacity(entry) {
   return ["permit_backup_power", "reactor_capacity"].includes(entry.capacity_type);
 }
 
-function entryPue(entry) {
-  const direct = num(entry.pue);
-  if (direct !== null) return direct;
-  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return null;
-  return pueForType(entry.type);
-}
-
-function entryLoadFactor(entry) {
-  const direct = num(entry.annual_load_factor);
-  if (direct !== null) return direct;
-
-  const legacy = num(entry.load_factor);
-  if (legacy !== null) return legacy;
-
-  const oldProxy = num(entry.utilization_proxy);
-  if (oldProxy !== null) return oldProxy;
-
-  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return null;
-  return loadFactorForType(entry.type);
-}
-
 function estimatedGridSideMw(entry) {
   if (!entry) return null;
-
-  const explicitGrid = num(entry.estimated_grid_side_mw);
-  if (explicitGrid !== null) return explicitGrid;
-
-  const legacyGrid = num(entry.interpreted_grid_load_mw);
-  if (legacyGrid !== null) return legacyGrid;
-
-  const gridSide = num(entry.grid_side_capacity_mw);
-  if (gridSide !== null) return gridSide;
-
-  const itLoad = num(entry.interpreted_it_load_mw);
-  const pue = entryPue(entry);
-
-  if (itLoad === null || pue === null) return null;
-
-  return itLoad * pue;
+  return num(entry.estimated_grid_side_mw);
 }
 
 function estimatedTwh(entry) {
   if (!entry) return null;
-
-  const gridSideMw = estimatedGridSideMw(entry);
-  const loadFactor = entryLoadFactor(entry);
-
-  if (gridSideMw === null || loadFactor === null) return null;
-
-  return gridSideMw * loadFactor * 8760 / 1000000;
+  return num(entry.estimated_twh_year);
 }
 
 function chooseOverviewEntry(entries) {
@@ -689,7 +601,7 @@ function buildProjectRows(projects, capacityEntries) {
   const index = buildCapacityIndex(capacityEntries);
   capacityEntriesByProject = index;
 
-  return projects.map(project => {
+  const rows = projects.map(project => {
     const entries = index[project.project_id] || [];
     const overviewEntry = chooseOverviewEntry(entries);
 
@@ -699,9 +611,11 @@ function buildProjectRows(projects, capacityEntries) {
       developer: project.developer,
       bidding_zone: project.bidding_zone,
       type: project.type,
-      status: project.status,
+      project_status: project.project_status,
+      investment_decision: project.investment_decision,
       expected_operational_years: project.expected_operational_years,
       notes: project.notes,
+      last_updated: overviewEntry ? overviewEntry.last_updated : project.last_updated,
       entry_count: entries.length,
       overview_entry_id: overviewEntry ? overviewEntry.claim_id : "",
       phase: overviewEntry ? overviewEntry.phase : "",
@@ -711,10 +625,13 @@ function buildProjectRows(projects, capacityEntries) {
       interpreted_it_load_mw: overviewEntry ? overviewEntry.interpreted_it_load_mw : null,
       estimated_grid_side_mw: overviewEntry ? estimatedGridSideMw(overviewEntry) : null,
       estimated_twh_year: estimatedTwh(overviewEntry),
-      pue: overviewEntry ? entryPue(overviewEntry) : null,
-      annual_load_factor: overviewEntry ? entryLoadFactor(overviewEntry) : null
+      pue: overviewEntry ? overviewEntry.pue : null,
+      annual_load_factor: overviewEntry ? overviewEntry.annual_load_factor : null
     };
   });
+
+  projectRowsById = Object.fromEntries(rows.map(row => [row.project_id, row]));
+  return rows;
 }
 
 function getFilters() {
@@ -736,7 +653,7 @@ function rowMatches(row, filters) {
 
   const statusMatch =
     filters.statuses.length === 0 ||
-    filters.statuses.includes(row.status);
+    filters.statuses.includes(row.project_status);
 
   const typeMatch =
     filters.types.length === 0 ||
@@ -781,6 +698,7 @@ function renderSummary(rows) {
 
 function renderEntryTable(projectId) {
   const entries = capacityEntriesByProject[projectId] || [];
+  const project = projectRowsById[projectId];
 
   if (entries.length === 0) {
     return "<div class='muted'>No capacity entries available.</div>";
@@ -788,11 +706,16 @@ function renderEntryTable(projectId) {
 
   let html = "";
   html += "<div class='detail-title'>Capacity phases and reported entries</div>";
+  if (project && project.notes) {
+    html += "<div class='detail-notes'><strong>Project notes:</strong> " + escapeHtml(project.notes) + "</div>";
+  }
   html += "<table class='entry-table'>";
   html += "<thead><tr>";
   html += "<th>Entry ID</th>";
   html += "<th>Phase</th>";
   html += "<th>Capacity type</th>";
+  html += "<th>Status</th>";
+  html += "<th>Investment</th>";
   html += "<th>Scenario</th>";
   html += "<th>Start year</th>";
   html += "<th>Reported MW</th>";
@@ -801,6 +724,7 @@ function renderEntryTable(projectId) {
   html += "<th>TWh/year</th>";
   html += "<th>PUE</th>";
   html += "<th>Load factor</th>";
+  html += "<th>Updated</th>";
   html += "<th>Notes</th>";
   html += "</tr></thead><tbody>";
 
@@ -811,14 +735,17 @@ function renderEntryTable(projectId) {
     html += "<td>" + escapeHtml(entry.claim_id) + "</td>";
     html += "<td>" + escapeHtml(entry.phase) + "</td>";
     html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
+    html += "<td>" + escapeHtml(entry.capacity_status) + "</td>";
+    html += "<td>" + escapeHtml(entry.investment_decision) + "</td>";
     html += "<td>" + escapeHtml(scenarioText) + "</td>";
     html += "<td>" + escapeHtml(entry.start_year) + "</td>";
     html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedGridSideMw(entry), 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedTwh(entry), 1) + "</td>";
-    html += "<td class='number-cell'>" + round(entryPue(entry), 2) + "</td>";
-    html += "<td class='number-cell'>" + round(entryLoadFactor(entry), 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
+    html += "<td class='number-cell'>" + round(entry.annual_load_factor, 2) + "</td>";
+    html += "<td>" + escapeHtml(entry.last_updated) + "</td>";
     html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
     html += "</tr>";
   });
@@ -860,13 +787,14 @@ function renderTable(rows) {
       "<td>" + escapeHtml(row.developer) + "</td>" +
       "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
       "<td>" + escapeHtml(row.type) + "</td>" +
-      "<td>" + escapeHtml(row.status) + "</td>" +
+      "<td>" + escapeHtml(row.project_status) + "</td>" +
+      "<td>" + escapeHtml(row.investment_decision) + "</td>" +
       "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
       "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_grid_side_mw, 0) + "</td>" +
       "<td class='number-cell'>" + round(row.estimated_twh_year, 1) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
-      "<td class='notes-cell'>" + escapeHtml(truncateText(row.notes)) + "</td>";
+      "<td>" + escapeHtml(row.last_updated) + "</td>";
 
     tbody.appendChild(tr);
 
@@ -875,7 +803,7 @@ function renderTable(rows) {
     detailTr.id = "details-" + row.project_id;
 
     detailTr.innerHTML =
-      "<td class='detail-cell' colspan='12'>" +
+      "<td class='detail-cell' colspan='13'>" +
       renderEntryTable(row.project_id) +
       "</td>";
 
@@ -894,9 +822,6 @@ function redraw(rows) {
 async function initTracker() {
   const projects = await loadJson(DATA_PATHS.projects);
   const capacity = await loadJson(DATA_PATHS.capacity);
-  const assumptions = await loadJson(DATA_PATHS.assumptions);
-
-  assumptionIndex = buildAssumptionIndex(assumptions);
 
   const rows = buildProjectRows(projects, capacity);
 
@@ -907,7 +832,7 @@ async function initTracker() {
 
   populateCheckboxGroup(
     "filter-status-group",
-    uniqueSorted(rows.map(r => r.status))
+    uniqueSorted(rows.map(r => r.project_status))
   );
 
   const allTypes = uniqueSorted(
