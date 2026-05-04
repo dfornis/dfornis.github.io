@@ -340,13 +340,6 @@
       .attr("text-anchor", "middle")
       .text(d => d.properties.bidding_zone);
 
-    const title = svg.append("text")
-      .attr("class", "dc-map-title")
-      .attr("x", width / 2)
-      .attr("y", 24)
-      .attr("text-anchor", "middle")
-      .text(SCENARIOS.find(s => s.id === activeScenario).fullLabel);
-
     renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
 
     function updateScenario(scenarioId) {
