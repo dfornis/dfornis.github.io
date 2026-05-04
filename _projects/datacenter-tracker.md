@@ -75,14 +75,6 @@ The map below shows estimated additional grid load from data center projects acr
 
 </div>
 
-<figure class="scenario-map-figure">
-  <img
-    src="{{ '/assets/images/datacenter_scenario_map_2.png' | relative_url }}"
-    alt="Scenario map of interpreted data-centre load additions in Swedish bidding zones"
-    class="scenario-map-image"
-  >
-</figure>
-
 <div id="dc-scenario-map"></div>
 
 <script>
