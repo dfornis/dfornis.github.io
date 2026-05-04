@@ -83,6 +83,21 @@ The map below shows estimated additional grid load from data center projects acr
   >
 </figure>
 
+<div id="dc-scenario-map"></div>
+
+<script>
+window.DC_TRACKER_PATHS = {
+  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
+  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}",
+  assumptions: "{{ '/assets/data/datacenters/assumptions.json' | relative_url }}",
+  biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}"
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
+
+
 ## Capacity interpretation and derived estimates
 
 Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
@@ -104,6 +119,8 @@ The annual load factor is a facility-type level parameter for annualisation. It 
 The assumptions simplify the data center energy accounting approach in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) uses a higher data center load-factor assumption when converting between energy and capacity, while Regen and National Grid DSO (2025) highlight that storage, cloud, AI training, and AI inference can have different load shapes.
 
 <style>
+@import url("{{ '/assets/css/datacenter-tracker-map.css' | relative_url }}");
+  
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
