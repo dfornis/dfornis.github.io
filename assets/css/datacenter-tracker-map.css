@@ -62,7 +62,7 @@
   stroke: #555;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
-  cursor: default;
+  cursor: pointer;
 }
 
 .dc-zone:hover {
@@ -84,16 +84,50 @@
   fill: #111;
 }
 
-.dc-map-legend-title {
-  font-size: 14px;
-  font-weight: 500;
-  fill: #111;
+.dc-callout {
+  cursor: pointer;
 }
 
-.dc-map-legend-label {
-  font-size: 13px;
+.dc-callout.empty {
+  cursor: default;
+}
+
+.dc-callout-line {
+  fill: none;
+  stroke: #5c5c5c;
+  stroke-width: 0.75;
+  opacity: 0.58;
+  vector-effect: non-scaling-stroke;
+}
+
+.dc-callout.empty .dc-callout-line {
+  opacity: 0.28;
+}
+
+.dc-callout-text {
   fill: #111;
   dominant-baseline: middle;
+}
+
+.dc-callout-value {
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.dc-callout:not(.empty):hover .dc-callout-value {
+  text-decoration: underline;
+}
+
+.dc-callout-count {
+  font-size: 10px;
+  font-weight: 500;
+  fill: #555;
+}
+
+.dc-callout-entry {
+  font-size: 9px;
+  font-weight: 400;
+  fill: #555;
 }
 
 .dc-map-tooltip {
@@ -115,12 +149,19 @@
     font-size: 18px;
   }
 
-  .dc-zone-label,
-  .dc-map-legend-label {
+  .dc-zone-label {
     font-size: 12px;
   }
 
-  .dc-map-legend-title {
-    font-size: 13px;
+  .dc-callout-value {
+    font-size: 12px;
+  }
+
+  .dc-callout-count {
+    font-size: 9px;
+  }
+
+  .dc-callout-entry {
+    font-size: 8px;
   }
 }
