@@ -7,7 +7,6 @@
 
 (function () {
   const DEFAULT_SCENARIO = "stated_2030";
-  const DEFAULT_PHASES_VISIBLE = false;
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
@@ -134,7 +133,7 @@
     return centroidY + (offsets[zone] || 0);
   }
 
-  function renderControls(container, activeScenario, phasesVisible, onScenarioChange, onPhasesToggle) {
+  function renderControls(container, activeScenario, onScenarioChange) {
     const controls = d3.select(container)
       .append("div")
       .attr("class", "dc-map-controls");
@@ -153,20 +152,6 @@
           d3.select(this).classed("active", true);
           onScenarioChange(scenario.id);
         });
-    });
-
-    const phaseToggle = controls.append("button")
-      .attr("type", "button")
-      .attr("class", "dc-phase-toggle" + (phasesVisible ? " active" : ""))
-      .attr("aria-pressed", phasesVisible ? "true" : "false")
-      .html("<span>Toggle</span><span>phases</span>");
-
-    phaseToggle.on("click", function () {
-      const nextVisible = d3.select(this).attr("aria-pressed") !== "true";
-      d3.select(this)
-        .classed("active", nextVisible)
-        .attr("aria-pressed", nextVisible ? "true" : "false");
-      onPhasesToggle(nextVisible);
     });
   }
 
@@ -258,7 +243,11 @@
           g.append("text")
             .attr("class", "dc-phase-count")
             .attr("text-anchor", "middle")
-            .attr("dy", "0.34em");
+            .attr("dy", "0.34em")
+            .attr("fill", "#ffffff")
+            .attr("font-size", 5.8)
+            .attr("font-weight", 700)
+            .attr("pointer-events", "none");
 
           return g;
         },
@@ -334,11 +323,19 @@
       .attr("fill", "#2f3331");
 
     lines.forEach((line, index) => {
-      text.append("tspan")
+      const tspan = text.append("tspan")
         .attr("x", 12)
         .attr("dy", index === 0 ? 0 : lineHeight)
-        .attr("class", index === 0 ? "title" : index === 1 ? "meta" : "project")
+        .attr("class", index === 0 ? "title" : index === 1 ? "meta" : "phase")
         .text(line);
+
+      if (index === 0) {
+        tspan.attr("font-weight", 700).attr("fill", "#2f3331");
+      } else if (index === 1) {
+        tspan.attr("fill", "#666").attr("font-size", 9.5);
+      } else {
+        tspan.attr("fill", "#333");
+      }
     });
   }
 
@@ -363,12 +360,11 @@
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
-    let phasesVisible = DEFAULT_PHASES_VISIBLE;
 
     const root = d3.select(container)
       .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
-    renderControls(container, activeScenario, phasesVisible, updateScenario, updatePhases);
+    renderControls(container, activeScenario, updateScenario);
 
     const figure = root.append("div")
       .attr("class", "dc-scenario-svg-wrap");
@@ -410,10 +406,10 @@
 
     renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
     renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
-    updatePhases(phasesVisible);
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
+      popupG.selectAll("*").remove();
 
       zonePaths
         .transition()
@@ -424,13 +420,6 @@
 
       renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
       renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
-    }
-
-    function updatePhases(visible) {
-      phasesVisible = visible;
-      popupG.selectAll("*").remove();
-      root.classed("phases-visible", phasesVisible);
-      phaseG.classed("hidden", !phasesVisible);
     }
   }
 
