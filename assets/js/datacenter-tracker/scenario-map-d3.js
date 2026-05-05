@@ -7,7 +7,7 @@
 
 (function () {
   const DEFAULT_SCENARIO = "stated_2030";
-  const DEFAULT_PROJECTS_VISIBLE = false;
+  const DEFAULT_PHASES_VISIBLE = false;
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
@@ -53,12 +53,12 @@
     return text.length > length ? text.slice(0, length - 1).trim() + "..." : text;
   }
 
-  function projectRadius(group) {
-    if (group.project_count <= 1) {
+  function phaseRadius(group) {
+    if (group.phase_count <= 1) {
       return 4.1;
     }
 
-    return Math.min(8.2, 5.6 + group.project_count * 0.8);
+    return Math.min(8.8, 5.4 + group.phase_count * 0.7);
   }
 
   function emptyScenarioZoneObject() {
@@ -91,18 +91,18 @@
     return out;
   }
 
-  function buildProjectGroups(projectRows, capacityRows) {
-    const capacityByProject = d3.group(capacityRows || [], d => d.project_id);
+  function buildPhaseGroups(capacityRows, activeScenario) {
     const grouped = d3.group(
-      (projectRows || []).filter(d => num(d.latitude) !== null && num(d.longitude) !== null),
+      (capacityRows || []).filter(d =>
+        num(d.latitude) !== null &&
+        num(d.longitude) !== null &&
+        splitTags(d.scenario_tag).includes(activeScenario)
+      ),
       d => `${d.municipality}|${d.latitude}|${d.longitude}`
     );
 
-    return Array.from(grouped, ([key, projects]) => {
-      const first = projects[0];
-      const capacityEntries = projects.flatMap(project => capacityByProject.get(project.project_id) || []);
-      const totalReportedMw = d3.sum(projects, project => num(project.max_reported_capacity_mw) || 0);
-      const maxGridSideMw = d3.max(capacityEntries, entry => num(entry.estimated_grid_side_mw) || 0) || 0;
+    return Array.from(grouped, ([key, phases]) => {
+      const first = phases[0];
 
       return {
         key,
@@ -112,11 +112,13 @@
         latitude: num(first.latitude),
         longitude: num(first.longitude),
         coordinate_note: first.coordinate_note,
-        projects: projects.sort((a, b) => String(a.project_name).localeCompare(String(b.project_name))),
-        capacityEntries,
-        project_count: projects.length,
-        total_reported_mw: totalReportedMw,
-        max_grid_side_mw: maxGridSideMw
+        phases: phases.sort((a, b) => {
+          const projectCompare = String(a.project_name).localeCompare(String(b.project_name));
+          if (projectCompare !== 0) return projectCompare;
+          return String(a.phase).localeCompare(String(b.phase));
+        }),
+        phase_count: phases.length,
+        project_count: new Set(phases.map(phase => phase.project_id)).size
       };
     });
   }
@@ -132,7 +134,7 @@
     return centroidY + (offsets[zone] || 0);
   }
 
-  function renderControls(container, activeScenario, projectsVisible, onScenarioChange, onProjectsToggle) {
+  function renderControls(container, activeScenario, phasesVisible, onScenarioChange, onPhasesToggle) {
     const controls = d3.select(container)
       .append("div")
       .attr("class", "dc-map-controls");
@@ -153,18 +155,18 @@
         });
     });
 
-    const projectToggle = controls.append("button")
+    const phaseToggle = controls.append("button")
       .attr("type", "button")
-      .attr("class", "dc-project-toggle" + (projectsVisible ? " active" : ""))
-      .attr("aria-pressed", projectsVisible ? "true" : "false")
-      .html("<span class=\"dc-project-toggle-dot\"></span><span>Projects</span>");
+      .attr("class", "dc-phase-toggle" + (phasesVisible ? " active" : ""))
+      .attr("aria-pressed", phasesVisible ? "true" : "false")
+      .html("<span>Toggle</span><span>phases</span>");
 
-    projectToggle.on("click", function () {
+    phaseToggle.on("click", function () {
       const nextVisible = d3.select(this).attr("aria-pressed") !== "true";
       d3.select(this)
         .classed("active", nextVisible)
         .attr("aria-pressed", nextVisible ? "true" : "false");
-      onProjectsToggle(nextVisible);
+      onPhasesToggle(nextVisible);
     });
   }
 
@@ -230,31 +232,31 @@
       .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
   }
 
-  function renderProjectLayer(projectG, popupG, projectGroups, projection, width, height) {
-    const points = projectGroups.map(group => ({
+  function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height) {
+    const points = phaseGroups.map(group => ({
       ...group,
       xy: projection([group.longitude, group.latitude])
     })).filter(group => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
 
-    const groups = projectG.selectAll("g.dc-project-point")
+    const groups = phaseG.selectAll("g.dc-phase-point")
       .data(points, d => d.key)
       .join(
         enter => {
           const g = enter.append("g")
-            .attr("class", "dc-project-point")
+            .attr("class", "dc-phase-point")
             .attr("tabindex", 0)
             .attr("role", "button")
-            .attr("aria-label", d => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}`);
+            .attr("aria-label", d => `${d.phase_count} phase${d.phase_count === 1 ? "" : "s"} in ${d.municipality}`);
 
           g.append("circle")
-            .attr("class", "dc-project-dot")
+            .attr("class", "dc-phase-dot")
             .attr("fill", "#6f7f76")
             .attr("fill-opacity", 0.72)
             .attr("stroke", "#fbf8f0")
             .attr("stroke-width", 1.1);
 
           g.append("text")
-            .attr("class", "dc-project-count")
+            .attr("class", "dc-phase-count")
             .attr("text-anchor", "middle")
             .attr("dy", "0.34em");
 
@@ -268,44 +270,44 @@
       .attr("transform", d => `translate(${d.xy[0]},${d.xy[1]})`)
       .on("click", function (event, d) {
         event.stopPropagation();
-        showProjectPopup(popupG, d, width, height);
+        showPhasePopup(popupG, d, width, height);
       })
       .on("keydown", function (event, d) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          showProjectPopup(popupG, d, width, height);
+          showPhasePopup(popupG, d, width, height);
         }
       });
 
-    groups.select("circle.dc-project-dot")
-      .attr("r", projectRadius);
+    groups.select("circle.dc-phase-dot")
+      .attr("r", phaseRadius);
 
-    groups.select("text.dc-project-count")
-      .text(d => d.project_count > 1 ? d.project_count : "");
+    groups.select("text.dc-phase-count")
+      .text(d => d.phase_count > 1 ? d.phase_count : "");
   }
 
-  function showProjectPopup(popupG, group, width, height) {
+  function showPhasePopup(popupG, group, width, height) {
     popupG.selectAll("*").remove();
 
     const lineHeight = 15;
-    const maxProjects = 6;
-    const projectLines = group.projects.slice(0, maxProjects).map(project => {
-      const mw = num(project.max_reported_capacity_mw);
+    const maxPhases = 6;
+    const phaseLines = group.phases.slice(0, maxPhases).map(phase => {
+      const mw = num(phase.estimated_grid_side_mw);
       const mwText = mw === null ? "" : ` · ${fmtMw(mw)} MW`;
-      return `${truncate(project.project_name, 39)}${mwText}`;
+      return `${truncate(phase.project_name, 30)} · ${truncate(phase.phase, 22)}${mwText}`;
     });
 
-    if (group.projects.length > maxProjects) {
-      projectLines.push(`+${group.projects.length - maxProjects} more`);
+    if (group.phases.length > maxPhases) {
+      phaseLines.push(`+${group.phases.length - maxPhases} more`);
     }
 
     const lines = [
       `${group.municipality}`,
-      `${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${group.bidding_zone}`,
-      ...projectLines
+      `${group.phase_count} phase${group.phase_count === 1 ? "" : "s"} · ${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${group.bidding_zone}`,
+      ...phaseLines
     ];
 
-    const boxWidth = 278;
+    const boxWidth = 314;
     const boxHeight = 24 + lines.length * lineHeight;
     const pointX = group.xy[0];
     const pointY = group.xy[1];
@@ -313,11 +315,11 @@
     const y = Math.max(16, Math.min(height - boxHeight - 16, pointY - boxHeight / 2));
 
     const popup = popupG.append("g")
-      .attr("class", "dc-project-popup")
+      .attr("class", "dc-phase-popup")
       .attr("transform", `translate(${x},${y})`);
 
     popup.append("rect")
-      .attr("class", "dc-project-popup-bg")
+      .attr("class", "dc-phase-popup-bg")
       .attr("width", boxWidth)
       .attr("height", boxHeight)
       .attr("rx", 5)
@@ -326,7 +328,7 @@
       .attr("stroke-width", 1);
 
     const text = popup.append("text")
-      .attr("class", "dc-project-popup-text")
+      .attr("class", "dc-phase-popup-text")
       .attr("x", 12)
       .attr("y", 17)
       .attr("fill", "#2f3331");
@@ -350,25 +352,23 @@
     const container = document.getElementById("dc-scenario-map");
     if (!container) return;
 
-    const [geojson, scenarioZone, projects, capacity] = await Promise.all([
+    const [geojson, scenarioZone, capacity] = await Promise.all([
       loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
       loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios),
-      loadJson(paths.projects),
       loadJson(paths.capacity)
     ]);
 
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
-    const projectGroups = buildProjectGroups(projects, capacity);
 
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
-    let projectsVisible = DEFAULT_PROJECTS_VISIBLE;
+    let phasesVisible = DEFAULT_PHASES_VISIBLE;
 
     const root = d3.select(container)
       .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
-    renderControls(container, activeScenario, projectsVisible, updateScenario, updateProjects);
+    renderControls(container, activeScenario, phasesVisible, updateScenario, updatePhases);
 
     const figure = root.append("div")
       .attr("class", "dc-scenario-svg-wrap");
@@ -386,8 +386,8 @@
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
     const calloutG = svg.append("g").attr("class", "dc-callout-layer");
-    const projectG = svg.append("g").attr("class", "dc-project-layer");
-    const popupG = svg.append("g").attr("class", "dc-project-popup-layer");
+    const phaseG = svg.append("g").attr("class", "dc-phase-layer");
+    const popupG = svg.append("g").attr("class", "dc-phase-popup-layer");
 
     svg.on("click", () => popupG.selectAll("*").remove());
 
@@ -409,8 +409,8 @@
       .text(d => d.properties.bidding_zone);
 
     renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
-    renderProjectLayer(projectG, popupG, projectGroups, projection, width, height);
-    updateProjects(projectsVisible);
+    renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
+    updatePhases(phasesVisible);
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
@@ -423,13 +423,14 @@
         ));
 
       renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
+      renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
     }
 
-    function updateProjects(visible) {
-      projectsVisible = visible;
+    function updatePhases(visible) {
+      phasesVisible = visible;
       popupG.selectAll("*").remove();
-      root.classed("projects-visible", projectsVisible);
-      projectG.classed("hidden", !projectsVisible);
+      root.classed("phases-visible", phasesVisible);
+      phaseG.classed("hidden", !phasesVisible);
     }
   }
 
