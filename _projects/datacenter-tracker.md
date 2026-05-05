@@ -63,7 +63,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated additional grid load from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. Note that these indicate the maximum grid-side capacity associated with the included projects, adjusted for auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average realised load. 
+The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use.
 
 <div style="font-size: 0.7em;" markdown="1">
 
@@ -77,6 +77,8 @@ The map below shows estimated additional grid load from data center projects acr
 | Stated 2035 | All projects and phases with an announced year of operation by 2035 |
 | High 2035 | Close to all known projects including ones without an announced year of operation |
 
+Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once. The smaller phase can still appear in the expanded project table, but it is not added on top of the full-site number.
+
 </div>
 
 <div id="dc-scenario-map"></div>
@@ -87,6 +89,7 @@ The map below shows estimated additional grid load from data center projects acr
 window.DC_TRACKER_PATHS = {
   projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
   capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}",
+  scenarioZone: "{{ '/assets/data/datacenters/scenario_zone.json' | relative_url }}",
   biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}"
 };
 </script>
@@ -716,7 +719,7 @@ function renderEntryTable(projectId) {
   html += "<th>Capacity type</th>";
   html += "<th>Status</th>";
   html += "<th>Investment</th>";
-  html += "<th>Scenario</th>";
+  html += "<th>Scenario relevance</th>";
   html += "<th>Start year</th>";
   html += "<th>Reported MW</th>";
   html += "<th>IT load MW</th>";
