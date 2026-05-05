@@ -5,16 +5,31 @@
   position: relative;
 }
 
-.dc-scenario-controls {
+.dc-map-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.55rem 0.8rem;
   align-items: center;
   justify-content: center;
   margin: 0.4rem 0 0.6rem 0;
 }
 
-.dc-scenario-button {
+.dc-scenario-controls,
+.dc-view-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.dc-view-controls {
+  border-left: 1px solid #d8d4cc;
+  padding-left: 0.75rem;
+}
+
+.dc-scenario-button,
+.dc-view-button {
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
@@ -24,6 +39,11 @@
   font-size: 0.88rem;
   line-height: 1.05;
   cursor: pointer;
+}
+
+.dc-view-button {
+  color: #555;
+  font-size: 0.78rem;
 }
 
 .dc-scenario-button span {
@@ -38,8 +58,10 @@
   color: #666;
 }
 
-.dc-scenario-button.active {
+.dc-scenario-button.active,
+.dc-view-button.active {
   border-bottom-color: #111;
+  color: #111;
 }
 
 .dc-scenario-button.active small {
@@ -62,6 +84,12 @@
   stroke: #555;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
+  transition: opacity 160ms ease;
+}
+
+.project-view .dc-zone {
+  stroke: #b8b2a8;
+  stroke-width: 0.7;
 }
 
 .dc-zone-label {
@@ -70,6 +98,10 @@
   fill: #111;
   pointer-events: none;
   dominant-baseline: middle;
+}
+
+.project-view .dc-zone-label {
+  fill: #777;
 }
 
 .dc-map-title {
@@ -95,8 +127,65 @@
   font-size: 14px;
   font-weight: 500;
   fill: #111;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   pointer-events: none;
+}
+
+.dc-project-layer.hidden,
+.dc-callout-layer.hidden {
+  display: none;
+}
+
+.dc-project-point {
+  cursor: pointer;
+  outline: none;
+}
+
+.dc-project-dot {
+  fill: #173f3b;
+  fill-opacity: 0.86;
+  stroke: #ffffff;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.dc-project-point:hover .dc-project-dot,
+.dc-project-point:focus .dc-project-dot {
+  fill-opacity: 1;
+  stroke-width: 2;
+}
+
+.dc-project-count {
+  fill: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.dc-project-popup-bg {
+  fill: #ffffff;
+  stroke: #d6d2ca;
+  stroke-width: 1;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+}
+
+.dc-project-popup-text {
+  fill: #222;
+  font-size: 11px;
+  line-height: 1.1;
+}
+
+.dc-project-popup-text .title {
+  font-weight: 600;
+}
+
+.dc-project-popup-text .meta {
+  fill: #666;
+  font-size: 10px;
+}
+
+.dc-project-popup-text .project {
+  fill: #333;
 }
 
 @media (max-width: 720px) {
@@ -110,5 +199,10 @@
 
   .dc-callout-value {
     font-size: 12px;
+  }
+
+  .dc-view-controls {
+    border-left: 0;
+    padding-left: 0;
   }
 }
