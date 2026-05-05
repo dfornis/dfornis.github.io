@@ -1,16 +1,12 @@
 /* D3/SVG scenario map for Swedish data centre tracker, with clean direct MW callout labels.
    Requires:
    - D3 v7 loaded before this script
-   - window.DC_TRACKER_PATHS with projects, capacity, biddingZones, assumptions (assumptions optional)
+   - window.DC_TRACKER_PATHS with biddingZones and scenarioZone
    - <div id="dc-scenario-map"></div>
 */
 
 (function () {
   const DEFAULT_SCENARIO = "stated_2030";
-
-  // Use "it_load" to reproduce headline scenario MW values.
-  // Use "grid_side" if you want PUE-adjusted grid-side MW and assumptions.json is available.
-  const MAP_METRIC = "grid_side";
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
@@ -35,11 +31,6 @@
     return Number.isFinite(parsed) ? parsed : null;
   }
 
-  function splitTags(value) {
-    if (!value) return [];
-    return String(value).split(";").map(x => x.trim()).filter(Boolean);
-  }
-
   function fmtMw(value) {
     const parsed = num(value) || 0;
     return Math.round(parsed).toLocaleString("en-US");
@@ -51,85 +42,6 @@
     return bin ? bin.color : BREAKS[0].color;
   }
 
-  function normalizeTypeTags(value) {
-    return splitTags(value).map(tag => tag.toLowerCase());
-  }
-
-  function assumptionCategory(typeValue) {
-    const tags = normalizeTypeTags(typeValue);
-    const hasHyperscale = tags.includes("hyperscale");
-    const hasAi = tags.includes("ai");
-    const hasHpc = tags.includes("hpc");
-    const hasColocation = tags.includes("colocation");
-    const hasResearch = tags.includes("research") || tags.includes("smr-linked");
-
-    if (hasResearch) return "Research_SMR";
-    if (hasColocation && hasAi) return "Colocation_AI";
-    if (hasColocation) return "Colocation";
-    if (hasAi && hasHpc) return "AI_HPC";
-    if (hasHyperscale && hasAi) return "Hyperscale_AI";
-    if (hasHyperscale) return "Hyperscale";
-    if (hasAi || hasHpc) return "AI_HPC";
-    return "Hyperscale";
-  }
-
-  function buildAssumptionIndex(assumptions) {
-    const index = {};
-    (assumptions || []).forEach(item => {
-      index[item.assumption_id] = item;
-    });
-    return index;
-  }
-
-  function assumptionValue(index, id) {
-    const item = index[id];
-    return item ? num(item.value) : null;
-  }
-
-  function pueForType(typeValue, assumptionIndex) {
-    const category = assumptionCategory(typeValue);
-    return assumptionValue(assumptionIndex, "PUE_" + category);
-  }
-
-  function isNonLoadCapacity(entry) {
-    return ["permit_backup_power", "reactor_capacity"].includes(entry.capacity_type);
-  }
-
-  function estimatedGridSideMw(entry, assumptionIndex) {
-    const explicitGrid = num(entry.estimated_grid_side_mw);
-    if (explicitGrid !== null) return explicitGrid;
-
-    const legacyGrid = num(entry.interpreted_grid_load_mw);
-    if (legacyGrid !== null) return legacyGrid;
-
-    const gridSide = num(entry.grid_side_capacity_mw);
-    if (gridSide !== null) return gridSide;
-
-    if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return null;
-
-    const itLoad = num(entry.interpreted_it_load_mw);
-    const directPue = num(entry.pue);
-    const pue = directPue !== null ? directPue : pueForType(entry.type, assumptionIndex);
-
-    if (itLoad === null || pue === null) return null;
-    return itLoad * pue;
-  }
-
-  function capacityValue(entry, assumptionIndex) {
-    if (MAP_METRIC === "grid_side") {
-      return estimatedGridSideMw(entry, assumptionIndex);
-    }
-    return num(entry.interpreted_it_load_mw);
-  }
-
-  function projectIndex(projects) {
-    const index = {};
-    projects.forEach(project => {
-      index[project.project_id] = project;
-    });
-    return index;
-  }
-
   function emptyScenarioZoneObject() {
     const out = {};
     SCENARIOS.forEach(s => {
@@ -138,47 +50,23 @@
         out[s.id][zone] = {
           zone,
           mw: 0,
-          entries: [],
-          projectIds: new Set()
+          project_count: 0
         };
       });
     });
     return out;
   }
 
-  function aggregateCapacityDetails(capacity, projects, assumptionIndex) {
-    const projectsById = projectIndex(projects);
+  function buildScenarioZoneDetails(scenarioZoneRows) {
     const out = emptyScenarioZoneObject();
 
-    capacity.forEach(entry => {
-      const project = projectsById[entry.project_id];
-      const zone = project ? project.bidding_zone : null;
-      if (!zone || !ZONES.includes(zone)) return;
+    (scenarioZoneRows || []).forEach(row => {
+      const scenario = row.scenario_id;
+      const zone = row.bidding_zone;
+      if (!out[scenario] || !out[scenario][zone]) return;
 
-      const value = capacityValue(entry, assumptionIndex);
-      if (value === null) return;
-
-      splitTags(entry.scenario_tag).forEach(scenario => {
-        if (!out[scenario] || !out[scenario][zone]) return;
-
-        out[scenario][zone].mw += value;
-        out[scenario][zone].projectIds.add(entry.project_id);
-        out[scenario][zone].entries.push({
-          ...entry,
-          value_mw: value,
-          project_name: project.project_name,
-          developer: project.developer
-        });
-      });
-    });
-
-    Object.values(out).forEach(zoneObj => {
-      Object.values(zoneObj).forEach(detail => {
-        detail.project_count = detail.projectIds.size;
-        detail.phase_count = detail.entries.length;
-        detail.entries.sort((a, b) => (b.value_mw || 0) - (a.value_mw || 0));
-        delete detail.projectIds;
-      });
+      out[scenario][zone].mw = num(row.grid_side_mw) ?? num(row.mw) ?? 0;
+      out[scenario][zone].project_count = num(row.n_projects) || 0;
     });
 
     return out;
@@ -287,15 +175,12 @@
     const container = document.getElementById("dc-scenario-map");
     if (!container) return;
 
-    const [geojson, projects, capacity, assumptions] = await Promise.all([
+    const [geojson, scenarioZone] = await Promise.all([
       loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
-      loadJson(paths.projects),
-      loadJson(paths.capacity),
-      paths.assumptions ? loadJson(paths.assumptions) : Promise.resolve([])
+      loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios)
     ]);
 
-    const assumptionIndex = buildAssumptionIndex(assumptions);
-    const scenarioDetails = aggregateCapacityDetails(capacity, projects, assumptionIndex);
+    const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
 
     const width = 760;
     const height = 680;
@@ -312,7 +197,7 @@
       .attr("class", "dc-scenario-svg")
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("role", "img")
-      .attr("aria-label", "Scenario map of Swedish data centre load additions by bidding zone");
+      .attr("aria-label", "Scenario map of Swedish data centre grid-side capacity by bidding zone");
 
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
