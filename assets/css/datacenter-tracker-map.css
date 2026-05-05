@@ -129,7 +129,7 @@
 
 .dc-phase-count {
   fill: #ffffff;
-  font-size: 7px;
+  font-size: 9.5px;
   font-weight: 700;
   pointer-events: none;
 }
@@ -149,17 +149,17 @@
 
 .dc-phase-popup-title {
   font-weight: 700;
-  font-size: 12px;
+  font-size: 12.8px;
 }
 
 .dc-phase-popup-meta {
   fill: #666;
-  font-size: 8.8px;
+  font-size: 9.6px;
 }
 
 .dc-phase-popup-line {
   fill: #333;
-  font-size: 8.4px;
+  font-size: 9.4px;
 }
 
 @media (max-width: 720px) {
