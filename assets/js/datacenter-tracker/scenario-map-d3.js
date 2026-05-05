@@ -60,6 +60,12 @@
     return Math.min(10.6, 6.5 + group.phase_count * 0.85);
   }
 
+  function phaseCountFontSize(group) {
+    const radius = phaseRadius(group);
+    const digits = String(group.phase_count || "").length;
+    return digits > 1 ? Math.min(10, radius * 0.98) : Math.min(10.4, radius * 1.18);
+  }
+
   function emptyScenarioZoneObject() {
     const out = {};
     SCENARIOS.forEach(s => {
@@ -245,7 +251,7 @@
             .attr("text-anchor", "middle")
             .attr("dy", "0.34em")
             .attr("fill", "#ffffff")
-            .attr("font-size", 7)
+            .attr("font-size", phaseCountFontSize)
             .attr("font-weight", 700)
             .attr("pointer-events", "none");
 
@@ -272,13 +278,14 @@
       .attr("r", phaseRadius);
 
     groups.select("text.dc-phase-count")
+      .attr("font-size", phaseCountFontSize)
       .text(d => d.phase_count > 1 ? d.phase_count : "");
   }
 
   function showPhasePopup(popupG, group, width, height) {
     popupG.selectAll("*").remove();
 
-    const lineHeight = 15;
+    const lineHeight = 16;
     const maxPhases = 6;
     const phaseLines = group.phases.slice(0, maxPhases).map(phase => {
       const mw = num(phase.estimated_grid_side_mw);
@@ -297,7 +304,7 @@
     ];
 
     const boxWidth = 314;
-    const boxHeight = 24 + lines.length * lineHeight;
+    const boxHeight = 26 + lines.length * lineHeight;
     const pointX = group.xy[0];
     const pointY = group.xy[1];
     const x = Math.max(16, Math.min(width - boxWidth - 16, pointX + (pointX > width - 320 ? -boxWidth - 14 : 16)));
@@ -330,11 +337,11 @@
         .text(line);
 
       if (index === 0) {
-        tspan.attr("font-weight", 700).attr("fill", "#2f3331").attr("font-size", 12);
+        tspan.attr("font-weight", 700).attr("fill", "#2f3331").attr("font-size", 12.8);
       } else if (index === 1) {
-        tspan.attr("fill", "#666").attr("font-size", 8.8);
+        tspan.attr("fill", "#666").attr("font-size", 9.6);
       } else {
-        tspan.attr("fill", "#333").attr("font-size", 8.4);
+        tspan.attr("fill", "#333").attr("font-size", 9.4);
       }
     });
   }
