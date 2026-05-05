@@ -19,7 +19,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 1200,
     "estimated_twh_year": 7.884,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-02-27"
   },
   {
     "claim_id": "C003",
@@ -41,7 +41,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 900,
     "estimated_twh_year": 5.913,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-06-04"
   },
   {
     "claim_id": "C004",
@@ -63,7 +63,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 720,
     "estimated_twh_year": 4.7304,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-09-24"
   },
   {
     "claim_id": "C005",
@@ -85,7 +85,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 375,
     "estimated_twh_year": 2.628,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-02-23"
   },
   {
     "claim_id": "C006",
@@ -99,7 +99,7 @@
     "interpreted_it_load_mw": 300,
     "start_year": null,
     "construction_start_year": null,
-    "scenario_tag": "high_2035",
+    "scenario_tag": "stated_2035; high_2035",
     "type": "hyperscale; AI",
     "notes": "First phase of the Strängnäs AI centre, corresponding to the original 300 MW plan before the later expansion to 750 MW. Exact construction and commissioning dates have not been publicly specified.",
     "assumption_category": "Hyperscale_AI",
@@ -107,7 +107,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 360,
     "estimated_twh_year": 2.3652,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-06-04"
   },
   {
     "claim_id": "C007",
@@ -129,7 +129,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 375,
     "estimated_twh_year": 2.628,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-08-14"
   },
   {
     "claim_id": "C008",
@@ -151,7 +151,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 300,
     "estimated_twh_year": 1.971,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-09-24"
   },
   {
     "claim_id": "C009",
@@ -173,7 +173,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 180,
     "estimated_twh_year": 1.1826,
-    "last_updated": "2026-05-04"
+    "last_updated": "2023-04-20"
   },
   {
     "claim_id": "C010",
@@ -195,7 +195,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 118.75,
     "estimated_twh_year": 0.8322,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-10-15"
   },
   {
     "claim_id": "C011",
@@ -209,7 +209,7 @@
     "interpreted_it_load_mw": null,
     "start_year": 2030,
     "construction_start_year": null,
-    "scenario_tag": null,
+    "scenario_tag": "",
     "type": "research; SMR-linked",
     "notes": "Memorandum of understanding to investigate a data centre at Studsvik supplied by small modular reactors (SMRs) of around 55 MW per reactor. Serial production of the reactors is expected no earlier than the early 2030s.",
     "assumption_category": "Research_SMR",
@@ -217,7 +217,7 @@
     "annual_load_factor": null,
     "estimated_grid_side_mw": null,
     "estimated_twh_year": null,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-10-06"
   },
   {
     "claim_id": "C012",
@@ -239,7 +239,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 37.5,
     "estimated_twh_year": 0.2628,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-01-29"
   },
   {
     "claim_id": "C013",
@@ -261,7 +261,7 @@
     "annual_load_factor": 0.6,
     "estimated_grid_side_mw": 37.8,
     "estimated_twh_year": 0.1987,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-04-22"
   },
   {
     "claim_id": "C014",
@@ -283,7 +283,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 28.75,
     "estimated_twh_year": 0.2015,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-02-12"
   },
   {
     "claim_id": "C015",
@@ -305,7 +305,7 @@
     "annual_load_factor": 0.75,
     "estimated_grid_side_mw": 24,
     "estimated_twh_year": 0.1577,
-    "last_updated": "2026-05-04"
+    "last_updated": "2023-04-20"
   },
   {
     "claim_id": "C016",
@@ -319,7 +319,7 @@
     "interpreted_it_load_mw": 20,
     "start_year": null,
     "construction_start_year": null,
-    "scenario_tag": "high_2035",
+    "scenario_tag": "stated_2030; stated_2035; high_2035",
     "type": "AI; HPC",
     "notes": "Initial 20 MW HPC phase at Marviken, expected to enter operation in 2025.",
     "assumption_category": "AI_HPC",
@@ -327,7 +327,7 @@
     "annual_load_factor": 0.8,
     "estimated_grid_side_mw": 25,
     "estimated_twh_year": 0.1752,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-08-13"
   },
   {
     "claim_id": "C017",
@@ -371,7 +371,7 @@
     "annual_load_factor": 0.6,
     "estimated_grid_side_mw": 18.9,
     "estimated_twh_year": 0.0993,
-    "last_updated": "2026-05-04"
+    "last_updated": "2026-01-01"
   },
   {
     "claim_id": "C019",
@@ -393,7 +393,7 @@
     "annual_load_factor": 0.57,
     "estimated_grid_side_mw": 10.8,
     "estimated_twh_year": 0.0539,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-10-24"
   },
   {
     "claim_id": "C020",
@@ -415,7 +415,7 @@
     "annual_load_factor": 0.57,
     "estimated_grid_side_mw": 8.1,
     "estimated_twh_year": 0.0404,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-12-03"
   },
   {
     "claim_id": "C021",
@@ -437,7 +437,7 @@
     "annual_load_factor": 0.57,
     "estimated_grid_side_mw": 1.62,
     "estimated_twh_year": 0.0081,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-10-09"
   },
   {
     "claim_id": "C022",
@@ -451,7 +451,7 @@
     "interpreted_it_load_mw": null,
     "start_year": null,
     "construction_start_year": null,
-    "scenario_tag": null,
+    "scenario_tag": "",
     "type": "hyperscale",
     "notes": "In 2021, the Land and Environment Court granted a permit for a data centre with up to 1,500 MW of installed backup-power capacity. Google has not made a final investment decision and must commence the permitted activity by 2031. The thermal capacity of the backup-power installation is not treated as IT load or grid load; no public load estimate has been identified.",
     "assumption_category": "Hyperscale",
@@ -459,7 +459,7 @@
     "annual_load_factor": null,
     "estimated_grid_side_mw": null,
     "estimated_twh_year": null,
-    "last_updated": "2026-05-04"
+    "last_updated": "2021-06-23"
   },
   {
     "claim_id": "C023",
@@ -481,6 +481,6 @@
     "annual_load_factor": 0.57,
     "estimated_grid_side_mw": 13.5,
     "estimated_twh_year": 0.0674,
-    "last_updated": "2026-05-04"
+    "last_updated": "2025-05-14"
   }
 ]
