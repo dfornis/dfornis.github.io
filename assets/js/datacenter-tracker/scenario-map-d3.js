@@ -54,10 +54,10 @@
 
   function phaseRadius(group) {
     if (group.phase_count <= 1) {
-      return 4.1;
+      return 4.9;
     }
 
-    return Math.min(8.8, 5.4 + group.phase_count * 0.7);
+    return Math.min(10.6, 6.5 + group.phase_count * 0.85);
   }
 
   function emptyScenarioZoneObject() {
@@ -245,7 +245,7 @@
             .attr("text-anchor", "middle")
             .attr("dy", "0.34em")
             .attr("fill", "#ffffff")
-            .attr("font-size", 5.8)
+            .attr("font-size", 7)
             .attr("font-weight", 700)
             .attr("pointer-events", "none");
 
@@ -283,7 +283,7 @@
     const phaseLines = group.phases.slice(0, maxPhases).map(phase => {
       const mw = num(phase.estimated_grid_side_mw);
       const mwText = mw === null ? "" : ` · ${fmtMw(mw)} MW`;
-      return `${truncate(phase.project_name, 30)} · ${truncate(phase.phase, 22)}${mwText}`;
+      return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
     });
 
     if (group.phases.length > maxPhases) {
@@ -326,15 +326,15 @@
       const tspan = text.append("tspan")
         .attr("x", 12)
         .attr("dy", index === 0 ? 0 : lineHeight)
-        .attr("class", index === 0 ? "title" : index === 1 ? "meta" : "phase")
+        .attr("class", index === 0 ? "dc-phase-popup-title" : index === 1 ? "dc-phase-popup-meta" : "dc-phase-popup-line")
         .text(line);
 
       if (index === 0) {
-        tspan.attr("font-weight", 700).attr("fill", "#2f3331");
+        tspan.attr("font-weight", 700).attr("fill", "#2f3331").attr("font-size", 12);
       } else if (index === 1) {
-        tspan.attr("fill", "#666").attr("font-size", 9.5);
+        tspan.attr("fill", "#666").attr("font-size", 8.8);
       } else {
-        tspan.attr("fill", "#333");
+        tspan.attr("fill", "#333").attr("font-size", 8.4);
       }
     });
   }
