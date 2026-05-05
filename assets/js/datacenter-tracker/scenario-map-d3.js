@@ -1,12 +1,13 @@
-/* D3/SVG scenario map for Swedish data centre tracker, with clean direct MW callout labels.
+/* D3/SVG scenario map for Swedish data centre tracker.
    Requires:
    - D3 v7 loaded before this script
-   - window.DC_TRACKER_PATHS with biddingZones and scenarioZone
+   - window.DC_TRACKER_PATHS with biddingZones, scenarioZone and projectLocations
    - <div id="dc-scenario-map"></div>
 */
 
 (function () {
   const DEFAULT_SCENARIO = "stated_2030";
+  const DEFAULT_VIEW = "zones";
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
@@ -19,10 +20,10 @@
 
   const BREAKS = [
     { min: 0, max: 0, label: "0", color: "#eef3ff" },
-    { min: 1, max: 499, label: "1–499", color: "#c6dbef" },
-    { min: 500, max: 999, label: "500–999", color: "#9ecae1" },
-    { min: 1000, max: 1499, label: "1,000–1,499", color: "#6baed6" },
-    { min: 1500, max: 2499, label: "1,500–2,499", color: "#3182bd" },
+    { min: 1, max: 499, label: "1-499", color: "#c6dbef" },
+    { min: 500, max: 999, label: "500-999", color: "#9ecae1" },
+    { min: 1000, max: 1499, label: "1,000-1,499", color: "#6baed6" },
+    { min: 1500, max: 2499, label: "1,500-2,499", color: "#3182bd" },
     { min: 2500, max: Infinity, label: "2,500+", color: "#08519c" }
   ];
 
@@ -40,6 +41,16 @@
     const mw = num(value) || 0;
     const bin = BREAKS.find(b => mw >= b.min && mw <= b.max);
     return bin ? bin.color : BREAKS[0].color;
+  }
+
+  function splitTags(value) {
+    if (!value) return [];
+    return String(value).split(";").map(x => x.trim()).filter(Boolean);
+  }
+
+  function truncate(value, length = 44) {
+    const text = String(value || "");
+    return text.length > length ? text.slice(0, length - 1).trim() + "..." : text;
   }
 
   function emptyScenarioZoneObject() {
@@ -72,6 +83,36 @@
     return out;
   }
 
+  function buildProjectGroups(projectRows, capacityRows) {
+    const capacityByProject = d3.group(capacityRows || [], d => d.project_id);
+    const grouped = d3.group(
+      (projectRows || []).filter(d => num(d.latitude) !== null && num(d.longitude) !== null),
+      d => `${d.municipality}|${d.latitude}|${d.longitude}`
+    );
+
+    return Array.from(grouped, ([key, projects]) => {
+      const first = projects[0];
+      const capacityEntries = projects.flatMap(project => capacityByProject.get(project.project_id) || []);
+      const totalReportedMw = d3.sum(projects, project => num(project.max_reported_capacity_mw) || 0);
+      const maxGridSideMw = d3.max(capacityEntries, entry => num(entry.estimated_grid_side_mw) || 0) || 0;
+
+      return {
+        key,
+        municipality: first.municipality,
+        county: first.county,
+        bidding_zone: first.bidding_zone,
+        latitude: num(first.latitude),
+        longitude: num(first.longitude),
+        coordinate_note: first.coordinate_note,
+        projects: projects.sort((a, b) => String(a.project_name).localeCompare(String(b.project_name))),
+        capacityEntries,
+        project_count: projects.length,
+        total_reported_mw: totalReportedMw,
+        max_grid_side_mw: maxGridSideMw
+      };
+    });
+  }
+
   async function loadJson(path) {
     const response = await fetch(path);
     if (!response.ok) throw new Error("Could not load " + path);
@@ -79,26 +120,48 @@
   }
 
   function calloutY(zone, centroidY) {
-    // Manual nudges keep labels balanced while preserving the geographic ordering.
     const offsets = { SE1: -12, SE2: 0, SE3: 4, SE4: 10 };
     return centroidY + (offsets[zone] || 0);
   }
 
-  function renderScenarioControls(container, activeScenario, onChange) {
+  function renderControls(container, activeScenario, activeView, onScenarioChange, onViewChange) {
     const controls = d3.select(container)
       .append("div")
+      .attr("class", "dc-map-controls");
+
+    const scenarioControls = controls.append("div")
       .attr("class", "dc-scenario-controls");
 
     SCENARIOS.forEach(scenario => {
-      controls.append("button")
+      scenarioControls.append("button")
         .attr("type", "button")
         .attr("class", "dc-scenario-button" + (scenario.id === activeScenario ? " active" : ""))
         .attr("data-scenario", scenario.id)
         .html(`<span>${scenario.label}</span><small>${scenario.year}</small>`)
         .on("click", function () {
-          controls.selectAll("button").classed("active", false);
+          scenarioControls.selectAll("button").classed("active", false);
           d3.select(this).classed("active", true);
-          onChange(scenario.id);
+          onScenarioChange(scenario.id);
+        });
+    });
+
+    const viewControls = controls.append("div")
+      .attr("class", "dc-view-controls")
+      .attr("aria-label", "Map view");
+
+    [
+      { id: "zones", label: "Zones" },
+      { id: "projects", label: "Projects" }
+    ].forEach(view => {
+      viewControls.append("button")
+        .attr("type", "button")
+        .attr("class", "dc-view-button" + (view.id === activeView ? " active" : ""))
+        .attr("data-view", view.id)
+        .text(view.label)
+        .on("click", function () {
+          viewControls.selectAll("button").classed("active", false);
+          d3.select(this).classed("active", true);
+          onViewChange(view.id);
         });
     });
   }
@@ -165,6 +228,108 @@
       .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
   }
 
+  function renderProjectLayer(projectG, popupG, projectGroups, projection, width, height) {
+    const points = projectGroups.map(group => ({
+      ...group,
+      xy: projection([group.longitude, group.latitude])
+    })).filter(group => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
+
+    const groups = projectG.selectAll("g.dc-project-point")
+      .data(points, d => d.key)
+      .join(
+        enter => {
+          const g = enter.append("g")
+            .attr("class", "dc-project-point")
+            .attr("tabindex", 0)
+            .attr("role", "button")
+            .attr("aria-label", d => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}`);
+
+          g.append("circle")
+            .attr("class", "dc-project-dot");
+
+          g.append("text")
+            .attr("class", "dc-project-count")
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.34em");
+
+          return g;
+        },
+        update => update,
+        exit => exit.remove()
+      );
+
+    groups
+      .attr("transform", d => `translate(${d.xy[0]},${d.xy[1]})`)
+      .on("click", function (event, d) {
+        event.stopPropagation();
+        showProjectPopup(popupG, d, width, height);
+      })
+      .on("keydown", function (event, d) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          showProjectPopup(popupG, d, width, height);
+        }
+      });
+
+    groups.select("circle.dc-project-dot")
+      .attr("r", d => Math.min(17, 5 + Math.sqrt(d.project_count) * 4 + Math.sqrt(d.total_reported_mw || 0) / 32));
+
+    groups.select("text.dc-project-count")
+      .text(d => d.project_count > 1 ? d.project_count : "");
+  }
+
+  function showProjectPopup(popupG, group, width, height) {
+    popupG.selectAll("*").remove();
+
+    const lineHeight = 15;
+    const maxProjects = 6;
+    const projectLines = group.projects.slice(0, maxProjects).map(project => {
+      const mw = num(project.max_reported_capacity_mw);
+      const mwText = mw === null ? "" : ` · ${fmtMw(mw)} MW`;
+      return `${truncate(project.project_name, 39)}${mwText}`;
+    });
+
+    if (group.projects.length > maxProjects) {
+      projectLines.push(`+${group.projects.length - maxProjects} more`);
+    }
+
+    const lines = [
+      `${group.municipality}`,
+      `${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${group.bidding_zone}`,
+      ...projectLines
+    ];
+
+    const boxWidth = 278;
+    const boxHeight = 24 + lines.length * lineHeight;
+    const pointX = group.xy[0];
+    const pointY = group.xy[1];
+    const x = Math.max(16, Math.min(width - boxWidth - 16, pointX + (pointX > width - 320 ? -boxWidth - 14 : 16)));
+    const y = Math.max(16, Math.min(height - boxHeight - 16, pointY - boxHeight / 2));
+
+    const popup = popupG.append("g")
+      .attr("class", "dc-project-popup")
+      .attr("transform", `translate(${x},${y})`);
+
+    popup.append("rect")
+      .attr("class", "dc-project-popup-bg")
+      .attr("width", boxWidth)
+      .attr("height", boxHeight)
+      .attr("rx", 6);
+
+    const text = popup.append("text")
+      .attr("class", "dc-project-popup-text")
+      .attr("x", 12)
+      .attr("y", 17);
+
+    lines.forEach((line, index) => {
+      text.append("tspan")
+        .attr("x", 12)
+        .attr("dy", index === 0 ? 0 : lineHeight)
+        .attr("class", index === 0 ? "title" : index === 1 ? "meta" : "project")
+        .text(line);
+    });
+  }
+
   async function initScenarioMap() {
     const paths = window.DC_TRACKER_PATHS || window.DATA_PATHS;
 
@@ -175,20 +340,25 @@
     const container = document.getElementById("dc-scenario-map");
     if (!container) return;
 
-    const [geojson, scenarioZone] = await Promise.all([
+    const [geojson, scenarioZone, projectLocations, capacity] = await Promise.all([
       loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
-      loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios)
+      loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios),
+      loadJson(paths.projectLocations || paths.project_locations || paths.projects),
+      loadJson(paths.capacity)
     ]);
 
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
+    const projectGroups = buildProjectGroups(projectLocations, capacity);
 
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
+    let activeView = DEFAULT_VIEW;
+
     const root = d3.select(container)
       .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
-    renderScenarioControls(container, activeScenario, updateScenario);
+    renderControls(container, activeScenario, activeView, updateScenario, updateView);
 
     const figure = root.append("div")
       .attr("class", "dc-scenario-svg-wrap");
@@ -202,11 +372,14 @@
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
 
-    // Fit Sweden to the left/centre, leaving room for direct callout labels.
     projection.fitExtent([[70, 35], [505, height - 35]], geojson);
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
     const calloutG = svg.append("g").attr("class", "dc-callout-layer");
+    const projectG = svg.append("g").attr("class", "dc-project-layer");
+    const popupG = svg.append("g").attr("class", "dc-project-popup-layer");
+
+    svg.on("click", () => popupG.selectAll("*").remove());
 
     const zonePaths = mapG.selectAll("path")
       .data(geojson.features)
@@ -226,19 +399,48 @@
       .text(d => d.properties.bidding_zone);
 
     renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
+    renderProjectLayer(projectG, popupG, projectGroups, projection, width, height);
+    updateView(activeView);
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
-   
-     zonePaths
-       .transition()
-       .duration(180)
-       .attr("fill", d => fillForMw(
-         scenarioDetails[activeScenario][d.properties.bidding_zone].mw
-       ));
+      if (activeView !== "zones") return;
 
-  renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
-}
+      zonePaths
+        .transition()
+        .duration(180)
+        .attr("fill", d => fillForMw(
+          scenarioDetails[activeScenario][d.properties.bidding_zone].mw
+        ));
+
+      renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
+    }
+
+    function updateView(view) {
+      activeView = view;
+      popupG.selectAll("*").remove();
+      root.classed("project-view", activeView === "projects");
+      root.classed("zone-view", activeView === "zones");
+
+      if (activeView === "projects") {
+        zonePaths
+          .transition()
+          .duration(160)
+          .attr("fill", "#f5f4ef");
+        calloutG.classed("hidden", true);
+        projectG.classed("hidden", false);
+      } else {
+        zonePaths
+          .transition()
+          .duration(160)
+          .attr("fill", d => fillForMw(
+            scenarioDetails[activeScenario][d.properties.bidding_zone].mw
+          ));
+        calloutG.classed("hidden", false);
+        projectG.classed("hidden", true);
+        renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
+      }
+    }
   }
 
   if (document.readyState === "loading") {
