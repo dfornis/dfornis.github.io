@@ -6,7 +6,7 @@ permalink: /projects/datacenter-tracker/
 
 This page tracks publicly reported plans for new data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material. 
 
-Sweden is currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availibility. Given  growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them **<here><fornborg@kth.se>**.
+Sweden is currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availibility. Given  growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them <fornborg@kth.se>.
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
@@ -63,21 +63,13 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use.
+The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use. Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once to avoid double counting.
 
 <div style="font-size: 0.7em;" markdown="1">
 
 <div class="after-table-space"></div>
 
 
-| Scenario | Includes |
-| ------- | ------- |
-| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | Close to all known projects including ones without an announced year of operation |
-
-Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once. The smaller phase can still appear in the expanded project table, but it is not added on top of the full-site number.
 
 </div>
 
@@ -97,8 +89,15 @@ window.DC_TRACKER_PATHS = {
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
 
-<div class="after-table-space"></div>
 
+| Scenario | Includes |
+| ------- | ------- |
+| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
+| High 2035 | Close to all known projects including ones without an announced year of operation |
+
+<div class="after-table-space"></div>
 
 
 
