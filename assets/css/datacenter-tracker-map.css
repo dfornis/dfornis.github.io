@@ -129,7 +129,7 @@
 
 .dc-phase-count {
   fill: #ffffff;
-  font-size: 5.8px;
+  font-size: 7px;
   font-weight: 700;
   pointer-events: none;
 }
@@ -147,18 +147,19 @@
   line-height: 1.1;
 }
 
-.dc-phase-popup-text .title {
+.dc-phase-popup-title {
   font-weight: 700;
+  font-size: 12px;
 }
 
-.dc-phase-popup-text .meta {
+.dc-phase-popup-meta {
   fill: #666;
-  font-size: 9.5px;
+  font-size: 8.8px;
 }
 
-.dc-phase-popup-text .phase,
-.dc-phase-popup-text .project {
+.dc-phase-popup-line {
   fill: #333;
+  font-size: 8.4px;
 }
 
 @media (max-width: 720px) {
