@@ -1,13 +1,13 @@
 /* D3/SVG scenario map for Swedish data centre tracker.
    Requires:
    - D3 v7 loaded before this script
-   - window.DC_TRACKER_PATHS with biddingZones, scenarioZone and projectLocations
+   - window.DC_TRACKER_PATHS with biddingZones, scenarioZone, projects and capacity
    - <div id="dc-scenario-map"></div>
 */
 
 (function () {
   const DEFAULT_SCENARIO = "stated_2030";
-  const DEFAULT_VIEW = "zones";
+  const DEFAULT_PROJECTS_VISIBLE = false;
 
   const SCENARIOS = [
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
@@ -51,6 +51,14 @@
   function truncate(value, length = 44) {
     const text = String(value || "");
     return text.length > length ? text.slice(0, length - 1).trim() + "..." : text;
+  }
+
+  function projectRadius(group) {
+    if (group.project_count <= 1) {
+      return 4.1;
+    }
+
+    return Math.min(8.2, 5.6 + group.project_count * 0.8);
   }
 
   function emptyScenarioZoneObject() {
@@ -124,7 +132,7 @@
     return centroidY + (offsets[zone] || 0);
   }
 
-  function renderControls(container, activeScenario, activeView, onScenarioChange, onViewChange) {
+  function renderControls(container, activeScenario, projectsVisible, onScenarioChange, onProjectsToggle) {
     const controls = d3.select(container)
       .append("div")
       .attr("class", "dc-map-controls");
@@ -145,24 +153,18 @@
         });
     });
 
-    const viewControls = controls.append("div")
-      .attr("class", "dc-view-controls")
-      .attr("aria-label", "Map view");
+    const projectToggle = controls.append("button")
+      .attr("type", "button")
+      .attr("class", "dc-project-toggle" + (projectsVisible ? " active" : ""))
+      .attr("aria-pressed", projectsVisible ? "true" : "false")
+      .html("<span class=\"dc-project-toggle-dot\"></span><span>Projects</span>");
 
-    [
-      { id: "zones", label: "Zones" },
-      { id: "projects", label: "Projects" }
-    ].forEach(view => {
-      viewControls.append("button")
-        .attr("type", "button")
-        .attr("class", "dc-view-button" + (view.id === activeView ? " active" : ""))
-        .attr("data-view", view.id)
-        .text(view.label)
-        .on("click", function () {
-          viewControls.selectAll("button").classed("active", false);
-          d3.select(this).classed("active", true);
-          onViewChange(view.id);
-        });
+    projectToggle.on("click", function () {
+      const nextVisible = d3.select(this).attr("aria-pressed") !== "true";
+      d3.select(this)
+        .classed("active", nextVisible)
+        .attr("aria-pressed", nextVisible ? "true" : "false");
+      onProjectsToggle(nextVisible);
     });
   }
 
@@ -245,7 +247,11 @@
             .attr("aria-label", d => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}`);
 
           g.append("circle")
-            .attr("class", "dc-project-dot");
+            .attr("class", "dc-project-dot")
+            .attr("fill", "#6f7f76")
+            .attr("fill-opacity", 0.72)
+            .attr("stroke", "#fbf8f0")
+            .attr("stroke-width", 1.1);
 
           g.append("text")
             .attr("class", "dc-project-count")
@@ -272,7 +278,7 @@
       });
 
     groups.select("circle.dc-project-dot")
-      .attr("r", d => Math.min(17, 5 + Math.sqrt(d.project_count) * 4 + Math.sqrt(d.total_reported_mw || 0) / 32));
+      .attr("r", projectRadius);
 
     groups.select("text.dc-project-count")
       .text(d => d.project_count > 1 ? d.project_count : "");
@@ -314,12 +320,16 @@
       .attr("class", "dc-project-popup-bg")
       .attr("width", boxWidth)
       .attr("height", boxHeight)
-      .attr("rx", 6);
+      .attr("rx", 5)
+      .attr("fill", "#fffdf8")
+      .attr("stroke", "#d8d2c8")
+      .attr("stroke-width", 1);
 
     const text = popup.append("text")
       .attr("class", "dc-project-popup-text")
       .attr("x", 12)
-      .attr("y", 17);
+      .attr("y", 17)
+      .attr("fill", "#2f3331");
 
     lines.forEach((line, index) => {
       text.append("tspan")
@@ -340,25 +350,25 @@
     const container = document.getElementById("dc-scenario-map");
     if (!container) return;
 
-    const [geojson, scenarioZone, projectLocations, capacity] = await Promise.all([
+    const [geojson, scenarioZone, projects, capacity] = await Promise.all([
       loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
       loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios),
-      loadJson(paths.projectLocations || paths.project_locations || paths.projects),
+      loadJson(paths.projects),
       loadJson(paths.capacity)
     ]);
 
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
-    const projectGroups = buildProjectGroups(projectLocations, capacity);
+    const projectGroups = buildProjectGroups(projects, capacity);
 
     const width = 760;
     const height = 680;
     let activeScenario = DEFAULT_SCENARIO;
-    let activeView = DEFAULT_VIEW;
+    let projectsVisible = DEFAULT_PROJECTS_VISIBLE;
 
     const root = d3.select(container)
       .attr("class", "dc-scenario-map-root dc-scenario-map-callouts");
 
-    renderControls(container, activeScenario, activeView, updateScenario, updateView);
+    renderControls(container, activeScenario, projectsVisible, updateScenario, updateProjects);
 
     const figure = root.append("div")
       .attr("class", "dc-scenario-svg-wrap");
@@ -400,11 +410,10 @@
 
     renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
     renderProjectLayer(projectG, popupG, projectGroups, projection, width, height);
-    updateView(activeView);
+    updateProjects(projectsVisible);
 
     function updateScenario(scenarioId) {
       activeScenario = scenarioId;
-      if (activeView !== "zones") return;
 
       zonePaths
         .transition()
@@ -416,30 +425,11 @@
       renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
     }
 
-    function updateView(view) {
-      activeView = view;
+    function updateProjects(visible) {
+      projectsVisible = visible;
       popupG.selectAll("*").remove();
-      root.classed("project-view", activeView === "projects");
-      root.classed("zone-view", activeView === "zones");
-
-      if (activeView === "projects") {
-        zonePaths
-          .transition()
-          .duration(160)
-          .attr("fill", "#f5f4ef");
-        calloutG.classed("hidden", true);
-        projectG.classed("hidden", false);
-      } else {
-        zonePaths
-          .transition()
-          .duration(160)
-          .attr("fill", d => fillForMw(
-            scenarioDetails[activeScenario][d.properties.bidding_zone].mw
-          ));
-        calloutG.classed("hidden", false);
-        projectG.classed("hidden", true);
-        renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails);
-      }
+      root.classed("projects-visible", projectsVisible);
+      projectG.classed("hidden", !projectsVisible);
     }
   }
 
