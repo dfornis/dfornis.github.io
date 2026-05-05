@@ -47,12 +47,12 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Type</th>
         <th>Project status</th>
         <th>Investment decision</th>
-        <th>Reported MW</th>
+        <th>Max reported MW</th>
         <th>Est. IT load MW</th>
         <th>Est. grid-side MW</th>
         <th>Est. TWh/year</th>
         <th>Expected operation</th>
-        <th>Updated</th>
+        <th>Last updated</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -544,29 +544,52 @@ function estimatedTwh(entry) {
   return num(entry.estimated_twh_year);
 }
 
-function chooseOverviewEntry(entries) {
+function isProjectHeadlineCandidate(entry) {
+  if (!entry) return false;
+  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return false;
+  return num(entry.reported_capacity_mw) !== null || num(entry.interpreted_it_load_mw) !== null;
+}
+
+function projectHeadlinePriority(capacityType) {
+  const priorities = {
+    "full_campus_potential": 1,
+    "cumulative_site_capacity": 2,
+    "it_load": 3,
+    "initial_phase_capacity": 4,
+    "incremental_expansion": 5,
+    "incremental_expansion_capacity": 5,
+    "unknown": 9
+  };
+
+  return priorities[capacityType] || 99;
+}
+
+function chooseProjectHeadlineEntry(entries) {
   if (!entries || entries.length === 0) return null;
 
-  return [...entries].sort((a, b) => {
-    const startA = num(a.start_year);
-    const startB = num(b.start_year);
+  const candidates = entries.filter(isProjectHeadlineCandidate);
+  const pool = candidates.length > 0 ? candidates : entries;
 
-    if (startA !== null && startB !== null && startA !== startB) {
-      return startA - startB;
-    }
+  return [...pool].sort((a, b) => {
+    const reportedA = num(a.reported_capacity_mw) || 0;
+    const reportedB = num(b.reported_capacity_mw) || 0;
 
-    if (startA !== null && startB === null) return -1;
-    if (startA === null && startB !== null) return 1;
+    if (reportedA !== reportedB) return reportedB - reportedA;
 
-    const pa = capacityPriority(a.capacity_type);
-    const pb = capacityPriority(b.capacity_type);
+    const gridA = estimatedGridSideMw(a) || 0;
+    const gridB = estimatedGridSideMw(b) || 0;
+
+    if (gridA !== gridB) return gridB - gridA;
+
+    const pa = projectHeadlinePriority(a.capacity_type);
+    const pb = projectHeadlinePriority(b.capacity_type);
 
     if (pa !== pb) return pa - pb;
 
-    const va = num(a.reported_capacity_mw) || 0;
-    const vb = num(b.reported_capacity_mw) || 0;
+    const startA = num(a.start_year) || 9999;
+    const startB = num(b.start_year) || 9999;
 
-    return vb - va;
+    return startA - startB;
   })[0];
 }
 
@@ -606,7 +629,7 @@ function buildProjectRows(projects, capacityEntries) {
 
   const rows = projects.map(project => {
     const entries = index[project.project_id] || [];
-    const overviewEntry = chooseOverviewEntry(entries);
+    const overviewEntry = chooseProjectHeadlineEntry(entries);
 
     return {
       project_id: project.project_id,
@@ -722,12 +745,12 @@ function renderEntryTable(projectId) {
   html += "<th>Scenario relevance</th>";
   html += "<th>Start year</th>";
   html += "<th>Reported MW</th>";
-  html += "<th>IT load MW</th>";
-  html += "<th>Grid-side MW</th>";
-  html += "<th>TWh/year</th>";
+  html += "<th>Est. IT load MW</th>";
+  html += "<th>Est. grid-side MW</th>";
+  html += "<th>Est. TWh/year</th>";
   html += "<th>PUE</th>";
   html += "<th>Load factor</th>";
-  html += "<th>Updated</th>";
+  html += "<th>Last updated</th>";
   html += "<th>Notes</th>";
   html += "</tr></thead><tbody>";
 
