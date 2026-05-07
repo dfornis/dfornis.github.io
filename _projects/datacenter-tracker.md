@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Swedish data center tracker
+img: /assets/images/datacenter_thumbnail.png
 permalink: /projects/datacenter-tracker/
 ---
 
