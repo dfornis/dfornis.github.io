@@ -430,11 +430,51 @@
     }
   }
 
+  function formatTrackerSummaryNumbers() {
+    const summary = document.getElementById("summary-box");
+    if (!summary) return;
+
+    summary.querySelectorAll("strong").forEach(node => {
+      const raw = node.textContent.replaceAll(",", "");
+      const value = Number(raw);
+      if (!Number.isFinite(value)) return;
+
+      const decimals = raw.includes(".") ? raw.split(".")[1].length : 0;
+      const formatted = value.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+
+      if (node.textContent !== formatted) {
+        node.textContent = formatted;
+      }
+    });
+  }
+
+  function initTrackerSummaryFormatting() {
+    const summary = document.getElementById("summary-box");
+    if (!summary) return;
+
+    formatTrackerSummaryNumbers();
+
+    const observer = new MutationObserver(() => {
+      formatTrackerSummaryNumbers();
+    });
+
+    observer.observe(summary, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
       initScenarioMap().catch(console.error);
+      initTrackerSummaryFormatting();
     });
   } else {
     initScenarioMap().catch(console.error);
+    initTrackerSummaryFormatting();
   }
 })();
