@@ -20,12 +20,27 @@
   gap: 0.45rem;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.dc-scenario-indicator,
+#dc-scenario-map .dc-scenario-indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background: #111;
+  border-radius: 999px;
+  transform: translateX(0);
+  transition: transform 220ms ease, width 220ms ease;
+  pointer-events: none;
 }
 
 .dc-scenario-button,
 #dc-scenario-map .dc-scenario-button {
-  border: 0;
-  border-bottom: 2px solid transparent;
+  border: 0 !important;
   background: transparent;
   color: #111;
   padding: 0.15rem 0.38rem 0.24rem 0.38rem;
@@ -55,7 +70,6 @@
 
 .dc-scenario-button.active,
 #dc-scenario-map .dc-scenario-button.active {
-  border-bottom: 3px solid #111 !important;
   color: #111;
 }
 
