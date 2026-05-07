@@ -95,7 +95,7 @@ window.DC_TRACKER_PATHS = {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260507-slider' | relative_url }}"></script>
 
 <div class="after-table-space"></div>
 
@@ -123,7 +123,7 @@ The annual load factor is a facility-type level parameter for annualisation. It 
 The assumptions simplify the data center energy accounting approach in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) uses a higher data center load-factor assumption when converting between energy and capacity, while Regen and National Grid DSO (2025) highlight that storage, cloud, AI training, and AI inference can have different load shapes.
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260507-slider' | relative_url }}");
   
 .tracker-controls {
   display: flex;
