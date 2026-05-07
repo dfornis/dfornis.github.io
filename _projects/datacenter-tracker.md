@@ -119,9 +119,69 @@ Annual electricity use is estimated in the local data build script using an annu
 estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,000,000
 </pre>
 
-The annual load factor is a facility-type level parameter for annualisation. It is defined here as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity. The parameter captures the fact that reported MW figures often represent maximum, nameplate, contracted, or headline capacity rather than average realised load. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+PUE and load factor are kept as type-level assumptions rather than project facts. That is why they no longer sit in the expanded project table. The project table should mainly show what has actually been reported for each project or phase. The assumptions below are the modelling layer used when the local build script converts IT load into grid-side MW and annual TWh.
 
-The assumptions simplify the data center energy accounting approach in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) uses a higher data center load-factor assumption when converting between energy and capacity, while Regen and National Grid DSO (2025) highlight that storage, cloud, AI training, and AI inference can have different load shapes.
+<div class="assumption-table-wrap">
+  <table class="assumption-table">
+    <thead>
+      <tr>
+        <th>Data center type</th>
+        <th>PUE</th>
+        <th>Load factor</th>
+        <th>How it is used here</th>
+        <th>Main source basis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hyperscale</td>
+        <td class="number-cell">1.20</td>
+        <td class="number-cell">0.75</td>
+        <td>Large cloud-style campuses, where the reported MW is usually treated as IT-side capacity before applying PUE.</td>
+        <td class="assumption-source">EPRI (2026) for PUE and observed hyperscale annual load factor; Shehabi et al. (2024) for the lower-PUE hyperscale context.</td>
+      </tr>
+      <tr>
+        <td>Hyperscale / AI</td>
+        <td class="number-cell">1.20</td>
+        <td class="number-cell">0.75</td>
+        <td>Hyperscale sites with substantial AI use, but still treated as large, professionally operated facilities rather than full nameplate operation all year.</td>
+        <td class="assumption-source">EPRI (2026) for hyperscale PUE and load factor; Shehabi et al. (2024) and Regen (2024) for AI workload shape and cooling context.</td>
+      </tr>
+      <tr>
+        <td>AI / HPC</td>
+        <td class="number-cell">1.25</td>
+        <td class="number-cell">0.80</td>
+        <td>Dedicated AI or high-performance compute projects, where training-style workloads can run at high annual utilisation.</td>
+        <td class="assumption-source">Shehabi et al. (2024) for AI training operational time and AI cooling assumptions; EPRI (2026) as a check against facility-level load factors.</td>
+      </tr>
+      <tr>
+        <td>Colocation / AI</td>
+        <td class="number-cell">1.35</td>
+        <td class="number-cell">0.60</td>
+        <td>Colocation sites with AI tenants or AI-ready positioning. Set a bit above conventional colocation, but below dedicated AI/HPC sites.</td>
+        <td class="assumption-source">EPRI (2026) for colocation load factor and fleet-average PUE; Regen (2024) for tenant mix and AI-driven variability.</td>
+      </tr>
+      <tr>
+        <td>Colocation</td>
+        <td class="number-cell">1.35</td>
+        <td class="number-cell">0.57</td>
+        <td>Multi-tenant colocation where headline capacity is not assumed to be fully used on average across the year.</td>
+        <td class="assumption-source">EPRI (2026) for smaller multi-tenant colocation annual load factor and PUE; Shehabi et al. (2024) for recent colocation PUE levels.</td>
+      </tr>
+      <tr>
+        <td>Research / SMR concept</td>
+        <td class="number-cell">1.25</td>
+        <td class="number-cell">0.80</td>
+        <td>Only used as a placeholder if a concept entry later gets a real IT-load or grid-load figure. Otherwise these entries are not converted into load.</td>
+        <td class="assumption-source">Aligned with AI/HPC assumptions for now; not used for scenario load unless a data center load is actually specified.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+The annual load factor is defined here as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity. It is a practical way of saying: a reported 100 MW is often not the same as 100 MW drawn every hour of the year. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+
+The assumptions simplify the data center energy accounting approach in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) and IEA (2025) are used more as broader checks against other data center energy outlooks, while Regen (2024) highlights that storage, cloud, AI training, and AI inference can have different load shapes.
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260507-slider' | relative_url }}");
@@ -377,6 +437,54 @@ div#summary-box.summary-box,
   color: #444;
   font-size: 9px !important;
   line-height: 1.1 !important;
+}
+
+.assumption-table-wrap {
+  margin: 0.75rem 0 1rem 0;
+  overflow-x: auto;
+  border: 1px solid #e0ded8;
+  border-radius: 6px;
+  background: #fffdf8;
+}
+
+.assumption-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+
+.assumption-table,
+.assumption-table thead,
+.assumption-table tbody,
+.assumption-table tr,
+.assumption-table th,
+.assumption-table td {
+  font-size: 10px !important;
+  line-height: 1.16 !important;
+}
+
+.assumption-table th,
+.assumption-table td {
+  padding: 5px 6px !important;
+  border-bottom: 1px solid #ece9e2;
+  vertical-align: top;
+  text-align: left;
+}
+
+.assumption-table th {
+  background: #f5f3ee;
+  color: #333 !important;
+  white-space: nowrap;
+  font-weight: 500 !important;
+}
+
+.assumption-table td.number-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.assumption-table .assumption-source {
+  color: #555;
 }
 
 .muted {
@@ -1021,8 +1129,6 @@ function renderEntryTable(projectId) {
   html += "<th>Est. IT load MW</th>";
   html += "<th>Est. grid-side MW</th>";
   html += "<th>Est. TWh/year</th>";
-  html += "<th>PUE</th>";
-  html += "<th>Load factor</th>";
   html += "<th>Last updated</th>";
   html += "<th>Notes</th>";
   html += "</tr></thead><tbody>";
@@ -1042,8 +1148,6 @@ function renderEntryTable(projectId) {
     html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedGridSideMw(entry), 0) + "</td>";
     html += "<td class='number-cell'>" + round(estimatedTwh(entry), 1) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.pue, 2) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.annual_load_factor, 2) + "</td>";
     html += "<td>" + escapeHtml(entry.last_updated) + "</td>";
     html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
     html += "</tr>";
