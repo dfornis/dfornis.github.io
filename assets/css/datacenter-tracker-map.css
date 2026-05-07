@@ -29,7 +29,7 @@
   color: #111;
   padding: 0.15rem 0.35rem 0.22rem 0.35rem;
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 1.06rem;
   line-height: 1.05;
   cursor: pointer;
 }
@@ -41,7 +41,7 @@
 
 .dc-scenario-button small {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   font-weight: 400;
   color: #666;
 }
@@ -74,8 +74,10 @@
 }
 
 .dc-zone-label {
-  font-size: 13px;
-  font-weight: 500;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16.9px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   fill: #111;
   pointer-events: none;
   dominant-baseline: middle;
@@ -101,10 +103,11 @@
 }
 
 .dc-callout-value {
-  font-size: 14px;
-  font-weight: 500;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 19.6px;
+  font-weight: 400;
   fill: #111;
-  letter-spacing: 0;
+  letter-spacing: 0.01em;
   pointer-events: none;
 }
 
@@ -168,10 +171,10 @@
   }
 
   .dc-zone-label {
-    font-size: 12px;
+    font-size: 15.6px;
   }
 
   .dc-callout-value {
-    font-size: 12px;
+    font-size: 16.8px;
   }
 }
