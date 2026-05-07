@@ -53,12 +53,14 @@
   color: #666;
 }
 
-.dc-scenario-button.active {
-  border-bottom-color: #111;
+.dc-scenario-button.active,
+#dc-scenario-map .dc-scenario-button.active {
+  border-bottom: 3px solid #111 !important;
   color: #111;
 }
 
-.dc-scenario-button.active small {
+.dc-scenario-button.active small,
+#dc-scenario-map .dc-scenario-button.active small {
   color: #111;
 }
 
@@ -175,14 +177,16 @@
   font-size: 12.8px;
 }
 
-.dc-phase-popup-meta {
+.dc-phase-popup-meta,
+#dc-scenario-map .dc-phase-popup-meta {
   fill: #666;
-  font-size: 9.6px;
+  font-size: 10.8px !important;
 }
 
-.dc-phase-popup-line {
+.dc-phase-popup-line,
+#dc-scenario-map .dc-phase-popup-line {
   fill: #333;
-  font-size: 9.4px;
+  font-size: 10.8px !important;
 }
 
 @media (max-width: 720px) {
@@ -207,5 +211,12 @@
   .dc-callout-value,
   #dc-scenario-map .dc-callout-value {
     font-size: 15.4px !important;
+  }
+
+  .dc-phase-popup-meta,
+  #dc-scenario-map .dc-phase-popup-meta,
+  .dc-phase-popup-line,
+  #dc-scenario-map .dc-phase-popup-line {
+    font-size: 10.4px !important;
   }
 }
