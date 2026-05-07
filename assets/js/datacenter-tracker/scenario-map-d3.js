@@ -208,6 +208,21 @@
     return centroidY + (offsets[zone] || 0);
   }
 
+  function positionScenarioIndicator(scenarioControls) {
+    const controlsNode = scenarioControls.node();
+    const activeNode = scenarioControls.select("button.active").node();
+    const indicator = scenarioControls.select(".dc-scenario-indicator");
+
+    if (!controlsNode || !activeNode || indicator.empty()) return;
+
+    const controlsBox = controlsNode.getBoundingClientRect();
+    const activeBox = activeNode.getBoundingClientRect();
+
+    indicator
+      .style("width", `${activeBox.width}px`)
+      .style("transform", `translateX(${activeBox.left - controlsBox.left}px)`);
+  }
+
   function renderControls(container, activeScenario, onScenarioChange) {
     const controls = d3.select(container)
       .append("div")
@@ -215,6 +230,10 @@
 
     const scenarioControls = controls.append("div")
       .attr("class", "dc-scenario-controls");
+
+    scenarioControls.append("div")
+      .attr("class", "dc-scenario-indicator")
+      .attr("aria-hidden", "true");
 
     SCENARIOS.forEach(scenario => {
       scenarioControls.append("button")
@@ -225,9 +244,13 @@
         .on("click", function () {
           scenarioControls.selectAll("button").classed("active", false);
           d3.select(this).classed("active", true);
+          positionScenarioIndicator(scenarioControls);
           onScenarioChange(scenario.id);
         });
     });
+
+    requestAnimationFrame(() => positionScenarioIndicator(scenarioControls));
+    window.addEventListener("resize", () => positionScenarioIndicator(scenarioControls));
   }
 
   function renderCallouts(calloutG, geojson, path, activeScenario, scenarioDetails) {
