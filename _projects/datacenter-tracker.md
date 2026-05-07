@@ -6,7 +6,7 @@ permalink: /projects/datacenter-tracker/
 
 This page tracks publicly reported plans for new data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material. 
 
-Sweden is currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availibility. Given  growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them <fornborg@kth.se>.
+Sweden is currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availibility. Given  growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to **<here><fornborg@kth.se>**.
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
@@ -47,10 +47,10 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Type</th>
         <th>Project status</th>
         <th>Investment decision</th>
-        <th>Max reported MW</th>
-        <th>Est. IT load MW</th>
-        <th>Est. grid-side MW</th>
-        <th>Est. TWh/year</th>
+        <th id="reported-mw-header">Max reported MW</th>
+        <th id="it-load-mw-header">Est. IT load MW</th>
+        <th id="grid-side-mw-header">Est. grid-side MW</th>
+        <th id="twh-header">Est. TWh/year</th>
         <th>Expected operation</th>
         <th>Last updated</th>
       </tr>
@@ -63,13 +63,21 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use. Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once to avoid double counting.
+The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use.
 
 <div style="font-size: 0.7em;" markdown="1">
 
 <div class="after-table-space"></div>
 
 
+| Scenario | Includes |
+| ------- | ------- |
+| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
+| High 2035 | Close to all known projects including ones without an announced year of operation |
+
+Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once. The smaller phase can still appear in the expanded project table, but it is not added on top of the full-site number.
 
 </div>
 
@@ -89,15 +97,8 @@ window.DC_TRACKER_PATHS = {
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}"></script>
 
-
-| Scenario | Includes |
-| ------- | ------- |
-| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | Close to all known projects including ones without an announced year of operation |
-
 <div class="after-table-space"></div>
+
 
 
 
@@ -386,6 +387,144 @@ div#summary-box.summary-box,
   height: 1.25rem;
 }
 
+.dc-scenario-map-root {
+  max-width: 760px;
+  margin: 0.8rem auto 1.8rem auto;
+}
+
+.dc-map-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  align-items: center;
+  margin-bottom: 0.45rem;
+}
+
+.dc-scenario-controls {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.dc-scenario-button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #2f3331;
+  padding: 0.12rem 0.34rem 0.2rem 0.34rem;
+  cursor: pointer;
+  font-size: 10px !important;
+  line-height: 1.05 !important;
+  min-width: 46px;
+}
+
+.dc-scenario-button span,
+.dc-scenario-button small {
+  display: block;
+  letter-spacing: 0;
+}
+
+.dc-scenario-button small {
+  color: #777;
+  margin-top: 0.08rem;
+}
+
+.dc-scenario-button.active {
+  border-bottom-color: #2f3331;
+  color: #111;
+}
+
+.dc-scenario-svg-wrap {
+  width: 100%;
+}
+
+.dc-scenario-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dc-zone {
+  stroke: #fff;
+  stroke-width: 1.1;
+  transition: fill 0.16s ease;
+}
+
+.dc-zone-label {
+  fill: #4b5356;
+  font-size: 10px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.dc-callout-line {
+  stroke: #8a9295;
+  stroke-width: 0.8;
+  stroke-dasharray: 2 3;
+}
+
+.dc-callout-value {
+  fill: #2f383b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.dc-callout.empty {
+  opacity: 0.45;
+}
+
+.dc-phase-point {
+  cursor: pointer;
+  outline: none;
+}
+
+.dc-phase-dot {
+  fill: #6f7f76;
+  fill-opacity: 0.72;
+  stroke: #fbf8f0;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.dc-phase-point:hover .dc-phase-dot,
+.dc-phase-point:focus .dc-phase-dot {
+  fill-opacity: 0.9;
+  stroke-width: 1.6;
+}
+
+.dc-phase-count {
+  fill: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.dc-phase-popup-bg {
+  fill: #fffdf8;
+  stroke: #d6d2ca;
+  stroke-width: 1;
+}
+
+.dc-phase-popup-text {
+  fill: #333;
+  font-size: 10px;
+}
+
+.dc-phase-popup-title {
+  font-weight: 700;
+  font-size: 12.8px;
+}
+
+.dc-phase-popup-meta {
+  fill: #666;
+  font-size: 9.6px;
+}
+
+.dc-phase-popup-line {
+  fill: #333;
+  font-size: 9.4px;
+}
+
 pre {
   font-size: 11px !important;
   line-height: 1.25 !important;
@@ -543,6 +682,126 @@ function estimatedTwh(entry) {
   return num(entry.estimated_twh_year);
 }
 
+function scenarioTimeYear(entry) {
+  const years = [entry.start_year, entry.construction_start_year]
+    .map(value => {
+      const match = String(value || "").match(/^[0-9]{4}/);
+      return match ? Number(match[0]) : null;
+    })
+    .filter(value => value !== null);
+
+  return years.length ? Math.min(...years) : null;
+}
+
+function isScenarioEligible(entry) {
+  return num(entry.interpreted_it_load_mw) !== null && !isNonLoadCapacity(entry);
+}
+
+function isSiteTotalCapacity(entry) {
+  return ["full_campus_potential", "cumulative_site_capacity"].includes(entry.capacity_type);
+}
+
+function isAdditiveCapacity(entry) {
+  return ["incremental_expansion", "incremental_expansion_capacity"].includes(entry.capacity_type);
+}
+
+function entryMatchesScenarioDirectly(entry, scenarioId) {
+  if (!isScenarioEligible(entry)) return false;
+
+  const year = scenarioTimeYear(entry);
+
+  if (scenarioId === "low_2030") {
+    return entry.investment_decision === "yes" && year !== null && year <= 2030;
+  }
+
+  if (scenarioId === "stated_2030") {
+    return year !== null && year <= 2030;
+  }
+
+  if (scenarioId === "stated_2035") {
+    return year !== null && year <= 2035;
+  }
+
+  if (scenarioId === "high_2035") {
+    return true;
+  }
+
+  return false;
+}
+
+function scenarioSort(a, b) {
+  const gridA = estimatedGridSideMw(a) ?? -Infinity;
+  const gridB = estimatedGridSideMw(b) ?? -Infinity;
+
+  if (gridA !== gridB) return gridB - gridA;
+
+  const yearA = scenarioTimeYear(a) ?? 9999;
+  const yearB = scenarioTimeYear(b) ?? 9999;
+
+  return yearA - yearB;
+}
+
+function chooseScenarioAccountingEntries(entries) {
+  const siteTotals = entries.filter(isSiteTotalCapacity);
+
+  if (siteTotals.length > 0) {
+    return [...siteTotals].sort(scenarioSort).slice(0, 1);
+  }
+
+  const additiveEntries = entries.filter(isAdditiveCapacity);
+  const baselineEntries = entries.filter(entry => !isAdditiveCapacity(entry));
+
+  if (additiveEntries.length > 0) {
+    if (baselineEntries.length === 0) return additiveEntries;
+
+    const baseline = [...baselineEntries].sort(scenarioSort).slice(0, 1);
+    return [...baseline, ...additiveEntries];
+  }
+
+  return [...entries].sort(scenarioSort).slice(0, 1);
+}
+
+function scenarioAccountingEntries(row, filters) {
+  if (!filters.scenarios || filters.scenarios.length === 0) return null;
+
+  const entries = capacityEntriesByProject[row.project_id] || [];
+  const directEntries = entries.filter(entry =>
+    filters.scenarios.some(scenario => entryMatchesScenarioDirectly(entry, scenario))
+  );
+
+  const deduped = Array.from(
+    new Map(directEntries.map(entry => [entry.claim_id, entry])).values()
+  );
+
+  return chooseScenarioAccountingEntries(deduped);
+}
+
+function sumEntries(entries, fieldFunction) {
+  return entries.reduce((sum, entry) => sum + (fieldFunction(entry) || 0), 0);
+}
+
+function rowMetrics(row, filters) {
+  const scenarioEntries = scenarioAccountingEntries(row, filters);
+
+  if (scenarioEntries === null) {
+    return {
+      reported_capacity_mw: num(row.reported_capacity_mw),
+      interpreted_it_load_mw: num(row.interpreted_it_load_mw),
+      estimated_grid_side_mw: num(row.estimated_grid_side_mw),
+      estimated_twh_year: num(row.estimated_twh_year),
+      capacity_basis: row.capacity_basis
+    };
+  }
+
+  return {
+    reported_capacity_mw: sumEntries(scenarioEntries, entry => num(entry.reported_capacity_mw)),
+    interpreted_it_load_mw: sumEntries(scenarioEntries, entry => num(entry.interpreted_it_load_mw)),
+    estimated_grid_side_mw: sumEntries(scenarioEntries, estimatedGridSideMw),
+    estimated_twh_year: sumEntries(scenarioEntries, estimatedTwh),
+    capacity_basis: scenarioEntries.length === 1 ? scenarioEntries[0].capacity_type : "scenario sum"
+  };
+}
+
 function isProjectHeadlineCandidate(entry) {
   if (!entry) return false;
   if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return false;
@@ -694,23 +953,23 @@ function rowMatches(row, filters) {
   return zoneMatch && statusMatch && typeMatch && scenarioMatch;
 }
 
-function renderSummary(rows) {
+function renderSummary(rows, filters) {
   const totalProjects = rows.length;
 
   const totalReportedMw = rows.reduce((sum, row) => {
-    return sum + (num(row.reported_capacity_mw) || 0);
+    return sum + (rowMetrics(row, filters).reported_capacity_mw || 0);
   }, 0);
 
   const totalItLoadMw = rows.reduce((sum, row) => {
-    return sum + (num(row.interpreted_it_load_mw) || 0);
+    return sum + (rowMetrics(row, filters).interpreted_it_load_mw || 0);
   }, 0);
 
   const totalGridLoadMw = rows.reduce((sum, row) => {
-    return sum + (num(row.estimated_grid_side_mw) || 0);
+    return sum + (rowMetrics(row, filters).estimated_grid_side_mw || 0);
   }, 0);
 
   const totalTwh = rows.reduce((sum, row) => {
-    return sum + (num(row.estimated_twh_year) || 0);
+    return sum + (rowMetrics(row, filters).estimated_twh_year || 0);
   }, 0);
 
   document.getElementById("summary-box").innerHTML =
@@ -791,19 +1050,30 @@ function toggleDetails(projectId) {
   button.textContent = isOpen ? "+" : "–";
 }
 
-function renderTable(rows) {
+function updateCapacityHeaders(filters) {
+  const scenarioMode = filters.scenarios.length > 0;
+
+  document.getElementById("reported-mw-header").textContent = scenarioMode ? "Scenario reported MW" : "Max reported MW";
+  document.getElementById("it-load-mw-header").textContent = scenarioMode ? "Scenario IT load MW" : "Est. IT load MW";
+  document.getElementById("grid-side-mw-header").textContent = scenarioMode ? "Scenario grid-side MW" : "Est. grid-side MW";
+  document.getElementById("twh-header").textContent = scenarioMode ? "Scenario TWh/year" : "Est. TWh/year";
+}
+
+function renderTable(rows, filters) {
   const tbody = document.querySelector("#tracker-table tbody");
   tbody.innerHTML = "";
 
   rows.forEach(row => {
+    const metrics = rowMetrics(row, filters);
+
     const tr = document.createElement("tr");
     tr.className = "project-row";
 
     const detailButton =
       "<button class='toggle-button' id='toggle-" + escapeHtml(row.project_id) + "' onclick=\"toggleDetails('" + escapeHtml(row.project_id) + "')\">+</button>";
 
-    const capacityBasisInfo = row.capacity_basis
-      ? "<br><span class='muted'>" + escapeHtml(row.capacity_basis) + "</span>"
+    const capacityBasisInfo = metrics.capacity_basis
+      ? "<br><span class='muted'>" + escapeHtml(metrics.capacity_basis) + "</span>"
       : "";
 
     tr.innerHTML =
@@ -814,10 +1084,10 @@ function renderTable(rows) {
       "<td>" + escapeHtml(row.type) + "</td>" +
       "<td>" + escapeHtml(row.project_status) + "</td>" +
       "<td>" + escapeHtml(row.investment_decision) + "</td>" +
-      "<td class='number-cell capacity-cell'>" + round(row.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
-      "<td class='number-cell'>" + round(row.interpreted_it_load_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(row.estimated_grid_side_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(row.estimated_twh_year, 1) + "</td>" +
+      "<td class='number-cell capacity-cell'>" + round(metrics.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
+      "<td class='number-cell'>" + round(metrics.interpreted_it_load_mw, 0) + "</td>" +
+      "<td class='number-cell'>" + round(metrics.estimated_grid_side_mw, 0) + "</td>" +
+      "<td class='number-cell'>" + round(metrics.estimated_twh_year, 1) + "</td>" +
       "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
       "<td>" + escapeHtml(row.last_updated) + "</td>";
 
@@ -840,8 +1110,9 @@ function redraw(rows) {
   const filters = getFilters();
   const filtered = rows.filter(row => rowMatches(row, filters));
 
-  renderSummary(filtered);
-  renderTable(filtered);
+  updateCapacityHeaders(filters);
+  renderSummary(filtered, filters);
+  renderTable(filtered, filters);
 }
 
 async function initTracker() {
