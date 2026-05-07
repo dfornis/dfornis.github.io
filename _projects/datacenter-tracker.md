@@ -64,23 +64,11 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be read as average realised electricity use.
+The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
 
-<div style="font-size: 0.7em;" markdown="1">
 
 <div class="after-table-space"></div>
 
-
-| Scenario | Includes |
-| ------- | ------- |
-| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | Close to all known projects including ones without an announced year of operation |
-
-Where a project has both an earlier phase and a later full-site capacity, the scenario map counts the project once. The smaller phase can still appear in the expanded project table, but it is not added on top of the full-site number.
-
-</div>
 
 <div id="dc-scenario-map"></div>
 
@@ -100,6 +88,15 @@ window.DC_TRACKER_PATHS = {
 
 <div class="after-table-space"></div>
 
+
+| Scenario | Includes |
+| ------- | ------- |
+| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
+| High 2035 | Close to all known projects including ones without an announced year of operation |
+
+<div class="after-table-space"></div>
 
 
 
