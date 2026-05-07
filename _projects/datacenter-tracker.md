@@ -119,7 +119,9 @@ Annual electricity use is estimated in the local data build script using an annu
 estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,000,000
 </pre>
 
-PUE and load factor are kept as type-level assumptions rather than project facts. That is why they no longer sit in the expanded project table. The project table should mainly show what has actually been reported for each project or phase. The assumptions below are the modelling layer used when the local build script converts IT load into grid-side MW and annual TWh.
+Reported capacity figures need two additional assumptions before they can be compared as electricity demand. PUE is used to move from IT load to total facility load, including cooling and other site electricity use. The load factor is used to annualise capacity: it describes average realised grid-side load as a share of reported or estimated grid-side/nameplate capacity.
+
+The table gives the type-level assumptions used in the calculations. They are not measurements of individual Swedish facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
 
 <div class="assumption-table-wrap">
   <table class="assumption-table">
@@ -128,8 +130,7 @@ PUE and load factor are kept as type-level assumptions rather than project facts
         <th>Data center type</th>
         <th>PUE</th>
         <th>Load factor</th>
-        <th>How it is used here</th>
-        <th>Main source basis</th>
+        <th>Adapted from</th>
       </tr>
     </thead>
     <tbody>
@@ -137,51 +138,37 @@ PUE and load factor are kept as type-level assumptions rather than project facts
         <td>Hyperscale</td>
         <td class="number-cell">1.20</td>
         <td class="number-cell">0.75</td>
-        <td>Large cloud-style campuses, where the reported MW is usually treated as IT-side capacity before applying PUE.</td>
-        <td class="assumption-source">EPRI (2026) for PUE and observed hyperscale annual load factor; Shehabi et al. (2024) for the lower-PUE hyperscale context.</td>
+        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024)</td>
       </tr>
       <tr>
         <td>Hyperscale / AI</td>
         <td class="number-cell">1.20</td>
         <td class="number-cell">0.75</td>
-        <td>Hyperscale sites with substantial AI use, but still treated as large, professionally operated facilities rather than full nameplate operation all year.</td>
-        <td class="assumption-source">EPRI (2026) for hyperscale PUE and load factor; Shehabi et al. (2024) and Regen (2024) for AI workload shape and cooling context.</td>
+        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024); Regen (2024)</td>
       </tr>
       <tr>
         <td>AI / HPC</td>
         <td class="number-cell">1.25</td>
         <td class="number-cell">0.80</td>
-        <td>Dedicated AI or high-performance compute projects, where training-style workloads can run at high annual utilisation.</td>
-        <td class="assumption-source">Shehabi et al. (2024) for AI training operational time and AI cooling assumptions; EPRI (2026) as a check against facility-level load factors.</td>
+        <td class="assumption-source">Shehabi et al. (2024); EPRI (2026)</td>
       </tr>
       <tr>
         <td>Colocation / AI</td>
         <td class="number-cell">1.35</td>
         <td class="number-cell">0.60</td>
-        <td>Colocation sites with AI tenants or AI-ready positioning. Set a bit above conventional colocation, but below dedicated AI/HPC sites.</td>
-        <td class="assumption-source">EPRI (2026) for colocation load factor and fleet-average PUE; Regen (2024) for tenant mix and AI-driven variability.</td>
+        <td class="assumption-source">EPRI (2026); Regen (2024); Shehabi et al. (2024)</td>
       </tr>
       <tr>
         <td>Colocation</td>
         <td class="number-cell">1.35</td>
         <td class="number-cell">0.57</td>
-        <td>Multi-tenant colocation where headline capacity is not assumed to be fully used on average across the year.</td>
-        <td class="assumption-source">EPRI (2026) for smaller multi-tenant colocation annual load factor and PUE; Shehabi et al. (2024) for recent colocation PUE levels.</td>
-      </tr>
-      <tr>
-        <td>Research / SMR concept</td>
-        <td class="number-cell">1.25</td>
-        <td class="number-cell">0.80</td>
-        <td>Only used as a placeholder if a concept entry later gets a real IT-load or grid-load figure. Otherwise these entries are not converted into load.</td>
-        <td class="assumption-source">Aligned with AI/HPC assumptions for now; not used for scenario load unless a data center load is actually specified.</td>
+        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024)</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-The annual load factor is defined here as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity. It is a practical way of saying: a reported 100 MW is often not the same as 100 MW drawn every hour of the year. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
-
-The assumptions simplify the data center energy accounting approach in Shehabi et al. (2024), which distinguishes between rated power, maximum power, operational power, idle power, annual average power, and server operational time. In this tracker, Shehabi et al. are used mainly to inform the relative ranking between workload categories, while more facility-level grid-planning sources are used to motivate the load-factor assumptions. EPRI (2026), for example, distinguishes nominal IT capacity, non-IT facility load, ramp-up, annual load factors, hourly utilization, and realised peak demand. E3 (2024) and IEA (2025) are used more as broader checks against other data center energy outlooks, while Regen (2024) highlights that storage, cloud, AI training, and AI inference can have different load shapes.
+The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260507-slider' | relative_url }}");
@@ -554,7 +541,7 @@ div#summary-box.summary-box,
 }
 
 .dc-zone {
-  stroke: #fff;
+  stroke: #6f7474;
   stroke-width: 1.1;
   transition: fill 0.16s ease;
 }
