@@ -413,9 +413,9 @@ div#summary-box.summary-box,
   color: #2f3331;
   padding: 0.12rem 0.34rem 0.2rem 0.34rem;
   cursor: pointer;
-  font-size: 10px !important;
+  font-size: 12px !important;
   line-height: 1.05 !important;
-  min-width: 46px;
+  min-width: 55px;
 }
 
 .dc-scenario-button span,
@@ -452,8 +452,10 @@ div#summary-box.summary-box,
 
 .dc-zone-label {
   fill: #4b5356;
-  font-size: 10px;
-  font-weight: 600;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
   pointer-events: none;
 }
 
@@ -465,8 +467,10 @@ div#summary-box.summary-box,
 
 .dc-callout-value {
   fill: #2f383b;
-  font-size: 11px;
-  font-weight: 600;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 15.4px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
 }
 
 .dc-callout.empty {
@@ -587,6 +591,16 @@ function round(value, digits = 1) {
   const parsed = num(value);
   if (parsed === null) return "";
   return parsed.toFixed(digits);
+}
+
+function formatNumber(value, digits = 0) {
+  const parsed = num(value);
+  if (parsed === null) return "";
+
+  return parsed.toLocaleString("en-US", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  });
 }
 
 function truncateText(text, maxLength = 240) {
@@ -974,10 +988,10 @@ function renderSummary(rows, filters) {
 
   document.getElementById("summary-box").innerHTML =
     "<strong>" + totalProjects + "</strong> projects shown · " +
-    "<strong>" + round(totalReportedMw, 0) + "</strong> reported MW · " +
-    "<strong>" + round(totalItLoadMw, 0) + "</strong> interpreted IT load MW · " +
-    "<strong>" + round(totalGridLoadMw, 0) + "</strong> estimated grid-side MW · " +
-    "<strong>" + round(totalTwh, 1) + "</strong> estimated TWh/year";
+    "<strong>" + formatNumber(totalReportedMw, 0) + "</strong> reported MW · " +
+    "<strong>" + formatNumber(totalItLoadMw, 0) + "</strong> interpreted IT load MW · " +
+    "<strong>" + formatNumber(totalGridLoadMw, 0) + "</strong> estimated grid-side MW · " +
+    "<strong>" + formatNumber(totalTwh, 1) + "</strong> estimated TWh/year";
 }
 
 function renderEntryTable(projectId) {
