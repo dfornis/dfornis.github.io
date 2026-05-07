@@ -66,6 +66,75 @@
     return digits > 1 ? Math.min(10, radius * 0.98) : Math.min(10.4, radius * 1.18);
   }
 
+  function resolvePhaseOverlaps(points, width, height) {
+    const nodes = points.map((point, index) => ({
+      ...point,
+      index,
+      anchorX: point.xy[0],
+      anchorY: point.xy[1],
+      displayX: point.xy[0],
+      displayY: point.xy[1],
+      radius: phaseRadius(point)
+    }));
+
+    const minPadding = 5.5;
+    const maxShift = 32;
+
+    for (let step = 0; step < 90; step += 1) {
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const a = nodes[i];
+          const b = nodes[j];
+          let dx = b.displayX - a.displayX;
+          let dy = b.displayY - a.displayY;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          const minDistance = a.radius + b.radius + minPadding;
+
+          if (distance >= minDistance) continue;
+
+          if (distance < 0.01) {
+            const angle = (a.index + b.index + 1) * 2.399;
+            dx = Math.cos(angle);
+            dy = Math.sin(angle);
+            distance = 1;
+          }
+
+          const push = (minDistance - distance) / 2;
+          const ux = dx / distance;
+          const uy = dy / distance;
+
+          a.displayX -= ux * push;
+          a.displayY -= uy * push;
+          b.displayX += ux * push;
+          b.displayY += uy * push;
+        }
+      }
+
+      nodes.forEach(node => {
+        node.displayX += (node.anchorX - node.displayX) * 0.035;
+        node.displayY += (node.anchorY - node.displayY) * 0.035;
+
+        const dx = node.displayX - node.anchorX;
+        const dy = node.displayY - node.anchorY;
+        const shift = Math.sqrt(dx * dx + dy * dy);
+
+        if (shift > maxShift) {
+          node.displayX = node.anchorX + (dx / shift) * maxShift;
+          node.displayY = node.anchorY + (dy / shift) * maxShift;
+        }
+
+        node.displayX = Math.max(18, Math.min(width - 18, node.displayX));
+        node.displayY = Math.max(18, Math.min(height - 18, node.displayY));
+      });
+    }
+
+    return nodes.map(node => ({
+      ...node,
+      xy: [node.displayX, node.displayY],
+      hasOffset: Math.hypot(node.displayX - node.anchorX, node.displayY - node.anchorY) > 2.5
+    }));
+  }
+
   function emptyScenarioZoneObject() {
     const out = {};
     SCENARIOS.forEach(s => {
@@ -224,10 +293,12 @@
   }
 
   function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height) {
-    const points = phaseGroups.map(group => ({
+    const projectedPoints = phaseGroups.map(group => ({
       ...group,
       xy: projection([group.longitude, group.latitude])
     })).filter(group => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
+
+    const points = resolvePhaseOverlaps(projectedPoints, width, height);
 
     const groups = phaseG.selectAll("g.dc-phase-point")
       .data(points, d => d.key)
@@ -238,6 +309,9 @@
             .attr("tabindex", 0)
             .attr("role", "button")
             .attr("aria-label", d => `${d.phase_count} phase${d.phase_count === 1 ? "" : "s"} in ${d.municipality}`);
+
+          g.append("line")
+            .attr("class", "dc-phase-anchor");
 
           g.append("circle")
             .attr("class", "dc-phase-dot")
@@ -273,6 +347,13 @@
           showPhasePopup(popupG, d, width, height);
         }
       });
+
+    groups.select("line.dc-phase-anchor")
+      .attr("x1", d => d.anchorX - d.xy[0])
+      .attr("y1", d => d.anchorY - d.xy[1])
+      .attr("x2", 0)
+      .attr("y2", 0)
+      .attr("opacity", d => d.hasOffset ? 1 : 0);
 
     groups.select("circle.dc-phase-dot")
       .attr("r", phaseRadius);
