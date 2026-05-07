@@ -139,20 +139,6 @@
     return centroidY + (offsets[zone] || 0);
   }
 
-  function zoneLabelPoint(feature, path) {
-    const zone = feature.properties.bidding_zone;
-    const centroid = path.centroid(feature);
-    const offsets = {
-      SE1: [8, -4],
-      SE2: [-18, -2],
-      SE3: [-16, 8],
-      SE4: [-12, 2]
-    };
-    const offset = offsets[zone] || [0, 0];
-
-    return [centroid[0] + offset[0], centroid[1] + offset[1]];
-  }
-
   function renderControls(container, activeScenario, onScenarioChange) {
     const controls = d3.select(container)
       .append("div")
@@ -419,8 +405,8 @@
       .data(geojson.features)
       .join("text")
       .attr("class", "dc-zone-label")
-      .attr("x", d => zoneLabelPoint(d, path)[0])
-      .attr("y", d => zoneLabelPoint(d, path)[1])
+      .attr("x", d => path.centroid(d)[0])
+      .attr("y", d => path.centroid(d)[1])
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
       .text(d => d.properties.bidding_zone);
