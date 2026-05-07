@@ -22,16 +22,18 @@
   justify-content: center;
 }
 
-.dc-scenario-button {
+.dc-scenario-button,
+#dc-scenario-map .dc-scenario-button {
   border: 0;
   border-bottom: 2px solid transparent;
   background: transparent;
   color: #111;
   padding: 0.15rem 0.35rem 0.22rem 0.35rem;
   font: inherit;
-  font-size: 1.06rem;
+  font-size: 12px !important;
   line-height: 1.05;
   cursor: pointer;
+  min-width: 55px;
 }
 
 .dc-scenario-button span {
@@ -39,9 +41,10 @@
   font-weight: 500;
 }
 
-.dc-scenario-button small {
+.dc-scenario-button small,
+#dc-scenario-map .dc-scenario-button small {
   display: block;
-  font-size: 0.82rem;
+  font-size: 0.82em !important;
   font-weight: 400;
   color: #666;
 }
@@ -73,7 +76,8 @@
   vector-effect: non-scaling-stroke;
 }
 
-.dc-zone-label {
+.dc-zone-label,
+#dc-scenario-map .dc-zone-label {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
   font-size: 13px !important;
   font-weight: 400 !important;
@@ -102,7 +106,8 @@
   opacity: 0.22;
 }
 
-.dc-callout-value {
+.dc-callout-value,
+#dc-scenario-map .dc-callout-value {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
   font-size: 15.4px !important;
   font-weight: 400 !important;
@@ -170,11 +175,13 @@
     font-size: 18px;
   }
 
-  .dc-zone-label {
+  .dc-zone-label,
+  #dc-scenario-map .dc-zone-label {
     font-size: 13px !important;
   }
 
-  .dc-callout-value {
+  .dc-callout-value,
+  #dc-scenario-map .dc-callout-value {
     font-size: 15.4px !important;
   }
 }
