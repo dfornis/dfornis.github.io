@@ -1,6 +1,7 @@
 [
   {
     "project_id": "P001",
+    "country": "SE",
     "project_name": "EdgeConneX Skellefteå gigawatt campus",
     "developer": "EdgeConneX",
     "bidding_zone": "SE1",
@@ -20,6 +21,7 @@
   },
   {
     "project_id": "P002",
+    "country": "SE",
     "project_name": "Brookfield AI-center Strängnäs",
     "developer": "Brookfield Asset Management",
     "bidding_zone": "SE3",
@@ -39,6 +41,7 @@
   },
   {
     "project_id": "P003",
+    "country": "SE",
     "project_name": "EcoDataCenter Borlänge; Kvarnsveden",
     "developer": "EcoDataCenter",
     "bidding_zone": "SE3",
@@ -58,6 +61,7 @@
   },
   {
     "project_id": "P004",
+    "country": "SE",
     "project_name": "atNorth Sollefteå; Hamre Industrial Park",
     "developer": "atNorth",
     "bidding_zone": "SE2",
@@ -77,6 +81,7 @@
   },
   {
     "project_id": "P005",
+    "country": "SE",
     "project_name": "EdgeMode HPC Marviken",
     "developer": "EdgeMode; Vertical Data",
     "bidding_zone": "SE3",
@@ -96,6 +101,7 @@
   },
   {
     "project_id": "P006",
+    "country": "SE",
     "project_name": "EcoDataCenter 2 Östersund",
     "developer": "EcoDataCenter",
     "bidding_zone": "SE2",
@@ -115,6 +121,7 @@
   },
   {
     "project_id": "P007",
+    "country": "SE",
     "project_name": "Nyköping SMR-datacenter",
     "developer": "Blykalla; Evroc; Studsvik",
     "bidding_zone": "SE3",
@@ -134,6 +141,7 @@
   },
   {
     "project_id": "P008",
+    "country": "SE",
     "project_name": "atNorth SWE02 Stockholm",
     "developer": "atNorth",
     "bidding_zone": "SE3",
@@ -153,6 +161,7 @@
   },
   {
     "project_id": "P009",
+    "country": "SE",
     "project_name": "Conapto Stockholm 5 North",
     "developer": "Conapto",
     "bidding_zone": "SE3",
@@ -172,6 +181,7 @@
   },
   {
     "project_id": "P010",
+    "country": "SE",
     "project_name": "Mistral AI & EcoDataCenter AI-center",
     "developer": "Mistral AI; EcoDataCenter",
     "bidding_zone": "SE3",
@@ -191,6 +201,7 @@
   },
   {
     "project_id": "P011",
+    "country": "SE",
     "project_name": "Evroc AI-datacenter Arlandastad",
     "developer": "Evroc",
     "bidding_zone": "SE3",
@@ -210,6 +221,7 @@
   },
   {
     "project_id": "P013",
+    "country": "SE",
     "project_name": "ScandiDC I Eskilstuna",
     "developer": "Scandinavian Data Centers; Enaco",
     "bidding_zone": "SE3",
@@ -229,6 +241,7 @@
   },
   {
     "project_id": "P014",
+    "country": "SE",
     "project_name": "GlobalConnect Stockholm expansion",
     "developer": "GlobalConnect",
     "bidding_zone": "SE3",
@@ -248,6 +261,7 @@
   },
   {
     "project_id": "P015",
+    "country": "SE",
     "project_name": "Google Horndal; Avesta",
     "developer": "Google; DSC International AB",
     "bidding_zone": "SE3",
@@ -264,5 +278,65 @@
     "latitude": 60.294,
     "longitude": 16.414,
     "coordinate_note": "Approximate point for Horndal locality."
+  },
+  {
+    "project_id": "P016",
+    "country": "NO",
+    "project_name": "Google Skien data center",
+    "developer": "Google Norge",
+    "bidding_zone": "NO2",
+    "county": "Telemark",
+    "municipality": "Skien",
+    "type": "hyperscale; cloud",
+    "project_status": "Under construction",
+    "investment_decision": "yes",
+    "construction_start_years": "2024",
+    "expected_operational_years": "2026",
+    "max_reported_capacity_mw": 240,
+    "notes": "Google data center in Skien. Construction started in 2024, first phase has been allocated 240 MW, and operation is expected in 2026.",
+    "last_updated": "2024-02-07",
+    "latitude": 59.2096,
+    "longitude": 9.609,
+    "coordinate_note": "Approximate point for Skien municipality seat."
+  },
+  {
+    "project_id": "P022",
+    "country": "NO",
+    "project_name": "Bulk N01 Campus",
+    "developer": "Bulk Infrastructure",
+    "bidding_zone": "NO2",
+    "county": "Agder",
+    "municipality": "Kristiansand",
+    "type": "colocation",
+    "project_status": "Under construction",
+    "investment_decision": "yes",
+    "construction_start_years": null,
+    "expected_operational_years": null,
+    "max_reported_capacity_mw": 600,
+    "notes": "Bulk N01 Campus in Kristiansand. Secondary source reports DCM102 under construction and wider campus provisioned for up to 600 MW; primary-source follow-up is needed.",
+    "last_updated": "2026-05-13",
+    "latitude": 58.1467,
+    "longitude": 7.9956,
+    "coordinate_note": "Approximate point for Kristiansand municipality seat."
+  },
+  {
+    "project_id": "P023",
+    "country": "NO",
+    "project_name": "Green Mountain Kalberg / Undheim",
+    "developer": "Green Mountain",
+    "bidding_zone": "NO2",
+    "county": "Rogaland",
+    "municipality": "Time",
+    "type": "colocation",
+    "project_status": "Planned",
+    "investment_decision": "no",
+    "construction_start_years": null,
+    "expected_operational_years": null,
+    "max_reported_capacity_mw": null,
+    "notes": "Potential Green Mountain data center at Kalberg/Undheim in Time municipality. A dispensation application was submitted, but only non-binding customer interest and no public MW claim were identified.",
+    "last_updated": "2023-10-09",
+    "latitude": 58.7354,
+    "longitude": 5.6477,
+    "coordinate_note": "Approximate point for Bryne municipality seat in Time."
   }
 ]
