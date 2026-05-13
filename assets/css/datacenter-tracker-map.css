@@ -81,7 +81,7 @@
 }
 
 .dc-scenario-svg-wrap {
-  max-width: 760px;
+  max-width: 820px;
   margin: 0 auto;
 }
 
@@ -96,6 +96,12 @@
   stroke: #6f7474;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
+}
+
+.dc-zone.highlight,
+#dc-scenario-map .dc-zone.highlight {
+  stroke: #242828;
+  stroke-width: 1.55;
 }
 
 .dc-zone-label,
@@ -138,6 +144,60 @@
   fill: #2f383b;
   letter-spacing: 0.01em;
   pointer-events: none;
+}
+
+.dc-country-callout-layer,
+#dc-scenario-map .dc-country-callout-layer {
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.dc-country-callout-line,
+#dc-scenario-map .dc-country-callout-line {
+  stroke: #555d5b !important;
+  stroke-width: 0.82 !important;
+  stroke-linecap: round;
+  stroke-dasharray: 3 4;
+  opacity: 0.46;
+  vector-effect: non-scaling-stroke;
+  shape-rendering: geometricPrecision;
+}
+
+.dc-capacity-country-label,
+#dc-scenario-map .dc-capacity-country-label {
+  fill: #5f6667;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.dc-capacity-row,
+#dc-scenario-map .dc-capacity-row {
+  cursor: pointer;
+  outline: none;
+}
+
+.dc-capacity-row.empty,
+#dc-scenario-map .dc-capacity-row.empty {
+  opacity: 0.47;
+}
+
+.dc-capacity-row.highlight .dc-capacity-zone,
+.dc-capacity-row.highlight .dc-capacity-value,
+#dc-scenario-map .dc-capacity-row.highlight .dc-capacity-zone,
+#dc-scenario-map .dc-capacity-row.highlight .dc-capacity-value {
+  fill: #111;
+  font-weight: 600 !important;
+}
+
+.dc-capacity-zone,
+.dc-capacity-value,
+#dc-scenario-map .dc-capacity-zone,
+#dc-scenario-map .dc-capacity-value {
+  fill: #2f383b;
+  font-size: 14.2px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em;
 }
 
 .dc-phase-point {

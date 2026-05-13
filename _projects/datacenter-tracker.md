@@ -1,17 +1,22 @@
 ---
 layout: page
-title: Swedish data center tracker
+title: Nordic data center tracker
 img: /assets/images/datacenter_thumbnail_2.png
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported plans for new data center projects in Sweden. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Swedish bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material. 
+This page tracks publicly reported plans for new data center projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.
 
-Sweden is currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availibility. Given  growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
+The Nordic countries are currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availability. Given growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
 <div class="tracker-controls">
+
+  <details class="filter-dropdown">
+    <summary>Country</summary>
+    <div id="filter-country-group" class="checkbox-filter-options"></div>
+  </details>
 
   <details class="filter-dropdown">
     <summary>Bidding zone</summary>
@@ -44,6 +49,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th></th>
         <th>Project</th>
         <th>Developer</th>
+        <th>Country</th>
         <th>Zone</th>
         <th>Type</th>
         <th>Project status</th>
@@ -64,7 +70,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows grid-side capacity from data center projects across Swedish bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
+The map below shows grid-side capacity from data center projects across Nordic bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
 
 
 <div class="after-table-space"></div>
@@ -84,7 +90,7 @@ window.DC_TRACKER_PATHS = {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260507-slider' | relative_url }}"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260513-nordic-offset' | relative_url }}"></script>
 
 <div class="after-table-space"></div>
 
@@ -118,7 +124,7 @@ estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,0
 
 Reported capacity figures need two additional assumptions before they can be compared as electricity demand. PUE is used to move from IT load to total facility load, including cooling and other site electricity use. The load factor is used to annualise capacity: it describes average realised grid-side load as a share of reported or estimated grid-side/nameplate capacity.
 
-The table gives the type-level assumptions used in the calculations. They are not measurements of individual Swedish facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+The table gives the type-level assumptions used in the calculations. They are not measurements of individual Nordic facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
 
 <div class="assumption-table-wrap">
   <table class="assumption-table">
@@ -168,7 +174,7 @@ The table gives the type-level assumptions used in the calculations. They are no
 The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260507-slider' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260513-nordic-offset' | relative_url }}");
   
 .tracker-controls {
   display: flex;
@@ -721,6 +727,16 @@ function scenarioLabel(value) {
   return labels[value] || value;
 }
 
+function countryLabel(value) {
+  const labels = {
+    "SE": "Sweden",
+    "NO": "Norway",
+    "FI": "Finland"
+  };
+
+  return labels[value] || value;
+}
+
 function typeLabel(value) {
   const labels = {
     "hyperscale": "Hyperscale",
@@ -1000,6 +1016,7 @@ function buildProjectRows(projects, capacityEntries) {
       project_id: project.project_id,
       project_name: project.project_name,
       developer: project.developer,
+      country: project.country,
       bidding_zone: project.bidding_zone,
       type: project.type,
       project_status: project.project_status,
@@ -1027,6 +1044,7 @@ function buildProjectRows(projects, capacityEntries) {
 
 function getFilters() {
   return {
+    countries: getCheckedValues("filter-country-group"),
     zones: getCheckedValues("filter-zone-group"),
     statuses: getCheckedValues("filter-status-group"),
     types: getCheckedValues("filter-type-group"),
@@ -1037,6 +1055,10 @@ function getFilters() {
 function rowMatches(row, filters) {
   const rowTypeTags = splitTags(row.type);
   const entries = capacityEntriesByProject[row.project_id] || [];
+
+  const countryMatch =
+    filters.countries.length === 0 ||
+    filters.countries.includes(row.country);
 
   const zoneMatch =
     filters.zones.length === 0 ||
@@ -1057,7 +1079,7 @@ function rowMatches(row, filters) {
       return filters.scenarios.some(scenario => entryScenarios.includes(scenario));
     });
 
-  return zoneMatch && statusMatch && typeMatch && scenarioMatch;
+  return countryMatch && zoneMatch && statusMatch && typeMatch && scenarioMatch;
 }
 
 function renderSummary(rows, filters) {
@@ -1103,6 +1125,7 @@ function renderEntryTable(projectId) {
   html += "<table class='entry-table'>";
   html += "<thead><tr>";
   html += "<th>Entry ID</th>";
+  html += "<th>Country</th>";
   html += "<th>Phase</th>";
   html += "<th>Capacity type</th>";
   html += "<th>Status</th>";
@@ -1122,6 +1145,7 @@ function renderEntryTable(projectId) {
 
     html += "<tr>";
     html += "<td>" + escapeHtml(entry.claim_id) + "</td>";
+    html += "<td>" + escapeHtml(countryLabel(entry.country)) + "</td>";
     html += "<td>" + escapeHtml(entry.phase) + "</td>";
     html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
     html += "<td>" + escapeHtml(entry.capacity_status) + "</td>";
@@ -1183,6 +1207,7 @@ function renderTable(rows, filters) {
       "<td>" + detailButton + "</td>" +
       "<td class='project-cell'>" + escapeHtml(row.project_name) + "</td>" +
       "<td>" + escapeHtml(row.developer) + "</td>" +
+      "<td>" + escapeHtml(countryLabel(row.country)) + "</td>" +
       "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
       "<td>" + escapeHtml(row.type) + "</td>" +
       "<td>" + escapeHtml(row.project_status) + "</td>" +
@@ -1201,7 +1226,7 @@ function renderTable(rows, filters) {
     detailTr.id = "details-" + row.project_id;
 
     detailTr.innerHTML =
-      "<td class='detail-cell' colspan='13'>" +
+      "<td class='detail-cell' colspan='14'>" +
       renderEntryTable(row.project_id) +
       "</td>";
 
@@ -1223,6 +1248,12 @@ async function initTracker() {
   const capacity = await loadJson(DATA_PATHS.capacity);
 
   const rows = buildProjectRows(projects, capacity);
+
+  populateCheckboxGroup(
+    "filter-country-group",
+    uniqueSorted(rows.map(r => r.country)),
+    countryLabel
+  );
 
   populateCheckboxGroup(
     "filter-zone-group",
