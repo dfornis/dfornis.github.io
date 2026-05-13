@@ -90,7 +90,7 @@ window.DC_TRACKER_PATHS = {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260513-nordic-offset' | relative_url }}"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-nordic-labels' | relative_url }}"></script>
 
 <div class="after-table-space"></div>
 
@@ -174,7 +174,7 @@ The table gives the type-level assumptions used in the calculations. They are no
 The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260513-nordic-offset' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-nordic-labels' | relative_url }}");
   
 .tracker-controls {
   display: flex;

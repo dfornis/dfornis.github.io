@@ -25,9 +25,22 @@
   ];
 
   const COUNTRY_OFFSETS = {
-    NO: [-42, 18],
-    SE: [0, 0],
-    FI: [42, 18]
+    NO: [-98, 50],
+    SE: [8, -14],
+    FI: [112, 24]
+  };
+
+  const ZONE_LABEL_OFFSETS = {
+    NO1: [58, 2],
+    NO2: [-58, 12],
+    NO3: [-62, -6],
+    NO4: [-58, -20],
+    NO5: [-58, 2],
+    SE1: [58, -12],
+    SE2: [58, 0],
+    SE3: [58, 12],
+    SE4: [52, 12],
+    FI: [-58, 0]
   };
 
   function num(value) {
@@ -102,6 +115,10 @@
       [bounds[0][0] + offset[0], bounds[0][1] + offset[1]],
       [bounds[1][0] + offset[0], bounds[1][1] + offset[1]]
     ];
+  }
+
+  function zoneLabelOffset(zone) {
+    return ZONE_LABEL_OFFSETS[zone] || [46, 0];
   }
 
   function resolvePhaseOverlaps(points, width, height) {
@@ -305,11 +322,11 @@
 
   function buildCountryCalloutData(geojson, path, activeScenario, scenarioDetails) {
     const countryX = {
-      NO: 170,
+      NO: 155,
       SE: 380,
-      FI: 590
+      FI: 605
     };
-    const listY = 605;
+    const listY = 622;
 
     return d3.groups(
       geojson.features
@@ -338,14 +355,66 @@
         countryName: rows[0]?.countryName || countryLabel(country),
         x,
         lineStartY: maxY + 8,
-        lineEndY: listY - 20,
+        lineEndY: listY - 34,
         rows: rows.map((row, index) => ({
           ...row,
           x,
-          y: listY + index * 22
+          y: listY + 18 + index * 22
         }))
       };
     });
+  }
+
+  function renderZoneLabels(labelG, geojson, path) {
+    const labelData = geojson.features.map(feature => {
+      const zone = feature.properties.bidding_zone;
+      const anchor = translatedCentroid(feature, path);
+      const offset = zoneLabelOffset(zone);
+      const label = [anchor[0] + offset[0], anchor[1] + offset[1]];
+      const textAnchor = offset[0] < 0 ? "end" : "start";
+      const linePad = offset[0] < 0 ? -7 : 7;
+
+      return {
+        zone,
+        anchor,
+        label,
+        textAnchor,
+        lineEnd: [label[0] - linePad, label[1]]
+      };
+    });
+
+    const groups = labelG.selectAll("g.dc-zone-label-callout")
+      .data(labelData, d => d.zone)
+      .join(
+        enter => {
+          const g = enter.append("g")
+            .attr("class", "dc-zone-label-callout")
+            .attr("data-zone", d => d.zone);
+
+          g.append("line")
+            .attr("class", "dc-zone-label-line");
+
+          g.append("text")
+            .attr("class", "dc-zone-label")
+            .attr("dominant-baseline", "middle");
+
+          return g;
+        },
+        update => update,
+        exit => exit.remove()
+      );
+
+    groups.select("line.dc-zone-label-line")
+      .attr("x1", d => d.anchor[0])
+      .attr("y1", d => d.anchor[1])
+      .attr("x2", d => d.lineEnd[0])
+      .attr("y2", d => d.lineEnd[1]);
+
+    groups.select("text.dc-zone-label")
+      .attr("x", d => d.label[0])
+      .attr("y", d => d.label[1])
+      .attr("text-anchor", d => d.textAnchor)
+      .text(d => d.zone);
   }
 
   function renderCountryCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, onHighlight) {
@@ -380,7 +449,7 @@
 
     countryGroups.select("text.dc-capacity-country-label")
       .attr("x", d => d.x)
-      .attr("y", d => d.lineEndY + 16)
+      .attr("y", d => d.lineEndY + 18)
       .text(d => d.countryName);
 
     const rows = calloutG.selectAll("g.dc-capacity-row")
@@ -617,9 +686,10 @@
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
 
-    projection.fitExtent([[120, 38], [640, 535]], geojson);
+    projection.fitExtent([[128, 42], [610, 520]], geojson);
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
+    const zoneLabelG = svg.append("g").attr("class", "dc-zone-label-layer");
     const countryCalloutG = svg.append("g").attr("class", "dc-country-callout-layer");
     const phaseG = svg.append("g").attr("class", "dc-phase-layer");
     const popupG = svg.append("g").attr("class", "dc-phase-popup-layer");
@@ -638,15 +708,7 @@
       .attr("d", path)
       .attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
 
-    mapG.selectAll("text")
-      .data(geojson.features)
-      .join("text")
-      .attr("class", "dc-zone-label")
-      .attr("x", d => translatedCentroid(d, path)[0])
-      .attr("y", d => translatedCentroid(d, path)[1])
-      .attr("dy", "0.35em")
-      .attr("text-anchor", "middle")
-      .text(d => d.properties.bidding_zone);
+    renderZoneLabels(zoneLabelG, geojson, path);
 
     function highlightZone(zone, active) {
       svg.selectAll(`[data-zone='${zone}']`).classed("highlight", active);

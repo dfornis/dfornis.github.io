@@ -107,12 +107,22 @@
 .dc-zone-label,
 #dc-scenario-map .dc-zone-label {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
-  font-size: 13px !important;
+  font-size: 13.4px !important;
   font-weight: 400 !important;
   letter-spacing: 0.01em;
   fill: #4b5356;
   pointer-events: none;
   dominant-baseline: middle;
+}
+
+.dc-zone-label-line,
+#dc-scenario-map .dc-zone-label-line {
+  stroke: #555d5b !important;
+  stroke-width: 0.78 !important;
+  stroke-linecap: round;
+  stroke-dasharray: 2 4;
+  opacity: 0.44;
+  vector-effect: non-scaling-stroke;
 }
 
 .dc-map-title {
@@ -169,6 +179,7 @@
   font-weight: 600 !important;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  pointer-events: none;
 }
 
 .dc-capacity-row,
