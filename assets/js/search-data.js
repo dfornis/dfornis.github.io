@@ -31,8 +31,8 @@ ninja.data = [{
             },},{id: "news-i-m-presenting-an-upcoming-paper-governing-the-energy-transition-socio-economic-impact-assessments-as-governance-artefacts-at-the-2026-rsa-annual-conference-on-june-17",
           title: 'I’m presenting an upcoming paper, “Governing the Energy Transition: Socio-economic Impact Assessments as...',
           description: "",
-          section: "News",},{id: "projects-swedish-data-center-tracker",
-          title: 'Swedish data center tracker',
+          section: "News",},{id: "projects-nordic-data-center-tracker",
+          title: 'Nordic data center tracker',
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/datacenter-tracker/";
