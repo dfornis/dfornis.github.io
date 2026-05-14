@@ -93,7 +93,7 @@
 }
 
 .dc-zone {
-  stroke: #6f7474;
+  stroke: #595d5d;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
 }
@@ -117,7 +117,7 @@
 
 .dc-zone-label-line,
 #dc-scenario-map .dc-zone-label-line {
-  stroke: #555d5b !important;
+  stroke: #3a403f !important;
   stroke-width: 0.78 !important;
   stroke-linecap: round;
   stroke-dasharray: 2 4;
@@ -133,7 +133,7 @@
 
 .dc-callout-line,
 #dc-scenario-map .dc-callout-line {
-  stroke: #555d5b !important;
+  stroke: #3a403f !important;
   stroke-width: 0.9 !important;
   stroke-linecap: round;
   opacity: 0.56;
@@ -163,7 +163,7 @@
 
 .dc-country-callout-line,
 #dc-scenario-map .dc-country-callout-line {
-  stroke: #555d5b !important;
+  stroke: #3a403f !important;
   stroke-width: 0.82 !important;
   stroke-linecap: round;
   stroke-dasharray: 3 4;
@@ -203,12 +203,23 @@
 
 .dc-capacity-zone,
 .dc-capacity-value,
+.dc-capacity-total-symbol,
+.dc-capacity-total-value,
 #dc-scenario-map .dc-capacity-zone,
-#dc-scenario-map .dc-capacity-value {
+#dc-scenario-map .dc-capacity-value,
+#dc-scenario-map .dc-capacity-total-symbol,
+#dc-scenario-map .dc-capacity-total-value {
   fill: #2f383b;
   font-size: 14.2px !important;
   font-weight: 400 !important;
   letter-spacing: 0.01em;
+}
+
+.dc-capacity-total-symbol,
+.dc-capacity-total-value,
+#dc-scenario-map .dc-capacity-total-symbol,
+#dc-scenario-map .dc-capacity-total-value {
+  font-weight: 400 !important;
 }
 
 .dc-phase-point {

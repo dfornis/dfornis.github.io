@@ -7,7 +7,7 @@ permalink: /projects/datacenter-tracker/
 
 This page tracks publicly reported plans for new data center projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.
 
-The Nordic countries are currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availability. Given growing public interest in this development, I'm sharing the dataset here as a public resource. The methodology is still under development. In particular, I am working on improving how heterogenous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
+The Nordic countries are currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
@@ -70,7 +70,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows grid-side capacity from data center projects across Nordic bidding zones under four deployment scenarios that are under development for the research article. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
+The map below shows estimated grid-side (nameplate) capacity from data center projects across Nordic bidding zones under four deployment scenarios that. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
 
 
 <div class="after-table-space"></div>
@@ -82,15 +82,15 @@ The map below shows grid-side capacity from data center projects across Nordic b
 
 <script>
 window.DC_TRACKER_PATHS = {
-  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
-  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}",
-  scenarioZone: "{{ '/assets/data/datacenters/scenario_zone.json' | relative_url }}",
-  biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}"
+  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}?v=20260514-fi",
+  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}?v=20260514-fi",
+  scenarioZone: "{{ '/assets/data/datacenters/scenario_zone.json' | relative_url }}?v=20260514-fi",
+  biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}?v=20260514-fi"
 };
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-nordic-labels' | relative_url }}"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-total-row-align' | relative_url }}"></script>
 
 <div class="after-table-space"></div>
 
@@ -124,7 +124,8 @@ estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,0
 
 Reported capacity figures need two additional assumptions before they can be compared as electricity demand. PUE is used to move from IT load to total facility load, including cooling and other site electricity use. The load factor is used to annualise capacity: it describes average realised grid-side load as a share of reported or estimated grid-side/nameplate capacity.
 
-The table gives the type-level assumptions used in the calculations. They are not measurements of individual Nordic facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
+
 
 <div class="assumption-table-wrap">
   <table class="assumption-table">
@@ -171,10 +172,24 @@ The table gives the type-level assumptions used in the calculations. They are no
   </table>
 </div>
 
-The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
+The table gives the type-level assumptions used in the calculations. They are not measurements of individual Nordic facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+
+## How the dataset is built
+
+The dataset behind this page is maintained in a separate pipeline repository so that only reviewed records reach the public site. Language-model agents handle source discovery and auditing; a human reviews everything before it becomes master data; R scripts handle the steps in between.
+
+1. **Shared reference data.** Countries, bidding zones, administrative units, PUE and load-factor assumptions, and source records live in master files that define the allowed geography and the assumptions used by every later step. These are manually maintained.
+
+2. **Country-scoped discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are scoped to one country at a time and tailored to language and national reporting conventions. 
+
+3. **Agent output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, and rationale. 
+
+4. **Human review.** Every proposed change is checked manually before it can become master data: source quality, conflicts between sources, how reported MW figures should be interpreted, and whether a candidate should be included or not. An R script is run which allows for manual inclusion and exclusion of candidates when merging with the master documents.
+
+5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker. Generated JSON files are not edited by hand. If something is wrong, the master data is corrected and the build is re-run.
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-nordic-labels' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-total-row-align' | relative_url }}");
   
 .tracker-controls {
   display: flex;
@@ -651,8 +666,8 @@ pre {
 
 <script>
 const DATA_PATHS = {
-  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}",
-  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}"
+  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}?v=20260514-fi",
+  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}?v=20260514-fi"
 };
 
 let capacityEntriesByProject = {};
@@ -1036,6 +1051,13 @@ function buildProjectRows(projects, capacityEntries) {
       pue: overviewEntry ? overviewEntry.pue : null,
       annual_load_factor: overviewEntry ? overviewEntry.annual_load_factor : null
     };
+  });
+
+  rows.sort((a, b) => {
+    const powerA = num(a.reported_capacity_mw) ?? -Infinity;
+    const powerB = num(b.reported_capacity_mw) ?? -Infinity;
+    if (powerA !== powerB) return powerB - powerA;
+    return String(a.project_name).localeCompare(String(b.project_name));
   });
 
   projectRowsById = Object.fromEntries(rows.map(row => [row.project_id, row]));

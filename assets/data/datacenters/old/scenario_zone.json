@@ -7,12 +7,12 @@
     "panel": "Low",
     "country": "FI",
     "bidding_zone": "FI",
-    "grid_side_mw": 457,
-    "mw": 457,
-    "interpreted_it_load_mw": 380.8333,
-    "reported_capacity_mw": 432.5,
-    "estimated_twh": 3.0025,
-    "n_projects": 3
+    "grid_side_mw": 0,
+    "mw": 0,
+    "interpreted_it_load_mw": 0,
+    "reported_capacity_mw": 0,
+    "estimated_twh": 0,
+    "n_projects": 0
   },
   {
     "scenario_id": "low_2030",
@@ -37,12 +37,12 @@
     "panel": "Low",
     "country": "NO",
     "bidding_zone": "NO2",
-    "grid_side_mw": 282,
-    "mw": 282,
-    "interpreted_it_load_mw": 231.1111,
-    "reported_capacity_mw": 282,
-    "estimated_twh": 1.7865,
-    "n_projects": 2
+    "grid_side_mw": 240,
+    "mw": 240,
+    "interpreted_it_load_mw": 200,
+    "reported_capacity_mw": 240,
+    "estimated_twh": 1.5768,
+    "n_projects": 1
   },
   {
     "scenario_id": "low_2030",
@@ -157,12 +157,12 @@
     "panel": "Stated",
     "country": "FI",
     "bidding_zone": "FI",
-    "grid_side_mw": 1085,
-    "mw": 1085,
-    "interpreted_it_load_mw": 857.8704,
-    "reported_capacity_mw": 1060.5,
-    "estimated_twh": 6.34,
-    "n_projects": 6
+    "grid_side_mw": 0,
+    "mw": 0,
+    "interpreted_it_load_mw": 0,
+    "reported_capacity_mw": 0,
+    "estimated_twh": 0,
+    "n_projects": 0
   },
   {
     "scenario_id": "stated_2030",
@@ -187,12 +187,12 @@
     "panel": "Stated",
     "country": "NO",
     "bidding_zone": "NO2",
-    "grid_side_mw": 282,
-    "mw": 282,
-    "interpreted_it_load_mw": 231.1111,
-    "reported_capacity_mw": 282,
-    "estimated_twh": 1.7865,
-    "n_projects": 2
+    "grid_side_mw": 240,
+    "mw": 240,
+    "interpreted_it_load_mw": 200,
+    "reported_capacity_mw": 240,
+    "estimated_twh": 1.5768,
+    "n_projects": 1
   },
   {
     "scenario_id": "stated_2030",
@@ -307,12 +307,12 @@
     "panel": "Stated",
     "country": "FI",
     "bidding_zone": "FI",
-    "grid_side_mw": 1085,
-    "mw": 1085,
-    "interpreted_it_load_mw": 857.8704,
-    "reported_capacity_mw": 1060.5,
-    "estimated_twh": 6.34,
-    "n_projects": 6
+    "grid_side_mw": 0,
+    "mw": 0,
+    "interpreted_it_load_mw": 0,
+    "reported_capacity_mw": 0,
+    "estimated_twh": 0,
+    "n_projects": 0
   },
   {
     "scenario_id": "stated_2035",
@@ -337,12 +337,12 @@
     "panel": "Stated",
     "country": "NO",
     "bidding_zone": "NO2",
-    "grid_side_mw": 282,
-    "mw": 282,
-    "interpreted_it_load_mw": 231.1111,
-    "reported_capacity_mw": 282,
-    "estimated_twh": 1.7865,
-    "n_projects": 2
+    "grid_side_mw": 240,
+    "mw": 240,
+    "interpreted_it_load_mw": 200,
+    "reported_capacity_mw": 240,
+    "estimated_twh": 1.5768,
+    "n_projects": 1
   },
   {
     "scenario_id": "stated_2035",
@@ -457,12 +457,12 @@
     "panel": "High",
     "country": "FI",
     "bidding_zone": "FI",
-    "grid_side_mw": 1655,
-    "mw": 1655,
-    "interpreted_it_load_mw": 1332.8704,
-    "reported_capacity_mw": 1630.5,
-    "estimated_twh": 10.085,
-    "n_projects": 9
+    "grid_side_mw": 0,
+    "mw": 0,
+    "interpreted_it_load_mw": 0,
+    "reported_capacity_mw": 0,
+    "estimated_twh": 0,
+    "n_projects": 0
   },
   {
     "scenario_id": "high_2035",

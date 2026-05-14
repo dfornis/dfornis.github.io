@@ -25,22 +25,22 @@
   ];
 
   const COUNTRY_OFFSETS = {
-    NO: [-98, 50],
-    SE: [8, -14],
-    FI: [112, 24]
+    NO: [-82, -24],
+    SE: [8, 8],
+    FI: [109, 8]
   };
 
   const ZONE_LABEL_OFFSETS = {
-    NO1: [58, 2],
-    NO2: [-58, 12],
-    NO3: [-62, -6],
-    NO4: [-58, -20],
-    NO5: [-58, 2],
-    SE1: [58, -12],
-    SE2: [58, 0],
-    SE3: [58, 12],
-    SE4: [52, 12],
-    FI: [-58, 0]
+    NO1: [62, 2],
+    NO2: [-64, 12],
+    NO3: [-68, -6],
+    NO4: [-92, -20],
+    NO5: [-64, 2],
+    SE1: [78, -12],
+    SE2: [78, 0],
+    SE3: [78, 12],
+    SE4: [-58, 12],
+    FI: [-66, 0]
   };
 
   function num(value) {
@@ -119,6 +119,51 @@
 
   function zoneLabelOffset(zone) {
     return ZONE_LABEL_OFFSETS[zone] || [46, 0];
+  }
+
+  function pixelInsideFeature(feature, projection, point) {
+    const offset = countryOffset(feature.properties.country);
+    const lonLat = projection.invert([point[0] - offset[0], point[1] - offset[1]]);
+    return lonLat ? d3.geoContains(feature, lonLat) : false;
+  }
+
+  function horizontalZoneLabelEdgeAnchor(feature, path, projection, label) {
+    const centroid = translatedCentroid(feature, path);
+    const bounds = translatedBounds(feature, path);
+    const toLeft = label[0] < centroid[0];
+    const y = Math.max(bounds[0][1] + 4, Math.min(bounds[1][1] - 4, label[1]));
+    const outsideX = toLeft ? bounds[0][0] - 90 : bounds[1][0] + 90;
+    const direction = toLeft ? 1 : -1;
+
+    let outside = [outsideX, y];
+    let inside = null;
+    const maxSteps = Math.ceil((bounds[1][0] - bounds[0][0] + 180) / 4);
+
+    for (let i = 0; i <= maxSteps; i += 1) {
+      const candidate = [outsideX + direction * i * 4, y];
+
+      if (pixelInsideFeature(feature, projection, candidate)) {
+        inside = candidate;
+        break;
+      }
+
+      outside = candidate;
+    }
+
+    if (!inside) {
+      return [toLeft ? bounds[0][0] : bounds[1][0], y];
+    }
+
+    for (let i = 0; i < 18; i += 1) {
+      const mid = [(inside[0] + outside[0]) / 2, (inside[1] + outside[1]) / 2];
+      if (pixelInsideFeature(feature, projection, mid)) {
+        inside = mid;
+      } else {
+        outside = mid;
+      }
+    }
+
+    return inside;
   }
 
   function resolvePhaseOverlaps(points, width, height) {
@@ -323,12 +368,12 @@
   function buildCountryCalloutData(geojson, path, activeScenario, scenarioDetails) {
     const countryX = {
       NO: 155,
-      SE: 380,
-      FI: 605
+      SE: 345,
+      FI: 570
     };
-    const listY = 622;
+    const listY = 575;
 
-    return d3.groups(
+    const groupedRows = d3.groups(
       geojson.features
         .map(feature => ({
           feature,
@@ -343,7 +388,10 @@
           return String(a.zone).localeCompare(String(b.zone), undefined, { numeric: true });
         }),
       d => d.country
-    ).map(([country, rows]) => {
+    );
+    const totalY = listY + 18 + (d3.max(groupedRows, ([, rows]) => rows.length) || 0) * 22 + 9;
+
+    return groupedRows.map(([country, rows]) => {
       const bounds = rows.map(row => translatedBounds(row.feature, path));
       const minX = d3.min(bounds, d => d[0][0]);
       const maxX = d3.max(bounds, d => d[1][0]);
@@ -356,6 +404,8 @@
         x,
         lineStartY: maxY + 8,
         lineEndY: listY - 34,
+        totalMw: rows.reduce((sum, row) => sum + (num(row.detail?.mw) || 0), 0),
+        totalY,
         rows: rows.map((row, index) => ({
           ...row,
           x,
@@ -365,7 +415,7 @@
     });
   }
 
-  function renderZoneLabels(labelG, geojson, path) {
+  function renderZoneLabels(labelG, geojson, path, projection) {
     const labelData = geojson.features.map(feature => {
       const zone = feature.properties.bidding_zone;
       const anchor = translatedCentroid(feature, path);
@@ -373,13 +423,15 @@
       const label = [anchor[0] + offset[0], anchor[1] + offset[1]];
       const textAnchor = offset[0] < 0 ? "end" : "start";
       const linePad = offset[0] < 0 ? -7 : 7;
+      const edgeAnchor = horizontalZoneLabelEdgeAnchor(feature, path, projection, label);
 
       return {
         zone,
-        anchor,
+        anchor: edgeAnchor,
         label,
         textAnchor,
-        lineEnd: [label[0] - linePad, label[1]]
+        lineEnd: [label[0] - linePad, edgeAnchor[1]],
+        labelY: edgeAnchor[1]
       };
     });
 
@@ -412,7 +464,7 @@
 
     groups.select("text.dc-zone-label")
       .attr("x", d => d.label[0])
-      .attr("y", d => d.label[1])
+      .attr("y", d => d.labelY)
       .attr("text-anchor", d => d.textAnchor)
       .text(d => d.zone);
   }
@@ -468,7 +520,7 @@
 
           g.append("text")
             .attr("class", "dc-capacity-value")
-            .attr("text-anchor", "end")
+            .attr("text-anchor", "start")
             .attr("dominant-baseline", "middle");
 
           return g;
@@ -502,8 +554,44 @@
       .text(d => d.zone);
 
     rows.select("text.dc-capacity-value")
-      .attr("x", 48)
+      .attr("x", 18)
       .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
+
+    const totalRows = calloutG.selectAll("g.dc-capacity-total-row")
+      .data(countries, d => d.country)
+      .join(
+        enter => {
+          const g = enter.append("g")
+            .attr("class", "dc-capacity-total-row");
+
+          g.append("text")
+            .attr("class", "dc-capacity-total-symbol")
+            .attr("text-anchor", "start")
+            .attr("dominant-baseline", "middle");
+
+          g.append("text")
+            .attr("class", "dc-capacity-total-value")
+            .attr("text-anchor", "start")
+            .attr("dominant-baseline", "middle");
+
+          return g;
+        },
+        update => update,
+        exit => exit.remove()
+      );
+
+    totalRows
+      .transition()
+      .duration(160)
+      .attr("transform", d => `translate(${d.x},${d.totalY})`);
+
+    totalRows.select("text.dc-capacity-total-symbol")
+      .attr("x", -48)
+      .text("TOT");
+
+    totalRows.select("text.dc-capacity-total-value")
+      .attr("x", 18)
+      .text(d => `${fmtMw(d.totalMw)} MW`);
   }
 
   function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height) {
@@ -666,7 +754,7 @@
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
 
     const width = 760;
-    const height = 705;
+    const height = 735;
     let activeScenario = DEFAULT_SCENARIO;
 
     const root = d3.select(container)
@@ -687,6 +775,7 @@
     const path = d3.geoPath(projection);
 
     projection.fitExtent([[128, 42], [610, 520]], geojson);
+    const displayGeojson = geojson;
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
     const zoneLabelG = svg.append("g").attr("class", "dc-zone-label-layer");
@@ -697,7 +786,7 @@
     svg.on("click", () => popupG.selectAll("*").remove());
 
     const zonePaths = mapG.selectAll("path")
-      .data(geojson.features)
+      .data(displayGeojson.features)
       .join("path")
       .attr("class", "dc-zone")
       .attr("data-zone", d => d.properties.bidding_zone)
@@ -708,13 +797,13 @@
       .attr("d", path)
       .attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
 
-    renderZoneLabels(zoneLabelG, geojson, path);
+    renderZoneLabels(zoneLabelG, displayGeojson, path, projection);
 
     function highlightZone(zone, active) {
       svg.selectAll(`[data-zone='${zone}']`).classed("highlight", active);
     }
 
-    renderCountryCallouts(countryCalloutG, geojson, path, activeScenario, scenarioDetails, highlightZone);
+    renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
     renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
 
     function updateScenario(scenarioId) {
@@ -728,7 +817,7 @@
           detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw
         ));
 
-      renderCountryCallouts(countryCalloutG, geojson, path, activeScenario, scenarioDetails, highlightZone);
+      renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
       renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
     }
   }
