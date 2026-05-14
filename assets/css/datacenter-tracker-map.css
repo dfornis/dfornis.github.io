@@ -203,11 +203,9 @@
 
 .dc-capacity-zone,
 .dc-capacity-value,
-.dc-capacity-total-symbol,
 .dc-capacity-total-value,
 #dc-scenario-map .dc-capacity-zone,
 #dc-scenario-map .dc-capacity-value,
-#dc-scenario-map .dc-capacity-total-symbol,
 #dc-scenario-map .dc-capacity-total-value {
   fill: #2f383b;
   font-size: 14.2px !important;
@@ -216,10 +214,12 @@
 }
 
 .dc-capacity-total-symbol,
-.dc-capacity-total-value,
-#dc-scenario-map .dc-capacity-total-symbol,
-#dc-scenario-map .dc-capacity-total-value {
+#dc-scenario-map .dc-capacity-total-symbol {
+  fill: #6f7777;
+  font-size: 11px !important;
   font-weight: 400 !important;
+  opacity: 0.58;
+  letter-spacing: 0;
 }
 
 .dc-phase-point {

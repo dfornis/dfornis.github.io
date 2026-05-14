@@ -371,7 +371,7 @@
       SE: 345,
       FI: 570
     };
-    const listY = 575;
+    const listY = 600;
 
     const groupedRows = d3.groups(
       geojson.features
@@ -478,9 +478,6 @@
           const g = enter.append("g")
             .attr("class", "dc-country-callout");
 
-          g.append("line")
-            .attr("class", "dc-country-callout-line");
-
           g.append("text")
             .attr("class", "dc-capacity-country-label")
             .attr("text-anchor", "middle");
@@ -491,13 +488,7 @@
         exit => exit.remove()
       );
 
-    countryGroups.select("line.dc-country-callout-line")
-      .transition()
-      .duration(160)
-      .attr("x1", d => d.x)
-      .attr("x2", d => d.x)
-      .attr("y1", d => d.lineStartY)
-      .attr("y2", d => Math.max(d.lineStartY + 18, d.lineEndY));
+    countryGroups.select("line.dc-country-callout-line").remove();
 
     countryGroups.select("text.dc-capacity-country-label")
       .attr("x", d => d.x)
@@ -587,7 +578,8 @@
 
     totalRows.select("text.dc-capacity-total-symbol")
       .attr("x", -48)
-      .text("TOT");
+      .attr("y", 0)
+      .text("Σ");
 
     totalRows.select("text.dc-capacity-total-value")
       .attr("x", 18)
@@ -754,7 +746,7 @@
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
 
     const width = 760;
-    const height = 735;
+    const height = 765;
     let activeScenario = DEFAULT_SCENARIO;
 
     const root = d3.select(container)
@@ -774,7 +766,7 @@
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
 
-    projection.fitExtent([[128, 42], [610, 520]], geojson);
+    projection.fitExtent([[128, 58], [610, 536]], geojson);
     const displayGeojson = geojson;
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");

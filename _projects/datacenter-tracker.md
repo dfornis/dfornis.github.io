@@ -90,7 +90,7 @@ window.DC_TRACKER_PATHS = {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-total-row-align' | relative_url }}"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-sigma-row-spacing' | relative_url }}"></script>
 
 <div class="after-table-space"></div>
 
@@ -189,7 +189,7 @@ The dataset behind this page is maintained in a separate pipeline repository so 
 5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker. 
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-total-row-align' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-sigma-row-spacing' | relative_url }}");
   
 .tracker-controls {
   display: flex;
