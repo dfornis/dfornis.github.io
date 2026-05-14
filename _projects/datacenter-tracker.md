@@ -180,13 +180,13 @@ The dataset behind this page is maintained in a separate pipeline repository so 
 
 1. **Shared reference data.** Countries, bidding zones, administrative units, PUE and load-factor assumptions, and source records live in master files that define the allowed geography and the assumptions used by every later step. These are manually maintained.
 
-2. **Country-scoped discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are scoped to one country at a time and tailored to language and national reporting conventions. 
+2. **Project discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent constrained by predefined attributes and decision criteria for most variables. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are limited to one country at a time and tailored to language and national reporting conventions. 
 
-3. **Agent output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, and rationale. 
+3. **Output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, documented uncertainties and rationale. 
 
-4. **Human review.** Every proposed change is checked manually before it can become master data: source quality, conflicts between sources, how reported MW figures should be interpreted, and whether a candidate should be included or not. An R script is run which allows for manual inclusion and exclusion of candidates when merging with the master documents.
+4. **Human review.** Every proposed change is checked manually before it can become master data: source quality, conflicts between sources, how reported MW figures should be interpreted, and whether a candidate should be included or not. An R script is run which allows for manual inclusion and exclusion of candidates when merging with the master files.
 
-5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker. Generated JSON files are not edited by hand. If something is wrong, the master data is corrected and the build is re-run.
+5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker. 
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-total-row-align' | relative_url }}");
