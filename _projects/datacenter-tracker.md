@@ -70,7 +70,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated grid-side (nameplate) capacity from data center projects across Nordic bidding zones under four deployment scenarios that. The numbers include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
+The map below shows estimated grid-side (nameplate) capacity from data center projects across Nordic bidding zones under four deployment scenarios. Depending on the initial reported number, they include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
 
 
 <div class="after-table-space"></div>
