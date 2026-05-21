@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Drivetrain policy-scenario explorer
-description: Policy scenario explorer for projected Swedish new-car sales shares by drivetrain.
+title: Transport electrification policy explorer
+description: Interactive policy-scenarios for projected Swedish new-car sales shares by drivetrain.
 img: /assets/images/drivetrain_thumbnail.png
 importance: 2
 permalink: /projects/drivetrain-demand-model/
