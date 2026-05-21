@@ -1,0 +1,250 @@
+{
+  "model_visibility": "internal_only",
+  "default_selection": {
+    "elasticity_set": "conservative_fridstrom",
+    "technology_scenario": "central_technology",
+    "purchase_price_policy": "adopted",
+    "fossil_fuel_tax_base": "adopted",
+    "tax_indexation": "adopted",
+    "gdp_indexation": "off",
+    "electricity_tax": "adopted",
+    "ets2": "adopted"
+  },
+  "groups": [
+    {
+      "id": "model_assumptions",
+      "label": "Model assumptions",
+      "description": "Behavioral sensitivity assumptions used by the demand model.",
+      "levers": [
+        "elasticity_set",
+        "technology_scenario"
+      ]
+    },
+    {
+      "id": "vehicle_levers",
+      "label": "Vehicle levers",
+      "description": "Vehicle technology and purchase-price assumptions.",
+      "levers": [
+        "purchase_price_policy"
+      ]
+    },
+    {
+      "id": "fuel_levers",
+      "label": "Fuel levers",
+      "description": "Fuel and electricity tax assumptions applied to product prices.",
+      "levers": [
+        "fossil_fuel_tax_base",
+        "tax_indexation",
+        "gdp_indexation",
+        "electricity_tax",
+        "ets2"
+      ]
+    }
+  ],
+  "levers": {
+    "elasticity_set": {
+      "label": "Elasticities",
+      "description": "Price-response assumptions used by the demand model.",
+      "default": "conservative_fridstrom",
+      "options": {
+        "conservative_fridstrom": {
+          "label": "Fridstr\u00f6m",
+          "description": "Fridstr\u00f6m and \u00d8stli purchase-price and energy-price elasticities."
+        },
+        "central_xing_vesterberg": {
+          "label": "Xing + Vesterberg",
+          "description": "Xing purchase-price elasticities with Vesterberg's main Swedish BEV electricity-price response."
+        },
+        "high_response": {
+          "label": "High response",
+          "description": "Xing purchase-price elasticities with Vesterberg's high Swedish BEV electricity-price response."
+        }
+      }
+    },
+    "technology_scenario": {
+      "label": "Technology path",
+      "description": "BEV diffusion path from vehicle technology, model availability, charging infrastructure, and EU vehicle regulation.",
+      "source": "policy/technology_scenarios.json",
+      "default": "central_technology",
+      "options": {
+        "conservative_technology": {
+          "label": "Conservative",
+          "description": "Slower technology and infrastructure path with lower BEV diffusion."
+        },
+        "central_technology": {
+          "label": "Central",
+          "description": "Main technology, model availability, infrastructure, and regulation path."
+        },
+        "accelerated_technology": {
+          "label": "Accelerated",
+          "description": "Faster technology and model availability path with higher BEV diffusion."
+        }
+      }
+    },
+    "purchase_price_policy": {
+      "label": "Klimatbonus",
+      "description": "BEV and PHEV purchase support from 2027 onward, in real 2024 SEK. Support levels are differentiated by drivetrain.",
+      "default": "adopted",
+      "options": {
+        "adopted": {
+          "label": "Adopted",
+          "description": "No broad reintroduced BEV/PHEV purchase support."
+        },
+        "low_indexed": {
+          "label": "Low indexed",
+          "description": "Half of the approximate 2023 BEV and PHEV support levels, kept constant in real 2024 SEK."
+        },
+        "legacy_indexed": {
+          "label": "Legacy indexed",
+          "description": "Approximate 2023 BEV and PHEV support levels, kept constant in real 2024 SEK."
+        },
+        "high_indexed": {
+          "label": "High indexed",
+          "description": "150 percent of the approximate 2023 BEV and PHEV support levels, kept constant in real 2024 SEK."
+        }
+      }
+    },
+    "fossil_fuel_tax_base": {
+      "label": "Fuel-tax base",
+      "description": "Gasoline and diesel excise-tax level.",
+      "default": "adopted",
+      "options": {
+        "adopted": {
+          "label": "Adopted",
+          "description": "Adopted gasoline and diesel excise-tax levels."
+        },
+        "plus30": {
+          "label": "+30%",
+          "description": "Gasoline and diesel excise taxes 30 percent above adopted levels."
+        }
+      }
+    },
+    "tax_indexation": {
+      "label": "CPI indexation",
+      "description": "How gasoline and diesel excise taxes are updated after 2025.",
+      "default": "adopted",
+      "options": {
+        "adopted": {
+          "label": "Adopted",
+          "description": "The adopted path keeps 2025 tax rates fixed in nominal terms through the forecast."
+        },
+        "cpi_indexed": {
+          "label": "CPI indexed",
+          "description": "Annual CPI adjustment, keeping the tax level constant in real terms. This mirrors the standard Swedish indexation logic for fuel excise taxes."
+        }
+      }
+    },
+    "gdp_indexation": {
+      "label": "GDP indexation",
+      "description": "GDP-linked fuel-tax indexation for gasoline and diesel.",
+      "default": "off",
+      "options": {
+        "off": {
+          "label": "Adopted",
+          "description": "Current adopted path without the earlier GDP indexation rule."
+        },
+        "on": {
+          "label": "GDP indexed",
+          "description": "Adds the earlier Swedish over-indexation rule, approximated here as 1.6 percent per year in real terms."
+        }
+      },
+      "sources": [
+        {
+          "label": "Swedish government, 2019",
+          "url": "https://www.regeringen.se/artiklar/2019/09/sankt-skatt-pa-drivmedel/"
+        },
+        {
+          "label": "Riksdag, paused GDP indexation",
+          "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/betankande/pausad-bnp-indexering-av-skatten-pa-bensin-och_h801sku37/"
+        }
+      ]
+    },
+    "electricity_tax": {
+      "label": "Electricity tax",
+      "description": "Electricity excise tax and VAT applied to the home consumer charging price.",
+      "default": "adopted",
+      "unit": "ore_per_kwh_excluding_vat",
+      "options": {
+        "adopted": {
+          "label": "Adopted",
+          "description": "36.0 \u00f6re/kWh electricity tax with 25 percent VAT.",
+          "excise_ore_per_kwh": 36.0,
+          "vat_rate": 0.25
+        },
+        "north_reduction": {
+          "label": "North reduction",
+          "description": "26.4 \u00f6re/kWh electricity tax with 25 percent VAT, matching the reduced Swedish electricity-tax area.",
+          "excise_ore_per_kwh": 26.4,
+          "vat_rate": 0.25
+        },
+        "industrial": {
+          "label": "Industrial",
+          "description": "0.6 \u00f6re/kWh electricity tax with 25 percent VAT, approximating the tax level for industrial electricity use.",
+          "excise_ore_per_kwh": 0.6,
+          "vat_rate": 0.25
+        },
+        "vat_reduced": {
+          "label": "VAT reduced",
+          "description": "0.6 \u00f6re/kWh electricity tax with 12 percent VAT, adding a lower consumer VAT assumption to the industrial-rate electricity tax.",
+          "excise_ore_per_kwh": 0.6,
+          "vat_rate": 0.12
+        }
+      }
+    },
+    "ets2": {
+      "label": "ETS2",
+      "description": "EU carbon price for road-fuel emissions.",
+      "default": "adopted",
+      "options": {
+        "adopted": {
+          "label": "Adopted",
+          "description": "Commission-aligned path: about EUR 60/tCO2 in 2030, starting near the ETS2 price-stability level and rising gradually after 2030."
+        },
+        "high_market": {
+          "label": "High market",
+          "description": "Higher market-price path: around EUR 122/tCO2 in 2030, based on BloombergNEF's ETS2 projection, then rising gradually to 2035."
+        },
+        "off": {
+          "label": "Off",
+          "description": "No ETS2 road-fuel carbon price."
+        }
+      },
+      "price_paths_eur_per_tonne_real_2024": {
+        "adopted": {
+          "2028": 55,
+          "2029": 58,
+          "2030": 61,
+          "2031": 64,
+          "2032": 67,
+          "2033": 70,
+          "2034": 73,
+          "2035": 76
+        },
+        "high_market": {
+          "2028": 85,
+          "2029": 105,
+          "2030": 122,
+          "2031": 130,
+          "2032": 138,
+          "2033": 146,
+          "2034": 154,
+          "2035": 162
+        }
+      },
+      "sources": [
+        {
+          "label": "European Commission Social Climate Plan guidance",
+          "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52025XC01597"
+        },
+        {
+          "label": "European Commission ETS2 price-stability mechanism",
+          "url": "https://climate.ec.europa.eu/eu-action/carbon-markets/ets2-buildings-road-transport-and-additional-sectors_en"
+        },
+        {
+          "label": "BloombergNEF ETS II Pricing Scenarios",
+          "url": "https://about.bnef.com/insights/commodities/eu-ets-ii-pricing-scenarios/"
+        }
+      ]
+    }
+  }
+}

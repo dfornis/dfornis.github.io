@@ -1,0 +1,86 @@
+{
+  "project_id": "drivetrain-demand-model-swe",
+  "generated_by": "scripts/build_gui_scenarios.py",
+  "model_config": {
+    "model_id": "linear_isolated_bev_central_gui",
+    "label": "Linear isolated-BEV nested logit",
+    "base_year": 2024,
+    "forecast_years": [
+      2020,
+      2035
+    ],
+    "utility_specification": {
+      "purchase_price": "linear real-2024 purchase price divided by 10000",
+      "fuel_price": "log fuel-price index relative to 2024",
+      "technology": "drivetrain-specific S-curve normalized to zero in 2024",
+      "asc_calibration": "ASCs calibrated to observed 2024 shares; gasoline ASC fixed to 0"
+    },
+    "nests": {
+      "combustion_hybrid": [
+        "gasoline",
+        "diesel",
+        "hev",
+        "phev"
+      ],
+      "pure_electric": [
+        "bev"
+      ]
+    },
+    "lambda": {
+      "combustion_hybrid": 0.5,
+      "pure_electric": 1.0
+    },
+    "default_technology_scenario": "central_technology",
+    "default_elasticity_set": "conservative_fridstrom",
+    "notes": [
+      "GUI exports include three selectable elasticity sets: conservative_fridstrom, central_xing_vesterberg, and high_response.",
+      "Technology scenarios are calibrated under the adopted default selection: adopted purchase-price policy, adopted fossil-tax base, adopted CPI indexation setting, no GDP indexation, adopted electricity tax, and the adopted ETS2 price path.",
+      "EU ETS2 is exposed as a separate fossil-fuel-tax policy lever with adopted, high-market, and off choices.",
+      "Electricity tax and electricity VAT are exposed as a separate electricity-price policy lever. The electricity product-price base is SCB handelspris plus n\u00e4tpris."
+    ]
+  },
+  "default_selection": {
+    "elasticity_set": "conservative_fridstrom",
+    "technology_scenario": "central_technology",
+    "purchase_price_policy": "adopted",
+    "fossil_fuel_tax_base": "adopted",
+    "tax_indexation": "adopted",
+    "gdp_indexation": "off",
+    "electricity_tax": "adopted",
+    "ets2": "adopted"
+  },
+  "forecast_years": [
+    2020,
+    2035
+  ],
+  "drivetrains": [
+    "gasoline",
+    "diesel",
+    "bev",
+    "phev",
+    "hev"
+  ],
+  "scenario_count": 3456,
+  "elasticity_set_count": 3,
+  "elasticity_sets": [
+    "conservative_fridstrom",
+    "central_xing_vesterberg",
+    "high_response"
+  ],
+  "technology_scenario_count": 3,
+  "data_files": {
+    "policy_levers": "policy_levers.json",
+    "technology_scenarios": "technology_scenarios.json",
+    "technology_summary": "technology_summary.csv",
+    "technology_target_fit": "technology_target_fit.csv",
+    "scenario_index": "scenario_index.json",
+    "scenario_index_csv": "scenario_index.csv",
+    "scenarios_dir": "scenarios/"
+  },
+  "notes": [
+    "GUI exports include three selectable elasticity sets: conservative_fridstrom, central_xing_vesterberg, and high_response.",
+    "Technology scenarios are calibrated under the adopted default selection: adopted purchase-price policy, adopted fossil-tax base, adopted CPI indexation setting, no GDP indexation, adopted electricity tax, and the adopted ETS2 price path.",
+    "EU ETS2 is exposed as a separate fossil-fuel-tax policy lever with adopted, high-market, and off choices.",
+    "Electricity tax and electricity VAT are exposed as a separate electricity-price policy lever. The electricity product-price base is SCB handelspris plus n\u00e4tpris."
+  ]
+}
