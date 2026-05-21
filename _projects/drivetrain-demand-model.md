@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Drivetrain transition policy explorer
-description: Interactive policy-scenarios for projected Swedish new-car sales shares by drivetrain.
+title: Drivetrain transition policy scenarios
+description: Interactive policy scenarios for projected Swedish new-car sales shares by drivetrain.
 hide_description: true
 img: /assets/images/drivetrain_thumbnail.png
 importance: 2
