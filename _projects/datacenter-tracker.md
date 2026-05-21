@@ -2,6 +2,7 @@
 layout: page
 title: Nordic data center tracker
 description: Public database with plans and electricity use estimates for new data centers across the Nordics. 
+hide_description: true
 img: /assets/images/datacenter_thumbnail_2.png
 permalink: /projects/datacenter-tracker/
 ---
