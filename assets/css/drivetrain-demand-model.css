@@ -213,6 +213,21 @@
   gap: 0.55rem 0.85rem;
   grid-template-columns: minmax(11rem, 1.2fr) minmax(18rem, 1.8fr);
   padding-top: 0.9rem;
+  position: relative;
+}
+
+.drivetrain-elasticity-head {
+  position: relative;
+}
+
+.drivetrain-elasticity-kicker-row {
+  align-items: center;
+  display: flex;
+  gap: 0.38rem;
+}
+
+.drivetrain-elasticity-kicker-row .drivetrain-kicker {
+  margin: 0;
 }
 
 .drivetrain-elasticity-head h3 {
@@ -220,6 +235,14 @@
   font-weight: 500;
   line-height: 1.35;
   margin: 0;
+}
+
+.drivetrain-elasticity-help {
+  top: calc(100% + 0.5rem);
+}
+
+.drivetrain-elasticity-control.help-open .drivetrain-elasticity-help {
+  display: block;
 }
 
 .drivetrain-elasticity-buttons {

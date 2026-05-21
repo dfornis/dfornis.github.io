@@ -43,6 +43,8 @@
     diesel: "Diesel",
     electricity: "Electricity"
   };
+  const elasticityHelpText =
+    "Fridstrøm and Østli (2021) provide conservative, unsegmented elasticities estimated from Norwegian microdata. The alternative specifications combine purchase-price elasticities from Xing et al. (2021) with Swedish BEV electricity-price responses from Vesterberg (2025). The higher-response variants explore stronger BEV price sensitivity as the market moves from early adopters toward more price-sensitive mass-market segments.";
 
   let dimensions = [
     "elasticity_set",
@@ -361,13 +363,30 @@
     host.innerHTML = `
       <div class="drivetrain-elasticity-head">
         <div>
-          <p class="drivetrain-kicker">${escapeHtml(lever.label || "Elasticities")}</p>
+          <div class="drivetrain-elasticity-kicker-row">
+            <p class="drivetrain-kicker">${escapeHtml(lever.label || "Elasticities")}</p>
+            <button type="button" class="drivetrain-help-button" data-elasticity-help-button aria-label="Explain ${escapeHtml(lever.label || "Elasticities")}" aria-expanded="false">?</button>
+          </div>
           <h3>${escapeHtml(lever.description || "Price-response assumptions used by the demand model.")}</h3>
+          <div class="drivetrain-policy-help drivetrain-elasticity-help">
+            ${elasticityHelpHtml(lever)}
+          </div>
         </div>
       </div>
       <div class="drivetrain-elasticity-buttons"></div>
       <p class="drivetrain-elasticity-description" data-elasticity-description></p>
     `;
+
+    const helpButton = host.querySelector("[data-elasticity-help-button]");
+    helpButton.addEventListener("click", event => {
+      event.stopPropagation();
+      const wasOpen = host.classList.contains("help-open");
+      closePolicyHelp();
+      if (!wasOpen) {
+        host.classList.add("help-open");
+        helpButton.setAttribute("aria-expanded", "true");
+      }
+    });
 
     const buttons = host.querySelector(".drivetrain-elasticity-buttons");
     values.forEach(value => {
@@ -444,8 +463,28 @@
     `;
   }
 
+  function elasticityHelpHtml(lever) {
+    const optionRows = Object.keys(lever.options || {}).map(value => `
+      <li>
+        <strong>${escapeHtml(labelFor(value, elasticityDimension))}</strong>
+        <span>${escapeHtml(lever.options[value].description || "")}</span>
+      </li>
+    `).join("");
+
+    return `
+      <div class="drivetrain-policy-help-title">${escapeHtml(lever.label || "Elasticities")}</div>
+      <p>${escapeHtml(elasticityHelpText)}</p>
+      ${optionRows ? `<ul>${optionRows}</ul>` : ""}
+    `;
+  }
+
   function closePolicyHelp() {
     root.querySelectorAll(".drivetrain-control-group.help-open").forEach(group => {
+      group.classList.remove("help-open");
+      const button = group.querySelector(".drivetrain-help-button");
+      if (button) button.setAttribute("aria-expanded", "false");
+    });
+    root.querySelectorAll(".drivetrain-elasticity-control.help-open").forEach(group => {
       group.classList.remove("help-open");
       const button = group.querySelector(".drivetrain-help-button");
       if (button) button.setAttribute("aria-expanded", "false");
