@@ -8,11 +8,13 @@ importance: 2
 permalink: /projects/drivetrain-demand-model/
 ---
 
-This is a visual explorer of policy scenarios for new car sales by drivetrain in Sweden. In recent years, sales of BEVs have been lagging in the Swedish market compared to that of Nordic neighbors. 
-While reasons are multiple and diverse, stalled electrification follows several years of cuts to excise fuel taxes, lowered blending-mandates and removed incentives for BEV and PHEV vehicles. This development prompted
-me to iterate on a policy-driven demand model which originates from previous work on a government assignment. 
-The purpose of this tool is to enable the exploration of how key policies impact the electrification rate of the passenger vehicle fleet. 
-Methods, data and key assumptions are presented and discussed below.
+This tool provides a visual exploration of policy scenarios for Swedish new-car sales by drivetrain. It is designed to show how selected 
+policy assumptions affect the electrification rate of the passenger vehicle fleet. Methods, data and key assumptions are presented below.
+
+**Background:** In recent years, BEV sales in Sweden have lagged behind those of several Nordic neighbors. The reasons are multiple, 
+but the slowdown has followed from cuts to fuel excise taxes, lower blending mandates and the removal of purchase incentives for BEV and PHEV vehicles. 
+This prompted me to finalize a policy-driven demand model, originating from previous work on a government assignment, 
+and use it to explore a series of policy scenarios.
 
 <link rel="stylesheet" href="{{ '/assets/css/drivetrain-demand-model.css?v=20260521-elasticity-active-text' | relative_url }}">
 
