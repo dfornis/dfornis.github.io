@@ -33,11 +33,11 @@ ninja.data = [{
           description: "",
           section: "News",},{id: "projects-nordic-data-center-tracker",
           title: 'Nordic data center tracker',
-          description: "",
+          description: "Public database with plans and electricity use estimates for new data centers across the Nordics.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/datacenter-tracker/";
-            },},{id: "projects-transport-electrification-policy-explorer",
-          title: 'Transport electrification policy explorer',
+            },},{id: "projects-drivetrain-transition-policy-explorer",
+          title: 'Drivetrain transition policy explorer',
           description: "Interactive policy-scenarios for projected Swedish new-car sales shares by drivetrain.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/drivetrain-demand-model/";
