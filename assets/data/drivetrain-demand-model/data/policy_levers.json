@@ -48,22 +48,22 @@
       "default": "conservative_fridstrom",
       "options": {
         "conservative_fridstrom": {
-          "label": "Fridstr\u00f6m",
-          "description": "Fridstr\u00f6m and \u00d8stli purchase-price and energy-price elasticities."
+          "label": "Fridstr\u00f8m and \u00d8stli",
+          "description": "Fridstr\u00f8m and \u00d8stli purchase-price and energy-price elasticities."
         },
         "central_xing_vesterberg": {
-          "label": "Xing + Vesterberg",
-          "description": "Xing purchase-price elasticities with Vesterberg's main Swedish BEV electricity-price response."
+          "label": "Xing et al. + Vesterberg",
+          "description": "Xing et al. purchase-price elasticities with Vesterberg's main Swedish BEV electricity-price response."
         },
         "high_response": {
           "label": "High response",
-          "description": "Xing purchase-price elasticities with Vesterberg's high Swedish BEV electricity-price response."
+          "description": "Xing et al. purchase-price elasticities with Vesterberg's high Swedish BEV electricity-price response."
         }
       }
     },
     "technology_scenario": {
       "label": "Technology path",
-      "description": "BEV diffusion path from vehicle technology, model availability, charging infrastructure, and EU vehicle regulation.",
+      "description": "BEV diffusion s-curve path approximating vehicle technology, model availability and charging infrastructure.",
       "source": "policy/technology_scenarios.json",
       "default": "central_technology",
       "options": {

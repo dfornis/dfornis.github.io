@@ -99,6 +99,488 @@
       "2035": 162.0
     }
   },
+  "fuel_price_components": [
+    {
+      "year": 2020,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 5.721159055371201,
+      "excise_tax_real_2024": 8.266642349985602,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.496950351339201,
+      "consumer_price_real_2024": 17.484751756696003
+    },
+    {
+      "year": 2020,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.484120534379842,
+      "excise_tax_real_2024": 5.820012775550401,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.576033327482561,
+      "consumer_price_real_2024": 17.880166637412806
+    },
+    {
+      "year": 2020,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 159.69818494949763,
+      "excise_tax_real_2024": 43.619204029072,
+      "vat_rate": 0.25,
+      "vat_real_2024": 50.829347244642406,
+      "consumer_price_real_2024": 254.14673622321203
+    },
+    {
+      "year": 2021,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 7.68486112352,
+      "excise_tax_real_2024": 8.1491447408,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.9585014660800004,
+      "consumer_price_real_2024": 19.792507330400003
+    },
+    {
+      "year": 2021,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.77041266336,
+      "excise_tax_real_2024": 5.731000900800001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.12535339104,
+      "consumer_price_real_2024": 20.6267669552
+    },
+    {
+      "year": 2021,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 188.4519948108,
+      "excise_tax_real_2024": 43.04296035200001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 57.8737387907,
+      "consumer_price_real_2024": 289.36869395350004
+    },
+    {
+      "year": 2022,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.712109519999998,
+      "excise_tax_real_2024": 7.6068916,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.57975028,
+      "consumer_price_real_2024": 22.8987514
+    },
+    {
+      "year": 2022,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 16.463008799999997,
+      "excise_tax_real_2024": 5.3538239999999995,
+      "vat_rate": 0.25,
+      "vat_real_2024": 5.454208199999999,
+      "consumer_price_real_2024": 27.271040999999997
+    },
+    {
+      "year": 2022,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 256.97797510000004,
+      "excise_tax_real_2024": 40.15368,
+      "vat_rate": 0.25,
+      "vat_real_2024": 74.28291377500001,
+      "consumer_price_real_2024": 371.41456887500004
+    },
+    {
+      "year": 2023,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 9.953096,
+      "excise_tax_real_2024": 6.48668,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.1099440000000005,
+      "consumer_price_real_2024": 20.54972
+    },
+    {
+      "year": 2023,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 14.920392,
+      "excise_tax_real_2024": 4.183960000000001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.776088,
+      "consumer_price_real_2024": 23.88044
+    },
+    {
+      "year": 2023,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 187.99036,
+      "excise_tax_real_2024": 40.2976,
+      "vat_rate": 0.25,
+      "vat_real_2024": 57.07199,
+      "consumer_price_real_2024": 285.35995
+    },
+    {
+      "year": 2024,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 5.71,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.6180000000000003,
+      "consumer_price_real_2024": 18.090000000000003
+    },
+    {
+      "year": 2024,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 3.96,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.6180000000000003,
+      "consumer_price_real_2024": 18.090000000000003
+    },
+    {
+      "year": 2024,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 175.975,
+      "excise_tax_real_2024": 42.8,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.693749999999994,
+      "consumer_price_real_2024": 273.46875
+    },
+    {
+      "year": 2025,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 4.95,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.428,
+      "consumer_price_real_2024": 17.14
+    },
+    {
+      "year": 2025,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 4.12,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.6580000000000004,
+      "consumer_price_real_2024": 18.290000000000003
+    },
+    {
+      "year": 2025,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.51673228346456,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086614,
+      "consumer_price_real_2024": 271.1459153543307
+    },
+    {
+      "year": 2026,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 4.95,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.428,
+      "consumer_price_real_2024": 17.14
+    },
+    {
+      "year": 2026,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 4.12,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.6580000000000004,
+      "consumer_price_real_2024": 18.290000000000003
+    },
+    {
+      "year": 2026,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2027,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762000000000002,
+      "excise_tax_real_2024": 4.95,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.428000000000001,
+      "consumer_price_real_2024": 17.140000000000004
+    },
+    {
+      "year": 2027,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 4.120000000000001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.6580000000000004,
+      "consumer_price_real_2024": 18.290000000000003
+    },
+    {
+      "year": 2027,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.51673228346456,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086614,
+      "consumer_price_real_2024": 271.1459153543307
+    },
+    {
+      "year": 2028,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762000000000002,
+      "excise_tax_real_2024": 7.208025,
+      "vat_rate": 0.25,
+      "vat_real_2024": 3.992506250000001,
+      "consumer_price_real_2024": 19.962531250000005
+    },
+    {
+      "year": 2028,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 6.72015,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.3080375,
+      "consumer_price_real_2024": 21.540187500000002
+    },
+    {
+      "year": 2028,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2029,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 7.739325000000001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.12533125,
+      "consumer_price_real_2024": 20.626656250000003
+    },
+    {
+      "year": 2029,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 7.331950000000001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.4609875,
+      "consumer_price_real_2024": 22.3049375
+    },
+    {
+      "year": 2029,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2030,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762000000000002,
+      "excise_tax_real_2024": 8.190930000000002,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.2382325000000005,
+      "consumer_price_real_2024": 21.191162500000004
+    },
+    {
+      "year": 2030,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512000000000002,
+      "excise_tax_real_2024": 7.85198,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.590995,
+      "consumer_price_real_2024": 22.954975
+    },
+    {
+      "year": 2030,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.51673228346456,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086614,
+      "consumer_price_real_2024": 271.1459153543307
+    },
+    {
+      "year": 2031,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 8.40345,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.2913625,
+      "consumer_price_real_2024": 21.456812499999998
+    },
+    {
+      "year": 2031,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 8.0967,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.652175,
+      "consumer_price_real_2024": 23.260875
+    },
+    {
+      "year": 2031,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.51673228346456,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086614,
+      "consumer_price_real_2024": 271.1459153543307
+    },
+    {
+      "year": 2032,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 8.61597,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.3444925,
+      "consumer_price_real_2024": 21.722462500000002
+    },
+    {
+      "year": 2032,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512000000000002,
+      "excise_tax_real_2024": 8.34142,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.713355,
+      "consumer_price_real_2024": 23.566775
+    },
+    {
+      "year": 2032,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2033,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 8.82849,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.397622500000001,
+      "consumer_price_real_2024": 21.988112500000003
+    },
+    {
+      "year": 2033,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512000000000002,
+      "excise_tax_real_2024": 8.58614,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.774535,
+      "consumer_price_real_2024": 23.872675
+    },
+    {
+      "year": 2033,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2034,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.762,
+      "excise_tax_real_2024": 9.04101,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.4507525,
+      "consumer_price_real_2024": 22.2537625
+    },
+    {
+      "year": 2034,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 8.830860000000001,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.835715,
+      "consumer_price_real_2024": 24.178575000000002
+    },
+    {
+      "year": 2034,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    },
+    {
+      "year": 2035,
+      "fuel": "gasoline",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 8.761999999999999,
+      "excise_tax_real_2024": 9.253529999999998,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.5038825,
+      "consumer_price_real_2024": 22.519412499999998
+    },
+    {
+      "year": 2035,
+      "fuel": "diesel",
+      "unit": "sek_per_litre_real_2024",
+      "product_price_real_2024": 10.512,
+      "excise_tax_real_2024": 9.07558,
+      "vat_rate": 0.25,
+      "vat_real_2024": 4.896895000000001,
+      "consumer_price_real_2024": 24.484475000000003
+    },
+    {
+      "year": 2035,
+      "fuel": "electricity",
+      "unit": "ore_per_kwh_real_2024",
+      "product_price_real_2024": 190.5167322834645,
+      "excise_tax_real_2024": 26.4,
+      "vat_rate": 0.25,
+      "vat_real_2024": 54.22918307086613,
+      "consumer_price_real_2024": 271.14591535433067
+    }
+  ],
   "series": [
     {
       "year": 2020,

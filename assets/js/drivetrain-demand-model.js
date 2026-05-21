@@ -6,6 +6,7 @@
   const status = root.querySelector("[data-status]");
   const shell = root.querySelector(".drivetrain-shell");
   const chartEl = root.querySelector("[data-chart]");
+  const fuelPriceEl = root.querySelector("[data-fuel-price-chart]");
   const technologyCurveEl = root.querySelector("[data-technology-curve-chart]");
 
   const drivetrainKeys = ["bev", "phev", "hev", "gasoline", "diesel"];
@@ -31,6 +32,16 @@
     conservative_technology: "#8b6f47",
     central_technology: "#2f7d6d",
     accelerated_technology: "#3b6fb6"
+  };
+  const fuelPriceColors = {
+    gasoline: "#c77c2f",
+    diesel: "#6c757d",
+    electricity: "#2f7d6d"
+  };
+  const fuelPriceLabels = {
+    gasoline: "Gasoline",
+    diesel: "Diesel",
+    electricity: "Electricity"
   };
 
   let dimensions = [
@@ -138,6 +149,44 @@
     if (!Number.isFinite(parsed)) return "";
     const sign = parsed > 0 ? "+" : "";
     return `${sign}${parsed.toFixed(1)}`;
+  }
+
+  function priceLabel(value, fuel) {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return "";
+    return fuel === "electricity"
+      ? `${parsed.toFixed(0)} Öre/kWh`
+      : `${parsed.toFixed(1)} SEK/L`;
+  }
+
+  function paddedDomain(values) {
+    const finite = values.map(Number).filter(Number.isFinite);
+    const min = Math.min(...finite);
+    const max = Math.max(...finite);
+    const span = max - min || Math.max(1, max * 0.08);
+    return [Math.max(0, min - span * 0.14), max + span * 0.14];
+  }
+
+  function distributeLabelYs(items, minY, maxY, minGap = 18) {
+    if (!items.length) return items;
+    const sorted = items
+      .slice()
+      .sort((a, b) => a.y - b.y)
+      .map(item => ({ ...item, labelY: Math.max(minY, Math.min(maxY, item.y)) }));
+
+    for (let index = 1; index < sorted.length; index += 1) {
+      sorted[index].labelY = Math.max(sorted[index].labelY, sorted[index - 1].labelY + minGap);
+    }
+
+    const overflow = sorted.at(-1).labelY - maxY;
+    if (overflow > 0) {
+      sorted.at(-1).labelY = maxY;
+      for (let index = sorted.length - 2; index >= 0; index -= 1) {
+        sorted[index].labelY = Math.min(sorted[index].labelY, sorted[index + 1].labelY - minGap);
+      }
+    }
+
+    return sorted.map(item => ({ ...item, labelY: Math.max(minY, Math.min(maxY, item.labelY)) }));
   }
 
   function scenarioTitle(scenario) {
@@ -347,6 +396,39 @@
     description.textContent = option?.description || "";
   }
 
+  function stabilizeElasticityDescriptionHeight() {
+    const description = root.querySelector("[data-elasticity-description]");
+    const lever = leverFor(elasticityDimension);
+    if (!description || !lever.options) return;
+
+    description.style.minHeight = "";
+    const descriptionWidth = description.getBoundingClientRect().width;
+    if (!descriptionWidth) return;
+
+    const measurer = document.createElement("p");
+    measurer.className = "drivetrain-elasticity-description";
+    measurer.setAttribute("aria-hidden", "true");
+    Object.assign(measurer.style, {
+      gridColumn: "auto",
+      left: "0",
+      margin: "0",
+      pointerEvents: "none",
+      position: "absolute",
+      top: "0",
+      visibility: "hidden",
+      width: `${descriptionWidth}px`
+    });
+    root.appendChild(measurer);
+
+    const maxHeight = Object.values(lever.options).reduce((height, option) => {
+      measurer.textContent = option?.description || "";
+      return Math.max(height, measurer.scrollHeight);
+    }, 0);
+
+    measurer.remove();
+    if (maxHeight) description.style.minHeight = `${maxHeight}px`;
+  }
+
   function policyHelpHtml(dimension, lever) {
     const optionRows = Object.keys(lever.options || {}).map(value => `
       <li>
@@ -389,6 +471,7 @@
 
   function buildLegend() {
     const legend = root.querySelector("[data-legend]");
+    if (!legend) return;
     legend.innerHTML = drivetrainKeys
       .map(key => `
         <span class="drivetrain-legend-item">
@@ -427,6 +510,7 @@
   }
 
   function renderComposition() {
+    if (!root.querySelector("[data-stack]")) return;
     const final = currentData.series.find(row => row.year === detailYear) || currentData.series.at(-1);
     root.querySelector("[data-composition-title]").textContent = `${final.year} drivetrain shares`;
 
@@ -469,8 +553,8 @@
     if (!currentData || !chartEl.clientWidth) return;
 
     const width = Math.max(620, chartEl.clientWidth);
-    const height = 330;
-    const margin = { top: 16, right: 20, bottom: 36, left: 48 };
+    const height = 344;
+    const margin = { top: 24, right: 154, bottom: 48, left: 58 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     const chartSeries = currentData.series.filter(row => row.year >= 2024);
@@ -480,26 +564,200 @@
 
     const x = year => margin.left + ((year - minYear) / (maxYear - minYear)) * innerWidth;
     const y = value => margin.top + (1 - value) * innerHeight;
-    const line = key => chartSeries.map(row => `${x(row.year)},${y(row[key])}`).join(" ");
     const ticks = [0, 0.25, 0.5, 0.75, 1];
     const yearTicks = [2024, 2026, 2028, 2030, 2032, 2035];
-    const highlightedYears = new Set([2024, 2030, 2035]);
+    const series = drivetrainKeys.map(key => ({
+      key,
+      points: chartSeries.map(row => ({
+        x: x(row.year),
+        y: y(row[key]),
+        year: row.year,
+        value: row[key]
+      }))
+    }));
+    const labelItems = distributeLabelYs(series.map(item => ({
+      key: item.key,
+      point: item.points.at(-1),
+      y: item.points.at(-1).y
+    })), margin.top + 12, height - margin.bottom - 8, 19);
+    const labelX = width - margin.right + 36;
+    const midYear = 2030;
+    const midLabelItems = distributeLabelYs(series.map(item => {
+      const point = item.points.find(candidate => candidate.year === midYear);
+      return point ? { key: item.key, point, y: point.y } : null;
+    }).filter(Boolean), margin.top + 12, height - margin.bottom - 8, 19);
+    const midLabelX = x(midYear) + 24;
 
     chartEl.innerHTML = `
       <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Projected new-car sales shares by drivetrain from 2024 to 2035">
         ${ticks.map(tick => `
           <line class="drivetrain-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${y(tick)}" y2="${y(tick)}"></line>
-          <text class="drivetrain-axis-label" x="${margin.left - 10}" y="${y(tick) + 4}" text-anchor="end">${Math.round(tick * 100)}%</text>
+          <text class="drivetrain-axis-label" x="${margin.left - 16}" y="${y(tick) + 4}" text-anchor="end">${Math.round(tick * 100)}%</text>
         `).join("")}
         ${yearTicks.map(year => `
-          <text class="drivetrain-axis-label" x="${x(year)}" y="${height - 9}" text-anchor="middle">${year}</text>
+          <text class="drivetrain-axis-label" x="${x(year)}" y="${height - 12}" text-anchor="middle">${year}</text>
         `).join("")}
-        ${drivetrainKeys.map(key => `
-          <polyline class="drivetrain-series-line" points="${line(key)}" style="stroke:${colors[key]}"></polyline>
-          ${chartSeries.map(row => `
-            <circle class="drivetrain-series-point" cx="${x(row.year)}" cy="${y(row[key])}" r="${highlightedYears.has(row.year) ? 3.4 : 0}" style="fill:${colors[key]}"></circle>
-          `).join("")}
+        ${series.map(item => `
+          <polyline class="drivetrain-series-line" points="${item.points.map(point => `${point.x},${point.y}`).join(" ")}" style="stroke:${colors[item.key]}"></polyline>
         `).join("")}
+        ${midLabelItems.map(item => {
+          const color = colors[item.key];
+          return `
+            <circle class="drivetrain-chart-point" cx="${item.point.x}" cy="${item.point.y}" r="3" style="fill:${color}"></circle>
+            <line
+              class="drivetrain-chart-label-leader"
+              x1="${item.point.x + 5}"
+              y1="${item.point.y}"
+              x2="${midLabelX - 8}"
+              y2="${item.labelY}"
+              style="stroke:${color}"
+            ></line>
+            <text class="drivetrain-chart-label mid" x="${midLabelX}" y="${item.labelY + 4}" style="fill:${color}">
+              ${labels.drivetrains[item.key]} ${pct(item.point.value)}
+            </text>
+          `;
+        }).join("")}
+        ${labelItems.map(item => {
+          const color = colors[item.key];
+          return `
+            <line
+              class="drivetrain-chart-label-leader"
+              x1="${item.point.x + 6}"
+              y1="${item.point.y}"
+              x2="${labelX - 8}"
+              y2="${item.labelY}"
+              style="stroke:${color}"
+            ></line>
+            <text class="drivetrain-chart-label" x="${labelX}" y="${item.labelY + 4}" style="fill:${color}">
+              ${labels.drivetrains[item.key]} ${pct(item.point.value)}
+            </text>
+          `;
+        }).join("")}
+      </svg>
+    `;
+  }
+
+  function renderFuelPrices() {
+    const section = root.querySelector("[data-fuel-prices]");
+    const rows = currentData?.fuel_price_components || [];
+    if (!section || !fuelPriceEl || !rows.length) {
+      if (section) section.hidden = true;
+      return;
+    }
+
+    const chartRows = rows
+      .filter(row => row.year >= 2024 && ["gasoline", "diesel", "electricity"].includes(row.fuel))
+      .map(row => ({
+        fuel: row.fuel,
+        year: Number(row.year),
+        value: Number(row.consumer_price_real_2024)
+      }))
+      .filter(row => Number.isFinite(row.year) && Number.isFinite(row.value));
+
+    if (!chartRows.length) {
+      section.hidden = true;
+      return;
+    }
+
+    section.hidden = false;
+    const width = Math.max(620, fuelPriceEl.clientWidth || section.clientWidth || root.clientWidth);
+    const height = 252;
+    const margin = { top: 24, right: 210, bottom: 50, left: 188 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const years = [...new Set(chartRows.map(row => row.year))].sort((a, b) => a - b);
+    const minYear = Math.min(...years);
+    const maxYear = Math.max(...years);
+
+    const x = year => margin.left + ((year - minYear) / (maxYear - minYear)) * innerWidth;
+    const yearTicks = [2024, 2026, 2028, 2030, 2032, 2035].filter(year => year >= minYear && year <= maxYear);
+    const rawSeries = ["gasoline", "diesel", "electricity"].map(fuel => {
+      const values = chartRows.filter(row => row.fuel === fuel).sort((a, b) => a.year - b.year);
+      const startValue = values[0]?.value;
+      if (!Number.isFinite(startValue) || startValue === 0) return null;
+      return {
+        fuel,
+        values,
+        indexedValues: values.map(row => ({ ...row, indexValue: (row.value / startValue) * 100 }))
+      };
+    }).filter(Boolean);
+    const indexDomain = paddedDomain(rawSeries.flatMap(item => item.indexedValues.map(row => row.indexValue)));
+    const yIndex = value =>
+      margin.top + (1 - (value - indexDomain[0]) / (indexDomain[1] - indexDomain[0])) * innerHeight;
+    const indexTicks = [
+      indexDomain[0],
+      100,
+      indexDomain[1]
+    ].filter((tick, index, list) => index === 0 || Math.abs(tick - list[index - 1]) > 3);
+    const series = rawSeries.map(item => ({
+      ...item,
+      points: item.indexedValues.map(row => ({
+        x: x(row.year),
+        y: yIndex(row.indexValue),
+        value: row.value,
+        indexValue: row.indexValue
+      }))
+    }));
+
+    const endLabelItems = distributeLabelYs(series.map(item => ({
+      fuel: item.fuel,
+      point: item.points.at(-1),
+      y: item.points.at(-1).y
+    })), margin.top + 18, height - margin.bottom - 10, 19);
+    const startLabelItems = distributeLabelYs(series.map(item => ({
+      fuel: item.fuel,
+      point: item.points[0],
+      y: item.points[0].y
+    })), margin.top + 18, height - margin.bottom - 10, 19);
+    const endLabelX = width - margin.right + 42;
+    const startLabelX = margin.left - 34;
+
+    fuelPriceEl.innerHTML = `
+      <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Consumer fuel prices in the selected scenario from ${minYear} to ${maxYear}">
+        ${indexTicks.map(tick => `
+          <line class="drivetrain-fuel-grid-line ${Math.round(tick) === 100 ? "baseline" : ""}" x1="${margin.left}" x2="${width - margin.right}" y1="${yIndex(tick)}" y2="${yIndex(tick)}"></line>
+        `).join("")}
+        ${yearTicks.map(year => `
+          <text class="drivetrain-fuel-axis-label" x="${x(year)}" y="${height - 12}" text-anchor="middle">${year}</text>
+        `).join("")}
+        ${series.map(item => {
+          const color = fuelPriceColors[item.fuel];
+          return `
+            <polyline class="drivetrain-fuel-price-line" points="${item.points.map(point => `${point.x},${point.y}`).join(" ")}" style="stroke:${color}"></polyline>
+          `;
+        }).join("")}
+        ${startLabelItems.map(item => {
+          const color = fuelPriceColors[item.fuel];
+          return `
+            <line
+              class="drivetrain-label-leader"
+              x1="${startLabelX + 8}"
+              y1="${item.labelY}"
+              x2="${item.point.x - 6}"
+              y2="${item.point.y}"
+              style="stroke:${color}"
+            ></line>
+            <text class="drivetrain-fuel-price-label start" x="${startLabelX}" y="${item.labelY + 4}" text-anchor="end" style="fill:${color}">
+              ${fuelPriceLabels[item.fuel]} ${priceLabel(item.point.value, item.fuel)}
+            </text>
+          `;
+        }).join("")}
+        ${endLabelItems.map(item => {
+          const color = fuelPriceColors[item.fuel];
+          return `
+            <line
+              class="drivetrain-label-leader"
+              x1="${item.point.x + 6}"
+              y1="${item.point.y}"
+              x2="${endLabelX - 8}"
+              y2="${item.labelY}"
+              style="stroke:${color}"
+            ></line>
+            <text class="drivetrain-fuel-price-label" x="${endLabelX}" y="${item.labelY + 4}" style="fill:${color}">
+              ${fuelPriceLabels[item.fuel]} ${priceLabel(item.point.value, item.fuel)}
+            </text>
+          `;
+        }).join("")}
       </svg>
     `;
   }
@@ -528,8 +786,8 @@
 
     section.hidden = false;
     const width = Math.max(620, technologyCurveEl.clientWidth || section.clientWidth || root.clientWidth);
-    const height = 190;
-    const margin = { top: 14, right: 128, bottom: 28, left: 42 };
+    const height = 212;
+    const margin = { top: 24, right: 140, bottom: 48, left: 58 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
     const years = [2024, 2026, 2030, 2035];
@@ -550,10 +808,10 @@
       <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="BEV technology S-curve checkpoints for selected elasticity assumption">
         ${tickValues.map(tick => `
           <line class="drivetrain-technology-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${y(tick)}" y2="${y(tick)}"></line>
-          <text class="drivetrain-technology-axis-label" x="${margin.left - 8}" y="${y(tick) + 4}" text-anchor="end">${Math.round(tick * 100)}%</text>
+          <text class="drivetrain-technology-axis-label" x="${margin.left - 16}" y="${y(tick) + 4}" text-anchor="end">${Math.round(tick * 100)}%</text>
         `).join("")}
         ${years.map(year => `
-          <text class="drivetrain-technology-axis-label" x="${x(year)}" y="${height - 8}" text-anchor="middle">${year}</text>
+          <text class="drivetrain-technology-axis-label" x="${x(year)}" y="${height - 12}" text-anchor="middle">${year}</text>
         `).join("")}
         ${orderedRows.map(row => {
           const points = years.map(year => ({
@@ -563,12 +821,13 @@
           }));
           const lastPoint = points.at(-1);
           const color = technologyCurveColors[row.technology_scenario] || colors.bev;
+          const isActivePath = row.technology_scenario === active.technology_scenario;
           return `
-            <path class="drivetrain-technology-curve-line" d="${smoothPath(points)}" style="stroke:${color}"></path>
+            <path class="drivetrain-technology-curve-line ${isActivePath ? "active" : "muted"}" d="${smoothPath(points)}" style="stroke:${color}"></path>
             ${points.map(point => `
-              <circle class="drivetrain-technology-curve-point" cx="${point.x}" cy="${point.y}" r="2.4" style="fill:${color}"></circle>
+              <circle class="drivetrain-technology-curve-point ${isActivePath ? "active" : "muted"}" cx="${point.x}" cy="${point.y}" r="${isActivePath ? 2.8 : 2.1}" style="fill:${color}"></circle>
             `).join("")}
-            <text class="drivetrain-technology-curve-label" x="${lastPoint.x + 9}" y="${lastPoint.y + 4}" style="fill:${color}">
+            <text class="drivetrain-technology-curve-label ${isActivePath ? "active" : "muted"}" x="${lastPoint.x + 9}" y="${lastPoint.y + 4}" style="fill:${color}">
               ${escapeHtml(labelFor(row.technology_scenario, "technology_scenario"))} ${pct(lastPoint.value, 0)}
             </text>
           `;
@@ -580,11 +839,13 @@
   function renderAll() {
     refreshControlState();
     refreshElasticityDescription();
+    stabilizeElasticityDescriptionHeight();
     refreshYearToggle();
-    renderTechnologyCurves();
+    renderFuelPrices();
     renderComposition();
     renderDelta();
     renderChart();
+    renderTechnologyCurves();
   }
 
   async function selectScenario(scenarioId) {
@@ -642,10 +903,13 @@
       buildYearToggle();
 
       resizeObserver = new ResizeObserver(() => {
+        stabilizeElasticityDescriptionHeight();
+        renderFuelPrices();
         renderTechnologyCurves();
         renderChart();
       });
       resizeObserver.observe(chartEl);
+      if (fuelPriceEl) resizeObserver.observe(fuelPriceEl);
       if (technologyCurveEl) resizeObserver.observe(technologyCurveEl);
 
       const initialScenario = findScenarioFromActive() || index.find(scenario => scenario.is_baseline) || index[0];

@@ -13,7 +13,7 @@ me to iterate on a policy-driven demand model which originates from previous wor
 The purpose of this tool is to enable the exploration of how key policies impact the electrification rate of the passenger vehicle fleet. 
 Methods, data and key assumptions are presented and discussed below.
 
-<link rel="stylesheet" href="{{ '/assets/css/drivetrain-demand-model.css?v=20260521-s-curves' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/drivetrain-demand-model.css?v=20260521-elasticity-stable' | relative_url }}">
 
 <div
   id="drivetrain-demand-model"
@@ -35,7 +35,6 @@ Methods, data and key assumptions are presented and discussed below.
           <p class="drivetrain-kicker">New-car sales shares</p>
           <h3>2024-2035</h3>
         </div>
-        <div class="drivetrain-legend" data-legend></div>
       </div>
       <div class="drivetrain-chart" data-chart></div>
     </section>
@@ -44,29 +43,30 @@ Methods, data and key assumptions are presented and discussed below.
       <div class="drivetrain-panel">
         <div class="drivetrain-panel-head">
           <div>
-            <p class="drivetrain-kicker">Composition</p>
-            <h3 data-composition-title></h3>
-          </div>
-          <div class="drivetrain-year-toggle" data-year-toggle aria-label="Summary year"></div>
-        </div>
-        <div class="drivetrain-stack" data-stack></div>
-      </div>
-
-      <div class="drivetrain-panel">
-        <div class="drivetrain-panel-head">
-          <div>
             <p class="drivetrain-kicker">Difference from adopted</p>
             <h3 data-delta-title></h3>
           </div>
+          <div class="drivetrain-year-toggle" data-year-toggle aria-label="Summary year"></div>
         </div>
         <div class="drivetrain-delta-grid" data-delta-grid></div>
       </div>
     </section>
     
-     <section class="drivetrain-technology-curves" data-technology-curves aria-label="Exogenous technology S-curves for BEV vehicles">
+    <section class="drivetrain-fuel-prices" data-fuel-prices aria-label="Consumer fuel prices for selected scenario">
+      <div class="drivetrain-mini-chart-head">
+        <div>
+          <p class="drivetrain-kicker">Consumer fuel prices</p>
+          <p class="drivetrain-mini-description">Lines are indexed to 2024 = 100 for comparability. Labels show real 2024 prices for the chosen scenario.</p>
+        </div>
+      </div>
+      <div class="drivetrain-fuel-price-chart" data-fuel-price-chart></div>
+    </section>
+
+    <section class="drivetrain-technology-curves" data-technology-curves aria-label="Exogenous technology S-curves for BEV vehicles">
       <div class="drivetrain-technology-curves-head">
         <div>
           <p class="drivetrain-kicker">Technology S-curves</p>
+          <p class="drivetrain-mini-description">BEV technology, charging infrastructure and other non-price adoption factors. The selected technology path is highlighted.</p>
         </div>
       </div>
       <div class="drivetrain-technology-curve-chart" data-technology-curve-chart></div>
@@ -77,13 +77,13 @@ Methods, data and key assumptions are presented and discussed below.
 <script>
 window.DRIVETRAIN_DEMAND_MODEL_PATHS = {
   base: "{{ '/assets/data/drivetrain-demand-model/data/' | relative_url }}",
-  index: "{{ '/assets/data/drivetrain-demand-model/data/scenario_index.json' | relative_url }}?v=20260521-s-curves",
-  technology: "{{ '/assets/data/drivetrain-demand-model/data/technology_scenarios.json' | relative_url }}?v=20260521-s-curves",
-  technologySummary: "{{ '/assets/data/drivetrain-demand-model/data/technology_summary.csv' | relative_url }}?v=20260521-s-curves",
-  policyLevers: "{{ '/assets/data/drivetrain-demand-model/data/policy_levers.json' | relative_url }}?v=20260521-s-curves"
+  index: "{{ '/assets/data/drivetrain-demand-model/data/scenario_index.json' | relative_url }}?v=20260521-elasticity-stable",
+  technology: "{{ '/assets/data/drivetrain-demand-model/data/technology_scenarios.json' | relative_url }}?v=20260521-elasticity-stable",
+  technologySummary: "{{ '/assets/data/drivetrain-demand-model/data/technology_summary.csv' | relative_url }}?v=20260521-elasticity-stable",
+  policyLevers: "{{ '/assets/data/drivetrain-demand-model/data/policy_levers.json' | relative_url }}?v=20260521-elasticity-stable"
 };
 </script>
-<script src="{{ '/assets/js/drivetrain-demand-model.js?v=20260521-s-curves' | relative_url }}"></script>
+<script src="{{ '/assets/js/drivetrain-demand-model.js?v=20260521-elasticity-stable' | relative_url }}"></script>
 
 ## Method
 The  model simulates annual drivetrain market shares for new passenger cars using a calibrated nested-logit structure. The choice set consists of gasoline, diesel, hybrid electric (HEV), plug-in hybrid (PHEV) and battery electric vehicles (BEV). 
@@ -108,4 +108,3 @@ Fuel-price elasticities determine the response to changes in gasoline, diesel, e
 
 The default elasticity specification is based on Fridstrøm and Østli (2021) which provides conservative and un-segmented elasticities based on Norwegian micro data. Alternative specifications use purchase-price elasticities from Xing et al. (2021), combined with Swedish electricity-price elasticities from Vesterberg (2025). 
 Higher BEV purchase-price elasticities are explored to reflect that the EV market is moving from early adopters toward more price-sensitive mass-market segments.
-

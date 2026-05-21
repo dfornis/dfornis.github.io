@@ -240,16 +240,27 @@
   margin: -0.15rem 0 0;
 }
 
+.drivetrain-fuel-prices,
 .drivetrain-technology-curves {
   padding: 0.1rem 0 0.25rem;
 }
 
+.drivetrain-details + .drivetrain-fuel-prices {
+  margin-top: 1.45rem;
+}
+
+.drivetrain-fuel-prices + .drivetrain-technology-curves {
+  margin-top: 1.35rem;
+}
+
+.drivetrain-mini-chart-head,
 .drivetrain-technology-curves-head {
   align-items: baseline;
   display: flex;
   justify-content: space-between;
 }
 
+.drivetrain-mini-chart-head h3,
 .drivetrain-technology-curves-head h3 {
   font-size: 0.9rem;
   font-weight: 500;
@@ -257,11 +268,25 @@
   margin: 0;
 }
 
+.drivetrain-mini-description {
+  color: var(--dt-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin: 0.12rem 0 0;
+  max-width: 48rem;
+}
+
+.drivetrain-fuel-price-chart {
+  margin-top: 0.75rem;
+  min-height: 230px;
+}
+
 .drivetrain-technology-curve-chart {
-  margin-top: 0.35rem;
+  margin-top: 0.7rem;
   min-height: 190px;
 }
 
+.drivetrain-fuel-price-chart svg,
 .drivetrain-technology-curve-chart svg {
   display: block;
   height: auto;
@@ -269,17 +294,35 @@
   width: 100%;
 }
 
+.drivetrain-fuel-grid-line,
 .drivetrain-technology-grid-line {
   stroke: color-mix(in srgb, var(--dt-border) 64%, transparent);
   stroke-width: 1;
 }
 
+.drivetrain-fuel-grid-line.baseline {
+  stroke: color-mix(in srgb, var(--dt-border) 86%, var(--global-text-color) 14%);
+}
+
+.drivetrain-fuel-axis-label,
+.drivetrain-fuel-price-label,
+.drivetrain-fuel-unit-label,
 .drivetrain-technology-axis-label,
 .drivetrain-technology-curve-label {
   fill: var(--dt-muted);
-  font-size: 11px;
+  font-size: 13px;
 }
 
+.drivetrain-fuel-unit-label {
+  font-weight: 700;
+}
+
+.drivetrain-fuel-axis-label.secondary,
+.drivetrain-fuel-unit-label.secondary {
+  fill: color-mix(in srgb, var(--dt-muted) 78%, var(--dt-accent) 22%);
+}
+
+.drivetrain-fuel-price-line,
 .drivetrain-technology-curve-line {
   fill: none;
   opacity: 0.95;
@@ -288,9 +331,35 @@
   stroke-width: 2.15;
 }
 
+.drivetrain-fuel-price-line {
+  stroke-width: 2.3;
+}
+
+.drivetrain-label-leader {
+  fill: none;
+  opacity: 0.42;
+  stroke-linecap: round;
+  stroke-width: 1.2;
+}
+
 .drivetrain-technology-curve-point {
   stroke: var(--global-bg-color);
   stroke-width: 1.1;
+}
+
+.drivetrain-technology-curve-line.active {
+  opacity: 1;
+  stroke-width: 2.8;
+}
+
+.drivetrain-technology-curve-line.muted,
+.drivetrain-technology-curve-point.muted,
+.drivetrain-technology-curve-label.muted {
+  opacity: 0.34;
+}
+
+.drivetrain-technology-curve-label.active {
+  font-weight: 700;
 }
 
 .drivetrain-button-row {
@@ -335,7 +404,6 @@
   color: var(--dt-accent-ink);
 }
 
-.drivetrain-chart-wrap,
 .drivetrain-panel {
   background: var(--dt-panel);
   border: 1px solid var(--dt-border);
@@ -363,7 +431,7 @@
 }
 
 .drivetrain-chart-wrap {
-  padding: 1rem;
+  padding: 0.1rem 0 0.25rem;
 }
 
 .drivetrain-chart-head,
@@ -407,7 +475,7 @@
 }
 
 .drivetrain-legend {
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 0.5rem 0.7rem;
   justify-content: flex-end;
@@ -457,19 +525,38 @@
   stroke-width: 2.7;
 }
 
+.drivetrain-chart-label,
+.drivetrain-chart-label-leader {
+  font-size: 13px;
+}
+
+.drivetrain-chart-label {
+  paint-order: stroke;
+  stroke: var(--global-bg-color);
+  stroke-linejoin: round;
+  stroke-width: 4px;
+}
+
+.drivetrain-chart-label-leader {
+  opacity: 0.42;
+  stroke-linecap: round;
+  stroke-width: 1.2;
+}
+
+.drivetrain-chart-point,
 .drivetrain-series-point {
-  stroke: var(--dt-panel);
+  stroke: var(--global-bg-color);
   stroke-width: 1.3;
 }
 
 .drivetrain-details {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 0.7rem;
+  grid-template-columns: 1fr;
 }
 
 .drivetrain-panel {
-  padding: 1rem;
+  padding: 0.82rem 0.95rem;
 }
 
 .drivetrain-stack {
@@ -506,14 +593,14 @@
 .drivetrain-delta-grid {
   display: grid;
   gap: 0.45rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 0.8rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 0.58rem;
 }
 
 .drivetrain-delta {
   border: 1px solid var(--dt-border);
   border-radius: 6px;
-  padding: 0.5rem 0.58rem;
+  padding: 0.44rem 0.54rem;
 }
 
 .drivetrain-delta b {
@@ -577,11 +664,13 @@
     grid-column: auto;
   }
 
+  .drivetrain-fuel-prices,
   .drivetrain-technology-curves {
     overflow-x: auto;
     padding-bottom: 0.45rem;
   }
 
+  .drivetrain-fuel-price-chart,
   .drivetrain-technology-curve-chart {
     min-width: 620px;
   }
