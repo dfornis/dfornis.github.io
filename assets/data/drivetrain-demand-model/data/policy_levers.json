@@ -90,10 +90,6 @@
           "label": "Adopted",
           "description": "No broad reintroduced BEV/PHEV purchase support."
         },
-        "low_indexed": {
-          "label": "Low indexed",
-          "description": "Half of the approximate 2023 BEV and PHEV support levels, kept constant in real 2024 SEK."
-        },
         "legacy_indexed": {
           "label": "Legacy indexed",
           "description": "Approximate 2023 BEV and PHEV support levels, kept constant in real 2024 SEK."
@@ -179,13 +175,7 @@
         },
         "industrial": {
           "label": "Industrial",
-          "description": "0.6 \u00f6re/kWh electricity tax with 25 percent VAT, approximating the tax level for industrial electricity use.",
-          "excise_ore_per_kwh": 0.6,
-          "vat_rate": 0.25
-        },
-        "vat_reduced": {
-          "label": "VAT reduced",
-          "description": "0.6 \u00f6re/kWh electricity tax with 12 percent VAT, adding a lower consumer VAT assumption to the industrial-rate electricity tax.",
+          "description": "0.6 \u00f6re/kWh electricity tax with 12 percent VAT, approximating the tax level for industrial electricity use with lower consumer VAT.",
           "excise_ore_per_kwh": 0.6,
           "vat_rate": 0.12
         }

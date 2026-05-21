@@ -43,8 +43,19 @@
     diesel: "Diesel",
     electricity: "Electricity"
   };
-  const elasticityHelpText =
-    "Fridstrøm and Østli (2021) provide conservative, unsegmented elasticities estimated from Norwegian microdata. The alternative specifications combine purchase-price elasticities from Xing et al. (2021) with Swedish BEV electricity-price responses from Vesterberg (2025). The higher-response variants explore stronger BEV price sensitivity as the market moves from early adopters toward more price-sensitive mass-market segments.";
+  const elasticityOptionHelp = {
+    conservative_fridstrom:
+      "Conservative, unsegmented elasticities estimated from Norwegian microdata in Fridstrøm and Østli (2021).",
+    central_xing_vesterberg:
+      "Purchase-price elasticities from Xing et al. (2021), combined with Vesterberg's central Swedish BEV electricity-price response.",
+    high_response:
+      "Xing et al. purchase-price elasticities with Vesterberg's high Swedish BEV electricity-price response, exploring stronger BEV price sensitivity as the market moves from early adopters toward more price-sensitive mass-market segments."
+  };
+  const elasticityOptionNotes = {
+    conservative_fridstrom: "Conservative, unsegmented",
+    central_xing_vesterberg: "Central response",
+    high_response: "High BEV response"
+  };
 
   let dimensions = [
     "elasticity_set",
@@ -374,7 +385,6 @@
         </div>
       </div>
       <div class="drivetrain-elasticity-buttons"></div>
-      <p class="drivetrain-elasticity-description" data-elasticity-description></p>
     `;
 
     const helpButton = host.querySelector("[data-elasticity-help-button]");
@@ -393,7 +403,10 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "drivetrain-choice";
-      button.textContent = labelFor(value, elasticityDimension);
+      button.innerHTML = `
+        <span class="drivetrain-choice-main">${escapeHtml(labelFor(value, elasticityDimension))}</span>
+        <span class="drivetrain-choice-note">${escapeHtml(elasticityOptionNotes[value] || lever.options[value]?.description || "")}</span>
+      `;
       button.dataset.dimension = elasticityDimension;
       button.dataset.value = value;
       button.setAttribute("aria-pressed", value === active[elasticityDimension] ? "true" : "false");
@@ -404,48 +417,20 @@
       });
       buttons.appendChild(button);
     });
-
-    refreshElasticityDescription();
   }
 
-  function refreshElasticityDescription() {
-    const description = root.querySelector("[data-elasticity-description]");
-    if (!description) return;
-    const option = leverFor(elasticityDimension).options?.[active[elasticityDimension]];
-    description.textContent = option?.description || "";
-  }
+  function elasticityHelpHtml(lever) {
+    const optionRows = Object.keys(lever.options || {}).map(value => `
+      <li>
+        <strong>${escapeHtml(labelFor(value, elasticityDimension))}</strong>
+        <span>${escapeHtml(elasticityOptionHelp[value] || lever.options[value].description || "")}</span>
+      </li>
+    `).join("");
 
-  function stabilizeElasticityDescriptionHeight() {
-    const description = root.querySelector("[data-elasticity-description]");
-    const lever = leverFor(elasticityDimension);
-    if (!description || !lever.options) return;
-
-    description.style.minHeight = "";
-    const descriptionWidth = description.getBoundingClientRect().width;
-    if (!descriptionWidth) return;
-
-    const measurer = document.createElement("p");
-    measurer.className = "drivetrain-elasticity-description";
-    measurer.setAttribute("aria-hidden", "true");
-    Object.assign(measurer.style, {
-      gridColumn: "auto",
-      left: "0",
-      margin: "0",
-      pointerEvents: "none",
-      position: "absolute",
-      top: "0",
-      visibility: "hidden",
-      width: `${descriptionWidth}px`
-    });
-    root.appendChild(measurer);
-
-    const maxHeight = Object.values(lever.options).reduce((height, option) => {
-      measurer.textContent = option?.description || "";
-      return Math.max(height, measurer.scrollHeight);
-    }, 0);
-
-    measurer.remove();
-    if (maxHeight) description.style.minHeight = `${maxHeight}px`;
+    return `
+      <div class="drivetrain-policy-help-title">${escapeHtml(lever.label || "Elasticities")}</div>
+      ${optionRows ? `<ul>${optionRows}</ul>` : ""}
+    `;
   }
 
   function policyHelpHtml(dimension, lever) {
@@ -459,21 +444,6 @@
     return `
       <div class="drivetrain-policy-help-title">${escapeHtml(dimensionLabel(dimension))}</div>
       ${lever.description ? `<p>${escapeHtml(lever.description)}</p>` : ""}
-      ${optionRows ? `<ul>${optionRows}</ul>` : ""}
-    `;
-  }
-
-  function elasticityHelpHtml(lever) {
-    const optionRows = Object.keys(lever.options || {}).map(value => `
-      <li>
-        <strong>${escapeHtml(labelFor(value, elasticityDimension))}</strong>
-        <span>${escapeHtml(lever.options[value].description || "")}</span>
-      </li>
-    `).join("");
-
-    return `
-      <div class="drivetrain-policy-help-title">${escapeHtml(lever.label || "Elasticities")}</div>
-      <p>${escapeHtml(elasticityHelpText)}</p>
       ${optionRows ? `<ul>${optionRows}</ul>` : ""}
     `;
   }
@@ -877,8 +847,6 @@
 
   function renderAll() {
     refreshControlState();
-    refreshElasticityDescription();
-    stabilizeElasticityDescriptionHeight();
     refreshYearToggle();
     renderFuelPrices();
     renderComposition();
@@ -942,7 +910,6 @@
       buildYearToggle();
 
       resizeObserver = new ResizeObserver(() => {
-        stabilizeElasticityDescriptionHeight();
         renderFuelPrices();
         renderTechnologyCurves();
         renderChart();

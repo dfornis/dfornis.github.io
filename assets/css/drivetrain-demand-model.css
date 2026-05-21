@@ -81,7 +81,7 @@
 }
 
 .drivetrain-toolbar.compact .drivetrain-group-controls {
-  gap: 0.55rem;
+  gap: 0.46rem;
 }
 
 .drivetrain-control-group {
@@ -103,10 +103,11 @@
   font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .drivetrain-toolbar.compact .drivetrain-control-label {
-  font-size: 0.68rem;
+  font-size: 0.64rem;
 }
 
 .drivetrain-help-button {
@@ -207,13 +208,20 @@
 }
 
 .drivetrain-elasticity-control {
-  align-items: end;
+  align-items: start;
   border-top: 1px solid var(--dt-border);
   display: grid;
-  gap: 0.55rem 0.85rem;
+  gap: 0.6rem 0.9rem;
   grid-template-columns: minmax(11rem, 1.2fr) minmax(18rem, 1.8fr);
   padding-top: 0.9rem;
   position: relative;
+}
+
+.drivetrain-elasticity-head h3 {
+  font-size: 0.86rem;
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
 }
 
 .drivetrain-elasticity-head {
@@ -230,13 +238,6 @@
   margin: 0;
 }
 
-.drivetrain-elasticity-head h3 {
-  font-size: 0.86rem;
-  font-weight: 500;
-  line-height: 1.35;
-  margin: 0;
-}
-
 .drivetrain-elasticity-help {
   top: calc(100% + 0.5rem);
 }
@@ -246,21 +247,34 @@
 }
 
 .drivetrain-elasticity-buttons {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.45rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .drivetrain-elasticity-buttons .drivetrain-choice {
-  width: auto;
+  align-content: center;
+  display: grid;
+  gap: 0.15rem;
+  min-height: 3.25rem;
+  width: 100%;
 }
 
-.drivetrain-elasticity-description {
-  color: var(--dt-muted);
-  font-size: 0.8rem;
-  grid-column: 2;
-  line-height: 1.4;
-  margin: -0.15rem 0 0;
+.drivetrain-elasticity-buttons .drivetrain-choice[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--dt-accent) 14%, var(--dt-panel) 86%);
+  color: var(--global-text-color);
+}
+
+.drivetrain-choice-main,
+.drivetrain-choice-note {
+  display: block;
+}
+
+.drivetrain-choice-note {
+  color: inherit;
+  font-size: 0.66rem;
+  line-height: 1.2;
+  opacity: 0.72;
 }
 
 .drivetrain-fuel-prices,
@@ -410,9 +424,9 @@
 }
 
 .drivetrain-toolbar.compact .drivetrain-choice {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   min-height: 2rem;
-  padding: 0.38rem 0.48rem;
+  padding: 0.36rem 0.38rem;
 }
 
 .drivetrain-choice:hover,
@@ -683,8 +697,8 @@
     grid-template-columns: 1fr;
   }
 
-  .drivetrain-elasticity-description {
-    grid-column: auto;
+  .drivetrain-elasticity-buttons {
+    grid-template-columns: 1fr;
   }
 
   .drivetrain-fuel-prices,

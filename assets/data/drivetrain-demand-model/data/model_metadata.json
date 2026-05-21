@@ -60,7 +60,7 @@
     "phev",
     "hev"
   ],
-  "scenario_count": 3456,
+  "scenario_count": 1944,
   "elasticity_set_count": 3,
   "elasticity_sets": [
     "conservative_fridstrom",

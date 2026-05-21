@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Transport electrification policy explorer
+title: Drivetrain transition policy explorer
 description: Interactive policy-scenarios for projected Swedish new-car sales shares by drivetrain.
 img: /assets/images/drivetrain_thumbnail.png
 importance: 2
@@ -13,7 +13,7 @@ me to iterate on a policy-driven demand model which originates from previous wor
 The purpose of this tool is to enable the exploration of how key policies impact the electrification rate of the passenger vehicle fleet. 
 Methods, data and key assumptions are presented and discussed below.
 
-<link rel="stylesheet" href="{{ '/assets/css/drivetrain-demand-model.css?v=20260521-elasticity-help' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/drivetrain-demand-model.css?v=20260521-elasticity-active-text' | relative_url }}">
 
 <div
   id="drivetrain-demand-model"
@@ -77,13 +77,13 @@ Methods, data and key assumptions are presented and discussed below.
 <script>
 window.DRIVETRAIN_DEMAND_MODEL_PATHS = {
   base: "{{ '/assets/data/drivetrain-demand-model/data/' | relative_url }}",
-  index: "{{ '/assets/data/drivetrain-demand-model/data/scenario_index.json' | relative_url }}?v=20260521-elasticity-help",
-  technology: "{{ '/assets/data/drivetrain-demand-model/data/technology_scenarios.json' | relative_url }}?v=20260521-elasticity-help",
-  technologySummary: "{{ '/assets/data/drivetrain-demand-model/data/technology_summary.csv' | relative_url }}?v=20260521-elasticity-help",
-  policyLevers: "{{ '/assets/data/drivetrain-demand-model/data/policy_levers.json' | relative_url }}?v=20260521-elasticity-help"
+  index: "{{ '/assets/data/drivetrain-demand-model/data/scenario_index.json' | relative_url }}?v=20260521-elasticity-active-text",
+  technology: "{{ '/assets/data/drivetrain-demand-model/data/technology_scenarios.json' | relative_url }}?v=20260521-elasticity-active-text",
+  technologySummary: "{{ '/assets/data/drivetrain-demand-model/data/technology_summary.csv' | relative_url }}?v=20260521-elasticity-active-text",
+  policyLevers: "{{ '/assets/data/drivetrain-demand-model/data/policy_levers.json' | relative_url }}?v=20260521-elasticity-active-text"
 };
 </script>
-<script src="{{ '/assets/js/drivetrain-demand-model.js?v=20260521-elasticity-help' | relative_url }}"></script>
+<script src="{{ '/assets/js/drivetrain-demand-model.js?v=20260521-elasticity-active-text' | relative_url }}"></script>
 
 ## Method
 The  model simulates annual drivetrain market shares for new passenger cars using a calibrated nested-logit structure. The choice set consists of gasoline, diesel, hybrid electric (HEV), plug-in hybrid (PHEV) and battery electric vehicles (BEV). 
