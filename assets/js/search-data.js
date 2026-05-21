@@ -36,6 +36,11 @@ ninja.data = [{
           description: "",
           section: "Projects",handler: () => {
               window.location.href = "/projects/datacenter-tracker/";
+            },},{id: "projects-drivetrain-policy-scenario-explorer",
+          title: 'Drivetrain policy-scenario explorer',
+          description: "Policy scenario explorer for projected Swedish new-car sales shares by drivetrain.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/drivetrain-demand-model/";
             },},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
           description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",
