@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I'm presenting an upcoming paper, *"Tax Exemptions for Drop-In Biofuels and Transport Decarbonisation: Evidence from Sweden,"* at the [**2026 IAEE European Conference**]([https://www.regionalstudies.org/events/rsa26](https://iaee2026.eu/)/) in September.
+I'm presenting an upcoming paper, *Tax Exemptions for Drop-In Biofuels and Transport Decarbonisation: Evidence from Sweden*, at the [**2026 IAEE European Conference**](https://iaee2026.eu/)] in September.
