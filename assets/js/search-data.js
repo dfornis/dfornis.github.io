@@ -29,7 +29,7 @@ ninja.data = [{
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
             },},{id: "news-i-m-presenting-an-upcoming-paper-tax-exemptions-for-drop-in-biofuels-and-transport-decarbonisation-evidence-from-sweden-at-the-2026-iaee-european-conference-in-september",
-          title: 'I’m presenting an upcoming paper, “Tax Exemptions for Drop-In Biofuels and Transport Decarbonisation:...',
+          title: 'I’m presenting an upcoming paper, Tax Exemptions for Drop-In Biofuels and Transport Decarbonisation:...',
           description: "",
           section: "News",},{id: "projects-nordic-data-center-tracker",
           title: 'Nordic data center tracker',
