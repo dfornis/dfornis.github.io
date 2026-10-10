@@ -207,22 +207,12 @@
       },
       "guide": "Who can organise support or opposition?",
       "developments": {
-        "pressure": {
+        "constrained": {
           "T0-T1": "Higher bills and delayed industrial projects give T1’s advocates potential allies among households and industrial users. Whether these groups support T1 depends on its expected effect on their own costs and connections.",
           "T0-T2": "Industry associations and household campaigns can seek limits on new demand. Developers and host communities have concentrated reasons to oppose T2; industrial users’ support depends on the capacity it frees.",
           "T1-T2": "T1 already has party and developer advocates. T2 can attract groups facing persistent local scarcity, but needs their agreement to forgo new establishments."
         },
-        "generation-pressure": {
-          "T0-T1": "Higher bills give households and electricity-intensive firms an interest in new generation. This can widen support for T1 beyond its existing reform advocates.",
-          "T0-T2": "Price exposure gives electricity users a reason to seek demand restraint. Progress on grid expansion reduces one source of potential industrial support for T2.",
-          "T1-T2": "T1 can connect electricity users’ interest in new supply with developers’ interest in continued investment. T2 requires agreement to accept lost establishments instead."
-        },
-        "grid-pressure": {
-          "T0-T1": "Industrial users may seek connection-priority or network reforms. Their interest in shorter queues does not by itself make them supporters of a national annual-generation requirement.",
-          "T0-T2": "Industrial firms waiting for capacity can support restrictions on competing demand. Developers and municipalities expecting new projects have reasons to oppose T2.",
-          "T1-T2": "Firms in local queues may favour restricting new demand. Generation developers can favour T1. The policies offer different benefits to these groups, complicating a common reform coalition."
-        },
-        "keep-pace": {
+        "expanded": {
           "T0-T1": "Lower exposure to price and connection pressures gives T1’s advocates less opportunity to recruit households and industrial users. Business support for voluntary contracts faces fewer immediate conflicts.",
           "T0-T2": "T0 retains established business support. T2 needs allies willing to halt investment despite reduced electricity pressures.",
           "T1-T2": "T1 retains identifiable reform advocates. T2 still requires a coalition willing to accept the loss of new establishments."
@@ -280,22 +270,12 @@
       },
       "guide": "Which rules and decision procedures matter?",
       "developments": {
-        "pressure": {
+        "constrained": {
           "T0-T1": "T1 still requires legislation, eligible-generation rules and a monitoring mandate. Stronger demands for action can help it reach the agenda, but national production and local grid access involve different decisions.",
           "T0-T2": "Electricity scarcity strengthens the public-interest argument for intervention. T2 still needs a justified sector-wide restriction, transition rules and a parliamentary route.",
           "T1-T2": "Both require new legislation. T1 can condition continued investment; T2 needs the broader justification for prohibiting new sites."
         },
-        "generation-pressure": {
-          "T0-T1": "Stronger price concerns can support placing T1 on the legislative agenda. The required majority, eligibility rules and monitoring arrangements remain to be secured.",
-          "T0-T2": "A price argument can support intervention. T2 must still justify a national restriction on new establishments and address projects already in preparation.",
-          "T1-T2": "T1 requires enforceable generation and contracting rules. T2 requires a wider legal intervention that prevents new sites from opening."
-        },
-        "grid-pressure": {
-          "T0-T1": "T1 needs legislation and monitoring even where connection rules are the binding issue. Parties would have to justify choosing a national production requirement to address the identified conflict.",
-          "T0-T2": "Local connection scarcity supports calls for allocation changes. A national stop must justify applying the restriction beyond the affected network areas.",
-          "T1-T2": "T1’s national matching rule and T2’s national stop face questions about geographic scope. The outside view should investigate measures aimed directly at constrained connections."
-        },
-        "keep-pace": {
+        "expanded": {
           "T0-T1": "T0 fits current procedures. T1 still requires legislation and administrative responsibilities; lower immediate electricity pressures reduce the urgency of that change.",
           "T0-T2": "T0 benefits from established procedures. A national stop requires justification despite reduced supply and connection pressures.",
           "T1-T2": "T1 still requires a new legal framework. T2 faces the larger task of justifying a prohibition on new sites."
@@ -354,22 +334,12 @@
       "framework_reference": "Fornborg (2026), §4.3 and Table 1; Geels (2002), reference 31 in the article.",
       "guide": "How could wider trends change political priorities?",
       "developments": {
-        "pressure": {
+        "constrained": {
           "T0-T1": "Higher living costs and industrial investment delays bring affordability and competitiveness into tension with AI investment ambitions. Whether this shifts party priorities is part of the political assessment.",
           "T0-T2": "Scarcity increases conflict between digital investment, industrial decarbonisation and household purchasing power. A turn towards demand restraint depends on public debate and political priorities.",
           "T1-T2": "T1 can reconcile additional supply with digital investment. T2 becomes politically more relevant where opposition concerns resource allocation or the scale of expansion."
         },
-        "generation-pressure": {
-          "T0-T1": "Higher electricity bills make affordability and industrial competitiveness more salient in the debate over AI investment. T1 gives reform advocates a generation-based response.",
-          "T0-T2": "Price pressure can challenge investment-promotion priorities even when reinforcement proceeds. Public opinion and party responses determine whether limiting new demand gains broader support.",
-          "T1-T2": "T1 connects digital-investment and climate ambitions through new generation. T2 asks decision-makers to give demand restraint greater weight than new establishments."
-        },
-        "grid-pressure": {
-          "T0-T1": "Industrial electrification and AI investment compete locally for network capacity. That tension directs attention towards who gets connected and where, rather than only national generation volumes.",
-          "T0-T2": "Regional industrial priorities can conflict with national digital-investment ambitions. T2’s political appeal depends on how that conflict enters party competition and public debate.",
-          "T1-T2": "The wider conflict concerns the location and priority of investment. T1 and T2 address it differently; national energy abundance does not settle those political priorities."
-        },
-        "keep-pace": {
+        "expanded": {
           "T0-T1": "AI investment and industrial decarbonisation face less immediate conflict over electricity. Climate commitments and public opinion can still support a generation requirement.",
           "T0-T2": "Lower electricity pressures give investment promotion fewer immediate trade-offs with household bills and industry. Land use and other public priorities remain relevant to opposition.",
           "T1-T2": "T1 can still connect new investment with climate commitments. T2 needs a stronger shift towards limiting expansion than these electricity assumptions alone imply."
@@ -427,22 +397,12 @@
       },
       "guide": "Who loses, and can they adjust or be compensated?",
       "developments": {
-        "pressure": {
+        "constrained": {
           "T0-T1": "Under T0, households and other firms bear higher bills or delayed connections. T1 transfers generation obligations and delivery risks to developers; local network losses can persist.",
           "T0-T2": "T2 can reduce competing demand while imposing project losses on developers and host communities. The political balance depends on how concentrated and organised these groups are.",
           "T1-T2": "T1 gives developers a route to open through generation commitments. T2 removes that route; users still facing local scarcity may judge its relief worth the project losses."
         },
-        "generation-pressure": {
-          "T0-T1": "T0 leaves users exposed to a generation shortfall. T1 assigns generation costs and delivery risks to new data-centre developers, creating support among potential beneficiaries and opposition among those paying.",
-          "T0-T2": "T2 limits new demand but concentrates losses on developers and host communities. Households and electricity-intensive firms may value its effect on prices.",
-          "T1-T2": "T1 permits investment with extra costs; T2 prevents the new establishment. Developers have a clearer reason to accommodate T1 than T2, while electricity users compare the relief each offers."
-        },
-        "grid-pressure": {
-          "T0-T1": "Under T0, delayed connections impose costs on competing projects. T1 adds compliance costs even when new generation elsewhere does little for the constrained local network.",
-          "T0-T2": "T2 may benefit firms waiting for capacity, but also prevents projects in places with available connections. Its national scope widens the group bearing losses.",
-          "T1-T2": "T1’s compliance costs and T2’s lost projects fall on different groups. Regional relief from T2 and the ability to open under T1 shape their incentives to support each policy."
-        },
-        "keep-pace": {
+        "expanded": {
           "T0-T1": "Reduced electricity pressures lower the immediate burden on other users under T0. T1 still imposes procurement costs and delivery risks on developers.",
           "T0-T2": "T2 concentrates losses on developers and host communities while offering electricity users less immediate relief. Local environmental benefits may still matter.",
           "T1-T2": "Developers can comply and open under T1; T2 prevents that investment. Lower electricity pressures weaken the case for asking these groups to accept the larger loss."
@@ -500,22 +460,12 @@
       },
       "guide": "What do earlier policies and investments set in motion?",
       "developments": {
-        "pressure": {
+        "constrained": {
           "T0-T1": "Existing voluntary contracts and project plans support T0. Continued scarcity can undermine confidence in that approach, while generation-requirement proposals give T1 an established route into debate.",
           "T0-T2": "Committed investments create resistance to a stop. Unresolved shortages can weaken the promise of benefits used to defend further development.",
           "T1-T2": "T1 develops proposals already under discussion. T2 departs further from investment promotion, but repeated unresolved allocation conflicts can increase pressure for that break."
         },
-        "generation-pressure": {
-          "T0-T1": "Current contracts and investments continue to support T0. Persistently high prices can strengthen advocates of the generation requirements already proposed for T1.",
-          "T0-T2": "Progress on reinforcement supports expectations of continued development. High bills can challenge those expectations, while committed projects organise against a stop.",
-          "T1-T2": "T1 builds on additionality proposals and generation contracting. T2 cuts across investment plans even where network reinforcement proceeds."
-        },
-        "grid-pressure": {
-          "T0-T1": "Generation investments can work as promised while connection delays erode confidence in allocation practice. Pressure may therefore focus on network decisions rather than adoption of T1.",
-          "T0-T2": "Unresolved queues can weaken support for further demand, while committed data-centre and municipal investments create pressure against T2.",
-          "T1-T2": "T1 builds on generation-policy proposals, but persistent queues can expose their limited fit to the local problem. T2 would interrupt more existing investment plans."
-        },
-        "keep-pace": {
+        "expanded": {
           "T0-T1": "Voluntary contracts and grid projects that deliver their expected benefits strengthen T0. Existing reform proposals keep T1 available for parties prioritising additionality.",
           "T0-T2": "Completed investment and reinforcement strengthen expectations of continued development. T2 breaks more sharply with those plans.",
           "T1-T2": "T1 builds on generation requirements already proposed. T2 conflicts more directly with established investment plans and promotion."
@@ -837,20 +787,19 @@
   ],
   "developments": [
     {
-      "id": "pressure",
-      "label": "Demand outpaces generation · Grid expansion delayed",
+      "id": "constrained",
+      "label": "Constrained expansion · baseline",
       "inputs": {
-        "generation": "tight",
-        "grid": "delayed"
+        "supply": "constrained"
       },
       "effects": [
         {
           "label": "Electricity prices",
-          "text": "Greater upward pressure on wholesale prices exposes households and electricity-intensive firms to higher bills."
+          "text": "Limited generation and transmission capacity increases upward pressure on regional electricity prices as new demand connects."
         },
         {
           "label": "Connections",
-          "text": "Delayed reinforcement limits connections for both data centres and industrial electrification."
+          "text": "Limited grid capacity intensifies competition for connections between data centres and industrial electrification."
         }
       ],
       "adoption": {
@@ -873,101 +822,23 @@
         "T2": "Relief for other electricity users can sustain support for the stop. Lost projects give developers and host communities reasons to seek exemptions or repeal."
       },
       "model": "Test T1 as the principal reform alongside T0, and T2 as an alternative with greater obstacles to adoption. Report electricity prices and connection constraints separately when reassessing political support.",
-      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"]
+      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
+      "assumption": "Generation and grid capacity expand slowly relative to new demand during 2027–2029."
     },
     {
-      "id": "generation-pressure",
-      "label": "Demand outpaces generation · Grid expansion on schedule",
+      "id": "expanded",
+      "label": "Expanded capacity · counterfactual",
       "inputs": {
-        "generation": "tight",
-        "grid": "on-schedule"
+        "supply": "expanded"
       },
       "effects": [
         {
           "label": "Electricity prices",
-          "text": "Greater upward pressure on wholesale prices exposes households and electricity-intensive firms to higher bills."
+          "text": "Additional generation and transmission capacity reduces the upward pressure on regional electricity prices from new demand."
         },
         {
           "label": "Connections",
-          "text": "Reinforcement proceeds as planned, easing the connection constraints associated with delayed grid expansion."
-        }
-      ],
-      "adoption": {
-        "T0-T1": {
-          "title": "The electricity-price argument strengthens T1",
-          "text": "Households and electricity-intensive firms have a reason to support additional generation. T1 addresses that interest more directly than continued voluntary commitments. Support still depends on which generation qualifies, its cost and the implementation timetable."
-        },
-        "T0-T2": {
-          "title": "T2 offers demand restraint at the cost of new investment",
-          "text": "Higher bills can generate support for limiting new demand. With grid expansion on schedule, a national stop has less support from conflicts over delayed reinforcement. Developers and host communities retain strong reasons to oppose it."
-        },
-        "T1-T2": {
-          "title": "T1 better combines the interests in new supply and continued investment",
-          "text": "A generation requirement gives electricity users a route to additional supply while allowing new sites to open. T2 would need a coalition that prefers limiting demand despite the loss of investment."
-        }
-      },
-      "results": {
-        "T0": "Persistently high bills can erode support for voluntary commitments even as grid projects progress. If voluntary procurement adds enough generation, the case for changing the rule weakens.",
-        "T1": "Delivered generation can reinforce support for T1. High compliance costs or generation delays can give developers grounds to seek changes to eligibility and deadlines.",
-        "T2": "Its support depends on whether restricting new demand delivers valued relief on bills. Developers and host communities bear losses even when grid expansion proceeds."
-      },
-      "model": "Compare how T0 and T1 change generation investment and electricity prices. Keep the grid schedule consistent between them, then use the distribution of price and compliance costs in the political assessment.",
-      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"]
-    },
-    {
-      "id": "grid-pressure",
-      "label": "Generation keeps pace · Grid expansion delayed",
-      "inputs": {
-        "generation": "keeps-pace",
-        "grid": "delayed"
-      },
-      "effects": [
-        {
-          "label": "Electricity prices",
-          "text": "Less upward pressure on prices from the national generation-demand balance. Local network bottlenecks can still contribute to regional price differences."
-        },
-        {
-          "label": "Connections",
-          "text": "Delayed reinforcement limits connections for both data centres and industrial electrification."
-        }
-      ],
-      "adoption": {
-        "T0-T1": {
-          "title": "Connection conflicts weaken the case for this particular T1 design",
-          "text": "Industrial users may seek tougher connection rules, but a national annual-generation requirement gives them no assured relief at the constrained connection point. T0 retains its procedural advantage. A coalition for T1 would need to show how the required generation helps the affected users."
-        },
-        "T0-T2": {
-          "title": "T2 gains a connection-allocation argument",
-          "text": "Firms waiting for capacity have a reason to oppose competing new demand. Their interest can support restrictions on data centres, while developers and prospective host communities defend their projects. A national stop still needs wider political support and a legal basis."
-        },
-        "T1-T2": {
-          "title": "The location of the constraint matters to the comparison",
-          "text": "T1 permits additional generation anywhere in Sweden; T2 removes new-site demand. Users facing local queues may favour restricting that demand, while generation developers and continued-investment advocates favour T1. The survey should also examine targeted connection and grid policies."
-        }
-      },
-      "results": {
-        "T0": "Connection delays can split business support for T0. Industrial users may press for changes to allocation rules even when generation keeps pace nationally.",
-        "T1": "An annual generation obligation may retain climate-policy supporters while failing to satisfy firms in local connection queues. This creates pressure to revise its design or add network measures.",
-        "T2": "Reduced competition for connections can sustain local support for T2. Its national reach and the loss of viable projects elsewhere create pressure for exemptions."
-      },
-      "model": "Keep national generation adequacy and local connection capacity separate in the model. Reopen the outside view for connection-priority and grid policies if the three alternatives poorly address the constraint that matters politically.",
-      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"]
-    },
-    {
-      "id": "keep-pace",
-      "label": "Generation keeps pace · Grid expansion on schedule",
-      "inputs": {
-        "generation": "keeps-pace",
-        "grid": "on-schedule"
-      },
-      "effects": [
-        {
-          "label": "Electricity prices",
-          "text": "Less upward pressure on electricity prices from generation falling behind demand."
-        },
-        {
-          "label": "Connections",
-          "text": "Reinforcement proceeds as planned, easing the connection constraints associated with delayed grid expansion."
+          "text": "Additional grid capacity eases competition for connections and local network bottlenecks."
         }
       ],
       "adoption": {
@@ -977,7 +848,7 @@
         },
         "T0-T2": {
           "title": "T2 has a weaker basis for recruiting electricity users",
-          "text": "When generation and reinforcement keep pace, a stop offers less immediate relief to households and industry. It still imposes losses on new projects and host communities. Other conflicts, including land use, can sustain local opposition."
+          "text": "With more generation and grid capacity available, a stop offers less immediate relief to households and industry. It still imposes losses on new projects and host communities. Other conflicts, including land use, can sustain local opposition."
         },
         "T1-T2": {
           "title": "T1 retains the clearer route to reform",
@@ -989,8 +860,9 @@
         "T1": "Completed generation and contracts create interests in stable rules. Developers can still seek lower compliance costs or broader eligibility.",
         "T2": "Developers and host communities have reasons to seek reopening. With less pressure on other electricity users, the coalition for retaining a national stop is harder to sustain."
       },
-      "model": "Use T0 as the stronger continuation assumption under these inputs and retain T1 as a reform sensitivity. Reassess the comparison if model results reveal concentrated costs or if the outside view identifies a change in political priorities.",
-      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"]
+      "model": "With more generation and grid capacity available, T0 retains the stronger continuation case and T1 remains a reform sensitivity. Use modelled regional prices and connection constraints to reassess the distribution of costs and political support.",
+      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
+      "assumption": "More generation and grid capacity are available when new loads connect during 2027–2029."
     }
   ],
   "comparison_windows": [
@@ -1002,7 +874,7 @@
     {
       "id": "before-decision",
       "period": "Changes in 2027–2029",
-      "question": "How do different generation and grid assumptions affect the policy comparison before the decision by 2030?"
+      "question": "How does greater generation and grid capacity affect the policy comparison before the decision by 2030?"
     },
     {
       "id": "after-implementation",
@@ -1018,7 +890,7 @@
   "model_application": {
     "before": "Voluntary generation commitments continue unchanged to 2035.",
     "after": "Voluntary commitments continue through 2029. From 2030, compare continuation, a generation requirement and an establishment stop.",
-    "feedback": "Use modelled prices, connection delays and investment costs to revisit the five political dimensions. Assess how affected actors could respond at the next decision window. Give any later reform its own start date.",
+    "feedback": "Use modelled regional prices, connection constraints and investment costs to revisit the five political dimensions. Assess how affected actors could respond at the next decision window. Give any later reform its own start date.",
     "parameters": {
       "T0": "No statutory generation requirement. Represent voluntary investment and power contracts as company choices.",
       "T1": "From 2030, new sites must secure new renewable generation in Sweden matching 100% of annual demand, through investment or a long-term power contract.",
@@ -1027,30 +899,18 @@
   },
   "sensitivity_inputs": [
     {
-      "id": "generation",
-      "label": "New generation relative to electricity demand",
+      "id": "supply",
+      "label": "Generation and grid capacity",
       "options": [
         {
-          "id": "tight",
-          "label": "Demand grows faster"
+          "id": "constrained",
+          "label": "Constrained expansion",
+          "role": "Baseline"
         },
         {
-          "id": "keeps-pace",
-          "label": "Generation keeps pace"
-        }
-      ]
-    },
-    {
-      "id": "grid",
-      "label": "Grid reinforcement and expansion",
-      "options": [
-        {
-          "id": "delayed",
-          "label": "Delayed"
-        },
-        {
-          "id": "on-schedule",
-          "label": "On schedule"
+          "id": "expanded",
+          "label": "Expanded capacity",
+          "role": "Counterfactual"
         }
       ]
     }

@@ -1381,11 +1381,9 @@
   }
 }
 
-/* Independent inputs; political responses remain in the assessment below. */
+/* One supply-side control; effects and political responses remain distinct. */
 .pf-assumption-controls {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  display: block;
 }
 .pf-assumption-controls fieldset {
   min-width: 0;
@@ -1399,8 +1397,9 @@
   margin-bottom: 0.7rem;
 }
 .pf-assumption-controls .pf-development-options {
-  flex-direction: column;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
 }
 .pf-assumption-controls button {
   text-align: left;
@@ -1424,9 +1423,18 @@
   line-height: 1.6;
 }
 @media (max-width: 600px) {
-  .pf-assumption-controls,
+  .pf-assumption-controls .pf-development-options,
   .pf-assumption-effects {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+}
+
+.pf-project .pf-assumption-role {
+  display: block;
+  color: inherit;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  margin-bottom: 0.2rem;
+  opacity: 0.8;
 }

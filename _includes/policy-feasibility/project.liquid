@@ -182,10 +182,7 @@
         <div>
           <p class="pf-caption">Before the decision · 2027–2029</p>
           <h3>How do the assumptions affect the comparison?</h3>
-          <p>
-            Vary generation and grid expansion separately. Follow their effects on electricity users, then reassess political support for the
-            policies.
-          </p>
+          <p>Start with constrained generation and grid expansion. Test how greater capacity availability changes the policy comparison.</p>
         </div>
       </div>
       <div class="pf-development-control" hidden>
@@ -203,7 +200,7 @@
                     aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
                     aria-controls="pf-reassessment-content pf-model"
                   >
-                    {{ option.label }}
+                    <span class="pf-assumption-role">{{ option.role }}</span>{{ option.label }}
                   </button>
                 {% endfor %}
               </div>
@@ -215,6 +212,7 @@
         {% for development in pf.developments %}
           <div class="pf-development-reading" data-pf-development="{{ development.id }}">
             <h4 class="pf-fallback-label">{{ development.label }}</h4>
+            <p class="pf-condition-description">{{ development.assumption }}</p>
             <dl class="pf-assumption-effects">
               {% for effect in development.effects %}
                 <div>

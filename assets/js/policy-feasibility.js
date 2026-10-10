@@ -11,14 +11,16 @@
   const pairSelect = root.querySelector("#pf-pair-select");
   const params = new URLSearchParams(location.search);
   if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
-  // Keep links to the earlier two-condition view usable.
-  const previous = data.developments.find((item) => item.id === params.get("development")) || data.developments[0];
-  const assumptions = Object.fromEntries(
-    data.sensitivity_inputs.map((input) => [
-      input.id,
-      input.options.some((option) => option.id === params.get(input.id)) ? params.get(input.id) : previous.inputs[input.id],
-    ])
-  );
+  // Earlier links remain readable; a mixed old setting falls back to the constrained base case.
+  const previousExpanded =
+    params.get("development") === "keep-pace" || (params.get("generation") === "keeps-pace" && params.get("grid") === "on-schedule");
+  const assumptions = {
+    supply: data.sensitivity_inputs[0].options.some((option) => option.id === params.get("supply"))
+      ? params.get("supply")
+      : previousExpanded
+        ? "expanded"
+        : "constrained",
+  };
   function updateComparison(announce = false) {
     const pair = data.pairs.find((item) => item.id === pairSelect.value);
     const development = data.developments.find((item) => data.sensitivity_inputs.every((input) => item.inputs[input.id] === assumptions[input.id]));
@@ -41,7 +43,7 @@
         `${pair.label}. ${development.label}. The sensitivity assessment and policy follow-up have been updated.`;
       const url = new URL(location.href);
       url.searchParams.set("pair", pair.id);
-      url.searchParams.delete("development");
+      ["development", "generation", "grid"].forEach((key) => url.searchParams.delete(key));
       data.sensitivity_inputs.forEach((input) => url.searchParams.set(input.id, assumptions[input.id]));
       history.replaceState(null, "", url);
     }
