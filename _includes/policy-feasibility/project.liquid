@@ -65,8 +65,10 @@
         {% include policy-feasibility/tracker-map.liquid %}
         <figcaption>
           {{ site.data.policy_feasibility_context.metric }}.<br>
-          Announced operation by 2030.<br>
-          <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}">Tracker · Stated 2030</a>
+          Announced operation by {{ site.data.policy_feasibility_context.year }}.<br>
+          <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}"
+            >Tracker · {{ site.data.policy_feasibility_context.scenario_label -}}
+          </a>
         </figcaption>
       </figure>
       <div>

@@ -13,7 +13,10 @@
   --pf-line: #c9c9be;
   --pf-soft: #e4e3da;
   --pf-shade: #eeeae3;
-  --pf-accent: #31574d;
+  --pf-accent: #4b6271;
+  --pf-accent-muted: #788995;
+  --pf-map-highlight: #b0bec6;
+  --pf-map-outline: #7f919c;
   --pf-gutter: clamp(1rem, 3vw, 2rem);
   color: var(--pf-ink);
   font-family: "IBM Plex Sans", "Helvetica Neue", sans-serif;
@@ -275,8 +278,8 @@
   stroke-width: 0.7;
 }
 .pf-map-included {
-  fill: #a4b4aa;
-  stroke: #657b70;
+  fill: var(--pf-map-highlight);
+  stroke: var(--pf-map-outline);
 }
 .pf-map-active {
   fill: var(--pf-accent);
@@ -298,7 +301,7 @@
   font-weight: 600;
 }
 .pf-map-leader {
-  stroke: #738477;
+  stroke: var(--pf-accent-muted);
   stroke-width: 1;
 }
 .pf-map-inset-border {
@@ -364,7 +367,7 @@
 }
 .pf-history-line span {
   padding-left: 0.8rem;
-  border-left: 1px solid #86978b;
+  border-left: 1px solid var(--pf-accent-muted);
 }
 .pf-history-sources {
   padding-left: 1.1rem;
@@ -409,7 +412,7 @@
 }
 .pf-pathway {
   padding-top: 1.1rem;
-  border-top: 2px solid #64736d;
+  border-top: 2px solid var(--pf-accent-muted);
 }
 .pf-pathway[data-trajectory="T1"] {
   border-top-style: double;
@@ -616,7 +619,7 @@
 .pf-source-dialog {
   color: var(--pf-ink);
   background: var(--pf-paper);
-  border: 1px solid #7c8177;
+  border: 1px solid var(--pf-accent-muted);
   width: min(760px, calc(100% - 32px));
   max-height: 85vh;
   padding: 1.4rem;
@@ -633,7 +636,7 @@
 }
 .pf-dialog-top button {
   background: transparent;
-  border: 1px solid #7c8177;
+  border: 1px solid var(--pf-accent-muted);
   padding: 0.5rem 0.8rem;
   min-height: 44px;
   flex-shrink: 0;
@@ -976,7 +979,7 @@
 .pf-development-options button {
   min-height: 44px;
   padding: 0.6rem 0.8rem;
-  border: 1px solid #88958b;
+  border: 1px solid var(--pf-accent-muted);
   background: transparent;
   color: var(--pf-accent);
   font-size: 0.84rem;
