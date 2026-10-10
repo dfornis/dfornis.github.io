@@ -1,0 +1,23 @@
+<span class="pf-references" aria-label="Supporting sources">
+  {% assign seen_sources = '|' %}
+  {% for ref in include.ids %}
+    {% assign source = site.data.policy_feasibility_sources.evidence | where: 'id', ref | first %}
+    {% unless source %}{% assign source = site.data.policy_feasibility_sources.literature | where: 'id', ref | first %}{% endunless %}
+    {% assign source_key = source.source_id | default: ref | prepend: '|' | append: '|' %}
+    {% unless seen_sources contains source_key %}
+      <a
+        href="{{ '/projects/political-feasibility/evidence/' | relative_url }}#{{ ref }}"
+        data-pf-source="{{ ref }}"
+        title="{{ source.title | escape }}"
+      >
+        {%- if source.issuer -%}
+          {{- source.issuer -}}
+          {%- if source.date != '' %}, {{ source.date | slice: 0, 4 }}{% endif -%}
+        {%- else -%}
+          {{- source.citation | split: '.' | first -}}
+        {%- endif -%}
+      </a>
+      {% assign seen_sources = seen_sources | append: source_key %}
+    {% endunless %}
+  {% endfor %}
+</span>

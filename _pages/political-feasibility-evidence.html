@@ -1,0 +1,110 @@
+---
+layout: page
+title: Political feasibility — evidence
+description: Dated policy evidence and research notes for the Swedish data-centre application.
+permalink: /projects/political-feasibility/evidence/
+nav: false
+---
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="{{ '/assets/css/policy-feasibility.css' | relative_url | bust_file_cache }}" />
+<div class="pf-project pf-evidence-page">
+  <p><a href="{{ '/projects/political-feasibility/' | relative_url }}">← Return to the method</a></p>
+  <p>
+    Snapshot: 10 October 2026. E records are policy evidence; L records are research. Stable identifiers link the English presentation to the lab's
+    source register. The analytical summaries below are in Swedish; locators identify the archived passages.
+  </p>
+  <p>
+    Locators use one-based PDF pages and numbered lines in the archived text. The linked live original may have changed since retrieval. Sources were
+    reviewed at the stated level; this is not independent validation of the assessment.
+  </p>
+  <h2>Policy evidence</h2>
+  {% for e in site.data.policy_feasibility_sources.evidence %}
+  <details id="{{ e.id }}" class="pf-evidence-record">
+    <summary><span class="pf-source-id">{{ e.id }}</span> {{ e.issuer | escape }} · {{ e.title | escape }}</summary>
+    <dl>
+      <dt>Source status and date</dt>
+      <dd>{{ e.status | escape }} · {{ e.date | escape }}</dd>
+      <dt>Passage locator</dt>
+      <dd>{{ e.locator | escape }} · {% if e.pages != '' %}PDF pages {{ e.pages }} · {% endif %}archived text lines {{ e.lines }}</dd>
+      <dt>Analytical summary from the lab (Swedish)</dt>
+      <dd>{{ e.claim_sv | escape }}</dd>
+      <dt>Limit / counterevidence (Swedish)</dt>
+      <dd>{{ e.limit_sv | escape }}</dd>
+      <dt>Review recorded in the lab</dt>
+      <dd>{{ e.quality | escape }}</dd>
+      <dt>Archive format</dt>
+      <dd>{{ e.archive_format | escape }}</dd>
+    </dl>
+    <p><a href="{{ e.url | escape }}">Read the original source ↗</a></p>
+  </details>
+  {% endfor %}
+  <h2>Research informing the interpretation</h2>
+  <p>
+    The lab’s research notes record the mechanisms used to formulate the five dimensions and interpret the policy evidence. Each note links to the
+    research source.
+  </p>
+  {% for l in site.data.policy_feasibility_sources.literature %}
+  <details id="{{ l.id }}" class="pf-evidence-record">
+    <summary><span class="pf-source-id">{{ l.id }}</span> {{ l.citation | escape }} · {{ l.title | escape }}</summary>
+    <dl>
+      <dt>Type and context</dt>
+      <dd>{{ l.kind | escape }}</dd>
+      <dt>Reading note and limit (Swedish)</dt>
+      <dd>{{ l.note_sv | escape }}</dd>
+      <dt>Reviewed PDF pages, one-based</dt>
+      <dd>{{ l.pages }}</dd>
+      <dt>Review scope</dt>
+      <dd>{{ l.review | escape }}</dd>
+    </dl>
+    {% if l.url != '' %}
+    <p><a href="{{ l.url | escape }}">Read the research source ↗</a></p>
+    {% endif %}
+  </details>
+  {% endfor %}
+  <h2>Pairwise comparison</h2>
+  <p>
+    Carlson, David, and Jacob M. Montgomery (2017).
+    <a href="{{ site.data.policy_feasibility.pairwise_reference.url }}"
+      >A Pairwise Comparison Framework for Fast, Flexible, and Reliable Human Coding of Political Texts</a
+    >. <em>American Political Science Review</em>, 111(4), 835–843.
+  </p>
+  <p>
+    Fornborg (2026), §4.5 and reference 33, refers to this study when discussing comparisons of two trajectories at a time. Carlson and Montgomery
+    study the human coding of political texts.
+  </p>
+  <h2>Historical examples for the outside view</h2>
+  <p>
+    H records are primary sources added for the historical comparisons on this page. They are separate from the lab's Swedish data-centre assessment.
+  </p>
+  {% for h in site.data.policy_feasibility.history_sources %}
+  <details id="{{ h.id }}" class="pf-evidence-record">
+    <summary><span class="pf-source-id">{{ h.id }}</span> {{ h.issuer | escape }} · {{ h.title | escape }}</summary>
+    <dl>
+      <dt>Source type and date</dt>
+      <dd>{{ h.type | escape }} · {{ h.date | escape }}</dd>
+      <dt>Passage locator</dt>
+      <dd>{{ h.locator | escape }}</dd>
+      <dt>What the source supports</dt>
+      <dd>{{ h.supports | escape }}</dd>
+      <dt>Limit</dt>
+      <dd>{{ h.limit | escape }}</dd>
+    </dl>
+    <p><a href="{{ h.url | escape }}">Read the original source ↗</a></p>
+  </details>
+  {% endfor %}
+</div>
+<script>
+  (() => {
+    function revealSource() {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const record = document.getElementById(id);
+      if (record && record.tagName === "DETAILS") {
+        record.open = true;
+        record.scrollIntoView({ block: "start" });
+      }
+    }
+    window.addEventListener("hashchange", revealSource);
+    revealSource();
+  })();
+</script>

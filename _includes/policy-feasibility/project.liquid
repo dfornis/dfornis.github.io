@@ -1,0 +1,313 @@
+{% assign pf = site.data.policy_feasibility %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{ '/assets/css/policy-feasibility.css' | relative_url | bust_file_cache }}">
+<div
+  id="policy-feasibility"
+  class="pf-project"
+  data-pf-map="{{ '/assets/data/policy-feasibility/countries.geojson' | relative_url | bust_file_cache }}"
+>
+  <div class="pf-intro">
+    <p class="pf-caption">A companion to <em>The politics of baselines</em> · Fornborg (2026)</p>
+    <p class="pf-lead">How do we assess the political assumptions in an energy scenario?</p>
+    <p>
+      This framework identifies plausible policy trajectories, compares their political feasibility and uses the assessment to inform energy
+      scenarios. A Swedish data-centre example shows the method in use.
+    </p>
+    <a class="pf-article-link" href="{{ pf.article_url }}">Read the article ↗</a>
+  </div>
+  <figure class="pf-method" aria-labelledby="pf-framework-title">
+    <figcaption>
+      <h2 id="pf-framework-title">The framework</h2>
+      <p>
+        Start with a policy question. The outside view examines precedents, public debate and emerging conflicts to identify plausible alternatives.
+        The inside view compares their political feasibility: who could secure their adoption, and what would sustain or undermine them over time.
+      </p>
+    </figcaption>
+    <div class="pf-flow">
+      <div class="pf-flow-group">
+        <p class="pf-flow-label">Identify plausible trajectories</p>
+        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
+        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
+        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Policy alternatives</strong><span>Comparable trajectories</span></a>
+      </div>
+      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
+      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
+      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
+      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>An assessed assumption</span></a>
+    </div>
+  </figure>
+  <nav class="pf-dimension-guide" aria-label="The five political dimensions">
+    <p class="pf-caption">Five questions guide the investigation and comparison</p>
+    <ol>
+      {% for d in pf.dimensions %}
+        <li>
+          <a href="#pf-dimension-{{ d.id }}"
+            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
+          >
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  <section id="pf-define" class="pf-section">
+    <h2><span class="pf-section-number">01</span> Choose the policy question</h2>
+    <p class="pf-question">{{ pf.scope.question }}</p>
+    <p class="pf-caption">Sweden · Decisions in {{ pf.decision_period }} · Scenario to {{ pf.model_horizon }}</p>
+  </section>
+  {% include policy-feasibility/outside.liquid %}
+  <section id="pf-trajectories" class="pf-section">
+    <h2><span class="pf-section-number">03</span> Define comparable trajectories</h2>
+    <p class="pf-prose">{{ pf.derivation }}</p>
+    <div class="pf-pathways">
+      {% for t in pf.trajectories %}
+        <article class="pf-pathway" data-trajectory="{{ t.id }}">
+          <p class="pf-caption">{{ t.id }} · {{ t.status }}</p>
+          <h3>{{ t.title }}</h3>
+          <p>{{ t.summary }}</p>
+          <details>
+            <summary>Derivation and decisions</summary>
+            <div class="pf-policy-time">
+              <div>
+                <span>2027–2029</span>
+                <p>
+                  {{ t.phases[0] }}
+                </p>
+              </div>
+              <span aria-hidden="true">→</span>
+              <div>
+                <span>From 2030</span>
+                <p>
+                  {{ t.phases[1] }}
+                </p>
+              </div>
+            </div>
+
+            <p>{{ t.origin }}</p>
+            <p>{{ t.decisions }}</p>
+            <p>{{ t.example }}</p>
+            {% include policy-feasibility/references.liquid ids=t.evidence %}
+          </details>
+        </article>
+      {% endfor %}
+    </div>
+    <details class="pf-note">
+      <summary>What the generation requirement covers</summary>
+      <p>{{ pf.scope.definition }}</p>
+      <p>{{ pf.scope.cohort }}</p>
+      <p>{{ pf.scope.timing }}</p>
+    </details>
+  </section>
+  <section id="pf-assess" class="pf-section">
+    <h2><span class="pf-section-number">04</span> Compare political feasibility</h2>
+    <p class="pf-prose">
+      Compare the routes to adoption in 2027–2030, then follow how changing conditions could sustain or undermine each policy through 2035.
+    </p>
+    <div id="pf-conditions" class="pf-conditions">
+      <fieldset class="pf-development-control" hidden>
+        <legend>Explore conditions through 2035</legend>
+        <div class="pf-development-options">
+          {% for development in pf.developments %}
+            <button
+              type="button"
+              data-pf-development-choice="{{ development.id }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-controls="pf-condition-chain pf-comparisons pf-model"
+            >
+              {{ development.label }}
+            </button>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <div id="pf-condition-chain">
+        {% for development in pf.developments %}
+          <div data-pf-development="{{ development.id }}">
+            <p class="pf-caption pf-fallback-label">{{ development.label }}</p>
+            <p class="pf-condition-description">{{ development.description }}</p>
+            <ol class="pf-condition-chain">
+              {% for step in development.chain %}
+                <li>
+                  <strong>{{ step.label }}</strong><span>{{ step.text }}</span>
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        {% endfor %}
+      </div>
+      <p class="pf-caption">
+        The starting assessment draws on positions documented by October 2026. Future conditions change the assessment through 2035.
+      </p>
+    </div>
+    <div class="pf-pair-control" hidden>
+      <label for="pf-pair-select">Compare policies</label>
+      <select id="pf-pair-select">
+        {% for pair in pf.pairs %}
+          <option value="{{ pair.id }}">{{ pair.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <p id="pf-control-status" class="pf-sr-only" role="status" aria-live="polite"></p>
+    <div id="pf-comparisons">
+      <div class="pf-verdict-head" aria-hidden="true">
+        <span>Political dimension</span
+        ><span class="pf-verdict-periods"><span>Adoption · 2027–2030</span><span>Durability · through 2035</span></span>
+      </div>
+      {% for d in pf.dimensions %}
+        <details class="pf-dimension" id="pf-dimension-{{ d.id }}">
+          <summary>
+            <span class="pf-dimension-name"
+              ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></span
+            >
+            <span class="pf-pair-verdicts">
+              {% for pairing in pf.pairs %}
+                <span class="pf-pair-verdict" data-pf-comparison="{{ pairing.id }}">
+                  <span class="pf-pair-name pf-caption">{{ pairing.label }}</span>
+                  <span class="pf-initial-verdict"><span class="pf-period-label">Adoption · 2027–2030</span>{{ d.pairs[pairing.id].takeaway }}</span>
+                  {% for development in pf.developments %}
+                    <span class="pf-future-verdict" data-pf-development="{{ development.id }}"
+                      ><span class="pf-period-label">Through 2035</span><span class="pf-fallback-label">{{ development.label }}: </span>
+                      {{- d.developments[development.id][pairing.id] -}}
+                    </span>
+                  {% endfor %}
+                </span>
+              {% endfor %}
+            </span>
+          </summary>
+          <div class="pf-dimension-body">
+            <p class="pf-caption">{{ d.description }}</p>
+            {% for pairing in pf.pairs %}
+              <div data-pf-comparison="{{ pairing.id }}">
+                <p class="pf-comparative">{{ d.pairs[pairing.id].judgement }}</p>
+              </div>
+            {% endfor %}
+            <div class="pf-comparison-columns">
+              {% for t in pf.trajectories %}
+                <article data-pf-trajectory="{{ t.id }}">
+                  <h3>{{ t.title }}</h3>
+                  <p>{{ d.cells[t.id].assessment }}</p>
+                </article>
+              {% endfor %}
+            </div>
+            {% for pairing in pf.pairs %}
+              {% assign pair = d.pairs[pairing.id] %}
+              {% assign first_id = pairing.id | split: '-' | first %}
+              {% assign second_id = pairing.id | split: '-' | last %}
+              {% assign refs = pair.evidence
+                | concat: d.cells[first_id].evidence
+                | concat: d.cells[second_id].evidence
+                | concat: d.literature
+                | concat: d.development_evidence
+                | uniq
+              %}
+              <div data-pf-comparison="{{ pairing.id }}">
+                <p class="pf-revisit"><strong>What to follow.</strong> {{ pair.condition }}</p>
+                <details class="pf-citation-note">
+                  <summary>Sources and research</summary>
+                  {% include policy-feasibility/references.liquid ids=refs %}
+                </details>
+              </div>
+            {% endfor %}
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+    <p class="pf-caption pf-comparison-reference">
+      Pairwise comparison: Fornborg (2026), §4.5, drawing on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>.
+    </p>
+  </section>
+  <section id="pf-model" class="pf-section">
+    <h2><span class="pf-section-number">05</span> Use the assessment in a scenario</h2>
+    <p class="pf-prose">
+      T0 has the strongest starting position for adoption by 2030. T1 has reform advocates who need a wider agreement. T2 requires a larger political
+      shift. Their durability depends on what follows.
+    </p>
+    {% for development in pf.developments %}
+      <div class="pf-result" data-pf-development="{{ development.id }}">
+        <p class="pf-caption">{{ development.label }} · through 2035</p>
+        <h3>{{ development.result_title }}</h3>
+        <dl class="pf-result-trajectories">
+          {% for t in pf.trajectories %}
+            <div>
+              <dt>{{ t.id }} · {{ t.short_title }}</dt>
+              <dd>{{ development.results[t.id] }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+        <div class="pf-result-use">
+          <h4>Implication for the scenario</h4>
+          <p>{{ development.model }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    <details class="pf-citation-note">
+      <summary>Sources for the possible developments</summary>
+      {% for development in pf.developments %}
+        <div data-pf-development="{{ development.id }}">{% include policy-feasibility/references.liquid ids=development.evidence %}</div>
+      {% endfor %}
+    </details>
+    <a class="pf-conditions-return" href="#pf-conditions" hidden>Change the future conditions ↑</a>
+    <details class="pf-note">
+      <summary>Translate the policies into model assumptions</summary>
+      <div class="pf-model-outputs">
+        {% for t in pf.trajectories %}
+          <article>
+            <h3>{{ t.title }}</h3>
+            <ul>
+              {% for parameter in t.parameters %}
+                <li>{{ parameter }}</li>
+              {% endfor %}
+            </ul>
+          </article>
+        {% endfor %}
+      </div>
+      <p>{{ pf.model_note }}</p>
+      <h4>Overall assessment and evidence</h4>
+      <p>{{ pf.overall.judgement }}</p>
+      <p>{{ pf.overall.reason }}</p>
+      {% include policy-feasibility/references.liquid ids=pf.overall.evidence %}
+    </details>
+  </section>
+  <div class="pf-sources-footer">
+    <h2>Article and supporting material</h2>
+    <p>
+      <a href="{{ pf.article_url }}">The politics of baselines: A political feasibility framework for energy and climate scenarios</a>. David
+      Fornborg, <em>Energy Research &amp; Social Science</em>, 141 (2026), 104981.
+    </p>
+    <div class="pf-links">
+      <a href="{{ '/publications/' | relative_url }}">Publications</a
+      ><a href="{{ '/projects/political-feasibility/evidence/' | relative_url }}">Evidence and research notes</a
+      ><a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic data centre tracker</a>
+    </div>
+    <p class="pf-caption">
+      The tracker provides deployment context. This project assesses policy assumptions. The article develops the framework through a historical
+      transport case.
+    </p>
+    <details>
+      <summary>About this application</summary>
+      <p>
+        Knowledge date: 10 October 2026. Decisions: 2027–2030. Scenario horizon: 2035. This documentary assessment uses a targeted selection of
+        literature and policy evidence.
+      </p>
+      <p>
+        Reading, translation, coding and presentation were LLM-assisted. Central passages were checked against source text and selected original
+        images within the same workflow. There was no independent human double coding or legal expert validation.
+      </p>
+      <p>
+        The evidence register distinguishes decisions, proposals, actor arguments and analytical judgements. It retains stable source identifiers and
+        passage locators. Web-reader text captures are labelled in the source records.
+      </p>
+    </details>
+  </div>
+  <dialog id="pf-source-dialog" class="pf-source-dialog" aria-labelledby="pf-source-title">
+    <div class="pf-dialog-top">
+      <span id="pf-source-kind" class="pf-caption"></span><button type="button" id="pf-close-source" aria-label="Close source">Close ×</button>
+    </div>
+    <div id="pf-source-content"></div>
+  </dialog>
+  <script type="application/json" id="pf-case-data">
+    {{ pf | jsonify | replace: '<', '\u003c' }}
+  </script>
+  <script type="application/json" id="pf-source-data">
+    {{ site.data.policy_feasibility_sources | jsonify | replace: '<', '\u003c' }}
+  </script>
+</div>
+<script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script defer src="{{ '/assets/js/policy-feasibility.js' | relative_url | bust_file_cache }}"></script>
