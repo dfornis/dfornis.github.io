@@ -11,10 +11,18 @@
   const pairSelect = root.querySelector("#pf-pair-select");
   const params = new URLSearchParams(location.search);
   if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
-  let developmentId = data.developments.find((item) => item.id === params.get("development"))?.id || data.developments[0].id;
+  // Keep links to the earlier two-condition view usable.
+  const previous = data.developments.find((item) => item.id === params.get("development")) || data.developments[0];
+  const assumptions = Object.fromEntries(
+    data.sensitivity_inputs.map((input) => [
+      input.id,
+      input.options.some((option) => option.id === params.get(input.id)) ? params.get(input.id) : previous.inputs[input.id],
+    ])
+  );
   function updateComparison(announce = false) {
     const pair = data.pairs.find((item) => item.id === pairSelect.value);
-    const development = data.developments.find((item) => item.id === developmentId);
+    const development = data.developments.find((item) => data.sensitivity_inputs.every((input) => item.inputs[input.id] === assumptions[input.id]));
+    const developmentId = development.id;
     const trajectories = pair.id.split("-");
     root.querySelectorAll("[data-pf-trajectory]").forEach((element) => {
       element.hidden = !trajectories.includes(element.dataset.pfTrajectory);
@@ -25,15 +33,16 @@
     root.querySelectorAll("[data-pf-development]").forEach((element) => {
       element.hidden = element.dataset.pfDevelopment !== developmentId;
     });
-    root.querySelectorAll("[data-pf-development-choice]").forEach((button) => {
-      button.setAttribute("aria-pressed", String(button.dataset.pfDevelopmentChoice === developmentId));
+    root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(assumptions[button.dataset.pfAssumption] === button.dataset.pfValue));
     });
     if (announce) {
       root.querySelector("#pf-control-status").textContent =
-        `${pair.label}. ${development.label}. The five comparisons and scenario conclusion have been updated.`;
+        `${pair.label}. ${development.label}. The sensitivity assessment and policy follow-up have been updated.`;
       const url = new URL(location.href);
       url.searchParams.set("pair", pair.id);
-      url.searchParams.set("development", developmentId);
+      url.searchParams.delete("development");
+      data.sensitivity_inputs.forEach((input) => url.searchParams.set(input.id, assumptions[input.id]));
       history.replaceState(null, "", url);
     }
   }
@@ -42,9 +51,9 @@
   root.querySelector(".pf-development-control").hidden = false;
   root.querySelector(".pf-conditions-return").hidden = false;
   pairSelect.addEventListener("change", () => updateComparison(true));
-  root.querySelectorAll("[data-pf-development-choice]").forEach((button) => {
+  root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
     button.addEventListener("click", () => {
-      developmentId = button.dataset.pfDevelopmentChoice;
+      assumptions[button.dataset.pfAssumption] = button.dataset.pfValue;
       updateComparison(true);
     });
   });

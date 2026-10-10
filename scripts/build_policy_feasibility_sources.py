@@ -77,6 +77,9 @@ def main():
 
     conditional = json.loads((lab / "cases/datacentres-sweden/inside/conditional-comparisons.json").read_text())
     assert conditional["developments"] == case["developments"], "Conditional settings differ from lab"
+    for key in ("comparison_windows", "initial_synthesis", "model_application", "sensitivity_inputs"):
+        assert case[key] == conditional[key], f"{key} differs from lab"
+    assert {t["id"]: t["origin_summary"] for t in case["trajectories"]} == conditional["origin_summaries"]
     development_ids = {item["id"] for item in case["developments"]}
     for original_dimension in conditional["dimensions"]:
         shown = dimensions[original_dimension["id"]]
