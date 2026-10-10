@@ -420,6 +420,22 @@
   max-width: 24ch;
   min-height: 2.6em;
 }
+@supports (grid-template-rows: subgrid) {
+  .pf-pathways {
+    row-gap: 0.8rem;
+  }
+  .pf-pathway {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+  }
+  .pf-project .pf-pathway > * {
+    margin: 0;
+  }
+  .pf-pathway h3 {
+    min-height: 0;
+  }
+}
 .pf-policy-time {
   display: grid;
   grid-template-columns: 1fr 20px 1fr;
@@ -656,34 +672,33 @@
 }
 @media (max-width: 800px) {
   .pf-flow {
-    grid-template-columns: 1fr;
+    grid-template-columns: 32px minmax(0, 1fr);
     grid-template-areas:
-      "label"
-      "outside"
-      "first"
-      "alternatives"
-      "second"
-      "inside"
-      "third"
-      "scenario";
-    row-gap: 0.3rem;
+      "label label"
+      ". outside"
+      "first alternatives"
+      "second inside"
+      "third scenario";
+    gap: 0;
   }
   .pf-flow-group::before {
-    grid-area: 1 / 1 / 5 / 2;
+    grid-area: 1 / 1 / 4 / 3;
   }
   .pf-flow a {
     margin: 0;
-    padding: 0.55rem 1rem;
+    padding: 0.65rem 0.75rem;
   }
-  .pf-flow .pf-flow-alternatives {
-    padding-bottom: 1rem;
+  .pf-flow a span {
+    display: none;
   }
   .pf-project .pf-flow-label {
-    padding-bottom: 0.15rem;
+    padding: 0.65rem 0.85rem 0.3rem;
   }
   .pf-flow-arrow {
-    justify-self: start;
-    margin: 0 0 0 1rem;
+    justify-self: center;
+    width: 26px;
+    height: 26px;
+    margin: 0;
     transform: rotate(90deg);
   }
   .pf-spatial-grid {
@@ -723,6 +738,13 @@
   }
   .pf-pathway h3 {
     min-height: 0;
+  }
+  .pf-pathway {
+    display: block;
+    grid-row: auto;
+  }
+  .pf-project .pf-pathway > * + * {
+    margin-top: 0.8rem;
   }
   .pf-verdict-head {
     display: none;
@@ -1153,6 +1175,40 @@
   align-self: end;
   opacity: 0.82;
 }
+.pf-case-context {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(200px, 0.75fr) minmax(0, 1.65fr);
+  gap: 2rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.pf-case-context figure {
+  margin: 0;
+}
+.pf-tracker-map {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+}
+.pf-tracker-map text {
+  font-family: inherit;
+  font-size: 13px;
+  fill: var(--pf-ink);
+}
+.pf-tracker-value {
+  font-weight: 500;
+}
+.pf-case-context figcaption {
+  font-size: 0.73rem;
+  line-height: 1.5;
+  margin: 0.5rem auto 0;
+  max-width: 250px;
+}
+.pf-project .pf-case-context p {
+  font-size: 0.9rem !important;
+}
 .pf-project .pf-case-intro .pf-question {
   font-size: clamp(1.2rem, 2.2vw, 1.48rem) !important;
 }
@@ -1161,6 +1217,9 @@
   line-height: 1.55;
   color: var(--pf-secondary);
   margin-top: 1.2rem;
+}
+.pf-project .pf-pathway .pf-origin {
+  margin-top: 0.15rem;
 }
 .pf-origin > span {
   display: block;
@@ -1196,9 +1255,7 @@
   display: block;
 }
 .pf-project .pf-starting-conclusion {
-  margin: 1.25rem 0 0.7rem;
-  font-weight: 500;
-  max-width: 76ch;
+  margin: 1.6rem 0 0.7rem;
 }
 .pf-reassessment {
   margin-top: 2.6rem;
@@ -1236,8 +1293,6 @@
 }
 .pf-decision-change {
   margin-top: 1.6rem;
-  padding-left: 1rem;
-  border-left: 2px solid var(--pf-accent);
 }
 .pf-decision-change > h4 {
   font-size: 1.16rem;
@@ -1286,7 +1341,7 @@
 }
 .pf-assumption-change {
   display: grid;
-  grid-template-columns: 1fr 35px 1.65fr;
+  grid-template-columns: 1fr 28px 2fr;
   gap: 1.1rem;
   margin: 1.4rem 0 2rem;
   align-items: center;
@@ -1295,8 +1350,7 @@
   color: var(--pf-secondary);
 }
 .pf-assumption-change > div:last-child {
-  border-left: 2px solid var(--pf-accent);
-  padding-left: 1rem;
+  min-width: 0;
 }
 .pf-assumption-change p:last-child {
   margin-bottom: 0;
@@ -1327,6 +1381,37 @@
   font-size: 0.86rem !important;
   color: var(--pf-secondary);
 }
+.pf-conclusion {
+  border-left: 3px solid var(--pf-accent);
+  padding: 0.2rem 0 0.2rem 1.1rem;
+}
+.pf-project .pf-conclusion > .pf-caption {
+  margin-bottom: 0.65rem;
+}
+.pf-project .pf-conclusion > h3,
+.pf-project .pf-conclusion > h4 {
+  color: var(--pf-accent);
+  font-size: 1.18rem;
+  line-height: 1.4;
+  margin-bottom: 0.7rem;
+}
+.pf-project .pf-conclusion > p:last-child {
+  margin-bottom: 0;
+}
+.pf-result-use.pf-conclusion {
+  margin: 0;
+}
+.pf-model-details {
+  border-block: 1px solid var(--pf-line);
+  padding-block: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+.pf-model-details > summary {
+  font-weight: 500;
+}
+.pf-model-details[open] > summary {
+  margin-bottom: 1rem;
+}
 @media (max-width: 800px) {
   .pf-case-intro {
     grid-template-columns: 1.2fr 1fr;
@@ -1344,6 +1429,14 @@
   .pf-case-illustration {
     max-width: 430px;
     margin: 0.1rem auto 0;
+  }
+  .pf-case-context {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .pf-case-context > div {
+    grid-row: 1;
   }
   .pf-reassessment-intro {
     grid-template-columns: 1fr;

@@ -31,7 +31,7 @@
       {% include policy-feasibility/flow-arrow.liquid step='inside' %}
       <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
       {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
-      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>An assessed assumption</span></a>
+      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Policy assumptions in the model</span></a>
     </div>
   </figure>
   <nav class="pf-dimension-guide" aria-label="The five political dimensions">
@@ -60,6 +60,32 @@
       height="918"
       decoding="async"
     >
+    <div class="pf-case-context">
+      <figure>
+        {% include policy-feasibility/tracker-map.liquid %}
+        <figcaption>
+          {{ site.data.policy_feasibility_context.metric }}.<br>
+          Announced operation by 2030.<br>
+          <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}">Tracker · Stated 2030</a>
+        </figcaption>
+      </figure>
+      <div>
+        <h3>Why the rules are contested</h3>
+        <p>
+          Data centres attract investment and support AI ambitions. Their electricity demand can also raise household bills and delay industrial
+          electrification when generation and grid capacity expand slowly.
+        </p>
+        <details class="pf-citation-note">
+          <summary>Sources and map</summary>
+          <p class="pf-caption">
+            The map shows {{ site.data.policy_feasibility_context.scope | downcase }}. Tracker snapshot:
+            {{ site.data.policy_feasibility_context.snapshot_date | date: '%-d %B %Y' }}.
+          </p>
+          {% assign context_refs = 'E77,E83,E84' | split: ',' %}
+          {% include policy-feasibility/references.liquid ids=context_refs %}
+        </details>
+      </div>
+    </div>
   </section>
   {% include policy-feasibility/outside.liquid %}
   <section id="pf-trajectories" class="pf-section">
@@ -70,7 +96,7 @@
         <article class="pf-pathway" data-trajectory="{{ t.id }}">
           <p class="pf-caption">{{ t.id }} · {{ t.status }}</p>
           <h3>{{ t.title }}</h3>
-          <p>{{ t.summary }}</p>
+          <p class="pf-pathway-summary">{{ t.summary }}</p>
           <p class="pf-origin"><span>From the outside view</span>{{ t.origin_summary }}</p>
           <details>
             <summary>Policy design and sources</summary>
@@ -164,7 +190,10 @@
       {% endfor %}
     </div>
     {% for pair in pf.pairs %}
-      <p class="pf-starting-conclusion" data-pf-comparison="{{ pair.id }}">{{ pf.initial_synthesis[pair.id] }}</p>
+      <div class="pf-starting-conclusion pf-conclusion" data-pf-comparison="{{ pair.id }}">
+        <p class="pf-caption">Starting assessment · Evidence to October 2026</p>
+        <p>{{ pf.initial_synthesis[pair.id] }}</p>
+      </div>
     {% endfor %}
     <p class="pf-caption pf-comparison-reference">
       Pairwise comparison: Fornborg (2026), §4.5, drawing on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>.
@@ -222,7 +251,7 @@
               {% endfor %}
             </dl>
             {% for pair in pf.pairs %}
-              <div class="pf-decision-change" data-pf-comparison="{{ pair.id }}">
+              <div class="pf-decision-change pf-conclusion" data-pf-comparison="{{ pair.id }}">
                 <p class="pf-caption">{{ pair.label }} · Adoption by 2030</p>
                 <h4>{{ development.adoption[pair.id].title }}</h4>
                 <p>{{ development.adoption[pair.id].text }}</p>
@@ -269,31 +298,31 @@
       </div>
       <span class="pf-assumption-arrow" aria-hidden="true">→</span>
       <div>
-        <p class="pf-caption">After the feasibility assessment</p>
-        <p>{{ pf.model_application.after }}</p>
+        {% for development in pf.developments %}
+          <div class="pf-result-use pf-conclusion" data-pf-development="{{ development.id }}">
+            <p class="pf-caption">{{ development.label }}</p>
+            <h3>{{ development.model_title }}</h3>
+            <p>{{ development.model }}</p>
+          </div>
+        {% endfor %}
       </div>
     </div>
-    <h3>Specify the policy in the model</h3>
-    <dl class="pf-model-parameters">
-      {% for t in pf.trajectories %}
-        <div>
-          <dt>{{ t.id }} · {{ t.short_title }}</dt>
-          <dd>{{ pf.model_application.parameters[t.id] }}</dd>
-        </div>
-      {% endfor %}
-    </dl>
-    {% for development in pf.developments %}
-      <div class="pf-result-use" data-pf-development="{{ development.id }}">
-        <p class="pf-caption">{{ development.label }}</p>
-        <p>{{ development.model }}</p>
-      </div>
-    {% endfor %}
+    <details class="pf-model-details">
+      <summary>Policy rules in the model</summary>
+      <p>{{ pf.model_application.after }}</p>
+      <dl class="pf-model-parameters">
+        {% for t in pf.trajectories %}
+          <div>
+            <dt>{{ t.id }} · {{ t.short_title }}</dt>
+            <dd>{{ pf.model_application.parameters[t.id] }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </details>
     <p class="pf-model-feedback">{{ pf.model_application.feedback }}</p>
     <a class="pf-conditions-return" href="#pf-conditions" hidden>Revisit the assumptions ↑</a>
     <details class="pf-note">
-      <summary>Overall assessment and evidence</summary>
-      <p>{{ pf.overall.judgement }}</p>
-      <p>{{ pf.overall.reason }}</p>
+      <summary>Evidence for the assessment</summary>
       {% include policy-feasibility/references.liquid ids=pf.overall.evidence %}
     </details>
   </section>

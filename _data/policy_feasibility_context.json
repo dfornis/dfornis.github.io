@@ -1,0 +1,31 @@
+{
+  "snapshot_date": "2026-10-10",
+  "scenario_id": "stated_2030",
+  "scenario_label": "Stated 2030",
+  "metric": "Estimated grid-side capacity (MW)",
+  "scope": "Projects with announced operation by 2030",
+  "source": "Nordic data centre tracker",
+  "source_url": "/projects/datacenter-tracker/#scenario-map",
+  "source_hashes": {
+    "scenario_zone.json": "f3795256e161bfbd7275424852f0bc88188064ff5ba1420ea1d0f5c9431b81f2",
+    "bidding_zones.geojson": "e9397d77ce28b2a52e90191b48025d687ad4533e1190b45ffd89667a7159b8fd"
+  },
+  "zones": [
+    {
+      "zone": "SE1",
+      "grid_side_mw": 0
+    },
+    {
+      "zone": "SE2",
+      "grid_side_mw": 300
+    },
+    {
+      "zone": "SE3",
+      "grid_side_mw": 673.85
+    },
+    {
+      "zone": "SE4",
+      "grid_side_mw": 0
+    }
+  ]
+}
