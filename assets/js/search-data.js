@@ -41,6 +41,11 @@ ninja.data = [{
           description: "Interactive policy scenarios for projected Swedish new-car sales shares by drivetrain.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/drivetrain-demand-model/";
+            },},{id: "projects-political-feasibility-in-energy-scenarios",
+          title: 'Political feasibility in energy scenarios',
+          description: "An interactive introduction to a framework for identifying plausible policy trajectories and comparing their political feasibility, illustrated through Swedish data-centre policy.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/political-feasibility/";
             },},{id: "teachings-data-science-fundamentals",
           title: 'Data Science Fundamentals',
           description: "This course covers the foundational aspects of data science, including data collection, cleaning, analysis, and visualization. Students will learn practical skills for working with real-world datasets.",

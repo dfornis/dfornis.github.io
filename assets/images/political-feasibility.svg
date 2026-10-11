@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title description">
+  <title id="title">Political feasibility framework</title>
+  <desc id="description">Outside view identifies three plausible policy trajectories. Inside view compares their political feasibility through five dimensions.</desc>
+  <rect width="900" height="560" fill="#eae6dc"/>
+  <g font-family="IBM Plex Sans, Arial, sans-serif" fill="#303a35">
+    <text x="64" y="96" font-size="34">Political feasibility</text>
+    <text x="64" y="139" font-size="25">in energy scenarios</text>
+  </g>
+  <g font-family="IBM Plex Sans, Arial, sans-serif" font-size="16" fill="#59615a">
+    <text x="65" y="208">OUTSIDE VIEW</text><text x="553" y="208">INSIDE VIEW</text>
+    <text x="65" y="242">Scope plausible</text><text x="65" y="267">trajectories</text>
+    <text x="553" y="242">Compare political</text><text x="553" y="267">feasibility</text>
+  </g>
+  <g fill="none" stroke="#9b9e90" stroke-width="2"><path d="M238 343H323M500 343H549"/><path d="m311 337 12 6-12 6m226-6 12 6-12 6"/></g>
+  <g font-family="IBM Plex Sans, Arial, sans-serif" font-size="18">
+    <rect x="325" y="284" width="170" height="32" fill="#d8dcd5"/><rect x="325" y="330" width="170" height="32" fill="#d8dcd5"/><rect x="325" y="376" width="170" height="32" fill="#d8dcd5"/>
+    <g fill="#303a35"><text x="339" y="306">T0 · Voluntary</text><text x="339" y="352">T1 · Required</text><text x="339" y="398">T2 · Stop</text></g>
+  </g>
+  <g stroke="#698579" stroke-width="3"><path d="M555 300H794M555 322H794M555 344H794M555 366H794M555 388H794"/></g>
+  <path d="M65 448H833" stroke="#b9b9ae"/>
+  <text x="65" y="486" font-family="IBM Plex Sans, Arial, sans-serif" font-size="15" fill="#59615a">METHOD COMPANION · FORNBORG (2026)</text>
+</svg>
