@@ -30,13 +30,13 @@ def main():
     site = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
     candidates = [site.parent, site.parent / "policy-feasibility-lab/feasibility-lab", site.parent / "policy-feasibility-lab"]
-    default_lab = next((p for p in candidates if (p / "cases/datacentres-sweden/inside/presentation.json").exists()), candidates[-1])
+    default_lab = next((p for p in candidates if (p / "cases/datacenters-sweden/inside/presentation.json").exists()), candidates[-1])
     parser.add_argument("--lab", type=Path, default=default_lab)
     args = parser.parse_args()
     lab = args.lab.resolve()
     case_path = site / "_data/policy_feasibility.json"
     case = json.loads(case_path.read_text())
-    original = json.loads((lab / "cases/datacentres-sweden/inside/presentation.json").read_text())
+    original = json.loads((lab / "cases/datacenters-sweden/inside/presentation.json").read_text())
     assert case["knowledge_date"] == original["knowledge_cutoff"], "Knowledge dates differ"
     assert case["decision_period"] == original["decision_period"]
     assert str(case["model_horizon"]) == str(original["model_horizon"])
@@ -63,7 +63,7 @@ def main():
     for comparison in original["pairwise_comparisons"]:
         shown = dimensions[comparison["dimension_id"]]["pairs"]["-".join(comparison["trajectory_ids"])]
         assert set(comparison["evidence_ids"]) <= set(shown["evidence"]), "Original comparison references omitted"
-    actor_ids = {a["actor_id"] for a in rows(lab / "cases/datacentres-sweden/outside/actors.csv")}
+    actor_ids = {a["actor_id"] for a in rows(lab / "cases/datacenters-sweden/outside/actors.csv")}
     assert all(a["id"] in actor_ids for a in case["actors"]), "Unknown source actor ID"
     geography = json.loads((site / "assets/data/policy-feasibility/countries.geojson").read_text())
     country_codes = {f["properties"]["code"] for f in geography["features"]}
@@ -71,11 +71,11 @@ def main():
     history_ids = {h["id"] for h in case["history_sources"]}
     assert len(history_ids) == len(case["history_sources"])
     assert all(set(h["source_ids"]) <= history_ids for h in case["history"]), "Unknown historical source"
-    historical = json.loads((lab / "cases/datacentres-sweden/outside/history.json").read_text())
+    historical = json.loads((lab / "cases/datacenters-sweden/outside/history.json").read_text())
     assert historical["examples"] == case["history"] and historical["sources"] == case["history_sources"], "Historical presentation differs from lab"
     assert historical["mobilisation_example"] == case["historical_mobilisation"], "Historical mobilisation example differs from lab"
 
-    conditional = json.loads((lab / "cases/datacentres-sweden/inside/conditional-comparisons.json").read_text())
+    conditional = json.loads((lab / "cases/datacenters-sweden/inside/conditional-comparisons.json").read_text())
     assert conditional["developments"] == case["developments"], "Conditional settings differ from lab"
     for key in ("comparison_windows", "initial_synthesis", "model_application", "sensitivity_inputs"):
         assert case[key] == conditional[key], f"{key} differs from lab"
@@ -89,9 +89,9 @@ def main():
         assert set(shown["developments"]) == development_ids
         assert all(set(pairs) == expected_pairs for pairs in shown["developments"].values())
 
-    source_rows = {s["source_id"]: s for s in rows(lab / "cases/datacentres-sweden/sources/index.csv")}
+    source_rows = {s["source_id"]: s for s in rows(lab / "cases/datacenters-sweden/sources/index.csv")}
     evidence = []
-    for item in rows(lab / "cases/datacentres-sweden/outside/evidence.csv"):
+    for item in rows(lab / "cases/datacenters-sweden/outside/evidence.csv"):
         source = source_rows[item["source_id"]]
         source_text = (lab / source["text_path"]).read_text().splitlines()
         start, end = int(item["line_start"]), int(item["line_end"])
@@ -138,7 +138,7 @@ def main():
     result = {
         "knowledge_date": case["knowledge_date"],
         "translation_note": "English presentation text is an LLM-assisted adaptation of the Swedish lab assessment. The website exports authored summaries and source locators; archived source passages remain in the lab.",
-        "assessment_sha256": hashlib.sha256((lab / "cases/datacentres-sweden/inside/presentation.json").read_bytes()).hexdigest(),
+        "assessment_sha256": hashlib.sha256((lab / "cases/datacenters-sweden/inside/presentation.json").read_bytes()).hexdigest(),
         "evidence": evidence, "literature": literature,
     }
     destination = site / "_data/policy_feasibility_sources.json"

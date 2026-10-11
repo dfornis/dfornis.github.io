@@ -31,9 +31,9 @@ ninja.data = [{
             },},{id: "news-i-m-presenting-an-upcoming-paper-tax-exemptions-for-drop-in-biofuels-and-transport-decarbonisation-evidence-from-sweden-at-the-2026-iaee-european-conference-in-september",
           title: 'I’m presenting an upcoming paper, Tax Exemptions for Drop-In Biofuels and Transport Decarbonisation:...',
           description: "",
-          section: "News",},{id: "projects-nordic-data-center-tracker",
-          title: 'Nordic data center tracker',
-          description: "Public database with plans and electricity use estimates for new data centers across the Nordics.",
+          section: "News",},{id: "projects-nordic-datacenter-tracker",
+          title: 'Nordic datacenter tracker',
+          description: "Public database with plans and electricity use estimates for new datacenters across the Nordics.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/datacenter-tracker/";
             },},{id: "projects-drivetrain-transition-policy-scenarios",
@@ -43,7 +43,7 @@ ninja.data = [{
               window.location.href = "/projects/drivetrain-demand-model/";
             },},{id: "projects-political-feasibility-in-energy-scenarios",
           title: 'Political feasibility in energy scenarios',
-          description: "An interactive introduction to a framework for identifying plausible policy trajectories and comparing their political feasibility, illustrated through Swedish data-centre policy.",
+          description: "An interactive introduction to a framework for identifying plausible policy trajectories and comparing their political feasibility, illustrated through Swedish datacenter policy.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/political-feasibility/";
             },},{id: "teachings-data-science-fundamentals",
