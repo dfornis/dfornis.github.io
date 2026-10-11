@@ -1,0 +1,411 @@
+{
+  "evidence": {
+    "E01": {
+      "type": "Law",
+      "summary_sv": "Ellagen kräver objektiva och icke-diskriminerande anslutningsvillkor och anslutning inom skälig tid. Kapacitetsbrist kan medge undantag. Två år är ingen ovillkorlig maximal ledtid."
+    },
+    "E02": {
+      "type": "Law taking effect mainly on 1 January 2027",
+      "summary_sv": "Den nya elmarknadslagen behåller anslutningsskyldigheten, undantagen vid kapacitetsbrist och prövningen av avtalsmetoder. Huvuddelen träder i kraft den 1 januari 2027."
+    },
+    "E03": {
+      "type": "Regulatory guidance",
+      "summary_sv": "Ei beskriver hur nätföretag får bedöma projektens mognad och begära uppdaterade uppgifter om effekt- och energibehov. En effektreservation kan upphöra om villkoren inte uppfylls. Bedömningen ska vara icke-diskriminerande."
+    },
+    "E04": {
+      "type": "Regulatory guidance",
+      "summary_sv": "Metoder för villkorade anslutningsavtal ska prövas och godkännas av Ei innan avtalen ingås."
+    },
+    "E05": {
+      "type": "Regulatory guidance",
+      "summary_sv": "Ei skiljer öppet marknadsbaserat inköp av flexibilitet från villkorad icke-marknadsbaserad omdirigering och dess undantagskriterier."
+    },
+    "E06": {
+      "type": "Regulatory review",
+      "summary_sv": "Ei har granskat Svenska kraftnät och sex regionnätsföretag. Granskningen pekar på att anslutningstider också påverkas av hur processerna utformas och vilket underlag som finns."
+    },
+    "E07": {
+      "type": "Connection queue",
+      "summary_sv": "Tabellen redovisar ansökningar om 7 326 MW för datacenter. Projekten står i kö utan reserverad kapacitet."
+    },
+    "E08": {
+      "type": "Agency recommendations",
+      "summary_sv": "Svenska kraftnät föreslår en utredning om krav på ny fossilfri elproduktion vid etablering av stora elanvändare. Förslaget omfattar årsenergi, effekt vid hög belastning, flexibilitet, lagring och lokalisering. Juridiska och ekonomiska förutsättningar återstår att utreda."
+    },
+    "E09": {
+      "type": "Agency recommendations",
+      "summary_sv": "Svenska kraftnät vill komplettera anslutningsprocessen med geografisk anvisning och incitament för vissa kundkategorier. Utformningen återstår."
+    },
+    "E10": {
+      "type": "Agency recommendations",
+      "summary_sv": "Svenska kraftnät skiljer mellan avtal med befintlig produktion, redan beslutad ny produktion och produktion som byggs tack vare avtalet. Den sista kategorin kräver en bedömning av vilken investering avtalet faktiskt utlöser."
+    },
+    "E11": {
+      "type": "Government assignment",
+      "summary_sv": "Regeringen beställer analys av elköpsavtal, lokalisering, matchande produktions-/lastprofil och incitament för leveranssäkerhet."
+    },
+    "E12": {
+      "type": "Government action plan",
+      "summary_sv": "Regeringen kopplar elnät och elproduktion till AI-beräkningskapacitet, redovisar dialog och datacenters energirapportering."
+    },
+    "E13": {
+      "type": "Actor position",
+      "summary_sv": "EcoDataCenter förordar incitament och krav som leder till ny elproduktion och stärker elförsörjningen. Företaget kritiserar samtidigt vissa anslutningskrav som hinder för investeringar."
+    },
+    "E14": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "Irlands regler för nya datacenteransökningar på minst 10 MVA kräver styrbar produktion eller lagring på plats eller elektriskt nära. Kapaciteten ska motsvara avtalad maximal anslutningseffekt, justerad för tillgänglighet. Anläggningen ska mätas separat och delta på elmarknaden."
+    },
+    "E15": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "Irland kräver att nya datacenteransökningar på minst 1 MVA täcker minst 80 procent av sin årsenergi med ny förnybar elproduktion i landet. Energikravet har en övergångstid på sex år från anslutning."
+    },
+    "E16": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "De irländska reglerna prioriterar elektrisk närhet framför ett visst geografiskt avstånd. Anslutning till samma nätnod föredras. Systemoperatören kan godkänna en större gemensam produktions- eller lagringsanläggning efter prövning."
+    },
+    "E17": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "De irländska reglerna utesluter kapacitet som redan är i drift eller tidigare har kontrakterats. Hur stor del av en anläggnings effekt som får räknas med beror bland annat på tillgänglighet och energibegränsningar."
+    },
+    "E18": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "I Irland knyts en stegvis ökning av datacentrets anslutningseffekt till att motsvarande produktions- eller lagringskapacitet tas i drift. CRU uppmuntrar även anläggningar som kan använda bränslen med låga eller inga utsläpp i framtiden."
+    },
+    "E19": {
+      "type": "Rules for new datacenter applications",
+      "summary_sv": "De nya irländska reglerna gäller nya ansökningar. Tidigare mottagna och redan behandlade ansökningar fortsätter under CRU/21/124."
+    },
+    "E20": {
+      "type": "Consultation response",
+      "summary_sv": "Data Centres Ireland pekade i sitt remissvar 2024 på planeringshinder, begränsningar för återkommande lastreduktion och kostnader för egna energianläggningar. Organisationen förespråkade marknadsledda lösningar."
+    },
+    "E21": {
+      "type": "Consultation response",
+      "summary_sv": "ESB Networks beskrev 2024 anslutningar där kunden erbjuder lagring, styrbar elproduktion med låga utsläpp och flexibilitet enligt nätoperatörens schema. Beskrivningen gällde produkter under utveckling."
+    },
+    "E22": {
+      "type": "Consultation response",
+      "summary_sv": "EDF Renewables stödde i sitt irländska remissvar förnybar försörjning och skärpta energikrav för datacenter. Företaget lyfte samtidigt långa ledtider, nätbegränsningar och risken för ökade fossila utsläpp på kort sikt."
+    },
+    "E23": {
+      "type": "Legal challenge reported by the applicants",
+      "summary_sv": "Friends of the Earth uppger att organisationen tillsammans med ClientEarth och Friends of the Irish Environment begär rättslig prövning av datacenterreglerna. Kritiken gäller gasberoende och klimatpåverkan."
+    },
+    "E24": {
+      "type": "Political agreement",
+      "summary_sv": "Det danska avtalet placerar vanliga datacenter i kategori 4 och samhällskritiska datacenter i kategori 1. Lager placeras i kategori 3 och kan prioriteras högre om de avlastar nätet."
+    },
+    "E25": {
+      "type": "Political agreement",
+      "summary_sv": "Det danska avtalet låter projekt som avlastar nätet få bättre köplats eller anslutas parallellt. Avslag ska följa tydliga kriterier. Reglernas tillämpning ska följas upp senast vid slutet av 2027."
+    },
+    "E26": {
+      "type": "Adopted reform awaiting entry into force",
+      "summary_sv": "Det danska ministeriet uppger att ett brett flertal har röstat för akutplanen. Planerat ikraftträdande är den 12 oktober 2026."
+    },
+    "E27": {
+      "type": "Consultation response",
+      "summary_sv": "Fingrid stöder förslaget att prioritera stora projekt som tillför produktion och flexibilitet. Nätoperatören efterlyser praktiska preciseringar av den föreslagna lagen."
+    },
+    "E28": {
+      "type": "Consultation response",
+      "summary_sv": "Fingrid vill att flexibilitetsåtaganden ska tillföra ny kapacitet. Operatören skiljer sådana långsiktiga åtaganden från tillfälliga avtal om flexibel anslutning."
+    },
+    "E29": {
+      "type": "Consultation response",
+      "summary_sv": "Fingrid lyfter flexibilitetens varaktighet och aktiveringspris. Deltagande på frekvensreservmarknaden anses i sig otillräckligt för att visa att en resurs kan avlasta nätet uthålligt."
+    },
+    "E30": {
+      "type": "Rules in force from 1 January 2026",
+      "summary_sv": "I nederländska områden med nätträngsel kan projekt prioriteras om de genom avtal frigör kapacitet för andra kunder. Nyttan ska verifieras och får inte orsaka ökad överbelastning i andra nät."
+    },
+    "E31": {
+      "type": "Government legislative proposal",
+      "summary_sv": "Den tyska regeringen föreslår att tidsfristen för att matcha datacentrens elanvändning med förnybar produktion flyttas från 2027 till 2030. Förslaget omfattar också förenklingar av andra krav."
+    },
+    "E32": {
+      "type": "Capacity allocation criteria",
+      "summary_sv": "Singapores program fördelar minst 200 MW utifrån strategiska och ekonomiska kriterier samt energieffektivitet. Minst hälften av energin ska komma från angivna energikällor, däribland vätgas med låga utsläpp."
+    },
+    "E33": {
+      "type": "EU directive",
+      "summary_sv": "EU-direktivets artikel 6a kräver regler för flexibla anslutningar i områden med kapacitetsbrist. Dessa ska normalt följas av nätförstärkning och övergång till fast anslutning. Permanenta flexibla anslutningar tillåts under särskilda förutsättningar."
+    },
+    "E34": {
+      "type": "Industry guidance",
+      "summary_sv": "Energiföretagens branschpraxis utvecklar gemensam informationsinhämtning och mognadsbedömning för region- och lokalnätsanslutning."
+    },
+    "E35": {
+      "type": "Connection rules",
+      "summary_sv": "EirGrids anslutningsregler genomför CRU:s beslut för nya transmissionsansökningar från minst 1 MVA. Den tillhörande elproduktionen får utvecklas av ett annat företag om den kommersiella kopplingen kan visas."
+    },
+    "E36": {
+      "type": "Connection rules",
+      "summary_sv": "EirGrid kräver produktions- eller lagringskapacitet motsvarande hela den avtalade anslutningseffekten, justerad för tillgänglighet. Resursen ska anslutas och mätas separat. Flera datacenter kan dela en resurs, och kraven följer en eventuell upptrappning av anslutningseffekten."
+    },
+    "E37": {
+      "type": "Actor proposal",
+      "summary_sv": "Energiföretagen vill förtydliga ansvar, anslutningsplikt och villkorade avtal för snabbare anslutningar. Förslaget omfattar flera kundgrupper och även permanenta flexibla avtal, särskilt för batterier."
+    },
+    "E38": {
+      "type": "Grid operator policy",
+      "summary_sv": "Vattenfall Eldistribution vill göra flexibilitet till en del av anslutningsprocessen och lyfter villkorade avtal som en möjlig lösning."
+    },
+    "E39": {
+      "type": "Grid operator position",
+      "summary_sv": "Vattenfall Eldistribution bedömde 2024 att villkorade avtal hade störst potential att möta bolagets dåvarande behov av flexibilitet."
+    },
+    "E40": {
+      "type": "Party proposal",
+      "summary_sv": "Miljöpartiet föreslår ny förnybar produktion motsvarande datacentrens elanvändning och förnybar reservkraft som stärker systemet."
+    },
+    "E41": {
+      "type": "Parliamentary debate",
+      "summary_sv": "Ebba Busch hänvisade i riksdagsdebatten den 13 april 2026 till AI-strategin, samordning och uppdrag om nätanslutning. Hon bedömde dessa initiativ som långtgående svar på de frågor som hade lyfts.",
+      "issuer": "Sveriges riksdag"
+    },
+    "E42": {
+      "type": "Parliamentary debate",
+      "summary_sv": "Isak From efterfrågar styrning och datacenters bidrag till energiförsörjningen i en nationellt samordnad etablering.",
+      "issuer": "Sveriges riksdag"
+    },
+    "E43": {
+      "type": "Consultation contribution",
+      "summary_sv": "SweDCI efterfrågar samordning och tydliga effektkrav. Organisationen framhåller att flexibilitet kräver tillstånd och ersättning som täcker kostnaderna.",
+      "issuer": "Svenska kraftnät"
+    },
+    "E44": {
+      "type": "Consultation contribution",
+      "summary_sv": "SKGS föredrar incitament, är tveksamt till elköpsavtal som anslutningsvillkor och vill ha industripassade effektkrav.",
+      "issuer": "Svenska kraftnät"
+    },
+    "E45": {
+      "type": "Consultation contribution",
+      "summary_sv": "Svensk Solenergi förespråkar flexibel anslutning och nätsamordning samt invänder mot reglering av PPA:er.",
+      "issuer": "Svenska kraftnät"
+    },
+    "E46": {
+      "type": "Pilot announcement",
+      "summary_sv": "Svenska kraftnät annonserar piloter med tillfälliga villkorade avtal som kan tidigarelägga kapacitetstilldelning till underliggande nät."
+    },
+    "E47": {
+      "type": "Funding conditions",
+      "summary_sv": "Kraftlyftet kan stödja investeringar som stärker leveranssäkerheten. Ellager måste vara direkt anslutna till förnybar produktion för att omfattas av stödet."
+    },
+    "E48": {
+      "type": "Law taking effect mainly on 1 January 2027",
+      "summary_sv": "Elmarknadslagen medger föreskrifter om teknisk effektstyrning och certifiering vid flexibla anslutningar. Metoderna för avtalen ska godkännas i förväg."
+    },
+    "E49": {
+      "type": "Agency recommendations",
+      "summary_sv": "Svenska kraftnät beskriver kundernas beroende av flera nätnivåer och att förstärkningar i maskat nät normalt finansieras kollektivt."
+    },
+    "E50": {
+      "type": "Consultation response",
+      "summary_sv": "Svenska kraftnät vill att EU-reglerna ger utrymme för proportionerliga krav på stora elanvändare och deras bidrag till fossilfri elförsörjning. Verket betonar fysisk nytta för elsystemet när produktion och förbrukning matchas."
+    },
+    "E51": {
+      "type": "Consultation response",
+      "summary_sv": "Ei stöder nationell samordning men varnar för undanträngning och för att snabbare datacentertillstånd inte löser nätanslutningens ledtid."
+    },
+    "E52": {
+      "type": "Government strategy",
+      "summary_sv": "Norges regering förenar etableringsfrämjande med nationell säkerhet, lokal värdeskapande och hänsyn till natur och energi."
+    },
+    "E53": {
+      "type": "Administrative policy change",
+      "summary_sv": "Norge slutar räkna datacenterförbrukning till kommunernas allmänna elförsörjning vid fördelningen av konsesjonskraft. Befintliga värdkommuner får en övergångstid."
+    },
+    "E54": {
+      "type": "Announced policy review",
+      "summary_sv": "Norges digitaliseringsminister vill kontrollera datacentertillväxt och väga in vad etableringarna ger samhället, samtidigt som AI och digital suveränitet främjas."
+    },
+    "E55": {
+      "type": "Government programme and proposals",
+      "summary_sv": "Storbritanniens AI Growth Zones riktar etableringsstöd, planering och aviserad kapacitetsprioritering mot strategisk AI-infrastruktur på utvalda platser."
+    },
+    "E56": {
+      "type": "Reform proposal",
+      "summary_sv": "Storbritanniens regering föreslår reservation och omfördelning av nätkapacitet för strategiska efterfrågeprojekt och en regionalt samordnad datacenterstrategi."
+    },
+    "E57": {
+      "type": "Reform proposal",
+      "summary_sv": "Ofgem föreslår en åtagandeavgift och kontrollpunkter för att ta bort datacenterprojekt som inte fortskrider från anslutningskön. Samrådet var avslutat och inväntade beslut den 10 oktober 2026."
+    },
+    "E58": {
+      "type": "Approved electricity tariffs",
+      "summary_sv": "Virginias regulator har godkänt särskilda tariffer för Dominions stora elkunder. Långa betalningsåtaganden, minimiavgifter och kreditgarantier ska minska risken att andra kunder får betala för infrastruktur som byggts för dessa anläggningar."
+    },
+    "E59": {
+      "type": "Policy study",
+      "summary_sv": "JLARC fann att datacentren betalade för sina befintliga elkostnader i Virginia. Fortsatt expansion och risken att efterfrågan uteblir kunde däremot öka andra kunders framtida kostnader."
+    },
+    "E60": {
+      "type": "Policy study",
+      "summary_sv": "JLARC beskriver hur boendemotstånd har fått vissa kommuner i Virginia att ändra eller överväga stramare planering. Samtidigt saknar flertalet datacenter bullerklagomål."
+    },
+    "E61": {
+      "type": "Policy study",
+      "summary_sv": "JLARC beskriver förlängning, avveckling och ändrade villkor för Virginias datacentersubvention som möjliga politiska val. Företagen som får stödet har ett ekonomiskt intresse av att det fortsätter."
+    },
+    "E62": {
+      "type": "Regional strategy",
+      "summary_sv": "Noord-Holland fortsätter klustrad etablering men tillåter inga nya hyperscale-initiativ under strategiperioden 2025–2027."
+    },
+    "E63": {
+      "type": "Government strategy",
+      "summary_sv": "AI-strategin prioriterar konkurrenskraftig beräkningskapacitet, säkerhet och nationell rådighet samt samarbete om lokalisering, elproduktion och restvärme."
+    },
+    "E64": {
+      "type": "Actor position",
+      "summary_sv": "Mikael Morin, lokal företrädare för Miljöpartiet i Borlänge, vill ha nationella spelregler och ny elproduktion. Han efterfrågar hänsyn till klimat- och samhällsnytta när nätkapacitet fördelas och öppen redovisning av lokala kostnader och nyttor."
+    },
+    "E65": {
+      "type": "Actor position",
+      "summary_sv": "Gävle kommun framhåller markförsäljning, jobb, följdinvesteringar och skatteintäkter som förväntade nyttor av datacenteretablering."
+    },
+    "E66": {
+      "type": "Local dispute",
+      "summary_sv": "Gävlebygdens flygklubb organiserade ett folkinitiativ för att bevara Rörbergs flygplats. Förvaltningsrätten upphävde kommunens beslut att avvisa initiativet. Kommunen överklagade."
+    },
+    "E67": {
+      "type": "Regulatory change",
+      "summary_sv": "Ei upphäver på regeringsuppdrag bindande krav på nätavgifters utformning från juli 2026 och ska föreslå en ny modell för effektavgifter senast 12 april 2027."
+    },
+    "E68": {
+      "type": "Proposed regulation",
+      "summary_sv": "Ei hänvisar till EU-rättens krav på oberoende myndighetsansvar för metoder och villkor för anslutningsavgifter och föreslår enhetligare kostnadsregler."
+    },
+    "E69": {
+      "type": "Government policy review",
+      "summary_sv": "Regeringen föreslog att datacenters nedsättning av energiskatten skulle avskaffas från juli 2023. De skulle därmed beskattas som övrig tjänstesektor. Riksrevisionens senare granskning i E70 bekräftar att reformen genomfördes."
+    },
+    "E70": {
+      "type": "Public audit",
+      "summary_sv": "Riksrevisionen redovisar att datacenternedsättningen togs bort 2023 med motiv om effektivisering och undanträngning av andra branschers elanvändning."
+    },
+    "E71": {
+      "type": "Municipal council minutes",
+      "summary_sv": "Ett initiativ från Vänsterpartiet kopplade kraftledningen över Rörberg till företagsetableringar, arbeten och välfärd i Gävle och Sandviken. Kommunstyrelsen avslog initiativet."
+    },
+    "E72": {
+      "type": "Government assignment",
+      "summary_sv": "Regeringen ger Skatteverket i uppdrag att delta i en gemensam upphandling av en AI-gigafabrik i Finland. Svensk medfinansiering ska ge offentlig sektor tillgång till beräkningskraft."
+    },
+    "E73": {
+      "type": "Parliamentary debate",
+      "summary_sv": "Isak From lyfter hushållens elräkningar, väntande industrikunder och behov av nationell samordning, energibidrag och restvärme från datacenter.",
+      "issuer": "Sveriges riksdag"
+    },
+    "E74": {
+      "type": "Draft decree under consultation",
+      "summary_sv": "MITECO presenterar ett spanskt förslag med 80 procent ny förnybar el och timvis matchning för datacenter över 1 MW. Egen produktion eller PPA föreslås som anskaffningsvägar."
+    },
+    "E75": {
+      "type": "Voluntary company commitment",
+      "summary_sv": "Vita husets frivilliga åtagande uppmanar företag att säkra ny elproduktion och betala för nätutbyggnad. Särskilda eltariffer ska förhandlas med nät- och elbolag."
+    },
+    "E76": {
+      "type": "Industry proposals",
+      "summary_sv": "Svenskt Näringsliv föreslår incitament för långsiktiga avtal med ny elproduktion och enklare tillstånd. Särregler bör undvikas utan tydlig samhällsnytta."
+    },
+    "E77": {
+      "type": "Industry proposals",
+      "summary_sv": "TechSverige vill ha stabila investeringsvillkor, snabbare utbyggnad av elnät och elproduktion samt lägre elskatt. Organisationen öppnar för att koppla skattesänkningar till lokalt anpassade hållbarhetskrav."
+    },
+    "E78": {
+      "type": "Party proposal",
+      "summary_sv": "Socialdemokraterna vill att datacenter bidrar med egen elproduktion som del av politiken för lägre elräkningar. Förslaget ingår i en energiöverenskommelse som omfattar alla fossilfria kraftslag."
+    },
+    "E79": {
+      "type": "Policy proposal",
+      "summary_sv": "Uniper vill att kärnkraft och livstidsförlängd fossilfri produktion ska få räknas med om krav på matchande elproduktion införs. Företaget föreslår skatte- och planeringsincitament för investeringar och långsiktiga åtaganden."
+    },
+    "E80": {
+      "type": "Policy proposal",
+      "summary_sv": "Uniper förtydligar att dess datacenterförslag bygger på incitament, exempelvis sänkt energiskatt eller prioritet i planering och anslutning."
+    },
+    "E81": {
+      "type": "Industry proposals",
+      "summary_sv": "Svenskt Näringsliv vill att anslutningsavgifter speglar påverkan på elsystemet så att andra kunder inte får bära datacenters kostnader för bland annat nätförstärkningar."
+    },
+    "E82": {
+      "type": "Election result",
+      "summary_sv": "Valmyndigheten fastställer 99 mandat för Socialdemokraterna och 22 för Miljöpartiet, tillsammans 121 av riksdagens 349 mandat. De två partierna behöver därmed stöd från andra partier för att få majoritet."
+    },
+    "E83": {
+      "type": "Agency recommendations",
+      "summary_sv": "Svenska kraftnät bedömer att elpriserna stiger och elektrifieringen bromsas om ny produktion varaktigt släpar efter efterfrågan. Snabbt växande datacenter konkurrerar då med industrins elektrifiering om el och nätkapacitet. Vissa datacenter är mindre priskänsliga och mer geografiskt rörliga än befintlig industri."
+    },
+    "E84": {
+      "type": "Actor position",
+      "summary_sv": "SKGS varnar för att snabbt växande datacenter konkurrerar med industrin om effekt och nätanslutning. Nätbrist, långa tillstånd och svaga marknader försenar industriprojekt. Organisationen kräver snabbare nät- och produktionsinvesteringar."
+    },
+    "E86": {
+      "type": "Actor proposal",
+      "summary_sv": "Friends of the Earth Ireland och andra demonstranter kräver ett nationellt stopp för datacentertillväxt. De kopplar kravet till klimatmål, resursprioritering och hushållens elräkningar."
+    },
+    "E87": {
+      "type": "Constitutional law",
+      "summary_sv": "Regeringsformen kräver saklighet och opartiskhet i förvaltningen. Näringsfriheten får begränsas för angelägna allmänna intressen, inte enbart för att ekonomiskt gynna vissa företag."
+    },
+    "E88": {
+      "type": "Constitutional law",
+      "summary_sv": "Regeringsformen förbjuder andra myndigheter och politiska organ att bestämma en förvaltningsmyndighets beslut i enskilda ärenden som gäller myndighetsutövning eller lagtillämpning."
+    },
+    "E89": {
+      "type": "News report",
+      "summary_sv": "Bensinupproret 2.0 samlade 2019 bilister genom sociala medier och demonstrationer på flera orter. Arrangörer och deltagare krävde lägre drivmedelsskatter och hänvisade till kostnader för arbete och vardagsresor."
+    },
+    "E90": {
+      "type": "Parliamentary motion",
+      "summary_sv": "Lars Beckmans motion 2019/20:1934 hänvisar till Bensinupproret och föreslår stopp för fortsatta skattehöjningar på bensin. Motiveringen lyfter hushållens pendlingskostnader och landsbygdens villkor. Riksdagen avslog motionen."
+    }
+  },
+  "literature": {
+    "L01": {
+      "type": "Comparative study of health policy",
+      "summary_sv": "Immergut visar hur beslutskedjor och vetopunkter påverkar möjligheten att genomföra reformer. Studien hjälper analysen att identifiera var ett förslag kan blockeras och vilka aktörer som kan göra det."
+    },
+    "L05": {
+      "type": "Research on clean energy transitions",
+      "summary_sv": "Breetz, Mildenberger och Stokes analyserar hur fördelningen av kostnader och nyttor, politisk organisering och tidigare stöd formar energiomställningens koalitioner."
+    },
+    "L08": {
+      "type": "Review of public resistance to carbon taxes",
+      "summary_sv": "Carattini, Carvalho och Fankhauser sammanställer forskning om motstånd mot koldioxidskatter. Kostnader, uppfattad rättvisa, fördelning och kompensation är centrala för hur allmänheten ställer sig till politiken."
+    },
+    "L11": {
+      "type": "Survey of 23 European countries",
+      "summary_sv": "Fairbrother, Johansson Sevä och Kulin undersöker sambandet mellan politisk tillit, uppfattningar om klimatförändringar och stöd för skatter på fossila bränslen. Studien belyser tillitens betydelse när politiker motiverar kostnader och ersättning."
+    },
+    "L12": {
+      "type": "Conceptual study of political feasibility",
+      "summary_sv": "Gilabert och Lawford-Smith analyserar politisk genomförbarhet utifrån aktörer, handlingar och sammanhang. Studien ger stöd för att jämföra konkreta politiska alternativ under samma förutsättningar."
+    },
+    "L13": {
+      "type": "Study of the Swedish biofuels industry",
+      "summary_sv": "Hedeler, Hellsmark och Söderholm undersöker hur styrmedel påverkar resurser, uppfattningar och intressen i den svenska biodrivmedelsindustrin. Det belyser hur tidigare politiska beslut formar förutsättningarna för senare beslut."
+    },
+    "L26": {
+      "type": "Study of datacenter governance in Amsterdam",
+      "summary_sv": "Monstadt och Saltzman undersöker hur datacenters mark- och resursanspråk blir politiska frågor. Studien kopplar lokal konflikt och protester till regional och nationell styrning av etableringar."
+    }
+  },
+  "history": {
+    "H01": {
+      "summary": "Hydro-Québec’s commissioned study found few direct jobs relative to power demand in the cryptocurrency-mining projects submitted in 2018."
+    },
+    "H02": {
+      "summary": "The 2019 tender allocated interruptible capacity. Selection criteria included direct jobs, payroll and investment per MW, and heat recovery."
+    },
+    "H03": {
+      "summary": "The Danish legislation introduced compensation for property-value losses and offers of local ownership shares in wind projects. These measures sought to improve local acceptance."
+    },
+    "H04": {
+      "summary": "On 10 January 2023, Québec’s regulator approved a temporary suspension of the remaining allocation process while the reserved electricity capacity was reassessed.",
+      "date": "2023-01-10"
+    }
+  }
+}

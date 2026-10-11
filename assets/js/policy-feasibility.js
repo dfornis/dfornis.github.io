@@ -50,7 +50,6 @@
   root.classList.add("pf-pair-ready", "pf-development-ready");
   root.querySelector(".pf-pair-control").hidden = false;
   root.querySelector(".pf-development-control").hidden = false;
-  root.querySelector(".pf-conditions-return").hidden = false;
   pairSelect.addEventListener("change", () => updateComparison(true));
   root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -166,15 +165,15 @@
     if (!source) return;
     event.preventDefault();
     const policy = source.id.startsWith("E");
-    root.querySelector("#pf-source-kind").textContent = `${source.id} · ${policy ? "Policy evidence" : "Research"} · 10 October 2026 snapshot`;
+    root.querySelector("#pf-source-kind").textContent = policy ? "Policy evidence" : "Research";
     if (policy) {
-      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${escape(source.issuer)} · ${escape(source.country)} · ${escape(source.date)}</p><dl><dt>Source status</dt><dd>${escape(source.status)}</dd><dt>Passage locator</dt><dd>${escape(source.locator)}${source.pages ? ` · PDF pages ${escape(source.pages)}` : ""} · Archived text lines ${escape(source.lines)}</dd><dt>Analytical summary from the lab (Swedish)</dt><dd>${escape(source.claim_sv)}</dd><dt>Limit / counterevidence (Swedish)</dt><dd>${escape(source.limit_sv)}</dd><dt>Review recorded in the lab</dt><dd>${escape(source.quality)}</dd><dt>Archive format</dt><dd>${escape(source.archive_format)}</dd></dl><p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the original source ↗</a></p>`;
+      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${[source.issuer, source.country, source.date].filter(Boolean).map(escape).join(" · ")}</p><dl><dt>Source type</dt><dd>${escape(source.type)}</dd><dt>Summary (Swedish)</dt><dd lang="sv">${escape(source.summary_sv)}</dd></dl><p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the source ↗</a></p>`;
     } else {
-      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${escape(source.citation)}</p><dl><dt>Type and context</dt><dd>${escape(source.kind)}</dd><dt>Reading note and limit (Swedish)</dt><dd>${escape(source.note_sv)}</dd><dt>Reviewed PDF pages, one-based</dt><dd>${escape(source.pages)}</dd><dt>Review scope</dt><dd>${escape(source.review)}</dd></dl>${source.url ? `<p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the research source ↗</a></p>` : ""}`;
+      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${escape(source.citation)}</p><dl><dt>Study</dt><dd>${escape(source.type)}</dd><dt>Relevance to the method (Swedish)</dt><dd lang="sv">${escape(source.summary_sv)}</dd></dl>${source.url ? `<p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the study ↗</a></p>` : ""}`;
     }
     dialogContent.insertAdjacentHTML(
       "beforeend",
-      `<p class="pf-caption"><a href="${escape(sourceBase)}#${source.id}">Permanent source record: ${source.id}</a></p>`
+      `<p class="pf-caption"><a href="${escape(sourceBase)}#${source.id}">View on the evidence page</a></p>`
     );
     dialog.showModal();
     dialog.scrollTop = 0;

@@ -1,8 +1,7 @@
-"""Build a dated, traceable website snapshot from the read-only feasibility lab."""
+"""Build the website's source summaries and verify their links to the lab."""
 
 import argparse
 import csv
-import hashlib
 import json
 import re
 from itertools import combinations
@@ -36,6 +35,7 @@ def main():
     lab = args.lab.resolve()
     case_path = site / "_data/policy_feasibility.json"
     case = json.loads(case_path.read_text())
+    notes = json.loads((site / "_data/policy_feasibility_notes.json").read_text())
     original = json.loads((lab / "cases/datacenters-sweden/inside/presentation.json").read_text())
     assert case["knowledge_date"] == original["knowledge_cutoff"], "Knowledge dates differ"
     assert case["decision_period"] == original["decision_period"]
@@ -92,6 +92,7 @@ def main():
     source_rows = {s["source_id"]: s for s in rows(lab / "cases/datacenters-sweden/sources/index.csv")}
     evidence = []
     for item in rows(lab / "cases/datacenters-sweden/outside/evidence.csv"):
+        note = notes["evidence"][item["evidence_id"]]
         source = source_rows[item["source_id"]]
         source_text = (lab / source["text_path"]).read_text().splitlines()
         start, end = int(item["line_start"]), int(item["line_end"])
@@ -104,42 +105,34 @@ def main():
             url += "#page=" + page.group()
         evidence.append({
             "id": item["evidence_id"], "source_id": item["source_id"],
-            "title": source["title"], "issuer": source["issuer"],
-            "date": source["publication_date"] or "Date not recorded",
-            "country": source["country"], "status": source["legal_status"].replace("_", " "),
-            "url": url, "locator": item["locator"],
-            "pages": item["pdf_pages"], "lines": f"{start}–{end}",
-            "claim_sv": item["claim"], "limit_sv": item["counterevidence_or_limit"],
-            "excerpt": "", "quality": item["quality_status"].replace("_", " "),
-            "archive_format": "Web-reader text representation; source-original bytes unavailable" if source["status"] == "web_retrieved" else ("Original PDF and extracted text" if source["original_path"].endswith(".pdf") else "Original HTML and extracted text"),
-            "source_hash": source["sha256"],
+            "title": source["title"], "issuer": note.get("issuer", source["issuer"]),
+            "date": source["publication_date"],
+            "country": source["country"], "type": note["type"],
+            "url": url, "summary_sv": note["summary_sv"],
         })
 
-    guide = (lab / "reference/literature/README.md").read_text()
     literature = []
     for item in rows(lab / "reference/literature/index.csv"):
         if item["use"] != "inside":
             continue
-        match = re.search(r"^## " + item["literature_id"] + r"\n(.*?)(?=^## |\Z)", guide, re.M | re.S)
-        assert match, f"Missing reading note: {item['literature_id']}"
-        paragraphs = match.group(1).strip().split("\n\n")
-        note = next((p for p in paragraphs if "Användning:" in p), "")
-        # These are the lab's own reading notes; copyrighted full texts are not copied to the site.
+        note = notes["literature"][item["literature_id"]]
         literature.append({
             "id": item["literature_id"], "title": item["title"],
-            "citation": item["citation"], "kind": item["kind"],
-            "url": item["source_url"], "pages": item["reviewed_pages"].replace(";", ", ").strip(", "),
-            "note_sv": re.sub(r"\*\*", "", note), "review": item["review_status"],
-            "source_hash": item["sha256"],
+            "citation": item["citation"], "type": note["type"],
+            "url": item["source_url"], "summary_sv": note["summary_sv"],
         })
+    assert set(notes["evidence"]) == {e["id"] for e in evidence}
+    assert set(notes["literature"]) == {l["id"] for l in literature}
+    assert set(notes["history"]) == history_ids
+    history = [{"id": h["id"], "title": h["title"], "issuer": h["issuer"],
+                "type": h["type"], "date": notes["history"][h["id"]].get("date", h["date"]), "url": h["url"],
+                "summary": notes["history"][h["id"]]["summary"]} for h in case["history_sources"]]
     ids = {e["id"] for e in evidence + literature}
     missing = set(references(case)) - ids
     assert not missing, f"Missing sources: {sorted(missing)}"
     result = {
         "knowledge_date": case["knowledge_date"],
-        "translation_note": "English presentation text is an LLM-assisted adaptation of the Swedish lab assessment. The website exports authored summaries and source locators; archived source passages remain in the lab.",
-        "assessment_sha256": hashlib.sha256((lab / "cases/datacenters-sweden/inside/presentation.json").read_bytes()).hexdigest(),
-        "evidence": evidence, "literature": literature,
+        "evidence": evidence, "literature": literature, "history": history,
     }
     destination = site / "_data/policy_feasibility_sources.json"
     destination.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
