@@ -41,8 +41,8 @@ ninja.data = [{
           description: "Interactive policy scenarios for projected Swedish new-car sales shares by drivetrain.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/drivetrain-demand-model/";
-            },},{id: "projects-political-feasibility-in-energy-scenarios",
-          title: 'Political feasibility in energy scenarios',
+            },},{id: "projects-political-feasibility-in-energy-and-climate-scenarios",
+          title: 'Political feasibility in energy and climate scenarios',
           description: "An interactive introduction to a framework for identifying plausible policy trajectories and comparing their political feasibility, illustrated through Swedish datacenter policy.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/political-feasibility/";
