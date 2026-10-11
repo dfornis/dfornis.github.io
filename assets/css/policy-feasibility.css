@@ -888,9 +888,8 @@
 }
 .pf-policy-doodle {
   display: grid;
-  grid-template-columns: minmax(0, 555fr) minmax(0, 1617fr);
-  gap: 1rem;
-  margin: 1.2rem 0 2.2rem;
+  grid-template-columns: minmax(0, 773fr) minmax(0, 1319fr);
+  margin: 1.7rem 0 2.2rem;
   padding-inline: var(--pf-gutter);
 }
 .pf-policy-doodle svg {
@@ -899,24 +898,24 @@
   height: auto;
   overflow: hidden;
 }
-.pf-policy-doodle .pf-caption {
-  margin: 0 0 0.35rem;
-  text-align: center;
-  font-size: 0.77rem;
-}
-.pf-policy-doodle-questions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+.pf-policy-doodle .pf-policy-doodle-narrow {
+  display: none;
 }
 @media (max-width: 600px) {
   .pf-policy-doodle {
     grid-template-columns: 1fr;
-    gap: 0.7rem;
+    gap: 1rem;
   }
   .pf-policy-doodle-assumption {
-    width: 140px;
+    width: 72%;
+    max-width: 260px;
     margin-inline: auto;
+  }
+  .pf-policy-doodle .pf-policy-doodle-wide {
+    display: none;
+  }
+  .pf-policy-doodle .pf-policy-doodle-narrow {
+    display: block;
   }
 }
 .pf-project .pf-intro {
