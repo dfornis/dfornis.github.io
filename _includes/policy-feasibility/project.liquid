@@ -63,11 +63,10 @@
     <figcaption>
       <h2 id="pf-framework-title">The framework</h2>
       <p>
-        Drawing on Kahneman and Lovallo (1993), the framework is divided into a scoping outside-view and an assessing inside-view. The outside view is
-        sweeping and draws on precedents, comparison and public debate to identify plausible policy trajectories. The inside view compares the
-        feasibility of the trajectories along five dimensions informed by political economy and socio-technical theory. Who wins and loses from the
-        policy? What actor constellations can support or oppose the policy? What societal trends and institutional contexts are they embedded in?
+        Following Kahneman and Lovallo (1993), the framework combines an outside view with an inside view. The outside view identifies plausible
+        policy trajectories through precedents, comparison and public debate.
       </p>
+      <p>The inside view compares their political feasibility across five dimensions drawn from political economy and socio-technical theory.</p>
     </figcaption>
     <div class="pf-flow">
       <div class="pf-flow-group">
@@ -252,7 +251,7 @@
                     data-pf-assumption="{{ input.id }}"
                     data-pf-value="{{ option.id }}"
                     aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-                    aria-controls="pf-reassessment-content pf-model"
+                    aria-controls="pf-support-overview pf-reassessment-content pf-model"
                   >
                     <span class="pf-assumption-role">{{ option.role }}</span>{{ option.label }}
                   </button>
@@ -262,11 +261,40 @@
           {% endfor %}
         </div>
       </div>
+      <div id="pf-support-overview" class="pf-support-overview">
+        {% for development in pf.developments %}
+          <div data-pf-development="{{ development.id }}">
+            <p class="pf-fallback-label">{{ development.label }}</p>
+            <p class="pf-condition-description">{{ development.assumption }}</p>
+            {% for pair in pf.pairs %}
+              <p class="pf-support-shift" data-pf-comparison="{{ pair.id }}">
+                <strong>Political support · {{ pair.id | replace: '-', ' / ' }}</strong>
+                {{ development.adoption[pair.id].shift }}
+              </p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <details class="pf-coalitions" id="pf-coalitions">
+          <summary>Explore possible coalitions</summary>
+          <p class="pf-coalition-legend">
+            <span class="pf-support-documented">Documented support</span><span class="pf-support-possible">Possible alignment</span>
+          </p>
+          {% for development in pf.developments %}
+            <div data-pf-development="{{ development.id }}">
+              {% for pair in pf.pairs %}
+                <figure data-pf-comparison="{{ pair.id }}" aria-label="{{ pair.label }}: {{ development.label }}">
+                  <figcaption class="pf-fallback-label">{{ development.label }} · {{ pair.label }}</figcaption>
+                  {% include policy-feasibility/coalitions.liquid development=development pair=pair %}
+                </figure>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </details>
+      </div>
       <div id="pf-reassessment-content">
         {% for development in pf.developments %}
           <div class="pf-development-reading" data-pf-development="{{ development.id }}">
             <h4 class="pf-fallback-label">{{ development.label }}</h4>
-            <p class="pf-condition-description">{{ development.assumption }}</p>
             <dl class="pf-assumption-effects">
               {% for effect in development.effects %}
                 <div>
@@ -304,6 +332,7 @@
   </section>
   <section id="pf-model" class="pf-section">
     <h2><span class="pf-section-number">05</span> Bring the assessment into the scenario</h2>
+    <p class="pf-prose">{{ pf.model_application.selection }}</p>
     <div class="pf-assumption-change">
       <div>
         <p class="pf-caption">An unchanged policy assumption</p>
@@ -315,7 +344,14 @@
           <div class="pf-result-use pf-conclusion" data-pf-development="{{ development.id }}">
             <p class="pf-caption">{{ development.label }}</p>
             <h3>{{ development.model_title }}</h3>
-            <p>{{ development.model }}</p>
+            <dl class="pf-scenario-roles">
+              {% for role in development.model_roles %}
+                <div>
+                  <dt>{{ role.id }} · {{ role.role }}</dt>
+                  <dd>{{ role.text }}</dd>
+                </div>
+              {% endfor %}
+            </dl>
           </div>
         {% endfor %}
       </div>

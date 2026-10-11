@@ -39,8 +39,7 @@
       button.setAttribute("aria-pressed", String(assumptions[button.dataset.pfAssumption] === button.dataset.pfValue));
     });
     if (announce) {
-      root.querySelector("#pf-control-status").textContent =
-        `${pair.label}. ${development.label}. The sensitivity assessment and policy follow-up have been updated.`;
+      root.querySelector("#pf-control-status").textContent = `${pair.label}. ${development.label}. ${development.adoption[pair.id].shift}`;
       const url = new URL(location.href);
       url.searchParams.set("pair", pair.id);
       ["development", "generation", "grid"].forEach((key) => url.searchParams.delete(key));

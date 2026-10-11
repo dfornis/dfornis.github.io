@@ -805,15 +805,96 @@
       "adoption": {
         "T0-T1": {
           "title": "T0 retains a narrower advantage over T1",
-          "text": "Higher bills and industrial delays strengthen the case for T1 and give its advocates potential allies. T0 remains more feasible for the 2030 decision because it has organised business support and uses existing rules. T1 becomes the main challenge to continuation as electricity costs compete with AI investment for political priority."
+          "text": "Higher bills and industrial delays strengthen the case for T1 and give its advocates potential allies. T0 remains more feasible for the 2030 decision because it has organised business support and uses existing rules. T1 becomes the main challenge to continuation as electricity costs compete with AI investment for political priority.",
+          "shift": "Higher bills give household groups more reason to join T1’s advocates. Industrial support depends on whether the requirement also helps with connection delays.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              }
+            ],
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Household groups",
+                "note": "Higher bills give them a reason to join the demand for new generation.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Price relief can attract support; unresolved local queues can keep them from joining.",
+                "kind": "possible"
+              }
+            ]
+          }
         },
         "T0-T2": {
           "title": "T0 remains more feasible than a national stop",
-          "text": "Scarcity gives households and industrial users stronger reasons to seek limits on new demand. T0 retains the advantage through established procedures and investment commitments. T2 faces concentrated opposition from developers and prospective host communities, alongside the larger legislative task of justifying a sector-wide stop."
+          "text": "Scarcity gives households and industrial users stronger reasons to seek limits on new demand. T0 retains the advantage through established procedures and investment commitments. T2 faces concentrated opposition from developers and prospective host communities, alongside the larger legislative task of justifying a sector-wide stop.",
+          "shift": "Higher bills and connection delays give households and industry more reason to seek a stop. Project losses give developers and host communities reasons to oppose it.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers and host communities",
+                "note": "Lost projects give them a reason to oppose a stop.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "Higher bills can turn into demands to limit new electricity use.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Persistent connection queues can make a stop more attractive.",
+                "kind": "possible"
+              }
+            ]
+          }
         },
         "T1-T2": {
           "title": "T1 remains the more feasible reform",
-          "text": "T1 has reform advocates and allows new establishments alongside additional generation. Persistent connection shortages strengthen the case for T2 among competing grid users, since national generation requirements can leave local queues unresolved. T1’s existing political support and lower losses for developers still give it the clearer route to adoption."
+          "text": "T1 has reform advocates and allows new establishments alongside additional generation. Persistent connection shortages strengthen the case for T2 among competing grid users, since national generation requirements can leave local queues unresolved. T1’s existing political support and lower losses for developers still give it the clearer route to adoption.",
+          "shift": "Unresolved connection queues give industrial users more reason to consider T2, even when T1 promises new generation.",
+          "coalitions": {
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers planning new sites",
+                "note": "A generation requirement preserves a route to opening new sites.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "Higher bills can turn into demands to limit new electricity use.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Persistent connection queues can make a stop more attractive.",
+                "kind": "possible"
+              }
+            ]
+          }
         }
       },
       "results": {
@@ -821,10 +902,27 @@
         "T1": "Delivered generation can build support for retaining the requirement. Continued connection delays leave industrial users and local groups with reasons to demand changes.",
         "T2": "Relief for other electricity users can sustain support for the stop. Lost projects give developers and host communities reasons to seek exemptions or repeal."
       },
-      "model": "Use T0 for initial continuation and T1 as the main reform to test from 2030. Higher electricity costs and delayed industrial projects weaken the political basis for extending voluntary commitments unchanged to 2035. T2 merits a separate test: a stop could relieve demand pressure, while facing greater coalition and legal obstacles.",
+      "model": "T0: Use continuation as the reference: T0 has the stronger route to adoption by 2030. T1: Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform. T2: Examine the consequences of halting new sites, the least feasible of the three alternatives.",
       "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
       "assumption": "Generation and grid capacity expand slowly relative to new demand during 2027–2029.",
-      "model_title": "Test a generation requirement alongside continuation"
+      "model_title": "Test a generation requirement alongside continuation",
+      "model_roles": [
+        {
+          "id": "T0",
+          "role": "Reference policy",
+          "text": "Use continuation as the reference: T0 has the stronger route to adoption by 2030."
+        },
+        {
+          "id": "T1",
+          "role": "Main reform to examine",
+          "text": "Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform."
+        },
+        {
+          "id": "T2",
+          "role": "Separate alternative",
+          "text": "Examine the consequences of halting new sites, the least feasible of the three alternatives."
+        }
+      ]
     },
     {
       "id": "expanded",
@@ -845,15 +943,96 @@
       "adoption": {
         "T0-T1": {
           "title": "T0’s advantage over T1 strengthens",
-          "text": "More generation and grid capacity reduce the losses that could bring households and industrial users into a coalition for T1. T0’s established procedures and organised support weigh more heavily as those conflicts ease. T1 retains reform advocates and climate arguments, with less pressure for a decision by 2030."
+          "text": "More generation and grid capacity reduce the losses that could bring households and industrial users into a coalition for T1. T0’s established procedures and organised support weigh more heavily as those conflicts ease. T1 retains reform advocates and climate arguments, with less pressure for a decision by 2030.",
+          "shift": "Lower price pressure and fewer connection conflicts give households and industry less reason to join T1’s advocates.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              }
+            ],
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Household groups",
+                "note": "Lower price pressure gives them less reason to join the reform coalition.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer price and connection conflicts weaken their incentive to seek a requirement.",
+                "kind": "possible"
+              }
+            ]
+          }
         },
         "T0-T2": {
           "title": "T0 has a clearer advantage over a national stop",
-          "text": "A stop offers less relief to electricity users when capacity is more available. T0 retains business support and established procedures, while T2 still imposes project losses and requires a national restriction. Local land-use opposition provides a weaker basis for a nationwide coalition than widespread price and connection conflicts."
+          "text": "A stop offers less relief to electricity users when capacity is more available. T0 retains business support and established procedures, while T2 still imposes project losses and requires a national restriction. Local land-use opposition provides a weaker basis for a nationwide coalition than widespread price and connection conflicts.",
+          "shift": "A stop offers less relief to households and industry. Project losses still give developers and host communities reasons to oppose it.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers and host communities",
+                "note": "Lost projects give them a reason to oppose a stop.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "A stop offers less relief when electricity-price pressure is lower.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer connection conflicts weaken their reason to seek a stop.",
+                "kind": "possible"
+              }
+            ]
+          }
         },
         "T1-T2": {
           "title": "T1 retains the stronger case for reform",
-          "text": "T1 can draw on existing proposals to combine new investment with climate commitments. T2 requires supporters to accept the loss of new establishments while offering less relief from electricity constraints. The balance of coalition support, adjustment costs and institutional requirements continues to favour T1."
+          "text": "T1 can draw on existing proposals to combine new investment with climate commitments. T2 requires supporters to accept the loss of new establishments while offering less relief from electricity constraints. The balance of coalition support, adjustment costs and institutional requirements continues to favour T1.",
+          "shift": "More capacity weakens the case for T2 among competing electricity users. T1 retains its existing reform advocates.",
+          "coalitions": {
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers planning new sites",
+                "note": "A generation requirement preserves a route to opening new sites.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "A stop offers less relief when electricity-price pressure is lower.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer connection conflicts weaken their reason to seek a stop.",
+                "kind": "possible"
+              }
+            ]
+          }
         }
       },
       "results": {
@@ -861,10 +1040,27 @@
         "T1": "Completed generation and contracts create interests in stable rules. Developers can still seek lower compliance costs or broader eligibility.",
         "T2": "Developers and host communities have reasons to seek reopening. With less pressure on other electricity users, the coalition for retaining a national stop is harder to sustain."
       },
-      "model": "More capacity strengthens the case for continuing T0 at the 2030 decision. Retain T1 as a reform alternative with existing advocates and climate arguments. T2 has the weakest case: it forgoes new establishments while offering less relief to other electricity users.",
+      "model": "T0: Use continuation as the reference; its political basis strengthens as price and connection conflicts ease. T1: Retain the generation requirement for comparison: it still has advocates and climate arguments. T2: A stop remains the least feasible alternative and offers less relief to other electricity users.",
       "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
       "assumption": "More generation and grid capacity are available when new loads connect during 2027–2029.",
-      "model_title": "Continuation has the stronger political basis"
+      "model_title": "Continuation has the stronger political basis",
+      "model_roles": [
+        {
+          "id": "T0",
+          "role": "Reference policy",
+          "text": "Use continuation as the reference; its political basis strengthens as price and connection conflicts ease."
+        },
+        {
+          "id": "T1",
+          "role": "Reform alternative",
+          "text": "Retain the generation requirement for comparison: it still has advocates and climate arguments."
+        },
+        {
+          "id": "T2",
+          "role": "Separate alternative",
+          "text": "A stop remains the least feasible alternative and offers less relief to other electricity users."
+        }
+      ]
     }
   ],
   "comparison_windows": [
@@ -897,7 +1093,8 @@
       "T0": "No statutory generation requirement. Represent voluntary investment and power contracts as company choices.",
       "T1": "From 2030, new sites must secure new renewable generation in Sweden matching 100% of annual demand, through investment or a long-term power contract.",
       "T2": "Set new commercial site openings to zero from 2030. Track postponed or relocated projects. Existing sites and expansions remain outside the stop."
-    }
+    },
+    "selection": "Use the feasibility comparison to choose a reference policy and the alternatives to examine alongside it."
   },
   "sensitivity_inputs": [
     {
