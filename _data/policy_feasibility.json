@@ -1,0 +1,1117 @@
+{
+  "knowledge_date": "2026-10-10",
+  "decision_period": "2027–2030",
+  "model_horizon": "2035",
+  "article_url": "https://doi.org/10.1016/j.erss.2026.104981",
+  "trajectories": [
+    {
+      "id": "T0",
+      "verb": "Continue",
+      "title": "Voluntary generation commitments",
+      "summary": "Developers choose whether to secure new generation through investment or long-term power contracts.",
+      "origin": "Swedish business organisations favour incentives and contracts. The US pledge shows how companies can also make voluntary generation commitments under political pressure.",
+      "status": "Continuation assumption",
+      "example": "A company signs a PPA for its own procurement goals. Another purchases from existing generation without a national requirement to add supply.",
+      "evidence": ["E02", "E43", "E44", "E76", "E75"],
+      "counterevidence": ["E08", "E13", "E40", "E78"],
+      "parameters": ["No statutory additional-generation obligation", "Voluntary procurement remains a behavioural assumption"],
+      "decisions": "No legislation establishing a sector requirement is adopted. Companies decide their procurement commitments.",
+      "development": "2027–2029: voluntary procurement continues. From 2030: no national requirement is introduced.",
+      "short_title": "Voluntary commitments",
+      "phases": ["Continue voluntary procurement", "Keep commitments voluntary"],
+      "origin_summary": "Swedish business organisations favour voluntary contracts. The US company pledge illustrates commitments made under political pressure."
+    },
+    {
+      "id": "T1",
+      "verb": "Introduce",
+      "title": "Require new renewable generation",
+      "summary": "New sites must match annual electricity use with new renewable generation in Sweden, through investment or long-term power contracts.",
+      "origin": "The Swedish Green Party proposes new renewable generation matching consumption. The PPA option comes from Svenska kraftnät’s discussion. The 2030 start, first-year compliance and detailed eligibility rules are specified here so that the reform can be assessed.",
+      "status": "Specified reform scenario",
+      "example": "A site opening in 2030 must secure matching new renewable annual generation and report compliance.",
+      "evidence": ["E08", "E15", "E40", "E74", "E78"],
+      "counterevidence": ["E44", "E50", "E51", "E31", "E79"],
+      "parameters": [
+        "Requirement starts in 2030 for new sites",
+        "100% annual demand matched by new renewable generation in Sweden",
+        "Own investment or a long-term power purchase agreement"
+      ],
+      "decisions": "Government prepares legislation; Parliament establishes the requirement and Ei’s monitoring mandate.",
+      "development": "2027–2029: prepare and adopt the requirement. From 2030: apply and maintain it for new sites.",
+      "short_title": "Generation requirement",
+      "phases": ["Prepare and adopt legislation", "Apply the generation requirement"],
+      "origin_summary": "Swedish reform proposals and Ireland’s generation requirement support testing this policy direction."
+    },
+    {
+      "id": "T2",
+      "verb": "Halt",
+      "title": "Halt new establishments",
+      "short_title": "Establishment stop",
+      "summary": "No new commercial data-centre sites may open, including projects that offer new generation.",
+      "origin": "Campaigners in Ireland call for a nationwide moratorium. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2030.",
+      "status": "Moratorium scenario",
+      "example": "A proposed site cannot open even if it has secured new renewable generation.",
+      "evidence": ["E86", "E23"],
+      "counterevidence": ["E63", "E77", "E87", "E88"],
+      "parameters": [
+        "No new commercial sites open from 2030",
+        "Existing sites and expansions continue under the common rules",
+        "Model postponed or relocated projects and any openings brought forward before 2030"
+      ],
+      "decisions": "Government prepares a national restriction; Parliament establishes its legal basis, transition rules and enforcement. Authorities apply those rules in individual cases.",
+      "development": "2027–2029: legislate and manage projects already in preparation. From 2030: prevent new openings and maintain the stop.",
+      "phases": ["Legislate and set transition rules", "No new sites may open"],
+      "origin_summary": "Irish campaigns for a moratorium and Québec’s allocation pauses support testing an establishment stop."
+    }
+  ],
+  "outside": [
+    {
+      "country": "Ireland",
+      "status": "Adopted policy and organised opposition · 2024–2026",
+      "contribution": "Ireland requires new renewable generation covering 80% of annual demand, with a six-year transition. Friends of the Earth campaigns for a national moratorium and challenges the regulator’s policy, citing climate goals and household energy costs.",
+      "limit": "When does opposition seek tighter conditions, and when does it seek to halt expansion?",
+      "evidence": ["E15", "E86", "E23"],
+      "code": "IE",
+      "coordinates": [-8, 53],
+      "label_offset": [null, null],
+      "label_anchor": "end",
+      "iso3": "IRL",
+      "region": "europe",
+      "heading": "Generation requirements and demands for a stop",
+      "featured": null
+    },
+    {
+      "code": "ES",
+      "iso3": "ESP",
+      "coordinates": [-3, 40],
+      "label_offset": [null, null],
+      "label_anchor": "middle",
+      "region": "europe",
+      "country": "Spain",
+      "status": "Government proposal · August 2026",
+      "heading": "A stricter matching rule",
+      "contribution": "A draft decree proposes new renewable supply matched hourly for data centres above 1 MW. It illustrates a different design from annual matching.",
+      "limit": "How does the rule change the commitments required of developers?",
+      "evidence": ["E74"],
+      "featured": null
+    },
+    {
+      "code": "US",
+      "iso3": "USA",
+      "country": "United States",
+      "coordinates": [-97, 38],
+      "label_offset": [null, null],
+      "label_anchor": "middle",
+      "region": "north-america",
+      "status": "Company pledge · March 2026",
+      "contribution": "The White House pledge asks companies to secure new generation and protect other electricity customers from costs. The commitments are made by participating companies.",
+      "evidence": ["E75"],
+      "heading": "Commitments under political pressure",
+      "limit": "Could voluntary commitments develop without a national generation law?",
+      "featured": null
+    },
+    {
+      "country": "Sweden",
+      "status": "Party, agency and business proposals · 2026",
+      "contribution": "Party and agency proposals call for data centres to finance new electricity generation. Business groups favour incentives, but SKGS warns about competition for industrial connections. The Social Democrats link generation requirements to lower electricity bills.",
+      "limit": "Should contracts remain voluntary, and which generation would qualify under a requirement?",
+      "evidence": ["E40", "E78", "E08", "E84"],
+      "code": "SE",
+      "coordinates": [15, 62],
+      "label_offset": [null, null],
+      "label_anchor": "start",
+      "iso3": "SWE",
+      "region": "europe",
+      "heading": "Who should finance new generation?",
+      "featured": null
+    },
+    {
+      "country": "Finland",
+      "status": "Grid-operator consultation response · October 2026",
+      "contribution": "Fingrid argues that transferring existing resources between contracts need not add capacity. Its response seeks clearer additionality rules.",
+      "limit": "What counts as new generation?",
+      "evidence": ["E28"],
+      "code": "FI",
+      "coordinates": [26, 64],
+      "label_offset": [null, null],
+      "label_anchor": "start",
+      "iso3": "FIN",
+      "region": "europe",
+      "heading": "What counts as additional?",
+      "featured": null
+    },
+    {
+      "country": "Germany",
+      "status": "Government bill · June 2026",
+      "contribution": "A government bill proposes moving full renewable annual matching from 2027 to 2030, citing investment conditions. The debate shows that implementation dates can change after a requirement has been introduced.",
+      "limit": "Can a requirement survive pressure to change its timetable?",
+      "evidence": ["E31"],
+      "code": "DE",
+      "coordinates": [10, 51],
+      "label_offset": [null, null],
+      "label_anchor": "start",
+      "iso3": "DEU",
+      "region": "europe",
+      "heading": "Pressure to postpone a requirement",
+      "featured": null
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "coalition_alignment",
+      "name": "Coalition alignment",
+      "question": "Who can organise support or opposition, now and later?",
+      "description": "Identify interests, organisation and influence. Examine how an actor’s position could change as the policy’s effects become visible.",
+      "literature": ["L05", "L26"],
+      "cells": {
+        "T0": {
+          "assessment": "Business groups favour incentives and voluntary contracts. That support can fracture: SKGS already warns that data centres compete with industry for connections. If manufacturers face delays while data centres connect, they gain a reason to seek tougher conditions. Household campaigns can make higher bills an electoral cost for parties defending continuation.",
+          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "evidence": ["E43", "E44", "E76", "E84", "E89"]
+        },
+        "T1": {
+          "assessment": "The Swedish Green Party proposes a renewable-generation requirement. The Social Democrats call for data centres to contribute electricity production; together the parties hold 121 of 349 seats. EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating a broader fossil-free requirement. Uniper wants nuclear power and lifetime extensions included. The reform has advocates, but they differ over which generation should qualify.",
+          "uncertainty": "A joint party proposal specifying eligible generation and a negotiating agreement with affected businesses would strengthen T1.",
+          "evidence": ["E08", "E13", "E40", "E78", "E79", "E82"]
+        },
+        "T2": {
+          "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the mapped party proposals seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
+          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
+        }
+      },
+      "pairs": {
+        "T0-T1": {
+          "judgement": "T0 has the stronger starting position, but its business support is vulnerable to conflict between electricity users. T1 offers a possible agreement between expansion advocates and groups demanding that developers add supply. Its present advocates still need a wider parliamentary majority and agreement over eligible generation.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "evidence": ["E76", "E84", "E89", "E40", "E78", "E79", "E82"],
+          "takeaway": "Business associations defend voluntary contracts. T1’s advocates include the Green Party, Social Democrats and developers supporting additional generation."
+        },
+        "T0-T2": {
+          "judgement": "T0 has stronger organised support. For T2 to overtake it, electricity-cost and connection conflicts would need to produce an alliance willing to block new sites, with parties able to legislate for it.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "evidence": ["E76", "E77", "E84", "E89", "E86"],
+          "takeaway": "T0 starts with stronger organised support. T2 needs a new alliance willing to halt investment."
+        },
+        "T1-T2": {
+          "judgement": "T1 is easier to build an agreement around: it preserves an investment route while requiring new supply. T2 would gain ground if those commitments failed to address the grievances driving opposition.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "evidence": ["E40", "E78", "E13", "E86"],
+          "takeaway": "T1 has identifiable reform advocates. A coalition for T2 would have to accept the loss of new establishments."
+        }
+      },
+      "overview": {
+        "T0": "Business support can split if industry faces delays and households organise over bills.",
+        "T1": "Reform advocates disagree over renewables, nuclear and existing plants.",
+        "T2": "Needs a new alliance willing to halt investment, beyond today’s production proposals."
+      },
+      "guide": "Who can organise support or opposition?",
+      "developments": {
+        "constrained": {
+          "T0-T1": "Higher bills give household groups a reason to join T1’s advocates. Industrial users facing queues have a weaker reason to back this particular requirement when the promised generation leaves their connection delayed. This divides the potential reform coalition along price and connection interests.",
+          "T0-T2": "Industry associations and household campaigns have stronger reasons to seek limits on new demand. T2 would concentrate losses on developers and host communities, giving them a common reason to oppose a stop. T0 retains the more established coalition.",
+          "T1-T2": "T1 already has party and developer advocates. T2 can attract groups facing persistent local scarcity, but needs their agreement to forgo new establishments."
+        },
+        "expanded": {
+          "T0-T1": "Lower exposure to price and connection pressures gives T1’s advocates less opportunity to recruit households and industrial users. Business support for voluntary contracts faces fewer immediate conflicts.",
+          "T0-T2": "T0 retains established business support. T2 needs allies willing to halt investment despite reduced electricity pressures.",
+          "T1-T2": "T1 retains identifiable reform advocates. T2 still requires a coalition willing to accept the loss of new establishments."
+        }
+      },
+      "development_evidence": ["E13", "E40", "E76", "E77", "E78", "E79", "E82", "E84", "E86", "E89"]
+    },
+    {
+      "id": "institutional_constraints",
+      "name": "Institutional constraints",
+      "question": "Which decisions and legal constraints govern each policy?",
+      "description": "Trace the route from a political demand to a rule that authorities can apply. Distinguish formal legal constraints from political habits.",
+      "literature": ["L01", "L12"],
+      "cells": {
+        "T0": {
+          "assessment": "Voluntary generation contracts fit the existing electricity-market framework. Continuing this arrangement requires no new sector legislation or compliance authority. Grid operators and the regulator retain their existing connection and supervision roles.",
+          "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
+          "evidence": ["E02", "E43"]
+        },
+        "T1": {
+          "assessment": "In this legislative scenario, government must prepare a bill and Parliament must establish the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new data centres and define how the requirement relates to non-discriminatory grid access.",
+          "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
+          "evidence": ["E08", "E48", "E51"]
+        },
+        "T2": {
+          "assessment": "Sweden protects freedom of trade and requires impartial administration. A national moratorium would need legislation justified by an important public interest, with rules for pending projects. Politicians cannot direct the outcome of individual administrative cases covered by constitutional independence. This makes T2 a substantial legislative change; protecting selected competitors alone is not a sufficient basis.",
+          "uncertainty": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
+          "evidence": ["E87", "E88", "E48"]
+        }
+      },
+      "pairs": {
+        "T0-T1": {
+          "judgement": "T0 can continue under existing rules. T1 requires a government bill, parliamentary approval and a monitoring mandate for Ei before implementation in 2030.",
+          "condition": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
+          "evidence": ["E02", "E43", "E08", "E48", "E51"],
+          "takeaway": "T0 fits existing rules. T1 requires legislation and a monitoring mandate for Ei."
+        },
+        "T0-T2": {
+          "judgement": "T0 has a clear institutional advantage. T2 must replace an open application route with a sector-wide restriction and justify the treatment of projects already underway.",
+          "condition": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
+          "evidence": ["E02", "E48", "E87", "E88"],
+          "takeaway": "T0 follows established procedures. T2 requires legislation, a public-interest justification and transition rules."
+        },
+        "T1-T2": {
+          "judgement": "Both reforms need legislation. T1 creates a compliance route for new sites; T2 closes that route even for a developer willing to add generation. That broader restriction is harder to justify when less restrictive policy responses are available.",
+          "condition": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
+          "evidence": ["E08", "E48", "E87", "E88"],
+          "takeaway": "Both require legislation. T2 faces the harder task of justifying a sector-wide restriction."
+        }
+      },
+      "overview": {
+        "T0": "Existing contracts and authorities are sufficient.",
+        "T1": "Needs legislation, a sector-specific justification and supervision.",
+        "T2": "Needs a justified national restriction and rules for projects already in preparation."
+      },
+      "guide": "Which rules and decision procedures matter?",
+      "developments": {
+        "constrained": {
+          "T0-T1": "T1 still requires legislation, eligible-generation rules and a monitoring mandate. Stronger demands for action can help it reach the agenda, but national production and local grid access involve different decisions.",
+          "T0-T2": "Electricity scarcity strengthens the public-interest argument for intervention. T2 still needs a justified sector-wide restriction, transition rules and a parliamentary route.",
+          "T1-T2": "Both require new legislation. T1 can condition continued investment; T2 needs the broader justification for prohibiting new sites."
+        },
+        "expanded": {
+          "T0-T1": "T0 fits current procedures. T1 requires legislation, rules for eligible generation and a monitoring mandate. Additional capacity leaves that institutional advantage for T0 in place.",
+          "T0-T2": "T0 benefits from established procedures. A national stop requires justification despite reduced supply and connection pressures.",
+          "T1-T2": "T1 still requires a new legal framework. T2 faces the larger task of justifying a prohibition on new sites."
+        }
+      },
+      "development_evidence": ["E02", "E08", "E43", "E48", "E51", "E87", "E88"]
+    },
+    {
+      "id": "landscape_pressures",
+      "name": "Landscape pressures",
+      "question": "How could wider change shift political priorities by 2035?",
+      "description": "Landscape pressures concern macro-level change and public opinion: the AI investment race, industrial decarbonisation, energy-price shocks and changing views of who should benefit from scarce electricity. Assess how these developments could strengthen or weaken each trajectory over time.",
+      "literature": ["L26", "L05"],
+      "cells": {
+        "T0": {
+          "assessment": "The AI investment race and digital sovereignty favour attracting new sites. But continued demand growth without sufficient generation brings a competing priority: affordable electricity for homes and industrial electrification. Svenska kraftnät describes this price and competitiveness risk. If it persists, the political appeal of accommodating every new project weakens.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E63", "E77", "E83", "E84"]
+        },
+        "T1": {
+          "assessment": "A generation requirement can accommodate AI investment while responding to industrial decarbonisation and concern over bills. Its political appeal grows if the wider debate shifts from attracting investment towards who supplies the electricity and who benefits. The Swedish party proposals already combine these priorities.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E40", "E78", "E83", "E84"]
+        },
+        "T2": {
+          "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
+        }
+      },
+      "pairs": {
+        "T0-T1": {
+          "judgement": "T0 benefits most while attracting AI investment is the dominant priority. T1 gains if energy affordability and industrial electrification become more pressing. The comparison follows how demand, supply and public debate develop together.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E63", "E77", "E40", "E78", "E83", "E84", "E89"],
+          "takeaway": "T0 fits the drive to attract AI investment. T1 also addresses concern over electricity prices and industrial electrification."
+        },
+        "T0-T2": {
+          "judgement": "T0 fits the present digital-investment agenda more closely. T2 becomes a serious competitor if persistent shortages and price pressure make limiting new demand a widely accepted public priority.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E63", "E77", "E83", "E89", "E86"],
+          "takeaway": "T0 fits current digital-investment ambitions. T2 gains relevance when limiting electricity demand becomes a political priority."
+        },
+        "T1-T2": {
+          "judgement": "T1 can respond to competing priorities without stopping investment. T2 gains relative to it if the public problem becomes total resource use or connection displacement, which an annual generation requirement does not settle.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "evidence": ["E83", "E84", "E86", "E40"],
+          "takeaway": "T1 combines continued investment with new generation. T2 gains if opposition concerns the scale of expansion itself."
+        }
+      },
+      "overview": {
+        "T0": "AI competition favours expansion; persistent price pressure can reverse that advantage.",
+        "T1": "Can reconcile digital investment with growing demands for affordable electricity.",
+        "T2": "Becomes more attractive if an energy crisis changes public priorities against expansion."
+      },
+      "framework_reference": "Fornborg (2026), §4.3 and Table 1; Geels (2002), reference 31 in the article.",
+      "guide": "How could wider trends change political priorities?",
+      "developments": {
+        "constrained": {
+          "T0-T1": "Higher living costs and industrial delays increase the political cost of prioritising AI investment. T1 offers parties a way to respond to affordability and industrial decarbonisation while allowing new sites. This strengthens its case relative to T0.",
+          "T0-T2": "Scarcity puts AI investment in sharper conflict with industrial decarbonisation and household purchasing power. That makes limiting new demand more politically attractive and weakens the wider case for unrestricted expansion under T0.",
+          "T1-T2": "T1 can reconcile additional supply with digital investment. T2 becomes politically more relevant where opposition concerns resource allocation or the scale of expansion."
+        },
+        "expanded": {
+          "T0-T1": "AI investment and industrial decarbonisation face less immediate conflict over electricity. Climate commitments and public opinion can still support a generation requirement.",
+          "T0-T2": "Lower electricity pressures give investment promotion fewer immediate trade-offs with household bills and industry. Land use and other public priorities remain relevant to opposition.",
+          "T1-T2": "T1 can still connect new investment with climate commitments. T2 needs a stronger shift towards limiting expansion than these electricity assumptions alone imply."
+        }
+      },
+      "development_evidence": ["E40", "E63", "E77", "E78", "E83", "E84", "E86", "E89"]
+    },
+    {
+      "id": "adjustment_burden",
+      "name": "Adjustment burden",
+      "question": "Who loses, how can they adjust, and what influence do they have?",
+      "description": "Assess losses under continuation as well as reform. Include the capacity to absorb costs, secure compensation or turn those costs into political opposition.",
+      "literature": ["L08", "L11", "L26"],
+      "cells": {
+        "T0": {
+          "assessment": "If new demand outpaces supply, households and industrial users face higher electricity bills. Firms can also lose years of investment returns while waiting for network capacity. Households can cut other spending or electricity use; firms can hedge, delay or relocate investment. SKGS represents industrial users in energy policy. Bensinupproret illustrates how household fuel costs can lead to organised demands for lower taxes.",
+          "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "evidence": ["E83", "E84", "E89"]
+        },
+        "T1": {
+          "assessment": "New data-centre developers must finance generation or commit to long-term payments under a PPA. The contract option avoids having to build and operate a power plant themselves. However, T1 requires the new plant to be ready when the data centre opens: a delayed generation project can therefore delay the data centre. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
+          "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges require a separate decision: neither trajectory changes who pays them.",
+          "evidence": ["E08", "E43", "E15"]
+        },
+        "T2": {
+          "assessment": "Developers lose the option to open new sites; projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites retain an expansion route under this example’s definition. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Consumers avoid this cohort’s added demand, but that benefit must be weighed against the concentrated opposition.",
+          "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "evidence": ["E77", "E83", "E87"]
+        }
+      },
+      "pairs": {
+        "T0-T1": {
+          "judgement": "T0 leaves more of the risk from inadequate new supply with other electricity users. T1 assigns developers a financing obligation and gives them a contractual way to comply. It is easier to defend as a response to price pressure, but first-year compliance can delay openings and organise industry resistance around the timetable.",
+          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "evidence": ["E83", "E84", "E89", "E43", "E15"],
+          "takeaway": "Under T0, households and other firms can face higher bills and delayed connections. T1 places generation costs and delivery risks on developers."
+        },
+        "T0-T2": {
+          "judgement": "T2 removes this cohort’s new electricity demand and the associated pressure on other users. Its losses are more concentrated and politically organised than under T0: developers cannot comply their way into opening. Sustaining the stop therefore requires a coalition prepared to defend those losses.",
+          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "evidence": ["E83", "E84", "E77", "E87"],
+          "takeaway": "T2 reduces pressure from new demand, while concentrating losses on developers and prospective host communities."
+        },
+        "T1-T2": {
+          "judgement": "T1 gives developers an adjustment route through investment or a power contract; T2 removes the investment opportunity altogether. That makes T1 easier to sustain against business and municipal opposition, provided generation can be delivered on the required timetable.",
+          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "evidence": ["E43", "E15", "E77"],
+          "takeaway": "T1 offers developers a contractual route to open. T2 closes that route, increasing their incentive to oppose it."
+        }
+      },
+      "overview": {
+        "T0": "Higher bills and delayed industrial projects can create organised opposition.",
+        "T1": "Developers must finance new plants or sign long-term power contracts.",
+        "T2": "Blocked projects concentrate losses on developers and host municipalities."
+      },
+      "guide": "Who loses, and can they adjust or be compensated?",
+      "developments": {
+        "constrained": {
+          "T0-T1": "Under T0, higher electricity costs fall on households and firms, while connection delays hold back industrial investment. T1 places generation costs and delivery risks on developers. Its relief for users waiting for connections is smaller where local grid capacity remains scarce.",
+          "T0-T2": "T2 offers electricity users relief from competing demand, while concentrating project losses on developers and host communities. Those concentrated losses favour organised resistance to a stop. Household support for T2 would require mobilising more dispersed gains from lower bills.",
+          "T1-T2": "T1 gives developers a route to open through generation commitments. T2 removes that route; users still facing local scarcity may judge its relief worth the project losses."
+        },
+        "expanded": {
+          "T0-T1": "Reduced electricity pressures lower the immediate burden on other users under T0. T1 still imposes procurement costs and delivery risks on developers.",
+          "T0-T2": "T2 concentrates losses on developers and host communities while offering electricity users less immediate relief. Local environmental benefits may still matter.",
+          "T1-T2": "Developers can comply and open under T1; T2 prevents that investment. Lower electricity pressures weaken the case for asking these groups to accept the larger loss."
+        }
+      },
+      "development_evidence": ["E15", "E43", "E77", "E83", "E84", "E87", "E89"]
+    },
+    {
+      "id": "policy_momentum",
+      "name": "Policy momentum",
+      "question": "How do previous decisions and new effects change the policy’s support?",
+      "description": "Previous policies establish routines, investments and expectations. Their effects can also create new interests that defend the policy or seek to reverse it.",
+      "literature": ["L13", "L05"],
+      "cells": {
+        "T0": {
+          "assessment": "Contracting and established connection procedures make continuation easier initially. But momentum can turn: Sweden withdrew the data-centre electricity-tax concession in 2023. If further expansion raises bills or obstructs industrial investment, defending the existing policy becomes more costly and earlier supporters may seek reform.",
+          "uncertainty": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
+          "evidence": ["E43", "E69", "E70", "E83", "E84", "E89"]
+        },
+        "T1": {
+          "assessment": "The question has moved into party programmes and Svenska kraftnät’s recommendations. Ireland has adopted an additional-renewable-electricity requirement, providing a practical precedent. Sweden would still need to establish its own compliance system. Germany’s proposal to postpone renewable matching shows how investment concerns can reopen a requirement’s timetable after adoption.",
+          "uncertainty": "A Swedish implementation programme and completed projects meeting the requirement would strengthen expectations that it will continue.",
+          "evidence": ["E08", "E15", "E31", "E40", "E78"]
+        },
+        "T2": {
+          "assessment": "A national stop departs sharply from investment promotion and case-by-case administration. Firms and municipalities already preparing projects have reasons to resist it. If adopted, the stop could build support among users who benefit from reduced demand, while developers press for exceptions or reopening. Holding it until 2035 is a separate political task from passing it.",
+          "uncertainty": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
+          "evidence": ["E63", "E77", "E87", "E88", "E83"]
+        }
+      },
+      "pairs": {
+        "T0-T1": {
+          "judgement": "T0 has the advantage of existing practice. T1 is already on the policy agenda and could gain further support as the costs of continuation become visible. After adoption, new generation contracts would give investors an interest in stable rules, while developers could still press to postpone compliance.",
+          "condition": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
+          "evidence": ["E43", "E69", "E70", "E08", "E40", "E78", "E31", "E83", "E84"],
+          "takeaway": "T0 benefits from established practice. T1 builds on reform proposals and precedents for generation requirements."
+        },
+        "T0-T2": {
+          "judgement": "T0 has a strong initial advantage. Repeated failures to manage prices and connections could undermine it, but introducing and maintaining a national stop would require a much larger departure from Swedish practice.",
+          "condition": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
+          "evidence": ["E63", "E77", "E87", "E88", "E83", "E84"],
+          "takeaway": "T0 extends existing practice. T2 disrupts investment plans and creates pressure for exemptions."
+        },
+        "T1-T2": {
+          "judgement": "T1 extends an existing reform agenda and familiar contracting arrangements. T2 is a sharper break, with stronger incentives for affected firms to seek exemptions or repeal. This favours T1 both at adoption and during implementation.",
+          "condition": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
+          "evidence": ["E08", "E40", "E78", "E43", "E77", "E87"],
+          "takeaway": "T1 develops existing proposals. T2 is a larger break with investment promotion and individual project decisions."
+        }
+      },
+      "overview": {
+        "T0": "Established routines favour continuation, but mounting losses can erode that support.",
+        "T1": "Party proposals and agency work advance reform; firms can press for postponement.",
+        "T2": "Breaks with investment promotion; existing projects create pressure for exceptions."
+      },
+      "guide": "What do earlier policies and investments set in motion?",
+      "developments": {
+        "constrained": {
+          "T0-T1": "Existing voluntary contracts and project plans support T0. Continued scarcity can undermine confidence in that approach, while generation-requirement proposals give T1 an established route into debate.",
+          "T0-T2": "Committed investments create resistance to a stop. Unresolved shortages can weaken the promise of benefits used to defend further development.",
+          "T1-T2": "T1 develops proposals already under discussion. T2 departs further from investment promotion, but repeated unresolved allocation conflicts can increase pressure for that break."
+        },
+        "expanded": {
+          "T0-T1": "Voluntary contracts and grid projects that deliver their expected benefits strengthen T0. Existing reform proposals keep T1 available for parties prioritising additionality.",
+          "T0-T2": "Completed investment and reinforcement strengthen expectations of continued development. T2 breaks more sharply with those plans.",
+          "T1-T2": "T1 builds on generation requirements already proposed. T2 conflicts more directly with established investment plans and promotion."
+        }
+      },
+      "development_evidence": ["E08", "E31", "E40", "E43", "E63", "E69", "E70", "E77", "E78", "E83", "E84", "E87", "E88"]
+    }
+  ],
+  "actors": [
+    {
+      "id": "A01",
+      "name": "Swedish Parliament",
+      "group": "Swedish policy actor",
+      "capacity": "Votes on national legislation.",
+      "position_overall": "The Green Party and Social Democrats together hold 121 of 349 seats. A broader parliamentary agreement is needed for their production proposals.",
+      "policy_question": "T1 and T2 require parliamentary approval.",
+      "evidence": ["E02", "E40", "E78", "E82"]
+    },
+    {
+      "id": "A03",
+      "name": "Svenska kraftnät",
+      "group": "Swedish policy actor",
+      "capacity": "Transmission-system operator; advises government and develops connection policy.",
+      "position_overall": "Proposes investigating generation requirements for major new electricity demand, considering fossil-free supply, timing and location.",
+      "policy_question": "Supports investigation of reform; its design is broader than annual renewable matching.",
+      "evidence": ["E08", "E50"]
+    },
+    {
+      "id": "A04",
+      "name": "Energy Markets Inspectorate (Ei)",
+      "group": "Swedish policy actor",
+      "capacity": "Regulates electricity networks and reviews connection conditions.",
+      "position_overall": "Stresses non-discriminatory grid access and the risk that preferential AI arrangements displace other electricity users.",
+      "policy_question": "T1 assigns a new compliance role that legislation must establish.",
+      "evidence": ["E48", "E51"]
+    },
+    {
+      "id": "A07",
+      "name": "EcoDataCenter",
+      "group": "Swedish policy actor",
+      "capacity": "Invests in and operates data centres; participates in energy-policy debate.",
+      "position_overall": "Calls for incentives and additionality requirements, while criticising connection conditions that conflict with its operating model.",
+      "policy_question": "Additionality requirements would make developers increase electricity supply.",
+      "evidence": ["E13"]
+    },
+    {
+      "id": "A14",
+      "name": "Swedish Data Center Industry (SweDCI)",
+      "group": "Swedish policy actor",
+      "capacity": "Industry association; represents data-centre companies in policy discussions.",
+      "position_overall": "Seeks incentives, timetable guarantees and coordination. Describes long-term power purchase agreements as important for generation and location.",
+      "policy_question": "Its proposals favour negotiated investment arrangements.",
+      "evidence": ["E43"]
+    },
+    {
+      "id": "A15",
+      "name": "SKGS · energy-intensive industries",
+      "group": "Swedish policy actor",
+      "capacity": "Represents forest, chemical, mining and steel industries.",
+      "position_overall": "Questions compulsory long-term power contracts, while warning that rapid data-centre growth competes with industry for power and grid connections.",
+      "policy_question": "Its defence of voluntary contracting may weaken if member firms’ own investments are displaced. This is a possible change in position over the scenario period.",
+      "evidence": ["E44", "E84"]
+    },
+    {
+      "id": "A17",
+      "name": "Swedish Green Party",
+      "group": "Swedish policy actor",
+      "capacity": "Parliamentary party; 22 seats after the 2026 election.",
+      "position_overall": "Proposes requiring data centres to invest in new renewable electricity production corresponding to their consumption.",
+      "policy_question": "The clearest party advocate for the renewable scope used in T1.",
+      "evidence": ["E40", "E82"]
+    },
+    {
+      "id": "A23",
+      "name": "Svenskt Näringsliv · business confederation",
+      "group": "Swedish policy actor",
+      "capacity": "Coordinates business interests and seeks changes to national policy.",
+      "position_overall": "Proposes incentives for new-generation contracts, faster permits and connection charges that protect other customers from cost transfers.",
+      "policy_question": "Supports an incentive-led route; the proposed tariff changes are separate from the generation requirement.",
+      "evidence": ["E76", "E81"]
+    },
+    {
+      "id": "A24",
+      "name": "TechSverige",
+      "group": "Swedish policy actor",
+      "capacity": "Tech-industry association; represents firms in digital and industrial policy.",
+      "position_overall": "Wants predictable investment conditions, faster electricity infrastructure and lower electricity tax. It accepts that tax relief may come with locally adapted sustainability conditions.",
+      "policy_question": "Supports sustainability conditions adapted to each location.",
+      "evidence": ["E77"]
+    },
+    {
+      "id": "A25",
+      "name": "Swedish Social Democratic Party",
+      "group": "Swedish policy actor",
+      "capacity": "Parliamentary party; 99 seats after the 2026 election.",
+      "position_overall": "Its August 2026 election pledge calls for data centres to contribute electricity production as part of reducing electricity bills.",
+      "policy_question": "Advocates production contributions within a broader fossil-free energy programme.",
+      "evidence": ["E78", "E82"]
+    },
+    {
+      "id": "A26",
+      "name": "Uniper",
+      "group": "Swedish policy actor",
+      "capacity": "Electricity producer and investor; can finance generation and negotiate supply contracts.",
+      "position_overall": "Proposes incentives for data-centre investment in generation. If matching requirements are imposed, it wants nuclear power and lifetime extensions to count.",
+      "policy_question": "A potential reform partner with a concrete objection to T1’s eligible-generation rules.",
+      "evidence": ["E79", "E80"]
+    }
+  ],
+  "history": [
+    {
+      "id": "crypto",
+      "period": "2018 → 2019 → 2023",
+      "technology": "Cryptocurrency mining · Québec",
+      "change": "Large electricity requests prompted scrutiny of the industry’s economic benefits. A study commissioned by Hydro-Québec found few direct jobs relative to the power requested.",
+      "response": "In 2019, a 300 MW allocation process ranked projects by jobs, payroll and investment per MW, plus heat recovery. Customers had to accept interruptions at peak demand. In 2023, the regulator suspended the remaining allocation process while the reserved capacity was reassessed.",
+      "method_question": "Could disputes over regional benefits change the terms offered to a new electricity-intensive industry?",
+      "source_ids": ["H01", "H02", "H04"]
+    },
+    {
+      "id": "wind",
+      "period": "2008 → 2009",
+      "technology": "Onshore wind · Denmark",
+      "change": "Wind development raised questions about property values, local ownership and who receives the benefits of new installations.",
+      "response": "The 2008 renewable-energy law introduced property-value compensation and offers of local ownership shares. These provisions applied from 2009, subject to transition rules.",
+      "method_question": "Who bears local losses from new electricity generation, and what compensation can help them adjust?",
+      "source_ids": ["H03"]
+    }
+  ],
+  "history_sources": [
+    {
+      "id": "H01",
+      "title": "Cryptocurrency Mines: Limited Economic Impact",
+      "issuer": "Hydro-Québec",
+      "date": "2018-05-22",
+      "type": "Utility account of a commissioned economic study",
+      "locator": "Study findings and examples of direct jobs per MW",
+      "url": "https://news.hydroquebec.com/news/press-releases/all-quebec/cryptocurrency-mines-limited-economic-impact.html",
+      "supports": "Hydro-Québec’s commissioned study found low direct job creation relative to power demand in submitted cryptocurrency-mining projects.",
+      "limit": "The findings concern the mining projects studied in 2018; employment in Swedish data centres requires separate evidence."
+    },
+    {
+      "id": "H02",
+      "title": "The Régie de l’énergie hands down its decision in the blockchain file",
+      "issuer": "Hydro-Québec",
+      "date": "2019-04-29",
+      "type": "Utility announcement of a regulated allocation process",
+      "locator": "300 MW allocation; peak-demand curtailment; selection criteria and weights",
+      "url": "https://news.hydroquebec.com/news/press-releases/all-quebec/the-regie-de-lenergie-hands-down-its-decision-in-the-blockchain-file.html",
+      "supports": "The 2019 tender allocated interruptible capacity and scored direct jobs, payroll and investment per MW, and heat recovery.",
+      "limit": "This records the initial 2019 tender. Later allocation procedures changed."
+    },
+    {
+      "id": "H03",
+      "title": "Lov om fremme af vedvarende energi, Law No. 1392",
+      "issuer": "Denmark: Lovtidende / Retsinformation",
+      "date": "2008-12-27",
+      "type": "Historical enacted law",
+      "locator": "Sections 6–18, PDF pages 2–3; sections 74–75, PDF page 13",
+      "url": "https://www.retsinformation.dk/eli/lta/2008/1392/pdf#page=2",
+      "supports": "Property-value compensation, offers of local ownership shares and measures for local acceptance; commencement and transitional provisions.",
+      "limit": "The cited 2008 version establishes the historical rules, including scope and exceptions."
+    },
+    {
+      "id": "H04",
+      "title": "Québec’s blockchain industry: allocation history",
+      "issuer": "Hydro-Québec",
+      "date": "2023-01-10 decision; webpage checked 2026-10-10",
+      "type": "Utility account with links to regulatory decisions",
+      "locator": "Allocation of the block of electricity dedicated to cryptographic use; recent history, 10 January 2023",
+      "url": "https://www.hydroquebec.com/blockchain/",
+      "supports": "The regulator approved a temporary suspension of the remaining allocation process on 10 January 2023 while the reserved capacity was reassessed.",
+      "limit": "The cited event is the temporary suspension in 2023. This page is maintained and also describes later rules."
+    }
+  ],
+  "pairwise_reference": {
+    "authors": "David Carlson and Jacob M. Montgomery",
+    "year": null,
+    "title": "A Pairwise Comparison Framework for Fast, Flexible, and Reliable Human Coding of Political Texts",
+    "journal": "American Political Science Review",
+    "volume": "111",
+    "issue": "4",
+    "pages": "835–843",
+    "url": "https://doi.org/10.1017/S0003055417000302",
+    "article_locator": "Fornborg (2026), section 4.5 and reference 33"
+  },
+  "pairs": [
+    {
+      "id": "T0-T1",
+      "label": "T0 / T1 · Voluntary / Requirement"
+    },
+    {
+      "id": "T0-T2",
+      "label": "T0 / T2 · Voluntary / Stop"
+    },
+    {
+      "id": "T1-T2",
+      "label": "T1 / T2 · Requirement / Stop"
+    }
+  ],
+  "scope": {
+    "question": "Which rules for new Swedish data centres could be adopted and sustained as electricity demand grows?",
+    "policy": "A national requirement on developers to secure additional generation",
+    "cohort": "The same prospective projects are assessed in all three alternatives: new commercial data-centre sites in Sweden that would open from 2030. Existing sites and their expansions fall outside this example.",
+    "shared": "Electricity demand and the rules already in place form the common starting point. T0 keeps generation commitments voluntary; T1 makes new generation a condition of opening; T2 prevents new sites from opening from 2030. Grid tariffs and queue priorities are not changed by these alternatives.",
+    "timing": "Assess decisions in 2027–2030 and whether the resulting policy can be sustained to 2035. The dates are scenario choices. Political support can change within this period.",
+    "definition": "From the first full operating year, new renewable generation in Sweden must match 100% of each covered data centre’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the data centre’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0.",
+    "evidence": ["E02", "E08", "E40", "E43", "E83", "E84", "E86"]
+  },
+  "overall": {
+    "title": "Continuation is easier initially; a generation requirement can gain support",
+    "judgement": "For adoption by 2030, T0 has the strongest starting position: established procedures and organised support for voluntary contracts. T1 has a viable route through existing reform proposals, but needs a wider parliamentary agreement, agreement over eligible generation and a workable compliance timetable. T2 faces the greatest obstacles: a new coalition, a justified sector-wide restriction and resistance from planned investments.",
+    "reason": "That ordering need not last to 2035. If supply and networks lag behind demand, higher bills and delayed industrial projects can unite voters and industry behind stricter conditions. T1 is better placed than a complete stop to combine continued investment with new supply. T2 becomes more plausible if those responses repeatedly fail or opposition comes to concern the scale of expansion itself.",
+    "model": "Use T0 as the reference for initial policy continuation, test T1 as the principal reform, and include T2 as a less feasible but consequential alternative. Assess both a period in which supply keeps pace and one in which price and connection pressures grow. Reassess political support as those conditions change.",
+    "revisit": "Revisit the judgement when industrial users change their demands, household campaigns target data-centre growth, parties change position, or legislation advances.",
+    "evidence": [
+      "E02",
+      "E08",
+      "E13",
+      "E15",
+      "E31",
+      "E40",
+      "E43",
+      "E44",
+      "E63",
+      "E70",
+      "E76",
+      "E77",
+      "E78",
+      "E79",
+      "E82",
+      "E83",
+      "E84",
+      "E89",
+      "E86",
+      "E87",
+      "E88"
+    ],
+    "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
+  },
+  "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2030 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
+  "derivation": "The survey points to voluntary commitments, generation requirements and restrictions on new sites. These three alternatives apply those policy directions to new commercial data centres in Sweden from 2030.",
+  "actor_conflicts": [
+    {
+      "title": "Incentives or a legal requirement?",
+      "text": "Svenskt Näringsliv and SweDCI propose incentives for generation contracts. SKGS questions compulsory long-term contracts in the connection process, but also warns that data centres may displace industrial projects. The business coalition can split as access to electricity becomes more contested.",
+      "actors": ["A23", "A14", "A15"],
+      "evidence": ["E76", "E43", "E44", "E84"]
+    },
+    {
+      "title": "Support for reform, different proposals",
+      "text": "The Swedish Green Party calls for new renewable generation. The Social Democrats want data centres to contribute electricity production, and EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating fossil-free generation. Uniper wants nuclear power and lifetime extensions included.",
+      "actors": ["A17", "A25", "A07", "A03", "A26"],
+      "evidence": ["E40", "E78", "E13", "E08", "E79"]
+    },
+    {
+      "title": "Who gets electricity, and who pays?",
+      "text": "SKGS warns that data centres compete with industrial projects for power and grid connections. The Social Democrats link production commitments by data centres to lower household electricity bills. Rising costs and delayed investments can increase pressure for conditions on expansion.",
+      "actors": ["A15", "A25"],
+      "evidence": ["E84", "E78"]
+    }
+  ],
+  "method_dynamics": {
+    "title": "Assess how political conditions can change",
+    "intro": "Landscape pressures are changes in the wider political, economic and cultural setting: energy crises, industrial change, the AI investment race and shifts in public opinion. Look for developments that could change what governments prioritise during the scenario period.",
+    "link": "Then trace who gains or loses, how affected groups could organise, and which policy changes they could secure. Actor roles can change: a group that accepts today’s policy may campaign against it when its costs grow."
+  },
+  "political_development": {
+    "title": "Follow a possible conflict through to 2035",
+    "intro": "Current evidence supplies the starting conditions. The following sequence is a prospective assessment of how they could alter policy support.",
+    "stages": [
+      {
+        "title": "Electricity demand grows faster than supply",
+        "dimension": "Landscape pressures",
+        "text": "AI investment and industrial electrification expand at the same time. Svenska kraftnät expects rising prices and weaker industrial competitiveness if new generation persistently falls behind demand.",
+        "evidence": ["E83"]
+      },
+      {
+        "title": "Bills rise and industrial projects wait",
+        "dimension": "Adjustment burden",
+        "text": "Households have less money left after electricity bills. Industrial firms face higher operating costs and delayed investments where network capacity is scarce. SKGS already warns of competition with data centres for power and connections.",
+        "evidence": ["E83", "E84"]
+      },
+      {
+        "title": "Affected groups press for different rules",
+        "dimension": "Coalition alignment",
+        "text": "Firms can organise through industry associations; households can campaign, petition and vote. Bensinupproret’s 2019 fuel-tax protests illustrate that route to political pressure. If households attribute higher electricity bills to data-centre growth, demands for generation requirements or an establishment stop could gain support.",
+        "evidence": ["E84", "E89", "E90", "E86"]
+      }
+    ],
+    "consequence": "The inside view then asks whether these demands can pass through Sweden’s decision procedures, and whether previous policy and investments help or obstruct them. A requirement could attract firms and voters who want new generation but oppose a complete stop. A stop becomes more plausible if other responses repeatedly fail.",
+    "alternative": "If new generation and grid investment keep pace, the basis for that alliance weakens. Electricity prices, industrial connection delays, organised demands and parties’ responses are therefore signs to track as the scenario develops.",
+    "evidence": ["E83", "E84", "E89", "E87", "E88"]
+  },
+  "historical_mobilisation": {
+    "title": "Bensinupproret · Sweden, 2019",
+    "text": "Bensinupproret organised motorists through social media and demonstrations, demanding lower fuel taxes. Participants stressed the cost of commuting and their dependence on cars outside cities. A parliamentary motion cited the movement in proposing a halt to further fuel-tax increases; Parliament rejected it.",
+    "method_question": "When could household energy costs turn into organised demands to change policy?",
+    "evidence": ["E89", "E90"]
+  },
+  "history_previews": {
+    "crypto": "Power allocation changed when regional benefits came under scrutiny.",
+    "wind": "Compensation and local ownership became part of wind policy.",
+    "bensin": "Household fuel costs became organised demands for lower taxes."
+  },
+  "actor_previews": [
+    {
+      "title": "Business interests can diverge",
+      "text": "Data-centre investment and industrial electrification compete for connections. SKGS already raises this conflict."
+    },
+    {
+      "title": "Reform has advocates",
+      "text": "Parties and energy companies propose generation requirements, with disagreement over which plants should qualify."
+    },
+    {
+      "title": "Costs can change political support",
+      "text": "Higher household bills and delayed industrial projects can create pressure for stricter conditions on expansion."
+    }
+  ],
+  "developments": [
+    {
+      "id": "constrained",
+      "label": "Constrained expansion · baseline",
+      "inputs": {
+        "supply": "constrained"
+      },
+      "effects": [
+        {
+          "label": "Electricity prices",
+          "text": "Limited generation and transmission capacity increases upward pressure on regional electricity prices as new demand connects."
+        },
+        {
+          "label": "Connections",
+          "text": "Limited grid capacity intensifies competition for connections between data centres and industrial electrification."
+        }
+      ],
+      "adoption": {
+        "T0-T1": {
+          "title": "T0 retains a narrower advantage over T1",
+          "text": "Higher bills and industrial delays strengthen the case for T1 and give its advocates potential allies. T0 remains more feasible for the 2030 decision because it has organised business support and uses existing rules. T1 becomes the main challenge to continuation as electricity costs compete with AI investment for political priority.",
+          "shift": "Higher bills give household groups more reason to join T1’s advocates. Industrial support depends on whether the requirement also helps with connection delays.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              }
+            ],
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Household groups",
+                "note": "Higher bills give them a reason to join the demand for new generation.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Price relief can attract support; unresolved local queues can keep them from joining.",
+                "kind": "possible"
+              }
+            ]
+          }
+        },
+        "T0-T2": {
+          "title": "T0 remains more feasible than a national stop",
+          "text": "Scarcity gives households and industrial users stronger reasons to seek limits on new demand. T0 retains the advantage through established procedures and investment commitments. T2 faces concentrated opposition from developers and prospective host communities, alongside the larger legislative task of justifying a sector-wide stop.",
+          "shift": "Higher bills and connection delays give households and industry more reason to seek a stop. Project losses give developers and host communities reasons to oppose it.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers and host communities",
+                "note": "Lost projects give them a reason to oppose a stop.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "Higher bills can turn into demands to limit new electricity use.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Persistent connection queues can make a stop more attractive.",
+                "kind": "possible"
+              }
+            ]
+          }
+        },
+        "T1-T2": {
+          "title": "T1 remains the more feasible reform",
+          "text": "T1 has reform advocates and allows new establishments alongside additional generation. Persistent connection shortages strengthen the case for T2 among competing grid users, since national generation requirements can leave local queues unresolved. T1’s existing political support and lower losses for developers still give it the clearer route to adoption.",
+          "shift": "Unresolved connection queues give industrial users more reason to consider T2, even when T1 promises new generation.",
+          "coalitions": {
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers planning new sites",
+                "note": "A generation requirement preserves a route to opening new sites.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "Higher bills can turn into demands to limit new electricity use.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Persistent connection queues can make a stop more attractive.",
+                "kind": "possible"
+              }
+            ]
+          }
+        }
+      },
+      "results": {
+        "T0": "Persistently higher bills and queues can weaken support for voluntary commitments. Delivered generation and network capacity would reduce those losses and the incentive to seek new rules.",
+        "T1": "Delivered generation can build support for retaining the requirement. Continued connection delays leave industrial users and local groups with reasons to demand changes.",
+        "T2": "Relief for other electricity users can sustain support for the stop. Lost projects give developers and host communities reasons to seek exemptions or repeal."
+      },
+      "model": "T0: Use continuation as the reference: T0 has the stronger route to adoption by 2030. T1: Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform. T2: Examine the consequences of halting new sites, the least feasible of the three alternatives.",
+      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
+      "assumption": "Generation and grid capacity expand slowly relative to new demand during 2027–2029.",
+      "model_title": "Test a generation requirement alongside continuation",
+      "model_roles": [
+        {
+          "id": "T0",
+          "role": "Reference policy",
+          "text": "Use continuation as the reference: T0 has the stronger route to adoption by 2030."
+        },
+        {
+          "id": "T1",
+          "role": "Main reform to examine",
+          "text": "Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform."
+        },
+        {
+          "id": "T2",
+          "role": "Separate alternative",
+          "text": "Examine the consequences of halting new sites, the least feasible of the three alternatives."
+        }
+      ]
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded capacity · counterfactual",
+      "inputs": {
+        "supply": "expanded"
+      },
+      "effects": [
+        {
+          "label": "Electricity prices",
+          "text": "Additional generation and transmission capacity reduces the upward pressure on regional electricity prices from new demand."
+        },
+        {
+          "label": "Connections",
+          "text": "Additional grid capacity eases competition for connections and local network bottlenecks."
+        }
+      ],
+      "adoption": {
+        "T0-T1": {
+          "title": "T0’s advantage over T1 strengthens",
+          "text": "More generation and grid capacity reduce the losses that could bring households and industrial users into a coalition for T1. T0’s established procedures and organised support weigh more heavily as those conflicts ease. T1 retains reform advocates and climate arguments, with less pressure for a decision by 2030.",
+          "shift": "Lower price pressure and fewer connection conflicts give households and industry less reason to join T1’s advocates.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              }
+            ],
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Household groups",
+                "note": "Lower price pressure gives them less reason to join the reform coalition.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer price and connection conflicts weaken their incentive to seek a requirement.",
+                "kind": "possible"
+              }
+            ]
+          }
+        },
+        "T0-T2": {
+          "title": "T0 has a clearer advantage over a national stop",
+          "text": "A stop offers less relief to electricity users when capacity is more available. T0 retains business support and established procedures, while T2 still imposes project losses and requires a national restriction. Local land-use opposition provides a weaker basis for a nationwide coalition than widespread price and connection conflicts.",
+          "shift": "A stop offers less relief to households and industry. Project losses still give developers and host communities reasons to oppose it.",
+          "coalitions": {
+            "T0": [
+              {
+                "name": "Business associations",
+                "note": "Support voluntary contracts.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers and host communities",
+                "note": "Lost projects give them a reason to oppose a stop.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "A stop offers less relief when electricity-price pressure is lower.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer connection conflicts weaken their reason to seek a stop.",
+                "kind": "possible"
+              }
+            ]
+          }
+        },
+        "T1-T2": {
+          "title": "T1 retains the stronger case for reform",
+          "text": "T1 can draw on existing proposals to combine new investment with climate commitments. T2 requires supporters to accept the loss of new establishments while offering less relief from electricity constraints. The balance of coalition support, adjustment costs and institutional requirements continues to favour T1.",
+          "shift": "More capacity weakens the case for T2 among competing electricity users. T1 retains its existing reform advocates.",
+          "coalitions": {
+            "T1": [
+              {
+                "name": "Parties and developers",
+                "note": "The Green Party, Social Democrats and some developers support a requirement.",
+                "kind": "documented"
+              },
+              {
+                "name": "Developers planning new sites",
+                "note": "A generation requirement preserves a route to opening new sites.",
+                "kind": "possible"
+              }
+            ],
+            "T2": [
+              {
+                "name": "Household groups",
+                "note": "A stop offers less relief when electricity-price pressure is lower.",
+                "kind": "possible"
+              },
+              {
+                "name": "Industrial electricity users",
+                "note": "Fewer connection conflicts weaken their reason to seek a stop.",
+                "kind": "possible"
+              }
+            ]
+          }
+        }
+      },
+      "results": {
+        "T0": "Voluntary contracts and investments that deliver generation can strengthen support for continuation. Local land-use conflicts can persist.",
+        "T1": "Completed generation and contracts create interests in stable rules. Developers can still seek lower compliance costs or broader eligibility.",
+        "T2": "Developers and host communities have reasons to seek reopening. With less pressure on other electricity users, the coalition for retaining a national stop is harder to sustain."
+      },
+      "model": "T0: Use continuation as the reference; its political basis strengthens as price and connection conflicts ease. T1: Retain the generation requirement for comparison: it still has advocates and climate arguments. T2: A stop remains the least feasible alternative and offers less relief to other electricity users.",
+      "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
+      "assumption": "More generation and grid capacity are available when new loads connect during 2027–2029.",
+      "model_title": "Continuation has the stronger political basis",
+      "model_roles": [
+        {
+          "id": "T0",
+          "role": "Reference policy",
+          "text": "Use continuation as the reference; its political basis strengthens as price and connection conflicts ease."
+        },
+        {
+          "id": "T1",
+          "role": "Reform alternative",
+          "text": "Retain the generation requirement for comparison: it still has advocates and climate arguments."
+        },
+        {
+          "id": "T2",
+          "role": "Separate alternative",
+          "text": "A stop remains the least feasible alternative and offers less relief to other electricity users."
+        }
+      ]
+    }
+  ],
+  "comparison_windows": [
+    {
+      "id": "starting",
+      "period": "Evidence to October 2026",
+      "question": "Which policy has the stronger route to adoption in 2027–2030?"
+    },
+    {
+      "id": "before-decision",
+      "period": "Changes in 2027–2029",
+      "question": "How does greater generation and grid capacity affect the policy comparison before the decision by 2030?"
+    },
+    {
+      "id": "after-implementation",
+      "period": "Implementation from 2030; follow to 2035",
+      "question": "What could sustain the chosen policy or prompt its revision?"
+    }
+  ],
+  "initial_synthesis": {
+    "T0-T1": "T0 has the stronger starting position. T1 has reform advocates, but needs a parliamentary majority and agreement on which generation qualifies.",
+    "T0-T2": "T0 has stronger organised support and follows established procedures. T2 requires a coalition willing to halt new establishments and defend that restriction.",
+    "T1-T2": "T1 has a clearer route to reform: it permits investment subject to a generation requirement. T2 needs broader acceptance of the losses from stopping new sites."
+  },
+  "model_application": {
+    "before": "Voluntary generation commitments continue unchanged to 2035.",
+    "after": "Voluntary commitments continue through 2029. From 2030, compare continuation, a generation requirement and an establishment stop.",
+    "feedback": "Use the model’s regional prices, connection delays and investment costs to identify who gains or loses under each policy. Reassess their political responses at the next decision window.",
+    "parameters": {
+      "T0": "No statutory generation requirement. Represent voluntary investment and power contracts as company choices.",
+      "T1": "From 2030, new sites must secure new renewable generation in Sweden matching 100% of annual demand, through investment or a long-term power contract.",
+      "T2": "Set new commercial site openings to zero from 2030. Track postponed or relocated projects. Existing sites and expansions remain outside the stop."
+    },
+    "selection": "Use the feasibility comparison to choose a reference policy and the alternatives to examine alongside it."
+  },
+  "sensitivity_inputs": [
+    {
+      "id": "supply",
+      "label": "Generation and grid capacity",
+      "options": [
+        {
+          "id": "constrained",
+          "label": "Constrained expansion",
+          "role": "Baseline"
+        },
+        {
+          "id": "expanded",
+          "label": "Expanded capacity",
+          "role": "Counterfactual"
+        }
+      ]
+    }
+  ]
+}
