@@ -2,13 +2,32 @@
   <a href="{% if project.redirect %}{{ project.redirect }}{% else %}{{ project.url | relative_url }}{% endif %}">
     <div class="card h-100 hoverable">
       {% if project.img %}
+        {% assign thumbnail_class = 'card-img-top' %}
+        {% if project.img_color_offset %}
+          {% assign tone_id = project.url | slugify | prepend: 'thumbnail-tone-' %}
+          <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+            <defs>
+              <filter id="{{ tone_id }}" color-interpolation-filters="sRGB">
+                <feComponentTransfer>
+                  <feFuncR type="linear" slope="1" intercept="{{ project.img_color_offset[0] }}" />
+                  <feFuncG type="linear" slope="1" intercept="{{ project.img_color_offset[1] }}" />
+                  <feFuncB type="linear" slope="1" intercept="{{ project.img_color_offset[2] }}" />
+                </feComponentTransfer>
+              </filter>
+            </defs>
+          </svg>
+          <style>
+            .{{ tone_id }} { filter: url(#{{ tone_id }}); }
+          </style>
+          {% assign thumbnail_class = thumbnail_class | append: ' ' | append: tone_id %}
+        {% endif %}
         {%
           include figure.liquid
           loading="eager"
           path=project.img
           sizes = "250px"
           alt="project thumbnail"
-          class="card-img-top"
+          class=thumbnail_class
         %}
       {% endif %}
       <div class="card-body">
