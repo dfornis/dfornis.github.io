@@ -7,45 +7,15 @@
   data-pf-map="{{ '/assets/data/policy-feasibility/countries.geojson' | relative_url | bust_file_cache }}"
 >
   <div class="pf-intro">
-    <p class="pf-caption">A companion to <em>The politics of baselines</em> · Fornborg (2026)</p>
-    <p class="pf-opening">
-      An energy scenario can assume that today’s policy continues for decades. What would keep it in place—and what could change it?
+    <p class="pf-caption">
+      A companion to the research article
+      <a href="{{ pf.article_url }}"><em>The politics of baselines</em> · Fornborg (2026)</a>, published in ERSS
     </p>
-    <a class="pf-article-link" href="{{ pf.article_url }}">Read the article ↗</a>
+    <p>
+      Energy and climate scenarios depend on assumptions about future policy. This example uses Swedish data centres to show how public discontent,
+      actor positions and societal trends shape the political feasibility of possible policy responses.
+    </p>
   </div>
-  <figure class="pf-method" aria-labelledby="pf-framework-title">
-    <figcaption>
-      <h2 id="pf-framework-title">The framework</h2>
-      <p>
-        The outside view draws on precedents, public debate and actors to identify plausible policy trajectories. The inside view compares their
-        political feasibility at a decision window: who can secure adoption, and what could sustain or overturn the policy.
-      </p>
-    </figcaption>
-    <div class="pf-flow">
-      <div class="pf-flow-group">
-        <p class="pf-flow-label">Identify plausible trajectories</p>
-        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
-        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
-        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Policy alternatives</strong><span>Comparable trajectories</span></a>
-      </div>
-      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
-      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
-      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
-      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Policy assumptions in the model</span></a>
-    </div>
-  </figure>
-  <nav class="pf-dimension-guide" aria-label="The five political dimensions">
-    <p class="pf-caption">Five questions guide the investigation and comparison</p>
-    <ol>
-      {% for d in pf.dimensions %}
-        <li>
-          <a href="#pf-dimension-{{ d.id }}"
-            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
-          >
-        </li>
-      {% endfor %}
-    </ol>
-  </nav>
   <section id="pf-define" class="pf-section pf-case-intro">
     <div class="pf-case-copy">
       <h2><span class="pf-section-number">01</span> The policy question</h2>
@@ -89,6 +59,41 @@
       </div>
     </div>
   </section>
+  <figure class="pf-method" aria-labelledby="pf-framework-title">
+    <figcaption>
+      <h2 id="pf-framework-title">The framework</h2>
+      <p>
+        Drawing on Kahneman and Lovallo (1993), the framework is divided into a scoping outside-view and an assessing inside-view. The outside view is
+        sweeping and draws on precedents, comparison and public debate to identify plausible policy trajectories. The inside view compares the
+        feasibility of the trajectories along five dimensions informed by political economy and socio-technical theory. Who wins and loses from the
+        policy? What actor constellations can support or oppose the policy? What societal trends and institutional contexts are they embedded in?
+      </p>
+    </figcaption>
+    <div class="pf-flow">
+      <div class="pf-flow-group">
+        <p class="pf-flow-label">Identify plausible trajectories</p>
+        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
+        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
+        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Policy alternatives</strong><span>Comparable trajectories</span></a>
+      </div>
+      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
+      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
+      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
+      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Policy assumptions in the model</span></a>
+    </div>
+  </figure>
+  <nav class="pf-dimension-guide" aria-label="The five political dimensions">
+    <p class="pf-caption">Five questions guide the investigation and comparison</p>
+    <ol>
+      {% for d in pf.dimensions %}
+        <li>
+          <a href="#pf-dimension-{{ d.id }}"
+            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
+          >
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
   {% include policy-feasibility/outside.liquid %}
   <section id="pf-trajectories" class="pf-section">
     <h2><span class="pf-section-number">03</span> Define comparable trajectories</h2>
@@ -270,18 +275,6 @@
                 </details>
               </div>
             {% endfor %}
-            <div class="pf-after-decision">
-              <p class="pf-caption">After implementation · 2030–2035</p>
-              <h4>What could sustain the policy or prompt revision?</h4>
-              <div class="pf-after-policies">
-                {% for t in pf.trajectories %}
-                  <article data-pf-trajectory="{{ t.id }}">
-                    <h5>{{ t.id }} · {{ t.short_title }}</h5>
-                    <p>{{ development.results[t.id] }}</p>
-                  </article>
-                {% endfor %}
-              </div>
-            </div>
             <details class="pf-citation-note">
               <summary>Evidence used in this comparison</summary>
               {% include policy-feasibility/references.liquid ids=development.evidence %}

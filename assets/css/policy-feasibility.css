@@ -1153,13 +1153,17 @@
 }
 
 /* Illustrations sit on the same paper as the text. */
-.pf-project .pf-opening {
-  font-size: 1.12rem !important;
-  line-height: 1.55;
-  max-width: 68ch;
-}
 .pf-project .pf-intro {
-  padding-bottom: 1.7rem;
+  padding-bottom: 0.6rem;
+}
+.pf-intro + .pf-case-intro {
+  padding-top: 1.2rem;
+}
+.pf-case-intro + .pf-method {
+  padding: 1rem var(--pf-gutter) 0.75rem;
+}
+.pf-case-intro + .pf-method + .pf-dimension-guide {
+  padding-inline: var(--pf-gutter);
 }
 .pf-case-intro {
   display: grid;
@@ -1320,28 +1324,6 @@
 .pf-reassessment-dimensions dd {
   margin: 0;
 }
-.pf-after-decision {
-  margin-top: 2rem;
-}
-.pf-after-policies {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
-}
-.pf-pair-ready .pf-after-policies {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.pf-after-policies h5 {
-  font:
-    500 0.85rem/1.5 "IBM Plex Sans",
-    sans-serif;
-  margin-bottom: 0.5rem;
-  color: var(--pf-ink);
-}
-.pf-project .pf-after-policies p {
-  font-size: 0.88rem !important;
-  line-height: 1.6;
-}
 .pf-assumption-change {
   display: grid;
   grid-template-columns: 1fr 28px 2fr;
@@ -1461,11 +1443,6 @@
   .pf-model-parameters > div {
     grid-template-columns: 1fr;
     gap: 0.3rem;
-  }
-  .pf-after-policies,
-  .pf-pair-ready .pf-after-policies {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
   }
   .pf-assumption-change {
     grid-template-columns: 1fr;
