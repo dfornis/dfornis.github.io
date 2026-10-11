@@ -47,7 +47,7 @@
       "verb": "Halt",
       "title": "Halt new establishments",
       "short_title": "Establishment stop",
-      "summary": "No new commercial data-centre sites may open, including projects that offer new generation.",
+      "summary": "No new commercial datacenter sites may open, including projects that offer new generation.",
       "origin": "Campaigners in Ireland call for a nationwide moratorium. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2030.",
       "status": "Moratorium scenario",
       "example": "A proposed site cannot open even if it has secured new renewable generation.",
@@ -90,7 +90,7 @@
       "country": "Spain",
       "status": "Government proposal · August 2026",
       "heading": "A stricter matching rule",
-      "contribution": "A draft decree proposes new renewable supply matched hourly for data centres above 1 MW. It illustrates a different design from annual matching.",
+      "contribution": "A draft decree proposes new renewable supply matched hourly for datacenters above 1 MW. It illustrates a different design from annual matching.",
       "limit": "How does the rule change the commitments required of developers?",
       "evidence": ["E74"],
       "featured": null
@@ -113,7 +113,7 @@
     {
       "country": "Sweden",
       "status": "Party, agency and business proposals · 2026",
-      "contribution": "Party and agency proposals call for data centres to finance new electricity generation. Business groups favour incentives, but SKGS warns about competition for industrial connections. The Social Democrats link generation requirements to lower electricity bills.",
+      "contribution": "Party and agency proposals call for datacenters to finance new electricity generation. Business groups favour incentives, but SKGS warns about competition for industrial connections. The Social Democrats link generation requirements to lower electricity bills.",
       "limit": "Should contracts remain voluntary, and which generation would qualify under a requirement?",
       "evidence": ["E40", "E78", "E08", "E84"],
       "code": "SE",
@@ -165,37 +165,37 @@
       "literature": ["L05", "L26"],
       "cells": {
         "T0": {
-          "assessment": "Business groups favour incentives and voluntary contracts. That support can fracture: SKGS already warns that data centres compete with industry for connections. If manufacturers face delays while data centres connect, they gain a reason to seek tougher conditions. Household campaigns can make higher bills an electoral cost for parties defending continuation.",
-          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "assessment": "Business groups favour incentives and voluntary contracts. That support can fracture: SKGS already warns that datacenters compete with industry for connections. If manufacturers face delays while datacenters connect, they gain a reason to seek tougher conditions. Household campaigns can make higher bills an electoral cost for parties defending continuation.",
+          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E43", "E44", "E76", "E84", "E89"]
         },
         "T1": {
-          "assessment": "The Swedish Green Party proposes a renewable-generation requirement. The Social Democrats call for data centres to contribute electricity production; together the parties hold 121 of 349 seats. EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating a broader fossil-free requirement. Uniper wants nuclear power and lifetime extensions included. The reform has advocates, but they differ over which generation should qualify.",
+          "assessment": "The Swedish Green Party proposes a renewable-generation requirement. The Social Democrats call for datacenters to contribute electricity production; together the parties hold 121 of 349 seats. EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating a broader fossil-free requirement. Uniper wants nuclear power and lifetime extensions included. The reform has advocates, but they differ over which generation should qualify.",
           "uncertainty": "A joint party proposal specifying eligible generation and a negotiating agreement with affected businesses would strengthen T1.",
           "evidence": ["E08", "E13", "E40", "E78", "E79", "E82"]
         },
         "T2": {
           "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the mapped party proposals seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
-          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
         }
       },
       "pairs": {
         "T0-T1": {
           "judgement": "T0 has the stronger starting position, but its business support is vulnerable to conflict between electricity users. T1 offers a possible agreement between expansion advocates and groups demanding that developers add supply. Its present advocates still need a wider parliamentary majority and agreement over eligible generation.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E76", "E84", "E89", "E40", "E78", "E79", "E82"],
           "takeaway": "Business associations defend voluntary contracts. T1’s advocates include the Green Party, Social Democrats and developers supporting additional generation."
         },
         "T0-T2": {
           "judgement": "T0 has stronger organised support. For T2 to overtake it, electricity-cost and connection conflicts would need to produce an alliance willing to block new sites, with parties able to legislate for it.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E76", "E77", "E84", "E89", "E86"],
           "takeaway": "T0 starts with stronger organised support. T2 needs a new alliance willing to halt investment."
         },
         "T1-T2": {
           "judgement": "T1 is easier to build an agreement around: it preserves an investment route while requiring new supply. T2 would gain ground if those commitments failed to address the grievances driving opposition.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on data-centre expansion, and whether parliamentary parties adopt those demands.",
+          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E40", "E78", "E13", "E86"],
           "takeaway": "T1 has identifiable reform advocates. A coalition for T2 would have to accept the loss of new establishments."
         }
@@ -233,7 +233,7 @@
           "evidence": ["E02", "E43"]
         },
         "T1": {
-          "assessment": "In this legislative scenario, government must prepare a bill and Parliament must establish the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new data centres and define how the requirement relates to non-discriminatory grid access.",
+          "assessment": "In this legislative scenario, government must prepare a bill and Parliament must establish the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new datacenters and define how the requirement relates to non-discriminatory grid access.",
           "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
           "evidence": ["E08", "E48", "E51"]
         },
@@ -292,36 +292,36 @@
       "cells": {
         "T0": {
           "assessment": "The AI investment race and digital sovereignty favour attracting new sites. But continued demand growth without sufficient generation brings a competing priority: affordable electricity for homes and industrial electrification. Svenska kraftnät describes this price and competitiveness risk. If it persists, the political appeal of accommodating every new project weakens.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E63", "E77", "E83", "E84"]
         },
         "T1": {
           "assessment": "A generation requirement can accommodate AI investment while responding to industrial decarbonisation and concern over bills. Its political appeal grows if the wider debate shifts from attracting investment towards who supplies the electricity and who benefits. The Swedish party proposals already combine these priorities.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E40", "E78", "E83", "E84"]
         },
         "T2": {
           "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
         }
       },
       "pairs": {
         "T0-T1": {
           "judgement": "T0 benefits most while attracting AI investment is the dominant priority. T1 gains if energy affordability and industrial electrification become more pressing. The comparison follows how demand, supply and public debate develop together.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E63", "E77", "E40", "E78", "E83", "E84", "E89"],
           "takeaway": "T0 fits the drive to attract AI investment. T1 also addresses concern over electricity prices and industrial electrification."
         },
         "T0-T2": {
           "judgement": "T0 fits the present digital-investment agenda more closely. T2 becomes a serious competitor if persistent shortages and price pressure make limiting new demand a widely accepted public priority.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E63", "E77", "E83", "E89", "E86"],
           "takeaway": "T0 fits current digital-investment ambitions. T2 gains relevance when limiting electricity demand becomes a political priority."
         },
         "T1-T2": {
           "judgement": "T1 can respond to competing priorities without stopping investment. T2 gains relative to it if the public problem becomes total resource use or connection displacement, which an annual generation requirement does not settle.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to data-centre growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E83", "E84", "E86", "E40"],
           "takeaway": "T1 combines continued investment with new generation. T2 gains if opposition concerns the scale of expansion itself."
         }
@@ -360,7 +360,7 @@
           "evidence": ["E83", "E84", "E89"]
         },
         "T1": {
-          "assessment": "New data-centre developers must finance generation or commit to long-term payments under a PPA. The contract option avoids having to build and operate a power plant themselves. However, T1 requires the new plant to be ready when the data centre opens: a delayed generation project can therefore delay the data centre. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
+          "assessment": "New datacenter developers must finance generation or commit to long-term payments under a PPA. The contract option avoids having to build and operate a power plant themselves. However, T1 requires the new plant to be ready when the datacenter opens: a delayed generation project can therefore delay the datacenter. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
           "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges require a separate decision: neither trajectory changes who pays them.",
           "evidence": ["E08", "E43", "E15"]
         },
@@ -418,7 +418,7 @@
       "literature": ["L13", "L05"],
       "cells": {
         "T0": {
-          "assessment": "Contracting and established connection procedures make continuation easier initially. But momentum can turn: Sweden withdrew the data-centre electricity-tax concession in 2023. If further expansion raises bills or obstructs industrial investment, defending the existing policy becomes more costly and earlier supporters may seek reform.",
+          "assessment": "Contracting and established connection procedures make continuation easier initially. But momentum can turn: Sweden withdrew the datacenter electricity-tax concession in 2023. If further expansion raises bills or obstructs industrial investment, defending the existing policy becomes more costly and earlier supporters may seek reform.",
           "uncertainty": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
           "evidence": ["E43", "E69", "E70", "E83", "E84", "E89"]
         },
@@ -506,16 +506,16 @@
       "id": "A07",
       "name": "EcoDataCenter",
       "group": "Swedish policy actor",
-      "capacity": "Invests in and operates data centres; participates in energy-policy debate.",
+      "capacity": "Invests in and operates datacenters; participates in energy-policy debate.",
       "position_overall": "Calls for incentives and additionality requirements, while criticising connection conditions that conflict with its operating model.",
       "policy_question": "Additionality requirements would make developers increase electricity supply.",
       "evidence": ["E13"]
     },
     {
       "id": "A14",
-      "name": "Swedish Data Center Industry (SweDCI)",
+      "name": "Swedish Datacenter Industry (SweDCI)",
       "group": "Swedish policy actor",
-      "capacity": "Industry association; represents data-centre companies in policy discussions.",
+      "capacity": "Industry association; represents datacenter companies in policy discussions.",
       "position_overall": "Seeks incentives, timetable guarantees and coordination. Describes long-term power purchase agreements as important for generation and location.",
       "policy_question": "Its proposals favour negotiated investment arrangements.",
       "evidence": ["E43"]
@@ -525,7 +525,7 @@
       "name": "SKGS · energy-intensive industries",
       "group": "Swedish policy actor",
       "capacity": "Represents forest, chemical, mining and steel industries.",
-      "position_overall": "Questions compulsory long-term power contracts, while warning that rapid data-centre growth competes with industry for power and grid connections.",
+      "position_overall": "Questions compulsory long-term power contracts, while warning that rapid datacenter growth competes with industry for power and grid connections.",
       "policy_question": "Its defence of voluntary contracting may weaken if member firms’ own investments are displaced. This is a possible change in position over the scenario period.",
       "evidence": ["E44", "E84"]
     },
@@ -534,7 +534,7 @@
       "name": "Swedish Green Party",
       "group": "Swedish policy actor",
       "capacity": "Parliamentary party; 22 seats after the 2026 election.",
-      "position_overall": "Proposes requiring data centres to invest in new renewable electricity production corresponding to their consumption.",
+      "position_overall": "Proposes requiring datacenters to invest in new renewable electricity production corresponding to their consumption.",
       "policy_question": "The clearest party advocate for the renewable scope used in T1.",
       "evidence": ["E40", "E82"]
     },
@@ -561,7 +561,7 @@
       "name": "Swedish Social Democratic Party",
       "group": "Swedish policy actor",
       "capacity": "Parliamentary party; 99 seats after the 2026 election.",
-      "position_overall": "Its August 2026 election pledge calls for data centres to contribute electricity production as part of reducing electricity bills.",
+      "position_overall": "Its August 2026 election pledge calls for datacenters to contribute electricity production as part of reducing electricity bills.",
       "policy_question": "Advocates production contributions within a broader fossil-free energy programme.",
       "evidence": ["E78", "E82"]
     },
@@ -570,7 +570,7 @@
       "name": "Uniper",
       "group": "Swedish policy actor",
       "capacity": "Electricity producer and investor; can finance generation and negotiate supply contracts.",
-      "position_overall": "Proposes incentives for data-centre investment in generation. If matching requirements are imposed, it wants nuclear power and lifetime extensions to count.",
+      "position_overall": "Proposes incentives for datacenter investment in generation. If matching requirements are imposed, it wants nuclear power and lifetime extensions to count.",
       "policy_question": "A potential reform partner with a concrete objection to T1’s eligible-generation rules.",
       "evidence": ["E79", "E80"]
     }
@@ -605,7 +605,7 @@
       "locator": "Study findings and examples of direct jobs per MW",
       "url": "https://news.hydroquebec.com/news/press-releases/all-quebec/cryptocurrency-mines-limited-economic-impact.html",
       "supports": "Hydro-Québec’s commissioned study found low direct job creation relative to power demand in submitted cryptocurrency-mining projects.",
-      "limit": "The findings concern the mining projects studied in 2018; employment in Swedish data centres requires separate evidence."
+      "limit": "The findings concern the mining projects studied in 2018; employment in Swedish datacenters requires separate evidence."
     },
     {
       "id": "H02",
@@ -667,12 +667,12 @@
     }
   ],
   "scope": {
-    "question": "Which rules for new Swedish data centres could be adopted and sustained as electricity demand grows?",
+    "question": "Which rules for new Swedish datacenters could be adopted and sustained as electricity demand grows?",
     "policy": "A national requirement on developers to secure additional generation",
-    "cohort": "The same prospective projects are assessed in all three alternatives: new commercial data-centre sites in Sweden that would open from 2030. Existing sites and their expansions fall outside this example.",
+    "cohort": "The same prospective projects are assessed in all three alternatives: new commercial datacenter sites in Sweden that would open from 2030. Existing sites and their expansions fall outside this example.",
     "shared": "Electricity demand and the rules already in place form the common starting point. T0 keeps generation commitments voluntary; T1 makes new generation a condition of opening; T2 prevents new sites from opening from 2030. Grid tariffs and queue priorities are not changed by these alternatives.",
     "timing": "Assess decisions in 2027–2030 and whether the resulting policy can be sustained to 2035. The dates are scenario choices. Political support can change within this period.",
-    "definition": "From the first full operating year, new renewable generation in Sweden must match 100% of each covered data centre’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the data centre’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0.",
+    "definition": "From the first full operating year, new renewable generation in Sweden must match 100% of each covered datacenter’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the datacenter’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0.",
     "evidence": ["E02", "E08", "E40", "E43", "E83", "E84", "E86"]
   },
   "overall": {
@@ -680,7 +680,7 @@
     "judgement": "For adoption by 2030, T0 has the strongest starting position: established procedures and organised support for voluntary contracts. T1 has a viable route through existing reform proposals, but needs a wider parliamentary agreement, agreement over eligible generation and a workable compliance timetable. T2 faces the greatest obstacles: a new coalition, a justified sector-wide restriction and resistance from planned investments.",
     "reason": "That ordering need not last to 2035. If supply and networks lag behind demand, higher bills and delayed industrial projects can unite voters and industry behind stricter conditions. T1 is better placed than a complete stop to combine continued investment with new supply. T2 becomes more plausible if those responses repeatedly fail or opposition comes to concern the scale of expansion itself.",
     "model": "Use T0 as the reference for initial policy continuation, test T1 as the principal reform, and include T2 as a less feasible but consequential alternative. Assess both a period in which supply keeps pace and one in which price and connection pressures grow. Reassess political support as those conditions change.",
-    "revisit": "Revisit the judgement when industrial users change their demands, household campaigns target data-centre growth, parties change position, or legislation advances.",
+    "revisit": "Revisit the judgement when industrial users change their demands, household campaigns target datacenter growth, parties change position, or legislation advances.",
     "evidence": [
       "E02",
       "E08",
@@ -707,23 +707,23 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2030 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The survey points to voluntary commitments, generation requirements and restrictions on new sites. These three alternatives apply those policy directions to new commercial data centres in Sweden from 2030.",
+  "derivation": "The survey points to voluntary commitments, generation requirements and restrictions on new sites. These three alternatives apply those policy directions to new commercial datacenters in Sweden from 2030.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
-      "text": "Svenskt Näringsliv and SweDCI propose incentives for generation contracts. SKGS questions compulsory long-term contracts in the connection process, but also warns that data centres may displace industrial projects. The business coalition can split as access to electricity becomes more contested.",
+      "text": "Svenskt Näringsliv and SweDCI propose incentives for generation contracts. SKGS questions compulsory long-term contracts in the connection process, but also warns that datacenters may displace industrial projects. The business coalition can split as access to electricity becomes more contested.",
       "actors": ["A23", "A14", "A15"],
       "evidence": ["E76", "E43", "E44", "E84"]
     },
     {
       "title": "Support for reform, different proposals",
-      "text": "The Swedish Green Party calls for new renewable generation. The Social Democrats want data centres to contribute electricity production, and EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating fossil-free generation. Uniper wants nuclear power and lifetime extensions included.",
+      "text": "The Swedish Green Party calls for new renewable generation. The Social Democrats want datacenters to contribute electricity production, and EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating fossil-free generation. Uniper wants nuclear power and lifetime extensions included.",
       "actors": ["A17", "A25", "A07", "A03", "A26"],
       "evidence": ["E40", "E78", "E13", "E08", "E79"]
     },
     {
       "title": "Who gets electricity, and who pays?",
-      "text": "SKGS warns that data centres compete with industrial projects for power and grid connections. The Social Democrats link production commitments by data centres to lower household electricity bills. Rising costs and delayed investments can increase pressure for conditions on expansion.",
+      "text": "SKGS warns that datacenters compete with industrial projects for power and grid connections. The Social Democrats link production commitments by datacenters to lower household electricity bills. Rising costs and delayed investments can increase pressure for conditions on expansion.",
       "actors": ["A15", "A25"],
       "evidence": ["E84", "E78"]
     }
@@ -746,13 +746,13 @@
       {
         "title": "Bills rise and industrial projects wait",
         "dimension": "Adjustment burden",
-        "text": "Households have less money left after electricity bills. Industrial firms face higher operating costs and delayed investments where network capacity is scarce. SKGS already warns of competition with data centres for power and connections.",
+        "text": "Households have less money left after electricity bills. Industrial firms face higher operating costs and delayed investments where network capacity is scarce. SKGS already warns of competition with datacenters for power and connections.",
         "evidence": ["E83", "E84"]
       },
       {
         "title": "Affected groups press for different rules",
         "dimension": "Coalition alignment",
-        "text": "Firms can organise through industry associations; households can campaign, petition and vote. Bensinupproret’s 2019 fuel-tax protests illustrate that route to political pressure. If households attribute higher electricity bills to data-centre growth, demands for generation requirements or an establishment stop could gain support.",
+        "text": "Firms can organise through industry associations; households can campaign, petition and vote. Bensinupproret’s 2019 fuel-tax protests illustrate that route to political pressure. If households attribute higher electricity bills to datacenter growth, demands for generation requirements or an establishment stop could gain support.",
         "evidence": ["E84", "E89", "E90", "E86"]
       }
     ],
@@ -774,7 +774,7 @@
   "actor_previews": [
     {
       "title": "Business interests can diverge",
-      "text": "Data-centre investment and industrial electrification compete for connections. SKGS already raises this conflict."
+      "text": "Datacenter investment and industrial electrification compete for connections. SKGS already raises this conflict."
     },
     {
       "title": "Reform has advocates",
@@ -799,7 +799,7 @@
         },
         {
           "label": "Connections",
-          "text": "Limited grid capacity intensifies competition for connections between data centres and industrial electrification."
+          "text": "Limited grid capacity intensifies competition for connections between datacenters and industrial electrification."
         }
       ],
       "adoption": {

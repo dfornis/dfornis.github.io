@@ -1,4 +1,4 @@
-/* D3/SVG scenario map for Nordic data centre tracker.
+/* D3/SVG scenario map for Nordic datacenter tracker.
    Requires:
    - D3 v7 loaded before this script
    - window.DC_TRACKER_PATHS with biddingZones, scenarioZone, projects and capacity
@@ -12,7 +12,7 @@
     { id: "low_2030", label: "Low", year: "2030", fullLabel: "Low 2030" },
     { id: "stated_2030", label: "Stated", year: "2030", fullLabel: "Stated 2030" },
     { id: "stated_2035", label: "Stated", year: "2035", fullLabel: "Stated 2035" },
-    { id: "high_2035", label: "High", year: "2035", fullLabel: "High 2035" }
+    { id: "high_2035", label: "High", year: "2035", fullLabel: "High 2035" },
   ];
 
   const BREAKS = [
@@ -21,13 +21,13 @@
     { min: 500, max: 999, label: "500-999", color: "#9ecae1" },
     { min: 1000, max: 1499, label: "1,000-1,499", color: "#6baed6" },
     { min: 1500, max: 2499, label: "1,500-2,499", color: "#3182bd" },
-    { min: 2500, max: Infinity, label: "2,500+", color: "#08519c" }
+    { min: 2500, max: Infinity, label: "2,500+", color: "#08519c" },
   ];
 
   const COUNTRY_OFFSETS = {
     NO: [-82, -24],
     SE: [8, 8],
-    FI: [109, 8]
+    FI: [109, 8],
   };
 
   const ZONE_LABEL_OFFSETS = {
@@ -40,7 +40,7 @@
     SE2: [78, 0],
     SE3: [78, 12],
     SE4: [-58, 12],
-    FI: [-66, 0]
+    FI: [-66, 0],
   };
 
   function num(value) {
@@ -55,13 +55,16 @@
 
   function fillForMw(value) {
     const mw = num(value) || 0;
-    const bin = BREAKS.find(b => mw >= b.min && mw <= b.max);
+    const bin = BREAKS.find((b) => mw >= b.min && mw <= b.max);
     return bin ? bin.color : BREAKS[0].color;
   }
 
   function splitTags(value) {
     if (!value) return [];
-    return String(value).split(";").map(x => x.trim()).filter(Boolean);
+    return String(value)
+      .split(";")
+      .map((x) => x.trim())
+      .filter(Boolean);
   }
 
   function truncate(value, length = 44) {
@@ -87,7 +90,7 @@
     const labels = {
       SE: "Sweden",
       NO: "Norway",
-      FI: "Finland"
+      FI: "Finland",
     };
 
     return labels[value] || value || "";
@@ -113,7 +116,7 @@
     const offset = countryOffset(feature.properties.country);
     return [
       [bounds[0][0] + offset[0], bounds[0][1] + offset[1]],
-      [bounds[1][0] + offset[0], bounds[1][1] + offset[1]]
+      [bounds[1][0] + offset[0], bounds[1][1] + offset[1]],
     ];
   }
 
@@ -174,7 +177,7 @@
       anchorY: point.xy[1],
       displayX: point.xy[0],
       displayY: point.xy[1],
-      radius: phaseRadius(point)
+      radius: phaseRadius(point),
     }));
 
     const minPadding = 5.5;
@@ -210,7 +213,7 @@
         }
       }
 
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         node.displayX += (node.anchorX - node.displayX) * 0.035;
         node.displayY += (node.anchorY - node.displayY) * 0.035;
 
@@ -228,27 +231,27 @@
       });
     }
 
-    return nodes.map(node => ({
+    return nodes.map((node) => ({
       ...node,
       xy: [node.displayX, node.displayY],
-      hasOffset: Math.hypot(node.displayX - node.anchorX, node.displayY - node.anchorY) > 2.5
+      hasOffset: Math.hypot(node.displayX - node.anchorX, node.displayY - node.anchorY) > 2.5,
     }));
   }
 
   function emptyScenarioZoneObject(scenarioZoneRows) {
     const out = {};
-    SCENARIOS.forEach(s => {
+    SCENARIOS.forEach((s) => {
       out[s.id] = {};
     });
 
-    (scenarioZoneRows || []).forEach(row => {
+    (scenarioZoneRows || []).forEach((row) => {
       if (!out[row.scenario_id] || !row.bidding_zone) return;
 
       out[row.scenario_id][row.bidding_zone] = {
         zone: row.bidding_zone,
         country: row.country,
         mw: 0,
-        project_count: 0
+        project_count: 0,
       };
     });
 
@@ -258,7 +261,7 @@
   function buildScenarioZoneDetails(scenarioZoneRows) {
     const out = emptyScenarioZoneObject(scenarioZoneRows);
 
-    (scenarioZoneRows || []).forEach(row => {
+    (scenarioZoneRows || []).forEach((row) => {
       const scenario = row.scenario_id;
       const zone = row.bidding_zone;
       if (!out[scenario]) return;
@@ -275,12 +278,8 @@
 
   function buildPhaseGroups(capacityRows, activeScenario) {
     const grouped = d3.group(
-      (capacityRows || []).filter(d =>
-        num(d.latitude) !== null &&
-        num(d.longitude) !== null &&
-        splitTags(d.scenario_tag).includes(activeScenario)
-      ),
-      d => `${d.municipality}|${d.latitude}|${d.longitude}`
+      (capacityRows || []).filter((d) => num(d.latitude) !== null && num(d.longitude) !== null && splitTags(d.scenario_tag).includes(activeScenario)),
+      (d) => `${d.municipality}|${d.latitude}|${d.longitude}`
     );
 
     return Array.from(grouped, ([key, phases]) => {
@@ -301,7 +300,7 @@
           return String(a.phase).localeCompare(String(b.phase));
         }),
         phase_count: phases.length,
-        project_count: new Set(phases.map(phase => phase.project_id)).size
+        project_count: new Set(phases.map((phase) => phase.project_id)).size,
       };
     });
   }
@@ -322,25 +321,19 @@
     const controlsBox = controlsNode.getBoundingClientRect();
     const activeBox = activeNode.getBoundingClientRect();
 
-    indicator
-      .style("width", `${activeBox.width}px`)
-      .style("transform", `translateX(${activeBox.left - controlsBox.left}px)`);
+    indicator.style("width", `${activeBox.width}px`).style("transform", `translateX(${activeBox.left - controlsBox.left}px)`);
   }
 
   function renderControls(container, activeScenario, onScenarioChange) {
-    const controls = d3.select(container)
-      .append("div")
-      .attr("class", "dc-map-controls");
+    const controls = d3.select(container).append("div").attr("class", "dc-map-controls");
 
-    const scenarioControls = controls.append("div")
-      .attr("class", "dc-scenario-controls");
+    const scenarioControls = controls.append("div").attr("class", "dc-scenario-controls");
 
-    scenarioControls.append("div")
-      .attr("class", "dc-scenario-indicator")
-      .attr("aria-hidden", "true");
+    scenarioControls.append("div").attr("class", "dc-scenario-indicator").attr("aria-hidden", "true");
 
-    SCENARIOS.forEach(scenario => {
-      scenarioControls.append("button")
+    SCENARIOS.forEach((scenario) => {
+      scenarioControls
+        .append("button")
         .attr("type", "button")
         .attr("class", "dc-scenario-button" + (scenario.id === activeScenario ? " active" : ""))
         .attr("data-scenario", scenario.id)
@@ -358,45 +351,47 @@
   }
 
   function detailForZone(scenarioDetails, activeScenario, zone) {
-    return scenarioDetails[activeScenario]?.[zone] || {
-      zone,
-      mw: 0,
-      project_count: 0
-    };
+    return (
+      scenarioDetails[activeScenario]?.[zone] || {
+        zone,
+        mw: 0,
+        project_count: 0,
+      }
+    );
   }
 
   function buildCountryCalloutData(geojson, path, activeScenario, scenarioDetails) {
     const countryX = {
       NO: 155,
       SE: 345,
-      FI: 570
+      FI: 570,
     };
     const listY = 600;
 
     const groupedRows = d3.groups(
       geojson.features
-        .map(feature => ({
+        .map((feature) => ({
           feature,
           country: feature.properties.country,
           countryName: feature.properties.country_name || countryLabel(feature.properties.country),
           zone: feature.properties.bidding_zone,
-          detail: detailForZone(scenarioDetails, activeScenario, feature.properties.bidding_zone)
+          detail: detailForZone(scenarioDetails, activeScenario, feature.properties.bidding_zone),
         }))
         .sort((a, b) => {
           const countryCompare = countryOrder(a.country) - countryOrder(b.country);
           if (countryCompare !== 0) return countryCompare;
           return String(a.zone).localeCompare(String(b.zone), undefined, { numeric: true });
         }),
-      d => d.country
+      (d) => d.country
     );
     const totalY = listY + 18 + (d3.max(groupedRows, ([, rows]) => rows.length) || 0) * 22 + 9;
 
     return groupedRows.map(([country, rows]) => {
-      const bounds = rows.map(row => translatedBounds(row.feature, path));
-      const minX = d3.min(bounds, d => d[0][0]);
-      const maxX = d3.max(bounds, d => d[1][0]);
-      const maxY = d3.max(bounds, d => d[1][1]);
-      const x = countryX[country] || ((minX + maxX) / 2);
+      const bounds = rows.map((row) => translatedBounds(row.feature, path));
+      const minX = d3.min(bounds, (d) => d[0][0]);
+      const maxX = d3.max(bounds, (d) => d[1][0]);
+      const maxY = d3.max(bounds, (d) => d[1][1]);
+      const x = countryX[country] || (minX + maxX) / 2;
 
       return {
         country,
@@ -409,14 +404,14 @@
         rows: rows.map((row, index) => ({
           ...row,
           x,
-          y: listY + 18 + index * 22
-        }))
+          y: listY + 18 + index * 22,
+        })),
       };
     });
   }
 
   function renderZoneLabels(labelG, geojson, path, projection) {
-    const labelData = geojson.features.map(feature => {
+    const labelData = geojson.features.map((feature) => {
       const zone = feature.properties.bidding_zone;
       const anchor = translatedCentroid(feature, path);
       const offset = zoneLabelOffset(zone);
@@ -431,99 +426,94 @@
         label,
         textAnchor,
         lineEnd: [label[0] - linePad, edgeAnchor[1]],
-        labelY: edgeAnchor[1]
+        labelY: edgeAnchor[1],
       };
     });
 
-    const groups = labelG.selectAll("g.dc-zone-label-callout")
-      .data(labelData, d => d.zone)
+    const groups = labelG
+      .selectAll("g.dc-zone-label-callout")
+      .data(labelData, (d) => d.zone)
       .join(
-        enter => {
-          const g = enter.append("g")
+        (enter) => {
+          const g = enter
+            .append("g")
             .attr("class", "dc-zone-label-callout")
-            .attr("data-zone", d => d.zone);
+            .attr("data-zone", (d) => d.zone);
 
-          g.append("line")
-            .attr("class", "dc-zone-label-line");
+          g.append("line").attr("class", "dc-zone-label-line");
 
-          g.append("text")
-            .attr("class", "dc-zone-label")
-            .attr("dominant-baseline", "middle");
+          g.append("text").attr("class", "dc-zone-label").attr("dominant-baseline", "middle");
 
           return g;
         },
-        update => update,
-        exit => exit.remove()
+        (update) => update,
+        (exit) => exit.remove()
       );
 
-    groups.select("line.dc-zone-label-line")
-      .attr("x1", d => d.anchor[0])
-      .attr("y1", d => d.anchor[1])
-      .attr("x2", d => d.lineEnd[0])
-      .attr("y2", d => d.lineEnd[1]);
+    groups
+      .select("line.dc-zone-label-line")
+      .attr("x1", (d) => d.anchor[0])
+      .attr("y1", (d) => d.anchor[1])
+      .attr("x2", (d) => d.lineEnd[0])
+      .attr("y2", (d) => d.lineEnd[1]);
 
-    groups.select("text.dc-zone-label")
-      .attr("x", d => d.label[0])
-      .attr("y", d => d.labelY)
-      .attr("text-anchor", d => d.textAnchor)
-      .text(d => d.zone);
+    groups
+      .select("text.dc-zone-label")
+      .attr("x", (d) => d.label[0])
+      .attr("y", (d) => d.labelY)
+      .attr("text-anchor", (d) => d.textAnchor)
+      .text((d) => d.zone);
   }
 
   function renderCountryCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, onHighlight) {
     const countries = buildCountryCalloutData(geojson, path, activeScenario, scenarioDetails);
-    const countryGroups = calloutG.selectAll("g.dc-country-callout")
-      .data(countries, d => d.country)
+    const countryGroups = calloutG
+      .selectAll("g.dc-country-callout")
+      .data(countries, (d) => d.country)
       .join(
-        enter => {
-          const g = enter.append("g")
-            .attr("class", "dc-country-callout");
+        (enter) => {
+          const g = enter.append("g").attr("class", "dc-country-callout");
 
-          g.append("text")
-            .attr("class", "dc-capacity-country-label")
-            .attr("text-anchor", "middle");
+          g.append("text").attr("class", "dc-capacity-country-label").attr("text-anchor", "middle");
 
           return g;
         },
-        update => update,
-        exit => exit.remove()
+        (update) => update,
+        (exit) => exit.remove()
       );
 
     countryGroups.select("line.dc-country-callout-line").remove();
 
-    countryGroups.select("text.dc-capacity-country-label")
-      .attr("x", d => d.x)
-      .attr("y", d => d.lineEndY + 18)
-      .text(d => d.countryName);
+    countryGroups
+      .select("text.dc-capacity-country-label")
+      .attr("x", (d) => d.x)
+      .attr("y", (d) => d.lineEndY + 18)
+      .text((d) => d.countryName);
 
-    const rows = calloutG.selectAll("g.dc-capacity-row")
-      .data(countries.flatMap(country => country.rows), d => d.zone)
+    const rows = calloutG
+      .selectAll("g.dc-capacity-row")
+      .data(
+        countries.flatMap((country) => country.rows),
+        (d) => d.zone
+      )
       .join(
-        enter => {
-          const g = enter.append("g")
-            .attr("class", "dc-capacity-row")
-            .attr("tabindex", 0)
-            .attr("role", "button");
+        (enter) => {
+          const g = enter.append("g").attr("class", "dc-capacity-row").attr("tabindex", 0).attr("role", "button");
 
-          g.append("text")
-            .attr("class", "dc-capacity-zone")
-            .attr("text-anchor", "start")
-            .attr("dominant-baseline", "middle");
+          g.append("text").attr("class", "dc-capacity-zone").attr("text-anchor", "start").attr("dominant-baseline", "middle");
 
-          g.append("text")
-            .attr("class", "dc-capacity-value")
-            .attr("text-anchor", "start")
-            .attr("dominant-baseline", "middle");
+          g.append("text").attr("class", "dc-capacity-value").attr("text-anchor", "start").attr("dominant-baseline", "middle");
 
           return g;
         },
-        update => update,
-        exit => exit.remove()
+        (update) => update,
+        (exit) => exit.remove()
       );
 
     rows
-      .attr("data-zone", d => d.zone)
-      .attr("aria-label", d => `${d.zone}, ${fmtMw(d.detail.mw)} MW`)
-      .classed("empty", d => !d.detail || d.detail.mw === 0)
+      .attr("data-zone", (d) => d.zone)
+      .attr("aria-label", (d) => `${d.zone}, ${fmtMw(d.detail.mw)} MW`)
+      .classed("empty", (d) => !d.detail || d.detail.mw === 0)
       .on("mouseenter", function (event, d) {
         onHighlight(d.zone, true);
       })
@@ -538,80 +528,77 @@
       })
       .transition()
       .duration(160)
-      .attr("transform", d => `translate(${d.x},${d.y})`);
+      .attr("transform", (d) => `translate(${d.x},${d.y})`);
 
-    rows.select("text.dc-capacity-zone")
+    rows
+      .select("text.dc-capacity-zone")
       .attr("x", -48)
-      .text(d => d.zone);
+      .text((d) => d.zone);
 
-    rows.select("text.dc-capacity-value")
+    rows
+      .select("text.dc-capacity-value")
       .attr("x", 18)
-      .text(d => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
+      .text((d) => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
 
-    const totalRows = calloutG.selectAll("g.dc-capacity-total-row")
-      .data(countries, d => d.country)
+    const totalRows = calloutG
+      .selectAll("g.dc-capacity-total-row")
+      .data(countries, (d) => d.country)
       .join(
-        enter => {
-          const g = enter.append("g")
-            .attr("class", "dc-capacity-total-row");
+        (enter) => {
+          const g = enter.append("g").attr("class", "dc-capacity-total-row");
 
-          g.append("text")
-            .attr("class", "dc-capacity-total-symbol")
-            .attr("text-anchor", "start")
-            .attr("dominant-baseline", "middle");
+          g.append("text").attr("class", "dc-capacity-total-symbol").attr("text-anchor", "start").attr("dominant-baseline", "middle");
 
-          g.append("text")
-            .attr("class", "dc-capacity-total-value")
-            .attr("text-anchor", "start")
-            .attr("dominant-baseline", "middle");
+          g.append("text").attr("class", "dc-capacity-total-value").attr("text-anchor", "start").attr("dominant-baseline", "middle");
 
           return g;
         },
-        update => update,
-        exit => exit.remove()
+        (update) => update,
+        (exit) => exit.remove()
       );
 
     totalRows
       .transition()
       .duration(160)
-      .attr("transform", d => `translate(${d.x},${d.totalY})`);
+      .attr("transform", (d) => `translate(${d.x},${d.totalY})`);
 
-    totalRows.select("text.dc-capacity-total-symbol")
-      .attr("x", -48)
-      .attr("y", 0)
-      .text("Σ");
+    totalRows.select("text.dc-capacity-total-symbol").attr("x", -48).attr("y", 0).text("Σ");
 
-    totalRows.select("text.dc-capacity-total-value")
+    totalRows
+      .select("text.dc-capacity-total-value")
       .attr("x", 18)
-      .text(d => `${fmtMw(d.totalMw)} MW`);
+      .text((d) => `${fmtMw(d.totalMw)} MW`);
   }
 
   function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height) {
-    const projectedPoints = phaseGroups.map(group => {
-      const xy = projection([group.longitude, group.latitude]);
-      if (!xy) return { ...group, xy };
+    const projectedPoints = phaseGroups
+      .map((group) => {
+        const xy = projection([group.longitude, group.latitude]);
+        if (!xy) return { ...group, xy };
 
-      const offset = countryOffset(group.country);
-      return {
-        ...group,
-        xy: [xy[0] + offset[0], xy[1] + offset[1]]
-      };
-    }).filter(group => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
+        const offset = countryOffset(group.country);
+        return {
+          ...group,
+          xy: [xy[0] + offset[0], xy[1] + offset[1]],
+        };
+      })
+      .filter((group) => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
 
     const points = resolvePhaseOverlaps(projectedPoints, width, height);
 
-    const groups = phaseG.selectAll("g.dc-phase-point")
-      .data(points, d => d.key)
+    const groups = phaseG
+      .selectAll("g.dc-phase-point")
+      .data(points, (d) => d.key)
       .join(
-        enter => {
-          const g = enter.append("g")
+        (enter) => {
+          const g = enter
+            .append("g")
             .attr("class", "dc-phase-point")
             .attr("tabindex", 0)
             .attr("role", "button")
-            .attr("aria-label", d => `${d.phase_count} phase${d.phase_count === 1 ? "" : "s"} in ${d.municipality}`);
+            .attr("aria-label", (d) => `${d.phase_count} phase${d.phase_count === 1 ? "" : "s"} in ${d.municipality}`);
 
-          g.append("line")
-            .attr("class", "dc-phase-anchor");
+          g.append("line").attr("class", "dc-phase-anchor");
 
           g.append("circle")
             .attr("class", "dc-phase-dot")
@@ -631,12 +618,12 @@
 
           return g;
         },
-        update => update,
-        exit => exit.remove()
+        (update) => update,
+        (exit) => exit.remove()
       );
 
     groups
-      .attr("transform", d => `translate(${d.xy[0]},${d.xy[1]})`)
+      .attr("transform", (d) => `translate(${d.xy[0]},${d.xy[1]})`)
       .on("click", function (event, d) {
         event.stopPropagation();
         showPhasePopup(popupG, d, width, height);
@@ -648,19 +635,20 @@
         }
       });
 
-    groups.select("line.dc-phase-anchor")
-      .attr("x1", d => d.anchorX - d.xy[0])
-      .attr("y1", d => d.anchorY - d.xy[1])
+    groups
+      .select("line.dc-phase-anchor")
+      .attr("x1", (d) => d.anchorX - d.xy[0])
+      .attr("y1", (d) => d.anchorY - d.xy[1])
       .attr("x2", 0)
       .attr("y2", 0)
-      .attr("opacity", d => d.hasOffset ? 1 : 0);
+      .attr("opacity", (d) => (d.hasOffset ? 1 : 0));
 
-    groups.select("circle.dc-phase-dot")
-      .attr("r", phaseRadius);
+    groups.select("circle.dc-phase-dot").attr("r", phaseRadius);
 
-    groups.select("text.dc-phase-count")
+    groups
+      .select("text.dc-phase-count")
       .attr("font-size", phaseCountFontSize)
-      .text(d => d.phase_count > 1 ? d.phase_count : "");
+      .text((d) => (d.phase_count > 1 ? d.phase_count : ""));
   }
 
   function showPhasePopup(popupG, group, width, height) {
@@ -668,7 +656,7 @@
 
     const lineHeight = 16;
     const maxPhases = 6;
-    const phaseLines = group.phases.slice(0, maxPhases).map(phase => {
+    const phaseLines = group.phases.slice(0, maxPhases).map((phase) => {
       const mw = num(phase.estimated_grid_side_mw);
       const mwText = mw === null ? "" : ` · ${fmtMw(mw)} MW`;
       return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
@@ -681,7 +669,7 @@
     const lines = [
       `${group.municipality}`,
       `${group.phase_count} phase${group.phase_count === 1 ? "" : "s"} · ${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${countryLabel(group.country)} · ${group.bidding_zone}`,
-      ...phaseLines
+      ...phaseLines,
     ];
 
     const boxWidth = 314;
@@ -691,11 +679,10 @@
     const x = Math.max(16, Math.min(width - boxWidth - 16, pointX + (pointX > width - 320 ? -boxWidth - 14 : 16)));
     const y = Math.max(16, Math.min(height - boxHeight - 16, pointY - boxHeight / 2));
 
-    const popup = popupG.append("g")
-      .attr("class", "dc-phase-popup")
-      .attr("transform", `translate(${x},${y})`);
+    const popup = popupG.append("g").attr("class", "dc-phase-popup").attr("transform", `translate(${x},${y})`);
 
-    popup.append("rect")
+    popup
+      .append("rect")
       .attr("class", "dc-phase-popup-bg")
       .attr("width", boxWidth)
       .attr("height", boxHeight)
@@ -704,14 +691,11 @@
       .attr("stroke", "#d8d2c8")
       .attr("stroke-width", 1);
 
-    const text = popup.append("text")
-      .attr("class", "dc-phase-popup-text")
-      .attr("x", 12)
-      .attr("y", 17)
-      .attr("fill", "#2f3331");
+    const text = popup.append("text").attr("class", "dc-phase-popup-text").attr("x", 12).attr("y", 17).attr("fill", "#2f3331");
 
     lines.forEach((line, index) => {
-      const tspan = text.append("tspan")
+      const tspan = text
+        .append("tspan")
         .attr("x", 12)
         .attr("dy", index === 0 ? 0 : lineHeight)
         .attr("class", index === 0 ? "dc-phase-popup-title" : index === 1 ? "dc-phase-popup-meta" : "dc-phase-popup-line")
@@ -740,7 +724,7 @@
     const [geojson, scenarioZone, capacity] = await Promise.all([
       loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
       loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios),
-      loadJson(paths.capacity)
+      loadJson(paths.capacity),
     ]);
 
     const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
@@ -749,24 +733,29 @@
     const height = 765;
     let activeScenario = DEFAULT_SCENARIO;
 
-    const root = d3.select(container)
-      .attr("class", "dc-scenario-map-root dc-scenario-map-offset");
+    const root = d3.select(container).attr("class", "dc-scenario-map-root dc-scenario-map-offset");
 
     renderControls(container, activeScenario, updateScenario);
 
-    const figure = root.append("div")
-      .attr("class", "dc-scenario-svg-wrap");
+    const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
 
-    const svg = figure.append("svg")
+    const svg = figure
+      .append("svg")
       .attr("class", "dc-scenario-svg")
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("role", "img")
-      .attr("aria-label", "Scenario map of Nordic data centre grid-side capacity by bidding zone");
+      .attr("aria-label", "Scenario map of Nordic datacenter grid-side capacity by bidding zone");
 
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
 
-    projection.fitExtent([[128, 58], [610, 536]], geojson);
+    projection.fitExtent(
+      [
+        [128, 58],
+        [610, 536],
+      ],
+      geojson
+    );
     const displayGeojson = geojson;
 
     const mapG = svg.append("g").attr("class", "dc-map-zones");
@@ -777,17 +766,18 @@
 
     svg.on("click", () => popupG.selectAll("*").remove());
 
-    const zonePaths = mapG.selectAll("path")
+    const zonePaths = mapG
+      .selectAll("path")
       .data(displayGeojson.features)
       .join("path")
       .attr("class", "dc-zone")
-      .attr("data-zone", d => d.properties.bidding_zone)
-      .attr("transform", d => {
+      .attr("data-zone", (d) => d.properties.bidding_zone)
+      .attr("transform", (d) => {
         const offset = countryOffset(d.properties.country);
         return `translate(${offset[0]},${offset[1]})`;
       })
       .attr("d", path)
-      .attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
+      .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
 
     renderZoneLabels(zoneLabelG, displayGeojson, path, projection);
 
@@ -805,9 +795,7 @@
       zonePaths
         .transition()
         .duration(180)
-        .attr("fill", d => fillForMw(
-          detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw
-        ));
+        .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
 
       renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
       renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);

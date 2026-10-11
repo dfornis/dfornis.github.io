@@ -5,7 +5,7 @@
   "year": 2035,
   "metric": "Estimated grid-side capacity (MW)",
   "scope": "Projects with announced operation by 2035",
-  "source": "Nordic data centre tracker",
+  "source": "Nordic datacenter tracker",
   "source_url": "/projects/datacenter-tracker/#scenario-map",
   "source_hashes": {
     "scenario_zone.json": "f3795256e161bfbd7275424852f0bc88188064ff5ba1420ea1d0f5c9431b81f2",

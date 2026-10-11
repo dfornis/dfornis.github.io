@@ -4,15 +4,15 @@
     "assumption_type": "PUE",
     "value": 1.2,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness assumed for hyperscale data centres.",
-    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with large hyperscale facilities potentially as low as 1.1. Shehabi et al. 2024 supports low hyperscale PUE assumptions."
+    "description": "Power Usage Effectiveness assumed for hyperscale datacenters.",
+    "source": "EPRI 2026; average U.S. datacenter PUE estimated at 1.32 in 2024, with large hyperscale facilities potentially as low as 1.1. Shehabi et al. 2024 supports low hyperscale PUE assumptions."
   },
   {
     "assumption_id": "LF_Hyperscale",
     "assumption_type": "Annual load factor",
     "value": 0.75,
     "unit": "ratio",
-    "description": "Facility-level annual load factor for hyperscale data centres, defined as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity.",
+    "description": "Facility-level annual load factor for hyperscale datacenters, defined as average realised grid-side load divided by reported or estimated grid-side/nameplate capacity.",
     "source": "EPRI 2026; observed large hyperscale facility annual load factor of 75% relative to nameplate capacity. Shehabi et al. 2024 used only as supporting evidence on high relative hyperscale server operational time."
   },
   {
@@ -20,15 +20,15 @@
     "assumption_type": "PUE",
     "value": 1.2,
     "unit": "ratio",
-    "description": "Power Usage Effectiveness assumed for hyperscale AI data centres.",
-    "source": "EPRI 2026; large hyperscale facilities with liquid cooling may reach PUE as low as 1.1. Shehabi et al. 2024 models AI data centres separately by cooling system."
+    "description": "Power Usage Effectiveness assumed for hyperscale AI datacenters.",
+    "source": "EPRI 2026; large hyperscale facilities with liquid cooling may reach PUE as low as 1.1. Shehabi et al. 2024 models AI datacenters separately by cooling system."
   },
   {
     "assumption_id": "LF_Hyperscale_AI",
     "assumption_type": "Annual load factor",
     "value": 0.75,
     "unit": "ratio",
-    "description": "Facility-level annual load factor for hyperscale data centres with substantial AI workloads. Treated as high-utilisation but not full nameplate operation.",
+    "description": "Facility-level annual load factor for hyperscale datacenters with substantial AI workloads. Treated as high-utilisation but not full nameplate operation.",
     "source": "EPRI 2026; hyperscale observed annual load factor of 75% relative to nameplate capacity. Shehabi et al. 2024 distinguishes AI training and inference operational time. Regen/National Grid DSO 2025 notes AI training is relatively flat while inference is peakier."
   },
   {
@@ -37,7 +37,7 @@
     "value": 1.25,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for AI/HPC-oriented facilities.",
-    "source": "Shehabi et al. 2024; AI data centres modelled separately for air and liquid cooling. EPRI 2026 supports lower PUE for newer large facilities."
+    "source": "Shehabi et al. 2024; AI datacenters modelled separately for air and liquid cooling. EPRI 2026 supports lower PUE for newer large facilities."
   },
   {
     "assumption_id": "LF_AI_HPC",
@@ -53,7 +53,7 @@
     "value": 1.35,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for colocation facilities with AI workloads.",
-    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
+    "source": "EPRI 2026; average U.S. datacenter PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
   },
   {
     "assumption_id": "LF_Colocation_AI",
@@ -69,7 +69,7 @@
     "value": 1.35,
     "unit": "ratio",
     "description": "Power Usage Effectiveness assumed for colocation facilities.",
-    "source": "EPRI 2026; average U.S. data centre PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
+    "source": "EPRI 2026; average U.S. datacenter PUE estimated at 1.32 in 2024, with older/smaller facilities higher. Shehabi et al. 2024 supports colocation PUE below roughly 1.4 in recent years."
   },
   {
     "assumption_id": "LF_Colocation",

@@ -1,15 +1,15 @@
 ---
 layout: page
-title: Nordic data center tracker
-description: Public database with plans and electricity use estimates for new data centers across the Nordics. 
+title: Nordic datacenter tracker
+description: Public database with plans and electricity use estimates for new datacenters across the Nordics.
 hide_description: true
 img: /assets/images/datacenter_thumbnail_2.png
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported plans for new data center projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of data center load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.
+This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of datacenter load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.
 
-The Nordic countries are currently attracting substantial interest from data center developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
+The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
@@ -72,15 +72,11 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated grid-side (nameplate) capacity from data center projects across Nordic bidding zones under four deployment scenarios. Depending on the initial reported number, they include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
-
+The map below shows estimated grid-side (nameplate) capacity from datacenter projects across Nordic bidding zones under four deployment scenarios. Depending on the initial reported number, they include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
 
 <div class="after-table-space"></div>
 
-
 <div id="dc-scenario-map"></div>
-
-
 
 <script>
 window.DC_TRACKER_PATHS = {
@@ -96,27 +92,24 @@ window.DC_TRACKER_PATHS = {
 
 <div class="after-table-space"></div>
 
-
-| Scenario | Includes |
-| ------- | ------- |
-| Low 2030 | Projects and phases with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030 |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035 |
-| High 2035 | Close to all known projects including ones without an announced year of operation |
+| Scenario    | Includes                                                                          |
+| ----------- | --------------------------------------------------------------------------------- |
+| Low 2030    | Projects and phases with a confirmed investment decision, operational before 2030 |
+| Stated 2030 | All projects and phases with an announced year of operation by 2030               |
+| Stated 2035 | All projects and phases with an announced year of operation by 2035               |
+| High 2035   | Close to all known projects including ones without an announced year of operation |
 
 <div class="after-table-space"></div>
 
-
-
 ## Capacity interpretation and derived estimates
 
-Capacity figures reported for data center projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
+Capacity figures reported for datacenter projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
 
 <pre>
 interpreted_it_load_mw
 </pre>
 
-`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is derived locally in the data build script by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side data center load unless a separate IT load, site load, or grid-connection capacity is reported.
+`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is derived locally in the data build script by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side datacenter load unless a separate IT load, site load, or grid-connection capacity is reported.
 
 Annual electricity use is estimated in the local data build script using an annual load factor:
 
@@ -126,14 +119,13 @@ estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,0
 
 Reported capacity figures need two additional assumptions before they can be compared as electricity demand. PUE is used to move from IT load to total facility load, including cooling and other site electricity use. The load factor is used to annualise capacity: it describes average realised grid-side load as a share of reported or estimated grid-side/nameplate capacity.
 
-The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent data center electricity outlooks.
-
+The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent datacenter electricity outlooks.
 
 <div class="assumption-table-wrap">
   <table class="assumption-table">
     <thead>
       <tr>
-        <th>Data center type</th>
+        <th>Datacenter type</th>
         <th>PUE</th>
         <th>Load factor</th>
         <th>Adapted from</th>
@@ -182,13 +174,13 @@ The dataset behind this page is maintained in a separate pipeline repository so 
 
 1. **Shared reference data.** Countries, bidding zones, administrative units, PUE and load-factor assumptions, and source records live in master files that define the allowed geography and the assumptions used by every later step. These are manually maintained.
 
-2. **Project discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent constrained by predefined attributes and decision criteria for most variables. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are limited to one country at a time and tailored to language and national reporting conventions. 
+2. **Project discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent constrained by predefined attributes and decision criteria for most variables. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are limited to one country at a time and tailored to language and national reporting conventions.
 
-3. **Output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, documented uncertainties and rationale. 
+3. **Output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, documented uncertainties and rationale.
 
 4. **Human review.** Every proposed change is checked manually before it can become master data: source quality, conflicts between sources, how reported MW figures should be interpreted, and whether a candidate should be included or not. An R script is run which allows for manual inclusion and exclusion of candidates when merging with the master files.
 
-5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker. 
+5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker.
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-sigma-row-spacing' | relative_url }}");
