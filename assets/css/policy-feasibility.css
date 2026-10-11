@@ -886,6 +886,39 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+.pf-policy-doodle {
+  display: grid;
+  grid-template-columns: minmax(0, 555fr) minmax(0, 1617fr);
+  gap: 1rem;
+  margin: 1.2rem 0 2.2rem;
+  padding-inline: var(--pf-gutter);
+}
+.pf-policy-doodle svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+.pf-policy-doodle .pf-caption {
+  margin: 0 0 0.35rem;
+  text-align: center;
+  font-size: 0.77rem;
+}
+.pf-policy-doodle-questions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+@media (max-width: 600px) {
+  .pf-policy-doodle {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .pf-policy-doodle-assumption {
+    width: 140px;
+    margin-inline: auto;
+  }
+}
 .pf-project .pf-intro {
   padding-bottom: 1.2rem;
 }
