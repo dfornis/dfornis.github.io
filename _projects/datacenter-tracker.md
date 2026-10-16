@@ -7,13 +7,49 @@ img: /assets/images/project-sketches/datacenter-tracker.png
 permalink: /projects/datacenter-tracker/
 ---
 
-This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of datacenter load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.
+<div class="tracker-intro">
+  <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
+  <p>This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of datacenter load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.</p>
+  <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+</div>
 
-The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <fornborg@kth.se>.
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.6.0">
+
+## Scenario map
+
+Capacity includes cooling and other site electricity use. Values are shown as ranges where the source or timing is uncertain.
+
+<div class="after-table-space"></div>
+
+<div id="dc-scenario-map"></div>
+
+<details class="scenario-explainer">
+  <summary>
+    <span>Scenario explainer</span>
+    <span class="scenario-explainer-hint">What the four scenarios include and how to read them</span>
+  </summary>
+  <div class="scenario-explainer-body scenario-descriptions" markdown="1">
+
+| Scenario | Includes |
+| --- | --- |
+| Low 2030 | Projects with a confirmed investment decision, phased to 2030. |
+| Stated 2030 | Projects with announced dates, phased to 2030. |
+| Stated 2035 | Projects with announced dates, phased to 2035. |
+| High 2035 | All active plans, including projects without a completion date. |
+
+**Using the map.** The map follows the same scenario and filters as the table. Colours use the upper value. Blue project markers contribute in the selected scenario, pale markers do not, and blue-grey clusters contain both. Click a project marker for details.
+
+**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. When the size of a first phase under construction or with an investment decision is unknown, the campus is shown from zero to its phased full-build figure.
+
+Capacity is phased in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is set two to three years later. A grid date sets the earliest possible start. Plans without dates remain undated. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
+
+  </div>
+</details>
+
+<div class="after-table-space"></div>
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.6.0">
 <div class="tracker-controls">
 
   <details class="filter-dropdown">
@@ -69,40 +105,13 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 <div class="after-table-space"></div>
 
-## Scenario map
-
-The map shows the same scenario and filters as the table. Capacity includes cooling and other site electricity use. Values are shown as ranges where the source or timing is uncertain. Colours use the upper value. Blue project markers contribute in the selected scenario. Pale markers do not. Blue-grey clusters contain both. Click a project marker for details.
-
-<div class="after-table-space"></div>
-
-<div id="dc-scenario-map"></div>
-
-<div class="after-table-space"></div>
-
-<div class="scenario-descriptions" markdown="1">
-
-| Scenario | Includes |
-| --- | --- |
-| Low 2030 | Projects with a confirmed investment decision, phased to 2030. |
-| Stated 2030 | Projects with announced dates, phased to 2030. |
-| Stated 2035 | Projects with announced dates, phased to 2035. |
-| High 2035 | All active plans, including projects without a completion date. |
-
-</div>
-
-<div class="after-table-space"></div>
-
 ## Capacity and electricity use
 
 **Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once and capacity already in operation is subtracted. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
 
 **Electricity at full build-out (TWh/yr)** is full build-out × the annual load factor for the facility type × 8,760 hours. It expresses the project's full size as annual electricity use.
 
-**Scenarios** are shown in the summary above the table and on the map. They show how much capacity could be in operation in the target year under each scenario. Each capacity figure is phased from the date given for that same figure. A date for the first building is not reused for a larger campus. When the size of a first phase under construction or with an investment decision is unknown, the campus is shown from zero to its phased full-build figure. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
-
 Expand a project to see the source figures and whether they describe IT equipment, total site power or a grid connection, along with phase dates, decisions and sources. A decision to build one phase applies to that phase. It does not establish a decision for the entire campus. Backup generators and power generation are not counted as datacenter load.
-
-In the scenarios, capacity is phased in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is set two to three years later. A grid date sets the earliest possible start. Plans without dates remain undated.
 
 IT capacity is converted to total site capacity using PUE assumptions of 1.1–1.5, with a reported local design PUE used where available. Annual electricity use uses load factors of 0.75 for hyperscale, 0.57 for colocation, 0.60 for colocation with AI, and 0.80 for AI/HPC. The assumptions draw on [EPRI (2026)](https://powering-intelligence.epri.com/annual-peak-use.html), [IEA (2025)](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai) and the documented model method.
 
@@ -152,6 +161,33 @@ Each country update follows the same sequence from initial lead to published sce
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-sigma-row-spacing' | relative_url }}");
+
+.tracker-intro {
+  margin-bottom: 1.1rem;
+}
+
+.tracker-intro::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.tracker-intro-illustration {
+  display: block;
+  float: right;
+  width: min(40%, 600px);
+  height: auto;
+  margin: 0.2rem 0 0.85rem 1.5rem;
+  opacity: 0.82;
+}
+
+@media (max-width: 700px) {
+  .tracker-intro-illustration {
+    float: none;
+    width: min(100%, 430px);
+    margin: 0.25rem auto 0.8rem;
+  }
+}
 
 .tracker-controls {
   display: flex;
@@ -519,6 +555,70 @@ div#summary-box.summary-box,
   padding-right: 1.4rem;
 }
 
+.scenario-explainer {
+  max-width: 760px;
+  margin: -0.55rem auto 1.65rem auto;
+  border-top: 1px solid #d8d2c8;
+  border-bottom: 1px solid #d8d2c8;
+}
+
+.scenario-explainer summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 0.8rem;
+  align-items: baseline;
+  padding: 0.78rem 1.8rem 0.78rem 0;
+  color: #2f383b;
+  font-size: 0.84rem;
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+
+.scenario-explainer summary::-webkit-details-marker {
+  display: none;
+}
+
+.scenario-explainer summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 0.62rem;
+  color: #2f6687;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.scenario-explainer[open] > summary::after {
+  content: "−";
+}
+
+.scenario-explainer-hint {
+  color: #747d7d;
+  font-size: 0.72rem;
+  font-weight: 400;
+}
+
+.scenario-explainer-body {
+  padding: 0.25rem 1.8rem 1rem 0;
+  color: #444;
+  font-size: 0.84rem;
+}
+
+.scenario-explainer-body table {
+  margin-bottom: 0.85rem;
+}
+
+.scenario-explainer-body p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.scenario-explainer-body p + p {
+  margin-top: 0.65rem;
+}
+
 .tracker-workflow {
   margin-top: 1.35rem;
   max-width: 78ch;
@@ -785,6 +885,9 @@ pre {
   .summary-block { padding: 0.35rem 0 0 0; }
   .summary-block:first-child { padding-top: 0; }
   .summary-block + .summary-block { border-left: 0; border-top: 1px solid #ddd8cf; }
+}
+@media (max-width: 600px) {
+  .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
