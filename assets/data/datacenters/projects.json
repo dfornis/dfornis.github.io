@@ -14,7 +14,7 @@
     "source_ids": "S001;S002;S144;S145;S146",
     "latitude": "64.7507",
     "longitude": "20.9528",
-    "notes": "Planned campus of up to 1 GW. The first two halls are permitted and targeted for 2028; five further halls are targeted for early 2031. The model phases the campus from 2028. Full completion and investment in the entire campus have not been confirmed."
+    "notes": "Planned campus of up to 1 GW. The first two halls are permitted and targeted for 2028; five further halls are targeted for early 2031. The 2028 and 2031 targets date halls without a disclosed MW, so the 1 GW figure has no date of its own and counts only in High. Full completion and investment in the entire campus have not been confirmed."
   },
   {
     "project_id": "P002",
@@ -48,7 +48,7 @@
     "source_ids": "S006;S007;S084;S086;S099",
     "latitude": "60.4858",
     "longitude": "15.4371",
-    "notes": "The campus has a stated potential of 600 MW. B1 and B2, with a combined reported capacity of 24 MW, are under construction and targeted for 2027. Their first operation dates the modelled campus expansion. Mistral is a customer within the same campus."
+    "notes": "The campus has a stated potential of 600 MW. B1 and B2, with a combined reported capacity of 24 MW, are under construction and targeted for 2027. The 600 MW figure has no date of its own; the 24 MW phase and the 250 MW available from 2027 count on their own dates. Mistral is a customer within the same campus."
   },
   {
     "project_id": "P004",
@@ -252,7 +252,7 @@
     "source_ids": "S028;S029;S031;S085;S154;S155",
     "latitude": "60.294",
     "longitude": "16.414",
-    "notes": "The 500 MW campus estimate comes from Länsstyrelsen Dalarna (2021, p. 88), based on backup-generator sizing for a plan of up to five halls. Google has not disclosed the electrical capacity. The first facility is under construction and targeted for 2028; the model phases the campus from that year. The separate 1,500 MW thermal backup rating is not datacenter demand."
+    "notes": "The 500 MW campus estimate comes from Länsstyrelsen Dalarna (2021, p. 88), based on backup-generator sizing for a plan of up to five halls. Google has not disclosed the electrical capacity. The first facility is under construction and targeted for 2028. Its MW is undisclosed, so the 500 MW estimate counts from 0 up to its value phased from 2028, in Stated and High. The separate 1,500 MW thermal backup rating is not datacenter demand."
   },
   {
     "project_id": "P016",
@@ -558,7 +558,7 @@
     "source_ids": "S065;S074;S096;S097;S191;S293",
     "latitude": "60.769",
     "longitude": "26.789",
-    "notes": "The planned campus has 430 MW of total site capacity. YIT contracts cover individual buildings, with commissioning of the July contract targeted by the end of 2027. The model phases the campus from 2027; investment in the entire campus is not confirmed."
+    "notes": "The planned campus has 430 MW of total site capacity. YIT contracts cover individual buildings, with commissioning of the July contract targeted by the end of 2027. The building MW is undisclosed, so the 430 MW campus counts from 0 up to its value phased from 2027, in Stated and High; investment in the entire campus is not confirmed."
   },
   {
     "project_id": "P034",
@@ -592,7 +592,7 @@
     "source_ids": "S067;S076;S098;S143;S193;S244",
     "latitude": "61.0587",
     "longitude": "28.1887",
-    "notes": "The Pajarila campus is the Nebius Lappeenranta project. Fira is building the first phase, targeted for 2027. Nebius reports 310 MW of total site power; the model phases the campus from first operation. Polarnode lists a 350 MW grid connection for the same site."
+    "notes": "The Pajarila campus is the Nebius Lappeenranta project. Fira is building the first phase, targeted for 2027. Nebius reports 310 MW of total site power. The first phase MW is undisclosed, so the campus counts from 0 up to its value phased from 2027, in Stated and High. Polarnode lists a 350 MW grid connection for the same site."
   },
   {
     "project_id": "P036",
@@ -694,7 +694,7 @@
     "source_ids": "S131;S156;S157;S189",
     "latitude": "62.4870",
     "longitude": "17.3257",
-    "notes": "The Torsboda FAQ gives 650 MW initially and a 1,000 MW first-phase goal, with a conditional completion milestone of 31 December 2030. The model phases the 1,000 MW goal from 2030 and retains the dated 650 MW phase. A later option of up to 2,000 MW requires further land and has no date. The sale appeal was still being handled in October 2026; grid allocation is unverified."
+    "notes": "The Torsboda FAQ gives 650 MW initially and a 1,000 MW first-phase goal, with a conditional completion milestone of 31 December 2030. Only the 650 MW phase has a date of its own; the 1,000 MW goal and the 2,000 MW option count only in High. A later option of up to 2,000 MW requires further land and has no date. The sale appeal was still being handled in October 2026; grid allocation is unverified."
   },
   {
     "project_id": "P046",
@@ -864,7 +864,7 @@
     "source_ids": "S160;S161;S162",
     "latitude": "57.739",
     "longitude": "12.010",
-    "notes": "New underground facility at Bunkeberget, separate from Elementica. The first hall is targeted for early 2027. The model phases the planned 12 MW site from that year; full capacity in 2031 is a model assumption, not an announced completion date."
+    "notes": "New underground facility at Bunkeberget, separate from Elementica. The first hall is targeted for early 2027. That date covers the first hall (1 MW), so the 12 MW site figure counts only in High."
   },
   {
     "project_id": "P056",

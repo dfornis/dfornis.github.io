@@ -43,7 +43,7 @@
   }
 
   function fmtMw(value) {
-    if (value && typeof value === "object") return value.excluded ? "—" : global.DCTracker.range(value.low, value.high);
+    if (value && typeof value === "object") return value.excluded ? "—" : global.DCTracker.totalRange(value);
     return global.DCTracker.range(value, value);
   }
 
@@ -240,10 +240,15 @@
       return { ...project, ...row, phase: project.status, coordinate_note: "Approximate project locations" };
     }).filter(project => num(project.latitude) !== null && num(project.longitude) !== null);
     const grouped = d3.group(entries, project => `${project.municipality}|${project.latitude}|${project.longitude}`);
-    return Array.from(grouped, ([key, phases]) => ({
-      ...phases[0], key, phases: phases.sort((a, b) => a.project_name.localeCompare(b.project_name)),
-      phase_count: phases.length, project_count: phases.length,
-    }));
+    return Array.from(grouped, ([key, phases]) => {
+      const ordered = phases.sort((a, b) => a.project_name.localeCompare(b.project_name));
+      const activeCount = ordered.filter(phase => phase.participates).length;
+      return {
+        ...ordered[0], key, phases: ordered,
+        phase_count: ordered.length, project_count: ordered.length, active_count: activeCount,
+        scenario_state: activeCount === 0 ? "inactive" : activeCount === ordered.length ? "active" : "mixed",
+      };
+    });
   }
 
   function positionScenarioIndicator(scenarioControls) {
@@ -559,6 +564,10 @@
 
     groups
       .attr("transform", (d) => `translate(${d.xy[0]},${d.xy[1]})`)
+      .classed("scenario-active", (d) => d.scenario_state === "active")
+      .classed("scenario-mixed", (d) => d.scenario_state === "mixed")
+      .classed("scenario-inactive", (d) => d.scenario_state === "inactive")
+      .attr("aria-label", (d) => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}; ${d.active_count} contribute${d.active_count === 1 ? "s" : ""} in the selected scenario`)
       .on("click", function (event, d) {
         event.stopPropagation();
         showPhasePopup(popupG, d, width, height);
@@ -709,7 +718,6 @@
     renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
     renderPhaseLayer(phaseG, popupG, buildPhaseGroups(view, data), projection, width, height);
 
-    const note = root.append("p").attr("class", "dc-map-note");
     function update(nextView) {
       view = nextView;
       activeScenario = view.scenario;
@@ -720,9 +728,6 @@
       zonePaths.attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
       renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
       renderPhaseLayer(phaseG, popupG, buildPhaseGroups(view, data), projection, width, height);
-      const unknown = view.totals.mw.unknown;
-      const unassigned = view.rows.filter(row => row.bidding_zone.endsWith("-unassigned")).length;
-      note.text((unknown ? unknown + " projects have unknown capacity. Totals cover the quantified part. " : "") + (unassigned ? unassigned + " projects have no assigned bidding zone and remain in the table totals. " : "") + "Project locations are approximate.");
     }
     update(view);
     return { update };
