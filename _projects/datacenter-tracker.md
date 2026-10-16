@@ -13,6 +13,7 @@ The Nordic countries are currently attracting substantial interest from datacent
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.4-ui">
 <div class="tracker-controls">
 
   <details class="filter-dropdown">
@@ -42,9 +43,9 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 </div>
 
-<div id="summary-box" class="summary-box"></div>
+<div id="summary-box" class="summary-box" role="status" aria-live="polite">Loading projects…</div>
 
-<div class="table-wrapper">
+<div class="table-wrapper" tabindex="0" aria-label="Project table; scroll horizontally for more columns">
   <table id="tracker-table">
     <thead>
       <tr>
@@ -56,12 +57,11 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Type</th>
         <th>Project status</th>
         <th>Investment decision</th>
-        <th id="reported-mw-header">Max reported MW</th>
-        <th id="it-load-mw-header">Est. IT load MW</th>
-        <th id="grid-side-mw-header">Est. grid-side MW</th>
+        <th id="planned-mw-header">Planned capacity (MW)</th>
+        <th id="grid-side-mw-header">Capacity in 2030 (MW)</th>
         <th id="twh-header">Est. TWh/year</th>
         <th>Expected operation</th>
-        <th>Last updated</th>
+        <th>Last checked</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -72,119 +72,44 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Scenario map
 
-The map below shows estimated grid-side (nameplate) capacity from datacenter projects across Nordic bidding zones under four deployment scenarios. Depending on the initial reported number, they include auxiliary power use through the assigned PUE assumptions. They should not be interpreted as average load.
+The map shows the same scenario and filters as the table. Capacity includes cooling and other site electricity use. Values are shown as ranges where the source or timing is uncertain; colours use the upper value. Grey means the upper value is unknown. Click a project marker for details.
 
 <div class="after-table-space"></div>
 
 <div id="dc-scenario-map"></div>
 
-<script>
-window.DC_TRACKER_PATHS = {
-  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}?v=20260514-fi",
-  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}?v=20260514-fi",
-  scenarioZone: "{{ '/assets/data/datacenters/scenario_zone.json' | relative_url }}?v=20260514-fi",
-  biddingZones: "{{ '/assets/data/datacenters/bidding_zones.geojson' | relative_url }}?v=20260514-fi"
-};
-</script>
+<div class="after-table-space"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js?v=20260514-sigma-row-spacing' | relative_url }}"></script>
+| Scenario | Includes |
+| --- | --- |
+| Low 2030 | Capacity with a confirmed implementation decision and a date, phased to 2030. |
+| Stated 2030 | Dated plans, phased to 2030. |
+| Stated 2035 | Dated plans, phased to 2035. |
+| High 2035 | Active plans including those without dates, with timing uncertainty shown. |
 
 <div class="after-table-space"></div>
 
-| Scenario    | Includes                                                                          |
-| ----------- | --------------------------------------------------------------------------------- |
-| Low 2030    | Projects and phases with a confirmed investment decision, operational before 2030 |
-| Stated 2030 | All projects and phases with an announced year of operation by 2030               |
-| Stated 2035 | All projects and phases with an announced year of operation by 2035               |
-| High 2035   | Close to all known projects including ones without an announced year of operation |
+## Capacity and electricity use
 
-<div class="after-table-space"></div>
+**Planned capacity (MW)** is the additional capacity of the full project, including cooling and other site electricity use. Existing operation and overlapping phases are accounted for. A missing date does not remove a known capacity figure.
 
-## Capacity interpretation and derived estimates
+**Capacity in the selected year** shows how much of that planned capacity the scenario brings into operation. **TWh/year** estimates annual electricity use at that level. Unknown capacity is shown as unknown, and totals cover the projects with usable MW figures.
 
-Capacity figures reported for datacenter projects are heterogeneous. A reported MW value may refer to nameplate grid-connection capacity, IT load, an incremental expansion, full campus build-out potential, or backup generation capacity. These concepts are classified using `capacity_type`. The tracker stores the original reported figure as `reported_capacity_mw`. This value is extracted from press releases, media reports, permitting documents, or company material. Where possible, it is translated into a harmonized IT-side estimate:
+Expand a project to see the source figures and whether they describe IT equipment, total site power or a grid connection, along with phase dates, decisions and sources. A decision to build one phase applies to that phase. It does not establish a decision for the entire campus. Backup generators and power generation are not counted as datacenter load.
 
-<pre>
-interpreted_it_load_mw
-</pre>
+The model normally phases capacity in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is assumed two to three years later. A grid date is an earliest possible start, and undated plans have no invented start year. These are scenario assumptions, not delivery promises.
 
-`interpreted_it_load_mw` is the estimated IT-side capacity represented by the reported figure. A corresponding facility- or grid-side estimate is derived locally in the data build script by applying the assigned PUE. Entries that only report backup generation capacity, reactor capacity, or other non-load capacities are not translated into grid-side datacenter load unless a separate IT load, site load, or grid-connection capacity is reported.
-
-Annual electricity use is estimated in the local data build script using an annual load factor:
-
-<pre>
-estimated TWh/year = estimated_grid_side_mw × annual_load_factor × 8,760 / 1,000,000
-</pre>
-
-Reported capacity figures need two additional assumptions before they can be compared as electricity demand. PUE is used to move from IT load to total facility load, including cooling and other site electricity use. The load factor is used to annualise capacity: it describes average realised grid-side load as a share of reported or estimated grid-side/nameplate capacity.
-
-The most direct source for the load-factor assumptions is EPRI (2026), which reports observed annual load factors relative to nameplate capacity for both a large hyperscale facility and smaller multi-tenant colocation facilities. Shehabi et al. (2024) provides the main basis for separating AI/HPC from more conventional workloads, especially through its treatment of AI training operational time, cooling systems and PUE. Regen (2024) is used to interpret how cloud, colocation, AI training and AI inference can differ in load shape. E3 (2024) and IEA (2025) are used as broader checks against recent datacenter electricity outlooks.
-
-<div class="assumption-table-wrap">
-  <table class="assumption-table">
-    <thead>
-      <tr>
-        <th>Datacenter type</th>
-        <th>PUE</th>
-        <th>Load factor</th>
-        <th>Adapted from</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Hyperscale</td>
-        <td class="number-cell">1.20</td>
-        <td class="number-cell">0.75</td>
-        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024)</td>
-      </tr>
-      <tr>
-        <td>Hyperscale / AI</td>
-        <td class="number-cell">1.20</td>
-        <td class="number-cell">0.75</td>
-        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024); Regen (2024)</td>
-      </tr>
-      <tr>
-        <td>AI / HPC</td>
-        <td class="number-cell">1.25</td>
-        <td class="number-cell">0.80</td>
-        <td class="assumption-source">Shehabi et al. (2024); EPRI (2026)</td>
-      </tr>
-      <tr>
-        <td>Colocation / AI</td>
-        <td class="number-cell">1.35</td>
-        <td class="number-cell">0.60</td>
-        <td class="assumption-source">EPRI (2026); Regen (2024); Shehabi et al. (2024)</td>
-      </tr>
-      <tr>
-        <td>Colocation</td>
-        <td class="number-cell">1.35</td>
-        <td class="number-cell">0.57</td>
-        <td class="assumption-source">EPRI (2026); Shehabi et al. (2024)</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-The table gives the type-level assumptions used in the calculations. They are not measurements of individual Nordic facilities. They are a transparent bridge between public project announcements, which often report headline MW figures, and the grid-side capacity and annual electricity estimates shown above. A load factor of 0.75 means that a facility with 100 MW of estimated grid-side capacity is assumed to draw 75 MW on average over the year.
+IT capacity is converted to total site capacity using PUE assumptions of 1.1–1.5, with a reported local design PUE used where available. Annual electricity use uses load factors of 0.75 for hyperscale, 0.57 for colocation, 0.60 for colocation with AI, and 0.80 for AI/HPC. These assumptions draw on [EPRI (2026)](https://powering-intelligence.epri.com/annual-peak-use.html), [IEA (2025)](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai) and the documented model method. They are not measurements of individual Nordic facilities.
 
 ## How the dataset is built
 
-The dataset behind this page is maintained in a separate pipeline repository so that only reviewed records reach the public site. Language-model agents handle source discovery and auditing; a human reviews everything before it becomes master data; R scripts handle the steps in between.
+Projects are researched country by country using company announcements, public planning and permit documents, grid information and reporting. Sources are checked for project identity, capacity definitions, phases and dates. New projects are reviewed manually before inclusion.
 
-1. **Shared reference data.** Countries, bidding zones, administrative units, PUE and load-factor assumptions, and source records live in master files that define the allowed geography and the assumptions used by every later step. These are manually maintained.
-
-2. **Project discovery and audit.** A base prompt is combined with one country overlay (Swedish, Finnish, or Norwegian) and run with an agent constrained by predefined attributes and decision criteria for most variables. Discovery searches for new sites and capacity claims; audit re-checks existing rows against newer or stronger evidence. Runs are limited to one country at a time and tailored to language and national reporting conventions.
-
-3. **Output goes to review files.** Proposed updates and new candidates are written to audit and candidate files with source URL, evidence excerpt, documented uncertainties and rationale.
-
-4. **Human review.** Every proposed change is checked manually before it can become master data: source quality, conflicts between sources, how reported MW figures should be interpreted, and whether a candidate should be included or not. An R script is run which allows for manual inclusion and exclusion of candidates when merging with the master files.
-
-5. **Build.** Once master data is updated, an R script applies the documented PUE and load-factor assumptions, derives grid-side capacity and annual electricity use, assembles scenarios with de-duplication, and writes the JSON files that enter this tracker.
+</div>
 
 <style>
 @import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-sigma-row-spacing' | relative_url }}");
-  
+
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
@@ -656,660 +581,12 @@ pre {
   height: auto;
   margin: 0 auto;
 }
+#tracker-table td.number-cell { font-variant-numeric: tabular-nums; }
+#tracker-table .toggle-button:focus-visible { outline: 2px solid #555; outline-offset: 2px; }
+.filter-dropdown input[type="radio"] { margin-top: 0.05rem; }
+#dc-scenario-map .dc-capacity-value, #dc-scenario-map .dc-capacity-total-value { font-size: 13.4px !important; }
+.dc-map-note { max-width: 760px; margin: .4rem auto; font-size: 11px; color: #666; }
 </style>
-
-<script>
-const DATA_PATHS = {
-  projects: "{{ '/assets/data/datacenters/projects.json' | relative_url }}?v=20260514-fi",
-  capacity: "{{ '/assets/data/datacenters/capacity.json' | relative_url }}?v=20260514-fi"
-};
-
-let capacityEntriesByProject = {};
-let projectRowsById = {};
-
-async function loadJson(path) {
-  const response = await fetch(path);
-  if (!response.ok) {
-    throw new Error("Could not load " + path);
-  }
-  return response.json();
-}
-
-function isBlank(value) {
-  return value === null || value === undefined || value === "";
-}
-
-function escapeHtml(value) {
-  if (isBlank(value)) return "";
-
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function num(value) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function round(value, digits = 1) {
-  const parsed = num(value);
-  if (parsed === null) return "";
-  return parsed.toFixed(digits);
-}
-
-function formatNumber(value, digits = 0) {
-  const parsed = num(value);
-  if (parsed === null) return "";
-
-  return parsed.toLocaleString("en-US", {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits
-  });
-}
-
-function truncateText(text, maxLength = 240) {
-  if (!text) return "";
-  return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
-}
-
-function splitTags(value) {
-  if (!value) return [];
-  return String(value).split(";").map(x => x.trim()).filter(Boolean);
-}
-
-function uniqueSorted(values) {
-  return [...new Set(values.filter(v => !isBlank(v)))].sort();
-}
-
-function scenarioLabel(value) {
-  const labels = {
-    "low_2030": "Low 2030",
-    "stated_2030": "Stated 2030",
-    "stated_2035": "Stated 2035",
-    "high_2035": "High 2035"
-  };
-
-  return labels[value] || value;
-}
-
-function countryLabel(value) {
-  const labels = {
-    "SE": "Sweden",
-    "NO": "Norway",
-    "FI": "Finland"
-  };
-
-  return labels[value] || value;
-}
-
-function typeLabel(value) {
-  const labels = {
-    "hyperscale": "Hyperscale",
-    "AI": "AI",
-    "HPC": "HPC",
-    "colocation": "Colocation",
-    "research": "Research",
-    "SMR-linked": "SMR-linked"
-  };
-
-  return labels[value] || value;
-}
-
-function populateCheckboxGroup(id, values, labelFunction = value => value) {
-  const container = document.getElementById(id);
-  container.innerHTML = "";
-
-  values.forEach(value => {
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-
-    checkbox.type = "checkbox";
-    checkbox.value = value;
-    checkbox.dataset.filterGroup = id;
-
-    label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(labelFunction(value)));
-
-    container.appendChild(label);
-  });
-}
-
-function getCheckedValues(groupId) {
-  return Array.from(
-    document.querySelectorAll("#" + groupId + " input[type='checkbox']:checked")
-  ).map(input => input.value);
-}
-
-function capacityPriority(capacityType) {
-  const priorities = {
-    "initial_phase_capacity": 1,
-    "it_load": 2,
-    "cumulative_site_capacity": 3,
-    "incremental_expansion": 4,
-    "incremental_expansion_capacity": 4,
-    "full_campus_potential": 5,
-    "unknown": 6,
-    "reactor_capacity": 7,
-    "permit_backup_power": 8
-  };
-
-  return priorities[capacityType] || 99;
-}
-
-function isNonLoadCapacity(entry) {
-  return ["permit_backup_power", "reactor_capacity"].includes(entry.capacity_type);
-}
-
-function estimatedGridSideMw(entry) {
-  if (!entry) return null;
-  return num(entry.estimated_grid_side_mw);
-}
-
-function estimatedTwh(entry) {
-  if (!entry) return null;
-  return num(entry.estimated_twh_year);
-}
-
-function scenarioTimeYear(entry) {
-  const years = [entry.start_year, entry.construction_start_year]
-    .map(value => {
-      const match = String(value || "").match(/^[0-9]{4}/);
-      return match ? Number(match[0]) : null;
-    })
-    .filter(value => value !== null);
-
-  return years.length ? Math.min(...years) : null;
-}
-
-function isScenarioEligible(entry) {
-  return num(entry.interpreted_it_load_mw) !== null && !isNonLoadCapacity(entry);
-}
-
-function isSiteTotalCapacity(entry) {
-  return ["full_campus_potential", "cumulative_site_capacity"].includes(entry.capacity_type);
-}
-
-function isAdditiveCapacity(entry) {
-  return ["incremental_expansion", "incremental_expansion_capacity"].includes(entry.capacity_type);
-}
-
-function entryMatchesScenarioDirectly(entry, scenarioId) {
-  if (!isScenarioEligible(entry)) return false;
-
-  const year = scenarioTimeYear(entry);
-
-  if (scenarioId === "low_2030") {
-    return entry.investment_decision === "yes" && year !== null && year <= 2030;
-  }
-
-  if (scenarioId === "stated_2030") {
-    return year !== null && year <= 2030;
-  }
-
-  if (scenarioId === "stated_2035") {
-    return year !== null && year <= 2035;
-  }
-
-  if (scenarioId === "high_2035") {
-    return true;
-  }
-
-  return false;
-}
-
-function scenarioSort(a, b) {
-  const gridA = estimatedGridSideMw(a) ?? -Infinity;
-  const gridB = estimatedGridSideMw(b) ?? -Infinity;
-
-  if (gridA !== gridB) return gridB - gridA;
-
-  const yearA = scenarioTimeYear(a) ?? 9999;
-  const yearB = scenarioTimeYear(b) ?? 9999;
-
-  return yearA - yearB;
-}
-
-function chooseScenarioAccountingEntries(entries) {
-  const siteTotals = entries.filter(isSiteTotalCapacity);
-
-  if (siteTotals.length > 0) {
-    return [...siteTotals].sort(scenarioSort).slice(0, 1);
-  }
-
-  const additiveEntries = entries.filter(isAdditiveCapacity);
-  const baselineEntries = entries.filter(entry => !isAdditiveCapacity(entry));
-
-  if (additiveEntries.length > 0) {
-    if (baselineEntries.length === 0) return additiveEntries;
-
-    const baseline = [...baselineEntries].sort(scenarioSort).slice(0, 1);
-    return [...baseline, ...additiveEntries];
-  }
-
-  return [...entries].sort(scenarioSort).slice(0, 1);
-}
-
-function scenarioAccountingEntries(row, filters) {
-  if (!filters.scenarios || filters.scenarios.length === 0) return null;
-
-  const entries = capacityEntriesByProject[row.project_id] || [];
-  const directEntries = entries.filter(entry =>
-    filters.scenarios.some(scenario => entryMatchesScenarioDirectly(entry, scenario))
-  );
-
-  const deduped = Array.from(
-    new Map(directEntries.map(entry => [entry.claim_id, entry])).values()
-  );
-
-  return chooseScenarioAccountingEntries(deduped);
-}
-
-function sumEntries(entries, fieldFunction) {
-  return entries.reduce((sum, entry) => sum + (fieldFunction(entry) || 0), 0);
-}
-
-function rowMetrics(row, filters) {
-  const scenarioEntries = scenarioAccountingEntries(row, filters);
-
-  if (scenarioEntries === null) {
-    return {
-      reported_capacity_mw: num(row.reported_capacity_mw),
-      interpreted_it_load_mw: num(row.interpreted_it_load_mw),
-      estimated_grid_side_mw: num(row.estimated_grid_side_mw),
-      estimated_twh_year: num(row.estimated_twh_year),
-      capacity_basis: row.capacity_basis
-    };
-  }
-
-  return {
-    reported_capacity_mw: sumEntries(scenarioEntries, entry => num(entry.reported_capacity_mw)),
-    interpreted_it_load_mw: sumEntries(scenarioEntries, entry => num(entry.interpreted_it_load_mw)),
-    estimated_grid_side_mw: sumEntries(scenarioEntries, estimatedGridSideMw),
-    estimated_twh_year: sumEntries(scenarioEntries, estimatedTwh),
-    capacity_basis: scenarioEntries.length === 1 ? scenarioEntries[0].capacity_type : "scenario sum"
-  };
-}
-
-function isProjectHeadlineCandidate(entry) {
-  if (!entry) return false;
-  if (isNonLoadCapacity(entry) && num(entry.interpreted_it_load_mw) === null) return false;
-  return num(entry.reported_capacity_mw) !== null || num(entry.interpreted_it_load_mw) !== null;
-}
-
-function projectHeadlinePriority(capacityType) {
-  const priorities = {
-    "full_campus_potential": 1,
-    "cumulative_site_capacity": 2,
-    "it_load": 3,
-    "initial_phase_capacity": 4,
-    "incremental_expansion": 5,
-    "incremental_expansion_capacity": 5,
-    "unknown": 9
-  };
-
-  return priorities[capacityType] || 99;
-}
-
-function chooseProjectHeadlineEntry(entries) {
-  if (!entries || entries.length === 0) return null;
-
-  const candidates = entries.filter(isProjectHeadlineCandidate);
-  const pool = candidates.length > 0 ? candidates : entries;
-
-  return [...pool].sort((a, b) => {
-    const reportedA = num(a.reported_capacity_mw) || 0;
-    const reportedB = num(b.reported_capacity_mw) || 0;
-
-    if (reportedA !== reportedB) return reportedB - reportedA;
-
-    const gridA = estimatedGridSideMw(a) || 0;
-    const gridB = estimatedGridSideMw(b) || 0;
-
-    if (gridA !== gridB) return gridB - gridA;
-
-    const pa = projectHeadlinePriority(a.capacity_type);
-    const pb = projectHeadlinePriority(b.capacity_type);
-
-    if (pa !== pb) return pa - pb;
-
-    const startA = num(a.start_year) || 9999;
-    const startB = num(b.start_year) || 9999;
-
-    return startA - startB;
-  })[0];
-}
-
-function buildCapacityIndex(capacityEntries) {
-  const index = {};
-
-  capacityEntries.forEach(entry => {
-    if (!index[entry.project_id]) {
-      index[entry.project_id] = [];
-    }
-
-    index[entry.project_id].push(entry);
-  });
-
-  Object.keys(index).forEach(projectId => {
-    index[projectId].sort((a, b) => {
-      const startA = num(a.start_year);
-      const startB = num(b.start_year);
-
-      if (startA !== null && startB !== null && startA !== startB) {
-        return startA - startB;
-      }
-
-      if (startA !== null && startB === null) return -1;
-      if (startA === null && startB !== null) return 1;
-
-      return capacityPriority(a.capacity_type) - capacityPriority(b.capacity_type);
-    });
-  });
-
-  return index;
-}
-
-function buildProjectRows(projects, capacityEntries) {
-  const index = buildCapacityIndex(capacityEntries);
-  capacityEntriesByProject = index;
-
-  const rows = projects.map(project => {
-    const entries = index[project.project_id] || [];
-    const overviewEntry = chooseProjectHeadlineEntry(entries);
-
-    return {
-      project_id: project.project_id,
-      project_name: project.project_name,
-      developer: project.developer,
-      country: project.country,
-      bidding_zone: project.bidding_zone,
-      type: project.type,
-      project_status: project.project_status,
-      investment_decision: project.investment_decision,
-      expected_operational_years: project.expected_operational_years,
-      notes: project.notes,
-      last_updated: project.last_updated,
-      entry_count: entries.length,
-      overview_entry_id: overviewEntry ? overviewEntry.claim_id : "",
-      phase: overviewEntry ? overviewEntry.phase : "",
-      scenario_tag: overviewEntry ? overviewEntry.scenario_tag : "",
-      capacity_basis: overviewEntry ? overviewEntry.capacity_type : "unknown",
-      reported_capacity_mw: overviewEntry ? overviewEntry.reported_capacity_mw : project.max_reported_capacity_mw,
-      interpreted_it_load_mw: overviewEntry ? overviewEntry.interpreted_it_load_mw : null,
-      estimated_grid_side_mw: overviewEntry ? estimatedGridSideMw(overviewEntry) : null,
-      estimated_twh_year: estimatedTwh(overviewEntry),
-      pue: overviewEntry ? overviewEntry.pue : null,
-      annual_load_factor: overviewEntry ? overviewEntry.annual_load_factor : null
-    };
-  });
-
-  rows.sort((a, b) => {
-    const powerA = num(a.reported_capacity_mw) ?? -Infinity;
-    const powerB = num(b.reported_capacity_mw) ?? -Infinity;
-    if (powerA !== powerB) return powerB - powerA;
-    return String(a.project_name).localeCompare(String(b.project_name));
-  });
-
-  projectRowsById = Object.fromEntries(rows.map(row => [row.project_id, row]));
-  return rows;
-}
-
-function getFilters() {
-  return {
-    countries: getCheckedValues("filter-country-group"),
-    zones: getCheckedValues("filter-zone-group"),
-    statuses: getCheckedValues("filter-status-group"),
-    types: getCheckedValues("filter-type-group"),
-    scenarios: getCheckedValues("filter-scenario-group")
-  };
-}
-
-function rowMatches(row, filters) {
-  const rowTypeTags = splitTags(row.type);
-  const entries = capacityEntriesByProject[row.project_id] || [];
-
-  const countryMatch =
-    filters.countries.length === 0 ||
-    filters.countries.includes(row.country);
-
-  const zoneMatch =
-    filters.zones.length === 0 ||
-    filters.zones.includes(row.bidding_zone);
-
-  const statusMatch =
-    filters.statuses.length === 0 ||
-    filters.statuses.includes(row.project_status);
-
-  const typeMatch =
-    filters.types.length === 0 ||
-    filters.types.some(type => rowTypeTags.includes(type));
-
-  const scenarioMatch =
-    filters.scenarios.length === 0 ||
-    entries.some(entry => {
-      const entryScenarios = splitTags(entry.scenario_tag);
-      return filters.scenarios.some(scenario => entryScenarios.includes(scenario));
-    });
-
-  return countryMatch && zoneMatch && statusMatch && typeMatch && scenarioMatch;
-}
-
-function renderSummary(rows, filters) {
-  const totalProjects = rows.length;
-
-  const totalReportedMw = rows.reduce((sum, row) => {
-    return sum + (rowMetrics(row, filters).reported_capacity_mw || 0);
-  }, 0);
-
-  const totalItLoadMw = rows.reduce((sum, row) => {
-    return sum + (rowMetrics(row, filters).interpreted_it_load_mw || 0);
-  }, 0);
-
-  const totalGridLoadMw = rows.reduce((sum, row) => {
-    return sum + (rowMetrics(row, filters).estimated_grid_side_mw || 0);
-  }, 0);
-
-  const totalTwh = rows.reduce((sum, row) => {
-    return sum + (rowMetrics(row, filters).estimated_twh_year || 0);
-  }, 0);
-
-  document.getElementById("summary-box").innerHTML =
-    "<strong>" + totalProjects + "</strong> projects shown · " +
-    "<strong>" + formatNumber(totalReportedMw, 0) + "</strong> reported MW · " +
-    "<strong>" + formatNumber(totalItLoadMw, 0) + "</strong> interpreted IT load MW · " +
-    "<strong>" + formatNumber(totalGridLoadMw, 0) + "</strong> estimated grid-side MW · " +
-    "<strong>" + formatNumber(totalTwh, 1) + "</strong> estimated TWh/year";
-}
-
-function renderEntryTable(projectId) {
-  const entries = capacityEntriesByProject[projectId] || [];
-  const project = projectRowsById[projectId];
-
-  if (entries.length === 0) {
-    return "<div class='muted'>No capacity entries available.</div>";
-  }
-
-  let html = "";
-  html += "<div class='detail-title'>Capacity phases and reported entries</div>";
-  if (project && project.notes) {
-    html += "<div class='detail-notes'><strong>Project notes:</strong> " + escapeHtml(project.notes) + "</div>";
-  }
-  html += "<table class='entry-table'>";
-  html += "<thead><tr>";
-  html += "<th>Entry ID</th>";
-  html += "<th>Country</th>";
-  html += "<th>Phase</th>";
-  html += "<th>Capacity type</th>";
-  html += "<th>Status</th>";
-  html += "<th>Investment</th>";
-  html += "<th>Scenario relevance</th>";
-  html += "<th>Start year</th>";
-  html += "<th>Reported MW</th>";
-  html += "<th>Est. IT load MW</th>";
-  html += "<th>Est. grid-side MW</th>";
-  html += "<th>Est. TWh/year</th>";
-  html += "<th>Last updated</th>";
-  html += "<th>Notes</th>";
-  html += "</tr></thead><tbody>";
-
-  entries.forEach(entry => {
-    const scenarioText = splitTags(entry.scenario_tag).map(scenarioLabel).join("; ");
-
-    html += "<tr>";
-    html += "<td>" + escapeHtml(entry.claim_id) + "</td>";
-    html += "<td>" + escapeHtml(countryLabel(entry.country)) + "</td>";
-    html += "<td>" + escapeHtml(entry.phase) + "</td>";
-    html += "<td>" + escapeHtml(entry.capacity_type) + "</td>";
-    html += "<td>" + escapeHtml(entry.capacity_status) + "</td>";
-    html += "<td>" + escapeHtml(entry.investment_decision) + "</td>";
-    html += "<td>" + escapeHtml(scenarioText) + "</td>";
-    html += "<td>" + escapeHtml(entry.start_year) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.reported_capacity_mw, 0) + "</td>";
-    html += "<td class='number-cell'>" + round(entry.interpreted_it_load_mw, 0) + "</td>";
-    html += "<td class='number-cell'>" + round(estimatedGridSideMw(entry), 0) + "</td>";
-    html += "<td class='number-cell'>" + round(estimatedTwh(entry), 1) + "</td>";
-    html += "<td>" + escapeHtml(entry.last_updated) + "</td>";
-    html += "<td class='entry-notes'>" + escapeHtml(truncateText(entry.notes, 300)) + "</td>";
-    html += "</tr>";
-  });
-
-  html += "</tbody></table>";
-  return html;
-}
-
-function toggleDetails(projectId) {
-  const detailRow = document.getElementById("details-" + projectId);
-  const button = document.getElementById("toggle-" + projectId);
-
-  if (!detailRow || !button) return;
-
-  const isOpen = detailRow.style.display === "table-row";
-
-  detailRow.style.display = isOpen ? "none" : "table-row";
-  button.textContent = isOpen ? "+" : "–";
-}
-
-function updateCapacityHeaders(filters) {
-  const scenarioMode = filters.scenarios.length > 0;
-
-  document.getElementById("reported-mw-header").textContent = scenarioMode ? "Scenario reported MW" : "Max reported MW";
-  document.getElementById("it-load-mw-header").textContent = scenarioMode ? "Scenario IT load MW" : "Est. IT load MW";
-  document.getElementById("grid-side-mw-header").textContent = scenarioMode ? "Scenario grid-side MW" : "Est. grid-side MW";
-  document.getElementById("twh-header").textContent = scenarioMode ? "Scenario TWh/year" : "Est. TWh/year";
-}
-
-function renderTable(rows, filters) {
-  const tbody = document.querySelector("#tracker-table tbody");
-  tbody.innerHTML = "";
-
-  rows.forEach(row => {
-    const metrics = rowMetrics(row, filters);
-
-    const tr = document.createElement("tr");
-    tr.className = "project-row";
-
-    const detailButton =
-      "<button class='toggle-button' id='toggle-" + escapeHtml(row.project_id) + "' onclick=\"toggleDetails('" + escapeHtml(row.project_id) + "')\">+</button>";
-
-    const capacityBasisInfo = metrics.capacity_basis
-      ? "<br><span class='muted'>" + escapeHtml(metrics.capacity_basis) + "</span>"
-      : "";
-
-    tr.innerHTML =
-      "<td>" + detailButton + "</td>" +
-      "<td class='project-cell'>" + escapeHtml(row.project_name) + "</td>" +
-      "<td>" + escapeHtml(row.developer) + "</td>" +
-      "<td>" + escapeHtml(countryLabel(row.country)) + "</td>" +
-      "<td>" + escapeHtml(row.bidding_zone) + "</td>" +
-      "<td>" + escapeHtml(row.type) + "</td>" +
-      "<td>" + escapeHtml(row.project_status) + "</td>" +
-      "<td>" + escapeHtml(row.investment_decision) + "</td>" +
-      "<td class='number-cell capacity-cell'>" + round(metrics.reported_capacity_mw, 0) + capacityBasisInfo + "</td>" +
-      "<td class='number-cell'>" + round(metrics.interpreted_it_load_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(metrics.estimated_grid_side_mw, 0) + "</td>" +
-      "<td class='number-cell'>" + round(metrics.estimated_twh_year, 1) + "</td>" +
-      "<td>" + escapeHtml(row.expected_operational_years) + "</td>" +
-      "<td>" + escapeHtml(row.last_updated) + "</td>";
-
-    tbody.appendChild(tr);
-
-    const detailTr = document.createElement("tr");
-    detailTr.className = "detail-row";
-    detailTr.id = "details-" + row.project_id;
-
-    detailTr.innerHTML =
-      "<td class='detail-cell' colspan='14'>" +
-      renderEntryTable(row.project_id) +
-      "</td>";
-
-    tbody.appendChild(detailTr);
-  });
-}
-
-function redraw(rows) {
-  const filters = getFilters();
-  const filtered = rows.filter(row => rowMatches(row, filters));
-
-  updateCapacityHeaders(filters);
-  renderSummary(filtered, filters);
-  renderTable(filtered, filters);
-}
-
-async function initTracker() {
-  const projects = await loadJson(DATA_PATHS.projects);
-  const capacity = await loadJson(DATA_PATHS.capacity);
-
-  const rows = buildProjectRows(projects, capacity);
-
-  populateCheckboxGroup(
-    "filter-country-group",
-    uniqueSorted(rows.map(r => r.country)),
-    countryLabel
-  );
-
-  populateCheckboxGroup(
-    "filter-zone-group",
-    uniqueSorted(rows.map(r => r.bidding_zone))
-  );
-
-  populateCheckboxGroup(
-    "filter-status-group",
-    uniqueSorted(rows.map(r => r.project_status))
-  );
-
-  const allTypes = uniqueSorted(
-    rows.flatMap(r => splitTags(r.type))
-  );
-
-  populateCheckboxGroup(
-    "filter-type-group",
-    allTypes,
-    typeLabel
-  );
-
-  const allScenarios = uniqueSorted(
-    capacity.flatMap(entry => splitTags(entry.scenario_tag))
-  );
-
-  populateCheckboxGroup(
-    "filter-scenario-group",
-    allScenarios,
-    scenarioLabel
-  );
-
-  document.querySelectorAll(".checkbox-filter-options input[type='checkbox']").forEach(input => {
-    input.addEventListener("change", () => redraw(rows));
-  });
-
-  redraw(rows);
-}
-
-initTracker().catch(error => {
-  console.error(error);
-  document.getElementById("summary-box").innerHTML = "Could not load tracker data.";
-});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.4-ui" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.4-ui" defer></script>

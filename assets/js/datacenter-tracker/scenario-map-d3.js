@@ -1,11 +1,6 @@
-/* D3/SVG scenario map for Nordic datacenter tracker.
-   Requires:
-   - D3 v7 loaded before this script
-   - window.DC_TRACKER_PATHS with biddingZones, scenarioZone, projects and capacity
-   - <div id="dc-scenario-map"></div>
-*/
+/* Original tracker map layout, supplied with precomputed project results. */
 
-(function () {
+(function (global) {
   const DEFAULT_SCENARIO = "stated_2030";
 
   const SCENARIOS = [
@@ -44,18 +39,18 @@
   };
 
   function num(value) {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : null;
+    return value === null || value === undefined || value === "" ? null : Number.isFinite(Number(value)) ? Number(value) : null;
   }
 
   function fmtMw(value) {
-    const parsed = num(value) || 0;
-    return Math.round(parsed).toLocaleString("en-US");
+    if (value && typeof value === "object") return value.excluded ? "—" : global.DCTracker.range(value.low, value.high);
+    return global.DCTracker.range(value, value);
   }
 
-  function fillForMw(value) {
-    const mw = num(value) || 0;
-    const bin = BREAKS.find((b) => mw >= b.min && mw <= b.max);
+  function fillForMw(detail) {
+    if (detail.excluded) return "#e8e5df";
+    if (detail.high === null) return "#bdbdbd";
+    const bin = BREAKS.find((b) => detail.high >= b.min && detail.high <= b.max);
     return bin ? bin.color : BREAKS[0].color;
   }
 
@@ -238,77 +233,17 @@
     }));
   }
 
-  function emptyScenarioZoneObject(scenarioZoneRows) {
-    const out = {};
-    SCENARIOS.forEach((s) => {
-      out[s.id] = {};
-    });
-
-    (scenarioZoneRows || []).forEach((row) => {
-      if (!out[row.scenario_id] || !row.bidding_zone) return;
-
-      out[row.scenario_id][row.bidding_zone] = {
-        zone: row.bidding_zone,
-        country: row.country,
-        mw: 0,
-        project_count: 0,
-      };
-    });
-
-    return out;
-  }
-
-  function buildScenarioZoneDetails(scenarioZoneRows) {
-    const out = emptyScenarioZoneObject(scenarioZoneRows);
-
-    (scenarioZoneRows || []).forEach((row) => {
-      const scenario = row.scenario_id;
-      const zone = row.bidding_zone;
-      if (!out[scenario]) return;
-      if (!out[scenario][zone]) {
-        out[scenario][zone] = { zone, country: row.country, mw: 0, project_count: 0 };
-      }
-
-      out[scenario][zone].mw = num(row.grid_side_mw) ?? num(row.mw) ?? 0;
-      out[scenario][zone].project_count = num(row.n_projects) || 0;
-    });
-
-    return out;
-  }
-
-  function buildPhaseGroups(capacityRows, activeScenario) {
-    const grouped = d3.group(
-      (capacityRows || []).filter((d) => num(d.latitude) !== null && num(d.longitude) !== null && splitTags(d.scenario_tag).includes(activeScenario)),
-      (d) => `${d.municipality}|${d.latitude}|${d.longitude}`
-    );
-
-    return Array.from(grouped, ([key, phases]) => {
-      const first = phases[0];
-
-      return {
-        key,
-        municipality: first.municipality,
-        county: first.county,
-        country: first.country,
-        bidding_zone: first.bidding_zone,
-        latitude: num(first.latitude),
-        longitude: num(first.longitude),
-        coordinate_note: first.coordinate_note,
-        phases: phases.sort((a, b) => {
-          const projectCompare = String(a.project_name).localeCompare(String(b.project_name));
-          if (projectCompare !== 0) return projectCompare;
-          return String(a.phase).localeCompare(String(b.phase));
-        }),
-        phase_count: phases.length,
-        project_count: new Set(phases.map((phase) => phase.project_id)).size,
-      };
-    });
-  }
-
-  async function loadJson(path) {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error("Could not load " + path);
-    return response.json();
+  function buildPhaseGroups(view, data) {
+    const projects = new Map(data.projects.map(project => [project.project_id, project]));
+    const entries = view.rows.filter(row => !["cancelled", "dormant", "operational"].includes(row.indicator)).map(row => {
+      const project = projects.get(row.project_id);
+      return { ...project, ...row, phase: project.status, coordinate_note: "Approximate project locations" };
+    }).filter(project => num(project.latitude) !== null && num(project.longitude) !== null);
+    const grouped = d3.group(entries, project => `${project.municipality}|${project.latitude}|${project.longitude}`);
+    return Array.from(grouped, ([key, phases]) => ({
+      ...phases[0], key, phases: phases.sort((a, b) => a.project_name.localeCompare(b.project_name)),
+      phase_count: phases.length, project_count: phases.length,
+    }));
   }
 
   function positionScenarioIndicator(scenarioControls) {
@@ -354,7 +289,7 @@
     return (
       scenarioDetails[activeScenario]?.[zone] || {
         zone,
-        mw: 0,
+        low: 0, high: 0,
         project_count: 0,
       }
     );
@@ -399,7 +334,7 @@
         x,
         lineStartY: maxY + 8,
         lineEndY: listY - 34,
-        totalMw: rows.reduce((sum, row) => sum + (num(row.detail?.mw) || 0), 0),
+        totalMw: scenarioDetails[activeScenario]._countries[country],
         totalY,
         rows: rows.map((row, index) => ({
           ...row,
@@ -512,8 +447,8 @@
 
     rows
       .attr("data-zone", (d) => d.zone)
-      .attr("aria-label", (d) => `${d.zone}, ${fmtMw(d.detail.mw)} MW`)
-      .classed("empty", (d) => !d.detail || d.detail.mw === 0)
+      .attr("aria-label", (d) => `${d.zone}, ${fmtMw(d.detail)} MW`)
+      .classed("empty", (d) => d.detail.excluded || (d.detail.low === 0 && d.detail.high === 0))
       .on("mouseenter", function (event, d) {
         onHighlight(d.zone, true);
       })
@@ -538,7 +473,7 @@
     rows
       .select("text.dc-capacity-value")
       .attr("x", 18)
-      .text((d) => `${fmtMw(d.detail ? d.detail.mw : 0)} MW`);
+      .text((d) => `${fmtMw(d.detail)} MW`);
 
     const totalRows = calloutG
       .selectAll("g.dc-capacity-total-row")
@@ -596,7 +531,7 @@
             .attr("class", "dc-phase-point")
             .attr("tabindex", 0)
             .attr("role", "button")
-            .attr("aria-label", (d) => `${d.phase_count} phase${d.phase_count === 1 ? "" : "s"} in ${d.municipality}`);
+            .attr("aria-label", (d) => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}`);
 
           g.append("line").attr("class", "dc-phase-anchor");
 
@@ -657,8 +592,7 @@
     const lineHeight = 16;
     const maxPhases = 6;
     const phaseLines = group.phases.slice(0, maxPhases).map((phase) => {
-      const mw = num(phase.estimated_grid_side_mw);
-      const mwText = mw === null ? "" : ` · ${fmtMw(mw)} MW`;
+      const mwText = ` · ${phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" : "Capacity unknown"}`;
       return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
     });
 
@@ -668,7 +602,7 @@
 
     const lines = [
       `${group.municipality}`,
-      `${group.phase_count} phase${group.phase_count === 1 ? "" : "s"} · ${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${countryLabel(group.country)} · ${group.bidding_zone}`,
+      `${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${countryLabel(group.country)} · ${group.bidding_zone}`,
       ...phaseLines,
     ];
 
@@ -711,31 +645,18 @@
     });
   }
 
-  async function initScenarioMap() {
-    const paths = window.DC_TRACKER_PATHS || window.DATA_PATHS;
-
-    if (!paths) {
-      throw new Error("Missing window.DC_TRACKER_PATHS");
-    }
-
-    const container = document.getElementById("dc-scenario-map");
-    if (!container) return;
-
-    const [geojson, scenarioZone, capacity] = await Promise.all([
-      loadJson(paths.biddingZones || paths.bidding_zones || paths.zones),
-      loadJson(paths.scenarioZone || paths.scenario_zone || paths.scenarios),
-      loadJson(paths.capacity),
-    ]);
-
-    const scenarioDetails = buildScenarioZoneDetails(scenarioZone);
-
+  function mount(container, data, initialView, onScenarioChange) {
+    const geojson = data.bidding_zones;
+    let view = initialView;
+    const scenarioDetails = {};
+    scenarioDetails[view.scenario] = { ...view.zones, _countries: view.countries };
     const width = 760;
     const height = 765;
-    let activeScenario = DEFAULT_SCENARIO;
+    let activeScenario = view.scenario;
 
     const root = d3.select(container).attr("class", "dc-scenario-map-root dc-scenario-map-offset");
 
-    renderControls(container, activeScenario, updateScenario);
+    renderControls(container, activeScenario, onScenarioChange);
 
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
 
@@ -777,7 +698,7 @@
         return `translate(${offset[0]},${offset[1]})`;
       })
       .attr("d", path)
-      .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
+      .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
 
     renderZoneLabels(zoneLabelG, displayGeojson, path, projection);
 
@@ -786,27 +707,25 @@
     }
 
     renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
-    renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
+    renderPhaseLayer(phaseG, popupG, buildPhaseGroups(view, data), projection, width, height);
 
-    function updateScenario(scenarioId) {
-      activeScenario = scenarioId;
+    const note = root.append("p").attr("class", "dc-map-note");
+    function update(nextView) {
+      view = nextView;
+      activeScenario = view.scenario;
+      scenarioDetails[activeScenario] = { ...view.zones, _countries: view.countries };
       popupG.selectAll("*").remove();
-
-      zonePaths
-        .transition()
-        .duration(180)
-        .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone).mw));
-
+      root.selectAll(".dc-scenario-button").classed("active", function () { return this.dataset.scenario === activeScenario; }).attr("aria-pressed", function () { return String(this.dataset.scenario === activeScenario); });
+      positionScenarioIndicator(root.select(".dc-scenario-controls"));
+      zonePaths.attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
       renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
-      renderPhaseLayer(phaseG, popupG, buildPhaseGroups(capacity, activeScenario), projection, width, height);
+      renderPhaseLayer(phaseG, popupG, buildPhaseGroups(view, data), projection, width, height);
+      const unknown = view.totals.mw.unknown;
+      const unassigned = view.rows.filter(row => row.bidding_zone.endsWith("-unassigned")).length;
+      note.text((unknown ? unknown + " projects have unknown capacity. Totals cover the quantified part. " : "") + (unassigned ? unassigned + " projects have no assigned bidding zone and remain in the table totals. " : "") + "Project locations are approximate.");
     }
+    update(view);
+    return { update };
   }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      initScenarioMap().catch(console.error);
-    });
-  } else {
-    initScenarioMap().catch(console.error);
-  }
-})();
+  global.DCTrackerMap = { mount };
+})(typeof window === "undefined" ? globalThis : window);
