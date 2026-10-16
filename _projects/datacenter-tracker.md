@@ -13,7 +13,7 @@ The Nordic countries are currently attracting substantial interest from datacent
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.5.1">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.6.0">
 <div class="tracker-controls">
 
   <details class="filter-dropdown">
@@ -94,7 +94,7 @@ The map shows the same scenario and filters as the table. Capacity includes cool
 
 ## Capacity and electricity use
 
-**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. IT capacity is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When a source does not say what its MW figure measures, the value is shown as a range from reading it as site power to reading it as IT capacity. Overlapping phases are counted once and capacity already in operation is subtracted. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
+**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once and capacity already in operation is subtracted. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
 
 **Electricity at full build-out (TWh/yr)** is full build-out × the annual load factor for the facility type × 8,760 hours. It expresses the project's full size as annual electricity use.
 
