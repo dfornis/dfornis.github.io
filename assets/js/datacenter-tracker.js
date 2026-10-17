@@ -29,10 +29,15 @@
     if (data.projects.some(project => project.record_type !== 'existing') || data.project_scenarios.some(row => !row.included_in_result)) throw new Error('Unapproved project in public result.');
     const keys = data.project_scenarios.map(row => row.project_id + ':' + row.scenario);
     if (new Set(keys).size !== keys.length || keys.length !== data.projects.length * data.method.scenarios.length) throw new Error('Incomplete or duplicate project scenarios.');
+    const projectIds = new Set(data.projects.map(project => project.project_id));
+    const actorKeys = (data.actors || []).map(actor => actor.project_id + ':' + actor.actor_name.toLowerCase().trim());
+    if (new Set(actorKeys).size !== actorKeys.length || (data.actors || []).some(actor => !projectIds.has(actor.project_id))) throw new Error('Orphaned or duplicate project actors.');
     return data;
   }
   const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
   const tags = value => String(value || '').split(';').map(tag => tag.trim()).filter(Boolean);
+  const regionNames = typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames(['en'], { type: 'region' }) : null;
+  const hqCountryLabel = country => country ? regionNames?.of(country) || country : 'Unknown';
   const countryLabel = value => ({ SE: 'Sweden', NO: 'Norway', FI: 'Finland' }[value] || value);
   const basisLabel = value => ({ it_nameplate: 'IT capacity', it_peak: 'Peak IT load', it_unspecified: 'IT power', facility_nameplate: 'Total site capacity', facility_peak: 'Peak site load', facility_unspecified: 'Site power', grid: 'Grid connection', unspecified: 'Measure not specified', backup: 'Backup generation', generation: 'Power generation', density: 'Rack density' }[value] || 'Unknown');
   const decisionLabel = value => ({ yes: 'Confirmed', no: 'Not confirmed', unclear: 'Unknown', not_applicable: 'Not applicable' }[value] || 'Unknown');
@@ -60,10 +65,20 @@
   }
   function rowsFor(data, scenario, filters = {}) {
     const projects = new Map(data.projects.map(project => [project.project_id, project]));
+    const projectIds = filters.projectIds ? new Set(filters.projectIds) : null;
+    const actors = new Map();
+    for (const actor of data.actors || []) {
+      if (!actors.has(actor.project_id)) actors.set(actor.project_id, []);
+      actors.get(actor.project_id).push(actor);
+    }
     const match = (values, value) => !values?.length || values.includes(value);
+    const anyTag = (values, value) => !values?.length || tags(value).some(tag => values.includes(tag));
     return data.project_scenarios.filter(row => {
       const project = projects.get(row.project_id);
-      return row.scenario === scenario && match(filters.countries, project.country) && match(filters.zones, row.bidding_zone) && match(filters.statuses, project.status) && (!filters.types?.length || tags(project.type).some(type => filters.types.includes(type)));
+      const own = actors.get(row.project_id) || [{ hq_facets: 'unknown', actor_type: 'unknown' }];
+      // Country/region and actor type must be satisfied by the same actor in a partnership.
+      const actorMatch = own.some(actor => anyTag(filters.hqCountries, actor.hq_facets) && anyTag(filters.actorTypes, actor.actor_type));
+      return row.scenario === scenario && (!projectIds || projectIds.has(row.project_id)) && match(filters.countries, project.country) && match(filters.zones, row.bidding_zone) && match(filters.statuses, project.status) && anyTag(filters.types, project.type) && match(filters.hqOrigins, project.actor_hq_origin || 'unknown') && actorMatch;
     });
   }
   function makeView(data, scenario, filters = {}) {
@@ -92,6 +107,8 @@
       const projects = new Map(data.projects.map(project => [project.project_id, project]));
       const sources = new Map(data.sources.map(source => [source.source_id, source]));
       const claims = new Map(data.projects.map(project => [project.project_id, data.capacity.filter(claim => claim.project_id === project.project_id)]));
+      const actorRows = new Map(data.projects.map(project => [project.project_id, (data.actors || []).filter(actor => actor.project_id === project.project_id)]));
+      const actorMethod = data.method.actor_classification;
       const sourceIds = project => [...new Set([...tags(project.source_ids), ...claims.get(project.project_id).flatMap(claim => tags(claim.source_ids))])];
       let scenario = 'stated_2030';
       const groupNames = { countries: 'country', zones: 'zone', statuses: 'status', types: 'type' };
@@ -152,7 +169,10 @@
         const totalLine = !total ? '' : parents ? 'Counted as part of ' + escape(parents) + ' in the scenarios.' :
           'Counted for the project in ' + escape(sc.label + ' ' + sc.year) + ': <strong>' + escape(total.capacity_known || total.indicator !== 'pipeline' ? totalRange({ low: numeric(total.mw_low), high: numeric(total.mw_high) }) : 'Unknown') + ' MW</strong>.' +
           (overlap ? ' The figures overlap (phases are part of the campus figure), so the largest applies, not the sum.' : '');
-        return '<div class="detail-title">Project phases and sources</div>' + (project.notes ? '<div class="detail-notes">' + escape(project.notes) + '</div>' : '') + (own.length ? '<table class="entry-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Investment decision</th><th>Construction start</th><th>Operation / grid date</th><th>' + escape(countedLabel) + '</th><th>Notes</th><th>Sources</th></tr></thead><tbody>' + body + '</tbody></table>' + (totalLine ? '<div class="detail-notes">' + totalLine + '</div>' : '') : '<div class="detail-notes">Capacity and dates have not been disclosed.</div>') + '<div class="detail-notes">' + sourceLinks(sourceIds(project)) + '</div>';
+        const actors = actorRows.get(project.project_id);
+        const actorBody = actors.map(actor => '<tr><td>' + escape(actor.actor_name) + '</td><td>' + escape(tags(actor.role).map(value => actorMethod.roles[value]).join('; ')) + '</td><td>' + escape(tags(actor.actor_type).map(value => actorMethod.types[value]).join('; ')) + '</td><td>' + escape([actor.hq_city, hqCountryLabel(actor.hq_country)].filter(Boolean).join(', ')) + '</td><td>' + escape(actor.ownership_notes || 'Not verified') + (actor.notes ? '<br>' + escape(actor.notes) : '') + '</td><td>' + escape(actor.checked_at) + '</td><td>' + sourceLinks(tags(actor.source_ids)) + '</td></tr>').join('');
+        const actorInfo = '<div class="detail-title">Project actors and headquarters</div>' + (actors.length ? '<table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership and notes</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' + actorBody + '</tbody></table>' : '<div class="detail-notes">Actor headquarters have not been reviewed for this project.</div>');
+        return actorInfo + '<div class="detail-title">Project phases and sources</div>' + (project.notes ? '<div class="detail-notes">' + escape(project.notes) + '</div>' : '') + (own.length ? '<table class="entry-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Investment decision</th><th>Construction start</th><th>Operation / grid date</th><th>' + escape(countedLabel) + '</th><th>Notes</th><th>Sources</th></tr></thead><tbody>' + body + '</tbody></table>' + (totalLine ? '<div class="detail-notes">' + totalLine + '</div>' : '') : '<div class="detail-notes">Capacity and dates have not been disclosed.</div>') + '<div class="detail-notes">' + sourceLinks(sourceIds(project)) + '</div>';
       }
       // A project whose capacity is only part of another project's envelope is counted there, not here.
       const claimProject = new Map(data.capacity.map(claim => [claim.claim_id, claim.project_id]));
@@ -170,8 +190,10 @@
         const { mw, twh, planned, buildout } = view.totals;
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + ' without assigned capacity');
+        const inCampus = rows.filter(row => containedIn(row)).length;
+        if (inCampus) notes.push(inCampus + ' counted in campus totals');
         status.innerHTML = '<div class="summary-grid">' +
-          '<div class="summary-block summary-selection"><span class="summary-kicker">Selection</span><span><strong>' + rows.length + '</strong> projects' + (notes.length ? ' · ' + notes.join(' · ') : '') + '</span></div>' +
+          '<div class="summary-block summary-selection"><span class="summary-kicker">Selection</span><span><strong>' + rows.length + '</strong> project' + (rows.length === 1 ? '' : 's') + (notes.length ? ' · ' + notes.join(' · ') : '') + '</span></div>' +
           '<div class="summary-block"><span class="summary-kicker">Full build-out</span><span><strong>' + totalRange(planned, 'mw') + ' MW</strong> · <strong>' + totalRange(buildout, 'twh') + ' TWh/year</strong></span></div>' +
           '<div class="summary-block"><span class="summary-kicker">Selected scenario</span><span><strong>' + totalRange(mw, 'mw') + ' MW</strong> in operation in ' + year + ' · <strong>' + totalRange(twh, 'twh') + ' TWh/year</strong></span></div>' +
           '</div>';
@@ -196,7 +218,7 @@
       render();
     } catch (error) { status.textContent = 'Could not load tracker: ' + error.message; status.setAttribute('role', 'alert'); }
   }
-  const api = { numeric, range, totalRange, sumBounds, assertContract, rowsFor, makeView, reported, basisLabel, decisionLabel, operationYears, projectDecision, mount };
+  const api = { numeric, range, totalRange, sumBounds, assertContract, rowsFor, makeView, reported, basisLabel, decisionLabel, operationYears, projectDecision, hqCountryLabel, mount };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.DCTracker = api;
   if (global.document) {

@@ -14,7 +14,11 @@
     "source_ids": "S001;S002;S144;S145;S146",
     "latitude": "64.7507",
     "longitude": "20.9528",
-    "notes": "Planned campus of up to 1 GW. The first two halls are permitted and targeted for 2028; five further halls are targeted for early 2031. The 2028 and 2031 targets date halls without a disclosed MW, so the 1 GW figure has no date of its own and counts only in High. Full completion and investment in the entire campus have not been confirmed."
+    "notes": "Planned campus of up to 1 GW. The first two halls are permitted and targeted for 2028; five further halls are targeted for early 2031. The 2028 and 2031 targets date halls without a disclosed MW, so the 1 GW figure has no date of its own and counts only in High. Full completion and investment in the entire campus have not been confirmed.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P002",
@@ -31,7 +35,11 @@
     "source_ids": "S003;S004;S005;S101;S102;S147",
     "latitude": "59.3774",
     "longitude": "17.0312",
-    "notes": "Brookfield proposes to expand the earlier 300 MW plan to 750 MW. Electricity supply, final project size and the commissioning schedule remain unresolved."
+    "notes": "Brookfield proposes to expand the earlier 300 MW plan to 750 MW. Electricity supply, final project size and the commissioning schedule remain unresolved.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "investment_manager"
   },
   {
     "project_id": "P003",
@@ -48,7 +56,11 @@
     "source_ids": "S006;S007;S084;S086;S099",
     "latitude": "60.4858",
     "longitude": "15.4371",
-    "notes": "The campus has a stated potential of 600 MW. B1 and B2, with a combined reported capacity of 24 MW, are under construction and targeted for 2027. The 600 MW figure has no date of its own; the 24 MW phase and the 250 MW available from 2027 count on their own dates. Mistral is a customer within the same campus."
+    "notes": "The campus has a stated potential of 600 MW. B1 and B2, with a combined reported capacity of 24 MW, are under construction and targeted for 2027. The 600 MW figure has no date of its own; the 24 MW phase and the 250 MW available from 2027 count on their own dates. Mistral is a customer within the same campus.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P004",
@@ -65,7 +77,11 @@
     "source_ids": "S008;S148;S149;S150",
     "latitude": "63.18",
     "longitude": "17.06",
-    "notes": "Planned 300 MW campus at Hamre Industrial Park. First operation is targeted for 2028; the later connection update gives autumn 2028."
+    "notes": "Planned 300 MW campus at Hamre Industrial Park. First operation is targeted for 2028; the later connection update gives autumn 2028.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P005",
@@ -82,7 +98,11 @@
     "source_ids": "S009;S010;S011;S012;S100;S105;S106;S107;S151;S182",
     "latitude": "58.554",
     "longitude": "16.833",
-    "notes": "EdgeMode has withdrawn from the Marviken development according to its SEC prospectus. It will not operate the property or use SAPL assets. The earlier 20, 95 and 300 MW plans are retained as history."
+    "notes": "EdgeMode has withdrawn from the Marviken development according to its SEC prospectus. It will not operate the property or use SAPL assets. The earlier 20, 95 and 300 MW plans are retained as history.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "ai_compute_provider;datacenter_developer_operator"
   },
   {
     "project_id": "P006",
@@ -99,7 +119,11 @@
     "source_ids": "S013;S014;S015;S099;S103;S104",
     "latitude": "63.1792",
     "longitude": "14.6357",
-    "notes": "EcoDataCenter decided not to proceed with the Östersund project in September 2025. The project is retained as history and contributes no future capacity."
+    "notes": "EcoDataCenter decided not to proceed with the Östersund project in September 2025. The project is retained as history and contributes no future capacity.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P007",
@@ -116,7 +140,11 @@
     "source_ids": "S016",
     "latitude": "58.76",
     "longitude": "17.385",
-    "notes": "Proposed datacenter at Studsvik linked to small modular reactors. The approximately 55 MW per reactor is generation capacity; datacenter demand has not been disclosed."
+    "notes": "Proposed datacenter at Studsvik linked to small modular reactors. The approximately 55 MW per reactor is generation capacity; datacenter demand has not been disclosed.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "cloud_hyperscaler;other_enterprise"
   },
   {
     "project_id": "P008",
@@ -133,7 +161,11 @@
     "source_ids": "S017;S152",
     "latitude": "59.4032",
     "longitude": "17.9448",
-    "notes": "New 30 MW facility near SWE01 in the Stockholm area, with operation targeted for the fourth quarter of 2027. The plans include heat recovery and a new customer substation."
+    "notes": "New 30 MW facility near SWE01 in the Stockholm area, with operation targeted for the fourth quarter of 2027. The plans include heat recovery and a new customer substation.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P009",
@@ -150,7 +182,11 @@
     "source_ids": "S018;S019;S108;S109",
     "latitude": "59.405",
     "longitude": "17.95",
-    "notes": "The 28 MW IT capacity is fully contracted for July 2027. The operator also lists a 40 MW power feed and design PUE of about 1.15. Stockholm 3 is a separate facility within the Northern Campus."
+    "notes": "The 28 MW IT capacity is fully contracted for July 2027. The operator also lists a 40 MW power feed and design PUE of about 1.15. Stockholm 3 is a separate facility within the Northern Campus.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P010",
@@ -167,7 +203,11 @@
     "source_ids": "S020;S021;S087",
     "latitude": "60.4858",
     "longitude": "15.4371",
-    "notes": "Mistral plans 23 MW of AI infrastructure within EcoDataCenter Borlänge, targeted for 2027. The source does not define the electrical measure. It is counted within the campus; its exact relationship to halls B1 and B2 remains unclear."
+    "notes": "Mistral plans 23 MW of AI infrastructure within EcoDataCenter Borlänge, targeted for 2027. The source does not define the electrical measure. It is counted within the campus; its exact relationship to halls B1 and B2 remains unclear.",
+    "actor_hq_countries": "FR;SE",
+    "actor_hq_origin": "mixed",
+    "actor_hq_groups": "mixed;eu;eu_eea;europe;other_europe",
+    "actor_types": "ai_compute_provider;datacenter_developer_operator"
   },
   {
     "project_id": "P011",
@@ -184,7 +224,11 @@
     "source_ids": "S022;S023",
     "latitude": "59.621",
     "longitude": "17.857",
-    "notes": "Evroc is building an 18 MW facility in Arlandastad, targeted for the second half of 2026. Its current page lists up to 10,000 GPUs, compared with 16,000 in the earlier announcement."
+    "notes": "Evroc is building an 18 MW facility in Arlandastad, targeted for the second half of 2026. Its current page lists up to 10,000 GPUs, compared with 16,000 in the earlier announcement.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P012",
@@ -201,7 +245,11 @@
     "source_ids": "S024;S030;S110;S111",
     "latitude": "59.3293",
     "longitude": "18.0686",
-    "notes": "Conapto reports that the 8 MW expansion is complete. Total site capacity increased from 20 to 28 MW. The completed expansion contributes no future capacity."
+    "notes": "Conapto reports that the 8 MW expansion is complete. Total site capacity increased from 20 to 28 MW. The completed expansion contributes no future capacity.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P013",
@@ -218,7 +266,11 @@
     "source_ids": "S025;S026;S112;S153",
     "latitude": "59.371",
     "longitude": "16.509",
-    "notes": "The operator lists 10 MW of site power and up to 6 MW IT for the first phase, with move-in targeted for late 2026. The model phases the full site from 2026. Earlier wording described 10 MW as IT capacity and conflicts with the current technical page."
+    "notes": "The operator lists 10 MW of site power and up to 6 MW IT for the first phase, with move-in targeted for late 2026. The model phases the full site from 2026. Earlier wording described 10 MW as IT capacity and conflicts with the current technical page.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P014",
@@ -235,7 +287,11 @@
     "source_ids": "S027;S113",
     "latitude": "59.3",
     "longitude": "18.07",
-    "notes": "Expansion of an existing southern Stockholm facility by 1.2 MW, to a total of 2.7 MW. Launch is targeted for 2026."
+    "notes": "Expansion of an existing southern Stockholm facility by 1.2 MW, to a total of 2.7 MW. Launch is targeted for 2026.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P015",
@@ -252,7 +308,11 @@
     "source_ids": "S028;S029;S031;S085;S154;S155",
     "latitude": "60.294",
     "longitude": "16.414",
-    "notes": "The 500 MW campus estimate comes from Länsstyrelsen Dalarna (2021, p. 88), based on backup-generator sizing for a plan of up to five halls. Google has not disclosed the electrical capacity. The first facility is under construction and targeted for 2028. Its MW is undisclosed, so the 500 MW estimate counts from 0 up to its value phased from 2028, in Stated and High. The separate 1,500 MW thermal backup rating is not datacenter demand."
+    "notes": "The 500 MW campus estimate comes from Länsstyrelsen Dalarna (2021, p. 88), based on backup-generator sizing for a plan of up to five halls. Google has not disclosed the electrical capacity. The first facility is under construction and targeted for 2028. Its MW is undisclosed, so the 500 MW estimate counts from 0 up to its value phased from 2028, in Stated and High. The separate 1,500 MW thermal backup rating is not datacenter demand.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P016",
@@ -269,7 +329,11 @@
     "source_ids": "S032;S294;S295",
     "latitude": "59.2096",
     "longitude": "9.6090",
-    "notes": "Google data center in Skien. Construction started in 2024 and the first phase has been allocated 240 MW. The original 2026 operating target is not treated as achieved: Google's current location list still labels Skien in development, while NVE granted electrical permits for building 2 in 2026."
+    "notes": "Google data center in Skien. Construction started in 2024 and the first phase has been allocated 240 MW. The original 2026 operating target is not treated as achieved: Google's current location list still labels Skien in development, while NVE granted electrical permits for building 2 in 2026.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P017",
@@ -286,7 +350,11 @@
     "source_ids": "S033;S034;S088;S089;S090;S091;S092;S093",
     "latitude": "60.8411",
     "longitude": "11.2697",
-    "notes": "Operational multi-building campus at Heggvin in Hamar. Initial three buildings account for 90 MW and the wider 150 MW planned campus capacity is described as committed."
+    "notes": "Operational multi-building campus at Heggvin in Hamar. Initial three buildings account for 90 MW and the wider 150 MW planned campus capacity is described as committed.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator;other_enterprise"
   },
   {
     "project_id": "P018",
@@ -303,7 +371,11 @@
     "source_ids": "S035;S114;S296",
     "latitude": "59.7692",
     "longitude": "11.1045",
-    "notes": "Operational data center campus in Enebakk. Green Mountain/Menon reported 26.8 MW of current power capacity and expansion to 41.8 MW in 2025 and up to 93 MW in 2029; the past 2025 target has not been independently confirmed as operational. The operator's technical page separately gives up to 75 MW IT and roughly 93–94 MW site potential."
+    "notes": "Operational data center campus in Enebakk. Green Mountain/Menon reported 26.8 MW of current power capacity and expansion to 41.8 MW in 2025 and up to 93 MW in 2029; the past 2025 target has not been independently confirmed as operational. The operator's technical page separately gives up to 75 MW IT and roughly 93–94 MW site potential.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P019",
@@ -320,7 +392,11 @@
     "source_ids": "S036;S115;S296",
     "latitude": "59.8787",
     "longitude": "8.5942",
-    "notes": "Operational colocation data center in Rjukan/Tinn. Green Mountain/Menon reported 6.7 MW of current power capacity and expected expansion to 43.7 MW in 2025; the operator separately markets up to 50 MW IT potential. The past expansion target is not treated as confirmed operation."
+    "notes": "Operational colocation data center in Rjukan/Tinn. Green Mountain/Menon reported 6.7 MW of current power capacity and expected expansion to 43.7 MW in 2025; the operator separately markets up to 50 MW IT potential. The past expansion target is not treated as confirmed operation.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P020",
@@ -337,7 +413,11 @@
     "source_ids": "S037;S116;S296",
     "latitude": "59.0986",
     "longitude": "5.6990",
-    "notes": "Operational mountain-hall colocation data center near Stavanger/Rennesøy. Green Mountain/Menon reported 16.5 MW of current power capacity and expected expansion up to 29 MW in 2029; the operator separately markets up to 25 MW IT potential."
+    "notes": "Operational mountain-hall colocation data center near Stavanger/Rennesøy. Green Mountain/Menon reported 16.5 MW of current power capacity and expected expansion up to 29 MW in 2029; the operator separately markets up to 25 MW IT potential.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P021",
@@ -354,7 +434,11 @@
     "source_ids": "S038;S039;S094;S095",
     "latitude": "61.9332",
     "longitude": "5.5029",
-    "notes": "Operational underground data center campus in Stad. Current available power and full-campus potential are represented as separate capacity rows."
+    "notes": "Operational underground data center campus in Stad. Current available power and full-campus potential are represented as separate capacity rows.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P022",
@@ -371,7 +455,11 @@
     "source_ids": "S040;S041;S117;S118",
     "latitude": "58.1467",
     "longitude": "7.9956",
-    "notes": "Bulk N01 Campus in Kristiansand. Bulk says work started in January 2024 on a new 42 MW facility and that it will invest additional billions of NOK. Wider 600 MW campus potential remains supported by secondary/open directory material and should not be treated as investment_decision=yes."
+    "notes": "Bulk N01 Campus in Kristiansand. Bulk says work started in January 2024 on a new 42 MW facility and that it will invest additional billions of NOK. Wider 600 MW campus potential remains supported by secondary/open directory material and should not be treated as investment_decision=yes.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P023",
@@ -388,7 +476,11 @@
     "source_ids": "S042;S327",
     "latitude": "58.7354",
     "longitude": "5.6477",
-    "notes": "Potential Green Mountain data center at Kalberg in Time municipality. This is separate from the operator's SVG-Undheim construction site. A Kalberg dispensation application and continued operator interest are public, but only non-binding customer interest and no site-specific MW claim were identified; the reported 381 MW around Fagrafjell covers several data-center requests and is not assigned to this project."
+    "notes": "Potential Green Mountain data center at Kalberg in Time municipality. This is separate from the operator's SVG-Undheim construction site. A Kalberg dispensation application and continued operator interest are public, but only non-binding customer interest and no site-specific MW claim were identified; the reported 381 MW around Fagrafjell covers several data-center requests and is not assigned to this project.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P024",
@@ -405,7 +497,11 @@
     "source_ids": "S043",
     "latitude": "58.8120",
     "longitude": "5.7225",
-    "notes": "Cancelled/stopped Green Mountain project at Vagle in Sandnes. Municipal council did not approve the plan change that would enable the project."
+    "notes": "Cancelled/stopped Green Mountain project at Vagle in Sandnes. Municipal council did not approve the plan change that would enable the project.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P025",
@@ -422,7 +518,11 @@
     "source_ids": "S057;S080;S190",
     "latitude": "64.2273",
     "longitude": "27.7285",
-    "notes": "The Renforsin Ranta facility was completed in 2025. Borealis now advertises an expansion of more than 100 MW, without a date. This is separate from the Otanmäki project."
+    "notes": "The Renforsin Ranta facility was completed in 2025. Borealis now advertises an expansion of more than 100 MW, without a date. This is separate from the Otanmäki project.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P026",
@@ -439,7 +539,11 @@
     "source_ids": "S058;S081;S119;S197",
     "latitude": "60.2055",
     "longitude": "24.6559",
-    "notes": "The Espoo environmental assessment gives 172.8 MW IT and 211.36 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus."
+    "notes": "The Espoo environmental assessment gives 172.8 MW IT and 211.36 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P027",
@@ -456,7 +560,11 @@
     "source_ids": "S059;S082;S120;S058;S198",
     "latitude": "60.1238",
     "longitude": "24.4385",
-    "notes": "The Kirkkonummi environmental assessment gives 144 MW IT and 175.8 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus."
+    "notes": "The Kirkkonummi environmental assessment gives 144 MW IT and 175.8 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P028",
@@ -473,7 +581,11 @@
     "source_ids": "S060;S083;S121;S058",
     "latitude": "60.4167",
     "longitude": "24.3333",
-    "notes": "The Vihti environmental assessment gives 192 MW IT and 234.4 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus."
+    "notes": "The Vihti environmental assessment gives 192 MW IT and 234.4 MW total electrical capacity. Construction of the first phase began in late 2024. Microsoft has not announced commissioning or confirmed investment in the entire campus.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P029",
@@ -490,7 +602,11 @@
     "source_ids": "S061;S202",
     "latitude": "60.5697",
     "longitude": "27.1979",
-    "notes": "The Hamina campus has operated since 2011. Google bought further land in September 2026 for possible expansion, but has not disclosed its capacity or commissioning date."
+    "notes": "The Hamina campus has operated since 2011. Google bought further land in September 2026 for possible expansion, but has not disclosed its capacity or commissioning date.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P030",
@@ -507,7 +623,11 @@
     "source_ids": "S062;S078;S128",
     "latitude": "60.8667",
     "longitude": "26.7042",
-    "notes": "Blackhawk is being built for Hyperco Fin Hold Co 1. YIT gives an October 2025 start and May 2027 construction completion. Capacity is unknown. The 100 MW IT and 130 MW total figures belong to the separate western Hiivuri project."
+    "notes": "Blackhawk is being built for Hyperco Fin Hold Co 1. YIT gives an October 2025 start and May 2027 construction completion. Capacity is unknown. The 100 MW IT and 130 MW total figures belong to the separate western Hiivuri project.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P031",
@@ -524,7 +644,11 @@
     "source_ids": "S063;S071;S072;S123;S124;S194",
     "latitude": "60.9827",
     "longitude": "25.6612",
-    "notes": "DayOne gives 50 MW IT for the first building and 128 MW IT for the campus. Construction began in 2026, with first operation targeted for 2027. FCDC Lahti refers to the same development and is not counted separately."
+    "notes": "DayOne gives 50 MW IT for the first building and 128 MW IT for the campus. Construction began in 2026, with first operation targeted for 2027. FCDC Lahti refers to the same development and is not counted separately.",
+    "actor_hq_countries": "SG",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator;other_enterprise"
   },
   {
     "project_id": "P032",
@@ -541,7 +665,11 @@
     "source_ids": "S064;S073;S125;S126;S293",
     "latitude": "60.2055",
     "longitude": "24.6559",
-    "notes": "A new FIN02 building in Espoo has been under construction since April 2026 and is due in autumn 2027. The stated total capacity after expansion is 45 MW. Existing installed capacity is unknown, so the additional capacity cannot be determined precisely."
+    "notes": "A new FIN02 building in Espoo has been under construction since April 2026 and is due in autumn 2027. The stated total capacity after expansion is 45 MW. Existing installed capacity is unknown, so the additional capacity cannot be determined precisely.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P033",
@@ -558,7 +686,11 @@
     "source_ids": "S065;S074;S096;S097;S191;S293",
     "latitude": "60.769",
     "longitude": "26.789",
-    "notes": "The planned campus has 430 MW of total site capacity. YIT contracts cover individual buildings, with commissioning of the July contract targeted by the end of 2027. The building MW is undisclosed, so the 430 MW campus counts from 0 up to its value phased from 2027, in Stated and High; investment in the entire campus is not confirmed."
+    "notes": "The planned campus has 430 MW of total site capacity. YIT contracts cover individual buildings, with commissioning of the July contract targeted by the end of 2027. The building MW is undisclosed, so the 430 MW campus counts from 0 up to its value phased from 2027, in Stated and High; investment in the entire campus is not confirmed.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P034",
@@ -575,7 +707,11 @@
     "source_ids": "S066;S075;S192",
     "latitude": "60.6333",
     "longitude": "25.3167",
-    "notes": "A second 70 MW building and dedicated substation were announced in October 2026. The substation is due in autumn 2027; the building has no confirmed operation date. The existing 75 MW campus is excluded from the additional capacity."
+    "notes": "A second 70 MW building and dedicated substation were announced in October 2026. The substation is due in autumn 2027; the building has no confirmed operation date. The existing 75 MW campus is excluded from the additional capacity.",
+    "actor_hq_countries": "NL",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu;eu_eea;europe;other_europe",
+    "actor_types": "ai_compute_provider"
   },
   {
     "project_id": "P035",
@@ -592,7 +728,11 @@
     "source_ids": "S067;S076;S098;S143;S193;S244",
     "latitude": "61.0587",
     "longitude": "28.1887",
-    "notes": "The Pajarila campus is the Nebius Lappeenranta project. Fira is building the first phase, targeted for 2027. Nebius reports 310 MW of total site power. The first phase MW is undisclosed, so the campus counts from 0 up to its value phased from 2027, in Stated and High. Polarnode lists a 350 MW grid connection for the same site."
+    "notes": "The Pajarila campus is the Nebius Lappeenranta project. Fira is building the first phase, targeted for 2027. Nebius reports 310 MW of total site power. The first phase MW is undisclosed, so the campus counts from 0 up to its value phased from 2027, in Stated and High. Polarnode lists a 350 MW grid connection for the same site.",
+    "actor_hq_countries": "NL",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu;eu_eea;europe;other_europe",
+    "actor_types": "ai_compute_provider"
   },
   {
     "project_id": "P036",
@@ -609,7 +749,11 @@
     "source_ids": "S068;S077;S122;S127;S215",
     "latitude": "60.6333",
     "longitude": "25.3167",
-    "notes": "Construction of the first 70 MW was confirmed in June 2026. FCDC identifies the figure as grid-connection capacity. The operation date is unknown, so the model uses the standard construction-time assumption. This is separate from Nebius Mäntsälä."
+    "notes": "Construction of the first 70 MW was confirmed in June 2026. FCDC identifies the figure as grid-connection capacity. The operation date is unknown, so the model uses the standard construction-time assumption. This is separate from Nebius Mäntsälä.",
+    "actor_hq_countries": "GB",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P037",
@@ -626,7 +770,11 @@
     "source_ids": "S069;S079;S195;S196",
     "latitude": "64.2273",
     "longitude": "27.7285",
-    "notes": "The first building has 22.5 MW IT and a 2026 target. YIT is also constructing the second and third buildings, whose capacities have not been disclosed. The five-building plan is not used to multiply the first-building rating."
+    "notes": "The first building has 22.5 MW IT and a 2026 target. YIT is also constructing the second and third buildings, whose capacities have not been disclosed. The five-building plan is not used to multiply the first-building rating.",
+    "actor_hq_countries": "GB",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;europe;outside_eu;other_europe",
+    "actor_types": "other_enterprise"
   },
   {
     "project_id": "P038",
@@ -643,7 +791,11 @@
     "source_ids": "S070",
     "latitude": "64.2273",
     "longitude": "27.7285",
-    "notes": "New research facility for LUMI-AI and LUMI-IQ. Its electrical capacity has not been disclosed."
+    "notes": "New research facility for LUMI-AI and LUMI-IQ. Its electrical capacity has not been disclosed.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "other_enterprise"
   },
   {
     "project_id": "P039",
@@ -660,7 +812,11 @@
     "source_ids": "S129",
     "latitude": "60.1414",
     "longitude": "15.4142",
-    "notes": "New Röbacken campus with a 52-hectare land agreement. The operator announces 150 MW without defining the measure. Construction is targeted for early 2027, subject to permits; commissioning and contracted grid capacity are unconfirmed."
+    "notes": "New Röbacken campus with a 52-hectare land agreement. The operator announces 150 MW without defining the measure. Construction is targeted for early 2027, subject to permits; commissioning and contracted grid capacity are unconfirmed.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P040",
@@ -677,7 +833,11 @@
     "source_ids": "S130",
     "latitude": "60.9333",
     "longitude": "17.1444",
-    "notes": "EcoDataCenter has begun consultation for a datacenter at Norrsundet. Capacity, exact plot, facility type and commissioning date remain unknown. The locality is in SE2 in the available bidding-zone map. Blykalla’s separate 330 MW generation proposal is excluded."
+    "notes": "EcoDataCenter has begun consultation for a datacenter at Norrsundet. Capacity, exact plot, facility type and commissioning date remain unknown. The locality is in SE2 in the available bidding-zone map. Blykalla’s separate 330 MW generation proposal is excluded.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P041",
@@ -694,7 +854,11 @@
     "source_ids": "S131;S156;S157;S189",
     "latitude": "62.4870",
     "longitude": "17.3257",
-    "notes": "The Torsboda FAQ gives 650 MW initially and a 1,000 MW first-phase goal, with a conditional completion milestone of 31 December 2030. Only the 650 MW phase has a date of its own; the 1,000 MW goal and the 2,000 MW option count only in High. A later option of up to 2,000 MW requires further land and has no date. The sale appeal was still being handled in October 2026; grid allocation is unverified."
+    "notes": "The Torsboda FAQ gives 650 MW initially and a 1,000 MW first-phase goal, with a conditional completion milestone of 31 December 2030. Only the 650 MW phase has a date of its own; the 1,000 MW goal and the 2,000 MW option count only in High. A later option of up to 2,000 MW requires further land and has no date. The sale appeal was still being handled in October 2026; grid allocation is unverified.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P042",
@@ -711,7 +875,11 @@
     "source_ids": "S132;S297",
     "latitude": "58.6821",
     "longitude": "5.7745",
-    "notes": "Distinct from P023 Kalberg. Green Mountain is constructing two data-center buildings at Undheim with 80 MW IT within up to 100 MW site capacity and full completion scheduled for 2028. The source scopes overlap and are not additive."
+    "notes": "Distinct from P023 Kalberg. Green Mountain is constructing two data-center buildings at Undheim with 80 MW IT within up to 100 MW site capacity and full completion scheduled for 2028. The source scopes overlap and are not additive.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P043",
@@ -728,7 +896,11 @@
     "source_ids": "S133;S298;S299",
     "latitude": "59.2049",
     "longitude": "8.0829",
-    "notes": "Six-building EdgeConneX campus at Molandsmoen. Construction began in Q1 2026 and work is active on all six buildings. The 365 MW planned grid envelope comprises 140 MW allocated and a further 225 MW in the capacity queue; these are grid stages, not installed IT."
+    "notes": "Six-building EdgeConneX campus at Molandsmoen. Construction began in Q1 2026 and work is active on all six buildings. The 365 MW planned grid envelope comprises 140 MW allocated and a further 225 MW in the capacity queue; these are grid stages, not installed IT.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P044",
@@ -745,7 +917,11 @@
     "source_ids": "S134",
     "latitude": "59.1060",
     "longitude": "9.5960",
-    "notes": "Site-specific development agreement at Frier Vest for a planned data center of around 250 MW. The electrical measure, financing, phase MW, investment decision and commissioning remain unresolved."
+    "notes": "Site-specific development agreement at Frier Vest for a planned data center of around 250 MW. The electrical measure, financing, phase MW, investment decision and commissioning remain unresolved.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator;property_investor"
   },
   {
     "project_id": "P045",
@@ -762,7 +938,11 @@
     "source_ids": "S135;S300;S301",
     "latitude": "68.5505",
     "longitude": "17.5558",
-    "notes": "Alias Stargate Norway / Kvandal North Campus. Construction is underway for three buildings totaling 100 MW within a campus with expected electrical consumption of 230 MW. A further 290 MW grid withdrawal is in the reservation queue. Microsoft's 2027 deployment and the three-building completion target do not date the whole 230 MW campus or the additional grid request."
+    "notes": "Alias Stargate Norway / Kvandal North Campus. Construction is underway for three buildings totaling 100 MW within a campus with expected electrical consumption of 230 MW. A further 290 MW grid withdrawal is in the reservation queue. Microsoft's 2027 deployment and the three-building completion target do not date the whole 230 MW campus or the additional grid request.",
+    "actor_hq_countries": "GB",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;europe;outside_eu;other_europe",
+    "actor_types": "ai_compute_provider"
   },
   {
     "project_id": "P171",
@@ -779,7 +959,11 @@
     "source_ids": "S303;S304",
     "latitude": "58.6437",
     "longitude": "5.6261",
-    "notes": "Planning-approved carrier-neutral data center at Kviamarka. The technical scope is 30 MW IT within 36 MW power capacity, with a target PUE of 1.1 and target ready-for-service in the second half of 2027. Construction was expected later in 2026 but no observed start was found."
+    "notes": "Planning-approved carrier-neutral data center at Kviamarka. The technical scope is 30 MW IT within 36 MW power capacity, with a target PUE of 1.1 and target ready-for-service in the second half of 2027. Construction was expected later in 2026 but no observed start was found.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P172",
@@ -796,7 +980,11 @@
     "source_ids": "S305;S306",
     "latitude": "58.8177",
     "longitude": "5.7158",
-    "notes": "Microsoft has bought the regulated Kvål site and announced a new cloud data-center region in Sandnes. Microsoft stated 25 MW capacity to E24 without defining the electrical measure. No construction start, commissioning year or scope-specific investment decision was published."
+    "notes": "Microsoft has bought the regulated Kvål site and announced a new cloud data-center region in Sandnes. Microsoft stated 25 MW capacity to E24 without defining the electrical measure. No construction start, commissioning year or scope-specific investment decision was published.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P173",
@@ -813,7 +1001,11 @@
     "source_ids": "S307",
     "latitude": "59.1232",
     "longitude": "9.4807",
-    "notes": "Nscale and Løvenskiold-Fossum hold a municipal land-purchase option at Bolvik and have applied for 576 MW of grid capacity. The option remains conditional on zoning and power access; Nscale confirms it is evaluating the site."
+    "notes": "Nscale and Løvenskiold-Fossum hold a municipal land-purchase option at Bolvik and have applied for 576 MW of grid capacity. The option remains conditional on zoning and power access; Nscale confirms it is evaluating the site.",
+    "actor_hq_countries": "GB;NO",
+    "actor_hq_origin": "mixed",
+    "actor_hq_groups": "mixed;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "ai_compute_provider;property_investor"
   },
   {
     "project_id": "P174",
@@ -830,7 +1022,11 @@
     "source_ids": "S308;S309",
     "latitude": "59.5111",
     "longitude": "10.7921",
-    "notes": "Google-linked WS Computing has a site-specific agreement for Gylderåsen and a reported 480 MW grid reservation/request. Google has not announced a construction decision or operating date."
+    "notes": "Google-linked WS Computing has a site-specific agreement for Gylderåsen and a reported 480 MW grid reservation/request. Google has not announced a construction decision or operating date.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P175",
@@ -847,7 +1043,11 @@
     "source_ids": "S310;S311",
     "latitude": "59.2959",
     "longitude": "5.4253",
-    "notes": "atNorth acquired a 36-hectare site in Haugaland Business Park for NOR01. The campus is designed for 350 MW site power, with an initial 120 MW phase and projected power availability in 2028. No construction start or full-campus investment decision is public."
+    "notes": "atNorth acquired a 36-hectare site in Haugaland Business Park for NOR01. The campus is designed for 350 MW site power, with an initial 120 MW phase and projected power availability in 2028. No construction start or full-campus investment decision is public.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P176",
@@ -864,7 +1064,11 @@
     "source_ids": "S312;S313",
     "latitude": "59.4021",
     "longitude": "6.1562",
-    "notes": "Asp has municipal approval to buy a 56-decare site at Tysingvatnet for a phased data center. The municipality states at least 25 MW grid withdrawal; detailed planning and approvals are beginning and no upper capacity or commissioning year is public."
+    "notes": "Asp has municipal approval to buy a 56-decare site at Tysingvatnet for a phased data center. The municipality states at least 25 MW grid withdrawal; detailed planning and approvals are beginning and no upper capacity or commissioning year is public.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P180",
@@ -881,7 +1085,11 @@
     "source_ids": "S319",
     "latitude": "58.4880",
     "longitude": "8.7700",
-    "notes": "Bulk acquired a municipal site at Longum Nord for a data-center development and aims for 150 MW of grid capacity by the end of 2029. Land acquisition and a grid target do not establish a construction decision."
+    "notes": "Bulk acquired a municipal site at Longum Nord for a data-center development and aims for 150 MW of grid capacity by the end of 2029. Land acquisition and a grid target do not establish a construction decision.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P181",
@@ -898,7 +1106,11 @@
     "source_ids": "S320",
     "latitude": "61.4500",
     "longitude": "6.0200",
-    "notes": "LMD is acquiring Titan Group and will develop and operate the Moskog/Sunnfjord Næringspark project. The release compares the new facility to LMD's 80 MW Nordfjord site and describes an operational stage of 80 MW, without defining the electrical measure or a commissioning year."
+    "notes": "LMD is acquiring Titan Group and will develop and operate the Moskog/Sunnfjord Næringspark project. The release compares the new facility to LMD's 80 MW Nordfjord site and describes an operational stage of 80 MW, without defining the electrical measure or a commissioning year.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P182",
@@ -915,7 +1127,11 @@
     "source_ids": "S321;S322;S323",
     "latitude": "66.0770",
     "longitude": "13.8240",
-    "notes": "Nscale is the named proponent for the approved Korgen data-center plan near Nedre Røssåga. Statnett's queue shows 250 MW requested for 2028, and Nscale also has a reported additional 750 MW request. Neither request is reserved supply or an investment decision."
+    "notes": "Nscale is the named proponent for the approved Korgen data-center plan near Nedre Røssåga. Statnett's queue shows 250 MW requested for 2028, and Nscale also has a reported additional 750 MW request. Neither request is reserved supply or an investment decision.",
+    "actor_hq_countries": "GB",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;europe;outside_eu;other_europe",
+    "actor_types": "ai_compute_provider"
   },
   {
     "project_id": "P183",
@@ -932,7 +1148,11 @@
     "source_ids": "S324",
     "latitude": "58.9030",
     "longitude": "6.1040",
-    "notes": "Forsand DC AS is the named proponent for a site-specific detailed zoning process and impact assessment at Myra industriområde. No defensible MW, construction decision or commissioning date was identified."
+    "notes": "Forsand DC AS is the named proponent for a site-specific detailed zoning process and impact assessment at Myra industriområde. No defensible MW, construction decision or commissioning date was identified.",
+    "actor_hq_countries": "",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown",
+    "actor_types": "unknown"
   },
   {
     "project_id": "P184",
@@ -949,7 +1169,11 @@
     "source_ids": "S325;S326",
     "latitude": "59.6913",
     "longitude": "6.5120",
-    "notes": "Conversion of the former Sauda I hydropower station at Hellandsbygd into an AI data center. The operator markets 10 MW available now, and reporting describes commissioning and full-load testing in July 2026. This is newly delivered data-center load even though it is now operational."
+    "notes": "Conversion of the former Sauda I hydropower station at Hellandsbygd into an AI data center. The operator markets 10 MW available now, and reporting describes commissioning and full-load testing in July 2026. This is newly delivered data-center load even though it is now operational.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P185",
@@ -966,7 +1190,11 @@
     "source_ids": "S327",
     "latitude": "58.6200",
     "longitude": "6.0600",
-    "notes": "Google-owned WS Computing has reportedly applied for a 360 MW connection for project Girona NSEP at North Sea Energy Park in Bjerkreim. No public construction decision, allocation or commissioning date was found; the evidence is a named customer and site-specific grid application reported by regional press."
+    "notes": "Google-owned WS Computing has reportedly applied for a 360 MW connection for project Girona NSEP at North Sea Energy Park in Bjerkreim. No public construction decision, allocation or commissioning date was found; the evidence is a named customer and site-specific grid application reported by regional press.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P186",
@@ -983,7 +1211,11 @@
     "source_ids": "S332;S333",
     "latitude": "66.3111",
     "longitude": "14.1387",
-    "notes": "VivoPower's acquired Mo i Rana facility has 41.5 MW of existing operational capacity, which is excluded from the new-load claim. A separate additional 40 MW expansion is described as potentially energizable in 2027-2028 subject to approval. October 2026 construction activity concerns conversion of the existing first 40 MW, not confirmed construction of the additional expansion."
+    "notes": "VivoPower's acquired Mo i Rana facility has 41.5 MW of existing operational capacity, which is excluded from the new-load claim. A separate additional 40 MW expansion is described as potentially energizable in 2027-2028 subject to approval. October 2026 construction activity concerns conversion of the existing first 40 MW, not confirmed construction of the additional expansion.",
+    "actor_hq_countries": "GB",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P187",
@@ -1000,7 +1232,11 @@
     "source_ids": "S334",
     "latitude": "59.9700",
     "longitude": "10.9300",
-    "notes": "The joint venture acquired a separate commercial section at Nedre Rommen 5 and will establish an operating company to build and run an AI/edge data center. Initial power access is 1 MW and technical studies indicate up to 9 MW subject to grid, cooling and structural constraints. The project is adjacent to Blix NR5 in the same building and is not its existing capacity."
+    "notes": "The joint venture acquired a separate commercial section at Nedre Rommen 5 and will establish an operating company to build and run an AI/edge data center. Initial power access is 1 MW and technical studies indicate up to 9 MW subject to grid, cooling and structural constraints. The project is adjacent to Blix NR5 in the same building and is not its existing capacity.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P188",
@@ -1017,7 +1253,11 @@
     "source_ids": "S335;S336;S337",
     "latitude": "58.7300",
     "longitude": "5.5600",
-    "notes": "Green Horizon and Wiig Gartneri plan a permitted 4 MW data center at Orre using waste heat in the greenhouse operation. The project is waiting for a customer. Two MW is currently available at the site; reaching the full 4 MW requires a new power cable. Green Horizon's separate unlocated 8 MW and 48 MW opportunities are not attributed here."
+    "notes": "Green Horizon and Wiig Gartneri plan a permitted 4 MW data center at Orre using waste heat in the greenhouse operation. The project is waiting for a customer. Two MW is currently available at the site; reaching the full 4 MW requires a new power cable. Green Horizon's separate unlocated 8 MW and 48 MW opportunities are not attributed here.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator;other_enterprise"
   },
   {
     "project_id": "P189",
@@ -1034,7 +1274,11 @@
     "source_ids": "S338;S339",
     "latitude": "59.1226",
     "longitude": "11.3871",
-    "notes": "Storespeed operates approximately 1 MW in Halden and has applied for additional grid capacity to expand within the existing premises to a potential 5 MW total. The comparable installed baseline is subtracted, leaving up to 4 MW of new capacity if the expansion is realized."
+    "notes": "Storespeed operates approximately 1 MW in Halden and has applied for additional grid capacity to expand within the existing premises to a potential 5 MW total. The comparable installed baseline is subtracted, leaving up to 4 MW of new capacity if the expansion is realized.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator;other_enterprise"
   },
   {
     "project_id": "P190",
@@ -1051,7 +1295,11 @@
     "source_ids": "S341",
     "latitude": "59.9700",
     "longitude": "10.9300",
-    "notes": "Blix NR5 at Nedre Rommen 5 has 2 MW currently installed and infrastructure for 3 MW total, giving 1 MW of potential new capacity. This is the existing colocation section in the building; Magnora/Blix P187 is a separately acquired AI section alongside it."
+    "notes": "Blix NR5 at Nedre Rommen 5 has 2 MW currently installed and infrastructure for 3 MW total, giving 1 MW of potential new capacity. This is the existing colocation section in the building; Magnora/Blix P187 is a separately acquired AI section alongside it.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu_eea;europe;outside_eu",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P046",
@@ -1068,7 +1316,11 @@
     "source_ids": "S136;S199",
     "latitude": "60.383",
     "longitude": "23.133",
-    "notes": "Planned 230 MW site with up to 160 MW IT. The first phase has 75 MW of secured supply and 60 MW IT, with power available from the third quarter of 2028. Full-campus commissioning and investment are unconfirmed."
+    "notes": "Planned 230 MW site with up to 160 MW IT. The first phase has 75 MW of secured supply and 60 MW IT, with power available from the third quarter of 2028. Full-campus commissioning and investment are unconfirmed.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P047",
@@ -1085,7 +1337,11 @@
     "source_ids": "S137",
     "latitude": "63.04",
     "longitude": "21.77",
-    "notes": "One Microsoft campus across Vaasa and Mustasaari, separate from FCDC Kuriirintie. Land agreements and preparatory works are reported, but total electrical capacity and commissioning are unknown. A permit for part of the site does not cover the entire campus."
+    "notes": "One Microsoft campus across Vaasa and Mustasaari, separate from FCDC Kuriirintie. Land agreements and preparatory works are reported, but total electrical capacity and commissioning are unknown. A permit for part of the site does not cover the entire campus.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P048",
@@ -1102,7 +1358,11 @@
     "source_ids": "S138;S200;S241",
     "latitude": "64.134",
     "longitude": "27.018",
-    "notes": "Google’s Kajaani project has no verified electrical capacity or operation date. The authority requested a halt to significant preparatory works pending environmental assessment in October 2026. Technical electrical values are confidential; the third-party 176 MW IT figure is unverified."
+    "notes": "Google’s Kajaani project has no verified electrical capacity or operation date. The authority requested a halt to significant preparatory works pending environmental assessment in October 2026. Technical electrical values are confidential; the third-party 176 MW IT figure is unverified.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P049",
@@ -1119,7 +1379,11 @@
     "source_ids": "S139;S200",
     "latitude": "64.808",
     "longitude": "25.99",
-    "notes": "Google’s Muhos project has no verified electrical capacity or operation date. The authority requested a halt to significant preparatory works pending environmental assessment in October 2026. The national investment schedule does not establish site commissioning."
+    "notes": "Google’s Muhos project has no verified electrical capacity or operation date. The authority requested a halt to significant preparatory works pending environmental assessment in October 2026. The national investment schedule does not establish site commissioning.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P050",
@@ -1136,7 +1400,11 @@
     "source_ids": "S140;S201",
     "latitude": "64.558",
     "longitude": "26.82",
-    "notes": "Google has purchased land at Vaala. Electrical capacity and commissioning are unknown. The October 2026 restriction on preparatory works at Kajaani and Muhos does not cover Vaala."
+    "notes": "Google has purchased land at Vaala. Electrical capacity and commissioning are unknown. The October 2026 restriction on preparatory works at Kajaani and Muhos does not cover Vaala.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P051",
@@ -1153,7 +1421,11 @@
     "source_ids": "S141;S078",
     "latitude": "60.85",
     "longitude": "26.65",
-    "notes": "The authority identifies a separate 11.1-hectare western Hiivuri project with 100 MW IT and 130 MW total electrical capacity. It is separate from Blackhawk. Construction and operation dates are unknown."
+    "notes": "The authority identifies a separate 11.1-hectare western Hiivuri project with 100 MW IT and 130 MW total electrical capacity. It is separate from Blackhawk. Construction and operation dates are unknown.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P052",
@@ -1170,7 +1442,11 @@
     "source_ids": "S142",
     "latitude": "64.134",
     "longitude": "27.018",
-    "notes": "Borealis holds a planning reservation at Otanmäki. Capacity and commissioning are unknown. This site is separate from Renforsin Ranta and Google Kajaani."
+    "notes": "Borealis holds a planning reservation at Otanmäki. Capacity and commissioning are unknown. This site is separate from Renforsin Ranta and Google Kajaani.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P053",
@@ -1187,7 +1463,11 @@
     "source_ids": "S099;S158",
     "latitude": "60.6036",
     "longitude": "15.6259",
-    "notes": "Halls E and F expand the operating Falun campus. The annual report gives 41 MW in operation at the end of 2025 and 65 MW after the expansion, targeted for 2026. The technical page lists 80 MW of available site power. These different measures do not establish a comparable installed base for all 80 MW."
+    "notes": "Halls E and F expand the operating Falun campus. The annual report gives 41 MW in operation at the end of 2025 and 65 MW after the expansion, targeted for 2026. The technical page lists 80 MW of available site power. These different measures do not establish a comparable installed base for all 80 MW.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P054",
@@ -1204,7 +1484,11 @@
     "source_ids": "S159",
     "latitude": "59.403",
     "longitude": "17.944",
-    "notes": "The property has an existing datacenter tenant and 30 MW of additional power under development. Grid works are under way, but commissioning is undated. Digital Realty is named as a tenant in secondary reporting; the full expansion has not been attributed to it."
+    "notes": "The property has an existing datacenter tenant and 30 MW of additional power under development. Grid works are under way, but commissioning is undated. Digital Realty is named as a tenant in secondary reporting; the full expansion has not been attributed to it.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown;outside_eu;outside_europe",
+    "actor_types": "investment_manager;unknown"
   },
   {
     "project_id": "P055",
@@ -1221,7 +1505,11 @@
     "source_ids": "S160;S161;S162",
     "latitude": "57.739",
     "longitude": "12.010",
-    "notes": "New underground facility at Bunkeberget, separate from Elementica. The first hall is targeted for early 2027. That date covers the first hall (1 MW), so the 12 MW site figure counts only in High."
+    "notes": "New underground facility at Bunkeberget, separate from Elementica. The first hall is targeted for early 2027. That date covers the first hall (1 MW), so the 12 MW site figure counts only in High.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P056",
@@ -1238,7 +1526,11 @@
     "source_ids": "S163",
     "latitude": "65.825",
     "longitude": "21.689",
-    "notes": "Proposed HPC conversion of the existing Big Boden mining site. It uses the same 32 MW power supply, with approximately 25 MW of IT capacity, so no additional grid capacity is claimed. The letter of intent is nonbinding. Little Boden is a separate site."
+    "notes": "Proposed HPC conversion of the existing Big Boden mining site. It uses the same 32 MW power supply, with approximately 25 MW of IT capacity, so no additional grid capacity is claimed. The letter of intent is nonbinding. Little Boden is a separate site.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "ai_compute_provider;datacenter_developer_operator"
   },
   {
     "project_id": "P060",
@@ -1255,7 +1547,11 @@
     "source_ids": "S167;S168;S169",
     "latitude": "60.630",
     "longitude": "17.150",
-    "notes": "Expansion of Microsoft’s Ersbo site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate."
+    "notes": "Expansion of Microsoft’s Ersbo site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P061",
@@ -1272,7 +1568,11 @@
     "source_ids": "S167;S168;S169",
     "latitude": "60.602",
     "longitude": "17.100",
-    "notes": "Expansion of Microsoft’s Stackbo site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate."
+    "notes": "Expansion of Microsoft’s Stackbo site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P062",
@@ -1289,7 +1589,11 @@
     "source_ids": "S167;S168;S169",
     "latitude": "60.616",
     "longitude": "16.780",
-    "notes": "Expansion of Microsoft’s Tuna site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate."
+    "notes": "Expansion of Microsoft’s Tuna site with additional halls. Capacity and operation dates for the new halls are unknown. Grid-line completion does not establish when the halls will operate.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "cloud_hyperscaler"
   },
   {
     "project_id": "P074",
@@ -1306,7 +1610,11 @@
     "source_ids": "S177;S109",
     "latitude": "59.428",
     "longitude": "17.951",
-    "notes": "Conapto reports that a 1.2 MW expansion started in the second quarter of 2026. The site page lists 6 MW of total power, including existing operation. This site is separate from Stockholm 4 and 5."
+    "notes": "Conapto reports that a 1.2 MW expansion started in the second quarter of 2026. The site page lists 6 MW of total power, including existing operation. This site is separate from Stockholm 4 and 5.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P075",
@@ -1323,7 +1631,11 @@
     "source_ids": "S179;S178",
     "latitude": "",
     "longitude": "",
-    "notes": "Separate underground ScandiDC project. Location and operation date have not been disclosed. The operator’s relative lead time is not treated as a calendar date."
+    "notes": "Separate underground ScandiDC project. Location and operation date have not been disclosed. The operator’s relative lead time is not treated as a calendar date.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P076",
@@ -1340,7 +1652,11 @@
     "source_ids": "S178",
     "latitude": "",
     "longitude": "",
-    "notes": "Operator-listed development concept. Location, capacity and schedule have not been disclosed."
+    "notes": "Operator-listed development concept. Location, capacity and schedule have not been disclosed.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P077",
@@ -1357,7 +1673,11 @@
     "source_ids": "S178",
     "latitude": "",
     "longitude": "",
-    "notes": "Operator-listed development concept. Location, capacity and schedule have not been disclosed."
+    "notes": "Operator-listed development concept. Location, capacity and schedule have not been disclosed.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P078",
@@ -1374,7 +1694,11 @@
     "source_ids": "S180",
     "latitude": "59.354",
     "longitude": "18.091",
-    "notes": "Withdrawn Bahnhof development, separate from Bunkeberget. Retained as history and excluded from future capacity."
+    "notes": "Withdrawn Bahnhof development, separate from Bunkeberget. Retained as history and excluded from future capacity.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P079",
@@ -1391,7 +1715,11 @@
     "source_ids": "S181;S183",
     "latitude": "58.394",
     "longitude": "15.555",
-    "notes": "New colocation facility at Mjärdevi. The operator targets customer access at the end of 2027. Earlier construction targets have not been confirmed as actual starts."
+    "notes": "New colocation facility at Mjärdevi. The operator targets customer access at the end of 2027. Earlier construction targets have not been confirmed as actual starts.",
+    "actor_hq_countries": "SE",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "public_utility"
   },
   {
     "project_id": "P084",
@@ -1408,7 +1736,11 @@
     "source_ids": "S203;S204",
     "latitude": "62.79",
     "longitude": "22.84",
-    "notes": "The first 110 MW IT phase is fully leased and under development. The wider campus could exceed 550 MW IT, subject to further permissions and contracts. First operation has not been dated. The 700 MVA supply figure is not converted to MW."
+    "notes": "The first 110 MW IT phase is fully leased and under development. The wider campus could exceed 550 MW IT, subject to further permissions and contracts. First operation has not been dated. The 700 MVA supply figure is not converted to MW.",
+    "actor_hq_countries": "FI;GB",
+    "actor_hq_origin": "mixed",
+    "actor_hq_groups": "mixed;eu;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator;other_enterprise"
   },
   {
     "project_id": "P085",
@@ -1425,7 +1757,11 @@
     "source_ids": "S205;S206;S289",
     "latitude": "61.715",
     "longitude": "27.35",
-    "notes": "Compute Nordic is developing the Visulahti campus for Cerebras, with 165 MW of contracted IT capacity. The first 50 MW is under construction. An earlier contractor figure of 200 MW describes the same development but does not specify the electrical measure."
+    "notes": "Compute Nordic is developing the Visulahti campus for Cerebras, with 165 MW of contracted IT capacity. The first 50 MW is under construction. An earlier contractor figure of 200 MW describes the same development but does not specify the electrical measure.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown;outside_eu;outside_europe",
+    "actor_types": "ai_compute_provider;datacenter_developer_operator"
   },
   {
     "project_id": "P086",
@@ -1442,7 +1778,11 @@
     "source_ids": "S207;S208",
     "latitude": "60.49",
     "longitude": "25.07",
-    "notes": "One Emalikatu project with alternative designs of 100 and 130 MW IT. Data Prop Link is part of the same development. The 550 MW figure in other Prime announcements refers to Esbjerg, Denmark."
+    "notes": "One Emalikatu project with alternative designs of 100 and 130 MW IT. Data Prop Link is part of the same development. The 550 MW figure in other Prime announcements refers to Esbjerg, Denmark.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P087",
@@ -1459,7 +1799,11 @@
     "source_ids": "S209",
     "latitude": "60.80",
     "longitude": "23.62",
-    "notes": "One 150-hectare campus at Ratasmäki with alternative layouts. The 324–702 MW IT range is calculated from the building capacities in the environmental assessment. First operation is targeted for 2031; the document gives conflicting completion schedules."
+    "notes": "One 150-hectare campus at Ratasmäki with alternative layouts. The 324–702 MW IT range is calculated from the building capacities in the environmental assessment. First operation is targeted for 2031; the document gives conflicting completion schedules.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P088",
@@ -1476,7 +1820,11 @@
     "source_ids": "S210;S211;S212",
     "latitude": "64.758",
     "longitude": "26.417",
-    "notes": "Preparatory works are confirmed for the Utajärvi project. Full construction remains conditional. The separate battery project is excluded from datacenter capacity."
+    "notes": "Preparatory works are confirmed for the Utajärvi project. Full construction remains conditional. The separate battery project is excluded from datacenter capacity.",
+    "actor_hq_countries": "",
+    "actor_hq_origin": "unknown",
+    "actor_hq_groups": "unknown",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P089",
@@ -1493,7 +1841,11 @@
     "source_ids": "S213",
     "latitude": "61.31",
     "longitude": "22.14",
-    "notes": "Nscale has a site-development agreement at Sievari. It says total power is still to be determined; a third-party 100 MW figure is unverified. Investment in the full project is not confirmed."
+    "notes": "Nscale has a site-development agreement at Sievari. It says total power is still to be determined; a third-party 100 MW figure is unverified. Investment in the full project is not confirmed.",
+    "actor_hq_countries": "FI;GB",
+    "actor_hq_origin": "mixed",
+    "actor_hq_groups": "mixed;eu;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "ai_compute_provider;public_utility"
   },
   {
     "project_id": "P090",
@@ -1510,7 +1862,11 @@
     "source_ids": "S214",
     "latitude": "60.414",
     "longitude": "24.747",
-    "notes": "New DayOne campus at Sudentulli, separate from its Lahti and Kouvola projects. The stated maximum of 560 MW refers to grid power. Commissioning and secured supply are unconfirmed."
+    "notes": "New DayOne campus at Sudentulli, separate from its Lahti and Kouvola projects. The stated maximum of 560 MW refers to grid power. Commissioning and secured supply are unconfirmed.",
+    "actor_hq_countries": "SG",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P091",
@@ -1527,7 +1883,11 @@
     "source_ids": "S215;S216",
     "latitude": "63.04",
     "longitude": "21.77",
-    "notes": "FCDC lists construction as ongoing at Kuriirintie 7. The municipality targets first operation in 2028–2029. The 250 MW figure is connection capacity; investment in the full capacity is unconfirmed. This site is separate from Microsoft GigaVaasa."
+    "notes": "FCDC lists construction as ongoing at Kuriirintie 7. The municipality targets first operation in 2028–2029. The 250 MW figure is connection capacity; investment in the full capacity is unconfirmed. This site is separate from Microsoft GigaVaasa.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P093",
@@ -1544,7 +1904,11 @@
     "source_ids": "S218",
     "latitude": "61.86",
     "longitude": "25.19",
-    "notes": "Proposed datacenter at the former Kaipola paper mill. The plan gives 200 MW initially and 600 MW in total, without specifying the electrical measure. Actual construction start is unconfirmed. The separate national 1 GW ambition is excluded."
+    "notes": "Proposed datacenter at the former Kaipola paper mill. The plan gives 200 MW initially and 600 MW in total, without specifying the electrical measure. Actual construction start is unconfirmed. The separate national 1 GW ambition is excluded.",
+    "actor_hq_countries": "FR",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu;eu_eea;europe;other_europe",
+    "actor_types": "ai_compute_provider"
   },
   {
     "project_id": "P095",
@@ -1561,7 +1925,11 @@
     "source_ids": "S220;S265",
     "latitude": "60.195",
     "longitude": "23.981",
-    "notes": "The Virkkala project has alternative designs of 133–400 MW total power and 100–300 MW IT. Piling began in 2026, and first operation is targeted for 2027. The capacity of the first construction phase has not been disclosed."
+    "notes": "The Virkkala project has alternative designs of 133–400 MW total power and 100–300 MW IT. Piling began in 2026, and first operation is targeted for 2027. The capacity of the first construction phase has not been disclosed.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P096",
@@ -1578,7 +1946,11 @@
     "source_ids": "S221",
     "latitude": "60.47",
     "longitude": "26.25",
-    "notes": "Hyperco’s 26-hectare project and adjoining 6.6-hectare plot are treated as one campus. Earthworks are under way, with first operation targeted for late 2027. A reported 250 MW figure has not been verified."
+    "notes": "Hyperco’s 26-hectare project and adjoining 6.6-hectare plot are treated as one campus. Earthworks are under way, with first operation targeted for late 2027. A reported 250 MW figure has not been verified.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P097",
@@ -1595,7 +1967,11 @@
     "source_ids": "S222",
     "latitude": "60.55",
     "longitude": "24.94",
-    "notes": "One campus at Jokela in Tuusula, with 96 MW combined IT capacity. The proposed power line extends into Nurmijärvi; it does not indicate a second campus."
+    "notes": "One campus at Jokela in Tuusula, with 96 MW combined IT capacity. The proposed power line extends into Nurmijärvi; it does not indicate a second campus.",
+    "actor_hq_countries": "US",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P099",
@@ -1612,7 +1988,11 @@
     "source_ids": "S225;S226",
     "latitude": "60.054",
     "longitude": "23.615",
-    "notes": "Three planned halls at Bäljars. Raseborgs Energi’s CEO gives approximately 100 MW of electrical power. Construction was planned for 2026; actual start, hall sequencing and full investment remain unconfirmed."
+    "notes": "Three planned halls at Bäljars. Raseborgs Energi’s CEO gives approximately 100 MW of electrical power. Construction was planned for 2026; actual start, hall sequencing and full investment remain unconfirmed.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P121",
@@ -1629,7 +2009,11 @@
     "source_ids": "S247",
     "latitude": "62.23",
     "longitude": "27.64",
-    "notes": "Phased datacenter development at Huutokoski. Arcem gives 60 MW potentially available in 2027, rising to 100 MW in 2029, and 500 MW of campus potential. The land acquisition is not a full investment decision."
+    "notes": "Phased datacenter development at Huutokoski. Arcem gives 60 MW potentially available in 2027, rising to 100 MW in 2029, and 500 MW of campus potential. The land acquisition is not a full investment decision.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P125",
@@ -1646,7 +2030,11 @@
     "source_ids": "S249",
     "latitude": "61.49",
     "longitude": "21.84",
-    "notes": "ASP’s 37-hectare campus at Kupariteollisuuspuisto has 90 MW of secured supply and up to 320 MW available. The service target is 2028. It is separate from Polarnode Honkaluoto."
+    "notes": "ASP’s 37-hectare campus at Kupariteollisuuspuisto has 90 MW of secured supply and up to 320 MW available. The service target is 2028. It is separate from Polarnode Honkaluoto.",
+    "actor_hq_countries": "NO",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P126",
@@ -1663,7 +2051,11 @@
     "source_ids": "S250",
     "latitude": "60.39",
     "longitude": "25.13",
-    "notes": "Five-building campus in Jokilaakso, east of the Lahden motorway and west of the Keravanjoki. First operation is targeted for 2028–2029; later stages remain conditional."
+    "notes": "Five-building campus in Jokilaakso, east of the Lahden motorway and west of the Keravanjoki. First operation is targeted for 2028–2029; later stages remain conditional.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P150",
@@ -1680,7 +2072,11 @@
     "source_ids": "S273",
     "latitude": "65.01",
     "longitude": "25.47",
-    "notes": "New GleSYS campus with Trevian, separate from its three existing Oulu facilities. The first phase is about 8 MW IT, targeted for autumn 2026. Expansion to 300 MW is long-term potential."
+    "notes": "New GleSYS campus with Trevian, separate from its three existing Oulu facilities. The first phase is about 8 MW IT, targeted for autumn 2026. Expansion to 300 MW is long-term potential.",
+    "actor_hq_countries": "FI;SE",
+    "actor_hq_origin": "mixed",
+    "actor_hq_groups": "mixed;eu;eu_eea;europe;other_europe",
+    "actor_types": "datacenter_developer_operator;investment_manager"
   },
   {
     "project_id": "P151",
@@ -1697,7 +2093,11 @@
     "source_ids": "S274;S275",
     "latitude": "61.26",
     "longitude": "22.36",
-    "notes": "One Kokemäki campus with a stated potential of 1 GW. The technical page gives 55 MW of near-term supply, while a later release describes an 80 MW first phase for 2027. Their sequencing is unclear, so the figures are not added together."
+    "notes": "One Kokemäki campus with a stated potential of 1 GW. The technical page gives 55 MW of near-term supply, while a later release describes an 80 MW first phase for 2027. Their sequencing is unclear, so the figures are not added together.",
+    "actor_hq_countries": "CA",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P152",
@@ -1714,7 +2114,11 @@
     "source_ids": "S276;S277",
     "latitude": "64.39",
     "longitude": "24.44",
-    "notes": "Alternative designs for four or ten halls at Keskikylä. Preparatory earthworks are reported, but hall construction, commissioning and full investment remain unconfirmed."
+    "notes": "Alternative designs for four or ten halls at Keskikylä. Preparatory earthworks are reported, but hall construction, commissioning and full investment remain unconfirmed.",
+    "actor_hq_countries": "FI",
+    "actor_hq_origin": "domestic",
+    "actor_hq_groups": "domestic;eu;eu_eea;europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P154",
@@ -1731,7 +2135,11 @@
     "source_ids": "S279",
     "latitude": "60.91",
     "longitude": "26.64",
-    "notes": "Nova’s Kymin Ruukki project is separate from Hiivuri/Koria and Myllykoski. Capacity and operation date are unknown; a reported 40 MW figure has not been verified."
+    "notes": "Nova’s Kymin Ruukki project is separate from Hiivuri/Koria and Myllykoski. Capacity and operation date are unknown; a reported 40 MW figure has not been verified.",
+    "actor_hq_countries": "SG",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;outside_eu;outside_europe",
+    "actor_types": "datacenter_developer_operator"
   },
   {
     "project_id": "P159",
@@ -1748,6 +2156,10 @@
     "source_ids": "S286",
     "latitude": "65.08",
     "longitude": "25.52",
-    "notes": "Borealis has a reported municipal land reservation at Ruskonselkä, separate from the neighbouring Arcem site. The plan gives at least 30 MW initially and 100 MW or more in total, without specifying the electrical measure or an operation date."
+    "notes": "Borealis has a reported municipal land reservation at Ruskonselkä, separate from the neighbouring Arcem site. The plan gives at least 30 MW initially and 100 MW or more in total, without specifying the electrical measure or an operation date.",
+    "actor_hq_countries": "IS",
+    "actor_hq_origin": "foreign",
+    "actor_hq_groups": "foreign;eu_eea;europe;outside_eu;other_europe",
+    "actor_types": "datacenter_developer_operator"
   }
 ]

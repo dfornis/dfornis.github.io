@@ -13,7 +13,7 @@ permalink: /projects/datacenter-tracker/
   <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.6.0">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.7.2">
 
 ## Scenario map
 
@@ -37,11 +37,21 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
 | Stated 2035 | Projects with announced dates, phased to 2035. |
 | High 2035 | All active plans, including projects without a completion date. |
 
-**Using the map.** The map follows the same scenario and filters as the table. Colours use the upper value. Blue project markers contribute in the selected scenario, pale markers do not, and blue-grey clusters contain both. Click a project marker for details.
+**Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value of the quantified capacity. Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
 
 **How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. When the size of a first phase under construction or with an investment decision is unknown, the campus is shown from zero to its phased full-build figure.
 
 Capacity is phased in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is set two to three years later. A grid date sets the earliest possible start. Plans without dates remain undated. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
+
+**Developer headquarters.** Use the **HQ** buttons to select **Domestic**, **Other Europe** or **Outside Europe** actors. Matching projects in the scenario turn orange. Projects with unknown MW also turn orange when their HQ matches. Other points stay light grey. The area shading and MW figures below the map follow the same HQ selection. **All** restores the full scenario. The HQ choice stays selected when you switch scenario.
+
+Domestic means an actor has its global headquarters in the project's country. Other Europe means that an actor is headquartered in a different European country. Outside Europe means that an actor is headquartered beyond Europe. Projects with several actors can match more than one group. Totals use each selected project's modelled capacity once.
+
+A dash in the HQ-filtered figures means headquarters have not been reviewed for that country. Unknown capacity remains unknown.
+
+\* Some projects in the selection have no MW estimate. The displayed total covers only quantified capacity.
+
+The classification uses global headquarters. Ownership is described separately in the project details. The method below explains how headquarters were identified.
 
   </div>
 </details>
@@ -155,12 +165,21 @@ Each country update follows the same sequence from initial lead to published sce
       <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, summary, table and map.</p>
     </div>
   </details>
+  <details>
+    <summary><span class="workflow-step">05</span><span>Identify actors and global headquarters</span></summary>
+    <div class="workflow-body">
+      <p>Project announcements and site-specific sources identify the developer, operator, named customer and, where relevant, property owner or project partner. Each actor is linked to the whole project, including its phases. Partnerships keep separate actors and roles.</p>
+      <p>Global headquarters are checked against company reports, official contact pages and company announcements, with other reliable sources used when needed. A local subsidiary's registered address or a regional office does not establish the group's global HQ. Registration country, headquarters, fund manager and financial owners are recorded separately. The business type describes what the actor does.</p>
+      <p>Ownership notes retain the source and date. They describe the documented ownership without assigning an owner nationality or tracing every investor. Unknown identities and HQ countries remain unknown and do not match any HQ group. A project can still match a known partner's HQ while another actor is unresolved. Expand the project for actors, roles, HQ, sources and the review date.</p>
+      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ highlighting changes marker colours only and does not allocate capacity between actors.</p>
+    </div>
+  </details>
 </div>
 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=20260514-sigma-row-spacing' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=3.7.2' | relative_url }}");
 
 .tracker-intro {
   margin-bottom: 1.1rem;
@@ -791,27 +810,11 @@ div#summary-box.summary-box,
 }
 
 .dc-phase-dot {
-  fill: #6f7f76;
-  fill-opacity: 0.72;
+  fill: #c6ccc6;
+  fill-opacity: 1;
   stroke: #fbf8f0;
   stroke-width: 1.1;
   vector-effect: non-scaling-stroke;
-}
-
-.dc-phase-point.scenario-active .dc-phase-dot {
-  fill: #2f6687;
-  fill-opacity: 1;
-}
-
-.dc-phase-point.scenario-mixed .dc-phase-dot {
-  fill: #66879a;
-  fill-opacity: 1;
-}
-
-.dc-phase-point.scenario-inactive .dc-phase-dot {
-  fill: #fbf8f0;
-  fill-opacity: 1;
-  stroke: #7f8985;
 }
 
 .dc-phase-point:hover .dc-phase-dot,
@@ -825,10 +828,6 @@ div#summary-box.summary-box,
   font-size: 9.5px;
   font-weight: 700;
   pointer-events: none;
-}
-
-.dc-phase-point.scenario-inactive .dc-phase-count {
-  fill: #5f6966;
 }
 
 .dc-phase-popup-bg {
@@ -891,5 +890,5 @@ pre {
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.5.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.5.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.7.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.7.2" defer></script>
