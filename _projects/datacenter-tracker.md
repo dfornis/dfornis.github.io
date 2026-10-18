@@ -38,8 +38,6 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
 
 **Reading the figures.** Each scenario shows how much new capacity could be operating in the selected year. Ranges reflect uncertainty in reported capacity and completion dates. An asterisk means that some projects have no MW estimate and are missing from the total. The [method below](#capacity-and-electricity-use) explains the calculations.
 
-Full build-out and High include every announced figure, including grid queue applications and plans without permits. Public disclosure differs by country: Norwegian grid requests are published per project, Swedish grid queue entries are not, and several large projects have no public MW figure. Country and zone comparisons are therefore more robust in Low and Stated than in High.
-
 **Using the map.** Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
 
 **Developer headquarters.** HQ selects projects by their developers' global headquarters. **Domestic** means the project's own country, **Other Europe** means another European country, and **Outside Europe** means elsewhere. Matching projects turn orange and the map totals update. **All** restores the full selection.
