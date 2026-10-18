@@ -30,12 +30,12 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-| Scenario | Includes |
-| --- | --- |
-| Low 2030 | Projects with a confirmed investment decision, phased to 2030. |
-| Stated 2030 | Projects with announced dates, phased to 2030. |
-| Stated 2035 | Projects with announced dates, phased to 2035. |
-| High 2035 | All active plans, including projects without a completion date. |
+| Scenario    | Includes                                                        |
+| ----------- | --------------------------------------------------------------- |
+| Low 2030    | Projects with a confirmed investment decision, phased to 2030.  |
+| Stated 2030 | Projects with announced dates, phased to 2030.                  |
+| Stated 2035 | Projects with announced dates, phased to 2035.                  |
+| High 2035   | All active plans, including projects without a completion date. |
 
 **Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value of the quantified capacity. Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
 
@@ -56,11 +56,51 @@ The classification uses global headquarters. Ownership is described separately i
   </div>
 </details>
 
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=1">
+  <h2 id="dc-timeline-title">New capacity, year by year</h2>
+  <p class="dc-timeline-deck">Cumulative additional site capacity in operation, 2026–2035. Includes cooling and other site electricity use.</p>
+  <div class="dc-timeline-content" hidden>
+    <div class="dc-timeline-controls">
+      <label>Plans
+        <select name="timeline-family" aria-label="Capacity plan selection">
+          <option value="stated">Announced plans</option>
+          <option value="low">Confirmed investment</option>
+        </select>
+      </label>
+      <label>HQ
+        <select name="timeline-hq" aria-label="Chart developer headquarters">
+          <option value="none">All actors</option>
+          <option value="domestic">Domestic</option>
+          <option value="other_europe">Other Europe</option>
+          <option value="outside_europe">Outside Europe</option>
+        </select>
+      </label>
+    </div>
+    <div class="dc-timeline-paper">
+      <div class="dc-timeline-scope"></div>
+      <div class="dc-timeline-chart"></div>
+      <div class="dc-timeline-inspect">
+        <span class="dc-timeline-year"></span>
+        <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
+      </div>
+    </div>
+    <details class="dc-timeline-data">
+      <summary>Data &amp; assumptions</summary>
+      <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
+      <p class="dc-timeline-note">Announced plans includes capacity with a reported year for construction, operation or grid connection. Confirmed investment shows the part with a confirmed investment decision. These use the Stated and Low selections from the map, calculated for each year through 2035. Plans without a usable timeline remain in the map's High 2035 scenario.</p>
+      <p class="dc-timeline-note">Lines show upper estimates and shaded bands show the range. Values show how much additional capacity could be in operation by each year. Capacity already in operation is excluded. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
+      <p class="dc-timeline-note">The <a href="#tracker-filters">country, zone, status and type filters</a> also apply here. The chart's plan and HQ choices are independent of the map controls. Partnerships can match more than one HQ group. Each selected project is counted once. Projects without reviewed headquarters do not match an HQ filter.</p>
+      <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
+    </details>
+  </div>
+  <p class="dc-timeline-status" role="status">Loading annual capacity…</p>
+</section>
+
 <div class="after-table-space"></div>
 
 Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
 
-<div class="tracker-controls">
+<div id="tracker-filters" class="tracker-controls">
 
   <details class="filter-dropdown">
     <summary>Country</summary>
@@ -889,6 +929,8 @@ pre {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=3">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.7.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.7.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.7.3" defer></script>
