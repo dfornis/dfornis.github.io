@@ -61,7 +61,7 @@
 
   function fillForMw(detail) {
     if (detail.excluded || detail.hq_unreviewed) return "#e8e5df";
-    const value = detail.high ?? detail.low;
+    const value = detail.high;
     if (value === null || (detail.unknown && value === 0)) return "#bdbdbd";
     const bin = BREAKS.find((b) => value >= b.min && value <= b.max);
     return bin ? bin.color : BREAKS[0].color;

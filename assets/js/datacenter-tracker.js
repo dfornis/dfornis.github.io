@@ -17,9 +17,7 @@
   function range(low, high, kind = "mw") {
     low = numeric(low);
     high = numeric(high);
-    if (low === null && high === null) return "Unknown";
-    if (high === null) return "≥ " + format(low, kind);
-    if (low === null) return "≤ " + format(high, kind);
+    if (low === null || high === null) return "Unknown";
     const a = format(low, kind),
       b = format(high, kind);
     return a === b ? a : a + "–" + b;
@@ -34,12 +32,10 @@
       (row) => numeric(row[low]) !== null && (row.capacity_known || ["operational", "cancelled", "dormant"].includes(row.indicator))
     );
     const total = (key) => rows.reduce((sum, row) => sum + (numeric(row[key]) ?? 0), 0);
-    const openUpper = rows.filter((row) => row.capacity_known && numeric(row[low]) !== null && numeric(row[high]) === null).length;
     return {
       low: !known && unknown ? null : total(low),
-      high: openUpper || (!known && unknown) ? null : total(high),
+      high: !known && unknown ? null : total(high),
       unknown,
-      openUpper,
     };
   }
   const totalRange = (t, kind = "mw") =>
@@ -49,6 +45,13 @@
       throw new Error("Shared scenario result required.");
     if (data.projects.some((project) => project.record_type !== "existing") || data.project_scenarios.some((row) => !row.included_in_result))
       throw new Error("Unapproved project in public result.");
+    for (const row of data.project_scenarios) {
+      for (const measure of ["mw", "nameplate_mw", "annual_twh", "buildout_twh"]) {
+        const low = row[measure + "_low"],
+          high = row[measure + "_high"];
+        if ((low === null) !== (high === null)) throw new Error("Incomplete capacity interval.");
+      }
+    }
     const keys = data.project_scenarios.map((row) => row.project_id + ":" + row.scenario);
     if (new Set(keys).size !== keys.length || keys.length !== data.projects.length * data.method.scenarios.length)
       throw new Error("Incomplete or duplicate project scenarios.");
@@ -366,7 +369,9 @@
               escape(basisLabel(claim.basis)) +
               "</td><td>" +
               escape(claim.status) +
-              (row?.timing_rule === "executing_campus_full_by_horizon" ? "<br>Under construction; full campus assumed by 2035" : "") +
+              (row?.timing_rule === "executing_campus_full_by_horizon"
+                ? "<br>Campus build-out follows the dated datacenter phase and is assumed complete by 2035."
+                : "") +
               "</td><td>" +
               escape(decisionLabel(claim.decision)) +
               "</td><td>" +
@@ -496,7 +501,6 @@
         const { mw, twh, planned, buildout } = view.totals;
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + " without assigned capacity");
-        if (planned.openUpper) notes.push(planned.openUpper + " with an open upper capacity bound (≥)");
         const unknownPhases = rows.filter((row) => row.capacity_known && row.partial_capacity).length;
         if (unknownPhases) notes.push(unknownPhases + " with unquantified phases");
         const inCampus = rows.filter((row) => containedIn(row)).length;

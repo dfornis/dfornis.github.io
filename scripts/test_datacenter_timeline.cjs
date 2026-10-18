@@ -7,12 +7,8 @@ const map = require("../assets/js/datacenter-tracker/scenario-map-d3.js");
 const chart = require("../assets/js/datacenter-tracker/timeline.js");
 const options = { family: "stated", hq: "none" };
 const close = (a, b) => (a === null || b === null ? assert.equal(a, b) : assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`));
-const sum = (points, key) =>
-  points.some((p) => p.low !== null && p.high === null) && key === "high" ? null : points.reduce((sum, p) => sum + (p[key] ?? 0), 0);
-const exportedSum = (rows, measure, key) =>
-  key === "high" && rows.some((r) => r.capacity_known && r[measure + "_low"] !== null && r[measure + "_high"] === null)
-    ? null
-    : rows.reduce((sum, r) => sum + (r[measure + "_" + key] ?? 0), 0);
+const sum = (points, key) => points.reduce((total, point) => total + (point[key] ?? 0), 0);
+const exportedSum = (rows, measure, key) => rows.reduce((total, row) => total + (row[measure + "_" + key] ?? 0), 0);
 
 test("annual export matches the approved inventory and every published endpoint", () => {
   chart.assertTimeline(timeline, data);
@@ -97,11 +93,11 @@ test("fixed capacity maximum covers every scenario and HQ selection", () => {
     for (const hq of ["none", "domestic", "other_europe", "outside_europe"])
       for (const series of chart.makeSeries(timeline, data, { family, hq }))
         for (const point of series.points) {
-          assert.ok((point.plot || 0) / 1000 <= maximum);
-          observedMaximum = Math.max(observedMaximum, (point.plot || 0) / 1000);
+          assert.ok((point.high || 0) / 1000 <= maximum);
+          observedMaximum = Math.max(observedMaximum, (point.high || 0) / 1000);
         }
   assert.ok(maximum >= observedMaximum);
-  const statedMaximum = Math.max(...chart.makeSeries(timeline, data, options).flatMap((series) => series.points.map((point) => point.plot / 1000)));
+  const statedMaximum = Math.max(...chart.makeSeries(timeline, data, options).flatMap((series) => series.points.map((point) => point.high / 1000)));
   assert.ok(maximum > statedMaximum, "The axis must include High, not just Stated.");
 });
 
@@ -163,16 +159,26 @@ test("all displayed measures sum the model's exported values", () => {
   }
 });
 
-test("open bounds remain known minima in labels, curves and annual additions", () => {
-  assert.equal(chart.range({ low: 1500, high: null, unknown: 0 }), "≥ 1.5 GW");
+test("source minima retain finite intervals in exported values and country curves", () => {
   const series = chart.makeSeries(timeline, data, { family: "high", hq: "none" }, { projectIds: ["P084"] })[0];
-  assert.ok(series.open);
   close(series.points.at(-1).low, 605);
-  assert.equal(series.points.at(-1).high, null);
-  assert.ok(
-    series.points.every((p) => p.plot === p.low),
-    "An open-bound curve consistently plots the minimum, including earlier bounded years"
-  );
-  const annual = chart.makeSeries(timeline, data, { family: "high", hq: "none", measure: "annual_addition_mw" }, { projectIds: ["P084"] })[0];
-  assert.ok(annual.points.every((p) => p.low !== null));
+  close(series.points.at(-1).high, 825);
+  assert.ok(!("open" in series));
+  for (const family of ["low", "stated", "high"])
+    for (const measure of ["mw", "annual_addition_mw"]) {
+      for (const series of chart.makeSeries(timeline, data, {
+        family,
+        hq: "none",
+        measure,
+      })) {
+        for (const point of series.points) {
+          assert.equal(point.low === null, point.high === null);
+          assert.ok(!chart.range(point).includes("≥"));
+        }
+      }
+    }
+  const invalid = structuredClone(timeline);
+  invalid.rows[0].mw_low = 100;
+  invalid.rows[0].mw_high = null;
+  assert.throws(() => chart.assertTimeline(invalid, data), /Invalid annual capacity interval/);
 });

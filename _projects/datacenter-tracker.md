@@ -13,7 +13,7 @@ permalink: /projects/datacenter-tracker/
   <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.1.0">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.1.1">
 
 ## Scenario map
 
@@ -30,19 +30,23 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-| Scenario           | Includes                                                                                                                                                                         |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Low 2030           | Capacity with a confirmed investment decision and its own source date, phased to 2030.                                                                                           |
-| Stated 2030 / 2035 | Capacity with its own announced date. A campus where a phase is under construction or has an investment decision counts from that phase's start and is assumed complete by 2035. |
-| High 2035          | Everything announced with a stated MW figure, counted as fully built by 2035. An upper envelope, not a forecast.                                                                 |
+| Scenario           | Includes                                                                                                                                                                                                   |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Low 2030           | Capacity with a confirmed investment decision and its own source date, phased to 2030.                                                                                                                     |
+| Stated 2030 / 2035 | Capacity with its own announced date. An undated campus can also qualify through a dated datacenter phase under construction or with an investment decision. Its capacity is then phased linearly to 2035. |
+| High 2035          | Everything announced with a stated MW figure, counted as fully built by 2035. This represents the full announced capacity within the scenario horizon.                                                     |
 
-**Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value where bounded, or the known minimum where the upper bound is open (≥). Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
+**Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value of the calculated range. Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
 
-**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. An executing phase with its own construction or operation date can establish first operation for its undated campus, even when phase MW is unknown. Stated then assumes full campus completion by 2035. This does not establish an investment decision for the campus; in Low, an unquantified phase remains unknown.
+**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates apply to the capacity they describe. A first building’s opening date therefore stays with that building, while the wider campus retains its own timing evidence.
 
-First operation uses a scoped source date, otherwise construction plus a stated build time, otherwise remaining lead times from the current implementation stage. An explicitly linked grid date constrains first operation in Low and Stated. Requested or unclear grid allocation gives a zero lower case only in those scenarios. Grid MW does not cap project capacity. A scoped full-build target takes precedence over generic durations; the inferred ramp is shortened when needed. It cannot create unobserved historical commissioning. Unknown or staged buildout uses a provisional five-year capacity ramp; a known single-phase delivery uses its own date. These are physical-capacity assumptions, separate from the annual electricity-use factor. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
+An undated campus can qualify for Stated when an included datacenter phase in the same project has observed construction or a confirmed investment decision, together with its own construction, first-operation or full-capacity date. The phase can establish a starting point even if its MW is unknown. Both campus paths then distribute capacity evenly from the calculated first-operation year through 2035. The early path starts at the earliest calculated first operation and the late path at the latest among qualifying phases. Only the start is supported by phase evidence, so completion in 2035 remains a scenario assumption. Quantified phases keep their own schedules and provide a floor beneath the campus path. Low continues to use each scope’s own decision and date.
 
-**Horizon and open bounds.** Totals without a year are assumed built by 2035 at the latest. High 2035 equals full build-out after overlaps and existing operating capacity are accounted for. Its annual path is compressed to that horizon if necessary; it does not use grid restrictions. A source saying “at least X MW” contributes its known minimum with an open upper bound, shown as ≥ for the project and every affected total. Projects with no MW remain separately flagged.
+Grid works, backup generation, power generation and rack-density observations cannot activate the campus rule. Evidence that a substation is under construction applies to the grid row. Construction or investment in the datacenter itself requires evidence for that capacity.
+
+For a scope with its own timing evidence, first operation uses the source date where available. Otherwise it is estimated from construction and the stated build time, or from remaining lead times at the current implementation stage. A linked grid date constrains first operation in Low and Stated. Requested or unclear grid allocation gives a zero lower case in those scenarios. Grid MW does not cap project capacity. A scoped full-build target takes precedence over generic durations and can shorten the inferred ramp. Unknown or staged delivery normally uses a provisional five-year capacity ramp, while a known single-phase delivery uses its own date. The campus paths described above use the period through 2035. Annual electricity use is calculated separately from completed capacity and the facility’s load factor.
+
+**Horizon and source minima.** High 2035 equals full build-out after overlaps and existing operating capacity are accounted for. Its annual path is compressed to that horizon where needed and does not use grid restrictions. When a source says “at least X MW”, the model uses X with the usual conversion for the stated measure. For example, at least 100 MW of IT capacity gives 110–150 MW of site capacity under the standard PUE assumptions. The original qualifier appears beside the source figure in the project details. Calculated project values and totals retain their numerical ranges. Projects without a usable MW figure remain separately flagged.
 
 **Developer headquarters.** Use the **HQ** buttons to select **Domestic**, **Other Europe** or **Outside Europe** actors. Matching projects in the scenario turn orange. Projects with unknown MW also turn orange when their HQ matches. Other points stay light grey. The area shading and MW figures below the map follow the same HQ selection. **All** restores the full scenario. The HQ choice stays selected when you switch scenario.
 
@@ -57,7 +61,7 @@ The classification uses global headquarters. Ownership is described separately i
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.1.0">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.1.1">
   <h2 id="dc-timeline-title">New capacity, year by year</h2>
   <p class="dc-timeline-deck">Capacity added after the fixed 2025 year-end baseline, 2026–2035. Switch between cumulative additions and capacity added each year. Includes cooling and other site electricity use.</p>
   <div class="dc-timeline-content" hidden>
@@ -92,13 +96,13 @@ The classification uses global headquarters. Ownership is described separately i
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
       </div>
     </div>
-    <p class="dc-timeline-note dc-timeline-high-note" hidden>High reaches full announced build-out by 2035. Stage lead times shape the intervening years and are compressed where needed; this is an upper envelope, not a forecast.</p>
+    <p class="dc-timeline-note dc-timeline-high-note" hidden>High assumes that all announced capacity is built by 2035. Stage lead times determine the intervening path, which is shortened where needed to reach that year.</p>
     <details class="dc-timeline-data">
       <summary>Data &amp; assumptions</summary>
       <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
-      <p class="dc-timeline-note">Stated includes capacity with an announced date and undated campus frames with an executing, dated phase in the same project. Low requires the capacity’s own date and investment decision. High includes all active announced MW, fully built by 2035. These use the same Low, Stated and High selections as the map, calculated for each year through 2035.</p>
-      <p class="dc-timeline-note">First operation and full buildout remain separate. The explicit executing-campus rule adds qualifying undated frames to Stated; calculated dates never become source facts or qualify a frame for Low. Linked grid dates constrain Low/Stated, while High assumes full build-out by 2035. For each measure, the axis is fixed across all scenarios, years and filters.</p>
-      <p class="dc-timeline-note">Solid lines show bounded upper estimates and shaded bands show the range. Dashed lines show known minimum capacity when the upper bound is open (≥). Cumulative additions retain source-confirmed deliveries after the fixed baseline, even after their status changes to Operational. Older operating capacity is excluded. Annual additions are the range of additions along the early and late model paths; their separate interval bounds must not be added across years. Missing MW and unknown phase sizes remain flagged. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
+      <p class="dc-timeline-note">Stated includes capacity with an announced date and undated campus frames with a qualifying datacenter phase in the same project. Low requires the capacity’s own date and investment decision. High includes all active announced MW, fully built by 2035. These use the same Low, Stated and High selections as the map, calculated for each year through 2035.</p>
+      <p class="dc-timeline-note">Where a campus start is derived from a qualifying datacenter phase, both paths distribute capacity linearly through 2035. The phase provides the starting point and the horizon sets the assumed completion year. Grid works cannot activate this rule. Calculated dates stay separate from source dates, and Low keeps its own selection criteria. Linked grid dates constrain Low/Stated, while High assumes full build-out by 2035. For each measure, the axis is fixed across all scenarios, years and filters.</p>
+      <p class="dc-timeline-note">Lines show the upper estimates and shaded bands show the range. Cumulative additions retain source-confirmed deliveries after the fixed baseline, even after their status changes to Operational. Older operating capacity is excluded. Annual additions show the range across the early and late model paths. The separate interval bounds must not be added across years. Missing MW and unknown phase sizes remain flagged. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
       <p class="dc-timeline-note">The <a href="#tracker-filters">country, zone, status and type filters</a> also apply here. The chart's scenario and HQ choices are independent of the map controls. Partnerships can match more than one HQ group. Each selected project is counted once. Projects without reviewed headquarters do not match an HQ filter.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
     </details>
@@ -167,7 +171,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Capacity and electricity use
 
-**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once. A known operating baseline is subtracted; verified additions after 2025 remain in the annual history when their status becomes Operational. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
+**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once. A known operating baseline is subtracted. Verified additions after 2025 remain in the annual history when their status becomes Operational. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
 
 **Electricity at full build-out (TWh/yr)** is full build-out × the annual load factor for the facility type × 8,760 hours. It expresses the project's full size as annual electricity use.
 
@@ -191,25 +195,25 @@ Each country update follows the same sequence from initial lead to published sce
     <summary><span class="workflow-step">02</span><span>Reconcile identity, phases and dates</span></summary>
     <div class="workflow-body">
       <p>The lead is compared with existing projects, candidate records and historic names. Addresses, municipalities, land parcels, company relationships and earlier announcements help determine whether it is a new project, a new phase or another name for an existing campus.</p>
-      <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This keeps source dates scoped and prevents double counting. Stated’s explicit campus rule uses an executing phase to anchor the campus’s first operation, while assuming completion by 2035 separately.</p>
+      <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This keeps source dates scoped and prevents double counting. Stated can use a dated datacenter phase under construction or with a confirmed investment decision to establish the start of an undated campus. Both campus paths then distribute capacity linearly through 2035. Grid construction cannot establish that start.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">03</span><span>Record what each source actually measures</span></summary>
     <div class="workflow-body">
       <p>Every capacity claim is recorded with its unit, scope and qualifier. IT equipment load, total site electricity use and grid connection capacity remain distinct. The record also keeps the source's range, project status, timing and investment decision, together with the part of the campus or phase to which they apply.</p>
-      <p>Conflicting figures are represented as a range when the evidence supports one. Missing figures remain unknown. A statement such as “at least X MW” gives a known minimum and an open upper bound. It is included as ≥ X in full build-out and eligible scenarios, and totals retain that open bound.</p>
+      <p>Conflicting figures are represented as a range when the evidence supports one. Missing figures remain unknown. A statement such as “at least X MW” is calculated using X in full build-out and eligible scenarios, with the normal conversion for its measure. Its qualifier is preserved beside the original source figure. If an included claim exceeds its parent campus after conversion, both sources go to follow-up. The largest applicable scope continues to determine the group’s capacity while the discrepancy is unresolved.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">04</span><span>Calculate and review the scenarios</span></summary>
     <div class="workflow-body">
-      <p>The scenarios estimate how much new datacenter capacity is operating in the target year. Scoped phase schedules take precedence. Where the buildout is unknown, a provisional five-year capacity ramp fills the gap; a single-phase delivery uses its own date. A source full-build target is honored over that proxy.</p>
+      <p>The scenarios estimate how much new datacenter capacity is operating in the target year. Scoped phase schedules take precedence. A scope with its own date normally uses a provisional five-year capacity ramp where the buildout is unknown. A single-phase delivery uses its own date. Where a campus start is derived from a qualifying datacenter phase, both paths instead distribute capacity linearly from first operation through 2035. A source full-build target is honored over that proxy.</p>
       <ul class="workflow-scenarios">
         <li><strong>Low 2030</strong>: Capacity with a confirmed investment decision and its own source date, phased to 2030.</li>
-        <li><strong>Stated 2030</strong>: Capacity with its own announced date. A campus where a phase is under construction or has an investment decision counts from that phase's start and is assumed complete by 2035. The share delivered by 2030 is shown here.</li>
+        <li><strong>Stated 2030</strong>: Capacity with its own announced date. An undated campus can also qualify through a dated datacenter phase under construction or with an investment decision. Its capacity is then phased linearly to 2035. The share delivered by 2030 is shown here.</li>
         <li><strong>Stated 2035</strong> uses the same method with 2035 as the target year.</li>
-        <li><strong>High 2035</strong>: Everything announced with a stated MW figure, counted as fully built by 2035. An upper envelope, not a forecast.</li>
+        <li><strong>High 2035</strong>: Everything announced with a stated MW figure, counted as fully built by 2035. This represents the full announced capacity within the scenario horizon.</li>
       </ul>
       <p>A campus enters Stated when an included phase in the same project has observed construction or an investment decision and its own construction, operation or full-build date. The phase may have known or unknown MW. The early path follows the usual five-year build-out, capped at 2035; the late path runs linearly from first operation to 2035. Known phase MW provide a floor in earlier years. Planned phases without an investment decision, grid dates alone and other projects do not activate this rule. Low counts only the phase’s own quantified contribution.</p>
       <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, annual chart, summary, table and map.</p>
@@ -230,7 +234,7 @@ Each country update follows the same sequence from initial lead to published sce
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=4.1.0' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=4.1.1' | relative_url }}");
 
 .tracker-intro {
   margin-bottom: 1.1rem;
@@ -940,8 +944,8 @@ pre {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.0">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.1">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.0" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.0" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>

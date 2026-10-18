@@ -6,12 +6,10 @@
   const familyIds = ["low", "stated", "high"];
   const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const range = (point) =>
-    point.low === null || (point.high === 0 && point.unknown)
+    point.low === null || point.high === null || (point.high === 0 && point.unknown)
       ? "Unknown"
-      : (point.high === null ? "≥ " + gw(point.low) : gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) +
-        " GW" +
-        (point.unknown ? "*" : "");
-  const plottedValue = (point) => point.plot ?? point.high ?? point.low;
+      : (gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) + " GW" + (point.unknown ? "*" : "");
+  const plottedValue = (point) => point.high;
 
   function assertTimeline(timeline, data) {
     if (timeline.version !== 3 || !Array.isArray(timeline.rows) || !Array.isArray(timeline.years) || timeline.years.length < 2)
@@ -31,7 +29,11 @@
       for (const measure of ["mw", "annual_addition_mw", "future_addition_mw", "remaining_mw"]) {
         const low = row[measure + "_low"],
           high = row[measure + "_high"];
-        if ([low, high].some((value) => value !== null && (!Number.isFinite(value) || value < 0)) || (low !== null && high !== null && low > high))
+        if (
+          (low === null) !== (high === null) ||
+          [low, high].some((value) => value !== null && (!Number.isFinite(value) || value < 0)) ||
+          (low !== null && high !== null && low > high)
+        )
           throw new Error("Invalid annual capacity interval.");
       }
     }
@@ -51,33 +53,27 @@
     );
     const keyFor = (row) => projects.get(row.project_id).country;
     const keys = [...new Set(rows.map(keyFor))].sort();
-    return keys
-      .map((key) => ({
-        key,
-        label: countryNames[key] || key,
-        color: countryColors[key],
-        points: timeline.years.map((year) => ({
-          year,
-          ...global.DCTracker.sumBounds(
-            rows.filter((row) => keyFor(row) === key && row.year === year),
-            (options.measure || "mw") + "_low",
-            (options.measure || "mw") + "_high"
-          ),
-        })),
-      }))
-      .map((series) => {
-        const open = series.points.some((point) => point.low !== null && point.high === null);
-        return { ...series, open, points: series.points.map((point) => ({ ...point, plot: open ? point.low : point.high })) };
-      });
+    return keys.map((key) => ({
+      key,
+      label: countryNames[key] || key,
+      color: countryColors[key],
+      points: timeline.years.map((year) => ({
+        year,
+        ...global.DCTracker.sumBounds(
+          rows.filter((row) => keyFor(row) === key && row.year === year),
+          (options.measure || "mw") + "_low",
+          (options.measure || "mw") + "_high"
+        ),
+      })),
+    }));
   }
 
   function capacityMax(timeline, data, measure = "mw") {
-    // Sum each exported finite upper or known minimum to cover any subset, even
-    // when an open-bound country total plots its lower curve instead.
+    // Keep a fixed axis covering every country, scenario and project selection.
     const totals = new Map();
     for (const row of timeline.rows) {
       const key = `${row.country}:${row.family}:${row.year}`;
-      totals.set(key, (totals.get(key) || 0) + (row[measure + "_high"] ?? row[measure + "_low"] ?? 0));
+      totals.set(key, (totals.get(key) || 0) + (row[measure + "_high"] ?? 0));
     }
     return Math.max(0, ...totals.values()) / 1000 || 1;
   }
@@ -111,7 +107,7 @@
             timeline.years[0] +
             " to " +
             timeline.years.at(-1) +
-            ". Solid lines show bounded upper estimates; dashed lines show known minima with open upper bounds. Bands show bounded ranges. The scale stays fixed across selections. All values are available in the data table."
+            ". Lines show the upper estimates and shaded bands show the range. The scale stays fixed across selections. All values are available in the data table."
         );
       const grid = svg.append("g").attr("class", "dc-timeline-grid");
       const unit = svg.append("text").attr("class", "dc-timeline-unit").text("Additional capacity (GW)");
@@ -145,7 +141,7 @@
           .select("desc")
           .text(
             timeline.measures[options.measure] +
-              " Solid lines show bounded upper estimates; dashed lines show known minima with open upper bounds. Bands show bounded ranges. The axis stays fixed across scenarios and filters for this measure."
+              " Lines show the upper estimates and shaded bands show the range. The axis stays fixed across scenarios and filters for this measure."
           );
         const series = makeSeries(timeline, data, options, view.filters);
         const visible = series.filter((series) => series.points.some((point) => plottedValue(point) > 0));
@@ -237,7 +233,6 @@
             .join((enter) => enter.append("path").attr("class", "dc-timeline-line").attr("d", line))
             .attr("fill", "none")
             .attr("stroke", series.color)
-            .attr("stroke-dasharray", series.open ? "5 4" : null)
             .attr("stroke-width", 2.1)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round");
