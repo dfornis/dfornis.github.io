@@ -1,8 +1,9 @@
 .dc-timeline {
-  --dc-chart-paper: #fdfdf9;
-  --dc-chart-text: #272921;
-  --dc-chart-muted: #666a60;
-  --dc-chart-rule: #dde0d6;
+  --dc-chart-paper: var(--dc-paper);
+  --dc-chart-text: var(--dc-ink);
+  --dc-chart-muted: var(--dc-muted);
+  --dc-chart-rule: var(--dc-rule);
+  --dc-chart-control: var(--dc-control);
   color: var(--dc-chart-text);
   margin: 1.8rem 0 2.4rem;
   clear: both;
@@ -10,20 +11,19 @@
 .dc-timeline [hidden] {
   display: none !important;
 }
-.dc-timeline-deck {
-  max-width: 650px;
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0 0 1.3rem;
-  color: var(--dc-chart-muted);
+.dc-timeline-content {
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
 }
 .dc-timeline-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem 1.3rem;
+  justify-content: center;
   margin-bottom: 1rem;
 }
-.dc-timeline-controls label {
+.dc-timeline-controls > label,
+.dc-timeline-measure-control {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -31,11 +31,47 @@
   margin: 0;
   color: var(--dc-chart-muted);
 }
+.dc-timeline-measure-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--dc-chart-control);
+}
+.dc-timeline-measure-switch label {
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+}
+.dc-timeline-measure-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+.dc-timeline-measure-switch span {
+  display: block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.dc-timeline-measure-switch input:checked + span {
+  background: var(--dc-chart-paper);
+  color: var(--dc-chart-text);
+  box-shadow: 0 1px 3px rgba(48, 61, 67, 0.1);
+}
+.dc-timeline-measure-switch input:focus-visible + span {
+  outline: 2px solid var(--dc-blue);
+  outline-offset: 2px;
+}
 .dc-timeline select {
   color: var(--dc-chart-text);
-  background: var(--dc-chart-paper);
+  background: var(--dc-chart-control);
   border: 1px solid transparent;
   border-radius: 6px;
+  font-family: inherit;
   font-size: 14px;
   padding: 0.4rem 1.7rem 0.4rem 0.6rem;
   max-width: 100%;
@@ -44,18 +80,13 @@
   opacity: 0.45;
 }
 .dc-timeline :focus-visible {
-  outline: 2px solid #397fc0;
+  outline: 2px solid var(--dc-blue);
   outline-offset: 3px;
 }
 .dc-timeline-paper {
+  max-width: 820px;
+  margin: 0 auto;
   padding: 0.8rem 0.8rem 0;
-  background: var(--dc-chart-paper);
-  border-radius: 13px;
-}
-.dc-timeline-scope {
-  color: var(--dc-chart-muted);
-  font-size: 13px;
-  padding: 0.25rem 0.7rem 0.4rem;
 }
 .dc-timeline-chart {
   width: 100%;
@@ -144,11 +175,13 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.dc-timeline-note {
+.dc-timeline .dc-timeline-note {
   margin: 0.85rem 0 0;
-  font-size: 11px;
-  line-height: 1.65;
-  color: var(--dc-chart-muted);
+  /* The site-wide paragraph size is important, so override it here explicitly. */
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--dc-chart-text);
 }
 .dc-timeline-status {
   font-size: 11px;
@@ -162,7 +195,8 @@
 .dc-timeline-data summary {
   width: fit-content;
   cursor: pointer;
-  color: var(--dc-chart-muted);
+  font-size: 12px;
+  color: var(--dc-chart-text);
 }
 .dc-timeline-table-wrap {
   overflow-x: auto;
@@ -170,25 +204,25 @@
 }
 .dc-timeline-table {
   width: 100%;
-  font-size: 11px;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
-.dc-timeline-table th,
-.dc-timeline-table td {
+.dc-timeline .dc-timeline-table th,
+.dc-timeline .dc-timeline-table td {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
   border-bottom: 1px solid var(--dc-chart-rule);
-  padding: 0.4rem;
+  padding: 0.3rem 0.5rem;
   text-align: left;
   white-space: nowrap;
+}
+.dc-timeline .dc-timeline-table thead th {
+  font-weight: 500;
 }
 .dc-timeline-table caption {
   color: var(--dc-chart-muted);
   font-size: 11px;
-}
-html[data-theme="dark"] .dc-timeline {
-  --dc-chart-paper: #242823;
-  --dc-chart-text: #edf0e7;
-  --dc-chart-muted: #b7bfb1;
-  --dc-chart-rule: #40483d;
 }
 @media (max-width: 600px) {
   .dc-timeline {
@@ -197,7 +231,8 @@ html[data-theme="dark"] .dc-timeline {
   .dc-timeline-controls {
     gap: 0.65rem;
   }
-  .dc-timeline-controls label {
+  .dc-timeline-controls > label,
+  .dc-timeline-measure-control {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.2rem;

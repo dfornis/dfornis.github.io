@@ -13,7 +13,7 @@ permalink: /projects/datacenter-tracker/
   <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.7.2">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.1.1">
 
 ## Scenario map
 
@@ -23,48 +23,48 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
 
 <div id="dc-scenario-map"></div>
 
-<details class="scenario-explainer">
+<details id="scenario-explainer" class="scenario-explainer">
   <summary>
     <span>Scenario explainer</span>
     <span class="scenario-explainer-hint">What the four scenarios include and how to read them</span>
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-| Scenario    | Includes                                                        |
-| ----------- | --------------------------------------------------------------- |
-| Low 2030    | Projects with a confirmed investment decision, phased to 2030.  |
-| Stated 2030 | Projects with announced dates, phased to 2030.                  |
-| Stated 2035 | Projects with announced dates, phased to 2035.                  |
-| High 2035   | All active plans, including projects without a completion date. |
+| Scenario           | What it includes                                                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Low 2030           | Plans with a confirmed investment decision and an announced timetable.                                                                                              |
+| Stated 2030 / 2035 | Plans with an announced timetable. Larger sites may also be included when a phase has a timetable and is under construction or has a confirmed investment decision. |
+| High 2035          | All announced capacity, assumed to be fully built by 2035.                                                                                                          |
 
-**Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value of the quantified capacity. Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
+**Reading the figures.** Each scenario shows how much new capacity could be operating in the selected year. Ranges reflect uncertainty in reported capacity and completion dates. An asterisk means that some projects have no MW estimate and are missing from the total. The [method below](#capacity-and-electricity-use) explains the calculations.
 
-**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. When the size of a first phase under construction or with an investment decision is unknown, the campus is shown from zero to its phased full-build figure.
+Full build-out and High include every announced figure, including grid queue applications and plans without permits. Public disclosure differs by country: Norwegian grid requests are published per project, Swedish grid queue entries are not, and several large projects have no public MW figure. Country and zone comparisons are therefore more robust in Low and Stated than in High.
 
-Capacity is phased in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is set two to three years later. A grid date sets the earliest possible start. Plans without dates remain undated. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
+**Using the map.** Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
 
-**Developer headquarters.** Use the **HQ** buttons to select **Domestic**, **Other Europe** or **Outside Europe** actors. Matching projects in the scenario turn orange. Projects with unknown MW also turn orange when their HQ matches. Other points stay light grey. The area shading and MW figures below the map follow the same HQ selection. **All** restores the full scenario. The HQ choice stays selected when you switch scenario.
+**Developer headquarters.** HQ selects projects by their developers' global headquarters. **Domestic** means the project's own country, **Other Europe** means another European country, and **Outside Europe** means elsewhere. Matching projects turn orange and the map totals update. **All** restores the full selection.
 
-Domestic means an actor has its global headquarters in the project's country. Other Europe means that an actor is headquartered in a different European country. Outside Europe means that an actor is headquartered beyond Europe. Projects with several actors can match more than one group. Totals use each selected project's modelled capacity once.
-
-A dash in the HQ-filtered figures means headquarters have not been reviewed for that country. Unknown capacity remains unknown.
-
-\* Some projects in the selection have no MW estimate. The displayed total covers only quantified capacity.
-
-The classification uses global headquarters. Ownership is described separately in the project details. The method below explains how headquarters were identified.
+Projects with several developers may appear in more than one HQ group. Each project is counted once within the selected group. A dash means headquarters have not been reviewed for that country. Developer and ownership details are available in the project table.
 
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=1">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.1.1">
   <h2 id="dc-timeline-title">New capacity, year by year</h2>
-  <p class="dc-timeline-deck">Cumulative additional site capacity in operation, 2026–2035. Includes cooling and other site electricity use.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
-      <label>Plans
-        <select name="timeline-family" aria-label="Capacity plan selection">
-          <option value="stated">Announced plans</option>
-          <option value="low">Confirmed investment</option>
+      <div class="dc-timeline-measure-control">
+        <span id="dc-timeline-measure-label">Measure</span>
+        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
+          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
+          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+        </div>
+      </div>
+      <label>Scenario
+        <select name="timeline-family" aria-label="Capacity scenario selection">
+          <option value="low">Low — confirmed investment</option>
+          <option value="stated" selected>Stated — plans with dates</option>
+          <option value="high">High — all active plans</option>
         </select>
       </label>
       <label>HQ
@@ -77,7 +77,6 @@ The classification uses global headquarters. Ownership is described separately i
       </label>
     </div>
     <div class="dc-timeline-paper">
-      <div class="dc-timeline-scope"></div>
       <div class="dc-timeline-chart"></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
@@ -87,9 +86,9 @@ The classification uses global headquarters. Ownership is described separately i
     <details class="dc-timeline-data">
       <summary>Data &amp; assumptions</summary>
       <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
-      <p class="dc-timeline-note">Announced plans includes capacity with a reported year for construction, operation or grid connection. Confirmed investment shows the part with a confirmed investment decision. These use the Stated and Low selections from the map, calculated for each year through 2035. Plans without a usable timeline remain in the map's High 2035 scenario.</p>
-      <p class="dc-timeline-note">Lines show upper estimates and shaded bands show the range. Values show how much additional capacity could be in operation by each year. Capacity already in operation is excluded. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
-      <p class="dc-timeline-note">The <a href="#tracker-filters">country, zone, status and type filters</a> also apply here. The chart's plan and HQ choices are independent of the map controls. Partnerships can match more than one HQ group. Each selected project is counted once. Projects without reviewed headquarters do not match an HQ filter.</p>
+      <p class="dc-timeline-note">Figures show capacity added from 2026 onwards, including cooling and other site electricity use. Cumulative totals include additions already completed during this period. Added/year shows the increase in each year.</p>
+      <p class="dc-timeline-note">Lines show the upper estimates and shaded bands show the range. The scale stays fixed when you change the scenario or filters. Annual ranges should not be added together. Move over the chart or tap a year to see its values.</p>
+      <p class="dc-timeline-note">The <a href="#scenario-explainer">scenario definitions</a> and <a href="#tracker-filters">project filters</a> are shared with the map. You can select a different scenario and HQ group in each view.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
     </details>
   </div>
@@ -143,7 +142,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Type</th>
         <th>Project status</th>
         <th>Investment decision</th>
-        <th id="buildout-mw-header" title="Site power, including cooling, if everything announced is built. Capacity already in operation is not counted.">Full build-out (MW)</th>
+        <th id="buildout-mw-header" title="Site power, including cooling, if everything announced is built. Capacity installed by the end of 2025 is excluded; later additions remain.">Full build-out (MW)</th>
         <th id="buildout-twh-header" title="Annual electricity use if everything announced is built. Not tied to a year.">Full build-out (TWh/yr)</th>
         <th id="dates-header" title="Years the sources give for operation of a part of the project. If none are available, a construction start or grid date is shown. That part can be much smaller than the full build-out. Expand the row to see which MW each date belongs to.">Announced dates</th>
         <th>Last checked</th>
@@ -157,13 +156,21 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Capacity and electricity use
 
-**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once and capacity already in operation is subtracted. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
+**Full build-out (MW)** is the additional site capacity if all announced plans are completed, including cooling and other site electricity use. Reported site power and grid connection figures are used as stated. IT capacity is converted to site power using a PUE of 1.1–1.5, or a reported design PUE. If a source does not say what its MW figure measures, the figure is retained without PUE conversion.
 
-**Electricity at full build-out (TWh/yr)** is full build-out × the annual load factor for the facility type × 8,760 hours. It expresses the project's full size as annual electricity use.
+Overlapping phases are counted once. Capacity already operating at the end of 2025 is subtracted, while later additions remain in the annual figures after completion. A project included in a larger campus is counted there and shows "In campus" in the table. Expand the row to see the original figures, dates and sources. Backup generators and power generation are excluded from datacenter load.
 
-Expand a project to see the source figures and whether they describe IT equipment, total site power or a grid connection, along with phase dates, decisions and sources. A decision to build one phase applies to that phase. It does not establish a decision for the entire campus. Backup generators and power generation are not counted as datacenter load.
+**Electricity at full build-out (TWh/yr)** is full build-out multiplied by the annual load factor and 8,760 hours. The load factors are 0.75 for hyperscale, 0.57 for colocation, 0.60 for colocation with AI, and 0.80 for AI/HPC. These assumptions draw on [EPRI (2026)](https://powering-intelligence.epri.com/annual-peak-use.html), [IEA (2025)](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai) and the documented model method. This calculation estimates annual electricity use at that level of capacity.
 
-IT capacity is converted to total site capacity using PUE assumptions of 1.1–1.5, with a reported local design PUE used where available. Annual electricity use uses load factors of 0.75 for hyperscale, 0.57 for colocation, 0.60 for colocation with AI, and 0.80 for AI/HPC. The assumptions draw on [EPRI (2026)](https://powering-intelligence.epri.com/annual-peak-use.html), [IEA (2025)](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai) and the documented model method.
+**Opening dates and construction.** The model uses a reported opening date where one is available. Otherwise it estimates when the datacenter could open from the construction date or its current stage of development. Dates and investment decisions apply to the building or phase they describe. The first building's opening date does not tell us when the rest of the site will be ready.
+
+A published timetable for individual phases takes precedence over general assumptions. Where the pace of expansion is unknown, capacity is normally added over five years from the first opening. A development completed in one phase is counted in its opening year. A reported completion target can shorten the assumed construction and expansion periods.
+
+**Larger sites built in phases.** Stated can include a site without an overall timetable when one of its datacenter phases is under construction or has a confirmed investment decision, and a construction, opening or completion date is available for that phase. This can establish an estimated opening date for the site even when the first phase's MW is unknown.
+
+For these sites, the model assumes that capacity increases by an equal amount each year from first operation until 2035. It calculates an earlier and a later opening date to allow for uncertainty. Completion in 2035 is an assumption. Individual phases with known capacity keep their announced schedules. Low still requires a date and an investment decision for the capacity being counted.
+
+**Grid connections.** In Low and Stated, a later grid connection date delays the assumed opening. If the connection is still only requested or its status is unclear, the lower estimate can be zero. The reported connection capacity does not cap the model's estimate of datacenter capacity. High assumes all announced capacity is built by 2035, so it does not apply these grid restrictions and brings later completion dates forward to that year.
 
 ## How the tracker is updated
 
@@ -181,28 +188,22 @@ Each country update follows the same sequence from initial lead to published sce
     <summary><span class="workflow-step">02</span><span>Reconcile identity, phases and dates</span></summary>
     <div class="workflow-body">
       <p>The lead is compared with existing projects, candidate records and historic names. Addresses, municipalities, land parcels, company relationships and earlier announcements help determine whether it is a new project, a new phase or another name for an existing campus.</p>
-      <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This prevents the timing of a first building from being applied to the whole campus and keeps tenant capacity from being counted twice.</p>
+      <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This prevents double counting and keeps a building’s dates separate from those of the wider campus.</p>
+      <p>A target omitted or replaced by a later source for the same or comparable scope is treated as undated until newly dated evidence appears. The original target is retained in the source detail and marked as superseded.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">03</span><span>Record what each source actually measures</span></summary>
     <div class="workflow-body">
       <p>Every capacity claim is recorded with its unit, scope and qualifier. IT equipment load, total site electricity use and grid connection capacity remain distinct. The record also keeps the source's range, project status, timing and investment decision, together with the part of the campus or phase to which they apply.</p>
-      <p>Conflicting figures are represented as a range when the evidence supports one. Missing figures remain unknown. A statement such as “at least X MW” is preserved as source evidence but does not define the project's full size unless an upper figure is also available. A separately quantified phase can still be used.</p>
+      <p>Conflicting figures are represented as a range when the evidence supports one. Missing figures remain unknown. A statement such as “at least X MW” is calculated using X in full build-out and eligible scenarios, with the normal conversion for its measure. Its qualifier is preserved beside the original source figure. If an included claim exceeds its parent campus after conversion, both sources go to follow-up. The largest applicable scope continues to determine the group’s capacity while the discrepancy is unresolved.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">04</span><span>Calculate and review the scenarios</span></summary>
     <div class="workflow-body">
-      <p>The scenarios estimate how much new datacenter capacity is operating in the target year. For capacity with a first-operation date, the model counts 20 percent in the first year, then 40, 60, 80 and 100 percent.</p>
-      <ul class="workflow-scenarios">
-        <li><strong>Low 2030</strong> uses capacity with a confirmed investment decision and a date for that same phase.</li>
-        <li><strong>Stated 2030</strong> uses the announced date for each capacity figure and calculates the share operating by 2030.</li>
-        <li><strong>Stated 2035</strong> uses the same method with 2035 as the target year.</li>
-        <li><strong>High 2035</strong> includes every active plan. Dated capacity follows its project date. Capacity without a date enters the upper estimate at full size.</li>
-      </ul>
-      <p>Sometimes sources confirm that a first phase is going ahead but give no MW figure for it. The model then shows a range. The lower end is 0 MW. The upper end uses the dated share of the campus total.</p>
-      <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, summary, table and map.</p>
+      <p>The <a href="#scenario-explainer">scenario definitions</a> apply to the map, chart and table. Results are checked for overlapping capacity, missing information and conflicts between sources before the site is updated.</p>
+      <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, annual chart, summary, table and map.</p>
     </div>
   </details>
   <details>
@@ -211,7 +212,7 @@ Each country update follows the same sequence from initial lead to published sce
       <p>Project announcements and site-specific sources identify the developer, operator, named customer and, where relevant, property owner or project partner. Each actor is linked to the whole project, including its phases. Partnerships keep separate actors and roles.</p>
       <p>Global headquarters are checked against company reports, official contact pages and company announcements, with other reliable sources used when needed. A local subsidiary's registered address or a regional office does not establish the group's global HQ. Registration country, headquarters, fund manager and financial owners are recorded separately. The business type describes what the actor does.</p>
       <p>Ownership notes retain the source and date. They describe the documented ownership without assigning an owner nationality or tracing every investor. Unknown identities and HQ countries remain unknown and do not match any HQ group. A project can still match a known partner's HQ while another actor is unresolved. Expand the project for actors, roles, HQ, sources and the review date.</p>
-      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ highlighting changes marker colours only and does not allocate capacity between actors.</p>
+      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ selection filters the map and its totals without allocating capacity between actors.</p>
     </div>
   </details>
 </div>
@@ -219,7 +220,31 @@ Each country update follows the same sequence from initial lead to published sce
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=3.7.2' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=4.1.1' | relative_url }}");
+
+/* The illustration's slate blue anchors the controls and table surfaces. */
+#dc-tracker {
+  --dc-blue: #4c7088;
+  --dc-ink: #303d43;
+  --dc-muted: #657177;
+  --dc-paper: var(--global-bg-color, #f4f0e9);
+  --dc-surface: #f8f5ef;
+  --dc-header: #e3e8e7;
+  --dc-hover: #e1e7e7;
+  --dc-rule: rgba(76, 112, 136, 0.19);
+  --dc-control: rgba(76, 112, 136, 0.07);
+}
+
+html[data-theme="dark"] #dc-tracker {
+  --dc-blue: #9eb9ca;
+  --dc-ink: #e5eaec;
+  --dc-muted: #b0bec5;
+  --dc-surface: #283237;
+  --dc-header: #34424a;
+  --dc-hover: #3a4b54;
+  --dc-rule: rgba(158, 185, 202, 0.24);
+  --dc-control: rgba(158, 185, 202, 0.1);
+}
 
 .tracker-intro {
   margin-bottom: 1.1rem;
@@ -266,10 +291,10 @@ Each country update follows the same sequence from initial lead to published sce
   list-style: none;
   cursor: pointer;
   padding: 0.32rem 0.45rem;
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--dc-rule);
   border-radius: 4px;
-  background: #fff;
-  color: #333;
+  background: var(--dc-surface);
+  color: var(--dc-ink);
   user-select: none;
 }
 
@@ -280,7 +305,7 @@ Each country update follows the same sequence from initial lead to published sce
 .filter-dropdown summary::after {
   content: "▾";
   float: right;
-  color: #777;
+  color: var(--dc-muted);
   margin-left: 0.5rem;
 }
 
@@ -297,9 +322,9 @@ Each country update follows the same sequence from initial lead to published sce
   max-height: 260px;
   overflow-y: auto;
   padding: 0.45rem 0.55rem;
-  border: 1px solid #d6d2ca;
+  border: 1px solid var(--dc-rule);
   border-radius: 5px;
-  background: #fff;
+  background: var(--dc-surface);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -308,7 +333,7 @@ Each country update follows the same sequence from initial lead to published sce
   flex-direction: column;
   gap: 0.3rem;
   font-size: 11px;
-  color: #444;
+  color: var(--dc-ink);
 }
 
 .checkbox-filter-options label {
@@ -321,15 +346,16 @@ Each country update follows the same sequence from initial lead to published sce
 
 .checkbox-filter-options input {
   margin-top: 0.05rem;
+  accent-color: var(--dc-blue);
 }
 
 .summary-box {
   margin: 0.75rem 0 1rem 0;
   padding: 0.4rem 0.6rem !important;
-  border: 1px solid #ddd;
+  border: 1px solid var(--dc-rule);
   border-radius: 6px;
-  background: #f7f6f2;
-  color: #333;
+  background: var(--dc-control);
+  color: var(--dc-ink);
 }
 
 .summary-grid {
@@ -348,13 +374,13 @@ Each country update follows the same sequence from initial lead to published sce
 }
 
 .summary-block + .summary-block {
-  border-left: 1px solid #ddd8cf;
+  border-left: 1px solid var(--dc-rule);
 }
 
 #summary-box .summary-kicker {
   display: block;
   margin-bottom: 0.16rem;
-  color: #6a6965;
+  color: var(--dc-muted);
   font-size: 9px !important;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -372,7 +398,7 @@ div#summary-box.summary-box,
 .table-wrapper {
   max-height: 430px;
   overflow: auto;
-  border: 1px solid #ddd;
+  border: 1px solid var(--dc-rule);
   border-radius: 6px;
   margin-top: 0.85rem !important;
   margin-bottom: 2rem !important;
@@ -395,7 +421,7 @@ div#summary-box.summary-box,
 
 #tracker-table th,
 #tracker-table td {
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid var(--dc-rule);
   padding: 4px 6px !important;
   vertical-align: top;
   text-align: left;
@@ -403,8 +429,8 @@ div#summary-box.summary-box,
 
 #tracker-table th {
   white-space: nowrap;
-  background: #f0eee8;
-  color: #333 !important;
+  background: var(--dc-header);
+  color: var(--dc-blue) !important;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -415,15 +441,15 @@ div#summary-box.summary-box,
 }
 
 #tracker-table tbody tr.project-row:nth-child(4n+1) {
-  background: #ffffff;
+  background: var(--dc-surface);
 }
 
 #tracker-table tbody tr.project-row:nth-child(4n+3) {
-  background: #faf8f3;
+  background: var(--dc-paper);
 }
 
 #tracker-table tbody tr.project-row:hover {
-  background: #f1eadf;
+  background: var(--dc-hover);
 }
 
 #tracker-table td.project-cell {
@@ -447,8 +473,9 @@ div#summary-box.summary-box,
 }
 
 .toggle-button {
-  border: 1px solid #cfcfcf;
-  background: #fff;
+  color: var(--dc-blue);
+  border: 1px solid var(--dc-rule);
+  background: var(--dc-surface);
   border-radius: 4px;
   padding: 0.1rem 0.35rem;
   font-size: 0.72rem;
@@ -456,17 +483,17 @@ div#summary-box.summary-box,
 }
 
 .toggle-button:hover {
-  background: #f1eadf;
+  background: var(--dc-hover);
 }
 
 .detail-row {
   display: none;
-  background: #fbfaf7;
+  background: var(--dc-paper);
 }
 
 .detail-cell {
   padding: 0.65rem 0.75rem !important;
-  border-bottom: 1px solid #d8d8d8 !important;
+  border-bottom: 1px solid var(--dc-rule) !important;
 }
 
 .detail-title {
@@ -478,9 +505,9 @@ div#summary-box.summary-box,
 .detail-notes {
   margin: 0 0 0.65rem 0;
   padding: 0.45rem 0.55rem;
-  border: 1px solid #e0ded8;
-  background: #fff;
-  color: #444;
+  border: 1px solid var(--dc-rule);
+  background: var(--dc-surface);
+  color: var(--dc-ink);
   font-size: 10px !important;
   line-height: 1.2 !important;
 }
@@ -488,8 +515,8 @@ div#summary-box.summary-box,
 .entry-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border: 1px solid #e0ded8;
+  background: var(--dc-surface);
+  border: 1px solid var(--dc-rule);
 }
 
 .entry-table,
@@ -505,14 +532,14 @@ div#summary-box.summary-box,
 .entry-table th,
 .entry-table td {
   padding: 3px 5px !important;
-  border-bottom: 1px solid #ece9e2;
+  border-bottom: 1px solid var(--dc-rule);
   vertical-align: top;
 }
 
 .entry-table th {
-  background: #f5f3ee;
+  background: var(--dc-header);
   white-space: nowrap;
-  color: #333 !important;
+  color: var(--dc-ink) !important;
   font-size: 10.5px !important;
   line-height: 1.12 !important;
   font-weight: 500 !important;
@@ -525,7 +552,7 @@ div#summary-box.summary-box,
 
 .entry-table td.entry-notes {
   max-width: 420px;
-  color: #444;
+  color: var(--dc-ink);
   font-size: 9px !important;
   line-height: 1.1 !important;
 }
@@ -590,6 +617,17 @@ div#summary-box.summary-box,
 .scenario-descriptions table {
   border-collapse: separate;
   border-spacing: 0;
+}
+
+.scenario-descriptions table th,
+.scenario-descriptions table td {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.scenario-descriptions table th {
+  font-weight: 500;
 }
 
 .scenario-descriptions th {
@@ -916,21 +954,21 @@ pre {
   margin: 0 auto;
 }
 #tracker-table td.number-cell { font-variant-numeric: tabular-nums; }
-#tracker-table .toggle-button:focus-visible { outline: 2px solid #555; outline-offset: 2px; }
+#tracker-table .toggle-button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
 .filter-dropdown input[type="radio"] { margin-top: 0.05rem; }
 #dc-scenario-map .dc-capacity-value, #dc-scenario-map .dc-capacity-total-value { font-size: 13.4px !important; }
 @media (max-width: 820px) {
   .summary-grid { grid-template-columns: 1fr; }
   .summary-block { padding: 0.35rem 0 0 0; }
   .summary-block:first-child { padding-top: 0; }
-  .summary-block + .summary-block { border-left: 0; border-top: 1px solid #ddd8cf; }
+  .summary-block + .summary-block { border-left: 0; border-top: 1px solid var(--dc-rule); }
 }
 @media (max-width: 600px) {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=3">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.1">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.7.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.7.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>

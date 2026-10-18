@@ -9,31 +9,49 @@
     return v < 10 ? Math.round(value * 10) / 10 : v < 1000 ? Math.round(value) : Math.round(value / 10) * 10;
   }
   const format = (value, kind = "mw") =>
-    numeric(value) === null ? "Unknown" : rounded(Number(value), kind).toLocaleString("en-US", { maximumFractionDigits: 2 });
+    numeric(value) === null
+      ? "Unknown"
+      : rounded(Number(value), kind).toLocaleString("en-US", {
+          maximumFractionDigits: 2,
+        });
   function range(low, high, kind = "mw") {
     low = numeric(low);
     high = numeric(high);
-    if (low === null && high === null) return "Unknown";
-    if (high === null) return "≥ " + format(low, kind);
-    if (low === null) return "≤ " + format(high, kind);
+    if (low === null || high === null) return "Unknown";
     const a = format(low, kind),
       b = format(high, kind);
     return a === b ? a : a + "–" + b;
   }
   function sumBounds(rows, low, high) {
-    const unknown = rows.filter((row) => !row.capacity_known && !["operational", "cancelled", "dormant"].includes(row.indicator)).length;
+    const unknown = rows.filter(
+      (row) =>
+        (!row.capacity_known && !["operational", "cancelled", "dormant"].includes(row.indicator)) ||
+        (row.partial_capacity && !/^(nameplate|buildout|remaining)/.test(low))
+    ).length;
     const known = rows.some(
       (row) => numeric(row[low]) !== null && (row.capacity_known || ["operational", "cancelled", "dormant"].includes(row.indicator))
     );
     const total = (key) => rows.reduce((sum, row) => sum + (numeric(row[key]) ?? 0), 0);
-    return { low: !known && unknown ? null : total(low), high: !known && unknown ? null : total(high), unknown };
+    return {
+      low: !known && unknown ? null : total(low),
+      high: !known && unknown ? null : total(high),
+      unknown,
+    };
   }
-  const totalRange = (t, kind = "mw") => (!t || t.low === null ? "Unknown" : range(t.low, t.high, kind));
+  const totalRange = (t, kind = "mw") =>
+    !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind) + (t.unknown ? "*" : "");
   function assertContract(data) {
     if (data.scope !== "manually_approved_projects" || !Array.isArray(data.project_scenarios) || !Array.isArray(data.projects))
       throw new Error("Shared scenario result required.");
     if (data.projects.some((project) => project.record_type !== "existing") || data.project_scenarios.some((row) => !row.included_in_result))
       throw new Error("Unapproved project in public result.");
+    for (const row of data.project_scenarios) {
+      for (const measure of ["mw", "nameplate_mw", "annual_twh", "buildout_twh"]) {
+        const low = row[measure + "_low"],
+          high = row[measure + "_high"];
+        if ((low === null) !== (high === null)) throw new Error("Incomplete capacity interval.");
+      }
+    }
     const keys = data.project_scenarios.map((row) => row.project_id + ":" + row.scenario);
     if (new Set(keys).size !== keys.length || keys.length !== data.projects.length * data.method.scenarios.length)
       throw new Error("Incomplete or duplicate project scenarios.");
@@ -44,7 +62,17 @@
     return data;
   }
   const escape = (value) =>
-    String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char]
+    );
   const tags = (value) =>
     String(value || "")
       .split(";")
@@ -68,10 +96,19 @@
       density: "Rack density",
     })[value] || "Unknown";
   const decisionLabel = (value) =>
-    ({ yes: "Confirmed", no: "Not confirmed", unclear: "Unknown", not_applicable: "Not applicable" })[value] || "Unknown";
+    ({
+      yes: "Confirmed",
+      no: "Not confirmed",
+      unclear: "Unknown",
+      not_applicable: "Not applicable",
+    })[value] || "Unknown";
   const timingLabel = (value) =>
-    ({ first_capacity: "First operation", full_capacity: "Full capacity", grid_availability: "Grid available", unknown: "Date unknown" })[value] ||
-    "Date unknown";
+    ({
+      first_capacity: "First operation",
+      full_capacity: "Full capacity",
+      grid_availability: "Grid available",
+      unknown: "Date unknown",
+    })[value] || "Date unknown";
   function reported(claim) {
     if (!claim || numeric(claim.mw) === null) return "Unknown";
     if (claim.qualifier === "at_least" && !claim.mw_max) return "≥ " + format(claim.mw);
@@ -80,7 +117,10 @@
   }
   // Operation years first; without one, a construction start or grid date, labelled as such.
   function operationYears(claims, projectStatus = "") {
-    const active = claims.filter((claim) => !["Operational", "Cancelled", "Dormant"].includes(claim.status) && claim.issue !== "identity_conflict");
+    const active = claims.filter(
+      (claim) =>
+        !["Operational", "Cancelled", "Dormant"].includes(claim.status) && claim.issue !== "identity_conflict" && claim.timing_status !== "superseded"
+    );
     const years = (list, field, prefix = "") =>
       [
         ...new Set(
@@ -170,7 +210,12 @@
         (filters.countries?.length && !filters.countries.includes(country)) || (filters.zones?.length && !filters.zones.includes(zone))
       );
       const selected = rows.filter((row) => row.bidding_zone === zone);
-      zones[zone] = { ...totals(selected).mw, excluded, project_count: selected.length, country };
+      zones[zone] = {
+        ...totals(selected).mw,
+        excluded,
+        project_count: selected.length,
+        country,
+      };
     }
     const countries = {};
     for (const country of ["NO", "SE", "FI"])
@@ -204,7 +249,12 @@
         ...new Set([...tags(project.source_ids), ...claims.get(project.project_id).flatMap((claim) => tags(claim.source_ids))]),
       ];
       let scenario = "stated_2030";
-      const groupNames = { countries: "country", zones: "zone", statuses: "status", types: "type" };
+      const groupNames = {
+        countries: "country",
+        zones: "zone",
+        statuses: "status",
+        types: "type",
+      };
       const filters = () =>
         Object.fromEntries(
           Object.entries(groupNames).map(([key, name]) => [
@@ -281,7 +331,6 @@
           related_identity: "Possible duplicate",
           no_datacenter_load: "Not datacenter load",
           capacity_unknown: "MW unknown",
-          capacity_without_upper_limit: "No assigned capacity",
           pending_approval: "Pending review",
         };
         // Each row shows what that figure alone gives in the scenario; the project total below uses the
@@ -290,7 +339,7 @@
           if (!row) return "Unknown";
           if (reasonLabel[row.reason]) return reasonLabel[row.reason];
           if (numeric(row.share_high) === 0)
-            return String(row.assumptions).split(";").includes("undated_deployment_0_to_1")
+            return !row.source_dated && !row.selected
               ? "Undated"
               : sc.selection === "decided_dated" && claim.decision !== "yes"
                 ? "No investment decision"
@@ -320,12 +369,25 @@
               escape(basisLabel(claim.basis)) +
               "</td><td>" +
               escape(claim.status) +
+              (row?.timing_rule === "executing_campus_full_by_horizon"
+                ? "<br>Campus build-out follows the dated datacenter phase and is assumed complete by 2035."
+                : "") +
               "</td><td>" +
               escape(decisionLabel(claim.decision)) +
               "</td><td>" +
-              escape(claim.construction_year || "Unknown") +
+              escape(
+                claim.construction_year ? claim.construction_year + " (" + (claim.construction_event || "event type unknown") + ")" : "Unknown"
+              ) +
               "</td><td>" +
-              escape(timing) +
+              escape(timing + (claim.timing_event ? " (" + claim.timing_event + ")" : " (event type unknown)")) +
+              (claim.timing_status === "superseded" ? "<br>Historical target superseded; treated as undated" : "") +
+              (row && !["operational", "cancelled", "dormant", "no_datacenter_load", "identity_conflict", "related_identity"].includes(row.reason)
+                ? "<br>Model first: " +
+                  escape(row.first_early + "–" + row.first_late) +
+                  "; full: " +
+                  escape(row.full_early + "–" + row.full_late) +
+                  (row.timing_flags ? "<br>Timing review: " + escape(row.timing_flags.replaceAll("_", " ").replaceAll(";", "; ")) : "")
+                : "") +
               '</td><td class="number-cell">' +
               escape(counted) +
               '</td><td class="entry-notes">' +
@@ -348,10 +410,17 @@
               ": <strong>" +
               escape(
                 total.capacity_known || total.indicator !== "pipeline"
-                  ? totalRange({ low: numeric(total.mw_low), high: numeric(total.mw_high) })
+                  ? totalRange({
+                      low: numeric(total.mw_low),
+                      high: numeric(total.mw_high),
+                      unknown: total.partial_capacity,
+                    })
                   : "Unknown"
               ) +
               " MW</strong>." +
+              (total.partial_capacity
+                ? " Phase capacity is still unknown; the quantified amount does not cover the whole project's contribution."
+                : "") +
               (overlap ? " The figures overlap (phases are part of the campus figure), so the largest applies, not the sum." : "");
         const actors = actorRows.get(project.project_id);
         const actorBody = actors
@@ -393,6 +462,7 @@
         return (
           actorInfo +
           '<div class="detail-title">Project phases and sources</div>' +
+          '<div class="detail-notes">Recorded notes retain earlier reviews and may describe an earlier model. The calculated columns and project total below show the current treatment.</div>' +
           (project.notes ? '<div class="detail-notes">' + escape(project.notes) + "</div>" : "") +
           (own.length
             ? '<table class="entry-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Investment decision</th><th>Construction start</th><th>Operation / grid date</th><th>' +
@@ -431,8 +501,6 @@
         const { mw, twh, planned, buildout } = view.totals;
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + " without assigned capacity");
-        const inCampus = rows.filter((row) => containedIn(row)).length;
-        if (inCampus) notes.push(inCampus + " counted in campus totals");
         status.innerHTML =
           '<div class="summary-grid">' +
           '<div class="summary-block summary-selection"><span class="summary-kicker">Selection</span><span><strong>' +
