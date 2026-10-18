@@ -8,9 +8,9 @@ const chart = require("../assets/js/datacenter-tracker/timeline.js");
 const options = { family: "stated", hq: "none" };
 const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
 
-test("annual export matches the approved inventory and every published dated endpoint", () => {
+test("annual export matches the approved inventory and every published endpoint", () => {
   chart.assertTimeline(timeline, data);
-  for (const scenario of ["low_2030", "stated_2030", "stated_2035"]) {
+  for (const scenario of ["low_2030", "stated_2030", "stated_2035", "high_2035"]) {
     const [family, year] = scenario.split("_");
     for (const saved of data.project_scenarios.filter((row) => row.scenario === scenario)) {
       const annual = timeline.rows.find((row) => row.family === family && row.year === Number(year) && row.project_id === saved.project_id);
@@ -56,17 +56,33 @@ test("HQ selection counts each matching partnership once", () => {
   }
 });
 
-test("plan choices retain their respective map scenario totals", () => {
-  for (const family of ["low", "stated"]) {
+test("scenario choices retain their respective map totals", () => {
+  for (const family of ["low", "stated", "high"]) {
+    const year = family === "high" ? 2035 : 2030;
     const series = chart.makeSeries(timeline, data, { ...options, family });
-    const expected = tracker.makeView(data, family + "_2030").totals.mw;
+    const expected = tracker.makeView(data, family + "_" + year).totals.mw;
     for (const key of ["low", "high"]) {
       close(
-        series.reduce((sum, item) => sum + item.points.find((point) => point.year === 2030)[key], 0),
+        series.reduce((sum, item) => sum + item.points.find((point) => point.year === year)[key], 0),
         expected[key]
       );
     }
   }
+});
+
+test("fixed capacity maximum covers every scenario and HQ selection", () => {
+  const maximum = chart.capacityMax(timeline, data);
+  let observedMaximum = 0;
+  for (const family of ["low", "stated", "high"])
+    for (const hq of ["none", "domestic", "other_europe", "outside_europe"])
+      for (const series of chart.makeSeries(timeline, data, { family, hq }))
+        for (const point of series.points) {
+          assert.ok((point.high || 0) / 1000 <= maximum);
+          observedMaximum = Math.max(observedMaximum, (point.high || 0) / 1000);
+        }
+  close(maximum, observedMaximum);
+  const statedMaximum = Math.max(...chart.makeSeries(timeline, data, options).flatMap((series) => series.points.map((point) => point.high / 1000)));
+  assert.ok(maximum > statedMaximum, "The axis must include High, not just Stated.");
 });
 
 test("empty selections and wholly unknown capacity remain distinct", () => {

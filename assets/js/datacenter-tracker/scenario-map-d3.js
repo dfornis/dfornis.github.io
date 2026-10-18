@@ -56,7 +56,7 @@
   function capacityLabel(detail) {
     if (detail.excluded || detail.hq_unreviewed) return "—";
     if (detail.unknown && (detail.high === null || detail.high === 0)) return "Unknown";
-    return `${fmtMw(detail)} MW${detail.unknown ? "*" : ""}`;
+    return `${fmtMw({...detail, unknown: 0})} MW${detail.unknown ? "*" : ""}`;
   }
 
   function fillForMw(detail) {
@@ -90,7 +90,7 @@
 
   function mapState(row) {
     if (row.participates) return "included";
-    if (row.indicator === "unquantified") return "unknown";
+    if (row.indicator === "unquantified" || row.partial_capacity) return "unknown";
     return "excluded";
   }
 
@@ -696,7 +696,7 @@
     const maxPhases = 6;
     const phaseLines = group.phases.slice(0, maxPhases).map((phase) => {
       const inCampus = splitTags(phase.note).some(note => note.startsWith("included_in:"));
-      const mwText = ` · ${inCampus ? "In campus" : phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" : "Contribution unknown"}`;
+      const mwText = ` · ${inCampus ? "In campus" : phase.partial_capacity && !phase.mw_high ? "Contribution unknown" : phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" + (phase.partial_capacity ? "*" : "") : "Contribution unknown"}`;
       return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
     });
 

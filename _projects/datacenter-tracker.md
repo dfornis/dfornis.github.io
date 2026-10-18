@@ -13,7 +13,7 @@ permalink: /projects/datacenter-tracker/
   <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=3.7.2">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.0.0">
 
 ## Scenario map
 
@@ -39,9 +39,9 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
 
 **Using the map.** The scenario sets the blue shading of each bidding zone and the MW figures below the map. Shading uses the upper value of the quantified capacity. Coloured points match the scenario and HQ selection. Other points stay light grey. All points are solid and stay in place when you change the selection. Click a point for its scenario contribution and any missing information. The map follows the table's country, zone, status and type filters. The table keeps all projects.
 
-**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. When the size of a first phase under construction or with an investment decision is unknown, the campus is shown from zero to its phased full-build figure.
+**How to read the scenarios.** Scenario values estimate how much new datacenter capacity could be operating in the target year. Dates are applied only to the capacity they explicitly describe. For example, a first building's opening date does not date the rest of a larger campus. A phase with unknown MW remains an explicit information gap; it does not date or quantify the entire campus.
 
-Capacity is phased in over five years: 20, 40, 60, 80 and 100 percent from first operation. If only construction start is known, first operation is set two to three years later. A grid date sets the earliest possible start. Plans without dates remain undated. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
+First operation uses a scoped source date, otherwise construction plus a stated build time, otherwise remaining lead times from the current implementation stage. Grid restrictions constrain delivery. A scoped full-build target takes precedence over generic durations; the inferred ramp is shortened when needed. It cannot create unobserved historical commissioning. Unknown or staged buildout uses a provisional five-year capacity ramp; a known single-phase delivery uses its own date. These are physical-capacity assumptions, separate from the annual electricity-use factor. Ranges reflect uncertainty in the MW measure, PUE, source range or timing.
 
 **Developer headquarters.** Use the **HQ** buttons to select **Domestic**, **Other Europe** or **Outside Europe** actors. Matching projects in the scenario turn orange. Projects with unknown MW also turn orange when their HQ matches. Other points stay light grey. The area shading and MW figures below the map follow the same HQ selection. **All** restores the full scenario. The HQ choice stays selected when you switch scenario.
 
@@ -56,15 +56,23 @@ The classification uses global headquarters. Ownership is described separately i
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=1">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.0.0">
   <h2 id="dc-timeline-title">New capacity, year by year</h2>
-  <p class="dc-timeline-deck">Cumulative additional site capacity in operation, 2026–2035. Includes cooling and other site electricity use.</p>
+  <p class="dc-timeline-deck">Capacity added after the fixed 2025 year-end baseline, 2026–2035. Switch between cumulative additions and capacity added each year. Includes cooling and other site electricity use.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
-      <label>Plans
-        <select name="timeline-family" aria-label="Capacity plan selection">
-          <option value="stated">Announced plans</option>
-          <option value="low">Confirmed investment</option>
+      <div class="dc-timeline-measure-control">
+        <span id="dc-timeline-measure-label">Measure</span>
+        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
+          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
+          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+        </div>
+      </div>
+      <label>Scenario
+        <select name="timeline-family" aria-label="Capacity scenario selection">
+          <option value="low">Low — confirmed investment</option>
+          <option value="stated" selected>Stated — plans with dates</option>
+          <option value="high">High — all active plans</option>
         </select>
       </label>
       <label>HQ
@@ -77,19 +85,20 @@ The classification uses global headquarters. Ownership is described separately i
       </label>
     </div>
     <div class="dc-timeline-paper">
-      <div class="dc-timeline-scope"></div>
       <div class="dc-timeline-chart"></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
       </div>
     </div>
+    <p class="dc-timeline-note dc-timeline-high-note" hidden>High includes undated plans using explicit remaining lead times from their recorded implementation stage.</p>
     <details class="dc-timeline-data">
       <summary>Data &amp; assumptions</summary>
       <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
-      <p class="dc-timeline-note">Announced plans includes capacity with a reported year for construction, operation or grid connection. Confirmed investment shows the part with a confirmed investment decision. These use the Stated and Low selections from the map, calculated for each year through 2035. Plans without a usable timeline remain in the map's High 2035 scenario.</p>
-      <p class="dc-timeline-note">Lines show upper estimates and shaded bands show the range. Values show how much additional capacity could be in operation by each year. Capacity already in operation is excluded. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
-      <p class="dc-timeline-note">The <a href="#tracker-filters">country, zone, status and type filters</a> also apply here. The chart's plan and HQ choices are independent of the map controls. Partnerships can match more than one HQ group. Each selected project is counted once. Projects without reviewed headquarters do not match an HQ filter.</p>
+      <p class="dc-timeline-note">Stated includes plans with a reported year for construction, operation or grid connection. Low shows the part with a confirmed investment decision. High adds all other active plans, including those without dates. These use the same Low, Stated and High selections as the map, calculated for each year through 2035.</p>
+      <p class="dc-timeline-note">Undated plans follow the same implementation and grid logic as dated plans. First operation and full buildout remain separate. Modelled dates never turn an undated plan into a Low or Stated project. For each measure, the axis is fixed across all scenarios, years and filters.</p>
+      <p class="dc-timeline-note">Lines show upper estimates and shaded bands show the range. Cumulative additions retain source-confirmed deliveries after the fixed baseline, even after their status changes to Operational. Older operating capacity is excluded. Annual additions are the range of additions along the early and late model paths; their separate interval bounds must not be added across years. Missing MW and unknown phase sizes remain flagged. 1 GW = 1,000 MW. Move across the chart or tap it to inspect a year. All values are also available in the table below.</p>
+      <p class="dc-timeline-note">The <a href="#tracker-filters">country, zone, status and type filters</a> also apply here. The chart's scenario and HQ choices are independent of the map controls. Partnerships can match more than one HQ group. Each selected project is counted once. Projects without reviewed headquarters do not match an HQ filter.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
     </details>
   </div>
@@ -143,7 +152,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
         <th>Type</th>
         <th>Project status</th>
         <th>Investment decision</th>
-        <th id="buildout-mw-header" title="Site power, including cooling, if everything announced is built. Capacity already in operation is not counted.">Full build-out (MW)</th>
+        <th id="buildout-mw-header" title="Site power, including cooling, if everything announced is built. Capacity installed by the end of 2025 is excluded; later additions remain.">Full build-out (MW)</th>
         <th id="buildout-twh-header" title="Annual electricity use if everything announced is built. Not tied to a year.">Full build-out (TWh/yr)</th>
         <th id="dates-header" title="Years the sources give for operation of a part of the project. If none are available, a construction start or grid date is shown. That part can be much smaller than the full build-out. Expand the row to see which MW each date belongs to.">Announced dates</th>
         <th>Last checked</th>
@@ -157,7 +166,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Capacity and electricity use
 
-**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once and capacity already in operation is subtracted. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
+**Full build-out (MW)** is the total site power of the whole project if everything announced is built, including cooling and other site electricity use. Where the source states total site power or a grid connection, that figure is used as reported. Capacity explicitly stated as IT power is converted to site power with PUE 1.1–1.5 (or a reported design PUE). When the source does not specify what its MW figure measures, the source value or range is preserved without PUE conversion. Overlapping phases are counted once. A known operating baseline is subtracted; verified additions after 2025 remain in the annual history when their status becomes Operational. A project that is part of a larger campus is counted there and shows "In campus" instead of a separate figure. Expand the row to see which campus.
 
 **Electricity at full build-out (TWh/yr)** is full build-out × the annual load factor for the facility type × 8,760 hours. It expresses the project's full size as annual electricity use.
 
@@ -194,15 +203,15 @@ Each country update follows the same sequence from initial lead to published sce
   <details>
     <summary><span class="workflow-step">04</span><span>Calculate and review the scenarios</span></summary>
     <div class="workflow-body">
-      <p>The scenarios estimate how much new datacenter capacity is operating in the target year. For capacity with a first-operation date, the model counts 20 percent in the first year, then 40, 60, 80 and 100 percent.</p>
+      <p>The scenarios estimate how much new datacenter capacity is operating in the target year. Scoped phase schedules take precedence. Where the buildout is unknown, a provisional five-year capacity ramp fills the gap; a single-phase delivery uses its own date. A source full-build target is honored over that proxy.</p>
       <ul class="workflow-scenarios">
         <li><strong>Low 2030</strong> uses capacity with a confirmed investment decision and a date for that same phase.</li>
         <li><strong>Stated 2030</strong> uses the announced date for each capacity figure and calculates the share operating by 2030.</li>
         <li><strong>Stated 2035</strong> uses the same method with 2035 as the target year.</li>
-        <li><strong>High 2035</strong> includes every active plan. Dated capacity follows its project date. Capacity without a date enters the upper estimate at full size.</li>
+        <li><strong>High 2035</strong> includes every active plan. Dated capacity follows its project date. Capacity without a date follows explicit early and late lead times from its implementation stage, subject to applicable grid restrictions.</li>
       </ul>
-      <p>Sometimes sources confirm that a first phase is going ahead but give no MW figure for it. The model then shows a range. The lower end is 0 MW. The upper end uses the dated share of the campus total.</p>
-      <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, summary, table and map.</p>
+      <p>Sometimes sources confirm that a first phase is going ahead but give no MW figure for it. That phase remains an explicit unknown. Its date does not bring the campus total into Low or Stated, and the campus MW are not used as the phase size.</p>
+      <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, annual chart, summary, table and map.</p>
     </div>
   </details>
   <details>
@@ -211,7 +220,7 @@ Each country update follows the same sequence from initial lead to published sce
       <p>Project announcements and site-specific sources identify the developer, operator, named customer and, where relevant, property owner or project partner. Each actor is linked to the whole project, including its phases. Partnerships keep separate actors and roles.</p>
       <p>Global headquarters are checked against company reports, official contact pages and company announcements, with other reliable sources used when needed. A local subsidiary's registered address or a regional office does not establish the group's global HQ. Registration country, headquarters, fund manager and financial owners are recorded separately. The business type describes what the actor does.</p>
       <p>Ownership notes retain the source and date. They describe the documented ownership without assigning an owner nationality or tracing every investor. Unknown identities and HQ countries remain unknown and do not match any HQ group. A project can still match a known partner's HQ while another actor is unresolved. Expand the project for actors, roles, HQ, sources and the review date.</p>
-      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ highlighting changes marker colours only and does not allocate capacity between actors.</p>
+      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ selection filters the map and its totals without allocating capacity between actors.</p>
     </div>
   </details>
 </div>
@@ -219,7 +228,7 @@ Each country update follows the same sequence from initial lead to published sce
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=3.7.2' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=4.0.0' | relative_url }}");
 
 .tracker-intro {
   margin-bottom: 1.1rem;
@@ -929,8 +938,8 @@ pre {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=3">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.0.0">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=3.7.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=3.7.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.0.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.0.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.0.0" defer></script>
