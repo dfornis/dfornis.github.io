@@ -6,9 +6,12 @@
   const familyIds = ["low", "stated", "high"];
   const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const range = (point) =>
-    point.high === null || (point.high === 0 && point.unknown)
+    point.low === null || (point.high === 0 && point.unknown)
       ? "Unknown"
-      : (gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) + " GW" + (point.unknown ? "*" : "");
+      : (point.high === null ? "≥ " + gw(point.low) : gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) +
+        " GW" +
+        (point.unknown ? "*" : "");
+  const plottedValue = (point) => point.plot ?? point.high ?? point.low;
 
   function assertTimeline(timeline, data) {
     if (timeline.version !== 3 || !Array.isArray(timeline.rows) || !Array.isArray(timeline.years) || timeline.years.length < 2)
@@ -48,31 +51,35 @@
     );
     const keyFor = (row) => projects.get(row.project_id).country;
     const keys = [...new Set(rows.map(keyFor))].sort();
-    return keys.map((key) => ({
-      key,
-      label: countryNames[key] || key,
-      color: countryColors[key],
-      points: timeline.years.map((year) => ({
-        year,
-        ...global.DCTracker.sumBounds(
-          rows.filter((row) => keyFor(row) === key && row.year === year),
-          (options.measure || "mw") + "_low",
-          (options.measure || "mw") + "_high"
-        ),
-      })),
-    }));
+    return keys
+      .map((key) => ({
+        key,
+        label: countryNames[key] || key,
+        color: countryColors[key],
+        points: timeline.years.map((year) => ({
+          year,
+          ...global.DCTracker.sumBounds(
+            rows.filter((row) => keyFor(row) === key && row.year === year),
+            (options.measure || "mw") + "_low",
+            (options.measure || "mw") + "_high"
+          ),
+        })),
+      }))
+      .map((series) => {
+        const open = series.points.some((point) => point.low !== null && point.high === null);
+        return { ...series, open, points: series.points.map((point) => ({ ...point, plot: open ? point.low : point.high })) };
+      });
   }
 
   function capacityMax(timeline, data, measure = "mw") {
-    // Always use the full inventory, never the current scenario or filters.
-    return (
-      Math.max(
-        0,
-        ...familyIds.flatMap((family) =>
-          makeSeries(timeline, data, { family, hq: "none", measure }).flatMap((series) => series.points.map((point) => (point.high || 0) / 1000))
-        )
-      ) || 1
-    );
+    // Sum each exported finite upper or known minimum to cover any subset, even
+    // when an open-bound country total plots its lower curve instead.
+    const totals = new Map();
+    for (const row of timeline.rows) {
+      const key = `${row.country}:${row.family}:${row.year}`;
+      totals.set(key, (totals.get(key) || 0) + (row[measure + "_high"] ?? row[measure + "_low"] ?? 0));
+    }
+    return Math.max(0, ...totals.values()) / 1000 || 1;
   }
 
   async function mount(container, data, initialView) {
@@ -104,7 +111,7 @@
             timeline.years[0] +
             " to " +
             timeline.years.at(-1) +
-            ". Lines show upper estimates and shaded bands show the range. The scale stays fixed across selections. All values are available in the data table."
+            ". Solid lines show bounded upper estimates; dashed lines show known minima with open upper bounds. Bands show bounded ranges. The scale stays fixed across selections. All values are available in the data table."
         );
       const grid = svg.append("g").attr("class", "dc-timeline-grid");
       const unit = svg.append("text").attr("class", "dc-timeline-unit").text("Additional capacity (GW)");
@@ -138,10 +145,10 @@
           .select("desc")
           .text(
             timeline.measures[options.measure] +
-              " Lines show upper estimates and bands show the range. The axis stays fixed across scenarios and filters for this measure."
+              " Solid lines show bounded upper estimates; dashed lines show known minima with open upper bounds. Bands show bounded ranges. The axis stays fixed across scenarios and filters for this measure."
           );
         const series = makeSeries(timeline, data, options, view.filters);
-        const visible = series.filter((series) => series.points.some((point) => point.high > 0));
+        const visible = series.filter((series) => series.points.some((point) => plottedValue(point) > 0));
         const unknown = series.some((series) => series.points.some((point) => point.unknown));
         const duration = rendered && !reducedMotion.matches ? 380 : 0;
         const animate = (selection) => {
@@ -203,9 +210,9 @@
           .y1((point) => y(point.high / 1000));
         const line = d3
           .line()
-          .defined(defined)
+          .defined((point) => plottedValue(point) !== null)
           .x((point) => x(point.year))
-          .y((point) => y(point.high / 1000));
+          .y((point) => y(plottedValue(point) / 1000));
         const groups = plots
           .selectAll("g.dc-timeline-series")
           .data(visible, (series) => series.key)
@@ -230,18 +237,22 @@
             .join((enter) => enter.append("path").attr("class", "dc-timeline-line").attr("d", line))
             .attr("fill", "none")
             .attr("stroke", series.color)
+            .attr("stroke-dasharray", series.open ? "5 4" : null)
             .attr("stroke-width", 2.1)
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round");
           animate(stroke).attr("d", line);
           const points = group
             .selectAll("circle")
-            .data(series.points.filter(defined), (point) => point.year)
-            .join((enter) => enter.append("circle").attr("cy", (point) => y(point.high / 1000)))
+            .data(
+              series.points.filter((point) => plottedValue(point) !== null),
+              (point) => point.year
+            )
+            .join((enter) => enter.append("circle").attr("cy", (point) => y(plottedValue(point) / 1000)))
             .attr("cx", (point) => x(point.year))
             .attr("r", 2.4)
             .attr("fill", series.color);
-          animate(points).attr("cy", (point) => y(point.high / 1000));
+          animate(points).attr("cy", (point) => y(plottedValue(point) / 1000));
         });
         // Leave room for both the country name and its capacity range.
         const labels = compact
@@ -250,7 +261,7 @@
               .map((series) => ({
                 ...series,
                 end: series.points.at(-1),
-                labelY: y(series.points.at(-1).high / 1000),
+                labelY: y(plottedValue(series.points.at(-1)) / 1000),
               }))
               .sort((a, b) => a.labelY - b.labelY);
         if (!compact) {
@@ -275,7 +286,7 @@
         animate(labelGroups).attr("opacity", 1);
         labelGroups.each(function (label) {
           const group = d3.select(this);
-          const connector = `M${right + 5},${y(label.end.high / 1000)}L${right + 17},${label.labelY - 4}`;
+          const connector = `M${right + 5},${y(plottedValue(label.end) / 1000)}L${right + 17},${label.labelY - 4}`;
           const path = group
             .selectAll("path")
             .data([label])
@@ -306,7 +317,9 @@
         const dots = cursor
           .selectAll("circle")
           .data(visible, (series) => series.key)
-          .join((enter) => enter.append("circle").attr("cy", (series) => y(series.points.find((point) => point.year === selectedYear).high / 1000)))
+          .join((enter) =>
+            enter.append("circle").attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === selectedYear)) / 1000))
+          )
           .attr("r", 4)
           .attr("fill", (series) => series.color)
           .attr("stroke", "var(--dc-chart-paper)")
@@ -316,7 +329,7 @@
           container.querySelector(".dc-timeline-year").textContent = year;
           cursor.select("line").attr("x1", x(year)).attr("x2", x(year));
           dots.interrupt().attr("cx", x(year));
-          (transition ? animate(dots) : dots).attr("cy", (series) => y(series.points.find((point) => point.year === year).high / 1000));
+          (transition ? animate(dots) : dots).attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === year)) / 1000));
           readout.replaceChildren();
           series.forEach((series) => {
             const item = document.createElement("span");

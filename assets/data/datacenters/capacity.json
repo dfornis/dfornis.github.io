@@ -28,7 +28,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C003",
@@ -59,7 +60,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C004",
@@ -90,7 +92,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C005",
@@ -121,7 +124,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C050",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C006",
@@ -152,7 +156,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C007",
@@ -183,7 +188,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C008",
@@ -214,7 +220,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C009",
@@ -245,7 +252,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C010",
@@ -276,7 +284,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C011",
@@ -307,7 +316,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C012",
@@ -338,7 +348,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C013",
@@ -369,7 +380,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C014",
@@ -400,7 +412,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C015",
@@ -431,7 +444,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C016",
@@ -462,7 +476,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C017",
@@ -493,7 +508,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C018",
@@ -524,7 +540,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C019",
@@ -555,7 +572,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C020",
@@ -586,7 +604,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C021",
@@ -617,7 +636,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C022",
@@ -648,7 +668,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C023",
@@ -679,7 +700,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C024",
@@ -710,7 +732,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C025",
@@ -741,7 +764,8 @@
     "full_capacity_year": "2025",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C026",
@@ -772,7 +796,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C027",
@@ -803,7 +828,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C028",
@@ -834,7 +860,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C029",
@@ -865,7 +892,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C030",
@@ -896,7 +924,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C031",
@@ -927,7 +956,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C032",
@@ -958,7 +988,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C033",
@@ -989,7 +1020,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C034",
@@ -1020,7 +1052,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C035",
@@ -1051,7 +1084,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C036",
@@ -1074,7 +1108,7 @@
     "pue": "1.40625",
     "source_ids": "S063;S072;S124;S215",
     "issue": "",
-    "notes": "The 128 MW IT campus plan includes the first 50 MW building. The paired 180 MW grid connection gives a supply-to-IT ratio of 1.40625, used for the upper conversion case. This is a design ratio, not measured operating PUE. Undated envelope: the source date applies to the first 50 MW building, not to this figure, so the figure counts only in High (rule of 2026-10-16). Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [b60825e1c24e]: Reviewed S063;S072;S124;S215 for Scalable full-site potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The 128 MW IT campus plan includes the first 50 MW building. The paired 180 MW grid connection gives a supply-to-IT ratio of 1.40625, used for the upper conversion case. This is a design ratio, not measured operating PUE. Undated envelope: the source date applies to the first 50 MW building, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [b60825e1c24e]: Reviewed S063;S072;S124;S215 for Scalable full-site potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -1082,7 +1116,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C037",
@@ -1113,7 +1148,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C038",
@@ -1144,7 +1180,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C039",
@@ -1175,7 +1212,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C040",
@@ -1198,7 +1236,7 @@
     "pue": "",
     "source_ids": "S067;S076;S098;S193;S143",
     "issue": "",
-    "notes": "Fira defines the 310 MW figure as total site power.Construction of the first building does not confirm investment in the full campus or delivery of all 310 MW in 2027. Undated envelope: the source date applies to the first building, not to this figure, No phase MW or phase decision is transferred to the campus. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [9cbc653406f8]: Reviewed S067;S076;S098;S193;S143 for Full AI factory capacity and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "Fira defines the 310 MW figure as total site power.Construction of the first building does not confirm investment in the full campus or delivery of all 310 MW in 2027. Undated envelope: the source date applies to the first building, not to this figure, No phase MW or phase decision is transferred to the campus. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [9cbc653406f8]: Reviewed S067;S076;S098;S193;S143 for Full AI factory capacity and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -1206,7 +1244,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C041",
@@ -1237,7 +1276,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C042",
@@ -1268,7 +1308,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C043",
@@ -1299,7 +1340,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C044",
@@ -1330,7 +1372,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C045",
@@ -1361,7 +1404,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C046",
@@ -1392,7 +1436,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C047",
@@ -1423,7 +1468,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C048",
@@ -1454,7 +1500,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C049",
@@ -1485,7 +1532,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C050",
@@ -1516,7 +1564,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "contracted"
+    "grid_status": "contracted",
+    "timing_status": ""
   },
   {
     "claim_id": "C051",
@@ -1547,7 +1596,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C052",
@@ -1578,7 +1628,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C053",
@@ -1609,7 +1660,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C054",
@@ -1640,7 +1692,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C055",
@@ -1671,7 +1724,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C056",
@@ -1702,7 +1756,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C057",
@@ -1733,7 +1788,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C058",
@@ -1764,7 +1820,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C059",
@@ -1795,7 +1852,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "contracted"
+    "grid_status": "contracted",
+    "timing_status": ""
   },
   {
     "claim_id": "C060",
@@ -1826,7 +1884,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C061",
@@ -1857,7 +1916,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C062",
@@ -1888,7 +1948,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C063",
@@ -1919,7 +1980,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C068",
@@ -1950,7 +2012,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C069",
@@ -1981,7 +2044,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C070",
@@ -2012,7 +2076,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C071",
@@ -2043,7 +2108,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C072",
@@ -2074,7 +2140,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C073",
@@ -2105,7 +2172,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C074",
@@ -2128,7 +2196,7 @@
     "pue": "",
     "source_ids": "S190",
     "issue": "",
-    "notes": "The source gives 100 MW or more of expansion at Renforsin Ranta, without defining the electrical measure. No upper limit, operation date or full investment decision is disclosed. This is separate from Otanmäki. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [5e675d3d245d]: Reviewed S190 for Additional campus expansion potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The source gives 100 MW or more of expansion at Renforsin Ranta, without defining the electrical measure. No upper limit, operation date or full investment decision is disclosed. This is separate from Otanmäki. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [5e675d3d245d]: Reviewed S190 for Additional campus expansion potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -2136,7 +2204,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C075",
@@ -2167,7 +2236,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C076",
@@ -2198,7 +2268,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C077",
@@ -2229,7 +2300,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C078",
@@ -2260,7 +2332,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C079",
@@ -2291,7 +2364,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C080",
@@ -2322,7 +2396,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C081",
@@ -2353,7 +2428,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C082",
@@ -2384,7 +2460,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C083",
@@ -2415,7 +2492,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C084",
@@ -2446,7 +2524,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C085",
@@ -2477,7 +2556,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C086",
@@ -2508,7 +2588,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C087",
@@ -2539,7 +2620,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C088",
@@ -2570,7 +2652,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C089",
@@ -2601,7 +2684,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C090",
@@ -2624,7 +2708,7 @@
     "pue": "",
     "source_ids": "S199",
     "issue": "",
-    "notes": "The source gives 230 MW gross power for the campus. The Q3 2028 supply date covers only the first phase. Full-campus commissioning and investment remain unconfirmed. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [c5e9bb7c9dcc]: Reviewed S199 for Full campus gross power and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The source gives 230 MW gross power for the campus. The Q3 2028 supply date covers only the first phase. Full-campus commissioning and investment remain unconfirmed. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [c5e9bb7c9dcc]: Reviewed S199 for Full campus gross power and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -2632,7 +2716,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C091",
@@ -2655,7 +2740,7 @@
     "pue": "1.4375",
     "source_ids": "S199",
     "issue": "",
-    "notes": "The paired 230 MW gross / 160 MW IT figures give a design ratio of 1.4375, rather than measured operating PUE. The IT capacity is included in the 230 MW site total. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [b7c0380a3020]: Reviewed S199 for IT capacity within campus total and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The paired 230 MW gross / 160 MW IT figures give a design ratio of 1.4375, rather than measured operating PUE. The IT capacity is included in the 230 MW site total. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [b7c0380a3020]: Reviewed S199 for IT capacity within campus total and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -2663,7 +2748,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C092",
@@ -2694,7 +2780,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C093",
@@ -2725,7 +2812,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C092",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C094",
@@ -2756,7 +2844,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C095",
@@ -2779,7 +2868,7 @@
     "pue": "",
     "source_ids": "S203",
     "issue": "",
-    "notes": "The campus could exceed 550 MW IT; the source gives no upper limit. Further development is conditional. The first hall’s substation does not establish construction or operation of the full campus. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [0e69be73149e]: Reviewed S203 for Full campus IT potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The campus could exceed 550 MW IT; the source gives no upper limit. Further development is conditional. The first hall’s substation does not establish construction or operation of the full campus. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [0e69be73149e]: Reviewed S203 for Full campus IT potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -2787,7 +2876,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C096",
@@ -2818,7 +2908,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C097",
@@ -2849,7 +2940,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C098",
@@ -2880,7 +2972,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C099",
@@ -2911,7 +3004,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C100",
@@ -2942,7 +3036,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C101",
@@ -2973,7 +3068,8 @@
     "full_capacity_year": "2032",
     "full_capacity_last_year": "2035",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C102",
@@ -3004,7 +3100,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C103",
@@ -3035,7 +3132,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C104",
@@ -3058,7 +3156,7 @@
     "pue": "",
     "source_ids": "S215;S071",
     "issue": "",
-    "notes": "FCDC identifies the same DayOne Lahti campus. Its 180 MW connection includes the 128 MW IT plan. Undated envelope: the source date applies to the first building, not to this figure, so the figure counts only in High (rule of 2026-10-16). The 180 MW connection description does not supply an energisation date or explicit contractual status; first-building opening does not date the whole grid envelope.\nTiming review 2026-10-18 [8919a4566c70]: Reviewed S215;S071 for Campus grid connection and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load. Remaining timing flags: grid_date_unknown. The scoped power date/status is retained separately; no actual operation or full-campus delivery is inferred.",
+    "notes": "FCDC identifies the same DayOne Lahti campus. Its 180 MW connection includes the 128 MW IT plan. Undated envelope: the source date applies to the first building, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. The 180 MW connection description does not supply an energisation date or explicit contractual status; first-building opening does not date the whole grid envelope.\nTiming review 2026-10-18 [8919a4566c70]: Reviewed S215;S071 for Campus grid connection and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load. Remaining timing flags: grid_date_unknown. The scoped power date/status is retained separately; no actual operation or full-campus delivery is inferred.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3066,7 +3164,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C105",
@@ -3097,7 +3196,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C106",
@@ -3120,7 +3220,7 @@
     "pue": "",
     "source_ids": "S218",
     "issue": "",
-    "notes": "The 600 MW total has no explicit electrical definition. Later phases are undated. Planned initial works in 2026 do not establish when the entire campus will operate. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [5711708464ff]: Reviewed S218 for Second-phase full campus potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The 600 MW total has no explicit electrical definition. Later phases are undated. Planned initial works in 2026 do not establish when the entire campus will operate. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [5711708464ff]: Reviewed S218 for Second-phase full campus potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3128,7 +3228,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C107",
@@ -3159,7 +3260,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C110",
@@ -3190,7 +3292,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C111",
@@ -3213,7 +3316,7 @@
     "pue": "1.3",
     "source_ids": "S220;S265",
     "issue": "",
-    "notes": "The 100–300 MW IT alternatives are included in the 133–400 MW electrical design, with reported design PUE 1.3.The first construction phase does not confirm investment in the full design. Undated envelope: the source date applies to the first construction phase, not to this figure, so the figure counts only in High (rule of 2026-10-16). March 2026 piling and first operation 2027 concern only the separate unquantified phase C155. No campus-wide timing, FID or network allocation can be established.\nTiming review 2026-10-18 [3ca8fe8aeb39]: Reviewed S220;S265 for IT in alternative designs and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The 100–300 MW IT alternatives are included in the 133–400 MW electrical design, with reported design PUE 1.3.The first construction phase does not confirm investment in the full design. Undated envelope: the source date applies to the first construction phase, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. March 2026 piling and first operation 2027 concern only the separate unquantified phase C155. No campus-wide timing, FID or network allocation can be established.\nTiming review 2026-10-18 [3ca8fe8aeb39]: Reviewed S220;S265 for IT in alternative designs and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3221,7 +3324,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C112",
@@ -3252,7 +3356,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C113",
@@ -3283,7 +3388,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C115",
@@ -3314,7 +3420,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C129",
@@ -3345,7 +3452,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C132",
@@ -3368,7 +3476,7 @@
     "pue": "",
     "source_ids": "S247",
     "issue": "",
-    "notes": "The source describes 500 MW of power and development potential.That assumption does not establish investment in all 500 MW or a full-completion date. Undated envelope: the source date applies to the initial 60 MW phase, not to this figure, so the figure counts only in High (rule of 2026-10-16). 500 MW potential remains undated; 60 MW first phase and 100 MW cumulative 2029 are separate scopes, not full-campus dates.\nTiming review 2026-10-18 [24592c385ed3]: Reviewed S247 for Campus power potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The source describes 500 MW of power and development potential.That assumption does not establish investment in all 500 MW or a full-completion date. Undated envelope: the source date applies to the initial 60 MW phase, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. 500 MW potential remains undated; 60 MW first phase and 100 MW cumulative 2029 are separate scopes, not full-campus dates.\nTiming review 2026-10-18 [24592c385ed3]: Reviewed S247 for Campus power potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "2026-06-01",
@@ -3376,7 +3484,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C133",
@@ -3407,7 +3516,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C134",
@@ -3438,7 +3548,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C141",
@@ -3461,7 +3572,7 @@
     "pue": "",
     "source_ids": "S249",
     "issue": "",
-    "notes": "The source gives 320 MW of available power and a 2028 service target.The target does not establish full commissioning or investment in all 320 MW. Undated envelope: the source date applies to the 90 MW first phase, not to this figure, so the figure counts only in High (rule of 2026-10-16). Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [fbdae9235627]: Reviewed S249 for Available campus power and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The source gives 320 MW of available power and a 2028 service target.The target does not establish full commissioning or investment in all 320 MW. Undated envelope: the source date applies to the 90 MW first phase, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [fbdae9235627]: Reviewed S249 for Available campus power and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3469,7 +3580,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C142",
@@ -3500,7 +3612,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C143",
@@ -3523,7 +3636,7 @@
     "pue": "",
     "source_ids": "S250",
     "issue": "",
-    "notes": "FCDC gives 250 MW of electrical power.Later stages remain conditional; their investment is unconfirmed. Undated envelope: the source date applies to the first building, not to this figure, so the figure counts only in High (rule of 2026-10-16). Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [e1e86e3aaec3]: Reviewed S250 for Campus electrical capacity and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "FCDC gives 250 MW of electrical power.Later stages remain conditional; their investment is unconfirmed. Undated envelope: the source date applies to the first building, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [e1e86e3aaec3]: Reviewed S250 for Campus electrical capacity and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3531,7 +3644,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C155",
@@ -3562,7 +3676,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C159",
@@ -3585,7 +3700,7 @@
     "pue": "",
     "source_ids": "S273",
     "issue": "",
-    "notes": "The 300 MW expansion potential has no explicit electrical definition.That assumption does not establish construction or investment in the entire campus. Undated envelope: the source date applies to the first 8 MW IT service, not to this figure, so the figure counts only in High (rule of 2026-10-16). Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. Other phases do not date it.\nTiming review 2026-10-18 [2966f9bfae39]: Reviewed S273 for Long-term campus potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "The 300 MW expansion potential has no explicit electrical definition.That assumption does not establish construction or investment in the entire campus. Undated envelope: the source date applies to the first 8 MW IT service, not to this figure, and remains without its own source date. Scenario inclusion is calculated by the current model. Follow-up retained this undated campus scope: no own first delivery, full-completion date or quantified phased network schedule was found. No phase date is copied into this row's source fields.\nTiming review 2026-10-18 [2966f9bfae39]: Reviewed S273 for Long-term campus potential and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No dated observation of this exact scope was found; the source access date is not treated as an event date. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -3593,7 +3708,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C160",
@@ -3624,7 +3740,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C161",
@@ -3655,7 +3772,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C162",
@@ -3686,7 +3804,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C163",
@@ -3717,7 +3836,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C164",
@@ -3748,7 +3868,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C165",
@@ -3779,7 +3900,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C166",
@@ -3810,7 +3932,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C167",
@@ -3841,7 +3964,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C171",
@@ -3872,7 +3996,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C172",
@@ -3903,7 +4028,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C174",
@@ -3934,7 +4060,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C175",
@@ -3965,7 +4092,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C176",
@@ -3996,7 +4124,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C177",
@@ -4027,7 +4156,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C178",
@@ -4058,7 +4188,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C179",
@@ -4089,7 +4220,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C180",
@@ -4120,7 +4252,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C181",
@@ -4151,7 +4284,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C182",
@@ -4182,7 +4316,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C183",
@@ -4213,7 +4348,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C184",
@@ -4244,7 +4380,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C185",
@@ -4275,7 +4412,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C186",
@@ -4306,7 +4444,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C187",
@@ -4337,7 +4476,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C188",
@@ -4368,7 +4508,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C189",
@@ -4399,7 +4540,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C190",
@@ -4430,7 +4572,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C194",
@@ -4461,7 +4604,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C195",
@@ -4492,7 +4636,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C196",
@@ -4523,7 +4668,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C197",
@@ -4554,7 +4700,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C198",
@@ -4585,7 +4732,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C199",
@@ -4616,7 +4764,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C200",
@@ -4647,7 +4796,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "contracted"
+    "grid_status": "contracted",
+    "timing_status": ""
   },
   {
     "claim_id": "C201",
@@ -4678,7 +4828,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C204",
@@ -4701,7 +4852,7 @@
     "pue": "1.375",
     "source_ids": "S315;S316;S342",
     "issue": "",
-    "notes": "Basis: approximately 40 MW IT capacity within the permitted maximum 55 MW grid withdrawal. The implied upper design PUE is 55/40 = 1.375; this is a modelling bound, not measured performance. No observed construction start or operation date is stated. S342 confirms the electrical concession on 31 July 2026. Permitted 55 MW withdrawal is linked as the same-facility grid ceiling, but the concession is not a supply reservation. No observed start or first/full-service date is disclosed.\nTiming review 2026-10-18 [e565301bf91a]: Reviewed S315;S316;S342 and the targeted project follow-up logged in the Norway report. Permitted 55 MW withdrawal is linked as the same-facility grid ceiling, but the concession is not a supply reservation. No observed start or first/full-service date is disclosed.",
+    "notes": "Basis: approximately 40 MW IT capacity within the permitted maximum 55 MW grid withdrawal. The implied upper design PUE is 55/40 = 1.375; this is a modelling bound, not measured performance. No observed construction start or operation date is stated. S342 confirms the electrical concession on 31 July 2026. Permitted 55 MW withdrawal is linked as same-facility grid evidence (its MW is not a scenario load cap), but the concession is not a supply reservation. No observed start or first/full-service date is disclosed.\nTiming review 2026-10-18 [e565301bf91a]: Reviewed S315;S316;S342 and the targeted project follow-up logged in the Norway report. Permitted 55 MW withdrawal is linked as the same-facility grid ceiling, but the concession is not a supply reservation. No observed start or first/full-service date is disclosed.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "2026-07-31",
@@ -4709,7 +4860,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C222",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C205",
@@ -4740,7 +4892,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C206",
@@ -4771,7 +4924,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C207",
@@ -4802,7 +4956,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C208",
@@ -4833,7 +4988,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C209",
@@ -4864,7 +5020,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C210",
@@ -4895,7 +5052,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C211",
@@ -4926,7 +5084,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C212",
@@ -4957,7 +5116,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C213",
@@ -4988,7 +5148,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C214",
@@ -5019,7 +5180,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "requested"
+    "grid_status": "requested",
+    "timing_status": ""
   },
   {
     "claim_id": "C215",
@@ -5050,7 +5212,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C216",
@@ -5081,7 +5244,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C217",
@@ -5112,7 +5276,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C218",
@@ -5143,7 +5308,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C219",
@@ -5174,7 +5340,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C220",
@@ -5205,7 +5372,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C221",
@@ -5236,7 +5404,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C222",
@@ -5267,7 +5436,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C223",
@@ -5298,7 +5468,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C224",
@@ -5329,7 +5500,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C225",
@@ -5360,7 +5532,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C226",
@@ -5391,7 +5564,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C230",
@@ -5422,7 +5596,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C231",
@@ -5453,7 +5628,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C232",
@@ -5476,7 +5652,7 @@
     "pue": "",
     "source_ids": "S446",
     "issue": "",
-    "notes": "S446 says power capacity 11 MW while separately dating the 6 MW phase 2 to 2027. The 11 MW is not treated as already fully live. Existing 5 MW IT cannot be subtracted directly from facility power; the same-measure installed baseline and whole-site delivery date remain unknown.\nTiming review 2026-10-18 [c2c4fe316ed4]: Reviewed S446 and the targeted project follow-up logged in the Norway report. The 11 MW is not treated as already fully live. Existing 5 MW IT cannot be subtracted directly from facility power; the same-measure installed baseline and whole-site delivery date remain unknown.",
+    "notes": "S446 says power capacity 11 MW while separately dating the 6 MW phase 2 to 2027. The 11 MW is not treated as already fully live. Existing 5 MW IT cannot be subtracted directly from facility power; the same-measure installed baseline and whole-site delivery date remain unknown.\nTiming review 2026-10-18 [c2c4fe316ed4]: Reviewed S446 and the targeted project follow-up logged in the Norway report. The 11 MW is not treated as already fully live. Existing 5 MW IT cannot be subtracted directly from facility power; the same-measure installed baseline and whole-site delivery date remain unknown. Method 4.1 review: available excerpts do not establish a comparable facility-power baseline within the gross 11 MW. The 5 MW IT at end-2025 and new 6 MW IT contract are distinct from the ambiguous power specification. Existing_unknown is retained; no invented PUE subtraction or reclassification is made.",
     "construction_event": "",
     "timing_event": "",
     "status_as_of": "",
@@ -5484,7 +5660,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C233",
@@ -5515,7 +5692,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C238",
@@ -5546,7 +5724,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C239",
@@ -5577,7 +5756,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C240",
@@ -5608,7 +5788,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C241",
@@ -5639,7 +5820,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C242",
@@ -5670,7 +5852,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C080",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C243",
@@ -5701,7 +5884,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C244",
@@ -5732,7 +5916,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C245",
@@ -5763,7 +5948,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C246",
@@ -5794,7 +5980,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C247",
@@ -5825,7 +6012,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C249",
@@ -5856,7 +6044,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C250",
@@ -5887,7 +6076,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C251",
@@ -5918,7 +6108,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C252",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C252",
@@ -5949,7 +6140,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": ""
   },
   {
     "claim_id": "C253",
@@ -5980,7 +6172,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C254",
@@ -6011,7 +6204,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C255",
@@ -6042,7 +6236,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C256",
@@ -6073,7 +6268,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "C258",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C257",
@@ -6104,7 +6300,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   },
   {
     "claim_id": "C258",
@@ -6135,7 +6332,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "reserved"
+    "grid_status": "reserved",
+    "timing_status": ""
   },
   {
     "claim_id": "C259",
@@ -6158,7 +6356,7 @@
     "pue": "",
     "source_ids": "S473;S471;S475",
     "issue": "",
-    "notes": "January source targets 325 MW total energized capacity in Q4 2027; later site page says 300 MW total potential without date. Preserve the older conditional network target separately. Only 110 MW has demonstrated network confirmation; extra scope has no verified allocation or FID. No customer-ready date is inferred. Subtract existing 40 MW network baseline; same physical tree.\nTiming review 2026-10-18 [c20352f8279c]: Reviewed S473;S471;S475 for Older further energized-capacity target and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.",
+    "notes": "January source targets 325 MW total energized capacity in Q4 2027; later site page says 300 MW total potential without date. Preserve the older conditional network target separately. Only 110 MW has demonstrated network confirmation; extra scope has no verified allocation or FID. No customer-ready date is inferred. Subtract existing 40 MW network baseline; same physical tree.\nTiming review 2026-10-18 [c20352f8279c]: Reviewed S473;S471;S475 for Older further energized-capacity target and targeted country follow-up; the scope-specific findings are recorded above. No separate first-operation date for this exact scope was disclosed; full-capacity and power dates are retained in their own fields. No additional scoped binding grid allocation or energisation schedule was verified; power availability is not installed load.\nMethod 4.1 review 2026-10-18: S473 January 2026 Q4-2027 target is not repeated by the current S471 page (updated 2026-10-13 per the method instruction), which gives 300 MW without a date. Historical 325 MW / 2027 remain source facts; timing_status=superseded makes this row undated and High-only. The independent first-site works and customer-readiness evidence are retained.",
     "construction_event": "",
     "timing_event": "planned",
     "status_as_of": "2026-01-27",
@@ -6166,7 +6364,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "unknown"
+    "grid_status": "unknown",
+    "timing_status": "superseded"
   },
   {
     "claim_id": "C260",
@@ -6197,7 +6396,8 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": ""
+    "grid_status": "",
+    "timing_status": ""
   },
   {
     "claim_id": "C261",
@@ -6228,6 +6428,7 @@
     "full_capacity_year": "",
     "full_capacity_last_year": "",
     "grid_claim_id": "",
-    "grid_status": "available"
+    "grid_status": "available",
+    "timing_status": ""
   }
 ]

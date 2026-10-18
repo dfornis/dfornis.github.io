@@ -34,10 +34,12 @@
       (row) => numeric(row[low]) !== null && (row.capacity_known || ["operational", "cancelled", "dormant"].includes(row.indicator))
     );
     const total = (key) => rows.reduce((sum, row) => sum + (numeric(row[key]) ?? 0), 0);
+    const openUpper = rows.filter((row) => row.capacity_known && numeric(row[low]) !== null && numeric(row[high]) === null).length;
     return {
       low: !known && unknown ? null : total(low),
-      high: !known && unknown ? null : total(high),
+      high: openUpper || (!known && unknown) ? null : total(high),
       unknown,
+      openUpper,
     };
   }
   const totalRange = (t, kind = "mw") =>
@@ -112,7 +114,10 @@
   }
   // Operation years first; without one, a construction start or grid date, labelled as such.
   function operationYears(claims, projectStatus = "") {
-    const active = claims.filter((claim) => !["Operational", "Cancelled", "Dormant"].includes(claim.status) && claim.issue !== "identity_conflict");
+    const active = claims.filter(
+      (claim) =>
+        !["Operational", "Cancelled", "Dormant"].includes(claim.status) && claim.issue !== "identity_conflict" && claim.timing_status !== "superseded"
+    );
     const years = (list, field, prefix = "") =>
       [
         ...new Set(
@@ -323,7 +328,6 @@
           related_identity: "Possible duplicate",
           no_datacenter_load: "Not datacenter load",
           capacity_unknown: "MW unknown",
-          capacity_without_upper_limit: "No assigned capacity",
           pending_approval: "Pending review",
         };
         // Each row shows what that figure alone gives in the scenario; the project total below uses the
@@ -362,6 +366,7 @@
               escape(basisLabel(claim.basis)) +
               "</td><td>" +
               escape(claim.status) +
+              (row?.timing_rule === "executing_campus_full_by_horizon" ? "<br>Under construction; full campus assumed by 2035" : "") +
               "</td><td>" +
               escape(decisionLabel(claim.decision)) +
               "</td><td>" +
@@ -370,6 +375,7 @@
               ) +
               "</td><td>" +
               escape(timing + (claim.timing_event ? " (" + claim.timing_event + ")" : " (event type unknown)")) +
+              (claim.timing_status === "superseded" ? "<br>Historical target superseded; treated as undated" : "") +
               (row && !["operational", "cancelled", "dormant", "no_datacenter_load", "identity_conflict", "related_identity"].includes(row.reason)
                 ? "<br>Model first: " +
                   escape(row.first_early + "–" + row.first_late) +
@@ -490,6 +496,7 @@
         const { mw, twh, planned, buildout } = view.totals;
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + " without assigned capacity");
+        if (planned.openUpper) notes.push(planned.openUpper + " with an open upper capacity bound (≥)");
         const unknownPhases = rows.filter((row) => row.capacity_known && row.partial_capacity).length;
         if (unknownPhases) notes.push(unknownPhases + " with unquantified phases");
         const inCampus = rows.filter((row) => containedIn(row)).length;
@@ -506,7 +513,7 @@
           totalRange(planned, "mw") +
           " MW</strong> · <strong>" +
           totalRange(buildout, "twh") +
-          " TWh/year</strong></span></div>" +
+          " TWh/year</strong></span><small>High 2035 equals full build-out.</small></div>" +
           '<div class="summary-block"><span class="summary-kicker">Selected scenario</span><span><strong>' +
           totalRange(mw, "mw") +
           " MW</strong> in operation in " +

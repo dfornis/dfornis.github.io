@@ -55,15 +55,15 @@
 
   function capacityLabel(detail) {
     if (detail.excluded || detail.hq_unreviewed) return "—";
-    if (detail.unknown && (detail.high === null || detail.high === 0)) return "Unknown";
-    return `${fmtMw({...detail, unknown: 0})} MW${detail.unknown ? "*" : ""}`;
+    if (detail.low === null || (detail.unknown && detail.high === 0)) return "Unknown";
+    return `${fmtMw({ ...detail, unknown: 0 })} MW${detail.unknown ? "*" : ""}`;
   }
 
   function fillForMw(detail) {
     if (detail.excluded || detail.hq_unreviewed) return "#e8e5df";
-    if (detail.unknown && (detail.high === null || detail.high === 0)) return "#bdbdbd";
-    if (detail.high === null) return "#bdbdbd";
-    const bin = BREAKS.find((b) => detail.high >= b.min && detail.high <= b.max);
+    const value = detail.high ?? detail.low;
+    if (value === null || (detail.unknown && value === 0)) return "#bdbdbd";
+    const bin = BREAKS.find((b) => value >= b.min && value <= b.max);
     return bin ? bin.color : BREAKS[0].color;
   }
 
@@ -95,29 +95,33 @@
   }
 
   function mapRows(view, data) {
-    const plotted = new Set(data.project_scenarios.filter(row => mapState(row) !== "excluded").map(row => row.project_id));
-    return view.rows.filter(row => plotted.has(row.project_id));
+    const plotted = new Set(data.project_scenarios.filter((row) => mapState(row) !== "excluded").map((row) => row.project_id));
+    return view.rows.filter((row) => plotted.has(row.project_id));
   }
 
   function hqView(view, data, mode) {
     if (mode === "none") return view;
-    const projects = new Map(data.projects.map(project => [project.project_id, project]));
-    const projectIds = view.rows.filter(row => matchesHq(projects.get(row.project_id), mode)).map(row => row.project_id);
+    const projects = new Map(data.projects.map((project) => [project.project_id, project]));
+    const projectIds = view.rows.filter((row) => matchesHq(projects.get(row.project_id), mode)).map((row) => row.project_id);
     const selected = global.DCTracker.makeView(data, view.scenario, { ...view.filters, projectIds });
-    const reviewedCountries = new Set(data.projects.filter(project => splitTags(project.actor_hq_countries).length).map(project => project.country));
+    const reviewedCountries = new Set(
+      data.projects.filter((project) => splitTags(project.actor_hq_countries).length).map((project) => project.country)
+    );
     for (const [country, detail] of Object.entries(selected.countries)) detail.hq_unreviewed = !reviewedCountries.has(country);
     for (const detail of Object.values(selected.zones)) detail.hq_unreviewed = !reviewedCountries.has(detail.country);
     return selected;
   }
 
   function highlightGroups(groups, mode) {
-    return groups.map(group => {
-      const matching = project => mode === "none" || matchesHq(project, mode);
+    return groups.map((group) => {
+      const matching = (project) => mode === "none" || matchesHq(project, mode);
       return {
         ...group,
         hq_mode: mode,
-        hq_match_count: group.phases.filter(project => matchesHq(project, mode)).length,
-        selected_count: group.phases.filter(project => matching(project) && (project.participates || (mode !== "none" && mapState(project) === "unknown"))).length,
+        hq_match_count: group.phases.filter((project) => matchesHq(project, mode)).length,
+        selected_count: group.phases.filter(
+          (project) => matching(project) && (project.participates || (mode !== "none" && mapState(project) === "unknown"))
+        ).length,
       };
     });
   }
@@ -297,20 +301,26 @@
   }
 
   function buildPhaseGroups(view, data) {
-    const projects = new Map(data.projects.map(project => [project.project_id, project]));
-    const entries = mapRows(view, data).map(row => {
-      const project = projects.get(row.project_id);
-      return { ...project, ...row, phase: project.status, coordinate_note: "Approximate project locations" };
-    }).filter(project => num(project.latitude) !== null && num(project.longitude) !== null);
-    const grouped = d3.group(entries, project => `${project.municipality}|${project.latitude}|${project.longitude}`);
+    const projects = new Map(data.projects.map((project) => [project.project_id, project]));
+    const entries = mapRows(view, data)
+      .map((row) => {
+        const project = projects.get(row.project_id);
+        return { ...project, ...row, phase: project.status, coordinate_note: "Approximate project locations" };
+      })
+      .filter((project) => num(project.latitude) !== null && num(project.longitude) !== null);
+    const grouped = d3.group(entries, (project) => `${project.municipality}|${project.latitude}|${project.longitude}`);
     return Array.from(grouped, ([key, phases]) => {
       const ordered = phases.sort((a, b) => a.project_name.localeCompare(b.project_name));
-      const activeCount = ordered.filter(phase => phase.participates).length;
+      const activeCount = ordered.filter((phase) => phase.participates).length;
       return {
-        ...ordered[0], key, phases: ordered,
-        phase_count: ordered.length, project_count: ordered.length, active_count: activeCount,
-        unknown_count: ordered.filter(phase => mapState(phase) === "unknown").length,
-        excluded_count: ordered.filter(phase => mapState(phase) === "excluded").length,
+        ...ordered[0],
+        key,
+        phases: ordered,
+        phase_count: ordered.length,
+        project_count: ordered.length,
+        active_count: activeCount,
+        unknown_count: ordered.filter((phase) => mapState(phase) === "unknown").length,
+        excluded_count: ordered.filter((phase) => mapState(phase) === "excluded").length,
         scenario_state: activeCount === 0 ? "inactive" : activeCount === ordered.length ? "active" : "mixed",
       };
     });
@@ -351,18 +361,26 @@
         });
     });
 
-    const hqControl = controls.append("div").attr("class", "dc-hq-control")
-      .attr("role", "group").attr("aria-label", "Developer headquarters")
+    const hqControl = controls
+      .append("div")
+      .attr("class", "dc-hq-control")
+      .attr("role", "group")
+      .attr("aria-label", "Developer headquarters")
       .attr("title", "Global headquarters. Domestic is relative to the project's country. " + coverageNote);
     hqControl.append("span").attr("class", "dc-hq-label").text("HQ");
-    const hqButtons = hqControl.append("div").attr("class", "dc-hq-segments")
-      .selectAll("button").data(HQ_HIGHLIGHTS).join("button")
-      .attr("type", "button").attr("class", "dc-hq-button")
-      .attr("data-hq", item => item.id)
-      .attr("aria-pressed", item => String(item.id === "none"))
-      .text(item => item.label)
+    const hqButtons = hqControl
+      .append("div")
+      .attr("class", "dc-hq-segments")
+      .selectAll("button")
+      .data(HQ_HIGHLIGHTS)
+      .join("button")
+      .attr("type", "button")
+      .attr("class", "dc-hq-button")
+      .attr("data-hq", (item) => item.id)
+      .attr("aria-pressed", (item) => String(item.id === "none"))
+      .text((item) => item.label)
       .on("click", (event, item) => {
-        hqButtons.attr("aria-pressed", option => String(option.id === item.id));
+        hqButtons.attr("aria-pressed", (option) => String(option.id === item.id));
         onHighlightChange(item.id);
       });
 
@@ -374,7 +392,8 @@
     return (
       scenarioDetails[activeScenario]?.[zone] || {
         zone,
-        low: 0, high: 0,
+        low: 0,
+        high: 0,
         project_count: 0,
       }
     );
@@ -578,7 +597,7 @@
       );
 
     totalRows
-      .attr("data-country", d => d.country)
+      .attr("data-country", (d) => d.country)
       .transition()
       .duration(160)
       .attr("transform", (d) => `translate(${d.x},${d.totalY})`);
@@ -621,8 +640,7 @@
 
           g.append("line").attr("class", "dc-phase-anchor");
 
-          g.append("circle").attr("class", "dc-phase-hit")
-            .attr("fill", "transparent").attr("aria-hidden", "true");
+          g.append("circle").attr("class", "dc-phase-hit").attr("fill", "transparent").attr("aria-hidden", "true");
 
           g.append("circle")
             .attr("class", "dc-phase-dot")
@@ -655,12 +673,16 @@
       .classed("selection-inactive", (d) => d.selected_count === 0)
       .classed("hq-match", (d) => d.hq_match_count > 0)
       .classed("hq-partial", (d) => d.hq_match_count > 0 && d.hq_match_count < d.project_count)
-      .attr("data-hq-matches", d => d.hq_match_count)
-      .attr("data-project-count", d => d.project_count)
-      .attr("data-project-ids", d => d.phases.map(project => project.project_id).join(" "))
-      .attr("data-unknown-count", d => d.unknown_count)
-      .attr("data-selected-count", d => d.selected_count)
-      .attr("aria-label", (d) => `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}, ${d.active_count} included in the selected scenario${d.unknown_count ? `, ${d.unknown_count} with unknown contribution` : ""}${d.hq_mode === "none" ? "" : `, ${d.hq_match_count} match ${HQ_HIGHLIGHTS.find(item => item.id === d.hq_mode).label} HQ`}`)
+      .attr("data-hq-matches", (d) => d.hq_match_count)
+      .attr("data-project-count", (d) => d.project_count)
+      .attr("data-project-ids", (d) => d.phases.map((project) => project.project_id).join(" "))
+      .attr("data-unknown-count", (d) => d.unknown_count)
+      .attr("data-selected-count", (d) => d.selected_count)
+      .attr(
+        "aria-label",
+        (d) =>
+          `${d.project_count} project${d.project_count === 1 ? "" : "s"} in ${d.municipality}, ${d.active_count} included in the selected scenario${d.unknown_count ? `, ${d.unknown_count} with unknown contribution` : ""}${d.hq_mode === "none" ? "" : `, ${d.hq_match_count} match ${HQ_HIGHLIGHTS.find((item) => item.id === d.hq_mode).label} HQ`}`
+      )
       .on("click", function (event, d) {
         event.stopPropagation();
         showPhasePopup(popupG, d, width, height);
@@ -681,7 +703,7 @@
       .attr("opacity", (d) => (d.hasOffset ? 1 : 0));
 
     groups.select("circle.dc-phase-dot").attr("r", markerRadius);
-    groups.select("circle.dc-phase-hit").attr("r", d => Math.max(12, phaseRadius(d) + 3));
+    groups.select("circle.dc-phase-hit").attr("r", (d) => Math.max(12, phaseRadius(d) + 3));
 
     groups
       .select("text.dc-phase-count")
@@ -695,8 +717,8 @@
     const lineHeight = 16;
     const maxPhases = 6;
     const phaseLines = group.phases.slice(0, maxPhases).map((phase) => {
-      const inCampus = splitTags(phase.note).some(note => note.startsWith("included_in:"));
-      const mwText = ` · ${inCampus ? "In campus" : phase.partial_capacity && !phase.mw_high ? "Contribution unknown" : phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" + (phase.partial_capacity ? "*" : "") : "Contribution unknown"}`;
+      const inCampus = splitTags(phase.note).some((note) => note.startsWith("included_in:"));
+      const mwText = ` · ${inCampus ? "In campus" : phase.partial_capacity && phase.mw_high === 0 ? "Contribution unknown" : phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" + (phase.partial_capacity ? "*" : "") : "Contribution unknown"}`;
       return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
     });
 
@@ -708,7 +730,9 @@
       `${group.municipality}`,
       `${group.project_count} project${group.project_count === 1 ? "" : "s"} · ${countryLabel(group.country)} · ${group.bidding_zone}`,
       `Scenario: ${group.active_count} included, ${group.excluded_count} outside, ${group.unknown_count} unknown`,
-      ...(group.hq_mode === "none" ? [] : [`${HQ_HIGHLIGHTS.find(item => item.id === group.hq_mode).label} HQ selection: ${group.selected_count} of ${group.project_count}`]),
+      ...(group.hq_mode === "none"
+        ? []
+        : [`${HQ_HIGHLIGHTS.find((item) => item.id === group.hq_mode).label} HQ selection: ${group.selected_count} of ${group.project_count}`]),
       ...phaseLines,
     ];
 
@@ -760,17 +784,26 @@
     const height = 765;
     let activeScenario = view.scenario;
     let hqHighlight = "none";
-    const reviewed = (data.actor_coverage || []).filter(row => row.reviewed > 0);
-    const unreviewed = (data.actor_coverage || []).filter(row => row.reviewed === 0);
-    const coverageNote = "HQ reviewed: " + reviewed.map(row => `${countryLabel(row.country)} (${row.reviewed}/${row.projects})`).join(", ") +
-      (unreviewed.length ? ". Not yet reviewed: " + unreviewed.map(row => countryLabel(row.country)).join(", ") : "") + ".";
+    const reviewed = (data.actor_coverage || []).filter((row) => row.reviewed > 0);
+    const unreviewed = (data.actor_coverage || []).filter((row) => row.reviewed === 0);
+    const coverageNote =
+      "HQ reviewed: " +
+      reviewed.map((row) => `${countryLabel(row.country)} (${row.reviewed}/${row.projects})`).join(", ") +
+      (unreviewed.length ? ". Not yet reviewed: " + unreviewed.map((row) => countryLabel(row.country)).join(", ") : "") +
+      ".";
 
     const root = d3.select(container).attr("class", "dc-scenario-map-root dc-scenario-map-offset");
 
-    renderControls(container, activeScenario, onScenarioChange, mode => {
-      hqHighlight = mode;
-      renderHighlights();
-    }, coverageNote);
+    renderControls(
+      container,
+      activeScenario,
+      onScenarioChange,
+      (mode) => {
+        hqHighlight = mode;
+        renderHighlights();
+      },
+      coverageNote
+    );
 
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
 
@@ -824,7 +857,7 @@
       popupG.selectAll("*").remove();
       const selected = hqView(view, data, hqHighlight);
       scenarioDetails[activeScenario] = { ...selected.zones, _countries: selected.countries };
-      zonePaths.attr("fill", d => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
+      zonePaths.attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
       renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
       const groups = highlightGroups(buildPhaseGroups(view, data), hqHighlight);
       root.classed("dc-hq-highlighting", hqHighlight !== "none");
@@ -836,7 +869,14 @@
       view = nextView;
       activeScenario = view.scenario;
       popupG.selectAll("*").remove();
-      root.selectAll(".dc-scenario-button").classed("active", function () { return this.dataset.scenario === activeScenario; }).attr("aria-pressed", function () { return String(this.dataset.scenario === activeScenario); });
+      root
+        .selectAll(".dc-scenario-button")
+        .classed("active", function () {
+          return this.dataset.scenario === activeScenario;
+        })
+        .attr("aria-pressed", function () {
+          return String(this.dataset.scenario === activeScenario);
+        });
       positionScenarioIndicator(root.select(".dc-scenario-controls"));
       renderHighlights();
     }
