@@ -501,10 +501,6 @@
         const { mw, twh, planned, buildout } = view.totals;
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + " without assigned capacity");
-        const unknownPhases = rows.filter((row) => row.capacity_known && row.partial_capacity).length;
-        if (unknownPhases) notes.push(unknownPhases + " with unquantified phases");
-        const inCampus = rows.filter((row) => containedIn(row)).length;
-        if (inCampus) notes.push(inCampus + " counted in campus totals");
         status.innerHTML =
           '<div class="summary-grid">' +
           '<div class="summary-block summary-selection"><span class="summary-kicker">Selection</span><span><strong>' +
@@ -517,7 +513,7 @@
           totalRange(planned, "mw") +
           " MW</strong> · <strong>" +
           totalRange(buildout, "twh") +
-          " TWh/year</strong></span><small>High 2035 equals full build-out.</small></div>" +
+          " TWh/year</strong></span></div>" +
           '<div class="summary-block"><span class="summary-kicker">Selected scenario</span><span><strong>' +
           totalRange(mw, "mw") +
           " MW</strong> in operation in " +

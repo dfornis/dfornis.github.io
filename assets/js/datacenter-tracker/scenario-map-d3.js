@@ -17,12 +17,12 @@
   ];
 
   const BREAKS = [
-    { min: 0, max: 0, label: "0", color: "#eef3ff" },
-    { min: 1, max: 499, label: "1-499", color: "#c6dbef" },
-    { min: 500, max: 999, label: "500-999", color: "#9ecae1" },
-    { min: 1000, max: 1499, label: "1,000-1,499", color: "#6baed6" },
-    { min: 1500, max: 2499, label: "1,500-2,499", color: "#3182bd" },
-    { min: 2500, max: Infinity, label: "2,500+", color: "#08519c" },
+    { min: 0, max: 0, label: "0", color: "#e5eae8" },
+    { min: 1, max: 499, label: "1-499", color: "#c9d6da" },
+    { min: 500, max: 999, label: "500-999", color: "#a7bdc7" },
+    { min: 1000, max: 1499, label: "1,000-1,499", color: "#819fae" },
+    { min: 1500, max: 2499, label: "1,500-2,499", color: "#5c7f94" },
+    { min: 2500, max: Infinity, label: "2,500+", color: "#3f627b" },
   ];
 
   const COUNTRY_OFFSETS = {
@@ -62,7 +62,7 @@
   function fillForMw(detail) {
     if (detail.excluded || detail.hq_unreviewed) return "#e8e5df";
     const value = detail.high;
-    if (value === null || (detail.unknown && value === 0)) return "#bdbdbd";
+    if (value === null || (detail.unknown && value === 0)) return "#bdbbb5";
     const bin = BREAKS.find((b) => value >= b.min && value <= b.max);
     return bin ? bin.color : BREAKS[0].color;
   }

@@ -2,7 +2,8 @@
 (function (global) {
   "use strict";
   const countryNames = { SE: "Sweden", NO: "Norway", FI: "Finland" };
-  const countryColors = { FI: "#397fc0", SE: "#cb537c", NO: "#4c8875" };
+  // Slate blue from the header illustration, with muted clay and sage companions.
+  const countryColors = { FI: "#4c7088", SE: "#9b6659", NO: "#5f7968" };
   const familyIds = ["low", "stated", "high"];
   const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const range = (point) =>
@@ -95,7 +96,6 @@
       const chart = container.querySelector(".dc-timeline-chart");
       const table = container.querySelector(".dc-timeline-table");
       const unknownNote = container.querySelector(".dc-timeline-unknown");
-      const highNote = container.querySelector(".dc-timeline-high-note");
       const reducedMotion = global.matchMedia("(prefers-reduced-motion: reduce)");
       const svg = d3.select(chart).append("svg").attr("role", "img").attr("aria-labelledby", "dc-timeline-svg-title dc-timeline-svg-desc");
       svg.append("title").attr("id", "dc-timeline-svg-title").text("Additional datacenter capacity in operation by year");
@@ -160,13 +160,12 @@
             : "";
         message.hidden = !message.textContent;
         unknownNote.hidden = !unknown;
-        highNote.hidden = options.family !== "high";
         const width = Math.max(300, chart.clientWidth);
         const compact = width < 620;
         const height = compact ? 350 : 420;
         const margin = {
           left: compact ? 46 : 58,
-          right: compact ? 24 : 200,
+          right: compact ? 24 : 150,
           top: 44,
           bottom: 46,
         };

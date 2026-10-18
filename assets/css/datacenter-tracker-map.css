@@ -34,10 +34,12 @@
   bottom: 0;
   height: 3px;
   width: 0;
-  background: #111;
+  background: var(--dc-blue);
   border-radius: 999px;
   transform: translateX(0);
-  transition: transform 220ms ease, width 220ms ease;
+  transition:
+    transform 220ms ease,
+    width 220ms ease;
   pointer-events: none;
 }
 
@@ -45,7 +47,7 @@
 #dc-scenario-map .dc-scenario-button {
   border: 0 !important;
   background: transparent;
-  color: #9aa29b;
+  color: #8b9699;
   padding: 0.15rem 0.38rem 0.24rem 0.38rem;
   font: inherit;
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
@@ -69,25 +71,29 @@
   font-size: 14.4px !important;
   line-height: 1.02 !important;
   font-weight: 400;
-  color: #9aa29b;
+  color: #8b9699;
 }
 
 .dc-scenario-button.active,
 #dc-scenario-map .dc-scenario-button.active {
-  color: #111;
+  color: var(--dc-ink);
 }
 
 .dc-scenario-button.active small,
 #dc-scenario-map .dc-scenario-button.active small {
-  color: #111;
+  color: var(--dc-ink);
 }
 
 #dc-scenario-map .dc-hq-control {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  color: #737773;
-  font: 12px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  color: var(--dc-muted);
+  font:
+    12px/1.4 "Avenir Next",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 }
 
 #dc-scenario-map .dc-hq-label {
@@ -100,7 +106,7 @@
   gap: 2px;
   padding: 3px;
   border-radius: 999px;
-  background: rgba(85, 99, 90, 0.065);
+  background: var(--dc-control);
 }
 
 #dc-scenario-map .dc-hq-button {
@@ -109,25 +115,28 @@
   border-radius: 999px;
   padding: 0.3rem 0.7rem;
   background: transparent;
-  color: #9aa29b;
+  color: #8b9699;
   font: inherit;
   line-height: 1.25;
   cursor: pointer;
-  transition: color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  transition:
+    color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
 }
 
 #dc-scenario-map .dc-hq-button:hover {
-  color: #2f3832;
+  color: var(--dc-ink);
 }
 
 #dc-scenario-map .dc-hq-button[aria-pressed="true"] {
-  background: #fffdf8;
-  color: #27362d;
-  box-shadow: 0 1px 3px rgba(40, 51, 43, 0.1);
+  background: var(--dc-paper);
+  color: var(--dc-ink);
+  box-shadow: 0 1px 3px rgba(48, 61, 67, 0.1);
 }
 
 #dc-scenario-map .dc-hq-control.active .dc-hq-button[aria-pressed="true"] {
-  color: #a34e22;
+  color: #9b6659;
 }
 
 #dc-scenario-map .dc-hq-button:focus {
@@ -135,25 +144,27 @@
 }
 
 #dc-scenario-map .dc-hq-button:focus-visible {
-  box-shadow: inset 0 0 0 1.5px #64736c;
+  box-shadow: inset 0 0 0 1.5px var(--dc-blue);
 }
 
 #dc-scenario-map .dc-phase-dot {
-  fill: #c6ccc6;
+  fill: #c8cfcc;
   fill-opacity: 1;
-  transition: fill 160ms ease, stroke 160ms ease;
+  transition:
+    fill 160ms ease,
+    stroke 160ms ease;
 }
 
 #dc-scenario-map .selection-active .dc-phase-dot {
-  fill: #65766d;
+  fill: #5f7968;
 }
 
 #dc-scenario-map.dc-hq-highlighting .selection-active .dc-phase-dot {
-  fill: #ad5426;
+  fill: #a97050;
 }
 
 #dc-scenario-map .dc-phase-count {
-  fill: #424c46;
+  fill: var(--dc-ink);
 }
 
 #dc-scenario-map .selection-active .dc-phase-count {
@@ -190,14 +201,14 @@
 }
 
 .dc-zone {
-  stroke: #595d5d;
+  stroke: #647782;
   stroke-width: 0.85;
   vector-effect: non-scaling-stroke;
 }
 
 .dc-zone.highlight,
 #dc-scenario-map .dc-zone.highlight {
-  stroke: #242828;
+  stroke: #303d43;
   stroke-width: 1.55;
 }
 
@@ -334,7 +345,7 @@
 }
 
 .dc-phase-dot {
-  fill: #65766d;
+  fill: #5f7968;
   fill-opacity: 1;
   stroke: #fbf8f0;
   stroke-width: 1.1;

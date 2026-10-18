@@ -1,9 +1,9 @@
 .dc-timeline {
-  --dc-chart-paper: var(--global-bg-color, #f4f0e9);
-  --dc-chart-text: #272921;
-  --dc-chart-muted: #666a60;
-  --dc-chart-rule: rgba(85, 99, 90, 0.16);
-  --dc-chart-control: rgba(85, 99, 90, 0.065);
+  --dc-chart-paper: var(--dc-paper);
+  --dc-chart-text: var(--dc-ink);
+  --dc-chart-muted: var(--dc-muted);
+  --dc-chart-rule: var(--dc-rule);
+  --dc-chart-control: var(--dc-control);
   color: var(--dc-chart-text);
   margin: 1.8rem 0 2.4rem;
   clear: both;
@@ -13,13 +13,7 @@
 }
 .dc-timeline-content {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-}
-.dc-timeline-deck {
-  max-width: 650px;
-  font-size: 13px;
-  line-height: 1.6;
-  margin: 0 0 1.3rem;
-  color: var(--dc-chart-muted);
+  font-weight: 400;
 }
 .dc-timeline-controls {
   display: flex;
@@ -66,10 +60,10 @@
 .dc-timeline-measure-switch input:checked + span {
   background: var(--dc-chart-paper);
   color: var(--dc-chart-text);
-  box-shadow: 0 1px 3px rgba(40, 51, 43, 0.1);
+  box-shadow: 0 1px 3px rgba(48, 61, 67, 0.1);
 }
 .dc-timeline-measure-switch input:focus-visible + span {
-  outline: 2px solid #397fc0;
+  outline: 2px solid var(--dc-blue);
   outline-offset: 2px;
 }
 .dc-timeline select {
@@ -86,7 +80,7 @@
   opacity: 0.45;
 }
 .dc-timeline :focus-visible {
-  outline: 2px solid #397fc0;
+  outline: 2px solid var(--dc-blue);
   outline-offset: 3px;
 }
 .dc-timeline-paper {
@@ -181,19 +175,18 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.dc-timeline-note {
+.dc-timeline .dc-timeline-note {
   margin: 0.85rem 0 0;
-  font-size: 11px;
-  line-height: 1.65;
-  color: var(--dc-chart-muted);
+  /* The site-wide paragraph size is important, so override it here explicitly. */
+  font-size: 14px !important;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--dc-chart-text);
 }
 .dc-timeline-status {
   font-size: 11px;
   margin: 0.6rem 0;
   color: var(--dc-chart-muted);
-}
-.dc-timeline-high-note {
-  font-size: 12px;
 }
 .dc-timeline-data {
   margin-top: 0.5rem;
@@ -202,7 +195,8 @@
 .dc-timeline-data summary {
   width: fit-content;
   cursor: pointer;
-  color: var(--dc-chart-muted);
+  font-size: 12px;
+  color: var(--dc-chart-text);
 }
 .dc-timeline-table-wrap {
   overflow-x: auto;
@@ -210,25 +204,25 @@
 }
 .dc-timeline-table {
   width: 100%;
-  font-size: 11px;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
-.dc-timeline-table th,
-.dc-timeline-table td {
+.dc-timeline .dc-timeline-table th,
+.dc-timeline .dc-timeline-table td {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
   border-bottom: 1px solid var(--dc-chart-rule);
-  padding: 0.4rem;
+  padding: 0.3rem 0.5rem;
   text-align: left;
   white-space: nowrap;
+}
+.dc-timeline .dc-timeline-table thead th {
+  font-weight: 500;
 }
 .dc-timeline-table caption {
   color: var(--dc-chart-muted);
   font-size: 11px;
-}
-html[data-theme="dark"] .dc-timeline {
-  --dc-chart-text: #edf0e7;
-  --dc-chart-muted: #b7bfb1;
-  --dc-chart-rule: #40483d;
-  --dc-chart-control: rgba(183, 191, 177, 0.1);
 }
 @media (max-width: 600px) {
   .dc-timeline {
