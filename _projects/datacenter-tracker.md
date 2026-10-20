@@ -19,6 +19,8 @@ permalink: /projects/datacenter-tracker/
 
 Capacity includes cooling and other site electricity use. Values are shown as ranges where the source or timing is uncertain.
 
+Totals cover identified projects with a reported capacity figure. In Norway, [Statnett](https://www.statnett.no/om-statnett/nyheter-og-pressemeldinger/nyhetsarkiv-2025/storre-apenhet-om-reservert-nettkapasitet-og-hvem-som-star-i-ko/) publishes project names and MW for grid reservations and its capacity queue. Sweden’s [Svenska kraftnät](https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/) publishes aggregate queue figures, while Finland’s [Fingrid](https://www.fingrid.fi/en/grid/grid-connection-agreement-phases/uusi-liityntakysely/connection-agreement-application/) treats connection applications as confidential. Planning and permit documents provide additional project-level information, but do not always disclose electrical capacity. Country totals may therefore differ partly because more projects have public MW figures, not simply because more capacity is planned.
+
 <div class="after-table-space"></div>
 
 <div id="dc-scenario-map"></div>
@@ -38,7 +40,7 @@ Capacity includes cooling and other site electricity use. Values are shown as ra
 
 **Reading the figures.** Each scenario shows how much new capacity could be operating in the selected year. Ranges reflect uncertainty in reported capacity and completion dates. An asterisk means that some projects have no MW estimate and are missing from the total. The [method below](#capacity-and-electricity-use) explains the calculations.
 
-Full build-out and High include every announced figure, including grid queue applications and plans without permits. Public disclosure differs by country: Norwegian grid requests are published per project, Swedish grid queue entries are not, and several large projects have no public MW figure. Country and zone comparisons are therefore more robust in Low and Stated than in High.
+Full build-out and High include grid connection requests and plans without permits.
 
 **Using the map.** Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
 
