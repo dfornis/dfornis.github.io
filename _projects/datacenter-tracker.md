@@ -42,7 +42,7 @@ Totals cover identified projects with a reported capacity figure. In Norway, [St
 
 Full build-out and High include grid connection requests and plans without permits.
 
-**Using the map.** Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
+**Using the map.** Choose **Annual electricity use** (TWh/year, the default) or **Power** (MW). Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
 
 **Developer headquarters.** HQ selects projects by their developers' global headquarters. **Domestic** means the project's own country, **Other Europe** means another European country, and **Outside Europe** means elsewhere. Matching projects turn orange and the map totals update. **All** restores the full selection.
 

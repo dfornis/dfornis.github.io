@@ -194,7 +194,7 @@
       );
     });
   }
-  function makeView(data, scenario, filters = {}) {
+  function makeView(data, scenario, filters = {}, measure = "mw") {
     const rows = rowsFor(data, scenario, filters);
     const totals = (list) => ({
       mw: sumBounds(list, "mw_low", "mw_high"),
@@ -211,7 +211,7 @@
       );
       const selected = rows.filter((row) => row.bidding_zone === zone);
       zones[zone] = {
-        ...totals(selected).mw,
+        ...totals(selected)[measure],
         excluded,
         project_count: selected.length,
         country,
@@ -220,13 +220,13 @@
     const countries = {};
     for (const country of ["NO", "SE", "FI"])
       countries[country] = {
-        ...totals(rows.filter((row) => row.country === country)).mw,
+        ...totals(rows.filter((row) => row.country === country))[measure],
         excluded: Boolean(
           (filters.countries?.length && !filters.countries.includes(country)) ||
           (filters.zones?.length && !Object.values(zones).some((zone) => zone.country === country && !zone.excluded))
         ),
       };
-    return { scenario, rows, zones, countries, totals: totals(rows), filters };
+    return { scenario, rows, zones, countries, totals: totals(rows), filters, measure };
   }
   async function mount(document) {
     const root = document.getElementById("dc-tracker");

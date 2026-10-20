@@ -2,6 +2,11 @@
 
 (function (global) {
   const DEFAULT_SCENARIO = "stated_2030";
+  const DEFAULT_MEASURE = "twh";
+  const MEASURES = [
+    { id: "twh", label: "Annual electricity use", unit: "TWh/year", field: "annual_twh" },
+    { id: "mw", label: "Power", unit: "MW", field: "mw" },
+  ];
   const HQ_HIGHLIGHTS = [
     { id: "none", label: "All" },
     { id: "domestic", label: "Domestic" },
@@ -16,14 +21,24 @@
     { id: "high_2035", label: "High", year: "2035", fullLabel: "High 2035" },
   ];
 
-  const BREAKS = [
-    { min: 0, max: 0, label: "0", color: "#e5eae8" },
-    { min: 1, max: 499, label: "1-499", color: "#c9d6da" },
-    { min: 500, max: 999, label: "500-999", color: "#a7bdc7" },
-    { min: 1000, max: 1499, label: "1,000-1,499", color: "#819fae" },
-    { min: 1500, max: 2499, label: "1,500-2,499", color: "#5c7f94" },
-    { min: 2500, max: Infinity, label: "2,500+", color: "#3f627b" },
-  ];
+  const BREAKS = {
+    mw: [
+      { max: 0, label: "0", color: "#e5eae8" },
+      { max: 500, label: "<500", color: "#c9d6da" },
+      { max: 1000, label: "500–1,000", color: "#a7bdc7" },
+      { max: 1500, label: "1,000–1,500", color: "#819fae" },
+      { max: 2500, label: "1,500–2,500", color: "#5c7f94" },
+      { max: Infinity, label: "2,500+", color: "#3f627b" },
+    ],
+    twh: [
+      { max: 0, label: "0", color: "#e5eae8" },
+      { max: 3, label: "<3", color: "#c9d6da" },
+      { max: 6, label: "3–6", color: "#a7bdc7" },
+      { max: 10, label: "6–10", color: "#819fae" },
+      { max: 15, label: "10–15", color: "#5c7f94" },
+      { max: Infinity, label: "15+", color: "#3f627b" },
+    ],
+  };
 
   const COUNTRY_OFFSETS = {
     NO: [-82, -24],
@@ -48,23 +63,20 @@
     return value === null || value === undefined || value === "" ? null : Number.isFinite(Number(value)) ? Number(value) : null;
   }
 
-  function fmtMw(value) {
-    if (value && typeof value === "object") return value.excluded ? "—" : global.DCTracker.totalRange(value);
-    return global.DCTracker.range(value, value);
-  }
-
-  function capacityLabel(detail) {
+  function capacityLabel(detail, measure = "mw") {
     if (detail.excluded || detail.hq_unreviewed) return "—";
     if (detail.low === null || (detail.unknown && detail.high === 0)) return "Unknown";
-    return `${fmtMw({ ...detail, unknown: 0 })} MW${detail.unknown ? "*" : ""}`;
+    const unit = MEASURES.find((item) => item.id === measure).unit;
+    return `${global.DCTracker.totalRange({ ...detail, unknown: 0 }, measure)} ${unit}${detail.unknown ? "*" : ""}`;
   }
 
-  function fillForMw(detail) {
+  function fillForMeasure(detail, measure = "mw") {
     if (detail.excluded || detail.hq_unreviewed) return "#e8e5df";
     const value = detail.high;
     if (value === null || (detail.unknown && value === 0)) return "#bdbbb5";
-    const bin = BREAKS.find((b) => value >= b.min && value <= b.max);
-    return bin ? bin.color : BREAKS[0].color;
+    const breaks = BREAKS[measure];
+    if (value === 0) return breaks[0].color;
+    return breaks.slice(1).find((bin) => value < bin.max).color;
   }
 
   function splitTags(value) {
@@ -103,7 +115,7 @@
     if (mode === "none") return view;
     const projects = new Map(data.projects.map((project) => [project.project_id, project]));
     const projectIds = view.rows.filter((row) => matchesHq(projects.get(row.project_id), mode)).map((row) => row.project_id);
-    const selected = global.DCTracker.makeView(data, view.scenario, { ...view.filters, projectIds });
+    const selected = global.DCTracker.makeView(data, view.scenario, { ...view.filters, projectIds }, view.measure);
     const reviewedCountries = new Set(
       data.projects.filter((project) => splitTags(project.actor_hq_countries).length).map((project) => project.country)
     );
@@ -339,7 +351,7 @@
     indicator.style("width", `${activeBox.width}px`).style("transform", `translateX(${activeBox.left - controlsBox.left}px)`);
   }
 
-  function renderControls(container, activeScenario, onScenarioChange, onHighlightChange, coverageNote) {
+  function renderControls(container, activeScenario, onScenarioChange, onMeasureChange, onHighlightChange, coverageNote) {
     const controls = d3.select(container).append("div").attr("class", "dc-map-controls");
 
     const scenarioControls = controls.append("div").attr("class", "dc-scenario-controls");
@@ -361,7 +373,26 @@
         });
     });
 
-    const hqControl = controls
+    const options = controls.append("div").attr("class", "dc-map-options");
+    const measureControl = options.append("div").attr("class", "dc-measure-control").attr("role", "group").attr("aria-label", "Map measure");
+    measureControl.append("span").attr("class", "dc-measure-label").text("Measure");
+    const measureButtons = measureControl
+      .append("div")
+      .attr("class", "dc-measure-segments")
+      .selectAll("button")
+      .data(MEASURES)
+      .join("button")
+      .attr("type", "button")
+      .attr("class", "dc-measure-button")
+      .attr("data-measure", (item) => item.id)
+      .attr("aria-pressed", (item) => String(item.id === DEFAULT_MEASURE))
+      .text((item) => item.label)
+      .on("click", (event, item) => {
+        measureButtons.attr("aria-pressed", (option) => String(option.id === item.id));
+        onMeasureChange(item.id);
+      });
+
+    const hqControl = options
       .append("div")
       .attr("class", "dc-hq-control")
       .attr("role", "group")
@@ -384,8 +415,28 @@
         onHighlightChange(item.id);
       });
 
+    controls.append("div").attr("class", "dc-map-legend").attr("role", "group");
+
     requestAnimationFrame(() => positionScenarioIndicator(scenarioControls));
     window.addEventListener("resize", () => positionScenarioIndicator(scenarioControls));
+  }
+
+  function renderLegend(root, measure) {
+    const unit = MEASURES.find((item) => item.id === measure).unit;
+    const legend = root.select(".dc-map-legend").attr("aria-label", `Upper estimate, ${unit}`);
+    legend.selectAll(".dc-map-legend-unit").data([unit]).join("span").attr("class", "dc-map-legend-unit").text(`${unit}`);
+    const items = legend.selectAll(".dc-map-legend-item").data(BREAKS[measure]).join("span").attr("class", "dc-map-legend-item");
+    items
+      .selectAll("i")
+      .data((item) => [item])
+      .join("i")
+      .style("background", (item) => item.color)
+      .attr("aria-hidden", "true");
+    items
+      .selectAll("span")
+      .data((item) => [item])
+      .join("span")
+      .text((item) => item.label);
   }
 
   function detailForZone(scenarioDetails, activeScenario, zone) {
@@ -438,7 +489,7 @@
         x,
         lineStartY: maxY + 8,
         lineEndY: listY - 34,
-        totalMw: scenarioDetails[activeScenario]._countries[country],
+        total: scenarioDetails[activeScenario]._countries[country],
         totalY,
         rows: rows.map((row, index) => ({
           ...row,
@@ -504,7 +555,7 @@
       .text((d) => d.zone);
   }
 
-  function renderCountryCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, onHighlight) {
+  function renderCountryCallouts(calloutG, geojson, path, activeScenario, scenarioDetails, onHighlight, measure) {
     const countries = buildCountryCalloutData(geojson, path, activeScenario, scenarioDetails);
     const countryGroups = calloutG
       .selectAll("g.dc-country-callout")
@@ -551,7 +602,7 @@
 
     rows
       .attr("data-zone", (d) => d.zone)
-      .attr("aria-label", (d) => `${d.zone}, ${capacityLabel(d.detail)}`)
+      .attr("aria-label", (d) => `${d.zone}, ${capacityLabel(d.detail, measure)}`)
       .classed("empty", (d) => d.detail.excluded || d.detail.hq_unreviewed || (!d.detail.unknown && d.detail.low === 0 && d.detail.high === 0))
       .on("mouseenter", function (event, d) {
         onHighlight(d.zone, true);
@@ -577,7 +628,7 @@
     rows
       .select("text.dc-capacity-value")
       .attr("x", 18)
-      .text((d) => capacityLabel(d.detail));
+      .text((d) => capacityLabel(d.detail, measure));
 
     const totalRows = calloutG
       .selectAll("g.dc-capacity-total-row")
@@ -607,10 +658,10 @@
     totalRows
       .select("text.dc-capacity-total-value")
       .attr("x", 18)
-      .text((d) => capacityLabel(d.totalMw));
+      .text((d) => capacityLabel(d.total, measure));
   }
 
-  function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height) {
+  function renderPhaseLayer(phaseG, popupG, phaseGroups, projection, width, height, measure) {
     const projectedPoints = phaseGroups
       .map((group) => {
         const xy = projection([group.longitude, group.latitude]);
@@ -685,12 +736,12 @@
       )
       .on("click", function (event, d) {
         event.stopPropagation();
-        showPhasePopup(popupG, d, width, height);
+        showPhasePopup(popupG, d, width, height, measure);
       })
       .on("keydown", function (event, d) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          showPhasePopup(popupG, d, width, height);
+          showPhasePopup(popupG, d, width, height, measure);
         }
       });
 
@@ -711,15 +762,20 @@
       .text((d) => (markerCount(d) > 1 ? markerCount(d) : ""));
   }
 
-  function showPhasePopup(popupG, group, width, height) {
+  function contributionLabel(phase, measure) {
+    if (splitTags(phase.note).some((note) => note.startsWith("included_in:"))) return "In campus";
+    if (!phase.capacity_known || (phase.partial_capacity && phase.mw_high === 0)) return "Contribution unknown";
+    const { field, unit } = MEASURES.find((item) => item.id === measure);
+    return `${global.DCTracker.range(phase[field + "_low"], phase[field + "_high"], measure)} ${unit}${phase.partial_capacity ? "*" : ""}`;
+  }
+
+  function showPhasePopup(popupG, group, width, height, measure) {
     popupG.selectAll("*").remove();
 
     const lineHeight = 16;
     const maxPhases = 6;
     const phaseLines = group.phases.slice(0, maxPhases).map((phase) => {
-      const inCampus = splitTags(phase.note).some((note) => note.startsWith("included_in:"));
-      const mwText = ` · ${inCampus ? "In campus" : phase.partial_capacity && phase.mw_high === 0 ? "Contribution unknown" : phase.capacity_known ? global.DCTracker.range(phase.mw_low, phase.mw_high) + " MW" + (phase.partial_capacity ? "*" : "") : "Contribution unknown"}`;
-      return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)}${mwText}`;
+      return `${truncate(phase.project_name, 24)} · ${truncate(phase.phase, 18)} · ${contributionLabel(phase, measure)}`;
     });
 
     if (group.phases.length > maxPhases) {
@@ -783,6 +839,7 @@
     const width = 760;
     const height = 765;
     let activeScenario = view.scenario;
+    let measure = DEFAULT_MEASURE;
     let hqHighlight = "none";
     const reviewed = (data.actor_coverage || []).filter((row) => row.reviewed > 0);
     const unreviewed = (data.actor_coverage || []).filter((row) => row.reviewed === 0);
@@ -798,6 +855,10 @@
       container,
       activeScenario,
       onScenarioChange,
+      (nextMeasure) => {
+        measure = nextMeasure;
+        renderHighlights();
+      },
       (mode) => {
         hqHighlight = mode;
         renderHighlights();
@@ -807,12 +868,7 @@
 
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
 
-    const svg = figure
-      .append("svg")
-      .attr("class", "dc-scenario-svg")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("role", "img")
-      .attr("aria-label", "Scenario map of Nordic datacenter grid-side capacity by bidding zone");
+    const svg = figure.append("svg").attr("class", "dc-scenario-svg").attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
 
     const projection = d3.geoMercator();
     const path = d3.geoPath(projection);
@@ -844,8 +900,7 @@
         const offset = countryOffset(d.properties.country);
         return `translate(${offset[0]},${offset[1]})`;
       })
-      .attr("d", path)
-      .attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
+      .attr("d", path);
 
     renderZoneLabels(zoneLabelG, displayGeojson, path, projection);
 
@@ -855,14 +910,17 @@
 
     function renderHighlights() {
       popupG.selectAll("*").remove();
-      const selected = hqView(view, data, hqHighlight);
+      const selected = hqView(global.DCTracker.makeView(data, view.scenario, view.filters, measure), data, hqHighlight);
       scenarioDetails[activeScenario] = { ...selected.zones, _countries: selected.countries };
-      zonePaths.attr("fill", (d) => fillForMw(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone)));
-      renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone);
+      root.attr("data-measure", measure);
+      svg.attr("aria-label", `Scenario map of Nordic datacenter ${MEASURES.find((item) => item.id === measure).label.toLowerCase()} by bidding zone`);
+      renderLegend(root, measure);
+      zonePaths.attr("fill", (d) => fillForMeasure(detailForZone(scenarioDetails, activeScenario, d.properties.bidding_zone), measure));
+      renderCountryCallouts(countryCalloutG, displayGeojson, path, activeScenario, scenarioDetails, highlightZone, measure);
       const groups = highlightGroups(buildPhaseGroups(view, data), hqHighlight);
       root.classed("dc-hq-highlighting", hqHighlight !== "none");
       root.select(".dc-hq-control").classed("active", hqHighlight !== "none");
-      renderPhaseLayer(phaseG, popupG, groups, projection, width, height);
+      renderPhaseLayer(phaseG, popupG, groups, projection, width, height, measure);
     }
 
     function update(nextView) {
@@ -883,7 +941,7 @@
     update(view);
     return { update };
   }
-  const api = { mount, matchesHq, highlightGroups, mapState, mapRows, hqView, capacityLabel, fillForMw };
+  const api = { mount, matchesHq, highlightGroups, mapState, mapRows, hqView, capacityLabel, contributionLabel, fillForMeasure, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);

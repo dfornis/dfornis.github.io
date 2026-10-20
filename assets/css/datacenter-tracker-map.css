@@ -84,7 +84,16 @@
   color: var(--dc-ink);
 }
 
-#dc-scenario-map .dc-hq-control {
+#dc-scenario-map .dc-map-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 1.4rem;
+}
+
+#dc-scenario-map .dc-hq-control,
+#dc-scenario-map .dc-measure-control {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
@@ -96,12 +105,14 @@
     sans-serif;
 }
 
-#dc-scenario-map .dc-hq-label {
+#dc-scenario-map .dc-hq-label,
+#dc-scenario-map .dc-measure-label {
   font-size: 10px;
   letter-spacing: 0.06em;
 }
 
-#dc-scenario-map .dc-hq-segments {
+#dc-scenario-map .dc-hq-segments,
+#dc-scenario-map .dc-measure-segments {
   display: inline-flex;
   gap: 2px;
   padding: 3px;
@@ -109,7 +120,8 @@
   background: var(--dc-control);
 }
 
-#dc-scenario-map .dc-hq-button {
+#dc-scenario-map .dc-hq-button,
+#dc-scenario-map .dc-measure-button {
   margin: 0;
   border: 0;
   border-radius: 999px;
@@ -118,6 +130,7 @@
   color: #8b9699;
   font: inherit;
   line-height: 1.25;
+  white-space: nowrap;
   cursor: pointer;
   transition:
     color 120ms ease,
@@ -125,11 +138,13 @@
     box-shadow 120ms ease;
 }
 
-#dc-scenario-map .dc-hq-button:hover {
+#dc-scenario-map .dc-hq-button:hover,
+#dc-scenario-map .dc-measure-button:hover {
   color: var(--dc-ink);
 }
 
-#dc-scenario-map .dc-hq-button[aria-pressed="true"] {
+#dc-scenario-map .dc-hq-button[aria-pressed="true"],
+#dc-scenario-map .dc-measure-button[aria-pressed="true"] {
   background: var(--dc-paper);
   color: var(--dc-ink);
   box-shadow: 0 1px 3px rgba(48, 61, 67, 0.1);
@@ -139,12 +154,45 @@
   color: #9b6659;
 }
 
-#dc-scenario-map .dc-hq-button:focus {
+#dc-scenario-map .dc-hq-button:focus,
+#dc-scenario-map .dc-measure-button:focus {
   outline: none;
 }
 
-#dc-scenario-map .dc-hq-button:focus-visible {
+#dc-scenario-map .dc-hq-button:focus-visible,
+#dc-scenario-map .dc-measure-button:focus-visible {
   box-shadow: inset 0 0 0 1.5px var(--dc-blue);
+}
+
+#dc-scenario-map .dc-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 0.7rem;
+  color: var(--dc-muted);
+  font:
+    10px/1.4 "Avenir Next",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+#dc-scenario-map .dc-map-legend-unit {
+  margin-right: 0.15rem;
+}
+
+#dc-scenario-map .dc-map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+#dc-scenario-map .dc-map-legend-item i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
 }
 
 #dc-scenario-map .dc-phase-dot {
@@ -175,6 +223,24 @@
   pointer-events: all;
 }
 
+@media (max-width: 480px) {
+  #dc-scenario-map .dc-hq-control,
+  #dc-scenario-map .dc-measure-control {
+    gap: 0.45rem;
+  }
+
+  #dc-scenario-map .dc-hq-button {
+    padding: 0.3rem 0.4rem;
+    font-size: 11px;
+  }
+
+  #dc-scenario-map .dc-map-legend-unit {
+    flex-basis: 100%;
+    margin-right: 0;
+    text-align: center;
+  }
+}
+
 @media (max-width: 400px) {
   #dc-scenario-map .dc-scenario-button {
     min-width: 56px;
@@ -183,6 +249,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   #dc-scenario-map .dc-hq-button,
+  #dc-scenario-map .dc-measure-button,
   #dc-scenario-map .dc-phase-dot {
     transition: none;
   }
