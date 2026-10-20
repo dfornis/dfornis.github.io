@@ -17,11 +17,7 @@ permalink: /projects/datacenter-tracker/
 
 ## Scenario map
 
-Capacity includes cooling and other site electricity use. Values are shown as ranges where the source or timing is uncertain.
-
-Totals cover identified projects with a reported capacity figure. In Norway, [Statnett](https://www.statnett.no/om-statnett/nyheter-og-pressemeldinger/nyhetsarkiv-2025/storre-apenhet-om-reservert-nettkapasitet-og-hvem-som-star-i-ko/) publishes project names and MW for grid reservations and its capacity queue. Sweden’s [Svenska kraftnät](https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/) publishes aggregate queue figures, while Finland’s [Fingrid](https://www.fingrid.fi/en/grid/grid-connection-agreement-phases/uusi-liityntakysely/connection-agreement-application/) treats connection applications as confidential. Planning and permit documents provide additional project-level information, but do not always disclose electrical capacity. Country totals may therefore differ partly because more projects have public MW figures, not simply because more capacity is planned.
-
-<div class="after-table-space"></div>
+Totals cover projects with reported capacity. [Coverage varies by country](#dc-data-coverage).
 
 <div id="dc-scenario-map"></div>
 
@@ -36,17 +32,13 @@ Totals cover identified projects with a reported capacity figure. In Norway, [St
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Low 2030           | Plans with a confirmed investment decision and an announced timetable.                                                                                              |
 | Stated 2030 / 2035 | Plans with an announced timetable. Larger sites may also be included when a phase has a timetable and is under construction or has a confirmed investment decision. |
-| High 2035          | All announced capacity, assumed to be fully built by 2035.                                                                                                          |
+| High 2035          | All announced capacity, including grid requests and plans without permits, assumed fully built by 2035.                                                             |
 
-**Reading the figures.** Each scenario shows how much new capacity could be operating in the selected year. Ranges reflect uncertainty in reported capacity and completion dates. An asterisk means that some projects have no MW estimate and are missing from the total. The [method below](#capacity-and-electricity-use) explains the calculations.
+**Reading the figures.** Ranges reflect uncertainty in capacity and timing. An asterisk indicates missing MW data. The [method below](#capacity-and-electricity-use) explains the calculations.
 
-Full build-out and High include grid connection requests and plans without permits.
+**Using the map.** Blue shading shows the upper estimate. Points open project details. The project filters also apply to the map and chart.
 
-**Using the map.** Choose **Annual electricity use** (TWh/year, the default) or **Power** (MW). Blue shading shows the upper estimate for each bidding zone. Click a point to see the project's contribution. The country, zone, status and type filters above the project table also apply to the map and chart.
-
-**Developer headquarters.** HQ selects projects by their developers' global headquarters. **Domestic** means the project's own country, **Other Europe** means another European country, and **Outside Europe** means elsewhere. Matching projects turn orange and the map totals update. **All** restores the full selection.
-
-Projects with several developers may appear in more than one HQ group. Each project is counted once within the selected group. A dash means headquarters have not been reviewed for that country. Developer and ownership details are available in the project table.
+**HQ.** Groups projects by developers' global headquarters: **Domestic** is the project's country, **Other Europe** is the rest of Europe, and **Outside Europe** is elsewhere. Partnerships can match several groups, with each project counted once per selection. A dash marks countries without HQ reviews. Developer and ownership details are in the project table.
 
   </div>
 </details>
@@ -158,25 +150,49 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 
 ## Capacity and electricity use
 
-**Full build-out (MW)** is the additional site capacity if all announced plans are completed, including cooling and other site electricity use. Reported site power and grid connection figures are used as stated. IT capacity is converted to site power using a PUE of 1.1–1.5, or a reported design PUE. If a source does not say what its MW figure measures, the figure is retained without PUE conversion.
+<figure id="dc-method-flow" class="dc-method-flow" aria-labelledby="dc-method-flow-title">
+  <figcaption id="dc-method-flow-title">How capacity is calculated</figcaption>
+  <p class="dc-method-flow-caption">Each step opens a short explanation.</p>
+  <div class="dc-method-flow-canvas"></div>
+</figure>
 
-Overlapping phases are counted once. Capacity already operating at the end of 2025 is subtracted, while later additions remain in the annual figures after completion. A project included in a larger campus is counted there and shows "In campus" in the table. Expand the row to see the original figures, dates and sources. Backup generators and power generation are excluded from datacenter load.
+<section id="dc-method-reference" class="dc-method-reference" aria-labelledby="dc-method-reference-title">
+  <h3 id="dc-method-reference-title">Parameters and assumptions</h3>
+  <p>MW denotes installed site capacity, including cooling and auxiliary loads. Full build-out covers the announced total after deductions for existing capacity and overlaps. Scenario values cover the capacity installed by the selected year.</p>
 
-**Electricity at full build-out (TWh/yr)** is full build-out multiplied by the annual load factor and 8,760 hours. The load factors are 0.75 for hyperscale, 0.57 for colocation, 0.60 for colocation with AI, and 0.80 for AI/HPC. These assumptions draw on [EPRI (2026)](https://powering-intelligence.epri.com/annual-peak-use.html), [IEA (2025)](https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai) and the documented model method. This calculation estimates annual electricity use at that level of capacity.
+  <h4 id="dc-method-capacity">Capacity conversion</h4>
+  <div data-method-table="capacity"></div>
+  <p class="dc-method-note">PUE and peak-to-capacity ratios draw on <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI (2026)</a>. The ranges are sensitivity cases. Applying the inverse peak ratio to a project's reported peak is the tracker's capacity estimate.</p>
 
-**Opening dates and construction.** The model uses a reported opening date where one is available. Otherwise it estimates when the datacenter could open from the construction date or its current stage of development. Dates and investment decisions apply to the building or phase they describe. The first building's opening date does not tell us when the rest of the site will be ready.
+  <h4 id="dc-method-energy">Annual electricity use</h4>
+  <p class="dc-method-formula">Annual TWh = site MW × annual load factor × 8,760 / 1,000,000</p>
+  <p>The load factor expresses average electricity use relative to installed capacity or peak power. For an explicit peak figure, site MW in the equation is the original peak, converted with PUE where it refers to IT equipment. The corresponding column below supplies the factor.</p>
+  <div data-method-table="annual"></div>
+  <p class="dc-method-note">Hyperscale, colocation and peak-based factors draw on <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI's facility sample</a>. AI/HPC adapts the training-server operating-time assumption in <a href="https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report">Shehabi et al. (2024)</a> to a site-level factor. Colocation with AI uses an assumed load factor. Research/SMR-linked uses a placeholder aligned with AI/HPC. The factors still need calibration against Nordic operating data.</p>
 
-A published timetable for individual phases takes precedence over general assumptions. Where the pace of expansion is unknown, capacity is normally added over five years from the first opening. A development completed in one phase is counted in its opening year. A reported completion target can shorten the assumed construction and expansion periods.
+  <h4 id="dc-method-timing">Opening dates and expansion</h4>
+  <p>A construction start implies first operation after <span data-method-value="construction_years"></span> years when no opening date is available. If neither date is usable, the calculation uses the development stage of the building or phase:</p>
+  <div data-method-table="timing"></div>
+  <dl>
+    <dt>Expansion schedule</dt>
+    <dd>Capacity is added in equal amounts over <span data-method-value="expansion_years"></span> calendar years, including the first operating year. A reported phase schedule or completion target takes precedence and can shorten this period. A single-phase delivery enters in its opening year.</dd>
+    <dt>Campus timing derived from a phase</dt>
+    <dd>A campus included in Stated through a qualifying phase expands in equal annual amounts from its earlier or later estimated opening through <span data-method-value="horizon_year"></span>. Known phases retain their schedules and set a minimum. Completion at the horizon is a scenario assumption.</dd>
+    <dt>Grid connection dates</dt>
+    <dd>In Low and Stated, a reported grid connection date sets the earliest possible opening for the planned capacity. If the connection is still requested or its status is unclear, the lower estimate assumes that this capacity is not operating by the scenario year.</dd>
+  </dl>
+  <p class="dc-method-note">The stage intervals and expansion period are model assumptions. <a href="https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai">IEA (2025)</a> supports a two-to-three-year development period. <a href="https://dso.nationalgrid.co.uk/downloads/15083/data-centre-impact-study2.pdf">National Grid / Regen (2025), pp. 26–30</a>, describes phased delivery and grid constraints.</p>
+</section>
 
-**Larger sites built in phases.** Stated can include a site without an overall timetable when one of its datacenter phases is under construction or has a confirmed investment decision, and a construction, opening or completion date is available for that phase. This can establish an estimated opening date for the site even when the first phase's MW is unknown.
-
-For these sites, the model assumes that capacity increases by an equal amount each year from first operation until 2035. It calculates an earlier and a later opening date to allow for uncertainty. Completion in 2035 is an assumption. Individual phases with known capacity keep their announced schedules. Low still requires a date and an investment decision for the capacity being counted.
-
-**Grid connections.** In Low and Stated, a later grid connection date delays the assumed opening. If the connection is still only requested or its status is unclear, the lower estimate can be zero. The reported connection capacity does not cap the model's estimate of datacenter capacity. High assumes all announced capacity is built by 2035, so it does not apply these grid restrictions and brings later completion dates forward to that year.
+<section id="dc-data-coverage" class="dc-method-reference" aria-labelledby="dc-data-coverage-title">
+  <h3 id="dc-data-coverage-title">Data coverage and country comparisons</h3>
+  <p>Totals cover identified projects with a reported capacity figure. Several large projects have no public MW figure and are omitted from the quantified totals. Country totals may therefore partly reflect differences in public MW coverage.</p>
+  <p>In Norway, <a href="https://www.statnett.no/om-statnett/nyheter-og-pressemeldinger/nyhetsarkiv-2025/storre-apenhet-om-reservert-nettkapasitet-og-hvem-som-star-i-ko/">Statnett</a> publishes project names and MW for grid reservations and its capacity queue. Sweden's <a href="https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/">Svenska kraftnät</a> publishes aggregate queue figures, while Finland's <a href="https://www.fingrid.fi/en/grid/grid-connection-agreement-phases/uusi-liityntakysely/connection-agreement-application/">Fingrid</a> treats connection applications as confidential. Planning and permit documents provide additional project-level information, though electrical capacity is not always disclosed.</p>
+</section>
 
 ## How the tracker is updated
 
-Each country update follows the same sequence from initial lead to published scenario result. The steps below explain what information is collected, how separate projects and phases are identified, and how the source material becomes the figures shown in the table and map.
+Country updates follow a common search and review process. The record keeps the sources and unresolved questions behind each project.
 
 <div class="tracker-workflow">
   <details>
@@ -187,18 +203,18 @@ Each country update follows the same sequence from initial lead to published sce
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">02</span><span>Reconcile identity, phases and dates</span></summary>
+    <summary><span class="workflow-step">02</span><span>Check project identity, phases and dates</span></summary>
     <div class="workflow-body">
       <p>The lead is compared with existing projects, candidate records and historic names. Addresses, municipalities, land parcels, company relationships and earlier announcements help determine whether it is a new project, a new phase or another name for an existing campus.</p>
       <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This prevents double counting and keeps a building’s dates separate from those of the wider campus.</p>
-      <p>A target omitted or replaced by a later source for the same or comparable scope is treated as undated until newly dated evidence appears. The original target is retained in the source detail and marked as superseded.</p>
+      <p>Historic names, superseded targets and earlier capacity claims are retained with their sources.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">03</span><span>Record what each source actually measures</span></summary>
     <div class="workflow-body">
       <p>Every capacity claim is recorded with its unit, scope and qualifier. IT equipment load, total site electricity use and grid connection capacity remain distinct. The record also keeps the source's range, project status, timing and investment decision, together with the part of the campus or phase to which they apply.</p>
-      <p>Conflicting figures are represented as a range when the evidence supports one. Missing figures remain unknown. A statement such as “at least X MW” is calculated using X in full build-out and eligible scenarios, with the normal conversion for its measure. Its qualifier is preserved beside the original source figure. If an included claim exceeds its parent campus after conversion, both sources go to follow-up. The largest applicable scope continues to determine the group’s capacity while the discrepancy is unresolved.</p>
+      <p>Source ranges and qualifications are retained. Conflicting figures and unresolved relationships are flagged for follow-up, with the questions linked to the relevant projects and sources. The calculations use the rules described above.</p>
     </div>
   </details>
   <details>
@@ -970,7 +986,9 @@ pre {
 }
 </style>
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.1">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=4.1.1">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=4.1.1" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.1" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>

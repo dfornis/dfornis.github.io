@@ -236,6 +236,7 @@
       const response = await fetch(root.dataset.results);
       if (!response.ok) throw new Error("Could not load project data.");
       const data = assertContract(await response.json());
+      if (global.DCTrackerMethodFlow) global.DCTrackerMethodFlow.mount(document.getElementById("dc-method-flow"), data);
       const projects = new Map(data.projects.map((project) => [project.project_id, project]));
       const sources = new Map(data.sources.map((source) => [source.source_id, source]));
       const claims = new Map(
