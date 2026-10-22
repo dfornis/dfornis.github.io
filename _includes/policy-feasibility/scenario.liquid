@@ -55,7 +55,8 @@
       <p class="pf-grid-label">{{ input.label }}</p>
       {% for t in pf.trajectories %}
         <div class="pf-grid-cell pf-grid-input" data-trajectory="{{ t.id }}" data-row="{{ input.label }}">
-          {% include policy-feasibility/sparkline.liquid values=input.series[t.id] decision_index=decision_index trajectory=t.id %}
+          {% assign spark_values = input.series[t.id] %}
+          {% include policy-feasibility/sparkline.liquid values=spark_values decision_index=decision_index trajectory=t.id %}
           <p class="pf-caption">{{ input.notes[t.id] }}</p>
         </div>
       {% endfor %}
