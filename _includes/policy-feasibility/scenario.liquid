@@ -1,0 +1,122 @@
+{% assign sc = site.data.policy_feasibility_scenarios %}
+{% assign decision_index = 0 %}
+{% for y in sc.years -%}
+  {%- if y == sc.decision_year %}{% assign decision_index = forloop.index0 %}{% endif -%}
+{%- endfor %}
+<section id="pf-model" class="pf-section">
+  <h2><span class="pf-section-number">05</span> Bring the assessment into the scenario</h2>
+  <p class="pf-prose">{{ pf.model_application.selection }}</p>
+  <p class="pf-model-before">{{ pf.model_application.before }}</p>
+  <div class="pf-development-options pf-model-case-control" role="group" aria-label="Capacity case" hidden>
+    {% for input in pf.sensitivity_inputs %}
+      {% for option in input.options %}
+        <button
+          type="button"
+          data-pf-assumption="{{ input.id }}"
+          data-pf-value="{{ option.id }}"
+          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+        >
+          <span class="pf-assumption-role">{{ option.role }}</span>{{ option.label }}
+        </button>
+      {% endfor %}
+    {% endfor %}
+  </div>
+  {% for development in pf.developments %}
+    <div class="pf-model-case" data-pf-development="{{ development.id }}">
+      <p class="pf-caption">{{ development.label }}</p>
+      <h3>{{ development.model_title }}</h3>
+    </div>
+  {% endfor %}
+  <div class="pf-scenario-grid">
+    <div class="pf-grid-corner" aria-hidden="true"></div>
+    {% for t in pf.trajectories %}
+      <div class="pf-grid-head" data-trajectory="{{ t.id }}">
+        {% for development in pf.developments %}
+          {% assign role = development.model_roles | where: 'id', t.id | first %}
+          <div data-pf-development="{{ development.id }}">
+            <p class="pf-grid-role">{{ role.role }}</p>
+            <h3>
+              <small>{{ t.id }}</small>{{ t.short_title }}
+            </h3>
+            <p class="pf-grid-reason">{{ role.text }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <p class="pf-grid-label">Policy rule from {{ sc.decision_year }}</p>
+    {% for t in pf.trajectories %}
+      <div class="pf-grid-cell" data-trajectory="{{ t.id }}" data-row="Policy rule from {{ sc.decision_year }}">
+        <p>{{ pf.model_application.parameters[t.id] }}</p>
+      </div>
+    {% endfor %}
+
+    {% for input in sc.inputs %}
+      <p class="pf-grid-label">{{ input.label }}</p>
+      {% for t in pf.trajectories %}
+        <div class="pf-grid-cell pf-grid-input" data-trajectory="{{ t.id }}" data-row="{{ input.label }}">
+          {% include policy-feasibility/sparkline.liquid values=input.series[t.id] decision_index=decision_index trajectory=t.id %}
+          <p class="pf-caption">{{ input.notes[t.id] }}</p>
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+    <p class="pf-grid-label">
+      Model results, {{ sc.model.result_year }}
+      {% if sc.status == 'pending' -%}
+        <span class="pf-status">In preparation</span>
+      {%- endif %}
+    </p>
+    {% for t in pf.trajectories %}
+      <div class="pf-grid-cell pf-grid-results" data-trajectory="{{ t.id }}" data-row="Model results, {{ sc.model.result_year }}">
+        {% for development in pf.developments %}
+          <dl data-pf-development="{{ development.id }}">
+            {% for metric in sc.outputs %}
+              {% assign value = sc.results[development.id][t.id][metric.id] %}
+              <div>
+                <dt>{{ metric.label }}</dt>
+                <dd>
+                  {% if value == null -%}
+                    <span aria-label="not yet available">–</span>
+                  {%- else -%}
+                    {{- value -}}
+                  {%- endif %}
+                  <span class="pf-unit">{{ metric.unit }}</span>
+                </dd>
+              </div>
+            {% endfor %}
+          </dl>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  {% if sc.input_status == 'schematic' %}
+    <p class="pf-caption pf-grid-note">
+      Schematic paths for {{ sc.years | first }}–{{ sc.years | last }} on a common scale; the dashed line marks the {{ sc.decision_year }} decision.
+      Model inputs will replace them.
+    </p>
+  {% endif %}
+  <div class="pf-model-feedback">
+    <p class="pf-caption">Back to the next decision window</p>
+    <p>{{ pf.model_application.feedback }}</p>
+  </div>
+  <div class="pf-model-runs">
+    <h3>Model runs</h3>
+    <p>{{ sc.model.name }}. {{ sc.model.setup }} Each policy is run for both capacity cases.</p>
+    <dl>
+      {% for choice in sc.choices %}
+        <div>
+          <dt>
+            {{ choice.question }}
+            {% if choice.status == 'open' -%}
+              <span class="pf-status">Open choice</span>
+            {%- elsif choice.status == 'proposed' -%}
+              <span class="pf-status">Proposed</span>
+            {%- endif %}
+          </dt>
+          <dd>{{ choice.text }}</dd>
+        </div>
+      {% endfor %}
+    </dl>
+  </div>
+</section>

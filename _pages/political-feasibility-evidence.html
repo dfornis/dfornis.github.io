@@ -11,6 +11,49 @@ nav: false
 <div class="pf-project pf-evidence-page">
   <p><a href="{{ '/projects/political-feasibility/' | relative_url }}">← Return to the method</a></p>
   <p>Sources for the Swedish datacenter case, reviewed through 10 October 2026. Policy and research summaries are in Swedish.</p>
+  {% assign pf = site.data.policy_feasibility %}
+  <h2>Sources by section</h2>
+  <p>Sources grouped by the section of the project page they support. Select a source to read its record below.</p>
+  <div class="pf-section-source-list">
+    {% assign ids = 'E77,E83,E84' | split: ',' | concat: pf.scope.evidence %}
+    <section id="sources-01">
+      <h3>01 The policy question</h3>
+      {% include policy-feasibility/references.liquid ids=ids %}
+    </section>
+    {% assign ids = pf.outside[0].evidence %} {% for o in pf.outside %}{% assign ids = ids | concat: o.evidence %}{% endfor %} {% for a in pf.actors
+    %}{% assign ids = ids | concat: a.evidence %}{% endfor %} {% for c in pf.actor_conflicts %}{% assign ids = ids | concat: c.evidence %}{% endfor %}
+    {% assign ids = ids | concat: pf.historical_mobilisation.evidence | concat: pf.political_development.evidence %}
+    <section id="sources-02">
+      <h3>02 Look across places and time</h3>
+      {% include policy-feasibility/references.liquid ids=ids %}
+      <p class="pf-caption">
+        Historical examples: {% for h in pf.history %}{% for id in h.source_ids %}{% assign source = pf.history_sources | where: 'id', id | first %}<a
+          href="#{{ id }}"
+          >{{ source.issuer }}, {{ source.date | slice: 0, 4 }}</a
+        >{% unless forloop.last %}, {% endunless %}{% endfor %}{% unless forloop.last %}, {% endunless %}{% endfor %}
+      </p>
+    </section>
+    {% assign ids = pf.trajectories[0].evidence %} {% for t in pf.trajectories %}{% assign ids = ids | concat: t.evidence | concat: t.counterevidence
+    %}{% endfor %}
+    <section id="sources-03">
+      <h3>03 Define comparable trajectories</h3>
+      {% include policy-feasibility/references.liquid ids=ids %}
+    </section>
+    <section id="sources-04">
+      <h3>04 Compare political feasibility</h3>
+      {% for d in pf.dimensions %} {% assign ids = d.literature %} {% for pair in pf.pairs %}{% assign ids = ids | concat: d.pairs[pair.id].evidence
+      %}{% endfor %} {% for t in pf.trajectories %}{% assign ids = ids | concat: d.cells[t.id].evidence %}{% endfor %}
+      <h4>{{ d.name }}</h4>
+      {% include policy-feasibility/references.liquid ids=ids %} {% endfor %} {% assign ids = pf.developments[0].evidence %} {% for development in
+      pf.developments %}{% assign ids = ids | concat: development.evidence %}{% endfor %}
+      <h4>Capacity cases</h4>
+      {% include policy-feasibility/references.liquid ids=ids %}
+    </section>
+    <section id="sources-05">
+      <h3>05 Bring the assessment into the scenario</h3>
+      {% include policy-feasibility/references.liquid ids=pf.overall.evidence %}
+    </section>
+  </div>
   <h2>Policy evidence</h2>
   {% for e in site.data.policy_feasibility_sources.evidence %}
   <details id="{{ e.id }}" class="pf-evidence-record">

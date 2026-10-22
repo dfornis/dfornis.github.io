@@ -4,10 +4,6 @@
   const root = document.getElementById("policy-feasibility");
   if (!root) return;
   const data = JSON.parse(root.querySelector("#pf-case-data").textContent);
-  const sourceData = JSON.parse(root.querySelector("#pf-source-data").textContent);
-  const sources = new Map([...sourceData.evidence, ...sourceData.literature].map((s) => [s.id, s]));
-  const sourceBase = root.querySelector("[data-pf-source]").getAttribute("href").split("#")[0];
-  const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const pairSelect = root.querySelector("#pf-pair-select");
   const params = new URLSearchParams(location.search);
   if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
@@ -39,7 +35,7 @@
       button.setAttribute("aria-pressed", String(assumptions[button.dataset.pfAssumption] === button.dataset.pfValue));
     });
     if (announce) {
-      root.querySelector("#pf-control-status").textContent = `${pair.label}. ${development.label}. ${development.adoption[pair.id].shift}`;
+      root.querySelector("#pf-control-status").textContent = `${pair.label}. ${development.label}. ${development.adoption[pair.id].title}`;
       const url = new URL(location.href);
       url.searchParams.set("pair", pair.id);
       ["development", "generation", "grid"].forEach((key) => url.searchParams.delete(key));
@@ -49,7 +45,9 @@
   }
   root.classList.add("pf-pair-ready", "pf-development-ready");
   root.querySelector(".pf-pair-control").hidden = false;
-  root.querySelector(".pf-development-control").hidden = false;
+  root.querySelectorAll(".pf-development-control, .pf-model-case-control").forEach((element) => {
+    element.hidden = false;
+  });
   pairSelect.addEventListener("change", () => updateComparison(true));
   root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -148,34 +146,4 @@
         root.querySelector(".pf-place-map").hidden = true;
       });
   }
-
-  const dialog = root.querySelector("#pf-source-dialog");
-  const dialogContent = root.querySelector("#pf-source-content");
-  root.querySelector("#pf-close-source").addEventListener("click", () => dialog.close());
-  dialog.addEventListener("click", (event) => {
-    if (event.target === dialog) {
-      const r = dialog.getBoundingClientRect();
-      if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close();
-    }
-  });
-  root.addEventListener("click", (event) => {
-    const link = event.target.closest("[data-pf-source]");
-    if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !dialog.showModal) return;
-    const source = sources.get(link.dataset.pfSource);
-    if (!source) return;
-    event.preventDefault();
-    const policy = source.id.startsWith("E");
-    root.querySelector("#pf-source-kind").textContent = policy ? "Policy evidence" : "Research";
-    if (policy) {
-      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${[source.issuer, source.country, source.date].filter(Boolean).map(escape).join(" · ")}</p><dl><dt>Source type</dt><dd>${escape(source.type)}</dd><dt>Summary (Swedish)</dt><dd lang="sv">${escape(source.summary_sv)}</dd></dl><p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the source ↗</a></p>`;
-    } else {
-      dialogContent.innerHTML = `<h2 id="pf-source-title">${escape(source.title)}</h2><p class="pf-caption">${escape(source.citation)}</p><dl><dt>Study</dt><dd>${escape(source.type)}</dd><dt>Relevance to the method (Swedish)</dt><dd lang="sv">${escape(source.summary_sv)}</dd></dl>${source.url ? `<p><a href="${escape(source.url)}" target="_blank" rel="noopener noreferrer">Read the study ↗</a></p>` : ""}`;
-    }
-    dialogContent.insertAdjacentHTML(
-      "beforeend",
-      `<p class="pf-caption"><a href="${escape(sourceBase)}#${source.id}">View on the evidence page</a></p>`
-    );
-    dialog.showModal();
-    dialog.scrollTop = 0;
-  });
 })();

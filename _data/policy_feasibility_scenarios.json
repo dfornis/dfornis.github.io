@@ -1,0 +1,81 @@
+{
+  "_readme": "Scenario frame for section 05. status: 'pending' shows the input sketch and the planned runs; 'preliminary' or 'final' also shows the results table. inputs.*.series hold one value per year on a shared scale (here an index, T0 datacenter load in 2035 = 1); replace them with model inputs when available and set input_status to 'model'. results[case][trajectory][metric] holds 2035 values; null renders as a dash. Case ids match sensitivity_inputs in policy_feasibility.json.",
+  "status": "pending",
+  "input_status": "schematic",
+  "model": {
+    "name": "Nordic PyPSA electricity model",
+    "base_year": 2023,
+    "result_year": 2035,
+    "setup": "2023 base year. In 2030 the generation fleet is fixed; in 2035 wind, solar and batteries expand at least cost within potential limits. Datacenter load follows the Nordic datacenter tracker."
+  },
+  "years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
+  "decision_year": 2030,
+  "inputs": [
+    {
+      "id": "load",
+      "label": "Datacenter load",
+      "series": {
+        "T0": [0.15, 0.2, 0.27, 0.35, 0.45, 0.55, 0.66, 0.77, 0.88, 1],
+        "T1": [0.15, 0.2, 0.27, 0.35, 0.45, 0.55, 0.66, 0.77, 0.88, 1],
+        "T2": [0.15, 0.2, 0.27, 0.35, 0.45, 0.48, 0.5, 0.52, 0.54, 0.56]
+      },
+      "notes": {
+        "T0": "Load follows announced projects.",
+        "T1": "Same load as T0 unless the requirement deters projects.",
+        "T2": "Existing sites and expansions only after 2030."
+      }
+    },
+    {
+      "id": "requirement",
+      "label": "Required new renewable generation",
+      "series": {
+        "T0": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        "T1": [0, 0, 0, 0, 0, 0.07, 0.16, 0.25, 0.34, 0.44],
+        "T2": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      },
+      "notes": {
+        "T0": "None. Developers may still sign contracts voluntarily.",
+        "T1": "Annual use of sites opening from 2030.",
+        "T2": "None."
+      }
+    }
+  ],
+  "choices": [
+    {
+      "id": "additionality",
+      "question": "Does the requirement add generation?",
+      "text": "The model already builds the cheapest wind and solar. If plants built under T1 count within the same potential limits, the requirement may change little, and T0 and T1 give similar prices. If they come on top of those limits, the run assumes that the requirement itself makes new sites available.",
+      "status": "open"
+    },
+    {
+      "id": "response",
+      "question": "Do projects respond to the rules?",
+      "text": "Under T1, higher costs could delay or relocate some projects. Under T2, projects could open before 2030 or move abroad. Fixed load isolates the effect of the rule; adjusted load captures the developers’ response.",
+      "status": "open"
+    },
+    {
+      "id": "capacity",
+      "question": "How do the capacity cases enter the model?",
+      "text": "Slow expansion uses the lower range of wind potential from the Swedish Energy Agency; faster expansion uses the upper range.",
+      "status": "proposed"
+    }
+  ],
+  "outputs": [
+    { "id": "price_se3", "label": "Average price, SE3", "unit": "EUR/MWh" },
+    { "id": "price_se2", "label": "Average price, SE2", "unit": "EUR/MWh" },
+    { "id": "new_vre", "label": "New wind and solar, Sweden", "unit": "GW" },
+    { "id": "dc_use", "label": "Datacenter electricity use", "unit": "TWh" }
+  ],
+  "results": {
+    "constrained": {
+      "T0": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
+      "T1": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
+      "T2": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null }
+    },
+    "expanded": {
+      "T0": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
+      "T1": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
+      "T2": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null }
+    }
+  }
+}

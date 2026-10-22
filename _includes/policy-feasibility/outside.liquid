@@ -27,10 +27,6 @@
             <h4>{{ o.heading }}</h4>
             <p>{{ o.contribution }}</p>
             <p class="pf-take-forward">{{ o.limit }}</p>
-            <details class="pf-citation-note">
-              <summary>Sources</summary>
-              {% include policy-feasibility/references.liquid ids=o.evidence %}
-            </details>
           </article>
         {% endfor %}
       </div>
@@ -47,14 +43,6 @@
           <p>{{ h.change }}</p>
           <p>{{ h.response }}</p>
           <p class="pf-take-forward">{{ h.method_question }}</p>
-          <ul class="pf-history-sources">
-            {% for id in h.source_ids -%}
-              {%- assign source = pf.history_sources | where: 'id', id | first %}
-              <li>
-                <a href="{{ '/projects/political-feasibility/evidence/' | relative_url }}#{{ id }}">{{ source.issuer }} · {{ source.date }}</a>
-              </li>
-            {% endfor %}
-          </ul>
         </details>
       {% endfor %}
       <details class="pf-history-example">
@@ -63,7 +51,6 @@
         </summary>
         <p>{{ pf.historical_mobilisation.text }}</p>
         <p class="pf-take-forward">{{ pf.historical_mobilisation.method_question }}</p>
-        {% include policy-feasibility/references.liquid ids=pf.historical_mobilisation.evidence %}
       </details>
     </div>
   </div>
@@ -77,45 +64,32 @@
         </article>
       {% endfor %}
     </div>
-    <details class="pf-note">
-      <summary>Swedish actors, positions and sources</summary>
-      <div class="pf-conflicts">
-        {% for c in pf.actor_conflicts %}
-          <article>
-            <h4>{{ c.title }}</h4>
-            <div>
-              <p>{{ c.text }}</p>
-              {% include policy-feasibility/references.liquid ids=c.evidence %}
-            </div>
-          </article>
-        {% endfor %}
-      </div>
-      <p>
-        Rule-keepers defend a policy, rule-switchers seek to change it, and rule-takers adapt without leading support or opposition. An actor’s role
-        can change as costs, interests and alliances develop.
-      </p>
-      <div class="pf-actor-records">
-        {% for a in pf.actors %}
-          <details>
-            <summary>{{ a.name }}</summary>
-            <p>{{ a.capacity }}</p>
-            <p>{{ a.position_overall }}</p>
-            <p class="pf-caption">{{ a.policy_question }}</p>
-            {% include policy-feasibility/references.liquid ids=a.evidence %}
-          </details>
-        {% endfor %}
-      </div>
-    </details>
+    <div class="pf-actor-groups">
+      {% for group in pf.actor_groups %}
+        <article>
+          <h4>{{ group.title }}</h4>
+          <p class="pf-caption">{{ group.note }}</p>
+          <ul>
+            {% for actor_id in group.actors %}
+              {% assign actor = pf.actors | where: 'id', actor_id | first %}
+              <li>
+                <strong>{{ actor.name }}</strong>{{ actor.policy_question }}
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+      {% endfor %}
+    </div>
+    <p class="pf-caption pf-actor-roles-note">
+      Rule-keepers defend the current policy, rule-switchers seek to change it, and rule-takers adapt without leading support or opposition. Roles can
+      change as costs, interests and alliances develop.
+    </p>
     <div class="pf-outside-finding">
       <h4>Follow the conflict forward</h4>
       <p>
         AI investment, industrial decarbonisation and household living costs can pull policy in different directions. Follow how parties rank these
         goals, how public opinion develops and which affected groups organise. The same actors may support different rules at the next decision.
       </p>
-      <details class="pf-citation-note">
-        <summary>Evidence for these possible developments</summary>
-        {% include policy-feasibility/references.liquid ids=pf.political_development.evidence %}
-      </details>
     </div>
   </div>
 </section>

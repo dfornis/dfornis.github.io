@@ -788,7 +788,7 @@
   "developments": [
     {
       "id": "constrained",
-      "label": "Constrained expansion · baseline",
+      "label": "Slow expansion · central case",
       "inputs": {
         "supply": "constrained"
       },
@@ -904,29 +904,29 @@
       },
       "model": "T0: Use continuation as the reference: T0 has the stronger route to adoption by 2030. T1: Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform. T2: Examine the consequences of halting new sites, the least feasible of the three alternatives.",
       "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
-      "assumption": "Generation and grid capacity expand slowly relative to new demand during 2027–2029.",
-      "model_title": "Test a generation requirement alongside continuation",
+      "assumption": "Generation and grid capacity grow slowly relative to new demand during 2027–2029.",
+      "model_title": "A generation requirement is the main alternative to continuation",
       "model_roles": [
         {
           "id": "T0",
-          "role": "Reference policy",
-          "text": "Use continuation as the reference: T0 has the stronger route to adoption by 2030."
+          "role": "Reference scenario",
+          "text": "Continuation has the stronger route to adoption by 2030."
         },
         {
           "id": "T1",
-          "role": "Main reform to examine",
-          "text": "Compare a generation requirement with T0 as higher bills and industrial delays strengthen demands for reform."
+          "role": "Main alternative",
+          "text": "Higher bills and industrial delays strengthen demands for a generation requirement."
         },
         {
           "id": "T2",
-          "role": "Separate alternative",
-          "text": "Examine the consequences of halting new sites, the least feasible of the three alternatives."
+          "role": "Exploratory scenario",
+          "text": "The least feasible alternative. It shows the consequences of halting new sites."
         }
       ]
     },
     {
       "id": "expanded",
-      "label": "Expanded capacity · counterfactual",
+      "label": "Faster expansion · sensitivity case",
       "inputs": {
         "supply": "expanded"
       },
@@ -1042,23 +1042,23 @@
       },
       "model": "T0: Use continuation as the reference; its political basis strengthens as price and connection conflicts ease. T1: Retain the generation requirement for comparison: it still has advocates and climate arguments. T2: A stop remains the least feasible alternative and offers less relief to other electricity users.",
       "evidence": ["E40", "E78", "E83", "E84", "E86", "E89", "E90", "E43", "E63", "E76", "E77"],
-      "assumption": "More generation and grid capacity are available when new loads connect during 2027–2029.",
+      "assumption": "Generation and grid capacity grow faster, so more is available when new loads connect during 2027–2029.",
       "model_title": "Continuation has the stronger political basis",
       "model_roles": [
         {
           "id": "T0",
-          "role": "Reference policy",
-          "text": "Use continuation as the reference; its political basis strengthens as price and connection conflicts ease."
+          "role": "Reference scenario",
+          "text": "Continuation strengthens as price and connection conflicts ease."
         },
         {
           "id": "T1",
-          "role": "Reform alternative",
-          "text": "Retain the generation requirement for comparison: it still has advocates and climate arguments."
+          "role": "Alternative scenario",
+          "text": "Still has advocates and climate arguments, with less pressure for a decision by 2030."
         },
         {
           "id": "T2",
-          "role": "Separate alternative",
-          "text": "A stop remains the least feasible alternative and offers less relief to other electricity users."
+          "role": "Exploratory scenario",
+          "text": "The least feasible alternative, offering less relief to other electricity users."
         }
       ]
     }
@@ -1086,15 +1086,15 @@
     "T1-T2": "T1 has a clearer route to reform: it permits investment subject to a generation requirement. T2 needs broader acceptance of the losses from stopping new sites."
   },
   "model_application": {
-    "before": "Voluntary generation commitments continue unchanged to 2035.",
+    "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2029. From 2030, compare continuation, a generation requirement and an establishment stop.",
-    "feedback": "Use the model’s regional prices, connection delays and investment costs to identify who gains or loses under each policy. Reassess their political responses at the next decision window.",
+    "feedback": "Modelled prices and cost shares show who gains or loses under each policy. They become evidence on adjustment burden and coalitions at the next decision window. Competition for grid connections lies outside the model and remains a qualitative assessment.",
     "parameters": {
-      "T0": "No statutory generation requirement. Represent voluntary investment and power contracts as company choices.",
-      "T1": "From 2030, new sites must secure new renewable generation in Sweden matching 100% of annual demand, through investment or a long-term power contract.",
-      "T2": "Set new commercial site openings to zero from 2030. Track postponed or relocated projects. Existing sites and expansions remain outside the stop."
+      "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
+      "T1": "New sites must secure new renewable generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
+      "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
-    "selection": "Use the feasibility comparison to choose a reference policy and the alternatives to examine alongside it."
+    "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until the 2030 decision and then differ in their model inputs."
   },
   "sensitivity_inputs": [
     {
@@ -1103,15 +1103,35 @@
       "options": [
         {
           "id": "constrained",
-          "label": "Constrained expansion",
-          "role": "Baseline"
+          "label": "Slow expansion",
+          "role": "Central case"
         },
         {
           "id": "expanded",
-          "label": "Expanded capacity",
-          "role": "Counterfactual"
+          "label": "Faster expansion",
+          "role": "Sensitivity case"
         }
       ]
+    }
+  ],
+  "actor_groups": [
+    {
+      "id": "incentives",
+      "title": "Favour incentives and voluntary contracts",
+      "note": "Rule-keepers for this decision, for now.",
+      "actors": ["A23", "A14", "A15", "A24"]
+    },
+    {
+      "id": "requirement",
+      "title": "Open to generation requirements",
+      "note": "Rule-switchers, with different views on which plants should qualify.",
+      "actors": ["A17", "A25", "A07", "A03", "A26"]
+    },
+    {
+      "id": "decide",
+      "title": "Decide and enforce",
+      "note": "Parliament decides; Ei would monitor compliance under T1.",
+      "actors": ["A01", "A04"]
     }
   ]
 }
