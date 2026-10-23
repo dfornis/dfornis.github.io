@@ -44,14 +44,14 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
 </details>
 
 <section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.1.1">
-  <h2 id="dc-timeline-title">New capacity, year by year</h2>
+  <h2 id="dc-timeline-title">Datacenter growth</h2>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
       <div class="dc-timeline-measure-control">
-        <span id="dc-timeline-measure-label">Measure</span>
-        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
-          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
-          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+        <span id="dc-timeline-unit-label">Measure</span>
+        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-unit-label">
+          <label><input type="radio" name="timeline-unit" value="mw" checked><span>GW</span></label>
+          <label><input type="radio" name="timeline-unit" value="twh"><span>TWh/year</span></label>
         </div>
       </div>
       <label>Scenario
@@ -69,6 +69,13 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
           <option value="outside_europe">Outside Europe</option>
         </select>
       </label>
+      <div class="dc-timeline-measure-control" data-timeline-capacity-view>
+        <span id="dc-timeline-measure-label">View</span>
+        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
+          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
+          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+        </div>
+      </div>
     </div>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
@@ -81,6 +88,7 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
       <summary>Data &amp; assumptions</summary>
       <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
       <p class="dc-timeline-note">Figures show capacity added from 2026 onwards, including cooling and other site electricity use. Cumulative totals include additions already completed during this period. Added/year shows the increase in each year.</p>
+      <p class="dc-timeline-note">TWh/year shows annual electricity use at each year's cumulative capacity, using the same project estimates as the map. Values represent a full year at that capacity level. They are not added across years. The capacity views remain available in GW.</p>
       <p class="dc-timeline-note">Lines show the upper estimates and shaded bands show the range. The scale stays fixed when you change the scenario or filters. Annual ranges should not be added together. Move over the chart or tap a year to see its values.</p>
       <p class="dc-timeline-note">The <a href="#scenario-explainer">scenario definitions</a> and <a href="#tracker-filters">project filters</a> are shared with the map. You can select a different scenario and HQ group in each view.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
@@ -149,6 +157,7 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 <div class="after-table-space"></div>
 
 ## Capacity and electricity use
+
 <p></p>
 
 <figure id="dc-method-flow" class="dc-method-flow" aria-labelledby="dc-method-flow-title">
@@ -986,10 +995,10 @@ pre {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.1">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.3">
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=4.1.1">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=4.1.1" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.3" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>

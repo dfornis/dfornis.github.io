@@ -5,11 +5,16 @@
   // Slate blue from the header illustration, with muted clay and sage companions.
   const countryColors = { FI: "#4c7088", SE: "#9b6659", NO: "#5f7968" };
   const familyIds = ["low", "stated", "high"];
+  const displayDivisor = (measure) => (measure === "annual_twh" ? 1 : 1000);
   const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
-  const range = (point) =>
-    point.low === null || point.high === null || (point.high === 0 && point.unknown)
-      ? "Unknown"
-      : (gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) + " GW" + (point.unknown ? "*" : "");
+  function range(point, measure = "mw") {
+    if (point.low === null || point.high === null || (point.high === 0 && point.unknown)) return "Unknown";
+    const value =
+      measure === "annual_twh"
+        ? global.DCTracker.range(point.low, point.high, "twh") + " TWh/year"
+        : (gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) + " GW";
+    return value + (point.unknown ? "*" : "");
+  }
   const plottedValue = (point) => point.high;
 
   function assertTimeline(timeline, data) {
@@ -27,7 +32,7 @@
     );
     for (const row of timeline.rows) {
       if (!expected.delete(`${row.project_id}:${row.year}:${row.family}`)) throw new Error("Duplicate or unexpected annual capacity data.");
-      for (const measure of ["mw", "annual_addition_mw", "future_addition_mw", "remaining_mw"]) {
+      for (const measure of ["mw", "annual_twh", "annual_addition_mw", "future_addition_mw", "remaining_mw"]) {
         const low = row[measure + "_low"],
           high = row[measure + "_high"];
         if (
@@ -76,7 +81,7 @@
       const key = `${row.country}:${row.family}:${row.year}`;
       totals.set(key, (totals.get(key) || 0) + (row[measure + "_high"] ?? 0));
     }
-    return Math.max(0, ...totals.values()) / 1000 || 1;
+    return Math.max(0, ...totals.values()) / displayDivisor(measure) || 1;
   }
 
   async function mount(container, data, initialView) {
@@ -92,6 +97,8 @@
       const familySelect = container.querySelector("[name='timeline-family']");
       const hqSelect = container.querySelector("[name='timeline-hq']");
       const measureInputs = container.querySelectorAll("[name='timeline-measure']");
+      const unitInputs = container.querySelectorAll("[name='timeline-unit']");
+      const capacityView = container.querySelector("[data-timeline-capacity-view]");
       const readout = container.querySelector(".dc-timeline-readout");
       const chart = container.querySelector(".dc-timeline-chart");
       const table = container.querySelector(".dc-timeline-table");
@@ -122,25 +129,32 @@
       let selectedYear = timeline.years.at(-1);
       const resizeObserver = new ResizeObserver(() => render());
       resizeObserver.observe(chart);
-      [familySelect, hqSelect, ...measureInputs].forEach((control) => control.addEventListener("change", render));
+      [familySelect, hqSelect, ...measureInputs, ...unitInputs].forEach((control) => control.addEventListener("change", render));
 
       function render() {
+        const electricity = container.querySelector("[name='timeline-unit']:checked").value === "twh";
+        capacityView.setAttribute("aria-hidden", String(electricity));
+        capacityView.inert = electricity;
         const options = {
           family: familySelect.value,
           hq: hqSelect.value,
-          measure: container.querySelector("[name='timeline-measure']:checked").value,
+          measure: electricity ? "annual_twh" : container.querySelector("[name='timeline-measure']:checked").value,
         };
+        const divisor = displayDivisor(options.measure);
         const maxCapacity = capacityMax(timeline, data, options.measure);
         const measureLabels = {
           mw: "Cumulative additions (GW)",
           annual_addition_mw: "Added during year (GW)",
+          annual_twh: "Annual electricity use (TWh/year)",
         };
         unit.text(measureLabels[options.measure]);
         svg.select("title").text(measureLabels[options.measure]);
         svg
           .select("desc")
           .text(
-            timeline.measures[options.measure] +
+            (electricity
+              ? "Annual electricity use at each year's cumulative capacity added since " + timeline.years[0] + ". Values are full-year equivalents."
+              : timeline.measures[options.measure]) +
               " Lines show the upper estimates and shaded bands show the range. The axis stays fixed across scenarios and filters for this measure."
           );
         const series = makeSeries(timeline, data, options, view.filters);
@@ -165,7 +179,7 @@
         const height = compact ? 350 : 420;
         const margin = {
           left: compact ? 46 : 58,
-          right: compact ? 24 : 150,
+          right: compact ? 24 : 180,
           top: 44,
           bottom: 46,
         };
@@ -201,13 +215,13 @@
           .area()
           .defined(defined)
           .x((point) => x(point.year))
-          .y0((point) => y(point.low / 1000))
-          .y1((point) => y(point.high / 1000));
+          .y0((point) => y(point.low / divisor))
+          .y1((point) => y(point.high / divisor));
         const line = d3
           .line()
           .defined((point) => plottedValue(point) !== null)
           .x((point) => x(point.year))
-          .y((point) => y(plottedValue(point) / 1000));
+          .y((point) => y(plottedValue(point) / divisor));
         const groups = plots
           .selectAll("g.dc-timeline-series")
           .data(visible, (series) => series.key)
@@ -242,11 +256,11 @@
               series.points.filter((point) => plottedValue(point) !== null),
               (point) => point.year
             )
-            .join((enter) => enter.append("circle").attr("cy", (point) => y(plottedValue(point) / 1000)))
+            .join((enter) => enter.append("circle").attr("cy", (point) => y(plottedValue(point) / divisor)))
             .attr("cx", (point) => x(point.year))
             .attr("r", 2.4)
             .attr("fill", series.color);
-          animate(points).attr("cy", (point) => y(plottedValue(point) / 1000));
+          animate(points).attr("cy", (point) => y(plottedValue(point) / divisor));
         });
         // Leave room for both the country name and its capacity range.
         const labels = compact
@@ -255,7 +269,7 @@
               .map((series) => ({
                 ...series,
                 end: series.points.at(-1),
-                labelY: y(plottedValue(series.points.at(-1)) / 1000),
+                labelY: y(plottedValue(series.points.at(-1)) / divisor),
               }))
               .sort((a, b) => a.labelY - b.labelY);
         if (!compact) {
@@ -280,7 +294,7 @@
         animate(labelGroups).attr("opacity", 1);
         labelGroups.each(function (label) {
           const group = d3.select(this);
-          const connector = `M${right + 5},${y(plottedValue(label.end) / 1000)}L${right + 17},${label.labelY - 4}`;
+          const connector = `M${right + 5},${y(plottedValue(label.end) / divisor)}L${right + 17},${label.labelY - 4}`;
           const path = group
             .selectAll("path")
             .data([label])
@@ -305,14 +319,14 @@
             .attr("class", "dc-timeline-end-value")
             .attr("x", right + 24)
             .attr("dy", 20)
-            .text(range(label.end));
+            .text(range(label.end, options.measure));
         });
         cursor.select("line").attr("y1", margin.top).attr("y2", bottom);
         const dots = cursor
           .selectAll("circle")
           .data(visible, (series) => series.key)
           .join((enter) =>
-            enter.append("circle").attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === selectedYear)) / 1000))
+            enter.append("circle").attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === selectedYear)) / divisor))
           )
           .attr("r", 4)
           .attr("fill", (series) => series.color)
@@ -323,7 +337,7 @@
           container.querySelector(".dc-timeline-year").textContent = year;
           cursor.select("line").attr("x1", x(year)).attr("x2", x(year));
           dots.interrupt().attr("cx", x(year));
-          (transition ? animate(dots) : dots).attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === year)) / 1000));
+          (transition ? animate(dots) : dots).attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === year)) / divisor));
           readout.replaceChildren();
           series.forEach((series) => {
             const item = document.createElement("span");
@@ -334,7 +348,10 @@
             const label = document.createElement("span");
             label.textContent = series.label;
             const value = document.createElement("strong");
-            value.textContent = range(series.points.find((point) => point.year === year));
+            value.textContent = range(
+              series.points.find((point) => point.year === year),
+              options.measure
+            );
             item.append(marker, label, value);
             readout.append(item);
           });
@@ -372,7 +389,10 @@
           row.append(label);
           series.forEach((series) => {
             const cell = document.createElement("td");
-            cell.textContent = range(series.points.find((point) => point.year === year));
+            cell.textContent = range(
+              series.points.find((point) => point.year === year),
+              options.measure
+            );
             row.append(cell);
           });
           body.append(row);
