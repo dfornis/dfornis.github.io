@@ -54,6 +54,13 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
           <label><input type="radio" name="timeline-unit" value="twh"><span>TWh/year</span></label>
         </div>
       </div>
+      <div class="dc-timeline-measure-control" data-timeline-capacity-view>
+        <span id="dc-timeline-measure-label">View</span>
+        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
+          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
+          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+        </div>
+      </div>
       <label>Scenario
         <select name="timeline-family" aria-label="Capacity scenario selection">
           <option value="low">Low — confirmed investment</option>
@@ -69,13 +76,6 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
           <option value="outside_europe">Outside Europe</option>
         </select>
       </label>
-      <div class="dc-timeline-measure-control" data-timeline-capacity-view>
-        <span id="dc-timeline-measure-label">View</span>
-        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
-          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
-          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
-        </div>
-      </div>
     </div>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
@@ -320,7 +320,7 @@ html[data-theme="dark"] #dc-tracker {
   cursor: pointer;
   padding: 0.32rem 0.45rem;
   border: 1px solid var(--dc-rule);
-  border-radius: 4px;
+  border-radius: 12px;
   background: var(--dc-surface);
   color: var(--dc-ink);
   user-select: none;
@@ -351,7 +351,7 @@ html[data-theme="dark"] #dc-tracker {
   overflow-y: auto;
   padding: 0.45rem 0.55rem;
   border: 1px solid var(--dc-rule);
-  border-radius: 5px;
+  border-radius: 12px;
   background: var(--dc-surface);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
@@ -995,10 +995,10 @@ pre {
   .scenario-explainer summary { grid-template-columns: 1fr; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.3">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.4">
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=4.1.1">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=4.1.1" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.4" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>

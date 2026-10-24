@@ -17,7 +17,7 @@
 }
 .dc-timeline-controls {
   display: grid;
-  grid-template-columns: max-content minmax(190px, 235px) minmax(125px, 156px) max-content;
+  grid-template-columns: max-content max-content minmax(190px, 235px) minmax(125px, 156px);
   align-items: start;
   gap: 0.8rem 1rem;
   justify-content: center;
@@ -30,7 +30,8 @@
   align-items: flex-start;
   min-width: 0;
   gap: 0.3rem;
-  font-size: 13px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
   margin: 0;
   color: var(--dc-chart-muted);
 }
@@ -40,9 +41,14 @@
   padding: 3px;
   border-radius: 999px;
   background: var(--dc-chart-control);
+  font-size: 12px;
+  letter-spacing: normal;
 }
-[data-timeline-capacity-view][aria-hidden="true"] {
-  visibility: hidden;
+[data-timeline-capacity-view][aria-disabled="true"] {
+  opacity: 0.45;
+}
+[data-timeline-capacity-view][aria-disabled="true"] label {
+  cursor: default;
 }
 .dc-timeline-measure-switch label {
   position: relative;
@@ -58,7 +64,7 @@
 }
 .dc-timeline-measure-switch span {
   display: block;
-  padding: 0.35rem 0.7rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 999px;
   line-height: 1.25;
   white-space: nowrap;
@@ -78,10 +84,13 @@
   color: var(--dc-chart-text);
   background: var(--dc-chart-control);
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 14px;
   font-family: inherit;
-  font-size: 14px;
-  padding: 0.4rem 1.7rem 0.4rem 0.6rem;
+  font-size: 12px;
+  line-height: 1.25;
+  letter-spacing: normal;
+  min-height: 31px;
+  padding: 0.3rem 1.7rem 0.3rem 0.7rem;
   max-width: 100%;
 }
 .dc-timeline select:disabled {
@@ -258,7 +267,6 @@
     gap: 0.2rem;
   }
   .dc-timeline select {
-    font-size: 13px;
     padding-right: 0.25rem;
   }
   .dc-timeline-paper {

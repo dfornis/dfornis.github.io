@@ -133,8 +133,10 @@
 
       function render() {
         const electricity = container.querySelector("[name='timeline-unit']:checked").value === "twh";
-        capacityView.setAttribute("aria-hidden", String(electricity));
-        capacityView.inert = electricity;
+        capacityView.setAttribute("aria-disabled", String(electricity));
+        measureInputs.forEach((input) => {
+          input.disabled = electricity;
+        });
         const options = {
           family: familySelect.value,
           hq: hqSelect.value,
