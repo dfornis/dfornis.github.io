@@ -2921,18 +2921,8 @@ html:has(.pf-v2) {
   list-style: none;
 }
 .pf-fw-candidates li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  padding: 0.32rem 0.85rem;
+  padding: 0.4rem 0.85rem;
   border-top: 1px solid var(--pf-line);
-}
-.pf-fw-candidates li .pf-swatch {
-  flex: none;
-}
-.pf-fw-candidates small {
-  min-width: 1.6rem;
-  color: var(--pf-secondary);
 }
 
 /* Step 2: the five dimensions */
@@ -2949,6 +2939,10 @@ html:has(.pf-v2) {
   background: var(--pf-accent);
   color: #fff;
   text-align: center;
+}
+.pf-v2 .pf-fw-dimensions > a strong,
+.pf-v2 .pf-fw-sources span {
+  color: #fff !important;
 }
 .pf-fw-dimensions > a strong {
   font-size: 0.95rem;
@@ -3168,5 +3162,84 @@ html:has(.pf-v2) {
   }
   .pf-fw-sources span {
     padding: 0.6rem 0.8rem;
+  }
+}
+
+/* Narrow screens: a slimmer figure. */
+@media (max-width: 760px) {
+  .pf-fw-grid {
+    row-gap: 0.35rem;
+    font-size: 0.82rem;
+  }
+  .pf-fw-step {
+    margin-top: 0.5rem;
+  }
+  .pf-v2 .pf-fw-step {
+    padding-bottom: 0.3rem;
+    font-size: 0.68rem !important;
+  }
+  .pf-fw-grid > a,
+  .pf-fw-dimensions,
+  .pf-fw-use {
+    margin-top: 0.45rem;
+  }
+  .pf-fw-sources {
+    gap: 0.3rem;
+  }
+  .pf-fw-sources span {
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+  }
+  .pf-fw-arrow {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .pf-fw-branch {
+    height: 1.2rem;
+  }
+  .pf-fw-candidates strong,
+  .pf-fw-dimensions > a {
+    padding: 0.5rem 0.75rem;
+  }
+  .pf-fw-candidates strong,
+  .pf-fw-dimensions > a strong {
+    font-size: 0.86rem;
+  }
+  .pf-v2 .pf-fw-candidates ul {
+    display: flex;
+    padding: 0;
+    border-top: 1px solid var(--pf-line);
+  }
+  .pf-fw-candidates li {
+    flex: 1;
+    padding: 0.35rem 0.5rem;
+    border-top: 0;
+    text-align: center;
+  }
+  .pf-fw-candidates li + li {
+    border-left: 1px solid var(--pf-line);
+  }
+  .pf-v2 .pf-fw-dimensions ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.1rem 0.2rem;
+    padding: 0.4rem 0.4rem 0.5rem;
+  }
+  .pf-fw-dimensions li a {
+    padding: 0.2rem 0.45rem;
+  }
+  .pf-fw-use {
+    gap: 0.35rem;
+  }
+  .pf-fw-use > a {
+    padding: 0.5rem 0.75rem;
+  }
+  .pf-fw-use span {
+    font-size: 0.76rem;
+  }
+  .pf-v2 .pf-fw-reuse {
+    font-size: 0.74rem !important;
+    font-style: italic;
   }
 }
