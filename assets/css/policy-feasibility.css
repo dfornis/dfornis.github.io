@@ -3360,19 +3360,86 @@ html:has(.pf-v2) {
     font-size: 0.86rem;
   }
 }
+/* Narrow screens: keep the colour of the wide figure on the vertical path. */
 @media (max-width: 760px) {
-  .pf-fw-dimensions {
-    border: 1px solid var(--pf-line);
-    background: var(--pf-shade);
+  .pf-fw-grid::before {
+    border-left: 2px solid var(--pf-accent-muted);
   }
-  .pf-fw-dimensions > a {
-    border-bottom: 1px solid var(--pf-line);
+  .pf-fw-step::before {
+    border-color: var(--pf-accent);
+    background: var(--pf-accent);
+  }
+  .pf-fw-sources {
+    gap: 0.25rem;
+    border: 0;
+  }
+  .pf-fw-sources span {
+    border-radius: 6px;
+    background: var(--pf-accent-muted);
+  }
+  .pf-v2 .pf-fw-sources span {
+    color: #fff !important;
+  }
+  .pf-fw-sources span + span {
+    border-top: 0;
+  }
+  .pf-fw-sources:hover span {
+    background: var(--pf-accent);
+  }
+  .pf-fw-candidates {
     background: var(--pf-paper);
   }
-  .pf-v2 .pf-fw-dimensions > a strong {
-    color: var(--pf-ink) !important;
+  .pf-fw-candidates strong {
+    background: color-mix(in srgb, var(--pf-accent-muted) 18%, var(--pf-paper));
   }
-  .pf-fw-dimensions > a:hover {
-    background: var(--pf-soft);
+  .pf-fw-dimensions > a {
+    background: var(--pf-accent);
+  }
+  .pf-fw-use > a {
+    border-left: 3px solid var(--pf-accent);
+  }
+}
+
+/* Feedback loop (placeholder for a hand-drawn version) */
+.pf-loop {
+  max-width: 21rem;
+  margin: 0.6rem 0 0.9rem;
+}
+.pf-loop svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.pf-loop-arcs path {
+  fill: none;
+  stroke: var(--pf-accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+#pf-loop-head path {
+  fill: none;
+  stroke: var(--pf-accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pf-loop-nodes circle {
+  fill: var(--global-bg-color, var(--pf-paper));
+  stroke: var(--pf-accent);
+  stroke-width: 1.6;
+}
+.pf-loop text {
+  fill: var(--pf-secondary);
+  font-size: 12.5px;
+}
+.pf-loop text.pf-loop-strong {
+  fill: var(--pf-ink);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+@media (max-width: 760px) {
+  .pf-loop {
+    max-width: none;
   }
 }
