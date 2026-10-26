@@ -2785,3 +2785,388 @@ html:has(.pf-v2) {
     font-size: 0.8rem;
   }
 }
+
+/* Framework figure, after Fig. 2 in the article */
+.pf-fw-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) 2rem minmax(0, 1fr) 2rem minmax(0, 1.1fr) 2.2rem minmax(0, 1fr);
+  grid-template-areas:
+    "s1 s1 s1 . s2 . s3"
+    "src a1 cand a2 dim br use"
+    "reuse reuse reuse reuse reuse . .";
+  row-gap: 1rem;
+  margin: 1.6rem 0 0.4rem;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+.pf-v2 .pf-fw-grid p,
+.pf-v2 .pf-fw-grid ul {
+  margin: 0;
+}
+.pf-v2 .pf-fw-step {
+  position: relative;
+  align-self: end;
+  padding-bottom: 0.45rem;
+  border-bottom: 1.5px solid var(--pf-accent);
+  color: var(--pf-accent);
+  font-size: 0.72rem !important;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pf-fw-step::before,
+.pf-fw-step::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  height: 6px;
+  border-left: 1.5px solid var(--pf-accent);
+}
+.pf-fw-step::before {
+  left: 0;
+}
+.pf-fw-step::after {
+  right: 0;
+}
+.pf-fw-step span {
+  margin-right: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+.pf-fw-s1 {
+  grid-area: s1;
+}
+.pf-fw-s2 {
+  grid-area: s2;
+}
+.pf-fw-s3 {
+  grid-area: s3;
+}
+.pf-fw-sources {
+  grid-area: src;
+}
+.pf-fw-a1 {
+  grid-area: a1;
+}
+.pf-fw-candidates {
+  grid-area: cand;
+}
+.pf-fw-a2 {
+  grid-area: a2;
+}
+.pf-fw-dimensions {
+  grid-area: dim;
+}
+.pf-fw-branch {
+  grid-area: br;
+}
+.pf-fw-use {
+  grid-area: use;
+}
+.pf-fw-reuse {
+  grid-area: reuse;
+}
+.pf-fw-grid a {
+  color: var(--pf-ink);
+  text-decoration: none;
+}
+.pf-fw-grid > a,
+.pf-fw-dimensions,
+.pf-fw-use > a {
+  margin-top: 0.6rem;
+  transition:
+    transform 0.25s var(--pf-ease),
+    box-shadow 0.25s var(--pf-ease),
+    background-color 0.25s var(--pf-ease);
+}
+.pf-fw-grid > a:hover,
+.pf-fw-use > a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(41, 46, 44, 0.08);
+}
+
+/* Step 1: three sources of the outside view */
+.pf-fw-sources {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.55rem;
+}
+.pf-fw-sources span {
+  padding: 0.75rem 0.8rem;
+  border-radius: 8px;
+  background: var(--pf-accent-muted);
+  color: #fff;
+  text-align: center;
+}
+.pf-fw-sources:hover span {
+  background: var(--pf-accent);
+}
+
+/* Candidate trajectories */
+.pf-fw-candidates {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  border: 1px solid var(--pf-line);
+  background: var(--pf-paper);
+}
+.pf-fw-candidates strong {
+  padding: 0.75rem 0.85rem 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.pf-v2 .pf-fw-candidates ul {
+  padding: 0 0 0.35rem;
+  list-style: none;
+}
+.pf-fw-candidates li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  border-top: 1px solid var(--pf-line);
+}
+.pf-fw-candidates li .pf-swatch {
+  flex: none;
+}
+.pf-fw-candidates small {
+  min-width: 1.6rem;
+  color: var(--pf-secondary);
+}
+
+/* Step 2: the five dimensions */
+.pf-fw-dimensions {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--pf-soft);
+}
+.pf-fw-dimensions > a {
+  padding: 0.8rem 0.9rem;
+  background: var(--pf-accent);
+  color: #fff;
+  text-align: center;
+}
+.pf-fw-dimensions > a strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.pf-fw-dimensions > a:hover {
+  background: var(--pf-ink);
+}
+.pf-v2 .pf-fw-dimensions ul {
+  padding: 0.45rem 0;
+  list-style: none;
+}
+.pf-fw-dimensions li a {
+  display: block;
+  padding: 0.32rem 0.9rem;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+.pf-fw-dimensions li a:hover {
+  background: color-mix(in srgb, var(--pf-accent) 12%, transparent);
+}
+
+/* Arrows */
+.pf-fw-arrow {
+  align-self: center;
+  justify-self: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-top: 0.6rem;
+  fill: none;
+  stroke: var(--pf-accent-muted);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.pf-fw-branch {
+  position: relative;
+  margin-top: 0.6rem;
+}
+.pf-fw-branch::before {
+  /* stem from the dimensions to the fork */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  width: calc(50% - 0.2rem);
+  border-top: 1.8px solid var(--pf-accent);
+}
+.pf-fw-branch::after {
+  /* the fork, between the centres of the two outcome boxes */
+  content: "";
+  position: absolute;
+  top: calc((100% - 0.6rem) / 4);
+  bottom: calc((100% - 0.6rem) / 4);
+  left: 50%;
+  border-left: 1.8px solid var(--pf-accent);
+}
+.pf-fw-use {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+.pf-fw-use > a {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--pf-line);
+  border-left: 3px solid var(--pf-accent);
+  background: var(--pf-paper);
+}
+.pf-fw-use > a::before {
+  /* arrow into each outcome */
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(-1.1rem - 3px);
+  width: 1.1rem;
+  border-top: 1.8px solid var(--pf-accent);
+}
+.pf-fw-use > a::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 4px);
+  left: calc(-9px - 3px);
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--pf-accent);
+  transform: translateY(-0.5px);
+}
+.pf-fw-use strong {
+  font-weight: 600;
+  line-height: 1.3;
+}
+.pf-fw-use span {
+  color: var(--pf-secondary);
+  font-size: 0.8rem;
+}
+
+/* Evidence is reused */
+.pf-v2 .pf-fw-reuse {
+  position: relative;
+  margin-top: 0.3rem;
+  padding-top: 0.55rem;
+  color: var(--pf-secondary);
+  font-size: 0.8rem !important;
+  text-align: center;
+}
+.pf-fw-reuse::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 6%;
+  right: 3%;
+  border-top: 1.8px dashed var(--pf-accent-muted);
+}
+.pf-fw-reuse::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: calc(3% - 2px);
+  border-top: 5.5px solid transparent;
+  border-bottom: 5.5px solid transparent;
+  border-left: 9px solid var(--pf-accent-muted);
+}
+.pf-v2 .pf-fw-source {
+  margin-top: 1rem;
+}
+
+/* The figure builds from left to right as it comes into view. */
+.pf-reveal-ready .pf-fw .pf-fw-grid > * {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.55s var(--pf-ease),
+    transform 0.55s var(--pf-ease),
+    box-shadow 0.25s var(--pf-ease),
+    background-color 0.25s var(--pf-ease);
+  transition-delay: calc(var(--pf-d, 0) * 110ms);
+}
+.pf-reveal-ready .pf-fw.pf-in-view .pf-fw-grid > * {
+  opacity: 1;
+  transform: none;
+}
+.pf-reveal-ready .pf-fw.pf-in-view .pf-fw-grid > a:hover,
+.pf-reveal-ready .pf-fw.pf-in-view .pf-fw-use > a:hover {
+  transform: translateY(-2px);
+  transition-delay: 0s;
+}
+
+/* Narrow screens: the figure reads top to bottom. */
+@media (max-width: 760px) {
+  .pf-fw-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "s1"
+      "src"
+      "a1"
+      "cand"
+      "a2"
+      "s2"
+      "dim"
+      "reuse"
+      "br"
+      "s3"
+      "use";
+    row-gap: 0.5rem;
+  }
+  .pf-fw-step {
+    margin-top: 0.6rem;
+  }
+  .pf-fw-arrow {
+    margin: 0;
+    transform: rotate(90deg);
+  }
+  .pf-reveal-ready .pf-fw.pf-in-view .pf-fw-arrow {
+    transform: rotate(90deg);
+  }
+  .pf-fw-branch {
+    height: 1.7rem;
+    margin: 0;
+  }
+  .pf-fw-branch::before {
+    top: 0.2rem;
+    bottom: 0.2rem;
+    left: 50%;
+    width: 0;
+    border-top: 0;
+    border-left: 1.8px solid var(--pf-accent);
+  }
+  .pf-fw-branch::after {
+    top: auto;
+    bottom: 0;
+    left: calc(50% - 4px);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid var(--pf-accent);
+  }
+  .pf-fw-use {
+    grid-template-rows: auto;
+  }
+  .pf-fw-use > a::before,
+  .pf-fw-use > a::after {
+    display: none;
+  }
+  .pf-v2 .pf-fw-reuse {
+    padding-top: 0;
+    text-align: left;
+  }
+  .pf-fw-reuse::before,
+  .pf-fw-reuse::after {
+    display: none;
+  }
+  .pf-fw-sources span {
+    padding: 0.6rem 0.8rem;
+  }
+}

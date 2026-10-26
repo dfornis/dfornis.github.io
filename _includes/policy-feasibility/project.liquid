@@ -39,14 +39,9 @@
       before they enter models. The article develops a framework for doing so and demonstrates it ex post on a Swedish rail forecast from 1999. This
       page applies it ex ante, to a live question.
     </p>
-    <p>
-      The outside view scopes a limited set of candidate trajectories from precedent, institutional practice and actor positions. The inside view
-      assesses each trajectory across five political dimensions. The scenario setting then decides how a trajectory enters the model: as the baseline,
-      as a sensitivity case or as an alternative policy future.
-    </p>
   </header>
 
-  <figure class="pf-method pf-reveal" aria-labelledby="pf-framework-title">
+  <figure class="pf-method pf-fw pf-reveal" aria-labelledby="pf-framework-title">
     <figcaption>
       <h2 id="pf-framework-title">The framework</h2>
       <p>
@@ -54,31 +49,51 @@
         to avoid tunnel vision; the inside view disciplines judgement once comparison begins.
       </p>
     </figcaption>
-    <div class="pf-flow">
-      <div class="pf-flow-group">
-        <p class="pf-flow-label">Identify plausible trajectories</p>
-        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
-        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
-        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Candidate trajectories</strong><span>Expressed in modelling terms</span></a>
+    <div class="pf-fw-grid">
+      <p class="pf-fw-step pf-fw-s1" style="--pf-d: 0"><span>1</span> Outside view · scope</p>
+      <p class="pf-fw-step pf-fw-s2" style="--pf-d: 4"><span>2</span> Inside view · compare</p>
+      <p class="pf-fw-step pf-fw-s3" style="--pf-d: 6">Scenario use</p>
+
+      <a class="pf-fw-sources" href="#pf-scope" style="--pf-d: 1">
+        <span>Historical precedent and policy momentum</span>
+        <span>Institutional practice and commitments</span>
+        <span>Actor positions and stakeholder signals</span>
+      </a>
+      <svg class="pf-fw-arrow pf-fw-a1" style="--pf-d: 2" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M4 16h22m-6-6 6 6-6 6" />
+      </svg>
+      <a class="pf-fw-candidates" href="#pf-trajectories" style="--pf-d: 3">
+        <strong>Candidate policy trajectories</strong>
+        <ul>
+          {% for t in pf.trajectories %}
+            <li data-trajectory="{{ t.id }}">
+              <span class="pf-swatch" aria-hidden="true"></span><small>{{ t.id }}</small>{{ t.short_title }}
+            </li>
+          {% endfor %}
+        </ul>
+      </a>
+      <svg class="pf-fw-arrow pf-fw-a2" style="--pf-d: 4" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M4 16h22m-6-6 6 6-6 6" />
+      </svg>
+      <div class="pf-fw-dimensions" style="--pf-d: 5">
+        <a href="#pf-assess"><strong>Feasibility dimensions</strong></a>
+        <ul>
+          {% for d in pf.dimensions %}
+            <li>
+              <a href="#pf-dimension-{{ d.id }}" title="{{ d.guide }}">{{ d.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
       </div>
-      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
-      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
-      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
-      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Baseline, sensitivity case or alternative future</span></a>
+      <span class="pf-fw-branch" style="--pf-d: 6" aria-hidden="true"></span>
+      <div class="pf-fw-use" style="--pf-d: 7">
+        <a href="#pf-model"><strong>Trajectories carried into modelling</strong><span>Baseline, sensitivity case or alternative future</span></a>
+        <a href="#pf-assess"><strong>Documented rationale and disagreements</strong></a>
+      </div>
+      <p class="pf-fw-reuse" style="--pf-d: 8">Evidence from step 1 is reorganised and reused in step 2</p>
     </div>
+    <p class="pf-caption pf-fw-source">Adapted from Fig. 2 in the article.</p>
   </figure>
-  <nav class="pf-dimension-guide pf-reveal" aria-label="The five political dimensions">
-    <p class="pf-caption">Five questions guide the assessment</p>
-    <ol>
-      {% for d in pf.dimensions %}
-        <li>
-          <a href="#pf-dimension-{{ d.id }}"
-            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
-          >
-        </li>
-      {% endfor %}
-    </ol>
-  </nav>
   <p class="pf-intro-teaser pf-reveal">
     Quantification also shows why the specification of a trajectory matters: a requirement for new fossil-free generation can be met by contracting
     onshore wind that would be built anyway. <a href="#pf-additionality">See 05</a>
