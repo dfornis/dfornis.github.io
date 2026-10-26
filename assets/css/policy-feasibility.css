@@ -3243,3 +3243,136 @@ html:has(.pf-v2) {
     font-style: italic;
   }
 }
+
+/* Narrow screens: the figure as a vertical path. One rail on the left carries the flow,
+   so the arrows and brackets of the wide layout are not needed. */
+@media (max-width: 760px) {
+  .pf-fw-grid {
+    position: relative;
+    row-gap: 0.4rem;
+    padding-left: 1.5rem;
+  }
+  .pf-fw-grid::before {
+    content: "";
+    position: absolute;
+    top: 0.55rem;
+    bottom: 1.6rem;
+    left: 0.35rem;
+    border-left: 1.5px solid var(--pf-line);
+  }
+  .pf-fw-arrow,
+  .pf-fw-branch {
+    display: none;
+  }
+  .pf-fw-step {
+    margin-top: 0.9rem;
+  }
+  .pf-fw-s1 {
+    margin-top: 0;
+  }
+  .pf-v2 .pf-fw-step {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .pf-fw-step::after {
+    display: none;
+  }
+  .pf-fw-step::before {
+    /* node on the rail */
+    top: 0.3rem;
+    bottom: auto;
+    left: calc(-1.5rem + 0.35rem - 4px);
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid var(--pf-accent);
+    border-radius: 50%;
+    background: var(--global-bg-color, var(--pf-paper));
+  }
+  .pf-fw-grid > a,
+  .pf-fw-dimensions,
+  .pf-fw-use {
+    margin-top: 0.2rem;
+  }
+  .pf-fw-grid > a:hover,
+  .pf-fw-use > a:hover,
+  .pf-reveal-ready .pf-fw.pf-in-view .pf-fw-grid > a:hover,
+  .pf-reveal-ready .pf-fw.pf-in-view .pf-fw-use > a:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  /* Sources: one light block, three lines */
+  .pf-fw-sources {
+    gap: 0;
+    border: 1px solid var(--pf-line);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .pf-fw-sources span {
+    padding: 0.4rem 0.7rem;
+    border-radius: 0;
+    background: var(--pf-shade);
+    text-align: left;
+  }
+  .pf-v2 .pf-fw-sources span {
+    color: var(--pf-ink) !important;
+  }
+  .pf-fw-sources span + span {
+    border-top: 1px solid var(--pf-line);
+  }
+  .pf-fw-sources:hover span {
+    background: var(--pf-soft);
+  }
+  .pf-fw-candidates {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .pf-fw-candidates strong {
+    padding: 0.4rem 0.7rem;
+  }
+  .pf-fw-candidates li {
+    padding: 0.3rem 0.4rem;
+    color: var(--pf-secondary);
+  }
+  .pf-fw-dimensions {
+    border-radius: 6px;
+  }
+  .pf-fw-dimensions > a {
+    padding: 0.4rem 0.7rem;
+    text-align: left;
+  }
+  .pf-v2 .pf-fw-dimensions ul {
+    justify-content: flex-start;
+    padding: 0.35rem 0.3rem 0.4rem;
+  }
+  .pf-fw-dimensions li a {
+    padding: 0.15rem 0.4rem;
+  }
+  .pf-v2 .pf-fw-reuse {
+    margin-top: 0.1rem;
+    font-style: normal;
+  }
+  .pf-fw-use > a {
+    padding: 0.45rem 0.7rem;
+    border-left-width: 1px;
+    border-radius: 6px;
+  }
+  .pf-fw-use strong {
+    font-size: 0.86rem;
+  }
+}
+@media (max-width: 760px) {
+  .pf-fw-dimensions {
+    border: 1px solid var(--pf-line);
+    background: var(--pf-shade);
+  }
+  .pf-fw-dimensions > a {
+    border-bottom: 1px solid var(--pf-line);
+    background: var(--pf-paper);
+  }
+  .pf-v2 .pf-fw-dimensions > a strong {
+    color: var(--pf-ink) !important;
+  }
+  .pf-fw-dimensions > a:hover {
+    background: var(--pf-soft);
+  }
+}
