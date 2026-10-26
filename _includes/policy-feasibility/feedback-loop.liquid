@@ -1,16 +1,31 @@
 {%- comment -%}
-  Feedback loop drawing. Shown only once the image exists:
-  assets/images/policy-feasibility/feedback-loop.png (any proportions; about 1.8 : 1 suits the column).
+  Placeholder loop: decision window -> scenario run -> assessment -> next decision window.
+  To use a hand-drawn version, replace the svg with an <img> of the same proportions (320 x 200).
 {%- endcomment -%}
-{%- assign loop_path = '/assets/images/policy-feasibility/feedback-loop.png' -%}
-{%- assign loop_img = site.static_files | where: 'relative_path', loop_path | first -%}
-{%- if loop_img -%}
-  <figure class="pf-loop">
-    <img
-      src="{{ loop_path | relative_url }}"
-      alt="A loop: a decision window leads to a scenario run with prices and cost shares, which feeds the assessment of adjustment burden and coalitions, which informs the next decision window."
-      loading="lazy"
-      decoding="async"
-    >
-  </figure>
-{%- endif -%}
+<figure
+  class="pf-loop"
+  aria-label="A loop: the decision window leads to a scenario run with prices and cost shares, which feeds the assessment of who gains and who loses, which informs the next decision window."
+>
+  <svg viewBox="-45 0 410 200" aria-hidden="true" focusable="false">
+    <defs>
+      <marker id="pf-loop-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M1 1 9 5 1 9" />
+      </marker>
+    </defs>
+    <g class="pf-loop-arcs" marker-end="url(#pf-loop-head)">
+      <path d="M176 45.1A62 62 0 0 1 219.9 121" />
+      <path d="M203.8 148.8A62 62 0 0 1 116.2 148.8" />
+      <path d="M100.1 121A62 62 0 0 1 144 45.1" />
+    </g>
+    <g class="pf-loop-nodes">
+      <circle cx="160" cy="43" r="5" />
+      <circle cx="213.7" cy="136" r="5" />
+      <circle cx="106.3" cy="136" r="5" />
+    </g>
+    <text class="pf-loop-strong" x="160" y="22" text-anchor="middle">Decision window</text>
+    <text class="pf-loop-strong" x="226" y="158">Scenario run</text>
+    <text x="226" y="173">prices and cost shares</text>
+    <text class="pf-loop-strong" x="94" y="158" text-anchor="end">Assessment</text>
+    <text x="94" y="173" text-anchor="end">who gains, who loses</text>
+  </svg>
+</figure>
