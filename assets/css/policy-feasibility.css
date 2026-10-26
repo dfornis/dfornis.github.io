@@ -3472,3 +3472,21 @@ html:has(.pf-v2) {
     font-size: 0.74rem !important;
   }
 }
+
+/* Tables: fixed sizes (the theme sizes table cells itself). */
+.pf-v2 .pf-directions th,
+.pf-v2 .pf-directions td,
+.pf-v2 .pf-profile th,
+.pf-v2 .pf-profile td,
+.pf-v2 .pf-results th,
+.pf-v2 .pf-results td {
+  font-size: 0.86rem !important;
+  line-height: 1.45;
+}
+.pf-v2 .pf-direction-text,
+.pf-v2 .pf-unit {
+  font-size: 0.78rem !important;
+}
+.pf-v2 .pf-actor-summary {
+  font-size: 0.88rem !important;
+}
