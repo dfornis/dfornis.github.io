@@ -3443,3 +3443,32 @@ html:has(.pf-v2) {
     max-width: none;
   }
 }
+
+/* Framework figure: one text size throughout (the theme sizes list items and paragraphs itself). */
+.pf-v2 .pf-fw-grid li,
+.pf-v2 .pf-fw-grid li a,
+.pf-v2 .pf-fw-sources span,
+.pf-v2 .pf-fw-candidates strong,
+.pf-v2 .pf-fw-dimensions > a strong,
+.pf-v2 .pf-fw-use strong {
+  font-size: 0.86rem !important;
+  line-height: 1.4;
+}
+.pf-v2 .pf-fw-use span,
+.pf-v2 .pf-fw-reuse {
+  font-size: 0.78rem !important;
+}
+@media (max-width: 760px) {
+  .pf-v2 .pf-fw-grid li,
+  .pf-v2 .pf-fw-grid li a,
+  .pf-v2 .pf-fw-sources span,
+  .pf-v2 .pf-fw-candidates strong,
+  .pf-v2 .pf-fw-dimensions > a strong,
+  .pf-v2 .pf-fw-use strong {
+    font-size: 0.82rem !important;
+  }
+  .pf-v2 .pf-fw-use span,
+  .pf-v2 .pf-fw-reuse {
+    font-size: 0.74rem !important;
+  }
+}
