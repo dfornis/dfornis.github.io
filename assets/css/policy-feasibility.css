@@ -1831,3 +1831,947 @@
     height: 44px;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   October 2026 restructure: section navigation, trajectory cards, the
+   per-trajectory profile, model results and calmer fold-outs.
+   --------------------------------------------------------------------------- */
+.pf-v2 {
+  --pf-t0: #8a8f8b;
+  --pf-t1: #788995;
+  --pf-t1b: #4b6271;
+  --pf-t2: #9a5b3c;
+  --pf-relabelled: #c9c9be;
+  --pf-nav-offset: 57px;
+  --pf-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.pf-v2 [data-trajectory="T0"] {
+  --pf-t: var(--pf-t0);
+}
+.pf-v2 [data-trajectory="T1"] {
+  --pf-t: var(--pf-t1);
+}
+.pf-v2 [data-trajectory="T1b"] {
+  --pf-t: var(--pf-t1b);
+}
+.pf-v2 [data-trajectory="T2"] {
+  --pf-t: var(--pf-t2);
+}
+html:has(.pf-v2) {
+  scroll-behavior: smooth;
+}
+.pf-v2 [id] {
+  scroll-margin-top: calc(var(--pf-nav-offset) + 3.6rem);
+}
+.pf-v2 .pf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* Section navigation */
+.pf-stepnav {
+  position: sticky;
+  top: var(--pf-nav-offset);
+  z-index: 20;
+  margin: 0 0 2.2rem;
+  background: var(--global-bg-color, #fff);
+  border-bottom: 1px solid var(--pf-line);
+}
+.pf-stepnav ol {
+  display: flex;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pf-stepnav ol::-webkit-scrollbar {
+  display: none;
+}
+.pf-stepnav a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.75rem 0.8rem 0.65rem;
+  border-bottom: 2px solid transparent;
+  color: var(--pf-secondary);
+  font-size: 0.82rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.pf-stepnav a:hover {
+  color: var(--pf-ink);
+}
+.pf-stepnav a[aria-current] {
+  color: var(--pf-ink);
+  border-bottom-color: var(--pf-accent);
+}
+.pf-stepnav-number {
+  color: var(--pf-accent-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Intro */
+.pf-v2 .pf-intro {
+  max-width: 68ch;
+  padding-bottom: 1.6rem;
+}
+.pf-v2 .pf-intro-lead {
+  font-size: clamp(1.08rem, 1.7vw, 1.25rem);
+  line-height: 1.55;
+}
+.pf-v2 .pf-intro-teaser {
+  max-width: 68ch;
+  margin: 0.5rem 0 2.6rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--pf-line);
+  color: var(--pf-secondary);
+}
+
+/* Section rhythm */
+.pf-v2 .pf-section {
+  padding-block: 3.4rem 2.6rem;
+}
+.pf-v2 .pf-step-tag {
+  margin: 0 0 0.45rem;
+  color: var(--pf-accent);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pf-v2 .pf-prose {
+  max-width: 68ch;
+}
+.pf-next {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "label arrow"
+    "title arrow";
+  align-items: center;
+  column-gap: 1rem;
+  max-width: 26rem;
+  margin: 2.6rem 0 0 auto;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--pf-line);
+  background: var(--pf-paper);
+  color: var(--pf-ink);
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.pf-v2 a.pf-next {
+  color: var(--pf-ink);
+  text-decoration: none;
+}
+.pf-next:hover {
+  border-color: var(--pf-accent);
+  transform: translateY(2px);
+}
+.pf-next-label {
+  grid-area: label;
+  color: var(--pf-secondary);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pf-next-title {
+  grid-area: title;
+  font-weight: 500;
+}
+.pf-next-arrow {
+  grid-area: arrow;
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: var(--pf-accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Reveal and growth: applied only when scripts run and motion is allowed */
+.pf-reveal-ready .pf-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s var(--pf-ease),
+    transform 0.7s var(--pf-ease);
+}
+.pf-reveal-ready .pf-reveal.pf-in-view {
+  opacity: 1;
+  transform: none;
+}
+.pf-grow-ready .pf-bars .pf-bar,
+.pf-grow-ready .pf-stack .pf-stack-part {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s var(--pf-ease);
+}
+.pf-grow-ready .pf-grown .pf-bar,
+.pf-grow-ready .pf-grown .pf-stack-part {
+  transform: scaleX(1);
+}
+.pf-grow-ready .pf-grown .pf-bar-row:nth-child(3) .pf-bar {
+  transition-delay: 0.08s;
+}
+.pf-grow-ready .pf-grown .pf-bar-row:nth-child(4) .pf-bar {
+  transition-delay: 0.16s;
+}
+.pf-grow-ready .pf-grown .pf-bar-row:nth-child(5) .pf-bar {
+  transition-delay: 0.24s;
+}
+.pf-grow-ready .pf-grown .pf-bar-row:nth-child(6) .pf-bar {
+  transition-delay: 0.32s;
+}
+
+/* Shared marks */
+.pf-swatch {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.45rem;
+  border-radius: 2px;
+  background: var(--pf-t, var(--pf-accent));
+  vertical-align: 0;
+}
+.pf-v2 small {
+  margin-right: 0.35rem;
+  color: var(--pf-secondary);
+  font-size: 0.78em;
+  font-weight: 500;
+}
+.pf-rating {
+  display: inline-block;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-right: 0.35rem;
+  vertical-align: -0.14rem;
+}
+.pf-rating svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pf-rating-ring {
+  fill: none;
+  stroke: var(--pf-ink);
+  stroke-width: 1.4;
+}
+.pf-rating-fill {
+  fill: var(--pf-ink);
+}
+.pf-v2 .pf-rating-legend span {
+  margin-left: 0.7rem;
+  white-space: nowrap;
+}
+.pf-use {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--pf-line);
+  color: var(--pf-secondary);
+  font-size: 0.72rem;
+}
+
+/* Tables */
+.pf-table-scroll {
+  overflow-x: auto;
+  margin: 1.4rem 0;
+}
+.pf-directions,
+.pf-profile,
+.pf-results {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.pf-directions th,
+.pf-directions td,
+.pf-profile th,
+.pf-profile td,
+.pf-results th,
+.pf-results td {
+  padding: 0.75rem 0.9rem 0.75rem 0;
+  border-bottom: 1px solid var(--pf-line);
+  text-align: left;
+  vertical-align: top;
+}
+.pf-directions thead th,
+.pf-profile thead th,
+.pf-results thead th {
+  border-bottom: 2px solid var(--pf-ink);
+  font-weight: 600;
+  vertical-align: bottom;
+}
+.pf-directions tbody th,
+.pf-profile tbody th,
+.pf-results tbody th {
+  font-weight: 500;
+}
+.pf-directions {
+  min-width: 40rem;
+}
+.pf-directions tbody th {
+  width: 22%;
+}
+.pf-profile {
+  min-width: 52rem;
+  table-layout: fixed;
+}
+.pf-profile thead th:first-child {
+  width: 17%;
+}
+.pf-profile tbody th a {
+  color: var(--pf-ink);
+  text-decoration-color: var(--pf-line);
+}
+.pf-profile td {
+  transition: background-color 0.2s ease;
+}
+.pf-profile tbody tr:hover td,
+.pf-profile tbody tr:hover th {
+  background: color-mix(in srgb, var(--pf-soft) 55%, transparent);
+}
+.pf-results {
+  min-width: 40rem;
+}
+.pf-results td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.pf-results thead th:not(:first-child) {
+  text-align: right;
+}
+.pf-unit {
+  display: block;
+  color: var(--pf-secondary);
+  font-size: 0.74rem;
+  font-weight: 400;
+}
+.pf-pending {
+  color: var(--pf-secondary);
+  font-style: italic;
+}
+
+/* Trajectory cards */
+.pf-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14.5rem, 1fr));
+  gap: 1rem;
+  margin: 1.8rem 0 1.4rem;
+}
+.pf-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem 1.1rem 1rem;
+  border: 1px solid var(--pf-line);
+  border-top: 3px solid var(--pf-t);
+  background: var(--pf-paper);
+  transition:
+    transform 0.25s var(--pf-ease),
+    box-shadow 0.25s var(--pf-ease);
+}
+.pf-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(41, 46, 44, 0.08);
+}
+.pf-v2 .pf-card > * {
+  margin: 0;
+}
+.pf-card-id {
+  color: var(--pf-secondary);
+  font-size: 0.78rem;
+}
+.pf-v2 .pf-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.pf-card-rule {
+  font-size: 0.9rem;
+}
+.pf-card-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--pf-line);
+  font-size: 0.86rem;
+}
+.pf-card-key {
+  color: var(--pf-secondary);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pf-v2 .pf-card-decides {
+  margin-top: auto;
+  color: var(--pf-secondary);
+  font-size: 0.76rem;
+}
+.pf-v2 .pf-specification-note {
+  max-width: 60ch;
+  padding: 0.95rem 1.15rem;
+  background: var(--pf-soft);
+  font-size: 1.02rem;
+  font-weight: 500;
+}
+.pf-variant-list {
+  max-width: 72ch;
+  padding-left: 1.1rem;
+}
+.pf-variant-list li {
+  margin-bottom: 0.6rem;
+}
+.pf-variant-list li > span:last-child {
+  display: block;
+  color: var(--pf-secondary);
+}
+
+/* Fold-outs */
+.pf-drawers {
+  margin: 1.8rem 0;
+  border-top: 1px solid var(--pf-line);
+}
+.pf-v2 .pf-drawer {
+  margin: 0;
+  border-top: 0;
+  border-bottom: 1px solid var(--pf-line);
+}
+.pf-v2 .pf-drawer > summary {
+  display: grid;
+  grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr) 1.2rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1.05rem 0;
+  color: var(--pf-ink);
+  font-size: 0.95rem;
+  list-style: none;
+}
+.pf-v2 .pf-drawer > summary::-webkit-details-marker {
+  display: none;
+}
+.pf-v2 .pf-drawer > summary strong {
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.pf-v2 .pf-drawer > summary span {
+  color: var(--pf-secondary);
+  font-size: 0.86rem;
+}
+.pf-v2 .pf-drawer > summary::after {
+  position: static;
+  content: "+";
+  justify-self: end;
+  color: var(--pf-accent);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 0.3s var(--pf-ease);
+}
+.pf-v2 .pf-drawer[open] > summary::after {
+  content: "+";
+  transform: rotate(45deg);
+}
+.pf-v2 .pf-drawer > summary:hover strong {
+  color: var(--pf-accent);
+}
+.pf-v2 .pf-drawer[open] > :not(summary) {
+  animation: pf-unfold 0.4s var(--pf-ease);
+}
+@keyframes pf-unfold {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pf-v2 .pf-drawer .pf-outside-part,
+.pf-drawer-body {
+  margin: 0;
+  padding: 0.2rem 0 1.6rem;
+}
+.pf-v2 .pf-dimension-body {
+  margin: 0 0 1.4rem;
+  padding: 1.25rem;
+  background: var(--pf-paper);
+}
+.pf-evidence-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1.4rem;
+  margin-top: 1rem;
+}
+.pf-evidence-columns article {
+  padding-top: 0.7rem;
+  border-top: 3px solid var(--pf-t);
+  font-size: 0.88rem;
+}
+.pf-v2 .pf-evidence-columns h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+.pf-v2 .pf-evidence-heading {
+  margin-top: 2.6rem;
+  font-size: 1rem;
+}
+.pf-compare .pf-pair {
+  margin: 1rem 0 1.4rem;
+}
+.pf-pair-takeaways {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.9rem 1.6rem;
+  margin: 0.8rem 0;
+}
+.pf-pair-takeaways dt {
+  font-weight: 500;
+}
+.pf-pair-takeaways dd {
+  margin: 0.2rem 0 0;
+  color: var(--pf-secondary);
+  font-size: 0.86rem;
+}
+
+/* Directions and the 01 list */
+.pf-contested {
+  padding-left: 1.1rem;
+}
+.pf-contested li {
+  margin-bottom: 0.6rem;
+}
+.pf-v2 .pf-actor-summary {
+  color: var(--pf-secondary);
+}
+
+/* 05: settings, results, additionality */
+.pf-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0 2.6rem;
+}
+.pf-setting {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--pf-line);
+  background: var(--pf-paper);
+}
+.pf-v2 .pf-setting-label {
+  margin: 0 0 0.7rem;
+  color: var(--pf-secondary);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pf-setting ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-setting li {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--pf-t);
+  font-size: 0.88rem;
+}
+.pf-setting li strong {
+  margin-right: 0.3rem;
+}
+.pf-quantify {
+  padding-top: 2.2rem;
+  border-top: 1px solid var(--pf-line);
+}
+.pf-v2 .pf-quantify h3,
+.pf-v2 .pf-callout h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.pf-bars,
+.pf-stack {
+  max-width: 54rem;
+  margin: 1.6rem 0;
+}
+.pf-bars figcaption,
+.pf-stack figcaption {
+  margin-bottom: 0.8rem;
+  color: var(--pf-secondary);
+  font-size: 0.82rem;
+}
+.pf-bar-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 3.4rem;
+  gap: 0.9rem;
+  align-items: center;
+  margin: 0.5rem 0;
+  font-size: 0.88rem;
+}
+.pf-bar-track {
+  position: relative;
+  display: flex;
+  height: 1.4rem;
+}
+.pf-bar {
+  display: block;
+  height: 100%;
+  background: var(--pf-t, var(--pf-accent-muted));
+}
+.pf-bar-reference .pf-bar {
+  border: 1.5px dashed var(--pf-secondary);
+  background: transparent;
+}
+.pf-bar-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  border-left: 1.5px solid var(--pf-ink);
+}
+.pf-bar-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.pf-bar-pending {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-left: 0.6rem;
+  border: 1px solid var(--pf-line);
+  background: repeating-linear-gradient(135deg, var(--pf-soft) 0 6px, transparent 6px 12px);
+  color: var(--pf-secondary);
+  font-size: 0.78rem;
+}
+.pf-bars-thin .pf-bar-track {
+  height: 0.9rem;
+}
+.pf-bars-thin .pf-bar {
+  background: var(--pf-t1);
+}
+.pf-bars-thin .pf-bar-highlight .pf-bar {
+  background: var(--pf-t1b);
+}
+.pf-callout {
+  margin: 2.6rem 0 1.4rem;
+  padding: 1.5rem 1.6rem 1.2rem;
+  background: var(--pf-paper);
+  border: 1px solid var(--pf-line);
+}
+.pf-callout > p {
+  max-width: 68ch;
+}
+.pf-stack-part {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  overflow: hidden;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.pf-stack-relabelled {
+  background: var(--pf-relabelled);
+  color: var(--pf-ink);
+}
+.pf-stack-new {
+  background: var(--pf-t1b);
+  color: #fff;
+}
+.pf-stack-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  color: var(--pf-secondary);
+  font-size: 0.8rem;
+}
+.pf-key {
+  display: inline-block;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-right: 0.4rem;
+  padding: 0;
+  vertical-align: -0.1rem;
+}
+.pf-closing {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  gap: 1.6rem;
+  margin-top: 2.4rem;
+}
+.pf-v2 .pf-model-feedback {
+  margin-top: 0;
+}
+.pf-assumptions {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--pf-line);
+  font-size: 0.86rem;
+}
+.pf-assumptions dl {
+  display: grid;
+  grid-template-columns: minmax(7rem, auto) 1fr;
+  gap: 0.3rem 1rem;
+  margin: 0.4rem 0 0.8rem;
+}
+.pf-assumptions dl > div {
+  display: contents;
+}
+.pf-v2 .pf-assumptions dt {
+  color: var(--pf-secondary);
+  font-weight: 400;
+}
+.pf-v2 .pf-assumptions dd {
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .pf-v2 .pf-drawer > summary {
+    grid-template-columns: minmax(0, 1fr) 1.2rem;
+  }
+  .pf-v2 .pf-drawer > summary span {
+    grid-column: 1;
+  }
+  .pf-v2 .pf-drawer > summary::after {
+    grid-row: 1;
+    grid-column: 2;
+  }
+  .pf-bar-row {
+    grid-template-columns: minmax(0, 1fr) 3rem;
+  }
+  .pf-bar-label {
+    grid-column: 1 / -1;
+  }
+  .pf-next {
+    max-width: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.pf-v2) {
+    scroll-behavior: auto;
+  }
+}
+
+/* Paragraph sizes: the portfolio sets them with !important (see above), so the new hierarchy does too. */
+.pf-v2 .pf-intro-lead {
+  font-size: clamp(1.08rem, 1.7vw, 1.25rem) !important;
+}
+.pf-v2 .pf-step-tag,
+.pf-v2 .pf-setting-label {
+  font-size: 0.72rem !important;
+}
+.pf-v2 .pf-card-id,
+.pf-v2 .pf-card-decides,
+.pf-v2 .pf-stack-legend {
+  font-size: 0.78rem !important;
+}
+.pf-v2 .pf-card-rule,
+.pf-v2 .pf-evidence-columns p,
+.pf-v2 .pf-assumptions p {
+  font-size: 0.88rem !important;
+}
+.pf-v2 .pf-specification-note {
+  font-size: 1.02rem !important;
+}
+.pf-v2 .pf-case-intro > .pf-next {
+  grid-column: 1 / -1;
+  justify-self: end;
+  width: 100%;
+}
+@supports (grid-template-rows: subgrid) {
+  .pf-cards {
+    row-gap: 1rem;
+  }
+  .pf-card {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 6;
+    row-gap: 0.75rem;
+  }
+  .pf-v2 .pf-card-decides {
+    align-self: end;
+  }
+}
+.pf-v2 .pf-closing > * {
+  align-self: start;
+}
+.pf-v2 .pf-assumptions dt,
+.pf-v2 .pf-assumptions dd {
+  margin: 0;
+  padding: 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+.pf-table-scroll {
+  position: relative;
+}
+@media (max-width: 800px) {
+  .pf-profile thead th:first-child,
+  .pf-profile tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--pf-shade);
+  }
+  .pf-profile {
+    min-width: 44rem;
+  }
+}
+
+/* Narrow screens: the step bar scrolls sideways, with a soft edge to show there is more. */
+.pf-stepnav ol {
+  position: relative;
+}
+@media (max-width: 800px) {
+  .pf-stepnav ol {
+    mask-image: linear-gradient(90deg, transparent 0, #000 1rem, #000 calc(100% - 2.2rem), transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 1rem, #000 calc(100% - 2.2rem), transparent);
+    padding: 0 1.4rem 0 0.4rem;
+  }
+  .pf-stepnav a {
+    padding: 0.7rem 0.6rem 0.6rem;
+  }
+}
+
+/* Pending bars may wrap onto two lines. */
+.pf-bar-track:has(.pf-bar-pending) {
+  height: auto;
+  min-height: 1.4rem;
+}
+.pf-bar-pending {
+  padding: 0.15rem 0.6rem;
+  line-height: 1.35;
+}
+
+/* Additionality: numbers sit under the bar rather than inside narrow segments. */
+.pf-stack-detail {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 2 / -1;
+  gap: 0.2rem 1.2rem;
+  margin-top: -0.35rem;
+  color: var(--pf-secondary);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+.pf-stack .pf-bar-track {
+  height: auto;
+  min-height: 1.6rem;
+}
+
+/* Narrow screens: tables become stacked rows, read top to bottom without sideways scrolling. */
+@media (max-width: 640px) {
+  .pf-stack-detail {
+    grid-column: 1 / -1;
+  }
+  .pf-v2 .pf-table-scroll {
+    overflow: visible;
+  }
+  .pf-v2 .pf-directions,
+  .pf-v2 .pf-profile,
+  .pf-v2 .pf-results {
+    display: block;
+    min-width: 0;
+    table-layout: auto;
+  }
+  .pf-v2 .pf-directions thead,
+  .pf-v2 .pf-profile thead,
+  .pf-v2 .pf-results thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .pf-v2 .pf-directions tbody,
+  .pf-v2 .pf-profile tbody,
+  .pf-v2 .pf-results tbody {
+    display: block;
+  }
+  .pf-v2 .pf-directions tr,
+  .pf-v2 .pf-profile tr,
+  .pf-v2 .pf-results tr {
+    display: block;
+    padding: 0.9rem 0 0.7rem;
+    border-bottom: 1px solid var(--pf-line);
+  }
+  .pf-v2 .pf-directions tbody tr:first-child,
+  .pf-v2 .pf-profile tbody tr:first-child,
+  .pf-v2 .pf-results tbody tr:first-child {
+    border-top: 2px solid var(--pf-ink);
+  }
+  .pf-v2 .pf-directions th,
+  .pf-v2 .pf-directions td,
+  .pf-v2 .pf-profile th,
+  .pf-v2 .pf-profile td,
+  .pf-v2 .pf-results th,
+  .pf-v2 .pf-results td {
+    display: block;
+    width: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+  }
+  .pf-v2 .pf-directions tbody th,
+  .pf-v2 .pf-profile tbody th,
+  .pf-v2 .pf-results tbody th {
+    position: static;
+    margin-bottom: 0.45rem;
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+  .pf-v2 .pf-directions td,
+  .pf-v2 .pf-profile td,
+  .pf-v2 .pf-results td {
+    padding: 0.3rem 0;
+  }
+  .pf-v2 .pf-directions td::before,
+  .pf-v2 .pf-profile td::before,
+  .pf-v2 .pf-results td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--pf-secondary);
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
+  }
+  /* Profile: one dimension per block, each trajectory on its own line with its colour. */
+  .pf-v2 .pf-profile td {
+    display: grid;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    column-gap: 0.5rem;
+    padding: 0.35rem 0 0.35rem 0.6rem;
+    border-left: 3px solid var(--pf-t, var(--pf-line));
+    margin: 0.3rem 0;
+  }
+  .pf-v2 .pf-profile td::before {
+    grid-column: 1 / -1;
+  }
+  .pf-v2 .pf-profile tbody tr:hover td,
+  .pf-v2 .pf-profile tbody tr:hover th {
+    background: none;
+  }
+  /* Results: label left, number right. */
+  .pf-v2 .pf-results td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .pf-v2 .pf-results td::before {
+    display: inline;
+    font-size: 0.8rem;
+  }
+}

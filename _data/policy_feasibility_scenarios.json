@@ -1,81 +1,211 @@
 {
-  "_readme": "Scenario frame for section 05. status: 'pending' shows the input sketch and the planned runs; 'preliminary' or 'final' also shows the results table. inputs.*.series hold one value per year on a shared scale (here an index, T0 datacenter load in 2035 = 1); replace them with model inputs when available and set input_status to 'model'. results[case][trajectory][metric] holds 2035 values; null renders as a dash. Case ids match sensitivity_inputs in policy_feasibility.json.",
-  "status": "pending",
-  "input_status": "schematic",
+  "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21 in datacenter-pypsa, rolling-year runs for 2035). status: preliminary | final. A null value renders as pending. Values for Sweden; the rest of the Nordic system is background.",
+  "status": "preliminary",
   "model": {
     "name": "Nordic PyPSA electricity model",
-    "base_year": 2023,
     "result_year": 2035,
-    "setup": "2023 base year. In 2030 the generation fleet is fixed; in 2035 wind, solar and batteries expand at least cost within potential limits. Datacenter load follows the Nordic datacenter tracker."
+    "weather_year": 2023,
+    "setup": "Wind, solar and batteries expand at least cost within published limits in every Nordic country; dispatch is then solved hour by hour, month by month, with water values for hydro storage.",
+    "runs": "datacenter-pypsa, KORNINGAR §2.21"
   },
-  "years": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035],
-  "decision_year": 2030,
-  "inputs": [
+  "dc_load_twh": {
+    "total": 36.0,
+    "covered": 33.6
+  },
+  "metrics": [
     {
-      "id": "load",
-      "label": "Datacenter load",
-      "series": {
-        "T0": [0.15, 0.2, 0.27, 0.35, 0.45, 0.55, 0.66, 0.77, 0.88, 1],
-        "T1": [0.15, 0.2, 0.27, 0.35, 0.45, 0.55, 0.66, 0.77, 0.88, 1],
-        "T2": [0.15, 0.2, 0.27, 0.35, 0.45, 0.48, 0.5, 0.52, 0.54, 0.56]
-      },
-      "notes": {
-        "T0": "Load follows announced projects.",
-        "T1": "Same load as T0 unless the requirement deters projects.",
-        "T2": "Existing sites and expansions only after 2030."
+      "id": "price_se",
+      "label": "Average price, Sweden",
+      "unit": "EUR/MWh"
+    },
+    {
+      "id": "other_bill",
+      "label": "Extra cost for other Swedish customers",
+      "unit": "bn EUR/yr"
+    },
+    {
+      "id": "dc_cost",
+      "label": "Datacenters’ electricity cost",
+      "unit": "EUR/MWh"
+    },
+    {
+      "id": "net_import",
+      "label": "Net imports, Sweden",
+      "unit": "TWh"
+    },
+    {
+      "id": "p99_se3",
+      "label": "Highest 1% of hours, SE3",
+      "unit": "EUR/MWh"
+    }
+  ],
+  "price_scale_max": 100,
+  "reference": {
+    "id": "none",
+    "label": "No new datacenters",
+    "values": {
+      "price_se": 61.7,
+      "price_se3": 62.6,
+      "p99_se3": 125,
+      "other_bill": 0,
+      "dc_cost": null,
+      "net_import": 1.1
+    }
+  },
+  "cases": [
+    {
+      "id": "T0",
+      "values": {
+        "price_se": 84.6,
+        "price_se3": 86.2,
+        "p99_se3": 232,
+        "other_bill": 4.5,
+        "dc_cost": 83.5,
+        "net_import": 23.0
       }
     },
     {
-      "id": "requirement",
-      "label": "Required new renewable generation",
-      "series": {
-        "T0": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        "T1": [0, 0, 0, 0, 0, 0.07, 0.16, 0.25, 0.34, 0.44],
-        "T2": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      },
-      "notes": {
-        "T0": "None. Developers may still sign contracts voluntarily.",
-        "T1": "Annual use of sites opening from 2030.",
-        "T2": "None."
+      "id": "T1",
+      "note": "expected close to T0",
+      "values": {
+        "price_se": null,
+        "price_se3": null,
+        "p99_se3": null,
+        "other_bill": null,
+        "dc_cost": null,
+        "net_import": null
+      }
+    },
+    {
+      "id": "T1b",
+      "values": {
+        "price_se": 70.6,
+        "price_se3": 71.0,
+        "p99_se3": 147,
+        "other_bill": 1.8,
+        "dc_cost": 91.8,
+        "net_import": -0.7
+      }
+    },
+    {
+      "id": "T2",
+      "values": {
+        "price_se": null,
+        "price_se3": null,
+        "p99_se3": null,
+        "other_bill": null,
+        "dc_cost": null,
+        "net_import": null
       }
     }
   ],
-  "choices": [
+  "variants": [
     {
-      "id": "additionality",
-      "question": "Does the requirement add generation?",
-      "text": "The model already builds the cheapest wind and solar. If plants built under T1 count within the same potential limits, the requirement may change little, and T0 and T1 give similar prices. If they come on top of those limits, the run assumes that the requirement itself makes new sites available.",
-      "status": "open"
+      "id": "half",
+      "values": {
+        "price_se": 78.6,
+        "price_se3": 79.9,
+        "p99_se3": 200,
+        "other_bill": 3.3,
+        "dc_cost": 77.4,
+        "net_import": 12.3
+      }
     },
     {
-      "id": "response",
-      "question": "Do projects respond to the rules?",
-      "text": "Under T1, higher costs could delay or relocate some projects. Under T2, projects could open before 2030 or move abroad. Fixed load isolates the effect of the rule; adjusted load captures the developers’ response.",
-      "status": "open"
+      "id": "nuclear",
+      "values": {
+        "price_se": 70.3,
+        "price_se3": 70.6,
+        "p99_se3": 132,
+        "other_bill": 1.7,
+        "dc_cost": 99.0,
+        "net_import": -3.0
+      }
     },
     {
-      "id": "capacity",
-      "question": "How do the capacity cases enter the model?",
-      "text": "Slow expansion uses the lower range of wind potential from the Swedish Energy Agency; faster expansion uses the upper range.",
-      "status": "proposed"
+      "id": "battery",
+      "values": {
+        "price_se": 84.8,
+        "price_se3": 86.3,
+        "p99_se3": 232,
+        "other_bill": 4.6,
+        "dc_cost": 86.7,
+        "net_import": 22.3
+      }
     }
   ],
-  "outputs": [
-    { "id": "price_se3", "label": "Average price, SE3", "unit": "EUR/MWh" },
-    { "id": "price_se2", "label": "Average price, SE2", "unit": "EUR/MWh" },
-    { "id": "new_vre", "label": "New wind and solar, Sweden", "unit": "GW" },
-    { "id": "dc_use", "label": "Datacenter electricity use", "unit": "TWh" }
-  ],
-  "results": {
-    "constrained": {
-      "T0": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
-      "T1": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
-      "T2": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null }
+  "additionality": {
+    "required_twh": 33.6,
+    "scale_max": 35,
+    "note": "In the wider Nordic system, about 60% of the added generation displaces wind and solar that would otherwise be built in Finland and Norway; the rest reduces imports.",
+    "cases": [
+      {
+        "id": "T1",
+        "relabelled_twh": null,
+        "new_twh": null,
+        "note": "expected mostly relabelled"
+      },
+      {
+        "id": "T1b",
+        "relabelled_twh": 4,
+        "new_twh": 28
+      }
+    ]
+  },
+  "coverage": {
+    "text": "Matched hour by hour, a wind portfolio covers about 70% of datacenter use, and doubling it reaches about 87%. New nuclear covers almost all of it. An hourly requirement would favour generation that does not depend on the weather, such as nuclear power, and would change the coalitions around a generation requirement.",
+    "items": [
+      {
+        "label": "Solar",
+        "value": 36
+      },
+      {
+        "label": "Onshore wind",
+        "value": 70
+      },
+      {
+        "label": "Offshore wind",
+        "value": 73
+      },
+      {
+        "label": "Onshore and offshore wind",
+        "value": 76
+      },
+      {
+        "label": "T1b as built",
+        "value": 84,
+        "highlight": true
+      },
+      {
+        "label": "New nuclear",
+        "value": 97
+      }
+    ]
+  },
+  "assumptions": [
+    {
+      "label": "Demand",
+      "value": "Swedish Energy Agency, adopted-policy scenario"
     },
-    "expanded": {
-      "T0": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
-      "T1": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null },
-      "T2": { "price_se3": null, "price_se2": null, "new_vre": null, "dc_use": null }
+    {
+      "label": "Onshore wind",
+      "value": "70 TWh limit, the Swedish Energy Agency’s lower potential"
+    },
+    {
+      "label": "Offshore wind",
+      "value": "Parks with a government permit"
+    },
+    {
+      "label": "Grid 2035",
+      "value": "Svenska kraftnät targets and ENTSO-E capacities"
+    },
+    {
+      "label": "Continental prices",
+      "value": "NVE, 2035"
+    },
+    {
+      "label": "Datacenters",
+      "value": "Nordic datacenter tracker, High 2035; Norway and Finland at half"
     }
-  }
+  ]
 }

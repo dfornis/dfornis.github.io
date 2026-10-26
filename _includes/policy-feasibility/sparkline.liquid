@@ -1,8 +1,0 @@
-{% comment %} A small path over the scenario years on a shared 0–1 scale; the dashed line marks the decision year. {% endcomment %}
-{% capture points %}{% for v in include.values %}{{ forloop.index0 | times: 12 | plus: 6 }},{{ v | times: 34 | minus: 42 | times: -1 | round: 1 }} {% endfor %}{% endcapture %}
-{% assign decision_x = include.decision_index | times: 12 | plus: 6 %}
-<svg class="pf-spark pf-spark-{{ include.trajectory }}" viewBox="0 0 120 48" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-  <line class="pf-spark-axis" x1="6" y1="42" x2="114" y2="42" />
-  <line class="pf-spark-decision" x1="{{ decision_x }}" y1="2" x2="{{ decision_x }}" y2="46" />
-  <polyline points="{{ points | strip }}" />
-</svg>

@@ -3,24 +3,93 @@
 <link rel="stylesheet" href="{{ '/assets/css/policy-feasibility.css' | relative_url | bust_file_cache }}">
 <div
   id="policy-feasibility"
-  class="pf-project"
+  class="pf-project pf-v2"
   data-pf-map="{{ '/assets/data/policy-feasibility/countries.geojson' | relative_url | bust_file_cache }}"
 >
-  <div class="pf-intro">
+  <nav class="pf-stepnav" aria-label="Sections of this page">
+    <ol>
+      <li>
+        <a href="#pf-top"><span class="pf-stepnav-number">·</span><span class="pf-stepnav-label">Framework</span></a>
+      </li>
+      <li>
+        <a href="#pf-define"><span class="pf-stepnav-number">01</span><span class="pf-stepnav-label">Question</span></a>
+      </li>
+      <li>
+        <a href="#pf-scope"><span class="pf-stepnav-number">02</span><span class="pf-stepnav-label">Outside view</span></a>
+      </li>
+      <li>
+        <a href="#pf-trajectories"><span class="pf-stepnav-number">03</span><span class="pf-stepnav-label">Trajectories</span></a>
+      </li>
+      <li>
+        <a href="#pf-assess"><span class="pf-stepnav-number">04</span><span class="pf-stepnav-label">Inside view</span></a>
+      </li>
+      <li>
+        <a href="#pf-model"><span class="pf-stepnav-number">05</span><span class="pf-stepnav-label">Scenario</span></a>
+      </li>
+    </ol>
+  </nav>
+
+  <header id="pf-top" class="pf-intro pf-reveal">
     <p class="pf-caption">
       A companion to the research article
       <a href="{{ pf.article_url }}"><em>The politics of baselines</em> · Fornborg (2026)</a>, published in ERSS
     </p>
-    <p>
-      Energy and climate scenarios depend on assumptions about future policy. This example uses Swedish datacenters to show how public discontent,
-      actor positions and societal trends shape the political feasibility of possible policy responses.
+    <p class="pf-intro-lead">
+      Energy and climate scenarios rely on assumptions about future policy, but such policy trajectories are rarely screened for political feasibility
+      before they enter models. The article develops a framework for doing so and demonstrates it ex post on a Swedish rail forecast from 1999. This
+      page applies it ex ante, to a live question.
     </p>
-  </div>
-  <section id="pf-define" class="pf-section pf-case-intro">
+    <p>
+      The outside view scopes a limited set of candidate trajectories from precedent, institutional practice and actor positions. The inside view
+      assesses each trajectory across five political dimensions. The scenario setting then decides how a trajectory enters the model: as the baseline,
+      as a sensitivity case or as an alternative policy future.
+    </p>
+  </header>
+
+  <figure class="pf-method pf-reveal" aria-labelledby="pf-framework-title">
+    <figcaption>
+      <h2 id="pf-framework-title">The framework</h2>
+      <p>
+        Following Kahneman and Lovallo (1993), the framework combines an outside view with an inside view. The outside view keeps scoping open enough
+        to avoid tunnel vision; the inside view disciplines judgement once comparison begins.
+      </p>
+    </figcaption>
+    <div class="pf-flow">
+      <div class="pf-flow-group">
+        <p class="pf-flow-label">Identify plausible trajectories</p>
+        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
+        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
+        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Candidate trajectories</strong><span>Expressed in modelling terms</span></a>
+      </div>
+      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
+      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
+      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
+      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Baseline, sensitivity case or alternative future</span></a>
+    </div>
+  </figure>
+  <nav class="pf-dimension-guide pf-reveal" aria-label="The five political dimensions">
+    <p class="pf-caption">Five questions guide the assessment</p>
+    <ol>
+      {% for d in pf.dimensions %}
+        <li>
+          <a href="#pf-dimension-{{ d.id }}"
+            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
+          >
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+  <p class="pf-intro-teaser pf-reveal">
+    Quantification also shows why the specification of a trajectory matters: a requirement for new fossil-free generation can be met by contracting
+    onshore wind that would be built anyway, so it changes the claim but not the electricity system. <a href="#pf-additionality">See 05</a>
+  </p>
+
+  <section id="pf-define" class="pf-section pf-case-intro pf-reveal">
     <div class="pf-case-copy">
+      <p class="pf-step-tag">The case</p>
       <h2><span class="pf-section-number">01</span> The policy question</h2>
       <p class="pf-question">{{ pf.scope.question }}</p>
-      <p class="pf-caption">Sweden · Policy decisions in {{ pf.decision_period }} · Follow to {{ pf.model_horizon }}</p>
+      <p class="pf-caption">Sweden · Policy decisions in {{ pf.decision_period }} · Rules from 2028 · Follow to {{ pf.model_horizon }}</p>
     </div>
     <img
       class="pf-case-illustration"
@@ -35,7 +104,7 @@
         {% include policy-feasibility/tracker-map.liquid %}
         <figcaption>
           {{ site.data.policy_feasibility_context.metric }}.<br>
-          Announced operation by {{ site.data.policy_feasibility_context.year }}.<br>
+          Announced projects by {{ site.data.policy_feasibility_context.year }}.<br>
           <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}"
             >Tracker · {{ site.data.policy_feasibility_context.scenario_label -}}
           </a>
@@ -44,211 +113,54 @@
       </figure>
       <div>
         <h3>Why the rules are contested</h3>
-        <p>
-          Datacenters attract investment and support AI ambitions. Their electricity demand can also raise household bills and delay industrial
-          electrification when generation and grid capacity expand slowly.
-        </p>
+        <ul class="pf-contested">
+          <li>
+            Announced datacenter projects would add about {{ site.data.policy_feasibility_scenarios.dc_load_twh.total | round }} TWh to Swedish
+            electricity use by 2035, roughly a quarter of today’s use.
+          </li>
+          <li>
+            Generation and grid capacity expand slowly: onshore wind depends on municipal approval, and offshore wind and new nuclear take years to
+            permit and build.
+          </li>
+          <li>How the cost is shared between developers, households, industry and taxpayers is a political question.</li>
+        </ul>
       </div>
     </div>
+    {% include policy-feasibility/next.liquid href='#pf-scope' number='02' title='Look across places and time' %}
   </section>
-  <figure class="pf-method" aria-labelledby="pf-framework-title">
-    <figcaption>
-      <h2 id="pf-framework-title">The framework</h2>
-      <p>
-        Following Kahneman and Lovallo (1993), the framework combines an outside view with an inside view. The outside view identifies plausible
-        policy trajectories through precedents, comparison and public debate.
-      </p>
-      <p>The inside view compares their political feasibility across five dimensions drawn from political economy and socio-technical theory.</p>
-    </figcaption>
-    <div class="pf-flow">
-      <div class="pf-flow-group">
-        <p class="pf-flow-label">Identify plausible trajectories</p>
-        <a class="pf-flow-outside" href="#pf-scope"><strong>Outside view</strong><span>Places, time and actors</span></a>
-        {% include policy-feasibility/flow-arrow.liquid step='outside' %}
-        <a class="pf-flow-alternatives" href="#pf-trajectories"><strong>Policy alternatives</strong><span>Comparable trajectories</span></a>
-      </div>
-      {% include policy-feasibility/flow-arrow.liquid step='inside' %}
-      <a class="pf-flow-inside" href="#pf-assess"><strong>Inside view</strong><span>Five political dimensions</span></a>
-      {% include policy-feasibility/flow-arrow.liquid step='scenario' %}
-      <a class="pf-flow-scenario" href="#pf-model"><strong>Scenario use</strong><span>Policy assumptions in the model</span></a>
-    </div>
-  </figure>
-  <nav class="pf-dimension-guide" aria-label="The five political dimensions">
-    <p class="pf-caption">Five questions guide the investigation and comparison</p>
-    <ol>
-      {% for d in pf.dimensions %}
-        <li>
-          <a href="#pf-dimension-{{ d.id }}"
-            ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></a
-          >
-        </li>
-      {% endfor %}
-    </ol>
-  </nav>
-  <figure
-    class="pf-policy-doodle"
-    aria-label="Hand-drawn diagram: adopted policy remains in place through 2035, marked with a check. Or, rising household electricity costs, public protest and pressure on industry could lead policy in different directions."
-  >
-    <div class="pf-policy-doodle-assumption">
-      <svg class="pf-policy-doodle-wide" viewBox="0 160 773 460" aria-hidden="true" focusable="false">
-        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
-        <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <svg class="pf-policy-doodle-narrow" viewBox="0 160 742 460" aria-hidden="true" focusable="false">
-        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
-        <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </div>
-    <div class="pf-policy-doodle-responses">
-      <svg viewBox="773 160 1319 460" aria-hidden="true" focusable="false">
-        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
-      </svg>
-    </div>
-  </figure>
+
   {% include policy-feasibility/outside.liquid %}
-  <section id="pf-trajectories" class="pf-section">
+
+  <section id="pf-trajectories" class="pf-section pf-reveal">
+    <p class="pf-step-tag">From the outside view</p>
     <h2><span class="pf-section-number">03</span> Define comparable trajectories</h2>
     <p class="pf-prose">{{ pf.derivation }}</p>
-    <div class="pf-pathways">
-      {% for t in pf.trajectories %}
-        <article class="pf-pathway" data-trajectory="{{ t.id }}">
-          <p class="pf-caption">{{ t.id }} · {{ t.status }}</p>
-          <h3>{{ t.title }}</h3>
-          <p class="pf-pathway-summary">{{ t.summary }}</p>
-          <p class="pf-origin"><span>From the outside view</span>{{ t.origin_summary }}</p>
-          <p class="pf-origin"><span>Who decides</span>{{ t.decisions }}</p>
-        </article>
-      {% endfor %}
-    </div>
+    {% include policy-feasibility/trajectory-cards.liquid %}
+    <p class="pf-specification-note">{{ pf.specification_note }}</p>
     <details class="pf-note">
       <summary>What the generation requirement covers</summary>
       <p>{{ pf.scope.definition }}</p>
       <p>{{ pf.scope.cohort }}</p>
       <p>{{ pf.scope.timing }}</p>
     </details>
-  </section>
-  <section id="pf-assess" class="pf-section">
-    <h2><span class="pf-section-number">04</span> Compare political feasibility</h2>
-    <p class="pf-prose">
-      Compare two policies across the five dimensions. The starting assessment uses the evidence available in October 2026 to judge their routes to
-      adoption in 2027–2030.
-    </p>
-    <div class="pf-pair-control" hidden>
-      <label for="pf-pair-select">Policy pair</label>
-      <select id="pf-pair-select">
-        {% for pair in pf.pairs %}
-          <option value="{{ pair.id }}">{{ pair.label }}</option>
+    <details class="pf-note">
+      <summary>Variants tested in the model</summary>
+      <ul class="pf-variant-list">
+        {% for v in pf.variants %}
+          <li>
+            <strong>{{ v.title }}</strong> <span class="pf-use pf-use-small">{{ v.scenario_use }}</span>
+            <span>{{ v.text }}</span>
+          </li>
         {% endfor %}
-      </select>
-    </div>
-    <p id="pf-control-status" class="pf-sr-only" role="status" aria-live="polite"></p>
-    {% for pair in pf.pairs %}
-      {% assign first_id = pair.id | split: '-' | first %}
-      {% assign second_id = pair.id | split: '-' | last %}
-      {% assign first = pf.trajectories | where: 'id', first_id | first %}
-      {% assign second = pf.trajectories | where: 'id', second_id | first %}
-      <div class="pf-comparison-title" data-pf-comparison="{{ pair.id }}">
-        <span
-          ><small>{{ first.id }}</small>{{ first.short_title -}}</span
-        ><span class="pf-versus">compared with</span
-        ><span
-          ><small>{{ second.id }}</small>{{ second.short_title -}}
-        </span>
-      </div>
-    {% endfor %}
-    <div id="pf-comparisons">
-      {% for d in pf.dimensions %}
-        <details class="pf-dimension" id="pf-dimension-{{ d.id }}">
-          <summary>
-            <span class="pf-dimension-name"
-              ><strong>{{ d.name }}</strong><span>{{ d.guide }}</span></span
-            >
-            <span class="pf-pair-verdicts">
-              {% for pair in pf.pairs %}
-                <span class="pf-pair-verdict" data-pf-comparison="{{ pair.id }}">
-                  <span class="pf-pair-name pf-caption">{{ pair.label }}</span>
-                  <span class="pf-initial-verdict">{{ d.pairs[pair.id].takeaway }}</span>
-                </span>
-              {% endfor %}
-            </span>
-          </summary>
-          <div class="pf-dimension-body">
-            <p class="pf-caption">{{ d.description }}</p>
-            <div class="pf-comparison-columns">
-              {% for t in pf.trajectories %}
-                <article data-pf-trajectory="{{ t.id }}">
-                  <h3>{{ t.short_title }}</h3>
-                  <p>{{ d.cells[t.id].assessment }}</p>
-                </article>
-              {% endfor %}
-            </div>
-          </div>
-        </details>
-      {% endfor %}
-    </div>
-    {% for pair in pf.pairs %}
-      <div class="pf-starting-conclusion pf-conclusion" data-pf-comparison="{{ pair.id }}">
-        <p class="pf-caption">Starting assessment · Evidence to October 2026</p>
-        <p>{{ pf.initial_synthesis[pair.id] }}</p>
-      </div>
-    {% endfor %}
-    <p class="pf-caption pf-comparison-reference">
-      Pairwise comparison: Fornborg (2026), §4.5, drawing on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>.
-    </p>
-    <div id="pf-conditions" class="pf-reassessment">
-      <p class="pf-caption">Before the decision · 2027–2029</p>
-      <h3>How does capacity growth change the comparison?</h3>
-      <div class="pf-development-control" hidden>
-        <div class="pf-assumption-controls">
-          {% for input in pf.sensitivity_inputs %}
-            <fieldset>
-              <legend>{{ input.label }}</legend>
-              <div class="pf-development-options">
-                {% for option in input.options %}
-                  <button
-                    type="button"
-                    data-pf-assumption="{{ input.id }}"
-                    data-pf-value="{{ option.id }}"
-                    aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-                    aria-controls="pf-reassessment-content pf-model"
-                  >
-                    <span class="pf-assumption-role">{{ option.role }}</span>{{ option.label }}
-                  </button>
-                {% endfor %}
-              </div>
-            </fieldset>
-          {% endfor %}
-        </div>
-      </div>
-      <div id="pf-reassessment-content">
-        {% for development in pf.developments %}
-          <div class="pf-development-reading" data-pf-development="{{ development.id }}">
-            <p class="pf-fallback-label">{{ development.label }}</p>
-            <p class="pf-condition-description">{{ development.assumption }}</p>
-            {% for pair in pf.pairs %}
-              <div class="pf-decision-change pf-conclusion" data-pf-comparison="{{ pair.id }}">
-                <p class="pf-caption">{{ pair.label }} · Adoption by 2030</p>
-                <h4>{{ development.adoption[pair.id].title }}</h4>
-                <p>{{ development.adoption[pair.id].text }}</p>
-                <details class="pf-note pf-reassessment-dimensions">
-                  <summary>Reasoning across the five dimensions</summary>
-                  <dl>
-                    {% for d in pf.dimensions %}
-                      <div>
-                        <dt>{{ d.name }}</dt>
-                        <dd>{{ d.developments[development.id][pair.id] }}</dd>
-                      </div>
-                    {% endfor %}
-                  </dl>
-                </details>
-              </div>
-            {% endfor %}
-          </div>
-        {% endfor %}
-      </div>
-    </div>
+      </ul>
+    </details>
+    {% include policy-feasibility/next.liquid href='#pf-assess' number='04' title='Assess political feasibility' %}
   </section>
+
+  {% include policy-feasibility/assess.liquid %}
+
   {% include policy-feasibility/scenario.liquid %}
+
   <div class="pf-sources-footer">
     <h2>Article and supporting material</h2>
     <p>
@@ -265,7 +177,7 @@
     </p>
   </div>
   <script type="application/json" id="pf-case-data">
-    {{ pf | jsonify | replace: '<', '\u003c' }}
+    {{ pf | jsonify | replace: '<', '<' }}
   </script>
 </div>
 <script defer src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>

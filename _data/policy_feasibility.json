@@ -1,6 +1,6 @@
 {
   "knowledge_date": "2026-10-10",
-  "decision_period": "2027–2030",
+  "decision_period": "2026–2027",
   "model_horizon": "2035",
   "article_url": "https://doi.org/10.1016/j.erss.2026.104981",
   "trajectories": [
@@ -16,31 +16,124 @@
       "counterevidence": ["E08", "E13", "E40", "E78"],
       "parameters": ["No statutory additional-generation obligation", "Voluntary procurement remains a behavioural assumption"],
       "decisions": "No legislation establishing a sector requirement is adopted. Companies decide their procurement commitments.",
-      "development": "2027–2029: voluntary procurement continues. From 2030: no national requirement is introduced.",
+      "development": "2026–2027: voluntary procurement continues. From 2028: no national requirement is introduced.",
       "short_title": "Voluntary commitments",
       "phases": ["Continue voluntary procurement", "Keep commitments voluntary"],
-      "origin_summary": "Swedish business organisations favour voluntary contracts. The US company pledge illustrates commitments made under political pressure."
+      "origin_summary": "Swedish business organisations favour voluntary contracts. The US company pledge illustrates commitments made under political pressure.",
+      "new_generation": "Nothing is required. Contracts may refer to new or existing plants.",
+      "scenario_use": "Adopted-policy baseline",
+      "profile": {
+        "coalition_alignment": {
+          "rating": "favourable",
+          "text": "Business support; could split"
+        },
+        "institutional_constraints": {
+          "rating": "favourable",
+          "text": "No legislation needed"
+        },
+        "landscape_pressures": {
+          "rating": "mixed",
+          "text": "Rising bills erode support"
+        },
+        "adjustment_burden": {
+          "rating": "mixed",
+          "text": "Costs spread to households and industry"
+        },
+        "policy_momentum": {
+          "rating": "favourable",
+          "text": "Status quo and existing contracts"
+        }
+      }
     },
     {
       "id": "T1",
       "verb": "Introduce",
-      "title": "Require new renewable generation",
-      "summary": "New sites must match annual electricity use with new renewable generation in Sweden, through investment or long-term power contracts.",
-      "origin": "The Swedish Green Party proposes new renewable generation matching consumption. The PPA option comes from Svenska kraftnät’s discussion. The 2030 start, first-year compliance and detailed eligibility rules are specified here so that the reform can be assessed.",
+      "title": "Require new fossil-free generation",
+      "summary": "New sites must match annual electricity use with new fossil-free generation in Sweden, through investment or long-term power contracts.",
+      "origin": "The Swedish Green Party proposes new renewable generation matching consumption; Svenska kraftnät proposes investigating a broader fossil-free requirement, which matches the wider Swedish policy direction. The PPA option comes from Svenska kraftnät’s discussion. The 2028 start, first-year compliance and detailed eligibility rules are specified here so that the reform can be assessed.",
       "status": "Specified reform scenario",
-      "example": "A site opening in 2030 must secure matching new renewable annual generation and report compliance.",
+      "example": "A site opening in 2028 must secure matching new fossil-free annual generation and report compliance.",
       "evidence": ["E08", "E15", "E40", "E74", "E78"],
       "counterevidence": ["E44", "E50", "E51", "E31", "E79"],
       "parameters": [
-        "Requirement starts in 2030 for new sites",
-        "100% annual demand matched by new renewable generation in Sweden",
+        "Requirement starts in 2028 for new sites",
+        "100% annual demand matched by new fossil-free generation in Sweden",
         "Own investment or a long-term power purchase agreement"
       ],
       "decisions": "Government prepares legislation; Parliament establishes the requirement and Ei’s monitoring mandate.",
-      "development": "2027–2029: prepare and adopt the requirement. From 2030: apply and maintain it for new sites.",
+      "development": "2026–2027: prepare and adopt the requirement. From 2028: apply and maintain it for new sites.",
       "short_title": "Generation requirement",
       "phases": ["Prepare and adopt legislation", "Apply the generation requirement"],
-      "origin_summary": "Swedish reform proposals and Ireland’s generation requirement support testing this policy direction."
+      "origin_summary": "Swedish reform proposals and Ireland’s generation requirement support testing this policy direction.",
+      "new_generation": "Any new fossil-free plant in Sweden, owned or contracted, including onshore wind.",
+      "scenario_use": "Sensitivity case",
+      "profile": {
+        "coalition_alignment": {
+          "rating": "mixed",
+          "text": "S, MP, Svenska kraftnät and some firms"
+        },
+        "institutional_constraints": {
+          "rating": "mixed",
+          "text": "Law and Ei oversight; annual matching can be verified"
+        },
+        "landscape_pressures": {
+          "rating": "mixed",
+          "text": "Rising bills strengthen it"
+        },
+        "adjustment_burden": {
+          "rating": "favourable",
+          "text": "Low for datacenters"
+        },
+        "policy_momentum": {
+          "rating": "mixed",
+          "text": "Ireland as precedent"
+        }
+      }
+    },
+    {
+      "id": "T1b",
+      "verb": "Introduce",
+      "title": "Require additional fossil-free generation",
+      "summary": "As T1, but only generation that would not otherwise be built counts towards the requirement.",
+      "origin": "Finland’s grid operator consulted on what counts as additional. EcoDataCenter supports additionality requirements, and Spain’s draft hourly-matching rule shows a stricter specification. The test of what would not otherwise be built is specified here so that the variant can be assessed.",
+      "status": "Reform with additionality test",
+      "example": "A site opening in 2028 contracts offshore wind or new nuclear power that the market would not build on its own.",
+      "evidence": ["E28", "E13", "E74", "E08"],
+      "counterevidence": ["E44", "E51", "E79"],
+      "parameters": [
+        "Requirement starts in 2028 for new sites",
+        "100% annual demand matched by additional fossil-free generation in Sweden",
+        "Additionality verified by Ei; in the model: offshore wind and new nuclear"
+      ],
+      "decisions": "Government prepares legislation; Parliament establishes the requirement and Ei’s mandate to verify additionality.",
+      "development": "2026–2027: prepare and adopt the requirement. From 2028: apply and verify it for new sites.",
+      "short_title": "Additionality requirement",
+      "phases": ["Prepare and adopt legislation", "Apply and verify the requirement"],
+      "origin_summary": "Finland’s consultation on additionality and Spain’s stricter matching draft support testing this specification.",
+      "new_generation": "Only generation that would not otherwise be built. In the model: offshore wind and new nuclear.",
+      "scenario_use": "Alternative policy future",
+      "profile": {
+        "coalition_alignment": {
+          "rating": "mixed",
+          "text": "Broader when nuclear counts; developers oppose"
+        },
+        "institutional_constraints": {
+          "rating": "unfavourable",
+          "text": "Must establish what would not otherwise be built"
+        },
+        "landscape_pressures": {
+          "rating": "favourable",
+          "text": "Rising bills strengthen it"
+        },
+        "adjustment_burden": {
+          "rating": "unfavourable",
+          "text": "Concentrated on datacenters"
+        },
+        "policy_momentum": {
+          "rating": "mixed",
+          "text": "Finnish consultation; hourly-matching debate"
+        }
+      }
     },
     {
       "id": "T2",
@@ -54,14 +147,38 @@
       "evidence": ["E86", "E23"],
       "counterevidence": ["E63", "E77", "E87", "E88"],
       "parameters": [
-        "No new commercial sites open from 2030",
+        "No new commercial sites open from 2028",
         "Existing sites and expansions continue under the common rules",
-        "Model postponed or relocated projects and any openings brought forward before 2030"
+        "Model postponed or relocated projects and any openings brought forward before 2028"
       ],
       "decisions": "Government prepares a national restriction; Parliament establishes its legal basis, transition rules and enforcement. Authorities apply those rules in individual cases.",
-      "development": "2027–2029: legislate and manage projects already in preparation. From 2030: prevent new openings and maintain the stop.",
+      "development": "2026–2027: legislate and manage projects already in preparation. From 2028: prevent new openings and maintain the stop.",
       "phases": ["Legislate and set transition rules", "No new sites may open"],
-      "origin_summary": "Irish campaigns for a moratorium and Québec’s allocation pauses support testing an establishment stop."
+      "origin_summary": "Irish campaigns for a moratorium and Québec’s allocation pauses support testing an establishment stop.",
+      "new_generation": "Not applicable. No new commercial sites open.",
+      "scenario_use": "Alternative policy future",
+      "profile": {
+        "coalition_alignment": {
+          "rating": "unfavourable",
+          "text": "Needs a new coalition"
+        },
+        "institutional_constraints": {
+          "rating": "unfavourable",
+          "text": "Freedom of trade, impartial administration"
+        },
+        "landscape_pressures": {
+          "rating": "mixed",
+          "text": "Possible after a strong backlash"
+        },
+        "adjustment_burden": {
+          "rating": "unfavourable",
+          "text": "Concentrated on developers and host municipalities"
+        },
+        "policy_momentum": {
+          "rating": "unfavourable",
+          "text": "Weak"
+        }
+      }
     }
   ],
   "outside": [
@@ -174,6 +291,11 @@
           "uncertainty": "A joint party proposal specifying eligible generation and a negotiating agreement with affected businesses would strengthen T1.",
           "evidence": ["E08", "E13", "E40", "E78", "E79", "E82"]
         },
+        "T1b": {
+          "assessment": "Counting new nuclear can widen support beyond the parties that propose a renewable requirement, as Uniper and Svenska kraftnät’s fossil-free framing suggest. Developers face higher costs than under T1 and have reason to oppose.",
+          "uncertainty": "A party proposal that names additionality, and how developers respond to it, would show whether a coalition can form.",
+          "evidence": ["E13", "E79", "E08", "E40", "E78"]
+        },
         "T2": {
           "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the mapped party proposals seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
           "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
@@ -237,6 +359,11 @@
           "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
           "evidence": ["E08", "E48", "E51"]
         },
+        "T1b": {
+          "assessment": "Ei would need a method to establish what would not otherwise be built. That counterfactual test is harder to verify than annual matching against new plants.",
+          "uncertainty": "A regulator’s method for verifying additionality, as discussed in Finland, would lower this obstacle.",
+          "evidence": ["E28", "E08", "E51"]
+        },
         "T2": {
           "assessment": "Sweden protects freedom of trade and requires impartial administration. A national moratorium would need legislation justified by an important public interest, with rules for pending projects. Politicians cannot direct the outcome of individual administrative cases covered by constitutional independence. This makes T2 a substantial legislative change; protecting selected competitors alone is not a sufficient basis.",
           "uncertainty": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
@@ -299,6 +426,11 @@
           "assessment": "A generation requirement can accommodate AI investment while responding to industrial decarbonisation and concern over bills. Its political appeal grows if the wider debate shifts from attracting investment towards who supplies the electricity and who benefits. The Swedish party proposals already combine these priorities.",
           "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E40", "E78", "E83", "E84"]
+        },
+        "T1b": {
+          "assessment": "Rising bills and industrial delays strengthen the case for a rule that adds supply rather than reallocating it.",
+          "uncertainty": "Track whether price debates focus on who adds supply.",
+          "evidence": ["E83", "E84", "E40", "E78"]
         },
         "T2": {
           "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
@@ -364,6 +496,11 @@
           "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges require a separate decision: neither trajectory changes who pays them.",
           "evidence": ["E08", "E43", "E15"]
         },
+        "T1b": {
+          "assessment": "The cost falls on developers, who must pay for generation the market would not build. Other customers gain from the added supply.",
+          "uncertainty": "Whether developers can pass costs on or relocate decides how visible the loss becomes.",
+          "evidence": ["E08", "E43", "E15"]
+        },
         "T2": {
           "assessment": "Developers lose the option to open new sites; projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites retain an expansion route under this example’s definition. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Consumers avoid this cohort’s added demand, but that benefit must be weighed against the concentrated opposition.",
           "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
@@ -426,6 +563,11 @@
           "assessment": "The question has moved into party programmes and Svenska kraftnät’s recommendations. Ireland has adopted an additional-renewable-electricity requirement, providing a practical precedent. Sweden would still need to establish its own compliance system. Germany’s proposal to postpone renewable matching shows how investment concerns can reopen a requirement’s timetable after adoption.",
           "uncertainty": "A Swedish implementation programme and completed projects meeting the requirement would strengthen expectations that it will continue.",
           "evidence": ["E08", "E15", "E31", "E40", "E78"]
+        },
+        "T1b": {
+          "assessment": "The Finnish consultation and the hourly-matching debate in Spain give the specification some momentum, but there is no Swedish precedent.",
+          "uncertainty": "A Nordic or EU move towards additionality tests would strengthen momentum.",
+          "evidence": ["E28", "E74", "E31"]
         },
         "T2": {
           "assessment": "A national stop departs sharply from investment promotion and case-by-case administration. Firms and municipalities already preparing projects have reasons to resist it. If adopted, the stop could build support among users who benefit from reduced demand, while developers press for exceptions or reopening. Holding it until 2035 is a separate political task from passing it.",
@@ -535,7 +677,7 @@
       "group": "Swedish policy actor",
       "capacity": "Parliamentary party; 22 seats after the 2026 election.",
       "position_overall": "Proposes requiring datacenters to invest in new renewable electricity production corresponding to their consumption.",
-      "policy_question": "The clearest party advocate for the renewable scope used in T1.",
+      "policy_question": "The clearest party advocate for a generation requirement; it proposes a renewable scope, narrower than the fossil-free scope used in T1.",
       "evidence": ["E40", "E82"]
     },
     {
@@ -669,15 +811,15 @@
   "scope": {
     "question": "Which rules for new Swedish datacenters could be adopted and sustained as electricity demand grows?",
     "policy": "A national requirement on developers to secure additional generation",
-    "cohort": "The same prospective projects are assessed in all three alternatives: new commercial datacenter sites in Sweden that would open from 2030. Existing sites and their expansions fall outside this example.",
-    "shared": "Electricity demand and the rules already in place form the common starting point. T0 keeps generation commitments voluntary; T1 makes new generation a condition of opening; T2 prevents new sites from opening from 2030. Grid tariffs and queue priorities are not changed by these alternatives.",
-    "timing": "Assess decisions in 2027–2030 and whether the resulting policy can be sustained to 2035. The dates are scenario choices. Political support can change within this period.",
-    "definition": "From the first full operating year, new renewable generation in Sweden must match 100% of each covered datacenter’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the datacenter’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0.",
+    "cohort": "The same prospective projects are assessed in all four alternatives: new commercial datacenter sites in Sweden that would open from 2028 or have no announced opening date. Earlier stages, existing sites and their expansions fall outside this example.",
+    "shared": "Electricity demand and the rules already in place form the common starting point. T0 keeps generation commitments voluntary; T1 makes new fossil-free generation a condition of opening; T1b requires that generation to be additional; T2 prevents new sites from opening from 2028. Grid tariffs and queue priorities are not changed by these alternatives.",
+    "timing": "Assess decisions in 2026–2027 and whether the resulting policy can be sustained to 2035. The dates are scenario choices. Political support can change within this period.",
+    "definition": "From the first full operating year, new fossil-free generation in Sweden must match 100% of each covered datacenter’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the datacenter’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0. Under T1b, only generation that would not otherwise be built counts, and Ei verifies this.",
     "evidence": ["E02", "E08", "E40", "E43", "E83", "E84", "E86"]
   },
   "overall": {
     "title": "Continuation is easier initially; a generation requirement can gain support",
-    "judgement": "For adoption by 2030, T0 has the strongest starting position: established procedures and organised support for voluntary contracts. T1 has a viable route through existing reform proposals, but needs a wider parliamentary agreement, agreement over eligible generation and a workable compliance timetable. T2 faces the greatest obstacles: a new coalition, a justified sector-wide restriction and resistance from planned investments.",
+    "judgement": "For adoption by 2028, T0 has the strongest starting position: established procedures and organised support for voluntary contracts. T1 has a viable route through existing reform proposals, but needs a wider parliamentary agreement, agreement over eligible generation and a workable compliance timetable. T2 faces the greatest obstacles: a new coalition, a justified sector-wide restriction and resistance from planned investments.",
     "reason": "That ordering need not last to 2035. If supply and networks lag behind demand, higher bills and delayed industrial projects can unite voters and industry behind stricter conditions. T1 is better placed than a complete stop to combine continued investment with new supply. T2 becomes more plausible if those responses repeatedly fail or opposition comes to concern the scale of expansion itself.",
     "model": "Use T0 as the reference for initial policy continuation, test T1 as the principal reform, and include T2 as a less feasible but consequential alternative. Assess both a period in which supply keeps pace and one in which price and connection pressures grow. Reassess political support as those conditions change.",
     "revisit": "Revisit the judgement when industrial users change their demands, household campaigns target datacenter growth, parties change position, or legislation advances.",
@@ -707,7 +849,7 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2030 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The survey points to voluntary commitments, generation requirements and restrictions on new sites. These three alternatives apply those policy directions to new commercial datacenters in Sweden from 2030.",
+  "derivation": "The survey points to voluntary commitments, generation requirements and restrictions on new sites. These four alternatives apply those policy directions to new commercial datacenters in Sweden from 2028. Each is expressed in modelling terms, including what counts as new generation.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
@@ -1087,14 +1229,16 @@
   },
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
-    "after": "Voluntary commitments continue through 2029. From 2030, compare continuation, a generation requirement and an establishment stop.",
+    "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
     "feedback": "Modelled prices and cost shares show who gains or loses under each policy. They become evidence on adjustment burden and coalitions at the next decision window. Competition for grid connections lies outside the model and remains a qualitative assessment.",
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
-      "T1": "New sites must secure new renewable generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
+      "T1": "New sites must secure new fossil-free generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
+      "T1b": "As T1, but only generation that would not otherwise be built counts. In the model: offshore wind and new nuclear.",
       "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
-    "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until the 2030 decision and then differ in their model inputs."
+    "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until the 2030 decision and then differ in their model inputs.",
+    "setting": "How a trajectory enters the scenario depends on the setting. In an adopted-policy scenario, T0 is the baseline and T1 can be justified as a sensitivity case. In an exploratory scenario, T1b and T2 define alternative policy futures."
   },
   "sensitivity_inputs": [
     {
@@ -1132,6 +1276,63 @@
       "title": "Decide and enforce",
       "note": "Parliament decides; Ei would monitor compliance under T1.",
       "actors": ["A01", "A04"]
+    }
+  ],
+  "specification_note": "The difference between T1 and T1b is one of specification: whether new generation must also be additional.",
+  "policy_directions": [
+    {
+      "id": "voluntary",
+      "title": "Voluntary commitments",
+      "where": "US company pledge · Swedish business organisations",
+      "asks": "Contracts and certificates by choice",
+      "codes": ["US"]
+    },
+    {
+      "id": "requirement",
+      "title": "Generation requirements",
+      "where": "Ireland (80% of annual demand) · Spain (hourly matching, draft) · Finland (additionality consultation) · Swedish party proposals",
+      "asks": "Match use with new generation, annually or hour by hour",
+      "codes": ["IE", "ES", "FI", "SE", "DE"]
+    },
+    {
+      "id": "restriction",
+      "title": "Restrictions on new sites",
+      "where": "Irish moratorium campaign · Québec’s capped allocation",
+      "asks": "Fewer or no new sites",
+      "codes": ["IE"]
+    },
+    {
+      "id": "connection",
+      "title": "Conditions on connection",
+      "where": "Flexible connections in Ireland · proposals from Svenska kraftnät",
+      "asks": "Flexibility or storage as a condition of grid access",
+      "codes": ["IE", "SE"]
+    }
+  ],
+  "variants": [
+    {
+      "id": "half",
+      "title": "Half the volume",
+      "text": "Covered projects are kept at half their size: a cap on establishments rather than a stop.",
+      "scenario_use": "Sensitivity case"
+    },
+    {
+      "id": "nuclear",
+      "title": "T1b with new nuclear only",
+      "text": "The additional generation is new nuclear power in SE3.",
+      "scenario_use": "Sensitivity case"
+    },
+    {
+      "id": "hourly",
+      "title": "Hourly matching",
+      "text": "Use must be matched hour by hour rather than over the year; computed from the modelled year.",
+      "scenario_use": "Alternative policy future"
+    },
+    {
+      "id": "battery",
+      "title": "Battery condition",
+      "text": "Datacenters add four-hour batteries as a condition of connection.",
+      "scenario_use": "Sensitivity case"
     }
   ]
 }

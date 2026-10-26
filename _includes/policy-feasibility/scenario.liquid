@@ -1,123 +1,260 @@
 {% assign sc = site.data.policy_feasibility_scenarios %}
-{% assign decision_index = 0 %}
-{% for y in sc.years -%}
-  {%- if y == sc.decision_year %}{% assign decision_index = forloop.index0 %}{% endif -%}
-{%- endfor %}
-<section id="pf-model" class="pf-section">
+{% assign ref = sc.reference %}
+{% assign c_t0 = sc.cases | where: 'id', 'T0' | first %}
+{% assign c_t1b = sc.cases | where: 'id', 'T1b' | first %}
+<section id="pf-model" class="pf-section pf-reveal">
+  <p class="pf-step-tag">Scenario use</p>
   <h2><span class="pf-section-number">05</span> Bring the assessment into the scenario</h2>
-  <p class="pf-prose">{{ pf.model_application.selection }}</p>
-  <p class="pf-model-before">{{ pf.model_application.before }}</p>
-  <div class="pf-development-options pf-model-case-control" role="group" aria-label="Capacity case" hidden>
-    {% for input in pf.sensitivity_inputs %}
-      {% for option in input.options %}
-        <button
-          type="button"
-          data-pf-assumption="{{ input.id }}"
-          data-pf-value="{{ option.id }}"
-          aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
-        >
-          <span class="pf-assumption-role">{{ option.role }}</span>{{ option.label }}
-        </button>
-      {% endfor %}
-    {% endfor %}
-  </div>
-  {% for development in pf.developments %}
-    <div class="pf-model-case" data-pf-development="{{ development.id }}">
-      <p class="pf-caption">{{ development.label }}</p>
-      <h3>{{ development.model_title }}</h3>
+
+  <figure
+    class="pf-policy-doodle"
+    aria-label="Hand-drawn diagram: adopted policy remains in place through 2035, marked with a check. Or, rising household electricity costs, public protest and pressure on industry could lead policy in different directions."
+  >
+    <div class="pf-policy-doodle-assumption">
+      <svg class="pf-policy-doodle-wide" viewBox="0 160 773 460" aria-hidden="true" focusable="false">
+        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+        <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <svg class="pf-policy-doodle-narrow" viewBox="0 160 742 460" aria-hidden="true" focusable="false">
+        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+        <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
     </div>
-  {% endfor %}
-  <div class="pf-scenario-grid">
-    <div class="pf-grid-corner" aria-hidden="true"></div>
-    {% for t in pf.trajectories %}
-      <div class="pf-grid-head" data-trajectory="{{ t.id }}">
-        {% for development in pf.developments %}
-          {% assign role = development.model_roles | where: 'id', t.id | first %}
-          <div data-pf-development="{{ development.id }}">
-            <p class="pf-grid-role">{{ role.role }}</p>
-            <h3>
-              <small>{{ t.id }}</small>{{ t.short_title }}
-            </h3>
-            <p class="pf-grid-reason">{{ role.text }}</p>
+    <div class="pf-policy-doodle-responses">
+      <svg viewBox="773 160 1319 460" aria-hidden="true" focusable="false">
+        <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+      </svg>
+    </div>
+  </figure>
+
+  <p class="pf-prose">{{ pf.model_application.setting }}</p>
+  <div class="pf-settings">
+    <div class="pf-setting">
+      <p class="pf-setting-label">Adopted-policy setting</p>
+      <ul>
+        {% for t in pf.trajectories %}
+          {% if t.scenario_use == 'Adopted-policy baseline' or t.scenario_use == 'Sensitivity case' %}
+            <li data-trajectory="{{ t.id }}">
+              <span class="pf-swatch" aria-hidden="true"></span><strong>{{ t.scenario_use | remove: 'Adopted-policy ' | capitalize }}</strong>
+              {{ t.id }}
+              {{ t.short_title }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="pf-setting">
+      <p class="pf-setting-label">Exploratory setting</p>
+      <ul>
+        {% for t in pf.trajectories %}
+          {% if t.scenario_use == 'Alternative policy future' %}
+            <li data-trajectory="{{ t.id }}">
+              <span class="pf-swatch" aria-hidden="true"></span><strong>Alternative future</strong> {{ t.id }}
+              {{ t.short_title }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="pf-quantify">
+    <h3>Quantification, {{ sc.model.result_year }}</h3>
+    <p class="pf-prose">
+      Each trajectory is then quantified in a Nordic electricity model for {{ sc.model.result_year }}. Without a requirement, other Swedish customers
+      pay about {{ c_t0.values.other_bill }} billion euros a year more than without the new datacenters. A requirement for additional generation
+      reduces this to about {{ c_t1b.values.other_bill }} billion and raises the datacenters’ own electricity cost by about a tenth.
+    </p>
+    {% assign m_price = sc.metrics | where: 'id', 'price_se' | first %}
+    <figure class="pf-bars" aria-labelledby="pf-bars-caption">
+      <figcaption id="pf-bars-caption">{{ m_price.label }}, {{ sc.model.result_year }} · {{ m_price.unit }}, weighted by consumption</figcaption>
+      <div class="pf-bar-row pf-bar-reference">
+        <span class="pf-bar-label">{{ ref.label }}</span>
+        <span class="pf-bar-track"
+          ><span class="pf-bar" style="width: {{ ref.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
+        ></span>
+        <span class="pf-bar-value">{{ ref.values.price_se }}</span>
+      </div>
+      {% for c in sc.cases %}
+        {% assign t = pf.trajectories | where: 'id', c.id | first %}
+        <div class="pf-bar-row" data-trajectory="{{ c.id }}">
+          <span class="pf-bar-label"
+            ><small>{{ c.id }}</small>{{ t.short_title -}}
+          </span>
+          {% if c.values.price_se == null %}
+            <span class="pf-bar-track"
+              ><span class="pf-bar-pending"
+                >pending{% if c.note %} · {{ c.note }}{% endif -%}
+              </span></span
+            >
+            <span class="pf-bar-value">–</span>
+          {% else %}
+            <span class="pf-bar-track"
+              ><span class="pf-bar" style="width: {{ c.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
+              ><span class="pf-bar-marker" style="left: {{ ref.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
+            ></span>
+            <span class="pf-bar-value">{{ c.values.price_se }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <p class="pf-caption">Scale 0–{{ sc.price_scale_max }} EUR/MWh. The thin line marks {{ ref.label | downcase }}.</p>
+    </figure>
+    <div class="pf-table-scroll">
+      <table class="pf-results">
+        <thead>
+          <tr>
+            <th scope="col">Trajectory</th>
+            {% for m in sc.metrics %}
+              {% unless m.id == 'price_se' %}
+                <th scope="col">
+                  {{ m.label }}
+                  <span class="pf-unit">{{ m.unit }}</span>
+                </th>
+              {% endunless %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in sc.cases %}
+            {% assign t = pf.trajectories | where: 'id', c.id | first %}
+            <tr data-trajectory="{{ c.id }}">
+              <th scope="row">
+                <span class="pf-swatch" aria-hidden="true"></span><small>{{ c.id }}</small>{{ t.short_title }}
+              </th>
+              {% for m in sc.metrics %}
+                {% unless m.id == 'price_se' %}
+                  {% assign v = c.values[m.id] %}
+                  <td data-label="{{ m.label }} · {{ m.unit }}">
+                    {%- if v == null -%}
+                      {%- if c.id == 'T2' and m.id == 'dc_cost' -%}
+                        –
+                      {%- else -%}
+                        <span class="pf-pending">pending</span>
+                      {%- endif -%}
+                    {%- else -%}
+                      {{- v | replace: '-', '−' -}}
+                    {%- endif -%}
+                  </td>
+                {% endunless %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="pf-additionality" class="pf-callout">
+    <h3>Is new generation additional?</h3>
+    <p>
+      Onshore wind is built up to its permitting limit whether or not the datacenters arrive. Under T1, developers can therefore meet the requirement
+      by contracting wind farms that would be built anyway: the claim changes, but the electricity system does not. Only T1b, which counts generation
+      the market would not build, changes prices. Before quantification, the specification of a trajectory therefore matters as much as its political
+      feasibility.
+    </p>
+    {% assign ad = sc.additionality %}
+    <figure class="pf-stack" aria-labelledby="pf-stack-caption">
+      <figcaption id="pf-stack-caption">Requirement, {{ ad.required_twh }} TWh · how it is met in Sweden</figcaption>
+      {% for a in ad.cases %}
+        {% assign t = pf.trajectories | where: 'id', a.id | first %}
+        <div class="pf-bar-row" data-trajectory="{{ a.id }}">
+          <span class="pf-bar-label"
+            ><small>{{ a.id }}</small>{{ t.short_title -}}
+          </span>
+          <span class="pf-bar-track">
+            {%- if a.new_twh == null -%}
+              <span class="pf-bar-pending"
+                >pending{% if a.note %} · {{ a.note }}{% endif -%}
+              </span>
+            {%- else -%}
+              <span
+                class="pf-stack-part pf-stack-relabelled"
+                style="width: {{ a.relabelled_twh | times: 100.0 | divided_by: ad.scale_max }}%"
+              ></span
+              ><span class="pf-stack-part pf-stack-new" style="width: {{ a.new_twh | times: 100.0 | divided_by: ad.scale_max }}%"></span>
+            {%- endif -%}
+          </span>
+          <span class="pf-bar-value"></span>
+          {% if a.new_twh != null %}
+            <span class="pf-stack-detail">
+              <span><span class="pf-key pf-stack-relabelled" aria-hidden="true"></span>~{{ a.relabelled_twh }} TWh relabelled</span>
+              <span><span class="pf-key pf-stack-new" aria-hidden="true"></span>~{{ a.new_twh }} TWh new</span>
+            </span>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <p class="pf-caption">Relabelled: generation that would be built anyway. New: generation the market would not otherwise build in Sweden.</p>
+    </figure>
+    <p class="pf-caption">{{ ad.note }}</p>
+  </div>
+
+  <div class="pf-drawers">
+    <details class="pf-drawer">
+      <summary><strong>Matched hour by hour</strong><span>How much of datacenter use each portfolio covers in the same hour</span></summary>
+      <div class="pf-drawer-body">
+        <p class="pf-prose">{{ sc.coverage.text }}</p>
+        <figure class="pf-bars pf-bars-thin" aria-label="Hourly coverage by portfolio">
+          {% for i in sc.coverage.items %}
+            <div class="pf-bar-row{% if i.highlight %} pf-bar-highlight{% endif %}">
+              <span class="pf-bar-label">{{ i.label }}</span>
+              <span class="pf-bar-track"><span class="pf-bar" style="width: {{ i.value }}%"></span></span>
+              <span class="pf-bar-value">{{ i.value }}%</span>
+            </div>
+          {% endfor %}
+          <p class="pf-caption">Annual output equal to annual use. Scale 0–100%.</p>
+        </figure>
+      </div>
+    </details>
+    <details class="pf-drawer">
+      <summary><strong>Variants</strong><span>Half the volume, new nuclear only, a battery condition</span></summary>
+      <div class="pf-drawer-body pf-table-scroll">
+        <table class="pf-results">
+          <thead>
+            <tr>
+              <th scope="col">Variant</th>
+              {% for m in sc.metrics %}
+                <th scope="col">
+                  {{ m.label }}
+                  <span class="pf-unit">{{ m.unit }}</span>
+                </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in sc.variants %}
+              {% assign meta = pf.variants | where: 'id', v.id | first %}
+              <tr>
+                <th scope="row">{{ meta.title }}</th>
+                {% for m in sc.metrics %}
+                  <td data-label="{{ m.label }} · {{ m.unit }}">{{ v.values[m.id] | replace: '-', '−' }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="pf-closing">
+    <div class="pf-model-feedback">
+      <p class="pf-caption">Back to the next decision window</p>
+      <p>{{ pf.model_application.feedback }}</p>
+    </div>
+    <div class="pf-assumptions">
+      <p class="pf-caption">Model and assumptions</p>
+      <p>{{ sc.model.name }}, {{ sc.model.result_year }}, weather year {{ sc.model.weather_year }}. A stylised model. {{ sc.model.setup }}</p>
+      <dl>
+        {% for a in sc.assumptions %}
+          <div>
+            <dt>{{ a.label }}</dt>
+            <dd>{{ a.value }}</dd>
           </div>
         {% endfor %}
-      </div>
-    {% endfor %}
-
-    <p class="pf-grid-label">Policy rule from {{ sc.decision_year }}</p>
-    {% for t in pf.trajectories %}
-      <div class="pf-grid-cell" data-trajectory="{{ t.id }}" data-row="Policy rule from {{ sc.decision_year }}">
-        <p>{{ pf.model_application.parameters[t.id] }}</p>
-      </div>
-    {% endfor %}
-
-    {% for input in sc.inputs %}
-      <p class="pf-grid-label">{{ input.label }}</p>
-      {% for t in pf.trajectories %}
-        <div class="pf-grid-cell pf-grid-input" data-trajectory="{{ t.id }}" data-row="{{ input.label }}">
-          {% assign spark_values = input.series[t.id] %}
-          {% include policy-feasibility/sparkline.liquid values=spark_values decision_index=decision_index trajectory=t.id %}
-          <p class="pf-caption">{{ input.notes[t.id] }}</p>
-        </div>
-      {% endfor %}
-    {% endfor %}
-
-    <p class="pf-grid-label">
-      Model results, {{ sc.model.result_year }}
-      {% if sc.status == 'pending' -%}
-        <span class="pf-status">In preparation</span>
-      {%- endif %}
-    </p>
-    {% for t in pf.trajectories %}
-      <div class="pf-grid-cell pf-grid-results" data-trajectory="{{ t.id }}" data-row="Model results, {{ sc.model.result_year }}">
-        {% for development in pf.developments %}
-          <dl data-pf-development="{{ development.id }}">
-            {% for metric in sc.outputs %}
-              {% assign value = sc.results[development.id][t.id][metric.id] %}
-              <div>
-                <dt>{{ metric.label }}</dt>
-                <dd>
-                  {% if value == null -%}
-                    <span aria-label="not yet available">–</span>
-                  {%- else -%}
-                    {{- value -}}
-                  {%- endif %}
-                  <span class="pf-unit">{{ metric.unit }}</span>
-                </dd>
-              </div>
-            {% endfor %}
-          </dl>
-        {% endfor %}
-      </div>
-    {% endfor %}
-  </div>
-  {% if sc.input_status == 'schematic' %}
-    <p class="pf-caption pf-grid-note">
-      Schematic paths for {{ sc.years | first }}–{{ sc.years | last }} on a common scale; the dashed line marks the {{ sc.decision_year }} decision.
-      Model inputs will replace them.
-    </p>
-  {% endif %}
-  <div class="pf-model-feedback">
-    <p class="pf-caption">Back to the next decision window</p>
-    <p>{{ pf.model_application.feedback }}</p>
-  </div>
-  <div class="pf-model-runs">
-    <h3>Model runs</h3>
-    <p>{{ sc.model.name }}. {{ sc.model.setup }} Each policy is run for both capacity cases.</p>
-    <dl>
-      {% for choice in sc.choices %}
-        <div>
-          <dt>
-            {{ choice.question }}
-            {% if choice.status == 'open' -%}
-              <span class="pf-status">Open choice</span>
-            {%- elsif choice.status == 'proposed' -%}
-              <span class="pf-status">Proposed</span>
-            {%- endif %}
-          </dt>
-          <dd>{{ choice.text }}</dd>
-        </div>
-      {% endfor %}
-    </dl>
+      </dl>
+      {% if sc.status == 'preliminary' %}
+        <p class="pf-caption"><span class="pf-status">Preliminary</span> Two trajectories are still running.</p>
+      {% endif %}
+    </div>
   </div>
 </section>

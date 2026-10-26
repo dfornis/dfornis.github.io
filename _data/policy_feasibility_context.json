@@ -1,28 +1,28 @@
 {
-  "snapshot_date": "2026-10-10",
-  "scenario_id": "stated_2035",
-  "scenario_label": "Stated 2035",
+  "snapshot_date": "2026-10-24",
+  "scenario_id": "high_2035",
+  "scenario_label": "High 2035",
   "year": 2035,
   "metric": "Estimated grid-side capacity (MW)",
   "scope": "Projects with announced operation by 2035",
   "source": "Nordic datacenter tracker",
   "source_url": "/projects/datacenter-tracker/#scenario-map",
   "source_hashes": {
-    "scenario_zone.json": "f3795256e161bfbd7275424852f0bc88188064ff5ba1420ea1d0f5c9431b81f2",
+    "scenario_zone.json": "31c5590aa53e813264e7835e33ae3162911be7b3ade358bc8c98f9848e99e73d",
     "bidding_zones.geojson": "e9397d77ce28b2a52e90191b48025d687ad4533e1190b45ffd89667a7159b8fd"
   },
   "zones": [
     {
       "zone": "SE1",
-      "grid_side_mw": 0
+      "grid_side_mw": 1000
     },
     {
       "zone": "SE2",
-      "grid_side_mw": 300
+      "grid_side_mw": 2300
     },
     {
       "zone": "SE3",
-      "grid_side_mw": 1423.85
+      "grid_side_mw": 2175.9
     },
     {
       "zone": "SE4",

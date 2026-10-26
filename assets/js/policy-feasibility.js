@@ -4,65 +4,118 @@
   const root = document.getElementById("policy-feasibility");
   if (!root) return;
   const data = JSON.parse(root.querySelector("#pf-case-data").textContent);
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Pairwise comparison, inside its fold-out: one pair at a time once scripts run.
   const pairSelect = root.querySelector("#pf-pair-select");
-  const params = new URLSearchParams(location.search);
-  if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
-  // Earlier links remain readable; a mixed old setting falls back to the constrained base case.
-  const previousExpanded =
-    params.get("development") === "keep-pace" || (params.get("generation") === "keeps-pace" && params.get("grid") === "on-schedule");
-  const assumptions = {
-    supply: data.sensitivity_inputs[0].options.some((option) => option.id === params.get("supply"))
-      ? params.get("supply")
-      : previousExpanded
-        ? "expanded"
-        : "constrained",
-  };
-  function updateComparison(announce = false) {
-    const pair = data.pairs.find((item) => item.id === pairSelect.value);
-    const development = data.developments.find((item) => data.sensitivity_inputs.every((input) => item.inputs[input.id] === assumptions[input.id]));
-    const developmentId = development.id;
-    const trajectories = pair.id.split("-");
-    root.querySelectorAll("[data-pf-trajectory]").forEach((element) => {
-      element.hidden = !trajectories.includes(element.dataset.pfTrajectory);
-    });
-    root.querySelectorAll("[data-pf-comparison]").forEach((element) => {
-      element.hidden = element.dataset.pfComparison !== pair.id;
-    });
-    root.querySelectorAll("[data-pf-development]").forEach((element) => {
-      element.hidden = element.dataset.pfDevelopment !== developmentId;
-    });
-    root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
-      button.setAttribute("aria-pressed", String(assumptions[button.dataset.pfAssumption] === button.dataset.pfValue));
-    });
-    if (announce) {
-      root.querySelector("#pf-control-status").textContent = `${pair.label}. ${development.label}. ${development.adoption[pair.id].title}`;
-      const url = new URL(location.href);
-      url.searchParams.set("pair", pair.id);
-      ["development", "generation", "grid"].forEach((key) => url.searchParams.delete(key));
-      data.sensitivity_inputs.forEach((input) => url.searchParams.set(input.id, assumptions[input.id]));
-      history.replaceState(null, "", url);
+  if (pairSelect) {
+    const params = new URLSearchParams(location.search);
+    if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
+    const showPair = (announce = false) => {
+      const pair = data.pairs.find((item) => item.id === pairSelect.value);
+      root.querySelectorAll("[data-pf-comparison]").forEach((element) => {
+        element.hidden = element.dataset.pfComparison !== pair.id;
+      });
+      if (announce) {
+        root.querySelector("#pf-control-status").textContent = pair.label;
+        const url = new URL(location.href);
+        url.searchParams.set("pair", pair.id);
+        ["development", "generation", "grid", "supply"].forEach((key) => url.searchParams.delete(key));
+        history.replaceState(null, "", url);
+      }
+    };
+    root.querySelector(".pf-pair-control").hidden = false;
+    pairSelect.addEventListener("change", () => showPair(true));
+    showPair();
+  }
+
+  // Links to a dimension or a place open the fold-out that holds it.
+  function openLinkedTarget() {
+    if (!location.hash) return;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target) return;
+    let node = target;
+    while (node && node !== root) {
+      if (node.tagName === "DETAILS") node.open = true;
+      node = node.parentElement;
     }
   }
-  root.classList.add("pf-pair-ready", "pf-development-ready");
-  root.querySelector(".pf-pair-control").hidden = false;
-  root.querySelectorAll(".pf-development-control, .pf-model-case-control").forEach((element) => {
-    element.hidden = false;
-  });
-  pairSelect.addEventListener("change", () => updateComparison(true));
-  root.querySelectorAll("[data-pf-assumption]").forEach((button) => {
-    button.addEventListener("click", () => {
-      assumptions[button.dataset.pfAssumption] = button.dataset.pfValue;
-      updateComparison(true);
+  openLinkedTarget();
+  window.addEventListener("hashchange", openLinkedTarget);
+  root.querySelectorAll('.pf-profile a[href^="#pf-dimension-"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      const target = document.getElementById(link.getAttribute("href").slice(1));
+      if (target) target.open = true;
     });
   });
-  updateComparison();
-  function openLinkedDimension() {
-    if (!location.hash.startsWith("#pf-dimension-")) return;
-    const target = document.getElementById(location.hash.slice(1));
-    if (target?.classList.contains("pf-dimension")) target.open = true;
+
+  // Section navigation: mark the section in view.
+  const navLinks = [...root.querySelectorAll(".pf-stepnav a")];
+  const sections = navLinks.map((link) => document.getElementById(link.getAttribute("href").slice(1))).filter(Boolean);
+  if ("IntersectionObserver" in window && sections.length) {
+    const visible = new Map();
+    const mark = () => {
+      let current = sections[0];
+      sections.forEach((section) => {
+        if (visible.get(section)) current = section;
+      });
+      navLinks.forEach((link) => {
+        const active = link.getAttribute("href") === `#${current.id}`;
+        if (active && !link.hasAttribute("aria-current")) {
+          link.setAttribute("aria-current", "true");
+          // On narrow screens the bar scrolls sideways; keep the current step in view without moving the page.
+          const list = link.closest("ol");
+          if (list && list.scrollWidth > list.clientWidth) {
+            const left = link.parentElement.offsetLeft - (list.clientWidth - link.parentElement.offsetWidth) / 2;
+            list.scrollTo({ left: Math.max(0, left), behavior: reducedMotion ? "auto" : "smooth" });
+          }
+        } else if (!active) link.removeAttribute("aria-current");
+      });
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => visible.set(entry.target, entry.isIntersecting));
+        mark();
+      },
+      { rootMargin: "-35% 0px -55% 0px" }
+    );
+    sections.forEach((section) => observer.observe(section));
+    root.classList.add("pf-stepnav-ready");
   }
-  openLinkedDimension();
-  window.addEventListener("hashchange", openLinkedDimension);
+
+  // Gentle reveal as each part comes into view; everything stays visible without scripts or with reduced motion.
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    const reveal = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("pf-in-view");
+            reveal.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px" }
+    );
+    root.querySelectorAll(".pf-reveal").forEach((element) => {
+      if (element.getBoundingClientRect().top < window.innerHeight) element.classList.add("pf-in-view");
+      else reveal.observe(element);
+    });
+    root.classList.add("pf-reveal-ready");
+    // Bars grow when their figure appears.
+    const grow = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("pf-grown");
+            grow.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    root.querySelectorAll(".pf-bars, .pf-stack").forEach((figure) => grow.observe(figure));
+    root.classList.add("pf-grow-ready");
+  }
   let selected = data.outside[0].code;
   function selectPlace(code) {
     if (!data.outside.some((p) => p.code === code)) return;

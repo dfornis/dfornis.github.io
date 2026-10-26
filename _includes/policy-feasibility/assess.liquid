@@ -1,0 +1,108 @@
+<section id="pf-assess" class="pf-section pf-reveal">
+  <p class="pf-step-tag">Step 2 · Inside view</p>
+  <h2><span class="pf-section-number">04</span> Assess political feasibility</h2>
+  <p class="pf-prose">
+    The inside view assesses each trajectory across the five dimensions. Its value lies in the process: the evidence for each trajectory is organised
+    and documented, whether or not the trajectories are ranked.
+  </p>
+  <p class="pf-caption pf-rating-legend">
+    Starting assessment · Evidence to October 2026 · For adoption by 2028 ·
+    <span>{% include policy-feasibility/rating.liquid rating='favourable' %} favourable</span>
+    <span>{% include policy-feasibility/rating.liquid rating='mixed' %} mixed</span>
+    <span>{% include policy-feasibility/rating.liquid rating='unfavourable' %} unfavourable</span>
+  </p>
+  <div class="pf-table-scroll">
+    <table class="pf-profile">
+      <thead>
+        <tr>
+          <th scope="col">Dimension</th>
+          {% for t in pf.trajectories %}
+            <th scope="col" data-trajectory="{{ t.id }}">
+              <span class="pf-swatch" aria-hidden="true"></span><small>{{ t.id }}</small>{{ t.short_title }}
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in pf.dimensions %}
+          <tr>
+            <th scope="row">
+              <a href="#pf-dimension-{{ d.id }}">{{ d.name }}</a>
+            </th>
+            {% for t in pf.trajectories %}
+              {% assign cell = t.profile[d.id] %}
+              <td data-trajectory="{{ t.id }}" data-label="{{ t.id }} {{ t.short_title }}">
+                {% include policy-feasibility/rating.liquid rating=cell.rating %}
+                <span class="pf-profile-text">{{ cell.text }}</span>
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="pf-evidence-heading">The evidence, dimension by dimension</h3>
+  <div class="pf-drawers">
+    {% for d in pf.dimensions %}
+      <details class="pf-drawer pf-dimension" id="pf-dimension-{{ d.id }}">
+        <summary>
+          <strong>{{ d.name }}</strong><span>{{ d.guide }}</span>
+        </summary>
+        <div class="pf-dimension-body">
+          <p class="pf-caption">{{ d.description }}</p>
+          <div class="pf-evidence-columns">
+            {% for t in pf.trajectories %}
+              {% assign c = d.cells[t.id] %}
+              <article data-trajectory="{{ t.id }}">
+                <h4>
+                  <span class="pf-swatch" aria-hidden="true"></span><small>{{ t.id }}</small>{{ t.short_title }}
+                </h4>
+                <p>{{ c.assessment }}</p>
+                {% if c.uncertainty %}
+                  <p class="pf-take-forward">{{ c.uncertainty }}</p>
+                {% endif %}
+                {% include policy-feasibility/references.liquid ids=c.evidence %}
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+    {% endfor %}
+  </div>
+
+  <details class="pf-note pf-compare">
+    <summary>Compare two trajectories · pairwise comparison, one way of doing the assessment (article, §4.5)</summary>
+    <div class="pf-pair-control" hidden>
+      <label for="pf-pair-select">Pair</label>
+      <select id="pf-pair-select">
+        {% for pair in pf.pairs %}
+          <option value="{{ pair.id }}">{{ pair.label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <p id="pf-control-status" class="pf-sr-only" role="status" aria-live="polite"></p>
+    {% for pair in pf.pairs %}
+      <div class="pf-pair" data-pf-comparison="{{ pair.id }}">
+        <h4>{{ pair.label }}</h4>
+        <dl class="pf-pair-takeaways">
+          {% for d in pf.dimensions %}
+            <div>
+              <dt>{{ d.name }}</dt>
+              <dd>{{ d.pairs[pair.id].takeaway }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+        <div class="pf-conclusion">
+          <p class="pf-caption">Starting assessment · Evidence to October 2026</p>
+          <p>{{ pf.initial_synthesis[pair.id] }}</p>
+        </div>
+      </div>
+    {% endfor %}
+    <p class="pf-caption">
+      Pairwise comparison: Fornborg (2026), §4.5, drawing on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>. T1b is
+      assessed in the table above but not yet in the pairwise sheets.
+    </p>
+  </details>
+  {% include policy-feasibility/next.liquid href='#pf-model' number='05' title='Bring the assessment into the scenario' %}
+</section>

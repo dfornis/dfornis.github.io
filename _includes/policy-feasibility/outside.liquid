@@ -1,95 +1,130 @@
-<section id="pf-scope" class="pf-section">
+<section id="pf-scope" class="pf-section pf-reveal">
+  <p class="pf-step-tag">Step 1 · Outside view</p>
   <h2><span class="pf-section-number">02</span> Look across places and time</h2>
   <p class="pf-prose">
-    The outside view uses precedents, public debate and actor commitments to identify plausible policy directions. Here, the survey follows disputes
-    over new electricity demand, local benefits and who pays.
+    The outside view scopes candidate trajectories from precedents abroad, earlier conflicts at home and the positions of Swedish actors. Four policy
+    directions recur.
   </p>
-  <div class="pf-outside-part">
-    <h3>Across places</h3>
-    <div class="pf-place-choices" role="group" aria-label="Geographic example" hidden>
-      {% for o in pf.outside -%}
-        <button type="button" data-pf-place="{{ o.code }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
-          {{ o.country }}
-        </button>
-      {%- endfor %}
-    </div>
-    <div class="pf-spatial-grid">
-      <figure class="pf-place-map" hidden>
-        <svg id="pf-place-map" viewBox="0 0 440 330" role="img" aria-labelledby="pf-map-title pf-map-description">
-          <title id="pf-map-title">Locations in the policy survey</title><desc id="pf-map-description">Five European examples, with the United States in a separate locator. Choose a country using the buttons to read its example.</desc>
-        </svg>
-        <figcaption class="pf-caption">Policy examples · <a href="https://www.naturalearthdata.com/">Natural Earth</a></figcaption>
-      </figure>
-      <div class="pf-place-readings" aria-live="polite">
-        {% for o in pf.outside %}
-          <article id="pf-place-{{ o.code }}" class="pf-place-reading">
-            <p class="pf-caption">{{ o.country }} · {{ o.status }}</p>
-            <h4>{{ o.heading }}</h4>
-            <p>{{ o.contribution }}</p>
-            <p class="pf-take-forward">{{ o.limit }}</p>
-          </article>
+  <div class="pf-table-scroll">
+    <table class="pf-directions">
+      <thead>
+        <tr>
+          <th scope="col">Policy direction</th>
+          <th scope="col">Where it appears</th>
+          <th scope="col">What it asks of datacenters</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dir in pf.policy_directions %}
+          <tr>
+            <th scope="row">{{ dir.title }}</th>
+            <td data-label="Where it appears">{{ dir.where }}</td>
+            <td data-label="What it asks of datacenters">{{ dir.asks }}</td>
+          </tr>
         {% endfor %}
-      </div>
-    </div>
+      </tbody>
+    </table>
   </div>
-  <div class="pf-outside-part">
-    <h3>Across time</h3>
-    <div class="pf-history-examples">
-      {% for h in pf.history %}
-        <details class="pf-history-example">
-          <summary>
-            <strong>{{ h.technology }}</strong><span class="pf-caption">{{ h.period }}</span><span>{{ pf.history_previews[h.id] }}</span>
-          </summary>
-          <p>{{ h.change }}</p>
-          <p>{{ h.response }}</p>
-          <p class="pf-take-forward">{{ h.method_question }}</p>
-        </details>
-      {% endfor %}
-      <details class="pf-history-example">
-        <summary>
-          <strong>Bensinupproret · Sweden</strong><span class="pf-caption">2019</span><span>{{ pf.history_previews.bensin }}</span>
-        </summary>
-        <p>{{ pf.historical_mobilisation.text }}</p>
-        <p class="pf-take-forward">{{ pf.historical_mobilisation.method_question }}</p>
-      </details>
-    </div>
-  </div>
-  <div id="pf-actors" class="pf-outside-part">
-    <h3>What emerges in Sweden?</h3>
-    <div class="pf-actor-findings">
-      {% for finding in pf.actor_previews %}
-        <article>
-          <h4>{{ finding.title }}</h4>
-          <p>{{ finding.text }}</p>
-        </article>
-      {% endfor %}
-    </div>
-    <div class="pf-actor-groups">
-      {% for group in pf.actor_groups %}
-        <article>
-          <h4>{{ group.title }}</h4>
-          <p class="pf-caption">{{ group.note }}</p>
-          <ul>
-            {% for actor_id in group.actors %}
-              {% assign actor = pf.actors | where: 'id', actor_id | first %}
-              <li>
-                <strong>{{ actor.name }}</strong>{{ actor.policy_question }}
-              </li>
+  <p class="pf-prose pf-actor-summary">
+    Rule-keepers favour incentives and voluntary contracts. Rule-switchers propose generation requirements but disagree over which plants should
+    qualify.
+  </p>
+  <div class="pf-drawers">
+    <details class="pf-drawer">
+      <summary><strong>Across places</strong><span>Six cases, from Ireland’s requirement to Germany’s postponement</span></summary>
+      <div class="pf-outside-part">
+        <div class="pf-place-choices" role="group" aria-label="Geographic example" hidden>
+          {% for o in pf.outside -%}
+            <button type="button" data-pf-place="{{ o.code }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+              {{ o.country }}
+            </button>
+          {%- endfor %}
+        </div>
+        <div class="pf-spatial-grid">
+          <figure class="pf-place-map" hidden>
+            <svg id="pf-place-map" viewBox="0 0 440 330" role="img" aria-labelledby="pf-map-title pf-map-description">
+              <title id="pf-map-title">Locations in the policy survey</title><desc id="pf-map-description">Five European examples, with the United States in a separate locator. Choose a country using the buttons to read its example.</desc>
+            </svg>
+            <figcaption class="pf-caption">Policy examples · <a href="https://www.naturalearthdata.com/">Natural Earth</a></figcaption>
+          </figure>
+          <div class="pf-place-readings" aria-live="polite">
+            {% for o in pf.outside %}
+              <article id="pf-place-{{ o.code }}" class="pf-place-reading">
+                <p class="pf-caption">{{ o.country }} · {{ o.status }}</p>
+                <h4>{{ o.heading }}</h4>
+                <p>{{ o.contribution }}</p>
+                <p class="pf-take-forward">{{ o.limit }}</p>
+              </article>
             {% endfor %}
-          </ul>
-        </article>
-      {% endfor %}
-    </div>
-    <p class="pf-caption pf-actor-roles-note">
-      Rule-keepers defend the current policy, rule-switchers seek to change it, and rule-takers adapt without leading support or opposition. Roles can
-      change as costs, interests and alliances develop.
-    </p>
-    <div class="pf-outside-finding">
-      <h4>Follow the conflict forward</h4>
-      <p>
-        AI investment, industrial decarbonisation and household living costs can pull policy in different directions. Follow how parties rank these
-        goals, how public opinion develops and which affected groups organise. The same actors may support different rules at the next decision.
-      </p>
-    </div>
+          </div>
+        </div>
+      </div>
+    </details>
+    <details class="pf-drawer">
+      <summary><strong>Across time</strong><span>Québec, Danish wind compensation and Bensinupproret</span></summary>
+      <div class="pf-outside-part">
+        <div class="pf-history-examples">
+          {% for h in pf.history %}
+            <details class="pf-history-example">
+              <summary>
+                <strong>{{ h.technology }}</strong><span class="pf-caption">{{ h.period }}</span><span>{{ pf.history_previews[h.id] }}</span>
+              </summary>
+              <p>{{ h.change }}</p>
+              <p>{{ h.response }}</p>
+              <p class="pf-take-forward">{{ h.method_question }}</p>
+            </details>
+          {% endfor %}
+          <details class="pf-history-example">
+            <summary>
+              <strong>Bensinupproret · Sweden</strong><span class="pf-caption">2019</span><span>{{ pf.history_previews.bensin }}</span>
+            </summary>
+            <p>{{ pf.historical_mobilisation.text }}</p>
+            <p class="pf-take-forward">{{ pf.historical_mobilisation.method_question }}</p>
+          </details>
+        </div>
+      </div>
+    </details>
+    <details class="pf-drawer" id="pf-actors">
+      <summary><strong>What emerges in Sweden</strong><span>Rule-keepers, rule-switchers and those who decide and enforce</span></summary>
+      <div class="pf-outside-part">
+        <div class="pf-actor-findings">
+          {% for finding in pf.actor_previews %}
+            <article>
+              <h4>{{ finding.title }}</h4>
+              <p>{{ finding.text }}</p>
+            </article>
+          {% endfor %}
+        </div>
+        <div class="pf-actor-groups">
+          {% for group in pf.actor_groups %}
+            <article>
+              <h4>{{ group.title }}</h4>
+              <p class="pf-caption">{{ group.note }}</p>
+              <ul>
+                {% for actor_id in group.actors %}
+                  {% assign actor = pf.actors | where: 'id', actor_id | first %}
+                  <li>
+                    <strong>{{ actor.name }}</strong>{{ actor.policy_question }}
+                  </li>
+                {% endfor %}
+              </ul>
+            </article>
+          {% endfor %}
+        </div>
+        <p class="pf-caption pf-actor-roles-note">
+          Rule-keepers defend the current policy, rule-switchers seek to change it, and rule-takers adapt without leading support or opposition. Roles
+          can change as costs, interests and alliances develop.
+        </p>
+        <div class="pf-outside-finding">
+          <h4>Follow the conflict forward</h4>
+          <p>
+            AI investment, industrial decarbonisation and household living costs can pull policy in different directions. Follow how parties rank
+            these goals, how public opinion develops and which affected groups organise. The same actors may support different rules at the next
+            decision.
+          </p>
+        </div>
+      </div>
+    </details>
   </div>
+  {% include policy-feasibility/next.liquid href='#pf-trajectories' number='03' title='Define comparable trajectories' %}
 </section>
