@@ -10,16 +10,17 @@
       <thead>
         <tr>
           <th scope="col">Policy direction</th>
-          <th scope="col">Where it appears</th>
-          <th scope="col">What it asks of datacenters</th>
+          <th scope="col">Examples</th>
         </tr>
       </thead>
       <tbody>
         {% for dir in pf.policy_directions %}
           <tr>
-            <th scope="row">{{ dir.title }}</th>
-            <td data-label="Where it appears">{{ dir.where }}</td>
-            <td data-label="What it asks of datacenters">{{ dir.asks }}</td>
+            <th scope="row">
+              {{ dir.title -}}
+              <span class="pf-direction-text">{{ dir.asks }}</span>
+            </th>
+            <td data-label="Examples">{{ dir.where }}</td>
           </tr>
         {% endfor %}
       </tbody>
