@@ -144,6 +144,17 @@
       <p>{{ pf.scope.timing }}</p>
     </details>
     <details class="pf-note">
+      <summary>Who decides</summary>
+      <dl class="pf-decides">
+        {% for t in pf.trajectories %}
+          <div data-trajectory="{{ t.id }}">
+            <dt><span class="pf-swatch" aria-hidden="true"></span>{{ t.id }}</dt>
+            <dd>{{ t.decisions }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </details>
+    <details class="pf-note">
       <summary>Variants tested in the model</summary>
       <ul class="pf-variant-list">
         {% for v in pf.variants %}

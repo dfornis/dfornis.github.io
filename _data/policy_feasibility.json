@@ -8,7 +8,7 @@
       "id": "T0",
       "verb": "Continue",
       "title": "Voluntary generation commitments",
-      "summary": "Developers choose whether to invest in new generation or sign long-term power contracts. Contracts may refer to existing plants.",
+      "summary": "Developers choose whether to contract new or existing generation.",
       "origin": "Swedish business organisations favour incentives and contracts. The US pledge shows how companies can also make voluntary generation commitments under political pressure.",
       "status": "Continuation assumption",
       "example": "A company signs a PPA for its own procurement goals. Another purchases from existing generation without a national requirement to add supply.",
@@ -19,7 +19,7 @@
       "development": "2026–2027: voluntary procurement continues. From 2028: no national requirement is introduced.",
       "short_title": "Voluntary commitments",
       "phases": ["Continue voluntary procurement", "Keep commitments voluntary"],
-      "origin_summary": "Swedish business organisations favour voluntary contracts. The US company pledge shows commitments made under political pressure.",
+      "origin_summary": "Swedish business organisations · US company pledge",
       "scenario_use": "Adopted-policy baseline",
       "profile": {
         "coalition_alignment": {
@@ -48,7 +48,7 @@
       "id": "T1",
       "verb": "Introduce",
       "title": "Require new fossil-free generation",
-      "summary": "New sites must match annual electricity use with new fossil-free generation in Sweden, owned or contracted. Onshore wind counts.",
+      "summary": "New sites match annual use with new fossil-free generation in Sweden. Onshore wind counts.",
       "origin": "The Swedish Green Party proposes new renewable generation matching consumption; Svenska kraftnät proposes investigating a broader fossil-free requirement, which matches the wider Swedish policy direction. The PPA option comes from Svenska kraftnät’s discussion. The 2028 start, first-year compliance and detailed eligibility rules are specified here so that the reform can be assessed.",
       "status": "Specified reform scenario",
       "example": "A site opening in 2028 must secure matching new fossil-free annual generation and report compliance.",
@@ -63,7 +63,7 @@
       "development": "2026–2027: prepare and adopt the requirement. From 2028: apply and maintain it for new sites.",
       "short_title": "Generation requirement",
       "phases": ["Prepare and adopt legislation", "Apply the generation requirement"],
-      "origin_summary": "Swedish reform proposals and Ireland’s generation requirement.",
+      "origin_summary": "Swedish reform proposals · Ireland",
       "scenario_use": "Sensitivity case",
       "profile": {
         "coalition_alignment": {
@@ -107,7 +107,7 @@
       "development": "2026–2027: prepare and adopt the requirement. From 2028: apply and verify it for new sites.",
       "short_title": "Additionality requirement",
       "phases": ["Prepare and adopt legislation", "Apply and verify the requirement"],
-      "origin_summary": "Finland’s consultation on additionality and Spain’s draft on stricter matching.",
+      "origin_summary": "Finnish consultation · Spanish draft",
       "scenario_use": "Alternative policy future",
       "profile": {
         "coalition_alignment": {
@@ -137,7 +137,7 @@
       "verb": "Halt",
       "title": "Halt new establishments",
       "short_title": "Establishment stop",
-      "summary": "No new commercial datacenter sites may open, including projects that bring their own generation.",
+      "summary": "No new commercial datacenter sites open.",
       "origin": "Campaigners in Ireland call for a nationwide moratorium. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2030.",
       "status": "Moratorium scenario",
       "example": "A proposed site cannot open even if it has secured new renewable generation.",
@@ -151,7 +151,7 @@
       "decisions": "Government prepares a national restriction; Parliament establishes its legal basis, transition rules and enforcement. Authorities apply those rules in individual cases.",
       "development": "2026–2027: legislate and manage projects already in preparation. From 2028: prevent new openings and maintain the stop.",
       "phases": ["Legislate and set transition rules", "No new sites may open"],
-      "origin_summary": "Irish campaigns for a moratorium and Québec’s pause in allocation.",
+      "origin_summary": "Irish moratorium campaigns · Québec",
       "scenario_use": "Alternative policy future",
       "profile": {
         "coalition_alignment": {

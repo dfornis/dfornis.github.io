@@ -4,11 +4,7 @@
       <p class="pf-card-id"><span class="pf-swatch" aria-hidden="true"></span>{{ t.id }} · {{ t.status }}</p>
       <h3>{{ t.title }}</h3>
       <p class="pf-card-rule">{{ t.summary }}</p>
-      <div class="pf-card-row">
-        <span class="pf-card-key">From the outside view</span>
-        <span>{{ t.origin_summary }}</span>
-      </div>
-      <p class="pf-card-decides">Who decides · {{ t.decisions }}</p>
+      <p class="pf-card-origin">{{ t.origin_summary }}</p>
     </article>
   {% endfor %}
 </div>
