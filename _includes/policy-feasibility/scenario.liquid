@@ -1,7 +1,9 @@
 {% assign sc = site.data.policy_feasibility_scenarios %}
 {% assign ref = sc.reference %}
 {% assign c_t0 = sc.cases | where: 'id', 'T0' | first %}
+{% assign c_t1 = sc.cases | where: 'id', 'T1' | first %}
 {% assign c_t1b = sc.cases | where: 'id', 'T1b' | first %}
+{% assign c_t2 = sc.cases | where: 'id', 'T2' | first %}
 <section id="pf-model" class="pf-section pf-reveal">
   <p class="pf-step-tag">Scenario use</p>
   <h2><span class="pf-section-number">05</span> Bring the assessment into the scenario</h2>
@@ -62,8 +64,11 @@
     <h3>Quantification, {{ sc.model.result_year }}</h3>
     <p class="pf-prose">
       Each trajectory is then quantified in a Nordic electricity model for {{ sc.model.result_year }}. Without a requirement, other Swedish customers
-      pay about {{ c_t0.values.other_bill }} billion euros a year more than without the new datacenters. A requirement for additional generation
-      reduces this to about {{ c_t1b.values.other_bill }} billion and raises the datacenters’ own electricity cost by about a tenth.
+      pay about {{ c_t0.values.other_bill }} billion euros a year more than without the new datacenters. A requirement that counts any new fossil-free
+      generation changes little, about {{ c_t1.values.other_bill }} billion, since it is mostly met by wind farms that would be built anyway. A
+      requirement for additional generation reduces the extra cost to about {{ c_t1b.values.other_bill }} billion and raises the datacenters’ own
+      electricity cost by about a tenth. A halt to new establishments gives about the same relief, {{ c_t2.values.other_bill }} billion, as
+      datacenters in Norway and Finland still raise Nordic prices.
     </p>
     {% assign m_price = sc.metrics | where: 'id', 'price_se' | first %}
     <figure class="pf-bars" aria-labelledby="pf-bars-caption">
@@ -148,8 +153,8 @@
     <h3>Is new generation additional?</h3>
     <p>
       Onshore wind is built up to its permitting limit whether or not the datacenters arrive. Under T1, developers can therefore meet the requirement
-      by contracting wind farms that would be built anyway. Only T1b, which counts generation the market would not build, changes prices. Before
-      quantification, the specification of a trajectory therefore matters as much as its political feasibility.
+      by contracting wind farms that would be built anyway. Only T1b, which counts generation the market would not build, lowers prices markedly.
+      Before quantification, the specification of a trajectory therefore matters as much as its political feasibility.
     </p>
     {% assign ad = sc.additionality %}
     <figure class="pf-stack" aria-labelledby="pf-stack-caption">
@@ -252,9 +257,6 @@
           </div>
         {% endfor %}
       </dl>
-      {% if sc.status == 'preliminary' %}
-        <p class="pf-caption"><span class="pf-status">Preliminary</span> Two trajectories are still running.</p>
-      {% endif %}
     </div>
   </div>
 </section>

@@ -1,12 +1,12 @@
 {
-  "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21 in datacenter-pypsa, rolling-year runs for 2035). status: preliminary | final. A null value renders as pending. Values for Sweden; the rest of the Nordic system is background.",
-  "status": "preliminary",
+  "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21–2.22 in datacenter-pypsa, rolling-year runs for 2035). Values for Sweden; the rest of the Nordic system is background. T1: datacenters’ electricity cost set equal to T0, since relabelled wind is bought at market prices. A null value renders as a dash.",
+  "status": "final",
   "model": {
     "name": "Nordic PyPSA electricity model",
     "result_year": 2035,
     "weather_year": 2023,
     "setup": "Wind, solar and batteries expand at least cost within published limits in every Nordic country; dispatch is then solved hour by hour, month by month, with water values for hydro storage.",
-    "runs": "datacenter-pypsa, KORNINGAR §2.21"
+    "runs": "datacenter-pypsa, KORNINGAR §2.21–2.22"
   },
   "dc_load_twh": {
     "total": 36.0,
@@ -66,14 +66,13 @@
     },
     {
       "id": "T1",
-      "note": "expected close to T0",
       "values": {
-        "price_se": null,
-        "price_se3": null,
-        "p99_se3": null,
-        "other_bill": null,
-        "dc_cost": null,
-        "net_import": null
+        "price_se": 82.6,
+        "price_se3": 83.8,
+        "p99_se3": 232,
+        "other_bill": 4.1,
+        "dc_cost": 83.5,
+        "net_import": 20.1
       }
     },
     {
@@ -90,12 +89,12 @@
     {
       "id": "T2",
       "values": {
-        "price_se": null,
-        "price_se3": null,
-        "p99_se3": null,
-        "other_bill": null,
+        "price_se": 71.5,
+        "price_se3": 72.5,
+        "p99_se3": 142,
+        "other_bill": 1.9,
         "dc_cost": null,
-        "net_import": null
+        "net_import": -1.9
       }
     }
   ],
@@ -137,13 +136,12 @@
   "additionality": {
     "required_twh": 33.6,
     "scale_max": 35,
-    "note": "In the wider Nordic system, about 60% of the added generation displaces wind and solar that would otherwise be built in Finland and Norway; the rest reduces imports.",
+    "note": "Under T1b, about 60% of the added generation displaces wind and solar that would otherwise be built in Finland and Norway in the wider Nordic system; the rest reduces imports.",
     "cases": [
       {
         "id": "T1",
-        "relabelled_twh": null,
-        "new_twh": null,
-        "note": "expected mostly relabelled"
+        "relabelled_twh": 30,
+        "new_twh": 3
       },
       {
         "id": "T1b",
@@ -169,6 +167,10 @@
       },
       {
         "label": "Onshore and offshore wind",
+        "value": 76
+      },
+      {
+        "label": "T1 as built",
         "value": 76
       },
       {
