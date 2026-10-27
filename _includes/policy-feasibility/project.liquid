@@ -84,7 +84,9 @@
           {% endfor %}
         </ul>
       </div>
-      <span class="pf-fw-branch" style="--pf-d: 6" aria-hidden="true"></span>
+      <svg class="pf-fw-arrow pf-fw-branch" style="--pf-d: 6" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M4 16h22m-6-6 6 6-6 6" />
+      </svg>
       <div class="pf-fw-use" style="--pf-d: 7">
         <a href="#pf-model"><strong>Trajectories carried into modelling</strong><span>Baseline, sensitivity case or alternative future</span></a>
         <a href="#pf-assess"><strong>Documented rationale and disagreements</strong></a>
@@ -176,6 +178,27 @@
       </ul>
     </details>
     {% include policy-feasibility/next.liquid href='#pf-assess' number='04' title='Assess political feasibility' %}
+
+    <figure
+      class="pf-policy-doodle"
+      aria-label="Hand-drawn diagram: adopted policy remains in place through 2035, marked with a check. Or, rising household electricity costs, public protest and pressure on industry could lead policy in different directions."
+    >
+      <div class="pf-policy-doodle-assumption">
+        <svg class="pf-policy-doodle-wide" viewBox="0 160 773 460" aria-hidden="true" focusable="false">
+          <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+          <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg class="pf-policy-doodle-narrow" viewBox="0 160 742 460" aria-hidden="true" focusable="false">
+          <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+          <path d="M 552 550 Q 558 556 563 562 Q 574 547 585 531" fill="none" stroke="#526b7b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="pf-policy-doodle-responses">
+        <svg viewBox="773 160 1319 460" aria-hidden="true" focusable="false">
+          <image href="{{ '/assets/images/policy-feasibility/policy-doodle-handdrawn-blue-v4.png' | relative_url }}" width="2092" height="752" />
+        </svg>
+      </div>
+    </figure>
   </section>
 
   {% include policy-feasibility/assess.liquid %}
