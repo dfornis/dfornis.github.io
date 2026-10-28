@@ -2,7 +2,7 @@
   "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21–2.22 in datacenter-pypsa, rolling-year runs for 2035). Values for Sweden; the rest of the Nordic system is background. T1: datacenters’ electricity cost set equal to T0, since relabelled wind is bought at market prices. A null value renders as a dash.",
   "status": "final",
   "model": {
-    "name": "Nordic PyPSA electricity model",
+    "name": "PyPSA-Eur adapted for the Nordics",
     "result_year": 2035,
     "weather_year": 2023,
     "setup": "Wind, solar and batteries expand at least cost within published limits in every Nordic country; dispatch is then solved hour by hour, month by month, with water values for hydro storage.",
@@ -185,6 +185,10 @@
     ]
   },
   "assumptions": [
+    {
+      "label": "Year",
+      "value": "2035, weather year 2023"
+    },
     {
       "label": "Demand",
       "value": "Swedish Energy Agency, adopted-policy scenario"

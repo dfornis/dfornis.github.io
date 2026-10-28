@@ -188,35 +188,6 @@
         </figure>
       </div>
     </details>
-    <details class="pf-drawer">
-      <summary><strong>Variants</strong><span>Half the volume, new nuclear only, a battery condition</span></summary>
-      <div class="pf-drawer-body pf-table-scroll">
-        <table class="pf-results">
-          <thead>
-            <tr>
-              <th scope="col">Variant</th>
-              {% for m in sc.metrics %}
-                <th scope="col">
-                  {{ m.label }}
-                  <span class="pf-unit">{{ m.unit }}</span>
-                </th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for v in sc.variants %}
-              {% assign meta = pf.variants | where: 'id', v.id | first %}
-              <tr>
-                <th scope="row">{{ meta.title }}</th>
-                {% for m in sc.metrics %}
-                  <td data-label="{{ m.label }} · {{ m.unit }}">{{ v.values[m.id] | replace: '-', '−' }}</td>
-                {% endfor %}
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </details>
   </div>
 
   <div class="pf-closing">
@@ -227,7 +198,7 @@
     </div>
     <div class="pf-assumptions">
       <p class="pf-caption">Model and assumptions</p>
-      <p>{{ sc.model.name }}, {{ sc.model.result_year }}, weather year {{ sc.model.weather_year }}. A stylised model. {{ sc.model.setup }}</p>
+      <p>The model is {{ sc.model.name }}. {{ sc.model.setup }} The model is currently in development and results are work in progress.</p>
       <dl>
         {% for a in sc.assumptions %}
           <div>

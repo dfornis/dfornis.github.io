@@ -36,9 +36,9 @@
       Fornborg (2026), <em>Energy Research &amp; Social Science</em>
     </p>
     <p class="pf-intro-lead">
-      Energy and climate scenarios rely on assumptions about future policy, but such policy trajectories are rarely screened for political feasibility
-      before they enter models. The article develops a framework for doing so and demonstrates it ex post on a Swedish rail forecast from 1999. This
-      page applies it ex ante, to a live question.
+      Energy and climate scenarios often rely on assumptions about future policy developments that are highly contested. Despite that, they are rarely
+      screened for political feasibility before they enter models. This page is a companion to a research article that develops a framework for doing
+      so. It is demonstrated on a set of plausible policy responses to the rapid growth of datacenter electricity demand in Sweden.
     </p>
   </header>
 
@@ -46,8 +46,9 @@
     <figcaption>
       <h2 id="pf-framework-title">The framework</h2>
       <p>
-        Following Kahneman and Lovallo (1993), the framework combines an outside view with an inside view. The outside view keeps scoping open enough
-        to avoid tunnel vision; the inside view disciplines judgement once comparison begins.
+        Following Kahneman and Lovallo (1993) and Jewell and Cherp (2023), the framework combines an outside view with an inside view. The outside
+        view allows a scoping of plausible policy trajectories through spatial and temporal comparison, while the inside view enables an assessment of
+        the feasibility of trajectories informed by political economy and institutional theory.
       </p>
     </figcaption>
     <div class="pf-fw-grid">
@@ -165,17 +166,6 @@
           </div>
         {% endfor %}
       </dl>
-    </details>
-    <details class="pf-note">
-      <summary>Variants tested in the model</summary>
-      <ul class="pf-variant-list">
-        {% for v in pf.variants %}
-          <li>
-            <strong>{{ v.title }}</strong> <span class="pf-use pf-use-small">{{ v.scenario_use }}</span>
-            <span>{{ v.text }}</span>
-          </li>
-        {% endfor %}
-      </ul>
     </details>
     {% include policy-feasibility/next.liquid href='#pf-assess' number='04' title='Assess political feasibility' %}
 
