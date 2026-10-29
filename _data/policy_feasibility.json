@@ -293,7 +293,7 @@
           "evidence": ["E13", "E79", "E08", "E40", "E78"]
         },
         "T2": {
-          "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the party proposals we found seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
+          "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the party proposals I found seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
           "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
         }
       },
@@ -839,7 +839,7 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2028 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, we apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration.",
+  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, I apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
