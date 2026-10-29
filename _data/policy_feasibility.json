@@ -138,7 +138,7 @@
       "title": "Halt new establishments",
       "short_title": "Establishment stop",
       "summary": "No new commercial datacenters may open from 2028.",
-      "origin": "Campaigners in Ireland call for a nationwide moratorium, and in Maine a temporary stop passed the legislature before it was vetoed. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2028.",
+      "origin": "Campaigners in Ireland call for a nationwide moratorium, and several US states have considered temporary stops. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2028.",
       "status": "Moratorium",
       "example": "A proposed site cannot open even if it has secured new renewable generation.",
       "evidence": ["E86", "E23", "E91", "E92"],
@@ -151,7 +151,7 @@
       "decisions": "Government prepares a national restriction; Parliament establishes its legal basis, transition rules and enforcement. Authorities apply those rules in individual cases.",
       "development": "2026–2027: legislate and manage projects already in preparation. From 2028: prevent new openings and maintain the stop.",
       "phases": ["Legislate and set transition rules", "No new sites may open"],
-      "origin_summary": "Irish moratorium campaigns · Maine · Québec",
+      "origin_summary": "Irish moratorium campaigns · US state bills · Québec",
       "scenario_use": "Alternative policy future",
       "profile": {
         "coalition_alignment": {
@@ -217,9 +217,9 @@
       "label_anchor": "middle",
       "region": "north-america",
       "status": "Federal pledge and state bills · 2026",
-      "contribution": "The White House pledge asks companies to secure new generation and protect other customers from higher costs. In Maine, the legislature passed a temporary stop for new datacenters above 20 MW in 2026; the governor vetoed it because it had no exemption for a planned project in the town of Jay, and the veto was upheld. Similar bills have been introduced in about ten other states.",
+      "contribution": "The White House pledge asks companies to secure new generation and protect other customers from higher costs. In 2026, Maine’s legislature voted for a temporary stop on new datacenters above 20 MW, although it did not take effect. Similar bills have been introduced in about ten other states.",
       "evidence": ["E75", "E91", "E92", "E93"],
-      "heading": "Voluntary pledges and a state moratorium bill",
+      "heading": "Voluntary pledges and proposals for a stop",
       "limit": "Could voluntary commitments develop without a national generation law?",
       "featured": null
     },
@@ -1293,7 +1293,7 @@
     {
       "id": "restriction",
       "title": "Restrictions on new sites",
-      "where": "Irish moratorium campaign · Maine’s vetoed moratorium · Québec’s capped allocation",
+      "where": "Irish moratorium campaign · state bills in the US · Québec’s capped allocation",
       "asks": "Fewer or no new sites",
       "codes": ["IE"]
     },
