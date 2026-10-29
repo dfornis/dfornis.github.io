@@ -1,5 +1,5 @@
 {
-  "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21–2.22 in datacenter-pypsa, rolling-year runs for 2035). Values for Sweden; the rest of the Nordic system is background. T1: datacenters’ electricity cost set equal to T0, since relabelled wind is bought at market prices. A null value renders as a dash.",
+  "_readme": "Model inputs and results for section 05 (KORNINGAR §2.21–2.22 in datacenter-pypsa, rolling-year runs for 2035). Values for Sweden. The rest of the Nordic system is background. T1: datacenters’ electricity cost set equal to T0, since relabelled wind is bought at market prices. A null value renders as a dash.",
   "status": "final",
   "model": {
     "name": "PyPSA-Eur adapted for the Nordics",
@@ -211,7 +211,7 @@
     },
     {
       "label": "Datacenters",
-      "value": "Nordic datacenter tracker, high scenario for 2035; projects in Norway and Finland counted at half"
+      "value": "Nordic datacenter tracker, high scenario for 2035. Projects in Norway and Finland are counted at half."
     }
   ]
 }
