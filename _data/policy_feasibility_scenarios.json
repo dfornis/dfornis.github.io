@@ -5,7 +5,7 @@
     "name": "PyPSA-Eur adapted for the Nordics",
     "result_year": 2035,
     "weather_year": 2023,
-    "setup": "Wind, solar and batteries expand at least cost within published limits in every Nordic country; dispatch is then solved hour by hour, month by month, with water values for hydro storage.",
+    "setup": "It first chooses how much wind, solar and battery capacity to build at least cost, within published limits for each Nordic country. It then runs the power system hour by hour through the year, one month at a time, using estimated values of stored water to decide when hydropower runs.",
     "runs": "datacenter-pypsa, KORNINGAR §2.21–2.22"
   },
   "dc_load_twh": {
@@ -35,7 +35,7 @@
     },
     {
       "id": "p99_se3",
-      "label": "Highest 1% of hours, SE3",
+      "label": "Price in the most expensive 1% of hours, SE3",
       "unit": "EUR/MWh"
     }
   ],
@@ -136,7 +136,7 @@
   "additionality": {
     "required_twh": 33.6,
     "scale_max": 35,
-    "note": "Under T1b, about 60% of the added generation displaces wind and solar that would otherwise be built in Finland and Norway in the wider Nordic system; the rest reduces imports.",
+    "note": "In the T1b run, about 60% of the added Swedish generation replaces generation that the model would otherwise build elsewhere in the Nordics, mostly wind and solar in Finland and Norway. The rest reduces Swedish imports.",
     "cases": [
       {
         "id": "T1",
@@ -151,7 +151,7 @@
     ]
   },
   "coverage": {
-    "text": "Matched hour by hour, a wind portfolio covers about 70% of datacenter use, and doubling it reaches about 87%. New nuclear covers almost all of it. An hourly requirement would favour generation that does not depend on the weather, such as nuclear power, and would change the coalitions around a generation requirement.",
+    "text": "In the model, onshore wind with the same annual output as the datacenters’ annual use covers about 70% of their use in the same hour. Twice as much onshore wind covers about 87%. New nuclear covers almost all of it. A requirement to match use hour by hour would therefore favour generation that does not depend on the weather, such as nuclear power. That could change which actors support a generation requirement.",
     "items": [
       {
         "label": "Solar",
@@ -170,11 +170,11 @@
         "value": 76
       },
       {
-        "label": "T1 as built",
+        "label": "T1, as built in the model",
         "value": 76
       },
       {
-        "label": "T1b as built",
+        "label": "T1b, as built in the model",
         "value": 84,
         "highlight": true
       },
@@ -195,7 +195,7 @@
     },
     {
       "label": "Onshore wind",
-      "value": "70 TWh limit, the Swedish Energy Agency’s lower potential"
+      "value": "Limited to 70 TWh a year, the lower of the Swedish Energy Agency’s estimates"
     },
     {
       "label": "Offshore wind",
@@ -206,12 +206,12 @@
       "value": "Svenska kraftnät targets and ENTSO-E capacities"
     },
     {
-      "label": "Continental prices",
-      "value": "NVE, 2035"
+      "label": "Prices outside the Nordics",
+      "value": "NVE projections for 2035"
     },
     {
       "label": "Datacenters",
-      "value": "Nordic datacenter tracker, High 2035; Norway and Finland at half"
+      "value": "Nordic datacenter tracker, high scenario for 2035; projects in Norway and Finland counted at half"
     }
   ]
 }

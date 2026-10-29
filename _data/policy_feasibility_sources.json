@@ -979,6 +979,39 @@
       "type": "Parliamentary motion",
       "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/motion/stoppa-skattehojningar-pa-bensin_h7021934/",
       "summary_sv": "Lars Beckmans motion 2019/20:1934 hänvisar till Bensinupproret och föreslår stopp för fortsatta skattehöjningar på bensin. Motiveringen lyfter hushållens pendlingskostnader och landsbygdens villkor. Riksdagen avslog motionen."
+    },
+    {
+      "id": "E91",
+      "source_id": "US05",
+      "title": "Governor Mills Announces Decision on LD 307",
+      "issuer": "Office of the Governor of Maine",
+      "date": "2026-04-24",
+      "country": "US",
+      "type": "Government decision",
+      "url": "https://www.maine.gov/governor/mills/news/governor-mills-announces-decision-ld-307-2026-04-24",
+      "summary_sv": "Maines delstatsparlament antog LD 307, ett stopp för nya datacenter över 20 MW fram till november 2027. Guvernör Janet Mills lade in veto: hon stödde ett tillfälligt stopp men inte utan undantag för ett planerat datacenter i Jay."
+    },
+    {
+      "id": "E92",
+      "source_id": "US06",
+      "title": "Despite initial support, Legislature fails to override Mills’ veto of landmark data center ban",
+      "issuer": "Maine Morning Star",
+      "date": "2026-04-29",
+      "country": "US",
+      "type": "News report",
+      "url": "https://mainemorningstar.com/2026/04/29/despite-initial-support-legislature-fails-to-override-mills-veto-of-landmark-data-center-ban/",
+      "summary_sv": "Parlamentet i Maine nådde inte två tredjedels majoritet för att häva guvernörens veto mot stoppet för stora datacenter. Projektet i Jay kan därmed gå vidare."
+    },
+    {
+      "id": "E93",
+      "source_id": "US07",
+      "title": "Why states are considering temporary bans on new data centers",
+      "issuer": "National Conference of State Legislatures",
+      "date": "2026-04-01",
+      "country": "US",
+      "type": "Overview",
+      "url": "https://www.ncsl.org/news/details/why-states-are-considering-temporary-bans-on-new-data-centers",
+      "summary_sv": "Förslag om tillfälliga stopp för nya datacenter har lagts fram i elva delstater, bland andra Vermont, Georgia och New York. Inget hade antagits när översikten skrevs; flera countyn och städer har infört lokala stopp."
     }
   ],
   "literature": [

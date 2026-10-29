@@ -102,7 +102,7 @@
       <p class="pf-step-tag">The case</p>
       <h2><span class="pf-section-number">01</span> The policy question</h2>
       <p class="pf-question">{{ pf.scope.question }}</p>
-      <p class="pf-caption">Sweden · Policy decisions in {{ pf.decision_period }} · Rules from 2028 · Follow to {{ pf.model_horizon }}</p>
+      <p class="pf-caption">Sweden · Decisions in {{ pf.decision_period }} · Rules apply from 2028 · Time horizon {{ pf.model_horizon }}</p>
     </div>
     <img
       class="pf-case-illustration"
@@ -128,12 +128,13 @@
         <h3>Why the rules are contested</h3>
         <ul class="pf-contested">
           <li>
-            Announced datacenter projects would add about {{ site.data.policy_feasibility_scenarios.dc_load_twh.total | round }} TWh to Swedish
-            electricity use by 2035, roughly a quarter of today’s use.
+            If the announced datacenter projects in the tracker’s high scenario are built, they would add about
+            {{ site.data.policy_feasibility_scenarios.dc_load_twh.total | round }} TWh to Swedish electricity use by 2035, roughly a quarter of
+            today’s use.
           </li>
           <li>
-            Generation and grid capacity expand slowly: onshore wind depends on municipal approval, and offshore wind and new nuclear take years to
-            permit and build.
+            New generation and grid capacity take time: onshore wind needs municipal approval, and offshore wind and new nuclear take years to permit
+            and build.
           </li>
           <li>How the cost is shared between developers, households, industry and taxpayers is a political question.</li>
         </ul>
@@ -150,23 +151,6 @@
     <p class="pf-prose">{{ pf.derivation }}</p>
     {% include policy-feasibility/trajectory-cards.liquid %}
     <p class="pf-specification-note">{{ pf.specification_note }}</p>
-    <details class="pf-note">
-      <summary>What the generation requirement covers</summary>
-      <p>{{ pf.scope.definition }}</p>
-      <p>{{ pf.scope.cohort }}</p>
-      <p>{{ pf.scope.timing }}</p>
-    </details>
-    <details class="pf-note">
-      <summary>Who decides</summary>
-      <dl class="pf-decides">
-        {% for t in pf.trajectories %}
-          <div data-trajectory="{{ t.id }}">
-            <dt><span class="pf-swatch" aria-hidden="true"></span>{{ t.id }}</dt>
-            <dd>{{ t.decisions }}</dd>
-          </div>
-        {% endfor %}
-      </dl>
-    </details>
     {% include policy-feasibility/next.liquid href='#pf-assess' number='04' title='Assess political feasibility' %}
 
     <figure

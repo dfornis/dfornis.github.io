@@ -5,7 +5,6 @@
     The inside view assesses each trajectory across the five dimensions. This can be done by a single researcher or by a team of modellers.
   </p>
   <p class="pf-caption pf-rating-legend">
-    Starting assessment · Evidence to October 2026 · For adoption by 2028 ·
     <span>{% include policy-feasibility/rating.liquid rating='favourable' %} favourable</span>
     <span>{% include policy-feasibility/rating.liquid rating='mixed' %} mixed</span>
     <span>{% include policy-feasibility/rating.liquid rating='unfavourable' %} unfavourable</span>
@@ -71,7 +70,12 @@
   </div>
 
   <details class="pf-note pf-compare">
-    <summary>Compare two trajectories · pairwise comparison, one way of doing the assessment (article, §4.5)</summary>
+    <summary>Compare two trajectories (optional)</summary>
+    <p class="pf-compare-intro">
+      The table above assesses each trajectory on its own. A modeller, or a team in a workshop, can also compare two trajectories directly, one
+      dimension at a time, and note which of the two has the better chance of being adopted and why. The article describes this in Section 4.5, based
+      on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>. Below are example comparisons for T0, T1 and T2.
+    </p>
     <div class="pf-pair-control" hidden>
       <label for="pf-pair-select">Pair</label>
       <select id="pf-pair-select">
@@ -93,15 +97,10 @@
           {% endfor %}
         </dl>
         <div class="pf-conclusion">
-          <p class="pf-caption">Starting assessment · Evidence to October 2026</p>
           <p>{{ pf.initial_synthesis[pair.id] }}</p>
         </div>
       </div>
     {% endfor %}
-    <p class="pf-caption">
-      Pairwise comparison: Fornborg (2026), §4.5, drawing on <a href="{{ pf.pairwise_reference.url }}">Carlson and Montgomery (2017)</a>. The pairwise
-      sheets cover T0, T1 and T2.
-    </p>
   </details>
   {% include policy-feasibility/next.liquid href='#pf-model' number='05' title='Bring the assessment into the scenario' %}
 </section>

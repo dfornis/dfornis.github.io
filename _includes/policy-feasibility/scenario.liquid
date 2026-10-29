@@ -30,7 +30,7 @@
         {% for t in pf.trajectories %}
           {% if t.scenario_use == 'Alternative policy future' %}
             <li data-trajectory="{{ t.id }}">
-              <span class="pf-swatch" aria-hidden="true"></span><strong>Alternative future</strong> {{ t.id }}
+              <span class="pf-swatch" aria-hidden="true"></span><strong>Alternative</strong> {{ t.id }}
               {{ t.short_title }}
             </li>
           {% endif %}
@@ -40,14 +40,16 @@
   </div>
 
   <div class="pf-quantify">
-    <h3>Quantification, {{ sc.model.result_year }}</h3>
+    <h3>Model runs for {{ sc.model.result_year }}</h3>
     <p class="pf-prose">
-      Each trajectory is then quantified in a Nordic power system model for {{ sc.model.result_year }}. Without a requirement, other Swedish customers
-      pay about {{ c_t0.values.other_bill }} billion euros a year more than without the new datacenters. A requirement that counts any new fossil-free
-      generation changes little, about {{ c_t1.values.other_bill }} billion, since it is mostly met by wind farms that would be built anyway. A
-      requirement for additional generation reduces the extra cost to about {{ c_t1b.values.other_bill }} billion and raises the datacenters’ own
-      electricity cost by about a tenth. A halt to new establishments gives about the same relief, {{ c_t2.values.other_bill }} billion, as
-      datacenters in Norway and Finland still raise Nordic prices.
+      To show how the trajectories can be carried into a model, we ran each of them in a power system model of the Nordic countries for
+      {{ sc.model.result_year }}. In the run without a requirement (T0), other Swedish electricity customers pay about
+      {{ c_t0.values.other_bill }} billion euros a year more than in a run without the new datacenters. With a requirement that counts any new
+      fossil-free generation (T1), the figure is {{ c_t1.values.other_bill }} billion, because the requirement is mostly met with onshore wind that
+      the model also builds in T0. With a requirement for additional generation (T1b), it is {{ c_t1b.values.other_bill }} billion, and the
+      datacenters pay about a tenth more for their electricity than in T0. With a stop for new datacenters (T2), it is
+      {{ c_t2.values.other_bill }} billion. The remaining increase in T2 comes from datacenters in Norway and Finland, which are included in all runs,
+      and from Swedish projects that open before 2028.
     </p>
     {% assign m_price = sc.metrics | where: 'id', 'price_se' | first %}
     <figure class="pf-bars" aria-labelledby="pf-bars-caption">
@@ -131,9 +133,11 @@
   <div id="pf-additionality" class="pf-callout">
     <h3>Is new generation additional?</h3>
     <p>
-      Onshore wind is built up to its permitting limit whether or not the datacenters arrive. Under T1, developers can therefore meet the requirement
-      by contracting wind farms that would be built anyway. Only T1b, which counts generation the market would not build, lowers prices markedly.
-      Before quantification, the specification of a trajectory therefore matters as much as its political feasibility.
+      In the model, onshore wind in Sweden is limited to 70 TWh a year, the lower of the Swedish Energy Agency’s estimates of the potential. In the
+      runs with the new datacenters, the model builds onshore wind up to this limit even without a requirement (T0). Under T1, the requirement can
+      therefore be met with onshore wind that the model would build anyway. T1b counts only generation that the model would not otherwise build,
+      mainly offshore wind and new nuclear power. This is why prices are lower in the T1b run. The results therefore depend on how a requirement is
+      specified, not only on whether there is one.
     </p>
     {% assign ad = sc.additionality %}
     <figure class="pf-stack" aria-labelledby="pf-stack-caption">
@@ -166,7 +170,9 @@
           {% endif %}
         </div>
       {% endfor %}
-      <p class="pf-caption">Relabelled: generation that would be built anyway. New: generation the market would not otherwise build in Sweden.</p>
+      <p class="pf-caption">
+        Relabelled: generation that the model also builds in T0. New: generation that the model builds only because of the requirement.
+      </p>
     </figure>
     <p class="pf-caption">{{ ad.note }}</p>
   </div>
