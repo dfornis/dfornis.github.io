@@ -368,6 +368,14 @@
               escape(reported(claim)) +
               "</td><td>" +
               escape(basisLabel(claim.basis)) +
+              (claim.basis === "grid"
+                ? "<br>" +
+                  escape(
+                    { requested: "Requested", reserved: "Reserved", contracted: "Contracted", available: "Available" }[claim.grid_status] ||
+                      "Allocation unknown"
+                  )
+                : "") +
+              (claim.baseline_scope === "existing_unknown" ? "<br>Existing capacity unknown" : "") +
               "</td><td>" +
               escape(claim.status) +
               (row?.timing_rule === "executing_campus_full_by_horizon"
@@ -380,7 +388,7 @@
                 claim.construction_year ? claim.construction_year + " (" + (claim.construction_event || "event type unknown") + ")" : "Unknown"
               ) +
               "</td><td>" +
-              escape(timing + (claim.timing_event ? " (" + claim.timing_event + ")" : " (event type unknown)")) +
+              escape(timing + (claim.first_year && claim.timing_event ? " (" + claim.timing_event + ")" : "")) +
               (claim.timing_status === "superseded" ? "<br>Historical target superseded; treated as undated" : "") +
               (row && !["operational", "cancelled", "dormant", "no_datacenter_load", "identity_conflict", "related_identity"].includes(row.reason)
                 ? "<br>Model first: " +
@@ -391,8 +399,6 @@
                 : "") +
               '</td><td class="number-cell">' +
               escape(counted) +
-              '</td><td class="entry-notes">' +
-              escape(claim.notes) +
               "</td><td>" +
               sourceLinks(tags(claim.source_ids)) +
               "</td></tr>"
@@ -406,7 +412,7 @@
           ? ""
           : parents
             ? "Counted as part of " + escape(parents) + " in the scenarios."
-            : "Counted for the project in " +
+            : "Project total, " +
               escape(sc.label + " " + sc.year) +
               ": <strong>" +
               escape(
@@ -419,10 +425,8 @@
                   : "Unknown"
               ) +
               " MW</strong>." +
-              (total.partial_capacity
-                ? " Phase capacity is still unknown; the quantified amount does not cover the whole project's contribution."
-                : "") +
-              (overlap ? " The figures overlap (phases are part of the campus figure), so the largest applies, not the sum." : "");
+              (total.partial_capacity ? " Some phase capacity remains unquantified." : "") +
+              (overlap ? " Overlapping figures are counted once." : "");
         const actors = actorRows.get(project.project_id);
         const actorBody = actors
           .map(
@@ -459,23 +463,23 @@
             ? '<table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership and notes</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' +
               actorBody +
               "</tbody></table>"
-            : '<div class="detail-notes">Actor headquarters have not been reviewed for this project.</div>');
+            : '<div class="detail-summary">Actor headquarters have not been reviewed for this project.</div>');
+        const listedSources = new Set([...own.flatMap((claim) => tags(claim.source_ids)), ...actors.flatMap((actor) => tags(actor.source_ids))]);
+        const additionalSources = tags(project.source_ids).filter((id) => !listedSources.has(id));
         return (
           actorInfo +
           '<div class="detail-title">Project phases and sources</div>' +
-          '<div class="detail-notes">Recorded notes retain earlier reviews and may describe an earlier model. The calculated columns and project total below show the current treatment.</div>' +
-          (project.notes ? '<div class="detail-notes">' + escape(project.notes) + "</div>" : "") +
           (own.length
             ? '<table class="entry-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Investment decision</th><th>Construction start</th><th>Operation / grid date</th><th>' +
               escape(countedLabel) +
-              "</th><th>Notes</th><th>Sources</th></tr></thead><tbody>" +
+              "</th><th>Sources</th></tr></thead><tbody>" +
               body +
               "</tbody></table>" +
-              (totalLine ? '<div class="detail-notes">' + totalLine + "</div>" : "")
-            : '<div class="detail-notes">Capacity and dates have not been disclosed.</div>') +
-          '<div class="detail-notes">' +
-          sourceLinks(sourceIds(project)) +
-          "</div>"
+              (totalLine ? '<div class="detail-summary">' + totalLine + "</div>" : "")
+            : '<div class="detail-summary">Capacity and dates have not been disclosed.</div>') +
+          (additionalSources.length
+            ? '<div class="detail-summary"><span class="detail-title">Other project sources</span><br>' + sourceLinks(additionalSources) + "</div>"
+            : "")
         );
       }
       // A project whose capacity is only part of another project's envelope is counted there, not here.

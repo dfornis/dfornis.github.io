@@ -9,8 +9,8 @@ permalink: /projects/datacenter-tracker/
 
 <div class="tracker-intro">
   <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
-  <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability.  This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.</p>
-  <p>The methodology is still under development. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <p>This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of datacenter load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.</p>
+  <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
 <div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.1.1">
@@ -157,8 +157,6 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
 <div class="after-table-space"></div>
 
 ## Capacity and electricity use
-
-<p></p>
 
 <figure id="dc-method-flow" class="dc-method-flow" aria-labelledby="dc-method-flow-title">
   <figcaption id="dc-method-flow-title">How capacity is calculated</figcaption>
@@ -530,14 +528,11 @@ div#summary-box.summary-box,
   margin-bottom: 0.4rem;
 }
 
-.detail-notes {
-  margin: 0 0 0.65rem 0;
-  padding: 0.45rem 0.55rem;
-  border: 1px solid var(--dc-rule);
-  background: var(--dc-surface);
+.detail-summary {
+  margin: 0.35rem 0 0.65rem;
   color: var(--dc-ink);
   font-size: 10px !important;
-  line-height: 1.2 !important;
+  line-height: 1.3 !important;
 }
 
 .entry-table {
@@ -576,13 +571,6 @@ div#summary-box.summary-box,
 
 .entry-table td.number-cell {
   text-align: left;
-}
-
-.entry-table td.entry-notes {
-  max-width: 420px;
-  color: var(--dc-ink);
-  font-size: 9px !important;
-  line-height: 1.1 !important;
 }
 
 .assumption-table-wrap {
