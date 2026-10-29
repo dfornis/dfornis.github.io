@@ -213,5 +213,103 @@
       "label": "Datacenters",
       "value": "Nordic datacenter tracker, high scenario for 2035. Projects in Norway and Finland are counted at half."
     }
-  ]
+  ],
+  "mix": {
+    "title": "Electricity supply in Sweden, 2035 · TWh",
+    "scale_max": 240,
+    "carriers": [
+      {
+        "id": "hydro",
+        "label": "Hydro"
+      },
+      {
+        "id": "nuclear",
+        "label": "Nuclear"
+      },
+      {
+        "id": "onwind",
+        "label": "Onshore wind"
+      },
+      {
+        "id": "offwind",
+        "label": "Offshore wind"
+      },
+      {
+        "id": "solar",
+        "label": "Solar"
+      },
+      {
+        "id": "thermal",
+        "label": "Thermal"
+      },
+      {
+        "id": "import",
+        "label": "Net imports"
+      }
+    ],
+    "runs": [
+      {
+        "id": "reference",
+        "label": "Reference, no new datacenters",
+        "values": {
+          "hydro": 67.8,
+          "nuclear": 49.7,
+          "onwind": 61.0,
+          "offwind": 0.7,
+          "solar": 5.7,
+          "thermal": 12.2,
+          "net_import": 1.1
+        }
+      },
+      {
+        "id": "T0",
+        "values": {
+          "hydro": 68.6,
+          "nuclear": 50.4,
+          "onwind": 66.0,
+          "offwind": 4.3,
+          "solar": 8.0,
+          "thermal": 13.3,
+          "net_import": 23.0
+        }
+      },
+      {
+        "id": "T1",
+        "values": {
+          "hydro": 68.6,
+          "nuclear": 50.3,
+          "onwind": 65.5,
+          "offwind": 8.0,
+          "solar": 8.0,
+          "thermal": 13.1,
+          "net_import": 20.1
+        }
+      },
+      {
+        "id": "T1b",
+        "values": {
+          "hydro": 68.7,
+          "nuclear": 66.4,
+          "onwind": 63.7,
+          "offwind": 15.6,
+          "solar": 8.0,
+          "thermal": 12.2,
+          "net_import": -0.7
+        }
+      },
+      {
+        "id": "T2",
+        "values": {
+          "hydro": 68.6,
+          "nuclear": 49.9,
+          "onwind": 62.7,
+          "offwind": 0.7,
+          "solar": 8.0,
+          "thermal": 12.4,
+          "net_import": -1.9
+        }
+      }
+    ],
+    "note": "Hydropower is about the same in all runs because inflow follows the weather year 2023. Thermal is mainly biomass-fired combined heat and power."
+  }
 }

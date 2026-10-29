@@ -3508,3 +3508,82 @@ html:has(.pf-v2) {
   margin-top: 2.4rem;
   margin-bottom: 0.6rem;
 }
+
+/* Electricity mix by run */
+.pf-mix {
+  max-width: 60rem;
+  margin: 1.6rem 0 1rem;
+}
+.pf-mix figcaption {
+  margin-bottom: 0.6rem;
+  color: var(--pf-secondary);
+  font-size: 0.82rem;
+}
+.pf-v2 .pf-mix-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+  margin: 0 0 0.8rem;
+  color: var(--pf-secondary);
+  font-size: 0.78rem !important;
+}
+.pf-mix .pf-bar-row {
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 5.5rem;
+}
+.pf-mix .pf-bar-track {
+  height: 1.7rem;
+  gap: 1px;
+}
+.pf-mix-part {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.pf-mix-hydro {
+  background: #5f7f96;
+}
+.pf-mix-nuclear {
+  background: #b0894f;
+}
+.pf-mix-onwind {
+  background: #7d9a7a;
+}
+.pf-mix-offwind {
+  background: #4f6f57;
+}
+.pf-mix-solar {
+  background: #d9bd62;
+  color: var(--pf-ink);
+}
+.pf-mix-thermal {
+  background: #9b8f86;
+}
+.pf-mix-import {
+  background: repeating-linear-gradient(135deg, #b9b3aa 0 4px, #e4e0d8 4px 8px);
+  color: var(--pf-ink);
+}
+.pf-mix .pf-key {
+  border-radius: 2px;
+}
+.pf-v2 .pf-mix-trade {
+  color: var(--pf-secondary);
+  font-size: 0.78rem !important;
+}
+.pf-mix .pf-bar-reference .pf-bar-label {
+  color: var(--pf-secondary);
+}
+@media (max-width: 600px) {
+  .pf-mix .pf-bar-row {
+    grid-template-columns: minmax(0, 1fr) 4.6rem;
+  }
+}
+@media (max-width: 600px) {
+  .pf-mix-small {
+    font-size: 0 !important;
+  }
+}

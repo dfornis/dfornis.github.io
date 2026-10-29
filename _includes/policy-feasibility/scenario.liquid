@@ -129,45 +129,53 @@
   <div id="pf-additionality" class="pf-callout">
     <h3>Is new generation additional?</h3>
     <p>
-      In the runs with the new datacenters, the model builds onshore wind up to its limit of 70 TWh a year even without a requirement (T0). Under T1,
-      the requirement can therefore be met with onshore wind that the model builds anyway. T1b counts only generation that the model would not
-      otherwise build, mainly offshore wind and new nuclear power. The results thus depend on how a requirement is specified, not only on whether
-      there is one.
+      In all runs, the model builds onshore wind in Sweden up to, or very close to, its limit, which corresponds to 70 TWh a year in an average year.
+      Under T1, the requirement can therefore be met with onshore wind that the model builds anyway, and the electricity mix is almost the same as in
+      T0. T1b counts only generation that the model would not otherwise build. In that run, the model adds new nuclear power and offshore wind, and
+      Sweden no longer imports electricity on net. The results thus depend on how a requirement is specified, not only on whether there is one.
     </p>
-    {% assign ad = sc.additionality %}
-    <figure class="pf-stack" aria-labelledby="pf-stack-caption">
-      <figcaption id="pf-stack-caption">Requirement, {{ ad.required_twh }} TWh · how it is met in Sweden</figcaption>
-      {% for a in ad.cases %}
-        {% assign t = pf.trajectories | where: 'id', a.id | first %}
-        <div class="pf-bar-row" data-trajectory="{{ a.id }}">
-          <span class="pf-bar-label"
-            ><small>{{ a.id }}</small>{{ t.short_title -}}
-          </span>
-          <span class="pf-bar-track">
-            {%- if a.new_twh == null -%}
-              <span class="pf-bar-pending"
-                >pending{% if a.note %} · {{ a.note }}{% endif -%}
-              </span>
+    {% assign mix = sc.mix %}
+    <figure class="pf-mix" aria-labelledby="pf-mix-caption">
+      <figcaption id="pf-mix-caption">{{ mix.title }}</figcaption>
+      <p class="pf-mix-legend">
+        {% for k in mix.carriers %}
+          <span><span class="pf-key pf-mix-{{ k.id }}" aria-hidden="true"></span>{{ k.label }}</span>
+        {% endfor %}
+      </p>
+      {% for r in mix.runs %}
+        {% assign t = pf.trajectories | where: 'id', r.id | first %}
+        <div class="pf-bar-row pf-mix-row{% if r.id == 'reference' %} pf-bar-reference{% endif %}" data-trajectory="{{ r.id }}">
+          <span class="pf-bar-label">
+            {%- if t -%}
+              <small>{{ r.id }}</small>{{ t.short_title }}
             {%- else -%}
-              <span
-                class="pf-stack-part pf-stack-relabelled"
-                style="width: {{ a.relabelled_twh | times: 100.0 | divided_by: ad.scale_max }}%"
-              ></span
-              ><span class="pf-stack-part pf-stack-new" style="width: {{ a.new_twh | times: 100.0 | divided_by: ad.scale_max }}%"></span>
+              {{ r.label }}
             {%- endif -%}
           </span>
-          <span class="pf-bar-value"></span>
-          {% if a.new_twh != null %}
-            <span class="pf-stack-detail">
-              <span><span class="pf-key pf-stack-relabelled" aria-hidden="true"></span>~{{ a.relabelled_twh }} TWh relabelled</span>
-              <span><span class="pf-key pf-stack-new" aria-hidden="true"></span>~{{ a.new_twh }} TWh new</span>
-            </span>
-          {% endif %}
+          <span class="pf-bar-track">
+            {%- for k in mix.carriers -%}
+              {%- if k.id == 'import' -%}{%- assign v = r.values.net_import -%}{%- else -%}{%- assign v = r.values[k.id] -%}{%- endif -%}
+              {%- if v > 0 -%}
+                <span
+                  class="pf-mix-part pf-mix-{{ k.id }}{% if v < 25 %} pf-mix-small{% endif %}"
+                  style="width: {{ v | times: 100.0 | divided_by: mix.scale_max }}%"
+                  title="{{ k.label }}: {{ v | round }} TWh"
+                >
+                  {%- if v >= 12 %}{{ v | round }}{% endif -%}
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+          <span class="pf-bar-value pf-mix-trade">
+            {%- if r.values.net_import >= 0 -%}
+              +{{ r.values.net_import | round }} import
+            {%- else -%}
+              {{ r.values.net_import | abs | round }} export
+            {%- endif -%}
+          </span>
         </div>
       {% endfor %}
-      <p class="pf-caption">
-        Relabelled: generation that the model also builds in T0. New: generation that the model builds only because of the requirement.
-      </p>
+      <p class="pf-caption">{{ mix.note }}</p>
     </figure>
     <p class="pf-caption">{{ ad.note }}</p>
   </div>
