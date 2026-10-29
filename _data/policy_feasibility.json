@@ -135,8 +135,8 @@
     {
       "id": "T2",
       "verb": "Halt",
-      "title": "Halt new establishments",
-      "short_title": "Establishment stop",
+      "title": "Stop new datacenters",
+      "short_title": "Stop on new datacenters",
       "summary": "No new commercial datacenters may open from 2028.",
       "origin": "Campaigners in Ireland call for a nationwide moratorium, and Maine’s legislature has voted for a temporary stop. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2028.",
       "status": "Moratorium",
@@ -293,7 +293,7 @@
           "evidence": ["E13", "E79", "E08", "E40", "E78"]
         },
         "T2": {
-          "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the mapped party proposals seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
+          "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the party proposals we found seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
           "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
         }
       },
@@ -314,7 +314,7 @@
           "judgement": "T1 is easier to build an agreement around: it preserves an investment route while requiring new supply. T2 would gain ground if those commitments failed to address the grievances driving opposition.",
           "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E40", "E78", "E13", "E86"],
-          "takeaway": "T1 has identifiable reform advocates. A coalition for T2 would have to accept the loss of new establishments."
+          "takeaway": "T1 has identifiable reform advocates. A coalition for T2 would have to accept that no new datacenters open."
         }
       },
       "overview": {
@@ -332,7 +332,7 @@
         "expanded": {
           "T0-T1": "Lower exposure to price and connection pressures gives T1’s advocates less opportunity to recruit households and industrial users. Business support for voluntary contracts faces fewer immediate conflicts.",
           "T0-T2": "T0 retains established business support. T2 needs allies willing to halt investment despite reduced electricity pressures.",
-          "T1-T2": "T1 retains identifiable reform advocates. T2 still requires a coalition willing to accept the loss of new establishments."
+          "T1-T2": "T1 retains identifiable reform advocates. T2 still requires a coalition willing to accept the loss of new datacenters."
         }
       },
       "development_evidence": ["E13", "E40", "E76", "E77", "E78", "E79", "E82", "E84", "E86", "E89"]
@@ -839,7 +839,7 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2028 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, we apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag.",
+  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, we apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
@@ -999,7 +999,7 @@
         },
         "T1-T2": {
           "title": "T1 remains the more feasible reform",
-          "text": "T1 has reform advocates and allows new establishments alongside additional generation. Persistent connection shortages strengthen the case for T2 among competing grid users, since national generation requirements can leave local queues unresolved. T1’s existing political support and lower losses for developers still give it the clearer route to adoption.",
+          "text": "T1 has reform advocates and allows new datacenters alongside additional generation. Persistent connection shortages strengthen the case for T2 among competing grid users, since national generation requirements can leave local queues unresolved. T1’s existing political support and lower losses for developers still give it the clearer route to adoption.",
           "shift": "Unresolved connection queues give industrial users more reason to consider T2, even when T1 promises new generation.",
           "coalitions": {
             "T1": [
@@ -1137,7 +1137,7 @@
         },
         "T1-T2": {
           "title": "T1 retains the stronger case for reform",
-          "text": "T1 can draw on existing proposals to combine new investment with climate commitments. T2 requires supporters to accept the loss of new establishments while offering less relief from electricity constraints. The balance of coalition support, adjustment costs and institutional requirements continues to favour T1.",
+          "text": "T1 can draw on existing proposals to combine new investment with climate commitments. T2 requires supporters to accept the loss of new datacenters while offering less relief from electricity constraints. The balance of coalition support, adjustment costs and institutional requirements continues to favour T1.",
           "shift": "More capacity weakens the case for T2 among competing electricity users. T1 retains its existing reform advocates.",
           "coalitions": {
             "T1": [
@@ -1214,7 +1214,7 @@
   ],
   "initial_synthesis": {
     "T0-T1": "T0 has the stronger starting position. T1 has reform advocates, but needs a parliamentary majority and agreement on which generation qualifies.",
-    "T0-T2": "T0 has stronger organised support and follows established procedures. T2 requires a coalition willing to halt new establishments and defend that restriction.",
+    "T0-T2": "T0 has stronger organised support and follows established procedures. T2 requires a coalition willing to stop new datacenters and defend that decision.",
     "T1-T2": "T1 has a clearer route to reform, because it permits investment subject to a generation requirement. T2 needs broader acceptance of the losses from stopping new sites."
   },
   "model_application": {
