@@ -43,12 +43,9 @@
     <h3>Model runs for {{ sc.model.result_year }}</h3>
     <p class="pf-prose">
       To explore what the choice of trajectory can mean in a model, I ran all four trajectories in a power system model of the Nordic countries for
-      {{ sc.model.result_year }}, together with a reference run without the new datacenters. In the T0 run, other Swedish electricity customers pay
-      about {{ c_t0.values.other_bill }} billion euros a year more than in the reference run. In the T1 run, the figure is
-      {{ c_t1.values.other_bill }} billion, because the requirement is mostly met with onshore wind that the model also builds in T0. In the T1b run,
-      it is {{ c_t1b.values.other_bill }} billion, and the datacenters pay about a tenth more for their electricity than in T0. In the T2 run, it is
-      {{ c_t2.values.other_bill }} billion. What remains in T2 comes from datacenters in Norway and Finland, which are included in all runs, and from
-      Swedish projects that open before 2028.
+      {{ sc.model.result_year }}, together with a reference run without the new datacenters. A requirement that counts any new fossil-free generation
+      (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind that the model builds anyway. A requirement
+      for additional generation (T1b) and a stop for new datacenters (T2) both reduce the extra cost for other Swedish customers by more than half.
     </p>
     {% assign m_price = sc.metrics | where: 'id', 'price_se' | first %}
     <figure class="pf-bars" aria-labelledby="pf-bars-caption">
@@ -132,11 +129,10 @@
   <div id="pf-additionality" class="pf-callout">
     <h3>Is new generation additional?</h3>
     <p>
-      In the model, onshore wind in Sweden is limited to 70 TWh a year, the lower of the Swedish Energy Agency’s estimates of the potential. In the
-      runs with the new datacenters, the model builds onshore wind up to this limit even without a requirement (T0). Under T1, the requirement can
-      therefore be met with onshore wind that the model would build anyway. T1b counts only generation that the model would not otherwise build,
-      mainly offshore wind and new nuclear power. This is why prices are lower in the T1b run. The results thus depend on how a requirement is
-      specified, not only on whether there is one.
+      In the runs with the new datacenters, the model builds onshore wind up to its limit of 70 TWh a year even without a requirement (T0). Under T1,
+      the requirement can therefore be met with onshore wind that the model builds anyway. T1b counts only generation that the model would not
+      otherwise build, mainly offshore wind and new nuclear power. The results thus depend on how a requirement is specified, not only on whether
+      there is one.
     </p>
     {% assign ad = sc.additionality %}
     <figure class="pf-stack" aria-labelledby="pf-stack-caption">

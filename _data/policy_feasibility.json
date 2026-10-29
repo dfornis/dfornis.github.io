@@ -67,8 +67,8 @@
       "scenario_use": "Sensitivity case",
       "profile": {
         "coalition_alignment": {
-          "rating": "mixed",
-          "text": "Social Democrats, Greens, Svenska kraftnät, some firms"
+          "rating": "favourable",
+          "text": "Broad and growing support from Social Democrats, Greens, Svenska kraftnät and some firms"
         },
         "institutional_constraints": {
           "rating": "mixed",
@@ -283,7 +283,7 @@
           "evidence": ["E43", "E44", "E76", "E84", "E89"]
         },
         "T1": {
-          "assessment": "The Swedish Green Party proposes a renewable-generation requirement. The Social Democrats call for datacenters to contribute electricity production. Together, the two parties hold 121 of 349 seats. EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating a broader fossil-free requirement. Uniper wants nuclear power and lifetime extensions included. The reform has advocates, but they differ over which generation should qualify.",
+          "assessment": "The Swedish Green Party proposes a renewable-generation requirement. The Social Democrats call for datacenters to contribute electricity production. Together, the two parties hold 121 of 349 seats. EcoDataCenter supports additionality requirements. Svenska kraftnät proposes investigating a broader fossil-free requirement. Uniper wants nuclear power and lifetime extensions included. Support is broad and growing, but the advocates differ over which generation should qualify.",
           "uncertainty": "A joint party proposal specifying eligible generation and a negotiating agreement with affected businesses would strengthen T1.",
           "evidence": ["E08", "E13", "E40", "E78", "E79", "E82"]
         },
@@ -302,7 +302,7 @@
           "judgement": "T0 has the stronger starting position, but its business support is vulnerable to conflict between electricity users. T1 offers a possible agreement between expansion advocates and groups demanding that developers add supply. Its present advocates still need a wider parliamentary majority and agreement over eligible generation.",
           "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E76", "E84", "E89", "E40", "E78", "E79", "E82"],
-          "takeaway": "Business associations defend voluntary contracts. T1’s advocates include the Green Party, Social Democrats and developers supporting additional generation."
+          "takeaway": "Business associations defend voluntary contracts, while SKGS is in between. The coalition for T1 is broader and growing, with the Green Party, the Social Democrats, Svenska kraftnät and some firms."
         },
         "T0-T2": {
           "judgement": "T0 has stronger organised support. For T2 to overtake it, electricity-cost and connection conflicts would need to produce an alliance willing to block new sites, with parties able to legislate for it.",
@@ -839,7 +839,7 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2028 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, I apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration.",
+  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, I apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration. All four trajectories cover the same projects. These are new commercial datacenters in Sweden that open from 2028 or have no announced opening date. Existing datacenters and their expansions are not covered.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
@@ -1213,7 +1213,7 @@
     }
   ],
   "initial_synthesis": {
-    "T0-T1": "T0 has the stronger starting position. T1 has reform advocates, but needs a parliamentary majority and agreement on which generation qualifies.",
+    "T0-T1": "T1 now has the stronger position. Support for a requirement is broad and growing, and rising bills strengthen it. T0 keeps the advantage that it needs no new legislation, and T1 still needs agreement on which generation qualifies.",
     "T0-T2": "T0 has stronger organised support and follows established procedures. T2 requires a coalition willing to stop new datacenters and defend that decision.",
     "T1-T2": "T1 has a clearer route to reform, because it permits investment subject to a generation requirement. T2 needs broader acceptance of the losses from stopping new sites."
   },
@@ -1228,7 +1228,7 @@
       "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
     "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until 2028 and then differ in their model inputs.",
-    "setting": "The scenario setting determines how the assessed trajectories enter a model. In this demonstration, T0 is the baseline of an adopted-policy scenario, as it has the stronger starting position in the assessment. T1 has organised support and is included as a sensitivity case. T1b and T2 have weaker support for now and are explored as alternatives to current policy in an exploratory scenario."
+    "setting": "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. The assessment gives T1 the stronger position, so it is included at least as a sensitivity case. T1b and T2 have weaker support for now and are explored as alternatives to current policy in an exploratory scenario."
   },
   "sensitivity_inputs": [
     {
