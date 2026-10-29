@@ -42,7 +42,7 @@
   "price_scale_max": 100,
   "reference": {
     "id": "none",
-    "label": "No new datacenters",
+    "label": "Reference, no new datacenters",
     "values": {
       "price_se": 61.7,
       "price_se3": 62.6,

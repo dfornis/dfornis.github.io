@@ -1220,7 +1220,7 @@
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
-    "feedback": "The model results show who gains and who loses under each policy. They can be used as evidence on adjustment burden and coalitions when the policy is next up for decision. The model does not cover competition for grid connections, which has to be assessed qualitatively.",
+    "feedback": "The model runs indicate who gains and who loses under each trajectory. Such results can feed back into the assessment of adjustment burden and coalitions before the next decision window. Competition for grid connections is not covered by the model and has to be assessed qualitatively.",
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
       "T1": "New sites must secure new fossil-free generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
@@ -1228,7 +1228,7 @@
       "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
     "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until 2028 and then differ in their model inputs.",
-    "setting": "How each trajectory is used depends on the type of scenario. In a scenario based on adopted policy, we suggest using T0 as the baseline and T1 as a sensitivity case. In an exploratory scenario, T1b and T2 can be modelled as alternatives to current policy."
+    "setting": "The scenario setting determines how the assessed trajectories enter a model. In this demonstration, T0 is the baseline of an adopted-policy scenario, as it has the stronger starting position in the assessment. T1 has organised support and is included as a sensitivity case. T1b and T2 have weaker support for now and are explored as alternatives to current policy in an exploratory scenario."
   },
   "sensitivity_inputs": [
     {
