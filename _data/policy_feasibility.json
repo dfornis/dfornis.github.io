@@ -138,7 +138,7 @@
       "title": "Halt new establishments",
       "short_title": "Establishment stop",
       "summary": "No new commercial datacenters may open from 2028.",
-      "origin": "Campaigners in Ireland call for a nationwide moratorium, and several US states have considered temporary stops. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2028.",
+      "origin": "Campaigners in Ireland call for a nationwide moratorium, and Maine’s legislature has voted for a temporary stop. Earlier pauses in electricity allocation also appear in the historical survey. Here that policy direction is specified as a Swedish stop on new openings from 2028.",
       "status": "Moratorium",
       "example": "A proposed site cannot open even if it has secured new renewable generation.",
       "evidence": ["E86", "E23", "E91", "E92"],
@@ -151,7 +151,7 @@
       "decisions": "Government prepares a national restriction; Parliament establishes its legal basis, transition rules and enforcement. Authorities apply those rules in individual cases.",
       "development": "2026–2027: legislate and manage projects already in preparation. From 2028: prevent new openings and maintain the stop.",
       "phases": ["Legislate and set transition rules", "No new sites may open"],
-      "origin_summary": "Irish moratorium campaigns · US state bills · Québec",
+      "origin_summary": "Irish moratorium campaigns · Maine · Québec",
       "scenario_use": "Alternative policy future",
       "profile": {
         "coalition_alignment": {
@@ -181,7 +181,7 @@
     {
       "country": "Ireland",
       "status": "Adopted policy and organised opposition · 2024–2026",
-      "contribution": "Ireland requires new renewable generation covering 80% of annual demand, with a six-year transition. Friends of the Earth campaigns for a national moratorium and challenges the regulator’s policy, citing climate goals and household energy costs.",
+      "contribution": "Ireland requires new renewable generation covering 80% of annual demand, with a six-year transition. Friends of the Earth campaigns for a national moratorium, citing climate goals and household energy costs.",
       "limit": "When does opposition seek tighter conditions, and when does it seek to halt expansion?",
       "evidence": ["E15", "E86", "E23"],
       "code": "IE",
@@ -219,7 +219,7 @@
       "status": "Federal pledge and state bills · 2026",
       "contribution": "The White House pledge asks companies to secure new generation and protect other customers from higher costs. In 2026, Maine’s legislature voted for a temporary stop on new datacenters above 20 MW, although it did not take effect. Similar bills have been introduced in about ten other states.",
       "evidence": ["E75", "E91", "E92", "E93"],
-      "heading": "Voluntary pledges and proposals for a stop",
+      "heading": "Voluntary pledges and a state moratorium bill",
       "limit": "Could voluntary commitments develop without a national generation law?",
       "featured": null
     },
@@ -294,7 +294,6 @@
         },
         "T2": {
           "assessment": "A stop could bring together electricity consumers, industrial users facing delays and opponents of resource-intensive expansion. Irish campaigners show how that demand can be organised. In Sweden, the mapped party proposals seek production contributions, while tech organisations seek expansion. A national stop therefore needs a much larger change in political alliances than T1.",
-          "uncertainty": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
           "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
         }
       },
@@ -346,13 +345,12 @@
       "literature": ["L01", "L12"],
       "cells": {
         "T0": {
-          "assessment": "Voluntary generation contracts fit the existing electricity-market framework. Continuing this arrangement requires no new sector legislation or compliance authority. Grid operators and the regulator retain their existing connection and supervision roles.",
+          "assessment": "Voluntary generation contracts fit the existing electricity-market framework. Continuing this arrangement requires no new sector legislation or compliance authority.",
           "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
           "evidence": ["E02", "E43"]
         },
         "T1": {
           "assessment": "In this legislative scenario, government must prepare a bill and Parliament must establish the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new datacenters and define how the requirement relates to non-discriminatory grid access.",
-          "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
           "evidence": ["E08", "E48", "E51"]
         },
         "T1b": {
@@ -361,7 +359,7 @@
           "evidence": ["E28", "E08", "E51"]
         },
         "T2": {
-          "assessment": "Sweden protects freedom of trade and requires impartial administration. A national moratorium would need legislation justified by an important public interest, with rules for pending projects. Politicians cannot direct the outcome of individual administrative cases covered by constitutional independence. This makes T2 a substantial legislative change; protecting selected competitors alone is not a sufficient basis.",
+          "assessment": "Sweden protects freedom of trade and requires impartial administration. A national moratorium would need legislation justified by an important public interest, with rules for pending projects. Protecting particular competitors would not be a sufficient reason.",
           "uncertainty": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
           "evidence": ["E87", "E88", "E48"]
         }
@@ -420,7 +418,6 @@
         },
         "T1": {
           "assessment": "A generation requirement can accommodate AI investment while responding to industrial decarbonisation and concern over bills. Its political appeal grows if the wider debate shifts from attracting investment towards who supplies the electricity and who benefits. The Swedish party proposals already combine these priorities.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E40", "E78", "E83", "E84"]
         },
         "T1b": {
@@ -430,7 +427,6 @@
         },
         "T2": {
           "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
         }
       },
@@ -484,11 +480,11 @@
       "cells": {
         "T0": {
           "assessment": "If new demand outpaces supply, households and industrial users face higher electricity bills. Firms can also lose years of investment returns while waiting for network capacity. Households can cut other spending or electricity use; firms can hedge, delay or relocate investment. SKGS represents industrial users in energy policy. Bensinupproret illustrates how household fuel costs can lead to organised demands for lower taxes.",
-          "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient.",
           "evidence": ["E83", "E84", "E89"]
         },
         "T1": {
-          "assessment": "New datacenter developers must finance generation or commit to long-term payments under a PPA. The contract option avoids having to build and operate a power plant themselves. However, T1 requires the new plant to be ready when the datacenter opens: a delayed generation project can therefore delay the datacenter. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
+          "assessment": "New datacenter developers must finance generation or commit to long-term payments under a PPA. T1 requires the new plant to be ready when the datacenter opens: a delayed generation project can therefore delay the datacenter. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
           "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges require a separate decision: neither trajectory changes who pays them.",
           "evidence": ["E08", "E43", "E15"]
         },
@@ -498,8 +494,7 @@
           "evidence": ["E08", "E43", "E15"]
         },
         "T2": {
-          "assessment": "Developers lose the option to open new sites; projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites retain an expansion route under this example’s definition. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Other consumers avoid the added demand from new datacenters, but this benefit has to be weighed against strong opposition from those who lose.",
-          "uncertainty": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
+          "assessment": "Developers lose the option to open new sites; projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites can still expand. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Other consumers avoid the added demand from new datacenters, but this benefit has to be weighed against strong opposition from those who lose.",
           "evidence": ["E77", "E83", "E87"]
         }
       },
@@ -567,7 +562,6 @@
         },
         "T2": {
           "assessment": "A national stop departs sharply from investment promotion and case-by-case administration. Firms and municipalities already preparing projects have reasons to resist it. If adopted, the stop could build support among users who benefit from reduced demand, while developers press for exceptions or reopening. Keeping it in place until 2035 would be a separate political challenge.",
-          "uncertainty": "Track policy feedback: whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop survive pressure for postponement and exemptions.",
           "evidence": ["E63", "E77", "E87", "E88", "E83"]
         }
       },
@@ -718,8 +712,8 @@
       "id": "crypto",
       "period": "2018 → 2019 → 2023",
       "technology": "Cryptocurrency mining · Québec",
-      "change": "Large electricity requests prompted scrutiny of the industry’s economic benefits. A study commissioned by Hydro-Québec found few direct jobs relative to the power requested.",
-      "response": "In 2019, a 300 MW allocation process ranked projects by jobs, payroll and investment per MW, plus heat recovery. Customers had to accept interruptions at peak demand. In 2023, the regulator suspended the remaining allocation process while the reserved capacity was reassessed.",
+      "change": "Large requests for power from cryptocurrency miners raised the question of how much the industry gave back in jobs.",
+      "response": "From 2019, a limited block of power was allocated to projects ranked by jobs and investment per MW, on interruptible terms. The remaining allocation was suspended in 2023.",
       "method_question": "Could disputes over regional benefits change the terms offered to a new electricity-intensive industry?",
       "source_ids": ["H01", "H02", "H04"]
     },
@@ -727,8 +721,8 @@
       "id": "wind",
       "period": "2008 → 2009",
       "technology": "Onshore wind · Denmark",
-      "change": "Wind development raised questions about property values, local ownership and who receives the benefits of new installations.",
-      "response": "The 2008 renewable-energy law introduced property-value compensation and offers of local ownership shares. These provisions applied from 2009, subject to transition rules.",
+      "change": "Wind development raised questions about property values and who benefits from new installations.",
+      "response": "From 2009, Danish law gave neighbours compensation for lost property value and the right to buy shares in new wind projects.",
       "method_question": "Who bears local losses from new electricity generation, and what compensation can help them adjust?",
       "source_ids": ["H03"]
     }
@@ -900,7 +894,7 @@
   },
   "historical_mobilisation": {
     "title": "Bensinupproret · Sweden, 2019",
-    "text": "Bensinupproret organised motorists through social media and demonstrations, demanding lower fuel taxes. Participants stressed the cost of commuting and their dependence on cars outside cities. A parliamentary motion cited the movement in proposing a halt to further fuel-tax increases; Parliament rejected it.",
+    "text": "Bensinupproret organised motorists through social media and demonstrations, demanding lower fuel taxes. Participants stressed the cost of commuting and their dependence on cars outside cities.",
     "method_question": "When could household energy costs turn into organised demands to change policy?",
     "evidence": ["E89", "E90"]
   },
@@ -1293,7 +1287,7 @@
     {
       "id": "restriction",
       "title": "Restrictions on new sites",
-      "where": "Irish moratorium campaign · state bills in the US · Québec’s capped allocation",
+      "where": "Irish moratorium campaign · Maine’s moratorium bill · Québec’s capped allocation",
       "asks": "Fewer or no new sites",
       "codes": ["IE"]
     },
