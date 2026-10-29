@@ -130,52 +130,42 @@
     <h3>Is new generation additional?</h3>
     <p>
       In all runs, the model builds onshore wind in Sweden up to, or very close to, its limit, which corresponds to 70 TWh a year in an average year.
-      Under T1, the requirement can therefore be met with onshore wind that the model builds anyway, and the electricity mix is almost the same as in
-      T0. T1b counts only generation that the model would not otherwise build. In that run, the model adds new nuclear power and offshore wind, and
-      Sweden no longer imports electricity on net. The results thus depend on how a requirement is specified, not only on whether there is one.
+      Under T1, most of the requirement can therefore be met with onshore wind that the model builds anyway. In T0 and T1, most of the added
+      electricity use is covered by imports, although T1 adds some offshore wind. T1b counts only generation that the model would not otherwise build,
+      and in that run the model adds new nuclear power and offshore wind instead. The results thus depend on how a requirement is specified, not only
+      on whether there is one.
     </p>
-    {% assign mix = sc.mix %}
+    {% assign dm = sc.mix.delta %}
     <figure class="pf-mix" aria-labelledby="pf-mix-caption">
-      <figcaption id="pf-mix-caption">{{ mix.title }}</figcaption>
+      <figcaption id="pf-mix-caption">{{ dm.title }}</figcaption>
       <p class="pf-mix-legend">
-        {% for k in mix.carriers %}
+        {% for k in dm.carriers %}
           <span><span class="pf-key pf-mix-{{ k.id }}" aria-hidden="true"></span>{{ k.label }}</span>
         {% endfor %}
       </p>
-      {% for r in mix.runs %}
+      {% for r in dm.runs %}
         {% assign t = pf.trajectories | where: 'id', r.id | first %}
-        <div class="pf-bar-row pf-mix-row{% if r.id == 'reference' %} pf-bar-reference{% endif %}" data-trajectory="{{ r.id }}">
-          <span class="pf-bar-label">
-            {%- if t -%}
-              <small>{{ r.id }}</small>{{ t.short_title }}
-            {%- else -%}
-              {{ r.label }}
-            {%- endif -%}
-          </span>
-          <span class="pf-bar-track">
-            {%- for k in mix.carriers -%}
-              {%- if k.id == 'import' -%}{%- assign v = r.values.net_import -%}{%- else -%}{%- assign v = r.values[k.id] -%}{%- endif -%}
-              {%- if v > 0 -%}
-                <span
-                  class="pf-mix-part pf-mix-{{ k.id }}{% if v < 25 %} pf-mix-small{% endif %}"
-                  style="width: {{ v | times: 100.0 | divided_by: mix.scale_max }}%"
-                  title="{{ k.label }}: {{ v | round }} TWh"
-                >
-                  {%- if v >= 12 %}{{ v | round }}{% endif -%}
-                </span>
-              {%- endif -%}
+        <div class="pf-bar-row pf-mix-row" data-trajectory="{{ r.id }}">
+          <span class="pf-bar-label"
+            ><small>{{ r.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span></span
+          >
+          <span class="pf-mix-track">
+            {%- for g in r.segments -%}
+              {%- assign c = dm.carriers | where: 'id', g.key | first -%}
+              <span
+                class="pf-mix-part pf-mix-{{ g.key }}{% if g.value < 4 and g.value > -4 %} pf-mix-small{% endif %}"
+                style="left: {{ g.left }}%; width: {{ g.width }}%"
+                title="{{ c.label }}: {{ g.value }} TWh"
+              >
+                {%- if g.value >= 4 %}+{{ g.value | round }}{% endif -%}
+              </span>
             {%- endfor -%}
+            <span class="pf-mix-axis" style="left: {{ dm.axis_left }}%" aria-hidden="true"></span>
           </span>
-          <span class="pf-bar-value pf-mix-trade">
-            {%- if r.values.net_import >= 0 -%}
-              +{{ r.values.net_import | round }} import
-            {%- else -%}
-              {{ r.values.net_import | abs | round }} export
-            {%- endif -%}
-          </span>
+          <span class="pf-bar-value pf-mix-trade">+{{ r.total }} TWh</span>
         </div>
       {% endfor %}
-      <p class="pf-caption">{{ mix.note }}</p>
+      <p class="pf-caption">{{ dm.note }}</p>
     </figure>
     <p class="pf-caption">{{ ad.note }}</p>
   </div>

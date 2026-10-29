@@ -310,6 +310,201 @@
         }
       }
     ],
-    "note": "Hydropower is about the same in all runs because inflow follows the weather year 2023. Thermal is mainly biomass-fired combined heat and power."
+    "note": "Hydropower is about the same in all runs because inflow follows the weather year 2023. Thermal is mainly biomass-fired combined heat and power.",
+    "delta": {
+      "axis_left": 11.11,
+      "runs": [
+        {
+          "id": "T0",
+          "total": 35.0,
+          "segments": [
+            {
+              "key": "nuclear",
+              "value": 0.7,
+              "left": 11.11,
+              "width": 1.56
+            },
+            {
+              "key": "onwind",
+              "value": 5.0,
+              "left": 12.67,
+              "width": 11.11
+            },
+            {
+              "key": "offwind",
+              "value": 3.6,
+              "left": 23.78,
+              "width": 8.0
+            },
+            {
+              "key": "solar",
+              "value": 2.3,
+              "left": 31.78,
+              "width": 5.11
+            },
+            {
+              "key": "other",
+              "value": 1.9,
+              "left": 36.89,
+              "width": 4.22
+            },
+            {
+              "key": "import",
+              "value": 21.9,
+              "left": 41.11,
+              "width": 48.67
+            }
+          ]
+        },
+        {
+          "id": "T1",
+          "total": 35.0,
+          "segments": [
+            {
+              "key": "nuclear",
+              "value": 0.6,
+              "left": 11.11,
+              "width": 1.33
+            },
+            {
+              "key": "onwind",
+              "value": 4.5,
+              "left": 12.44,
+              "width": 10.0
+            },
+            {
+              "key": "offwind",
+              "value": 7.3,
+              "left": 22.44,
+              "width": 16.22
+            },
+            {
+              "key": "solar",
+              "value": 2.3,
+              "left": 38.67,
+              "width": 5.11
+            },
+            {
+              "key": "other",
+              "value": 1.7,
+              "left": 43.78,
+              "width": 3.78
+            },
+            {
+              "key": "import",
+              "value": 19.0,
+              "left": 47.56,
+              "width": 42.22
+            }
+          ]
+        },
+        {
+          "id": "T1b",
+          "total": 36.0,
+          "segments": [
+            {
+              "key": "nuclear",
+              "value": 16.7,
+              "left": 11.11,
+              "width": 37.11
+            },
+            {
+              "key": "onwind",
+              "value": 2.7,
+              "left": 48.22,
+              "width": 6.0
+            },
+            {
+              "key": "offwind",
+              "value": 14.9,
+              "left": 54.22,
+              "width": 33.11
+            },
+            {
+              "key": "solar",
+              "value": 2.3,
+              "left": 87.33,
+              "width": 5.11
+            },
+            {
+              "key": "other",
+              "value": 0.9,
+              "left": 92.44,
+              "width": 2.0
+            },
+            {
+              "key": "import",
+              "value": -1.8,
+              "left": 7.11,
+              "width": 4.0
+            }
+          ]
+        },
+        {
+          "id": "T2",
+          "total": 2.0,
+          "segments": [
+            {
+              "key": "nuclear",
+              "value": 0.2,
+              "left": 11.11,
+              "width": 0.44
+            },
+            {
+              "key": "onwind",
+              "value": 1.7,
+              "left": 11.56,
+              "width": 3.78
+            },
+            {
+              "key": "solar",
+              "value": 2.3,
+              "left": 15.33,
+              "width": 5.11
+            },
+            {
+              "key": "other",
+              "value": 1.0,
+              "left": 20.44,
+              "width": 2.22
+            },
+            {
+              "key": "import",
+              "value": -3.0,
+              "left": 4.44,
+              "width": 6.67
+            }
+          ]
+        }
+      ],
+      "title": "How the added electricity use is covered, compared with the reference run · TWh",
+      "carriers": [
+        {
+          "id": "nuclear",
+          "label": "Nuclear"
+        },
+        {
+          "id": "onwind",
+          "label": "Onshore wind"
+        },
+        {
+          "id": "offwind",
+          "label": "Offshore wind"
+        },
+        {
+          "id": "solar",
+          "label": "Solar"
+        },
+        {
+          "id": "import",
+          "label": "Net imports"
+        },
+        {
+          "id": "other",
+          "label": "Hydro and thermal"
+        }
+      ],
+      "note": "Right of the line: more generation or imports than in the reference run. Left: less. The total is close to the datacenters’ electricity use in Sweden (36 TWh), except in T2, where few new datacenters open."
+    }
   }
 }

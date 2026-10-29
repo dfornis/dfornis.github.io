@@ -3587,3 +3587,71 @@ html:has(.pf-v2) {
     font-size: 0 !important;
   }
 }
+/* Mix: label stays left of its bar on narrow screens, with short names */
+.pf-mix-short {
+  display: none;
+}
+@media (max-width: 760px) {
+  .pf-mix .pf-bar-row {
+    grid-template-columns: 2.4rem minmax(0, 1fr) 4.4rem;
+    gap: 0.5rem;
+  }
+  .pf-mix .pf-bar-label {
+    grid-column: auto;
+  }
+  .pf-mix-name {
+    display: none;
+  }
+  .pf-mix-short {
+    display: inline;
+    color: var(--pf-secondary);
+    font-size: 0.78rem;
+  }
+  .pf-v2 .pf-mix-trade {
+    font-size: 0.72rem !important;
+  }
+}
+
+/* Mix as change from the reference run (diverging bars) */
+.pf-mix-track {
+  position: relative;
+  display: block;
+  height: 1.7rem;
+}
+.pf-mix-track .pf-mix-part {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.pf-mix-axis {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  border-left: 1.5px solid var(--pf-ink);
+}
+.pf-mix-other {
+  background: #c9c9be;
+}
+.pf-mix-other,
+.pf-mix-solar,
+.pf-mix-import {
+  color: var(--pf-ink);
+}
+.pf-mix-small {
+  font-size: 0 !important;
+}
+.pf-mix .pf-bar-row {
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 4.5rem;
+}
+@media (max-width: 760px) {
+  .pf-mix .pf-bar-row {
+    grid-template-columns: 2.4rem minmax(0, 1fr) 4.2rem;
+    gap: 0.5rem;
+  }
+  .pf-mix .pf-bar-label {
+    grid-column: auto;
+  }
+  .pf-mix-name {
+    display: none;
+  }
+}
