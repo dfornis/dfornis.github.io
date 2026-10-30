@@ -1220,7 +1220,7 @@
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
-    "feedback": "The model runs indicate who gains and who loses under each trajectory. Such results can feed back into the assessment of adjustment burden and coalitions before the next decision window. Competition for grid connections is not covered by the model and has to be assessed qualitatively.",
+    "feedback": "The model runs indicate who gains and who loses under each trajectory. Such results can feed back into the assessment of adjustment burden and coalitions, and so into revised policy assumptions for the next round of modelling. Competition for grid connections is not covered by the model and has to be assessed qualitatively.",
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
       "T1": "New sites must secure new fossil-free generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
