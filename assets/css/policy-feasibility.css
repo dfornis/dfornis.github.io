@@ -3655,3 +3655,76 @@ html:has(.pf-v2) {
     display: none;
   }
 }
+
+/* Load profiles */
+.pf-loadprof {
+  margin: 1.2rem 0 0.4rem;
+}
+.pf-loadprof-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 1.6rem;
+}
+.pf-v2 .pf-loadprof-title {
+  margin: 0 0 0.3rem;
+  color: var(--pf-ink);
+  font-size: 0.82rem !important;
+  font-weight: 500;
+}
+.pf-loadprof svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.pf-lp-grid {
+  stroke: var(--pf-line);
+  stroke-width: 0.8;
+}
+.pf-lp-one {
+  stroke: var(--pf-secondary);
+  stroke-dasharray: 3 3;
+}
+.pf-lp-tick {
+  fill: var(--pf-secondary);
+  font-size: 11px;
+}
+.pf-lp-line {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.pf-lp-datacenters {
+  stroke: #4b6271;
+  stroke-width: 3;
+  background: #4b6271;
+}
+.pf-lp-heat {
+  stroke: #9a5b3c;
+  background: #9a5b3c;
+}
+.pf-lp-households {
+  stroke: #8a8f8b;
+  background: #8a8f8b;
+}
+.pf-lp-cars {
+  stroke: #b0894f;
+  background: #b0894f;
+}
+@media (max-width: 760px) {
+  .pf-loadprof-panels {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .pf-lp-tick {
+    font-size: 15px;
+  }
+}
+@media (max-width: 760px) {
+  .pf-loadprof-panels > div:first-child .pf-lp-tick {
+    font-size: 24px;
+  }
+  .pf-loadprof-panels > div:first-child .pf-lp-line {
+    stroke-width: 2.4;
+  }
+}

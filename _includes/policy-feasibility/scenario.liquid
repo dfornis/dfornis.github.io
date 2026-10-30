@@ -173,6 +173,60 @@
   </div>
 
   <div class="pf-drawers">
+    {% assign lp = sc.load_profiles %}
+    <details class="pf-drawer" id="pf-load-profiles">
+      <summary><strong>Electricity use in the model</strong><span>Where demand comes from and how it varies over the day and year</span></summary>
+      <div class="pf-drawer-body">
+        <p class="pf-prose">
+          Electricity use per bidding zone follows the Swedish Energy Agency’s current-policy scenario, broken down by county and sector in AI
+          Sweden’s Behovskartan. The scenario’s own growth in datacenter use after 2025 is removed and replaced by the projects in the tracker. Growth
+          after 2025 gets an hourly profile per sector. Electric cars, trucks and rail use Behovskartan’s typical profiles. Households and services
+          use measured 2023 data, and electric heating follows heat pumps at 2023 temperatures. Industry and hydrogen are flat. Large datacenters use
+          the hourly shape of Norwegian datacenters with monthly factors from Airon, and AI and HPC facilities are flat. There are no open hourly
+          series per sector for Sweden, so households, services and datacenters use Norwegian measured data from
+          <a href="https://data.elhub.no/">Elhub</a>.
+        </p>
+        <figure class="pf-loadprof" aria-labelledby="pf-loadprof-caption">
+          <p class="pf-mix-legend">
+            {% for sr in lp.series %}
+              <span><span class="pf-key pf-lp-{{ sr.id }}" aria-hidden="true"></span>{{ sr.label }}</span>
+            {% endfor %}
+          </p>
+          <div class="pf-loadprof-panels">
+            <div>
+              <p class="pf-loadprof-title">A week in January, {{ lp.zone }}</p>
+              <svg viewBox="-28 -8 640 232" role="img" aria-label="Hourly load profiles for one week in January">
+                {% for t in lp.week_ticks %}
+                  <line class="pf-lp-grid{% if t.v == 1 %} pf-lp-one{% endif %}" x1="0" x2="600" y1="{{ t.y }}" y2="{{ t.y }}" />
+                  <text class="pf-lp-tick" x="-8" y="{{ t.y | plus: 4 }}" text-anchor="end">{{ t.v }}</text>
+                {% endfor %}
+                {% for dname in lp.days %}
+                  <text class="pf-lp-tick" x="{{ forloop.index0 | times: 600.0 | divided_by: 7 | plus: 42.9 }}" y="222" text-anchor="middle">{{ dname }}</text>
+                {% endfor %}
+                {% for sr in lp.series %}<path class="pf-lp-line pf-lp-{{ sr.id }}" d="{{ sr.week }}" />{% endfor %}
+              </svg>
+            </div>
+            <div>
+              <p class="pf-loadprof-title">Monthly average, {{ lp.zone }}</p>
+              <svg viewBox="-28 -8 340 232" role="img" aria-label="Monthly average of the load profiles">
+                {% for t in lp.month_ticks %}
+                  <line class="pf-lp-grid{% if t.v == 1 %} pf-lp-one{% endif %}" x1="0" x2="300" y1="{{ t.y }}" y2="{{ t.y }}" />
+                  <text class="pf-lp-tick" x="-8" y="{{ t.y | plus: 4 }}" text-anchor="end">{{ t.v }}</text>
+                {% endfor %}
+                {% for mname in lp.months %}
+                  <text class="pf-lp-tick" x="{{ forloop.index0 | times: 300.0 | divided_by: 11 }}" y="222" text-anchor="middle">{{ mname }}</text>
+                {% endfor %}
+                {% for sr in lp.series %}<path class="pf-lp-line pf-lp-{{ sr.id }}" d="{{ sr.month }}" />{% endfor %}
+              </svg>
+            </div>
+          </div>
+          <p class="pf-caption" id="pf-loadprof-caption">
+            Hourly profiles relative to the yearly average (1 = average). Datacenters use almost the same power every hour. Their peak is about 5%
+            above the average, and July is about 7% above January because of cooling.
+          </p>
+        </figure>
+      </div>
+    </details>
     <details class="pf-drawer">
       <summary><strong>Matched hour by hour</strong><span>How much of datacenter use each portfolio covers in the same hour</span></summary>
       <div class="pf-drawer-body">
