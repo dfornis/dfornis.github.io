@@ -2,9 +2,6 @@
 (function (global) {
   "use strict";
   const countryNames = { SE: "Sweden", NO: "Norway", FI: "Finland" };
-  // Slate blue from the header illustration, with muted clay and sage companions.
-  const countryColors = { FI: "#4c7088", SE: "#9b6659", NO: "#5f7968" };
-  const familyIds = ["low", "stated", "high"];
   const displayDivisor = (measure) => (measure === "annual_twh" ? 1 : 1000);
   const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
   function range(point, measure = "mw") {
@@ -16,6 +13,8 @@
     return value + (point.unknown ? "*" : "");
   }
   const plottedValue = (point) => point.high;
+  // Upper cumulative values whose opening year comes from a source. Exported by the R model.
+  const reportedKey = { mw: "reported_mw_high", annual_twh: "reported_twh_high" };
 
   function assertTimeline(timeline, data) {
     if (timeline.version !== 3 || !Array.isArray(timeline.rows) || !Array.isArray(timeline.years) || timeline.years.length < 2)
@@ -28,7 +27,7 @@
     )
       throw new Error("The annual chart is awaiting a refresh for the latest project data.");
     const expected = new Set(
-      data.projects.flatMap((project) => timeline.years.flatMap((year) => familyIds.map((family) => `${project.project_id}:${year}:${family}`)))
+      data.projects.flatMap((project) => timeline.years.flatMap((year) => timeline.families.map(({ id: family }) => `${project.project_id}:${year}:${family}`)))
     );
     for (const row of timeline.rows) {
       if (!expected.delete(`${row.project_id}:${row.year}:${row.family}`)) throw new Error("Duplicate or unexpected annual capacity data.");
@@ -47,46 +46,32 @@
     return timeline;
   }
 
-  function makeSeries(timeline, data, options, filters = {}) {
-    // Reuse the table's project selection, then sum the exported annual intervals.
-    const selected = new Set(global.DCTracker.rowsFor(data, "stated_2035", filters).map((row) => row.project_id));
+  function makeSeries(timeline, data, options) {
     const projects = new Map(data.projects.map((project) => [project.project_id, project]));
-    const rows = timeline.rows.filter(
-      (row) =>
-        selected.has(row.project_id) &&
-        (options.hq === "none" || global.DCTrackerMap.matchesHq(projects.get(row.project_id), options.hq)) &&
-        row.family === options.family
-    );
-    const keyFor = (row) => projects.get(row.project_id).country;
-    const keys = [...new Set(rows.map(keyFor))].sort();
-    return keys.map((key) => ({
-      key,
-      label: countryNames[key] || key,
-      color: countryColors[key],
-      points: timeline.years.map((year) => ({
-        year,
-        ...global.DCTracker.sumBounds(
-          rows.filter((row) => keyFor(row) === key && row.year === year),
-          (options.measure || "mw") + "_low",
-          (options.measure || "mw") + "_high"
-        ),
-      })),
-    }));
+    const rows = timeline.rows.filter((row) => row.family === options.family &&
+      (options.hq === "none" || global.DCTrackerMap.matchesHq(projects.get(row.project_id), options.hq)));
+    return ["SE", "NO", "FI"].map((country) => ({ key: country, label: countryNames[country], color: `var(--dc-country-${country})`,
+      points: timeline.years.map((year) => {
+        const yearRows = rows.filter((row) => row.country === country && row.year === year);
+        const measure = options.measure || "mw";
+        return { year,
+          ...global.DCTracker.sumBounds(yearRows, `${measure}_low`, `${measure}_high`),
+          reported: reportedKey[measure] ? yearRows.reduce((sum, row) => sum + (row[reportedKey[measure]] || 0), 0) : null };
+      }) }));
   }
-
-  function capacityMax(timeline, data, measure = "mw") {
-    // Keep a fixed axis covering every country, scenario and project selection.
+  function capacityMax(timeline, data, measure = "mw", family = "announced") {
+    // The largest country's upper series in the selected tab sets the shared axis.
+    // HQ selections do not rescale it, so a selection shows its share of the tab.
     const totals = new Map();
-    for (const row of timeline.rows) {
-      const key = `${row.country}:${row.family}:${row.year}`;
-      totals.set(key, (totals.get(key) || 0) + (row[measure + "_high"] ?? 0));
+    for (const row of timeline.rows.filter((row) => row.family === family)) {
+      const key = `${row.country}:${row.year}`;
+      totals.set(key, (totals.get(key) || 0) + (row[`${measure}_high`] || 0));
     }
     return Math.max(0, ...totals.values()) / displayDivisor(measure) || 1;
   }
 
-  async function mount(container, data, initialView) {
+  async function mount(container, data, shared) {
     if (!container) return null;
-    let view = initialView;
     const message = container.querySelector(".dc-timeline-status");
     try {
       if (!global.d3) throw new Error("The chart library could not be loaded. Please reload the page.");
@@ -94,307 +79,174 @@
       if (!response.ok) throw new Error("Annual capacity data could not be loaded.");
       const timeline = assertTimeline(await response.json(), data);
       const d3 = global.d3;
-      const familySelect = container.querySelector("[name='timeline-family']");
-      const hqSelect = container.querySelector("[name='timeline-hq']");
       const measureInputs = container.querySelectorAll("[name='timeline-measure']");
-      const unitInputs = container.querySelectorAll("[name='timeline-unit']");
       const capacityView = container.querySelector("[data-timeline-capacity-view]");
       const readout = container.querySelector(".dc-timeline-readout");
       const chart = container.querySelector(".dc-timeline-chart");
       const table = container.querySelector(".dc-timeline-table");
       const unknownNote = container.querySelector(".dc-timeline-unknown");
-      const reducedMotion = global.matchMedia("(prefers-reduced-motion: reduce)");
       const svg = d3.select(chart).append("svg").attr("role", "img").attr("aria-labelledby", "dc-timeline-svg-title dc-timeline-svg-desc");
-      svg.append("title").attr("id", "dc-timeline-svg-title").text("Additional datacenter capacity in operation by year");
-      svg
-        .append("desc")
-        .attr("id", "dc-timeline-svg-desc")
-        .text(
-          "Cumulative additional site capacity in GW, from " +
-            timeline.years[0] +
-            " to " +
-            timeline.years.at(-1) +
-            ". Lines show the upper estimates and shaded bands show the range. The scale stays fixed across selections. All values are available in the data table."
-        );
-      const grid = svg.append("g").attr("class", "dc-timeline-grid");
-      const unit = svg.append("text").attr("class", "dc-timeline-unit").text("Additional capacity (GW)");
-      const axis = svg.append("g").attr("class", "dc-timeline-axis");
-      const milestoneLine = svg.append("line").attr("class", "dc-timeline-milestone");
-      const plots = svg.append("g");
-      const endLabels = svg.append("g");
-      const cursor = svg.append("g").attr("pointer-events", "none");
-      cursor.append("line").attr("class", "dc-timeline-cursor");
-      const overlay = svg.append("rect").attr("fill", "transparent");
-      let rendered = false;
+      svg.append("title").attr("id", "dc-timeline-svg-title");
+      svg.append("desc").attr("id", "dc-timeline-svg-desc");
+      const panelsLayer = svg.append("g");
       let selectedYear = timeline.years.at(-1);
       const resizeObserver = new ResizeObserver(() => render());
       resizeObserver.observe(chart);
-      [familySelect, hqSelect, ...measureInputs, ...unitInputs].forEach((control) => control.addEventListener("change", render));
+      [...measureInputs].forEach((control) => control.addEventListener("change", render));
+      const fmt = (value, measure) =>
+        measure === "annual_twh"
+          ? value.toLocaleString("en-US", { maximumFractionDigits: 1 }) + " TWh/year"
+          : (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 }) + " GW";
 
       function render() {
-        const electricity = container.querySelector("[name='timeline-unit']:checked").value === "twh";
+        const state = shared.get();
+        const electricity = state.measure === "twh";
         capacityView.setAttribute("aria-disabled", String(electricity));
         measureInputs.forEach((input) => {
           input.disabled = electricity;
         });
-        const options = {
-          family: familySelect.value,
-          hq: hqSelect.value,
-          measure: electricity ? "annual_twh" : container.querySelector("[name='timeline-measure']:checked").value,
-        };
-        const divisor = displayDivisor(options.measure);
-        const maxCapacity = capacityMax(timeline, data, options.measure);
+        const view = container.querySelector("[name='timeline-measure']:checked").value;
+        const measure = electricity ? "annual_twh" : view;
+        const added = measure === "annual_addition_mw";
+        const divisor = displayDivisor(measure);
+        const maxValue = capacityMax(timeline, data, measure, state.family);
         const measureLabels = {
-          mw: "Cumulative additions (GW)",
-          annual_addition_mw: "Added during year (GW)",
-          annual_twh: "Annual electricity use (TWh/year)",
+          mw: "New capacity since 2025 (GW)",
+          annual_addition_mw: "Capacity added during the year (GW)",
+          annual_twh: "Annual electricity use of new capacity (TWh/year)",
         };
-        unit.text(measureLabels[options.measure]);
-        svg.select("title").text(measureLabels[options.measure]);
-        svg
-          .select("desc")
-          .text(
-            (electricity
-              ? "Annual electricity use at each year's cumulative capacity added since " + timeline.years[0] + ". Values are full-year equivalents."
-              : timeline.measures[options.measure]) +
-              " Lines show the upper estimates and shaded bands show the range. The axis stays fixed across scenarios and filters for this measure."
-          );
-        const series = makeSeries(timeline, data, options, view.filters);
-        const visible = series.filter((series) => series.points.some((point) => plottedValue(point) > 0));
-        const unknown = series.some((series) => series.points.some((point) => point.unknown));
-        const duration = rendered && !reducedMotion.matches ? 380 : 0;
-        const animate = (selection) => {
-          selection.interrupt();
-          return duration ? selection.transition().duration(duration).ease(d3.easeCubicInOut) : selection;
-        };
-        message.textContent = !series.length
-          ? "No projects match this selection."
-          : !visible.length
-            ? unknown
-              ? "No quantified additions in this selection. Some capacity is unknown."
-              : "No additions with a reported timeline through 2035 in this selection."
-            : "";
-        message.hidden = !message.textContent;
+        svg.select("title").text(measureLabels[measure]);
+        svg.select("desc").text("One panel per country. The dark area is capacity with an opening year reported by a source. The light area is capacity where the opening year is estimated. The two areas together show the upper estimate. Values are listed in the table below the chart.");
+        // Cumulative split: reported part and estimated part of the upper value.
+        const cumulative = makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: electricity ? "annual_twh" : "mw" });
+        const totals = added ? makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: "annual_addition_mw" }) : cumulative;
+        const series = totals.map((country, index) => ({
+          ...country,
+          points: country.points.map((point, i) => {
+            const source = cumulative[index].points;
+            let reported = source[i].reported ?? 0;
+            if (added) reported = Math.max(0, reported - (i ? source[i - 1].reported ?? 0 : 0));
+            const high = point.high ?? 0;
+            reported = Math.min(reported, high);
+            return { ...point, reported, estimated: Math.max(0, high - reported) };
+          }),
+        }));
+        const unknown = series.some((country) => country.points.some((point) => point.unknown));
         unknownNote.hidden = !unknown;
+        message.textContent = series.every((country) => country.points.every((point) => !point.high))
+          ? unknown ? "No quantified additions in this selection. Some capacity has no MW figure." : "No additions in this selection."
+          : "";
+        message.hidden = !message.textContent;
+
         const width = Math.max(300, chart.clientWidth);
-        const compact = width < 620;
-        const height = compact ? 350 : 420;
-        const margin = {
-          left: compact ? 46 : 58,
-          right: compact ? 24 : 180,
-          top: 44,
-          bottom: 46,
-        };
-        const right = width - margin.right,
-          bottom = height - margin.bottom;
-        const x = d3
-          .scaleLinear()
-          .domain([timeline.years[0], timeline.years.at(-1)])
-          .range([margin.left, right]);
-        const y = d3.scaleLinear().domain([0, maxCapacity]).nice(5).range([bottom, margin.top]);
+        const stacked = width < 620;
+        const gap = 36, left = 44, panelHeight = stacked ? 190 : 300, top = 30, bottomPad = 28;
+        const panelWidth = stacked ? width - left - 10 : (width - left - 10 - 2 * gap) / 3;
+        const height = stacked ? 3 * (panelHeight + top + bottomPad) : panelHeight + top + bottomPad;
         svg.attr("viewBox", `0 0 ${width} ${height}`);
-        grid
-          .attr("transform", `translate(${margin.left},0)`)
-          .call(
-            d3
-              .axisLeft(y)
-              .ticks(5)
-              .tickSize(-(right - margin.left))
-              .tickFormat((value) => value.toLocaleString("en-US"))
-          )
-          .call((group) => group.select(".domain").remove());
-        unit.attr("x", margin.left).attr("y", 20);
-        const ticks = compact
-          ? timeline.years.filter((year, index) => (index % 2 === 0 && index < timeline.years.length - 2) || year === timeline.years.at(-1))
-          : timeline.years;
-        axis
-          .attr("transform", `translate(0,${bottom})`)
-          .call(d3.axisBottom(x).tickValues(ticks).tickFormat(d3.format("d")).tickSize(5).tickPadding(10));
-        const milestone = timeline.years.includes(2030) ? 2030 : null;
-        if (milestone) milestoneLine.attr("x1", x(milestone)).attr("x2", x(milestone)).attr("y1", margin.top).attr("y2", bottom);
-        const defined = (point) => point.low !== null && point.high !== null;
-        const area = d3
-          .area()
-          .defined(defined)
-          .x((point) => x(point.year))
-          .y0((point) => y(point.low / divisor))
-          .y1((point) => y(point.high / divisor));
-        const line = d3
-          .line()
-          .defined((point) => plottedValue(point) !== null)
-          .x((point) => x(point.year))
-          .y((point) => y(plottedValue(point) / divisor));
-        const groups = plots
-          .selectAll("g.dc-timeline-series")
-          .data(visible, (series) => series.key)
-          .join(
-            (enter) => enter.append("g").attr("class", "dc-timeline-series").attr("opacity", 0),
-            (update) => update,
-            (exit) => animate(exit).attr("opacity", 0).remove()
-          );
-        animate(groups).attr("opacity", 1);
-        groups.each(function (series) {
-          const group = d3.select(this);
-          const band = group
-            .selectAll("path.dc-timeline-band")
-            .data([series.points])
-            .join((enter) => enter.append("path").attr("class", "dc-timeline-band").attr("d", area))
-            .attr("fill", series.color)
-            .attr("opacity", 0.09);
-          animate(band).attr("d", area);
-          const stroke = group
-            .selectAll("path.dc-timeline-line")
-            .data([series.points])
-            .join((enter) => enter.append("path").attr("class", "dc-timeline-line").attr("d", line))
-            .attr("fill", "none")
-            .attr("stroke", series.color)
-            .attr("stroke-width", 2.1)
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round");
-          animate(stroke).attr("d", line);
-          const points = group
-            .selectAll("circle")
-            .data(
-              series.points.filter((point) => plottedValue(point) !== null),
-              (point) => point.year
-            )
-            .join((enter) => enter.append("circle").attr("cy", (point) => y(plottedValue(point) / divisor)))
-            .attr("cx", (point) => x(point.year))
-            .attr("r", 2.4)
-            .attr("fill", series.color);
-          animate(points).attr("cy", (point) => y(plottedValue(point) / divisor));
-        });
-        // Leave room for both the country name and its capacity range.
-        const labels = compact
-          ? []
-          : visible
-              .map((series) => ({
-                ...series,
-                end: series.points.at(-1),
-                labelY: y(plottedValue(series.points.at(-1)) / divisor),
-              }))
-              .sort((a, b) => a.labelY - b.labelY);
-        if (!compact) {
-          const gap = 50;
-          labels.forEach((label, index) => {
-            label.labelY = Math.max(label.labelY, index ? labels[index - 1].labelY + gap : margin.top);
-          });
-          if (labels.length && labels.at(-1).labelY > bottom - 10) {
-            labels.at(-1).labelY = bottom - 10;
-            for (let index = labels.length - 2; index >= 0; index--)
-              labels[index].labelY = Math.min(labels[index].labelY, labels[index + 1].labelY - gap);
+        const y = d3.scaleLinear().domain([0, maxValue]).nice(4).range([panelHeight, 0]);
+        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(series, (country) => country.key).join("g").attr("class", "dc-timeline-panel");
+        panels.each(function (country, index) {
+          const g = d3.select(this).html("");
+          const x0 = stacked ? left : left + index * (panelWidth + gap);
+          const y0 = stacked ? index * (panelHeight + top + bottomPad) + top : top;
+          g.attr("transform", `translate(${x0},${y0})`);
+          const x = d3.scaleLinear().domain([timeline.years[0], timeline.years.at(-1)]).range([0, panelWidth]);
+          g.append("text").attr("class", "dc-timeline-panel-title").attr("x", 0).attr("y", -12).text(country.label);
+          g.append("g").attr("class", "dc-timeline-grid")
+            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => (index && !stacked ? "" : value.toLocaleString("en-US"))))
+            .call((axis) => axis.select(".domain").remove());
+          const ticks = timeline.years.filter((year, i) => i === 0 || year === timeline.years.at(-1) || year === 2030);
+          g.append("g").attr("class", "dc-timeline-axis").attr("transform", `translate(0,${panelHeight})`)
+            .call(d3.axisBottom(x).tickValues(ticks).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
+            .call((axis) => axis.selectAll(".tick text").attr("text-anchor", (d, i, all) => (i === 0 ? "start" : i === all.length - 1 ? "end" : "middle")));
+          const v = (value) => y((value || 0) / divisor);
+          if (added) {
+            const band = panelWidth / timeline.years.length;
+            const bars = g.append("g");
+            country.points.forEach((point) => {
+              const bx = x(point.year) - band * 0.35, bw = band * 0.7;
+              bars.append("rect").attr("class", "dc-timeline-estimated").attr("x", bx).attr("width", bw)
+                .attr("y", v(point.reported + point.estimated)).attr("height", Math.max(0, v(point.reported) - v(point.reported + point.estimated)));
+              bars.append("rect").attr("class", "dc-timeline-reported").attr("x", bx).attr("width", bw)
+                .attr("y", v(point.reported)).attr("height", Math.max(0, v(0) - v(point.reported)));
+            });
+          } else {
+            g.append("path").datum(country.points).attr("class", "dc-timeline-estimated")
+              .attr("d", d3.area().x((p) => x(p.year)).y0((p) => v(p.reported)).y1((p) => v(p.reported + p.estimated)));
+            g.append("path").datum(country.points).attr("class", "dc-timeline-reported")
+              .attr("d", d3.area().x((p) => x(p.year)).y0(v(0)).y1((p) => v(p.reported)));
           }
-        }
-        const labelGroups = endLabels
-          .selectAll("g")
-          .data(labels, (label) => label.key)
-          .join(
-            (enter) => enter.append("g").attr("opacity", 0),
-            (update) => update,
-            (exit) => animate(exit).attr("opacity", 0).remove()
-          );
-        animate(labelGroups).attr("opacity", 1);
-        labelGroups.each(function (label) {
-          const group = d3.select(this);
-          const connector = `M${right + 5},${y(plottedValue(label.end) / divisor)}L${right + 17},${label.labelY - 4}`;
-          const path = group
-            .selectAll("path")
-            .data([label])
-            .join((enter) => enter.append("path").attr("d", connector))
-            .attr("fill", "none")
-            .attr("stroke", label.color)
-            .attr("opacity", 0.5);
-          animate(path).attr("d", connector);
-          const text = group
-            .selectAll("text")
-            .data([label])
-            .join((enter) => enter.append("text").attr("y", label.labelY - 4))
-            .attr("class", "dc-timeline-end-label")
-            .attr("x", right + 24)
-            .attr("fill", label.color);
-          animate(text).attr("y", label.labelY - 4);
-          text.selectAll("tspan.dc-timeline-end-name").data([label]).join("tspan").attr("class", "dc-timeline-end-name").text(label.label);
-          text
-            .selectAll("tspan.dc-timeline-end-value")
-            .data([label])
-            .join("tspan")
-            .attr("class", "dc-timeline-end-value")
-            .attr("x", right + 24)
-            .attr("dy", 20)
-            .text(range(label.end, options.measure));
+          const cursor = g.append("line").attr("class", "dc-timeline-cursor").attr("y1", 0).attr("y2", panelHeight);
+          // The value for the hovered year is written in the panel, next to the top of the area or bar.
+          const marker = g.append("circle").attr("class", "dc-timeline-marker").attr("r", 3.5);
+          const valueLabel = g.append("text").attr("class", "dc-timeline-end-label");
+          const setCursor = (year) => {
+            cursor.attr("x1", x(year)).attr("x2", x(year));
+            const point = country.points.find((p) => p.year === year);
+            const top = v(point.reported + point.estimated);
+            const at = x(year);
+            marker.attr("cx", at).attr("cy", top).attr("hidden", point.high ? null : true);
+            valueLabel.attr("x", at < 40 ? at + 4 : at > panelWidth - 40 ? at - 4 : at)
+              .attr("text-anchor", at < 40 ? "start" : at > panelWidth - 40 ? "end" : "middle")
+              .attr("y", top < 20 ? top + 18 : top - 9).text(range(point, measure));
+          };
+          setCursor(selectedYear);
+          country.setCursor = setCursor;
+          // Hovering moves only this panel's marker and value. The other panels and the summary below keep the last year.
+          const pick = (event) => setCursor(Math.max(timeline.years[0], Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event, this)[0])))));
+          g.append("rect").attr("width", panelWidth).attr("height", panelHeight).attr("fill", "transparent")
+            .on("pointermove", pick).on("pointerdown", pick)
+            .on("pointerleave", (event) => {if (event.pointerType === "mouse") setCursor(selectedYear);});
         });
-        cursor.select("line").attr("y1", margin.top).attr("y2", bottom);
-        const dots = cursor
-          .selectAll("circle")
-          .data(visible, (series) => series.key)
-          .join((enter) =>
-            enter.append("circle").attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === selectedYear)) / divisor))
-          )
-          .attr("r", 4)
-          .attr("fill", (series) => series.color)
-          .attr("stroke", "var(--dc-chart-paper)")
-          .attr("stroke-width", 2);
-        const inspect = (year, transition = false) => {
+        function inspect(year) {
           selectedYear = year;
+          series.forEach((country) => country.setCursor && country.setCursor(year));
           container.querySelector(".dc-timeline-year").textContent = year;
-          cursor.select("line").attr("x1", x(year)).attr("x2", x(year));
-          dots.interrupt().attr("cx", x(year));
-          (transition ? animate(dots) : dots).attr("cy", (series) => y(plottedValue(series.points.find((point) => point.year === year)) / divisor));
           readout.replaceChildren();
-          series.forEach((series) => {
+          series.forEach((country) => {
+            const point = country.points.find((p) => p.year === year);
             const item = document.createElement("span");
             item.className = "dc-timeline-value";
-            const marker = document.createElement("i");
-            marker.style.background = series.color;
-            marker.setAttribute("aria-hidden", "true");
             const label = document.createElement("span");
-            label.textContent = series.label;
+            label.textContent = country.label;
             const value = document.createElement("strong");
-            value.textContent = range(
-              series.points.find((point) => point.year === year),
-              options.measure
-            );
-            item.append(marker, label, value);
+            value.textContent = range(point, measure);
+            const detail = document.createElement("span");
+            detail.className = "dc-timeline-value-detail";
+            const mapApi = global.DCTrackerMap;
+            const base = electricity && mapApi?.consumptionFor ? mapApi.consumptionFor(data, country.key) : null;
+            const share = base ? mapApi.shareLabel(point, base) : "";
+            const useYear = data.method.assumptions.context_consumption?.year;
+            detail.textContent = point.high
+              ? `${fmt(point.reported, measure)} with a reported opening year${share ? ` · ${share} of the country's electricity use in ${useYear}` : ""}`
+              : "";
+            item.append(label, value, detail);
             readout.append(item);
           });
-        };
-        const inspectPointer = (event) =>
-          inspect(Math.max(timeline.years[0], Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event)[0])))));
-        overlay
-          .attr("x", margin.left)
-          .attr("y", margin.top)
-          .attr("width", right - margin.left)
-          .attr("height", bottom - margin.top)
-          .on("pointermove", inspectPointer)
-          .on("pointerdown", inspectPointer);
-        inspect(selectedYear, true);
-        rendered = true;
-        // Text-based equivalent, also usable without pointer interaction.
+        }
+        inspect(selectedYear);
         table.replaceChildren();
         const caption = document.createElement("caption");
-        caption.textContent = measureLabels[options.measure] + ". Lower–upper estimates.";
-        const head = document.createElement("thead"),
-          header = document.createElement("tr");
-        ["Year", ...series.map((series) => series.label)].forEach((label) => {
+        caption.textContent = measureLabels[measure] + ". Range, and in brackets the part with a reported opening year (upper estimate).";
+        const head = document.createElement("thead"), header = document.createElement("tr");
+        ["Year", ...series.map((country) => country.label)].forEach((text) => {
           const cell = document.createElement("th");
           cell.scope = "col";
-          cell.textContent = label;
+          cell.textContent = text;
           header.append(cell);
         });
         head.append(header);
         const body = document.createElement("tbody");
         timeline.years.forEach((year) => {
-          const row = document.createElement("tr"),
-            label = document.createElement("th");
+          const row = document.createElement("tr"), label = document.createElement("th");
           label.scope = "row";
           label.textContent = year;
           row.append(label);
-          series.forEach((series) => {
+          series.forEach((country) => {
+            const point = country.points.find((p) => p.year === year);
             const cell = document.createElement("td");
-            cell.textContent = range(
-              series.points.find((point) => point.year === year),
-              options.measure
-            );
+            cell.textContent = range(point, measure) + (point.high ? ` (${fmt(point.reported, measure)})` : "");
             row.append(cell);
           });
           body.append(row);
@@ -402,15 +254,12 @@
         table.append(caption, head, body);
       }
       container.querySelector(".dc-timeline-content").hidden = false;
-      render();
+      const unsubscribe = shared.subscribe(render);
       return {
-        update(nextView) {
-          view = nextView;
-          render();
-        },
         disconnect() {
+          unsubscribe();
           resizeObserver.disconnect();
-          svg.selectAll("*").interrupt();
+          svg.selectAll("*").remove();
         },
       };
     } catch (error) {

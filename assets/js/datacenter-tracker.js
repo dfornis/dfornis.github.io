@@ -40,6 +40,25 @@
   }
   const totalRange = (t, kind = "mw") =>
     !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind) + (t.unknown ? "*" : "");
+  function powerRange(low, high) {
+    if (numeric(low) === null || numeric(high) === null) return "Unknown";
+    const format = value => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
+    return format(low) === format(high) ? format(high) : `${format(low)}–${format(high)}`;
+  }
+  function createControls() {
+    let state = { family: "dated", measure: "mw", hq: "none" };
+    const listeners = new Set();
+    return {
+      get: () => ({ ...state }),
+      set(patch) {
+        const next = { ...state, ...patch };
+        if (Object.keys(state).every(key => state[key] === next[key])) return;
+        state = next;
+        for (const listener of listeners) listener({ ...state });
+      },
+      subscribe(listener) { listeners.add(listener); listener({ ...state }); return () => listeners.delete(listener); },
+    };
+  }
   function assertContract(data) {
     if (data.scope !== "manually_approved_projects" || !Array.isArray(data.project_scenarios) || !Array.isArray(data.projects))
       throw new Error("Shared scenario result required.");
@@ -189,6 +208,7 @@
         match(filters.zones, row.bidding_zone) &&
         match(filters.statuses, project.status) &&
         anyTag(filters.types, project.type) &&
+        (!filters.hq || filters.hq === "none" || global.DCTrackerMap.matchesHq(project, filters.hq)) &&
         match(filters.hqOrigins, project.actor_hq_origin || "unknown") &&
         actorMatch
       );
@@ -236,6 +256,17 @@
       const response = await fetch(root.dataset.results);
       if (!response.ok) throw new Error("Could not load project data.");
       const data = assertContract(await response.json());
+      const controls = createControls();
+      global.DCTrackerMap.mountControls(document.getElementById("dc-shared-controls"), controls);
+      const missing = document.querySelector("[data-coverage-missing]");
+      if (missing) missing.textContent = (data.coverage?.projects_without_mw?.length ?? 0) + " of " + data.projects.length;
+      const actorNote = document.querySelector("[data-actor-coverage]");
+      if (actorNote && Array.isArray(data.actor_coverage)) {
+        const names = { SE: "Swedish", NO: "Norwegian", FI: "Finnish" };
+        const parts = ["SE", "NO", "FI"].map((c) => data.actor_coverage.find((r) => r.country === c)).filter(Boolean);
+        actorNote.textContent = "Headquarters have been reviewed for " + parts.map((r) => r.reviewed + " of " + r.projects + " " + names[r.country]).join(", ") +
+          " projects. HQ selection filters the map and its totals without splitting capacity between actors.";
+      }
       if (global.DCTrackerMethodFlow) global.DCTrackerMethodFlow.mount(document.getElementById("dc-method-flow"), data);
       const projects = new Map(data.projects.map((project) => [project.project_id, project]));
       const sources = new Map(data.sources.map((source) => [source.source_id, source]));
@@ -249,11 +280,116 @@
       const sourceIds = (project) => [
         ...new Set([...tags(project.source_ids), ...claims.get(project.project_id).flatMap((claim) => tags(claim.source_ids))]),
       ];
-      let scenario = "stated_2030";
+      // Stage split per project comes from the exported ledger layers; the browser only groups them.
+      const mapApi = global.DCTrackerMap || {};
+      const stageIds = mapApi.CLASSES || ["confirmed", "dated_plan", "campus_continuation", "undated_announcement"];
+      const stageNames = mapApi.CLASS_LABELS || ["Confirmed", "Dated plan", "Rest of active site", "Undated plan"];
+      const stageRows = new Map();
+      const firstScenario = data.method.scenarios[0].id;
+      for (const row of data.ledger) {
+        if (row.scenario !== firstScenario || !stageIds.includes(row.evidence_class)) continue;
+        if (!stageRows.has(row.project_id)) stageRows.set(row.project_id, new Map());
+        const own = stageRows.get(row.project_id);
+        if (!own.has(row.evidence_class)) own.set(row.evidence_class, { mw_low: 0, mw_high: 0, twh_low: 0, twh_high: 0 });
+        const value = own.get(row.evidence_class);
+        for (const key of ["mw_low", "mw_high", "twh_low", "twh_high"]) value[key] += numeric(row["layer_" + key]) ?? 0;
+      }
+      const stagesOf = (projectId) => {
+        const own = stageRows.get(projectId) || new Map();
+        const list = stageIds.filter((id) => own.has(id)).map((id) => ({ id, label: stageNames[stageIds.indexOf(id)], ...own.get(id) }));
+        const sized = list.filter((item) => item.mw_high > 0);
+        return sized.length ? sized : list;
+      };
+      // A part with an investment decision or an observed construction start but no MW figure. It is
+      // not counted in any total, but the list should show that part of the project is confirmed.
+      const confirmedWithoutMw = (projectId) =>
+        !["Operational", "Cancelled", "Dormant"].includes(projects.get(projectId)?.status) &&
+        claims.get(projectId).some(
+          (claim) =>
+            numeric(claim.mw) === null &&
+            !["Operational", "Cancelled", "Dormant"].includes(claim.status) &&
+            claim.issue !== "identity_conflict" &&
+            !["backup", "generation", "density"].includes(claim.basis) &&
+            (claim.decision === "yes" || (claim.construction_event === "actual" && claim.construction_year))
+        ) &&
+        !stagesOf(projectId).some((item) => item.id === "confirmed" && item.mw_high > 0);
+      const stageFilterIds = (projectId) => [
+        ...stagesOf(projectId).map((item) => item.id),
+        ...(confirmedWithoutMw(projectId) ? ["confirmed"] : []),
+      ];
+      const lastChecked = (project) =>
+        sourceIds(project)
+          .map((id) => sources.get(id)?.accessed)
+          .filter(Boolean)
+          .sort()
+          .pop() || "Unknown";
+      const longDate = (value) => {
+        const date = new Date(value + "T00:00:00Z");
+        return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+      };
+      function csvText() {
+        const cell = (value) => {
+          const text = value === null || value === undefined ? "" : String(value);
+          return /[",\n]/.test(text) ? '"' + text.replaceAll('"', '""') + '"' : text;
+        };
+        const stageKeys = { confirmed: "confirmed", dated_plan: "dated_plan", campus_continuation: "rest_of_active_site", undated_announcement: "undated_plan" };
+        const byScenario = new Map(data.project_scenarios.map((row) => [row.scenario + ":" + row.project_id, row]));
+        const header = [
+          "project_id", "project_name", "developer", "country", "bidding_zone", "municipality", "latitude", "longitude", "type", "status",
+          "investment_decision", "announced_dates", "part_of_site",
+          "full_size_mw_low", "full_size_mw_high", "full_size_twh_low", "full_size_twh_high",
+          ...stageIds.flatMap((id) => [stageKeys[id] + "_mw_low", stageKeys[id] + "_mw_high"]),
+          ...data.method.scenarios.flatMap((item) => ["mw_low", "mw_high", "twh_low", "twh_high"].map((key) => "counted_" + item.id + "_" + key)),
+          "last_checked", "source_urls", "notes",
+        ];
+        const lines = data.projects.map((project) => {
+          const own = claims.get(project.project_id);
+          const any = byScenario.get(firstScenario + ":" + project.project_id) || {};
+          const known = any.capacity_known || ["operational", "cancelled", "dormant"].includes(any.indicator);
+          const parents = containedIn(any);
+          const stages = stageRows.get(project.project_id) || new Map();
+          const round = (value, digits) => (numeric(value) === null ? "" : Math.round(Number(value) * 10 ** digits) / 10 ** digits);
+          return [
+            project.project_id, project.project_name, project.developer, project.country, project.bidding_zone, project.municipality,
+            project.latitude, project.longitude, project.type, project.status, projectDecision(own), operationYears(own, project.status), parents || "",
+            ...(known && !parents
+              ? [round(any.nameplate_mw_low, 1), round(any.nameplate_mw_high, 1), round(any.buildout_twh_low, 3), round(any.buildout_twh_high, 3)]
+              : ["", "", "", ""]),
+            ...stageIds.flatMap((id) => (known && stages.has(id) ? [round(stages.get(id).mw_low, 1), round(stages.get(id).mw_high, 1)] : ["", ""])),
+            ...data.method.scenarios.flatMap((item) => {
+              const row = byScenario.get(item.id + ":" + project.project_id) || {};
+              return known ? [round(row.mw_low, 1), round(row.mw_high, 1), round(row.annual_twh_low, 3), round(row.annual_twh_high, 3)] : ["", "", "", ""];
+            }),
+            lastChecked(project),
+            sourceIds(project).map((id) => sources.get(id)?.url).filter(Boolean).join(" "),
+            project.notes,
+          ].map(cell).join(",");
+        });
+        return [header.join(","), ...lines].join("\n") + "\n";
+      }
+      const csvFile = "nordic-datacenter-tracker-" + (data.as_of || "data") + ".csv";
+      let csvUrl = null;
+      document.querySelectorAll("[data-download-csv]").forEach((link) => {
+        link.setAttribute("download", csvFile);
+        link.addEventListener("click", () => {
+          if (!csvUrl) csvUrl = URL.createObjectURL(new Blob(["﻿" + csvText()], { type: "text/csv;charset=utf-8" }));
+          link.href = csvUrl;
+        });
+      });
+      document.querySelectorAll("[data-download-json]").forEach((link) => link.setAttribute("href", root.dataset.results));
+      document.querySelectorAll("[data-download-meta]").forEach((node) => {
+        node.textContent = "Data as of " + longDate(data.as_of) + " · Updated monthly";
+      });
+      document.querySelectorAll("[data-as-of]").forEach((node) => {
+        node.textContent = longDate(data.as_of);
+      });
+      // Table and summary are timeless like the map. Any scenario row carries the full announced size.
+      const scenario = (data.method.scenarios.find((item) => item.family === "announced") || data.method.scenarios.at(-1)).id;
+      let showAll = false;
+      const TOP_ROWS = 15;
       const groupNames = {
         countries: "country",
         zones: "zone",
-        statuses: "status",
         types: "type",
       };
       const filters = () =>
@@ -285,33 +421,25 @@
         "zone",
         data.projects.map((project) => project.bidding_zone).filter((zone) => !zone.endsWith("-unassigned"))
       );
-      choices(
-        "status",
-        data.projects.map((project) => project.status)
-      );
+      const stageParent = document.getElementById("filter-stage-group");
+      stageIds.forEach((id, index) => {
+        const wrapper = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = id;
+        input.addEventListener("change", render);
+        wrapper.append(input, document.createTextNode(stageNames[index]));
+        stageParent.append(wrapper);
+      });
+      // Projects with any part at a selected stage, as in the map.
+      const stageSelection = () => {
+        const chosen = Array.from(stageParent.querySelectorAll("input:checked")).map((input) => input.value);
+        return chosen.length ? data.projects.filter((project) => stageFilterIds(project.project_id).some((id) => chosen.includes(id))).map((project) => project.project_id) : null;
+      };
       choices(
         "type",
         data.projects.flatMap((project) => tags(project.type))
       );
-      const scenarioParent = document.getElementById("filter-scenario-group");
-      data.method.scenarios.forEach((item) => {
-        const wrapper = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "tracker-scenario";
-        input.value = item.id;
-        input.checked = item.id === scenario;
-        input.addEventListener("change", () => selectScenario(item.id));
-        wrapper.append(input, document.createTextNode(item.label + " " + item.year));
-        scenarioParent.append(wrapper);
-      });
-      function selectScenario(id) {
-        scenario = id;
-        scenarioParent.querySelectorAll("input").forEach((input) => {
-          input.checked = input.value === scenario;
-        });
-        render();
-      }
       function sourceLinks(refs) {
         return (
           refs
@@ -322,8 +450,12 @@
         );
       }
       function evidence(project) {
-        const sc = data.method.scenarios.find((item) => item.id === scenario);
-        const countedLabel = sc.label + " " + sc.year + " (MW)";
+        // The project list is timeless like the map. Layers and reasons come from the All announced ledger,
+        // where every stage counts and timing does not remove capacity.
+        const timeless = (data.method.scenarios.find((item) => item.family === "announced") || data.method.scenarios.at(-1)).id;
+        const countedLabel = "Adds to full size (MW)";
+        const tabsFor = (stage) => (mapApi.TABS || []).filter((tab) => tab.classes.includes(stage)).map((tab) => tab.label);
+        const stageLabel = { confirmed: "Confirmed", dated_plan: "Dated plan", campus_continuation: "Rest of active site", undated_announcement: "Undated plan" };
         const reasonLabel = {
           operational: "Already operating",
           cancelled: "Cancelled",
@@ -334,23 +466,18 @@
           capacity_unknown: "MW unknown",
           pending_approval: "Pending review",
         };
-        // Each row shows what that figure alone gives in the scenario; the project total below uses the
-        // largest of overlapping figures, as the model does.
+        // Each row shows what the figure adds to the full announced size after overlaps, as in the map.
         const contribution = (claim, row) => {
           if (!row) return "Unknown";
-          if (reasonLabel[row.reason]) return reasonLabel[row.reason];
-          if (numeric(row.share_high) === 0)
-            return !row.source_dated && !row.selected
-              ? "Undated"
-              : sc.selection === "decided_dated" && claim.decision !== "yes"
-                ? "No investment decision"
-                : "After " + sc.year;
-          if (claim.baseline_scope === "existing_known" && numeric(row.direct_mw_high) === 0) return "No addition to existing";
-          return range(row.direct_mw_low, row.direct_mw_high);
+          if (reasonLabel[row.reason]) return escape(reasonLabel[row.reason]);
+          if (numeric(row.layer_mw_high) > 0)
+            return escape(range(row.layer_mw_low, row.layer_mw_high)) + '<br><span class="dc-row-muted">Counted in ' + escape(tabsFor(row.evidence_class).join(", ")) + "</span>";
+          if (claim.baseline_scope === "existing_known") return "No addition to existing";
+          return "Already in another figure";
         };
         const own = claims.get(project.project_id);
         const ledger = new Map(
-          data.ledger.filter((row) => row.scenario === scenario && row.project_id === project.project_id).map((row) => [row.claim_id, row])
+          data.ledger.filter((row) => row.scenario === timeless && row.project_id === project.project_id).map((row) => [row.claim_id, row])
         );
         const body = own
           .map((claim) => {
@@ -372,61 +499,51 @@
                 ? "<br>" +
                   escape(
                     { requested: "Requested", reserved: "Reserved", contracted: "Contracted", available: "Available" }[claim.grid_status] ||
-                      "Allocation unknown"
+                      "Grid capacity status unknown"
                   )
                 : "") +
               (claim.baseline_scope === "existing_unknown" ? "<br>Existing capacity unknown" : "") +
               "</td><td>" +
               escape(claim.status) +
-              (row?.timing_rule === "executing_campus_full_by_horizon"
-                ? "<br>Campus build-out follows the dated datacenter phase and is assumed complete by 2035."
-                : "") +
-              "</td><td>" +
+              (row?.evidence_class && stageLabel[row.evidence_class] ? "<br>Stage: " + stageLabel[row.evidence_class] : "") +
+              "<br>Investment decision: " +
               escape(decisionLabel(claim.decision)) +
-              "</td><td>" +
-              escape(
-                claim.construction_year ? claim.construction_year + " (" + (claim.construction_event || "event type unknown") + ")" : "Unknown"
-              ) +
+              (claim.construction_year
+                ? "<br>Construction start: " + escape(claim.construction_year + " (" + (claim.construction_event || "event type unknown") + ")")
+                : "") +
               "</td><td>" +
               escape(timing + (claim.first_year && claim.timing_event ? " (" + claim.timing_event + ")" : "")) +
-              (claim.timing_status === "superseded" ? "<br>Historical target superseded; treated as undated" : "") +
+              (claim.timing_status === "superseded" ? "<br>An older target date was replaced by a later source and is no longer used." : "") +
+              (row?.timing_rule === "executing_campus_derived_start"
+                ? "<br>Timing estimated from the building under way, then built out over five years."
+                : "") +
               (row && !["operational", "cancelled", "dormant", "no_datacenter_load", "identity_conflict", "related_identity"].includes(row.reason)
-                ? "<br>Model first: " +
-                  escape(row.first_early + "–" + row.first_late) +
-                  "; full: " +
-                  escape(row.full_early + "–" + row.full_late) +
-                  (row.timing_flags ? "<br>Timing review: " + escape(row.timing_flags.replaceAll("_", " ").replaceAll(";", "; ")) : "")
+                ? "<br>Estimated first operation: " +
+                  escape(row.first_early === row.first_late ? String(row.first_early) : row.first_early + "–" + row.first_late) +
+                  ". Estimated full capacity: " +
+                  escape(row.full_early === row.full_late ? String(row.full_early) : row.full_early + "–" + row.full_late) +
+                  "." +
+                  (row.timing_flags ? "<br>Open question: " + escape(row.timing_flags.replaceAll("_", " ").replaceAll(";", ", ")) : "")
                 : "") +
               '</td><td class="number-cell">' +
-              escape(counted) +
+              counted +
               "</td><td>" +
               sourceLinks(tags(claim.source_ids)) +
               "</td></tr>"
             );
           })
           .join("");
-        const total = data.project_scenarios.find((row) => row.scenario === scenario && row.project_id === project.project_id);
+        const total = data.project_scenarios.find((row) => row.scenario === timeless && row.project_id === project.project_id);
         const parents = total && containedIn(total);
         const overlap = own.some((claim) => ["included_in", "possibly_included_in"].includes(claim.relation));
         const totalLine = !total
           ? ""
           : parents
-            ? "Counted as part of " + escape(parents) + " in the scenarios."
-            : "Project total, " +
-              escape(sc.label + " " + sc.year) +
-              ": <strong>" +
-              escape(
-                total.capacity_known || total.indicator !== "pipeline"
-                  ? totalRange({
-                      low: numeric(total.mw_low),
-                      high: numeric(total.mw_high),
-                      unknown: total.partial_capacity,
-                    })
-                  : "Unknown"
-              ) +
-              " MW</strong>." +
-              (total.partial_capacity ? " Some phase capacity remains unquantified." : "") +
-              (overlap ? " Overlapping figures are counted once." : "");
+            ? "Counted as part of " + escape(parents) + "."
+            : [
+                total.partial_capacity ? "Some phases have no MW figure." : "",
+                overlap ? "Overlapping figures are counted once." : "",
+              ].filter(Boolean).join(" ");
         const actors = actorRows.get(project.project_id);
         const actorBody = actors
           .map(
@@ -460,21 +577,44 @@
         const actorInfo =
           '<div class="detail-title">Project actors and headquarters</div>' +
           (actors.length
-            ? '<table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership and notes</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' +
+            ? '<div class="dc-entry-wrap"><table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership and notes</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' +
               actorBody +
-              "</tbody></table>"
+              "</tbody></table></div>"
             : '<div class="detail-summary">Actor headquarters have not been reviewed for this project.</div>');
         const listedSources = new Set([...own.flatMap((claim) => tags(claim.source_ids)), ...actors.flatMap((actor) => tags(actor.source_ids))]);
         const additionalSources = tags(project.source_ids).filter((id) => !listedSources.has(id));
+        const anyRow = data.project_scenarios.find((row) => row.project_id === project.project_id) || {};
+        const knownSize = (anyRow.capacity_known || ["operational", "cancelled", "dormant"].includes(anyRow.indicator)) && !containedIn(anyRow);
+        const stageText = [
+          ...(confirmedWithoutMw(project.project_id) ? ["Confirmed, MW unknown"] : []),
+          ...stagesOf(project.project_id).map((item) => item.label + (knownSize && item.mw_high > 0 ? " " + powerRange(item.mw_low, item.mw_high) + " GW" : "")),
+        ].join(", ");
+        const facts = [
+          ["Developer", escape(project.developer || "Unknown")],
+          ["Type", escape(tags(project.type).join(", ") || "Unknown")],
+          ["Project status", escape(project.status || "Unknown")],
+          ["Investment decision", escape(projectDecision(own))],
+          [
+            "Full announced size",
+            knownSize
+              ? escape(powerRange(anyRow.nameplate_mw_low, anyRow.nameplate_mw_high) + " GW · " + range(anyRow.buildout_twh_low, anyRow.buildout_twh_high, "twh") + " TWh/yr")
+              : containedIn(anyRow) ? "Part of " + escape(containedIn(anyRow)) : "Unknown",
+          ],
+          ["By stage", escape(stageText || "Not counted")],
+          ["Last checked", escape(lastChecked(project))],
+        ];
+        const factList =
+          '<dl class="dc-project-facts">' + facts.map(([term, value]) => "<div><dt>" + term + "</dt><dd>" + value + "</dd></div>").join("") + "</dl>";
         return (
+          factList +
           actorInfo +
           '<div class="detail-title">Project phases and sources</div>' +
           (own.length
-            ? '<table class="entry-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Investment decision</th><th>Construction start</th><th>Operation / grid date</th><th>' +
+            ? '<div class="dc-entry-wrap"><table class="entry-table phase-table"><thead><tr><th>Phase</th><th>Reported MW</th><th>Measure</th><th>Status</th><th>Operation / grid date</th><th>' +
               escape(countedLabel) +
               "</th><th>Sources</th></tr></thead><tbody>" +
               body +
-              "</tbody></table>" +
+              "</tbody></table></div>" +
               (totalLine ? '<div class="detail-summary">' + totalLine + "</div>" : "")
             : '<div class="detail-summary">Capacity and dates have not been disclosed.</div>') +
           (additionalSources.length
@@ -495,17 +635,31 @@
       let map = null;
       let timeline = null;
       function render() {
-        const view = makeView(data, scenario, filters());
-        const year = data.method.scenarios.find((item) => item.id === scenario).year;
+        const shared = controls.get();
+        const selectedIds = stageSelection();
+        const view = makeView(data, scenario, { ...filters(), hq: shared.hq, ...(selectedIds ? { projectIds: selectedIds } : {}) });
+        const electricity = shared.measure === "twh";
+        const [sortLow, sortHigh] = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];
+        const sortValue = (row) => (row.capacity_known && !containedIn(row) ? numeric(row[sortHigh]) ?? numeric(row[sortLow]) ?? -1 : -1);
         const rows = [...view.rows].sort(
-          (a, b) =>
-            (numeric(b.nameplate_mw_high) ?? numeric(b.nameplate_mw_low) ?? -1) -
-              (numeric(a.nameplate_mw_high) ?? numeric(a.nameplate_mw_low) ?? -1) ||
-            projects.get(a.project_id).project_name.localeCompare(projects.get(b.project_id).project_name)
+          (a, b) => sortValue(b) - sortValue(a) || projects.get(a.project_id).project_name.localeCompare(projects.get(b.project_id).project_name)
         );
-        const { mw, twh, planned, buildout } = view.totals;
+        const { planned, buildout } = view.totals;
+        const tab = (mapApi.TABS || []).find((item) => item.id === shared.family) || { label: "All announced", classes: stageIds };
+        const tabTotal = { low: 0, high: 0, unknown: planned.unknown };
+        for (const row of rows) {
+          if (containedIn(row)) continue;
+          for (const item of stagesOf(row.project_id))
+            if (tab.classes.includes(item.id)) {
+              tabTotal.low += electricity ? item.twh_low : item.mw_low;
+              tabTotal.high += electricity ? item.twh_high : item.mw_high;
+            }
+        }
+        const unit = electricity ? "TWh/year" : "GW";
+        const displayTotal = total => electricity ? totalRange(total, "twh") :
+          total.low === null || (total.high === 0 && total.unknown) ? "Unknown" : powerRange(total.low, total.high) + (total.unknown ? "*" : "");
         const notes = [];
-        if (planned.unknown) notes.push(planned.unknown + " without assigned capacity");
+        if (planned.unknown) notes.push(planned.unknown + " without a MW figure");
         status.innerHTML =
           '<div class="summary-grid">' +
           '<div class="summary-block summary-selection"><span class="summary-kicker">Selection</span><span><strong>' +
@@ -514,43 +668,61 @@
           (rows.length === 1 ? "" : "s") +
           (notes.length ? " · " + notes.join(" · ") : "") +
           "</span></div>" +
-          '<div class="summary-block"><span class="summary-kicker">Full build-out</span><span><strong>' +
-          totalRange(planned, "mw") +
-          " MW</strong> · <strong>" +
-          totalRange(buildout, "twh") +
-          " TWh/year</strong></span></div>" +
-          '<div class="summary-block"><span class="summary-kicker">Selected scenario</span><span><strong>' +
-          totalRange(mw, "mw") +
-          " MW</strong> in operation in " +
-          year +
-          " · <strong>" +
-          totalRange(twh, "twh") +
-          " TWh/year</strong></span></div>" +
+          '<div class="summary-block"><span class="summary-kicker">Full announced size</span><span><strong>' +
+          displayTotal(electricity ? buildout : planned) + " " + unit +
+          "</strong></span></div>" +
+          '<div class="summary-block"><span class="summary-kicker">Counted in ' + escape(tab.label) + '</span><span><strong>' +
+          displayTotal(tabTotal) + " " + unit +
+          "</strong></span></div>" +
           "</div>";
+        const sizeHeader = document.getElementById("size-header");
+        if (sizeHeader) sizeHeader.textContent = electricity ? "Full announced size (TWh/yr)" : "Full announced size (GW)";
+        const sizeKey = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];
+        const stageKey = electricity ? "twh_high" : "mw_high";
+        const largest = Math.max(1e-9, ...rows.map((row) => (row.capacity_known && !containedIn(row) ? numeric(row[sizeKey[1]]) ?? 0 : 0)));
+        const visible = showAll ? rows : rows.slice(0, TOP_ROWS);
         const tbody = document.querySelector("#tracker-table tbody");
-        tbody.innerHTML = rows
+        tbody.innerHTML = visible
           .map((row) => {
-            const project = projects.get(row.project_id),
-              own = claims.get(row.project_id);
-            const checked =
-              sourceIds(project)
-                .map((id) => sources.get(id)?.accessed)
-                .filter(Boolean)
-                .sort()
-                .pop() || "Unknown";
+            const project = projects.get(row.project_id);
             const parents = containedIn(row);
-            const knownRange = (low, high, kind = "mw") =>
-              parents
-                ? kind === "mw"
-                  ? '<span title="Included in ' + escape(parents) + '">In campus</span>'
-                  : "–"
-                : row.capacity_known || ["operational", "cancelled", "dormant"].includes(row.indicator)
-                  ? range(row[low], row[high], kind)
-                  : "Unknown";
+            const known = row.capacity_known || ["operational", "cancelled", "dormant"].includes(row.indicator);
+            const stages = stagesOf(row.project_id);
+            const size = parents
+              ? '<span class="dc-row-muted" title="Included in ' + escape(parents) + '">Part of site total</span>'
+              : known
+                ? electricity
+                  ? range(row[sizeKey[0]], row[sizeKey[1]], "twh")
+                  : powerRange(row[sizeKey[0]], row[sizeKey[1]])
+                : '<span class="dc-row-muted">Unknown</span>';
+            const total = stages.reduce((sum, item) => sum + item[stageKey], 0);
+            const bar =
+              known && !parents && total > 0
+                ? '<span class="dc-size-bar" style="width:' +
+                  Math.max(2, (100 * (numeric(row[sizeKey[1]]) ?? 0)) / largest).toFixed(1) +
+                  '%">' +
+                  stages
+                    .filter((item) => item[stageKey] > 0)
+                    .map(
+                      (item) =>
+                        '<i style="flex-grow:' + item[stageKey].toFixed(3) + ';background:var(--dc-class-' + item.id + ')"></i>'
+                    )
+                    .join("") +
+                  "</span>"
+                : "";
+            const unknownConfirmed = confirmedWithoutMw(row.project_id)
+              ? '<span class="dc-stage-tag dc-stage-unknown" title="Part of the project has an investment decision or has started construction, but no MW figure is reported. It is not counted in the totals."><i></i>Confirmed, MW unknown</span>'
+              : "";
+            const stageCell = stages.length || unknownConfirmed
+              ? unknownConfirmed +
+                stages
+                  .map((item) => '<span class="dc-stage-tag"><i style="background:var(--dc-class-' + item.id + ')"></i>' + escape(item.label) + "</span>")
+                  .join("")
+              : '<span class="dc-row-muted">Not counted</span>';
             return (
               '<tr class="project-row" data-project="' +
               escape(project.project_id) +
-              '"><td><button type="button" class="toggle-button" data-toggle="' +
+              '"><td class="toggle-cell"><button type="button" class="toggle-button" data-toggle="' +
               escape(project.project_id) +
               '" aria-expanded="false" aria-controls="details-' +
               escape(project.project_id) +
@@ -559,28 +731,20 @@
               '">+</button></td><td class="project-cell">' +
               escape(project.project_name) +
               "</td><td>" +
-              escape(project.developer) +
-              "</td><td>" +
               escape(countryLabel(project.country)) +
               "</td><td>" +
               escape(project.bidding_zone || "Unknown") +
+              '</td><td class="stage-cell">' +
+              stageCell +
+              '</td><td class="size-cell"><span class="dc-size-value">' +
+              size +
+              "</span>" +
+              bar +
               "</td><td>" +
-              escape(tags(project.type).join("; ")) +
-              "</td><td>" +
-              escape(project.status) +
-              "</td><td>" +
-              escape(projectDecision(own)) +
-              '</td><td class="number-cell">' +
-              knownRange("nameplate_mw_low", "nameplate_mw_high") +
-              '</td><td class="number-cell">' +
-              knownRange("buildout_twh_low", "buildout_twh_high", "twh") +
-              "</td><td>" +
-              escape(operationYears(own, project.status)) +
-              "</td><td>" +
-              escape(checked) +
+              escape(operationYears(claims.get(row.project_id), project.status)) +
               '</td></tr><tr class="detail-row" id="details-' +
               escape(project.project_id) +
-              '"><td class="detail-cell" colspan="12"></td></tr>'
+              '"><td class="detail-cell" colspan="7"></td></tr>'
             );
           })
           .join("");
@@ -595,16 +759,31 @@
             if (open && !detail.firstElementChild.innerHTML) detail.firstElementChild.innerHTML = evidence(projects.get(id));
           })
         );
-        if (global.DCTrackerMap && global.d3) {
-          if (!map) map = global.DCTrackerMap.mount(document.getElementById("dc-scenario-map"), data, view, selectScenario);
-          else map.update(view);
+        const more = document.getElementById("tracker-show-all");
+        if (more) {
+          more.hidden = rows.length <= TOP_ROWS;
+          more.textContent = showAll ? "Show the " + TOP_ROWS + " largest" : "Show all " + rows.length + " projects";
+          more.setAttribute("aria-expanded", String(showAll));
         }
-        if (timeline) timeline.update(view);
+        if (global.DCTrackerMap && global.d3) {
+          if (!map) map = global.DCTrackerMap.mount(document.getElementById("dc-scenario-map"), data, controls);
+        }
       }
-      render();
+      document.getElementById("tracker-show-all")?.addEventListener("click", () => {
+        showAll = !showAll;
+        render();
+        if (!showAll) document.getElementById("tracker-projects")?.scrollIntoView({ block: "start" });
+      });
+      let previous = null;
+      controls.subscribe(state => {
+        root.dataset.measure = state.measure;
+        root.dataset.family = state.family;
+        root.dataset.hq = state.hq;
+        if (!previous || state.measure !== previous.measure || state.hq !== previous.hq || state.family !== previous.family) render();
+        previous = state;
+      });
       if (global.DCTrackerTimeline) {
-        timeline = await global.DCTrackerTimeline.mount(document.getElementById("dc-timeline"), data, makeView(data, scenario, filters()));
-        if (timeline) timeline.update(makeView(data, scenario, filters()));
+        timeline = await global.DCTrackerTimeline.mount(document.getElementById("dc-timeline"), data, controls);
       }
     } catch (error) {
       status.textContent = "Could not load tracker: " + error.message;
@@ -613,6 +792,8 @@
   }
   const api = {
     numeric,
+    createControls,
+    powerRange,
     range,
     totalRange,
     sumBounds,

@@ -29,7 +29,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C003",
@@ -61,7 +62,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C004",
@@ -93,7 +95,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C005",
@@ -125,7 +128,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C050",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C006",
@@ -157,7 +161,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C007",
@@ -189,7 +194,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C008",
@@ -221,7 +227,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C009",
@@ -253,7 +260,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C010",
@@ -285,7 +293,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C011",
@@ -317,7 +326,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C012",
@@ -349,7 +359,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C013",
@@ -381,7 +392,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C014",
@@ -413,7 +425,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C015",
@@ -445,7 +458,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C016",
@@ -477,7 +491,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C017",
@@ -509,7 +524,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C018",
@@ -541,7 +557,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C019",
@@ -573,7 +590,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C020",
@@ -605,7 +623,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C021",
@@ -637,7 +656,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C022",
@@ -669,7 +689,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C023",
@@ -701,7 +722,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C024",
@@ -733,7 +755,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C025",
@@ -765,7 +788,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C026",
@@ -797,7 +821,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C027",
@@ -829,7 +854,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C028",
@@ -861,7 +887,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C029",
@@ -893,7 +920,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C030",
@@ -925,7 +953,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C031",
@@ -957,7 +986,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C032",
@@ -989,7 +1019,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C033",
@@ -1021,7 +1052,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C034",
@@ -1053,7 +1085,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C035",
@@ -1085,7 +1118,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C036",
@@ -1117,7 +1151,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C037",
@@ -1149,7 +1184,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C038",
@@ -1181,7 +1217,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C039",
@@ -1213,7 +1250,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C040",
@@ -1245,7 +1283,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C041",
@@ -1277,7 +1316,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C042",
@@ -1309,7 +1349,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C043",
@@ -1341,7 +1382,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C044",
@@ -1373,7 +1415,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C045",
@@ -1405,7 +1448,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C046",
@@ -1437,7 +1481,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C047",
@@ -1469,7 +1514,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C048",
@@ -1501,7 +1547,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C049",
@@ -1533,7 +1580,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C050",
@@ -1565,7 +1613,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "contracted",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C051",
@@ -1597,7 +1646,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C052",
@@ -1629,7 +1679,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C053",
@@ -1661,7 +1712,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C054",
@@ -1693,7 +1745,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C055",
@@ -1725,7 +1778,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C056",
@@ -1757,7 +1811,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C057",
@@ -1789,7 +1844,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C058",
@@ -1821,7 +1877,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C059",
@@ -1853,7 +1910,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "contracted",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C060",
@@ -1885,7 +1943,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C061",
@@ -1917,7 +1976,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C062",
@@ -1949,7 +2009,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C063",
@@ -1981,7 +2042,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C068",
@@ -2013,7 +2075,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C069",
@@ -2045,7 +2108,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C070",
@@ -2077,7 +2141,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C071",
@@ -2109,7 +2174,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C072",
@@ -2141,7 +2207,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C073",
@@ -2173,7 +2240,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C074",
@@ -2205,7 +2273,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C075",
@@ -2237,7 +2306,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C076",
@@ -2269,7 +2339,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C077",
@@ -2301,7 +2372,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C078",
@@ -2333,7 +2405,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C079",
@@ -2365,7 +2438,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C080",
@@ -2397,7 +2471,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C081",
@@ -2429,7 +2504,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C082",
@@ -2461,7 +2537,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C083",
@@ -2493,7 +2570,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C084",
@@ -2525,7 +2603,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C085",
@@ -2557,7 +2636,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C086",
@@ -2589,7 +2669,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C087",
@@ -2621,7 +2702,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C088",
@@ -2653,7 +2735,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C089",
@@ -2685,7 +2768,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C090",
@@ -2717,7 +2801,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C091",
@@ -2749,7 +2834,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C092",
@@ -2781,7 +2867,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C093",
@@ -2813,7 +2900,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C092",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C094",
@@ -2845,7 +2933,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C095",
@@ -2877,7 +2966,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C096",
@@ -2909,7 +2999,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C097",
@@ -2941,7 +3032,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C098",
@@ -2973,7 +3065,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C099",
@@ -3005,7 +3098,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C100",
@@ -3037,7 +3131,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C101",
@@ -3069,7 +3164,8 @@
     "full_capacity_last_year": "2035",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C102",
@@ -3101,7 +3197,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C103",
@@ -3133,7 +3230,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C104",
@@ -3165,7 +3263,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C105",
@@ -3197,7 +3296,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C106",
@@ -3229,7 +3329,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C107",
@@ -3261,7 +3362,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C110",
@@ -3293,7 +3395,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "campus_continuation"
   },
   {
     "claim_id": "C111",
@@ -3325,7 +3428,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C112",
@@ -3357,7 +3461,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C113",
@@ -3389,7 +3494,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C115",
@@ -3421,7 +3527,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C129",
@@ -3453,7 +3560,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C132",
@@ -3485,7 +3593,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C133",
@@ -3517,7 +3626,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C134",
@@ -3549,7 +3659,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C141",
@@ -3581,7 +3692,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C142",
@@ -3613,7 +3725,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C143",
@@ -3645,7 +3758,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C155",
@@ -3677,7 +3791,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C159",
@@ -3709,7 +3824,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C160",
@@ -3741,7 +3857,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C161",
@@ -3773,7 +3890,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C162",
@@ -3805,7 +3923,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C163",
@@ -3837,7 +3956,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C164",
@@ -3869,7 +3989,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C165",
@@ -3901,7 +4022,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C166",
@@ -3933,7 +4055,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C167",
@@ -3965,7 +4088,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C171",
@@ -3997,7 +4121,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C172",
@@ -4029,7 +4154,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C174",
@@ -4061,7 +4187,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C175",
@@ -4093,7 +4220,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C176",
@@ -4125,7 +4253,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C177",
@@ -4157,7 +4286,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C178",
@@ -4189,7 +4319,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C179",
@@ -4221,7 +4352,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C180",
@@ -4253,7 +4385,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C181",
@@ -4285,7 +4418,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C182",
@@ -4317,7 +4451,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C183",
@@ -4349,7 +4484,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C184",
@@ -4381,7 +4517,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C185",
@@ -4413,7 +4550,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C186",
@@ -4445,7 +4583,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C187",
@@ -4477,7 +4616,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C188",
@@ -4509,7 +4649,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C189",
@@ -4541,7 +4682,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C190",
@@ -4573,7 +4715,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C194",
@@ -4605,7 +4748,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C195",
@@ -4637,7 +4781,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C196",
@@ -4669,7 +4814,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C197",
@@ -4701,7 +4847,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C198",
@@ -4733,7 +4880,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C199",
@@ -4765,7 +4913,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C200",
@@ -4797,7 +4946,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "contracted",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C201",
@@ -4829,7 +4979,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C204",
@@ -4861,7 +5012,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C222",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C205",
@@ -4893,7 +5045,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C206",
@@ -4925,7 +5078,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C207",
@@ -4957,7 +5111,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C208",
@@ -4989,7 +5144,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C209",
@@ -5021,7 +5177,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C210",
@@ -5053,7 +5210,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C211",
@@ -5085,7 +5243,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C212",
@@ -5117,7 +5276,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C213",
@@ -5149,7 +5309,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C214",
@@ -5181,7 +5342,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "requested",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C215",
@@ -5213,7 +5375,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C216",
@@ -5245,7 +5408,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C217",
@@ -5277,7 +5441,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C218",
@@ -5309,7 +5474,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C219",
@@ -5341,7 +5507,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C220",
@@ -5373,7 +5540,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C221",
@@ -5405,7 +5573,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C222",
@@ -5437,7 +5606,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C223",
@@ -5469,7 +5639,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C224",
@@ -5501,7 +5672,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C225",
@@ -5533,7 +5705,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C226",
@@ -5565,7 +5738,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C230",
@@ -5597,7 +5771,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C231",
@@ -5629,7 +5804,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C232",
@@ -5661,7 +5837,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C233",
@@ -5693,7 +5870,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C238",
@@ -5725,7 +5903,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C239",
@@ -5757,7 +5936,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C240",
@@ -5789,7 +5969,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C241",
@@ -5821,7 +6002,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C242",
@@ -5853,7 +6035,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C080",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C243",
@@ -5885,7 +6068,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C244",
@@ -5917,7 +6101,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C245",
@@ -5949,7 +6134,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C246",
@@ -5981,7 +6167,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C247",
@@ -6013,7 +6200,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C249",
@@ -6045,7 +6233,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C250",
@@ -6077,7 +6266,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C251",
@@ -6109,7 +6299,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C252",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C252",
@@ -6141,7 +6332,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C253",
@@ -6173,7 +6365,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C254",
@@ -6205,7 +6398,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C255",
@@ -6237,7 +6431,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C256",
@@ -6269,7 +6464,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "C258",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "dated_plan"
   },
   {
     "claim_id": "C257",
@@ -6301,7 +6497,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C258",
@@ -6333,7 +6530,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "reserved",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "confirmed"
   },
   {
     "claim_id": "C259",
@@ -6365,7 +6563,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "unknown",
-    "timing_status": "superseded"
+    "timing_status": "superseded",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C260",
@@ -6397,7 +6596,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C261",
@@ -6429,7 +6629,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "available",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C262",
@@ -6461,7 +6662,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C264",
@@ -6493,7 +6695,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C263",
@@ -6525,7 +6728,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C265",
@@ -6557,7 +6761,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C266",
@@ -6589,7 +6794,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C267",
@@ -6621,7 +6827,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "undated_announcement"
   },
   {
     "claim_id": "C268",
@@ -6653,7 +6860,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": "current"
+    "timing_status": "current",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C269",
@@ -6685,7 +6893,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C270",
@@ -6717,7 +6926,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C271",
@@ -6749,7 +6959,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C272",
@@ -6781,7 +6992,8 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   },
   {
     "claim_id": "C273",
@@ -6813,6 +7025,7 @@
     "full_capacity_last_year": "",
     "grid_claim_id": "",
     "grid_status": "",
-    "timing_status": ""
+    "timing_status": "",
+    "evidence_class": "not_counted"
   }
 ]

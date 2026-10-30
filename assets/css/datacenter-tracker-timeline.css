@@ -78,11 +78,12 @@
   outline: 2px solid var(--dc-blue);
   outline-offset: 2px;
 }
-.dc-timeline select {
+.dc-timeline select,
+#dc-scenario-map .dc-hq-select {
   width: 100%;
   min-width: 0;
-  color: var(--dc-chart-text);
-  background: var(--dc-chart-control);
+  color: var(--dc-chart-text, var(--dc-ink));
+  background: var(--dc-chart-control, var(--dc-control));
   border: 1px solid transparent;
   border-radius: 14px;
   font-family: inherit;
@@ -96,7 +97,8 @@
 .dc-timeline select:disabled {
   opacity: 0.45;
 }
-.dc-timeline :focus-visible {
+.dc-timeline :focus-visible,
+#dc-scenario-map .dc-hq-select:focus-visible {
   outline: 2px solid var(--dc-blue);
   outline-offset: 3px;
 }
@@ -266,7 +268,8 @@
     align-items: flex-start;
     gap: 0.2rem;
   }
-  .dc-timeline select {
+  .dc-timeline select,
+#dc-scenario-map .dc-hq-select {
     padding-right: 0.25rem;
   }
   .dc-timeline-paper {
@@ -293,3 +296,28 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.dc-timeline .dc-timeline-controls {
+  grid-template-columns: max-content max-content minmax(125px, 156px);
+}
+@media (max-width: 900px) {
+  .dc-timeline .dc-timeline-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Inherit tracker colors instead of the site's forced light-theme span color. */
+.dc-timeline :where(div, span, p, strong) { color: inherit; }
+.dc-timeline .dc-timeline-measure-control { color: var(--dc-chart-muted); }
+
+.dc-timeline .dc-timeline-controls { display: flex; justify-content: center; }
+
+/* Two-layer panels: opening year reported by a source, or estimated. */
+.dc-timeline-reported { fill: var(--dc-blue); }
+.dc-timeline-estimated { fill: var(--dc-blue); fill-opacity: 0.35; }
+.dc-timeline-panel-title { fill: var(--dc-chart-text); font-size: 14px; font-weight: 500; }
+.dc-timeline-value-detail { display: block; font-size: 12px; color: var(--dc-chart-muted); }
+.dc-timeline-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; margin: 0.4rem 0 0.2rem; font-size: 13px; color: var(--dc-chart-muted); }
+.dc-timeline-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 0.4rem; vertical-align: -1px; background: var(--dc-blue); }
+.dc-timeline-legend .estimated i { opacity: 0.35; }
+.dc-timeline-end-label { fill: var(--dc-chart-text); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--dc-chart-paper); stroke-width: 3px; stroke-linejoin: round; }
+.dc-timeline-marker { fill: var(--dc-chart-paper); stroke: var(--dc-chart-text); stroke-width: 1.5px; pointer-events: none; }
+.dc-timeline-end-label { pointer-events: none; }

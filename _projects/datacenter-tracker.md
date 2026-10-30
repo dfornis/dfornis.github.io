@@ -9,51 +9,39 @@ permalink: /projects/datacenter-tracker/
 
 <div class="tracker-intro">
   <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
-  <p>This page tracks publicly reported plans for new datacenter projects in Sweden, Norway and Finland. The dataset is being developed for an upcoming research article estimating the impact of datacenter load additions on electricity prices in Nordic bidding zones. The tracker compiles publicly reported project information from press releases, media reports, permitting documents and company material.</p>
-  <p>The Nordic countries are currently attracting substantial interest from datacenter developers due to cheap renewable electricity, climate conditions and land availability. I'm sharing the dataset here as a public resource and to open the project for comments and suggestions. The methodology is still under development. In particular, I am working on improving how heterogeneous reported MW figures should be interpreted, and how PUE and annual load factors should be assigned. Corrections, missing projects, better source material and methodological comments are very welcome, please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <p>This page lists publicly reported plans for new datacenters in Sweden, Norway and Finland, and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am building the dataset for a research article on how new datacenters could affect electricity prices in the Nordic bidding zones.</p>
+  <p>The method is still being developed. Corrections, missing projects, better sources and comments on the method are very welcome. Please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=4.1.1">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.19">
 
-## Scenario map
+<div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
-Totals cover projects with reported capacity. [Coverage varies by country](#dc-data-coverage).
+<p class="dc-map-intro">The map shows new datacenter capacity announced in each bidding zone, at its full announced size. It does not show when the capacity will be built. The tabs set how far a plan must have come to be counted. Confirmed counts only capacity with an investment decision or a construction start. Dated plans adds plans that have a date but no decision. All announced adds everything else.</p>
 
 <div id="dc-scenario-map"></div>
 
 <details id="scenario-explainer" class="scenario-explainer">
   <summary>
-    <span>Scenario explainer</span>
-    <span class="scenario-explainer-hint">What the four scenarios include and how to read them</span>
+    <span>About the figures</span>
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-| Scenario           | What it includes                                                                                                                                                    |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Low 2030           | Plans with a confirmed investment decision and an announced timetable.                                                                                              |
-| Stated 2030 / 2035 | Plans with an announced timetable. Larger sites may also be included when a phase has a timetable and is under construction or has a confirmed investment decision. |
-| High 2035          | All announced capacity, including grid requests and plans without permits, assumed fully built by 2035.                                                             |
+**Ranges.** Ranges come from different readings of the same sources, for example whether a MW figure refers to the servers alone or to the whole site. They are not statistical confidence intervals.
 
-**Reading the figures.** Ranges reflect uncertainty in capacity and timing. An asterisk indicates missing MW data. The [method below](#capacity-and-electricity-use) explains the calculations.
+**HQ.** HQ selects projects by where the developer's global headquarters is. Domestic means the same country as the project. Other Europe means another European country. Outside Europe means elsewhere. A project with several developers can match more than one group. A dash means that headquarters have not been reviewed for that country.
 
-**Using the map.** Blue shading shows the upper estimate. Points open project details. The project filters also apply to the map and chart.
-
-**HQ.** Groups projects by developers' global headquarters: **Domestic** is the project's country, **Other Europe** is the rest of Europe, and **Outside Europe** is elsewhere. Partnerships can match several groups, with each project counted once per selection. A dash marks countries without HQ reviews. Developer and ownership details are in the project table.
+**Controls.** The tabs, Measure and HQ apply to the whole page. The project list also has its own filters.
 
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=4.1.1">
-  <h2 id="dc-timeline-title">Datacenter growth</h2>
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.19">
+  <h2 id="dc-timeline-title">When the capacity could be built</h2>
+  <p class="dc-timeline-intro">The chart spreads the capacity in the selected tab over the years it could open. The dark area is capacity with an opening year given by the developer or a public document. The light area is capacity where no source gives an opening year. For that capacity, the opening year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. Together the two areas show the total.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
-      <div class="dc-timeline-measure-control">
-        <span id="dc-timeline-unit-label">Measure</span>
-        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-unit-label">
-          <label><input type="radio" name="timeline-unit" value="mw" checked><span>GW</span></label>
-          <label><input type="radio" name="timeline-unit" value="twh"><span>TWh/year</span></label>
-        </div>
-      </div>
       <div class="dc-timeline-measure-control" data-timeline-capacity-view>
         <span id="dc-timeline-measure-label">View</span>
         <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
@@ -61,45 +49,31 @@ Totals cover projects with reported capacity. [Coverage varies by country](#dc-d
           <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
         </div>
       </div>
-      <label>Scenario
-        <select name="timeline-family" aria-label="Capacity scenario selection">
-          <option value="low">Low — confirmed investment</option>
-          <option value="stated" selected>Stated — plans with dates</option>
-          <option value="high">High — all active plans</option>
-        </select>
-      </label>
-      <label>HQ
-        <select name="timeline-hq" aria-label="Chart developer headquarters">
-          <option value="none">All actors</option>
-          <option value="domestic">Domestic</option>
-          <option value="other_europe">Other Europe</option>
-          <option value="outside_europe">Outside Europe</option>
-        </select>
-      </label>
     </div>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
+      <div class="dc-timeline-legend"><span><i></i>Opening year reported</span><span class="estimated"><i></i>Opening year estimated</span></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
       </div>
     </div>
     <details class="dc-timeline-data">
-      <summary>Data &amp; assumptions</summary>
-      <p class="dc-timeline-note dc-timeline-unknown" hidden>* Projects without assigned MW are not included in the quantified totals.</p>
-      <p class="dc-timeline-note">Figures show capacity added from 2026 onwards, including cooling and other site electricity use. Cumulative totals include additions already completed during this period. Added/year shows the increase in each year.</p>
-      <p class="dc-timeline-note">TWh/year shows annual electricity use at each year's cumulative capacity, using the same project estimates as the map. Values represent a full year at that capacity level. They are not added across years. The capacity views remain available in GW.</p>
-      <p class="dc-timeline-note">Lines show the upper estimates and shaded bands show the range. The scale stays fixed when you change the scenario or filters. Annual ranges should not be added together. Move over the chart or tap a year to see its values.</p>
-      <p class="dc-timeline-note">The <a href="#scenario-explainer">scenario definitions</a> and <a href="#tracker-filters">project filters</a> are shared with the map. You can select a different scenario and HQ group in each view.</p>
+      <summary>Values and notes</summary>
+      <p class="dc-timeline-note dc-timeline-unknown" hidden>An asterisk (*) means that at least one project has no MW figure, so the actual value is higher.</p>
+      <p class="dc-timeline-note">The areas show the upper estimate. Hover over a panel to see the range for each year. The three countries share one y-axis. It changes with the tab but not with HQ, so an HQ selection shows its share of the tab.</p>
+      <p class="dc-timeline-note">Cumulative shows all new capacity in operation since the end of 2025. Added/year shows how much opens in each year. TWh/year is the electricity a full year of operation would use at that year's capacity, not the use during the year the capacity opens.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
     </details>
   </div>
   <p class="dc-timeline-status" role="status">Loading annual capacity…</p>
 </section>
 
-<div class="after-table-space"></div>
-
-Projects can be expanded with the **+** sign to show multiple project phases, capacity interpretations, key assumptions, and scenario inclusion.
+<section id="tracker-projects" class="dc-projects" aria-labelledby="tracker-projects-title">
+  <h2 id="tracker-projects-title">Projects</h2>
+  <p class="dc-projects-intro">The largest projects are listed first. Click + for the developer, each phase with its MW figure and dates, and the sources.</p>
+  <p class="dc-download-line"><a href="#" data-download-csv>Download all projects (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a></p>
+  <p class="dc-cite">The project data in the CSV file are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. You may reuse them if you credit the source. Suggested citation: Fornborg, D. (2026). <em>Nordic datacenter tracker</em>, data as of <span data-as-of></span>. https://dfornis.github.io/projects/datacenter-tracker/</p>
 
 <div id="tracker-filters" class="tracker-controls">
 
@@ -114,18 +88,13 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
   </details>
 
   <details class="filter-dropdown">
-    <summary>Status</summary>
-    <div id="filter-status-group" class="checkbox-filter-options"></div>
+    <summary>Stage</summary>
+    <div id="filter-stage-group" class="checkbox-filter-options"></div>
   </details>
 
   <details class="filter-dropdown">
     <summary>Type</summary>
     <div id="filter-type-group" class="checkbox-filter-options"></div>
-  </details>
-
-  <details class="filter-dropdown">
-    <summary>Scenario (summary &amp; map)</summary>
-    <div id="filter-scenario-group" class="checkbox-filter-options"></div>
   </details>
 
 </div>
@@ -136,66 +105,69 @@ Projects can be expanded with the **+** sign to show multiple project phases, ca
   <table id="tracker-table">
     <thead>
       <tr>
-        <th></th>
+        <th class="toggle-cell"><span class="visually-hidden">Details</span></th>
         <th>Project</th>
-        <th>Developer</th>
         <th>Country</th>
         <th>Zone</th>
-        <th>Type</th>
-        <th>Project status</th>
-        <th>Investment decision</th>
-        <th id="buildout-mw-header" title="Site power, including cooling, if everything announced is built. Capacity installed by the end of 2025 is excluded; later additions remain.">Full build-out (MW)</th>
-        <th id="buildout-twh-header" title="Annual electricity use if everything announced is built. Not tied to a year.">Full build-out (TWh/yr)</th>
-        <th id="dates-header" title="Years the sources give for operation of a part of the project. If none are available, a construction start or grid date is shown. That part can be much smaller than the full build-out. Expand the row to see which MW each date belongs to.">Announced dates</th>
-        <th>Last checked</th>
+        <th title="How far each part of the project has come. The colours match the map.">Stage</th>
+        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not counted. The bar is coloured by stage.">Full announced size (GW)</th>
+        <th id="dates-header" title="Years the sources give for when part of the project opens. If no opening year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 </div>
+<button type="button" id="tracker-show-all" class="dc-show-all" aria-controls="tracker-table" hidden>Show all projects</button>
+</section>
 
-<div class="after-table-space"></div>
-
-## Capacity and electricity use
+## How the numbers are calculated
 
 <figure id="dc-method-flow" class="dc-method-flow" aria-labelledby="dc-method-flow-title">
-  <figcaption id="dc-method-flow-title">How capacity is calculated</figcaption>
-  <p class="dc-method-flow-caption">Each step opens a short explanation.</p>
+  <figcaption id="dc-method-flow-title">Calculation steps</figcaption>
+  <p class="dc-method-flow-caption">Click a step for details.</p>
   <div class="dc-method-flow-canvas"></div>
 </figure>
 
 <section id="dc-method-reference" class="dc-method-reference" aria-labelledby="dc-method-reference-title">
   <h3 id="dc-method-reference-title">Parameters and assumptions</h3>
-  <p>MW denotes installed site capacity, including cooling and auxiliary loads. Full build-out covers the announced total after deductions for existing capacity and overlaps. Scenario values cover the capacity installed by the selected year.</p>
+  <p>MW means the site's installed electrical capacity, including cooling and other supporting equipment. Full announced size is the announced total after subtracting existing capacity and overlaps.</p>
 
   <h4 id="dc-method-capacity">Capacity conversion</h4>
   <div data-method-table="capacity"></div>
-  <p class="dc-method-note">PUE and peak-to-capacity ratios draw on <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI (2026)</a>. The ranges are sensitivity cases. Applying the inverse peak ratio to a project's reported peak is the tracker's capacity estimate.</p>
+  <p class="dc-method-note">The range is my own calculation from Nordic projects in the register that report both IT power and site power for the same part of the site. Ten such pairs, from five companies, give ratios between 1.20 and 1.44, with a median of 1.25. <a href="https://epoch.ai/data/data-centers-documentation/methodology">Epoch AI</a> uses 1.2 for hyperscale and 1.4 for other sites. <a href="https://www.energimyndigheten.se/492f27/contentassets/054d98cfdcd54cb5a802e24b53779452/energianvandning-i-datacenter-och-digitala-system.pdf">RISE (2023)</a> reports an annual PUE of 1.1–1.3 for efficient Swedish sites. Annual PUE is lower than the design ratio because cooling needs vary over the year.</p>
 
   <h4 id="dc-method-energy">Annual electricity use</h4>
   <p class="dc-method-formula">Annual TWh = site MW × annual load factor × 8,760 / 1,000,000</p>
-  <p>The load factor expresses average electricity use relative to installed capacity or peak power. For an explicit peak figure, site MW in the equation is the original peak, converted with PUE where it refers to IT equipment. The corresponding column below supplies the factor.</p>
+  <p>The load factor is average electricity use over a year divided by installed capacity. A factor of 0.75 means that the site uses 75% of its capacity on average.</p>
   <div data-method-table="annual"></div>
-  <p class="dc-method-note">Hyperscale, colocation and peak-based factors draw on <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI's facility sample</a>. AI/HPC adapts the training-server operating-time assumption in <a href="https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report">Shehabi et al. (2024)</a> to a site-level factor. Colocation with AI uses an assumed load factor. Research/SMR-linked uses a placeholder aligned with AI/HPC. The factors still need calibration against Nordic operating data.</p>
+  <p class="dc-method-note">Hyperscale and colocation values come from <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI's sample of US sites (2026)</a>. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> uses 0.70 for Norwegian datacenters. The AI/HPC value is my own assumption, based on how much of the time AI training servers run in <a href="https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report">Shehabi et al. (2024)</a>. It is the least certain value in the table. Colocation with AI is my own assumption, between colocation and AI/HPC. None of these values have been checked against Nordic operating data.</p>
 
-  <h4 id="dc-method-timing">Opening dates and expansion</h4>
-  <p>A construction start implies first operation after <span data-method-value="construction_years"></span> years when no opening date is available. If neither date is usable, the calculation uses the development stage of the building or phase:</p>
+  <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway and 82.9 TWh in Finland. The share is only there to give a sense of scale. It is not part of the calculation.</p>
+
+  <h4 id="dc-method-stages">Stages</h4>
+  <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show which tabs count each stage.</p>
+  <div data-method-table="stages"></div>
+
+  <h4 id="dc-method-timing">Opening dates and build-out</h4>
+  <p>If a source gives a construction start but no opening date, operation is assumed to start <span data-method-value="construction_years"></span> years later. If neither is available, the opening year is estimated from the project's status:</p>
   <div data-method-table="timing"></div>
   <dl>
-    <dt>Expansion schedule</dt>
-    <dd>Capacity is added in equal amounts over <span data-method-value="expansion_years"></span> calendar years, including the first operating year. A reported phase schedule or completion target takes precedence and can shorten this period. A single-phase delivery enters in its opening year.</dd>
-    <dt>Campus timing derived from a phase</dt>
-    <dd>A campus included in Stated through a qualifying phase expands in equal annual amounts from its earlier or later estimated opening through <span data-method-value="horizon_year"></span>. Known phases retain their schedules and set a minimum. Completion at the horizon is a scenario assumption.</dd>
+    <dt>Build-out</dt>
+    <dd>Sites built in phases are assumed to reach full size in equal steps over <span data-method-value="expansion_years"></span> years, starting in the first operating year. A schedule or completion year from the source is used instead when available. A single-building project opens in one step.</dd>
+    <dt>Rest of active site</dt>
+    <dd>The rest of a site, where one building is under way, is assumed to start when that building opens and then follow the same build-out.</dd>
     <dt>Grid connection dates</dt>
-    <dd>In Low and Stated, a reported grid connection date sets the earliest possible opening for the planned capacity. If the connection is still requested or its status is unclear, the lower estimate assumes that this capacity is not operating by the scenario year.</dd>
+    <dd>A reported grid connection year sets the earliest possible opening. If the connection has only been applied for, or its status is unclear, the low estimate in Confirmed and Dated plans assumes that the capacity is not yet running.</dd>
+    <dt>After 2035</dt>
+    <dd>Capacity estimated to open after 2035 is not in the chart, but it is included in the map's full announced size.</dd>
   </dl>
-  <p class="dc-method-note">The stage intervals and expansion period are model assumptions. <a href="https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai">IEA (2025)</a> supports a two-to-three-year development period. <a href="https://dso.nationalgrid.co.uk/downloads/15083/data-centre-impact-study2.pdf">National Grid / Regen (2025), pp. 26–30</a>, describes phased delivery and grid constraints.</p>
+  <p class="dc-method-note">These lead times and the build-out period are my assumptions. <a href="https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai">IEA (2025)</a> gives 2–3 years from construction start to operation. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> finds about five years from grid reservation to the first building in Norway, and three to five years from first to full operation.</p>
 </section>
 
 <section id="dc-data-coverage" class="dc-method-reference" aria-labelledby="dc-data-coverage-title">
   <h3 id="dc-data-coverage-title">Data coverage and country comparisons</h3>
-  <p>Totals cover identified projects with a reported capacity figure. Several large projects have no public MW figure and are omitted from the quantified totals. Country totals may therefore partly reflect differences in public MW coverage.</p>
-  <p>In Norway, <a href="https://www.statnett.no/om-statnett/nyheter-og-pressemeldinger/nyhetsarkiv-2025/storre-apenhet-om-reservert-nettkapasitet-og-hvem-som-star-i-ko/">Statnett</a> publishes project names and MW for grid reservations and its capacity queue. Sweden's <a href="https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/">Svenska kraftnät</a> publishes aggregate queue figures, while Finland's <a href="https://www.fingrid.fi/en/grid/grid-connection-agreement-phases/uusi-liityntakysely/connection-agreement-application/">Fingrid</a> treats connection applications as confidential. Planning and permit documents provide additional project-level information, though electrical capacity is not always disclosed.</p>
+  <p>Totals include only projects with a reported MW figure. <span data-coverage-missing>Several</span> projects have none, including several large ones. Country totals therefore partly reflect how much each country publishes.</p>
+  <p>In Norway, <a href="https://www.statnett.no/om-statnett/nyheter-og-pressemeldinger/nyhetsarkiv-2025/storre-apenhet-om-reservert-nettkapasitet-og-hvem-som-star-i-ko/">Statnett</a> publishes project names and MW for grid reservations and its capacity queue. Sweden's <a href="https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/">Svenska kraftnät</a> publishes aggregate queue figures. Finland's <a href="https://www.fingrid.fi/en/grid/grid-connection-agreement-phases/uusi-liityntakysely/connection-agreement-application/">Fingrid</a> treats connection applications as confidential. Planning and permit documents provide additional project-level information, though electrical capacity is not always disclosed.</p>
 </section>
 
 ## How the tracker is updated
@@ -206,30 +178,30 @@ Country updates follow a common search and review process. The record keeps the 
   <details>
     <summary><span class="workflow-step">01</span><span>Search for new capacity</span></summary>
     <div class="workflow-body">
-      <p>A rules-based search routine works through each country using a documented codebook. It combines operator and customer names with place names, capacity terms, construction stages and grid terminology. The search covers company announcements, planning and permit records, grid information, local reporting and other public sources.</p>
-      <p>A lead moves forward when the sources connect a named datacenter operator or end customer to a specific location and a new capacity addition. The source trail and unresolved questions are retained for the next step.</p>
+      <p>Searches are run country by country by an AI research agent that follows a fixed set of instructions and search terms in Swedish, Norwegian, Finnish and English. The searches cover company announcements, planning and permit records, grid information and local news.</p>
+      <p>A project is added when sources link a named datacenter company or customer to a specific site and to new capacity. I review and approve every new project before it is counted.</p>
     </div>
   </details>
   <details>
     <summary><span class="workflow-step">02</span><span>Check project identity, phases and dates</span></summary>
     <div class="workflow-body">
       <p>The lead is compared with existing projects, candidate records and historic names. Addresses, municipalities, land parcels, company relationships and earlier announcements help determine whether it is a new project, a new phase or another name for an existing campus.</p>
-      <p>Campus owners, operators, tenants and individual buildings are linked without merging their evidence. Each phase keeps the MW figure, date and investment decision stated for that phase. This prevents double counting and keeps a building’s dates separate from those of the wider campus.</p>
+      <p>Each source is kept with the building, phase or site it describes. Each phase keeps its own MW figure, date and investment decision. This prevents double counting and keeps a building's dates separate from those of the wider site.</p>
       <p>Historic names, superseded targets and earlier capacity claims are retained with their sources.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">03</span><span>Record what each source actually measures</span></summary>
+    <summary><span class="workflow-step">03</span><span>Record what each MW figure measures</span></summary>
     <div class="workflow-body">
-      <p>Every capacity claim is recorded with its unit, scope and qualifier. IT equipment load, total site electricity use and grid connection capacity remain distinct. The record also keeps the source's range, project status, timing and investment decision, together with the part of the campus or phase to which they apply.</p>
+      <p>Every MW figure is recorded with what it measures: IT equipment, the whole site or the grid connection. The record also keeps the source's range, the project status, dates and investment decision, and the part of the site they apply to.</p>
       <p>Source ranges and qualifications are retained. Conflicting figures and unresolved relationships are flagged for follow-up, with the questions linked to the relevant projects and sources. The calculations use the rules described above.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">04</span><span>Calculate and review the scenarios</span></summary>
+    <summary><span class="workflow-step">04</span><span>Calculate and review the totals</span></summary>
     <div class="workflow-body">
-      <p>The <a href="#scenario-explainer">scenario definitions</a> apply to the map, chart and table. Results are checked for overlapping capacity, missing information and conflicts between sources before the site is updated.</p>
-      <p>New records enter as candidates. Their identity, evidence and scenario effect are reviewed before inclusion in the totals. One approved calculation feeds the data export, annual chart, summary, table and map.</p>
+      <p>The map, chart, table and downloadable data all come from the same calculation. Results are checked for overlapping capacity, missing information and conflicts between sources before the site is updated.</p>
+      <p>New projects are reviewed one by one before they are included in the totals.</p>
     </div>
   </details>
   <details>
@@ -238,7 +210,7 @@ Country updates follow a common search and review process. The record keeps the 
       <p>Project announcements and site-specific sources identify the developer, operator, named customer and, where relevant, property owner or project partner. Each actor is linked to the whole project, including its phases. Partnerships keep separate actors and roles.</p>
       <p>Global headquarters are checked against company reports, official contact pages and company announcements, with other reliable sources used when needed. A local subsidiary's registered address or a regional office does not establish the group's global HQ. Registration country, headquarters, fund manager and financial owners are recorded separately. The business type describes what the actor does.</p>
       <p>Ownership notes retain the source and date. They describe the documented ownership without assigning an owner nationality or tracing every investor. Unknown identities and HQ countries remain unknown and do not match any HQ group. A project can still match a known partner's HQ while another actor is unresolved. Expand the project for actors, roles, HQ, sources and the review date.</p>
-      <p>The reviews cover 31 Swedish, 46 Finnish and 32 Norwegian projects as of 17 October 2026. Every relevant actor has a known HQ country for 30 Swedish, 42 Finnish and 30 Norwegian projects. The remaining cases include an anonymous operator, a company with two headquarters and actors that do not publish one global HQ. HQ selection filters the map and its totals without allocating capacity between actors.</p>
+      <p data-actor-coverage>HQ selection filters the map and its totals without splitting capacity between actors.</p>
     </div>
   </details>
 </div>
@@ -246,11 +218,24 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=4.1.1' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.19' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
   --dc-blue: #4c7088;
+  --dc-country-SE: #9b6659;
+  --dc-country-NO: #5f7968;
+  --dc-country-FI: var(--dc-blue);
+  --dc-map-0: #e5eae8;
+  --dc-map-1: #c9d6da;
+  --dc-map-2: #a7bdc7;
+  --dc-map-3: #819fae;
+  --dc-map-4: #5c7f94;
+  --dc-map-5: #3f627b;
+  --dc-class-confirmed: #24435a;
+  --dc-class-dated_plan: #4f7a96;
+  --dc-class-campus_continuation: #86a9bf;
+  --dc-class-undated_announcement: #c3d4df;
   --dc-ink: #303d43;
   --dc-muted: #657177;
   --dc-paper: var(--global-bg-color, #f4f0e9);
@@ -263,14 +248,36 @@ Country updates follow a common search and review process. The record keeps the 
 
 html[data-theme="dark"] #dc-tracker {
   --dc-blue: #9eb9ca;
+  --dc-country-SE: #d49c8b;
+  --dc-country-NO: #91b39c;
+  --dc-country-FI: var(--dc-blue);
+  --dc-map-0: #303d43;
+  --dc-map-1: #3d5360;
+  --dc-map-2: #557080;
+  --dc-map-3: #7795a5;
+  --dc-map-4: #9bb5c3;
+  --dc-map-5: #c0d3dc;
+  --dc-class-confirmed: #d6e5ef;
+  --dc-class-dated_plan: #9dbdd2;
+  --dc-class-campus_continuation: #6b91aa;
+  --dc-class-undated_announcement: #45657a;
   --dc-ink: #e5eaec;
   --dc-muted: #b0bec5;
+  --dc-paper: #1c1c1d;
   --dc-surface: #283237;
   --dc-header: #34424a;
   --dc-hover: #3a4b54;
   --dc-rule: rgba(158, 185, 202, 0.24);
   --dc-control: rgba(158, 185, 202, 0.1);
+  color: var(--dc-ink);
+  background: var(--dc-paper);
 }
+
+html[data-theme="dark"] #dc-tracker h2,
+html[data-theme="dark"] #dc-tracker > p { color: var(--dc-ink); }
+#summary-box :where(div, span, strong) { color: inherit; }
+#tracker-table .project-row td { color: var(--dc-ink); }
+#tracker-table .project-row span { color: inherit; }
 
 .tracker-intro {
   margin-bottom: 1.1rem;
@@ -299,330 +306,292 @@ html[data-theme="dark"] #dc-tracker {
   }
 }
 
+/* Project list: same type, rules and colours as the map and chart. */
+.dc-download-line {
+  margin: 0.7rem 0 0;
+  color: #657177;
+  font: 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+.dc-download-line a {
+  color: #4c7088;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(76, 112, 136, 0.35);
+}
+.dc-download-line a:hover { border-bottom-color: currentColor; }
+html[data-theme="dark"] .dc-download-line { color: #b0bec5; }
+html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-color: rgba(158, 185, 202, 0.4); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.dc-projects {
+  margin: 2.4rem 0 2.6rem;
+  color: var(--dc-ink);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+.dc-projects h2 { margin-bottom: 0.5rem; }
+.dc-projects .dc-projects-intro {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--dc-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.dc-projects .dc-download-line { margin-top: 0.35rem; }
+.dc-projects .dc-cite { max-width: 72ch; margin: 0.35rem 0 0; color: var(--dc-muted); font-size: 12.5px; line-height: 1.5; }
+.dc-projects .dc-cite a { color: var(--dc-blue); }
+
 .tracker-controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
-  margin: 1.25rem 0 0.9rem 0;
+  gap: 0.5rem;
+  margin: 1.2rem 0 1rem;
   align-items: flex-start;
 }
 
 .filter-dropdown {
   position: relative;
-  min-width: 150px;
-  font-size: 11px;
+  font: 12px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .filter-dropdown summary {
+  position: relative;
   list-style: none;
   cursor: pointer;
-  padding: 0.32rem 0.45rem;
-  border: 1px solid var(--dc-rule);
-  border-radius: 12px;
-  background: var(--dc-surface);
+  padding: 0.34rem 1.9rem 0.34rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--dc-control);
   color: var(--dc-ink);
   user-select: none;
 }
-
-.filter-dropdown summary::-webkit-details-marker {
-  display: none;
-}
-
+.filter-dropdown summary:hover { color: var(--dc-ink); background: color-mix(in srgb, var(--dc-blue) 12%, transparent); }
+.filter-dropdown summary:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
+.filter-dropdown summary::-webkit-details-marker { display: none; }
 .filter-dropdown summary::after {
-  content: "▾";
-  float: right;
-  color: var(--dc-muted);
-  margin-left: 0.5rem;
+  content: "";
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-right: 1.3px solid var(--dc-muted);
+  border-bottom: 1.3px solid var(--dc-muted);
+  transform: translateY(-70%) rotate(45deg);
 }
-
-.filter-dropdown[open] summary::after {
-  content: "▴";
-}
+.filter-dropdown[open] summary::after { transform: translateY(-25%) rotate(-135deg); }
 
 .filter-dropdown .checkbox-filter-options {
   position: absolute;
   z-index: 20;
-  top: calc(100% + 0.25rem);
+  top: calc(100% + 0.3rem);
   left: 0;
-  min-width: 230px;
-  max-height: 260px;
+  min-width: 220px;
+  max-height: 280px;
   overflow-y: auto;
-  padding: 0.45rem 0.55rem;
+  padding: 0.55rem 0.7rem;
   border: 1px solid var(--dc-rule);
-  border-radius: 12px;
-  background: var(--dc-surface);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background: var(--dc-paper);
+  box-shadow: 0 6px 18px rgba(20, 30, 35, 0.1);
 }
 
 .checkbox-filter-options {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-size: 11px;
+  gap: 0.35rem;
+  font-size: 12px;
   color: var(--dc-ink);
 }
-
 .checkbox-filter-options label {
   display: flex;
   align-items: flex-start;
-  gap: 0.35rem;
-  line-height: 1.2;
+  gap: 0.4rem;
+  line-height: 1.3;
   cursor: pointer;
 }
-
 .checkbox-filter-options input {
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
   accent-color: var(--dc-blue);
 }
 
-.summary-box {
-  margin: 0.75rem 0 1rem 0;
-  padding: 0.4rem 0.6rem !important;
-  border: 1px solid var(--dc-rule);
-  border-radius: 6px;
-  background: var(--dc-control);
+#summary-box.summary-box {
+  margin: 0;
+  padding: 0.75rem 0 0.8rem !important;
+  border: 0;
+  border-top: 1px solid var(--dc-rule);
+  border-radius: 0;
+  background: transparent;
   color: var(--dc-ink);
+  font: 13px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
-
 .summary-grid {
   display: grid;
-  grid-template-columns: minmax(190px, 0.8fr) repeat(2, minmax(250px, 1fr));
-  gap: 0.45rem 0;
+  grid-template-columns: minmax(190px, 0.8fr) repeat(2, minmax(230px, 1fr));
+  gap: 0.6rem 0;
 }
-
 .summary-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
   min-width: 0;
-  padding: 0.08rem 0.7rem;
+  padding: 0 1rem;
+  font-size: 13px;
 }
-
-.summary-block:first-child {
-  padding-left: 0;
-}
-
-.summary-block + .summary-block {
-  border-left: 1px solid var(--dc-rule);
-}
-
+.summary-block:first-child { padding-left: 0; }
+.summary-block + .summary-block { border-left: 1px solid var(--dc-rule); }
 #summary-box .summary-kicker {
-  display: block;
-  margin-bottom: 0.16rem;
   color: var(--dc-muted);
-  font-size: 9px !important;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 1 !important;
-  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 1.3;
 }
-#summary-box.summary-box,
-div#summary-box.summary-box,
-.summary-box,
-.summary-box * {
-  font-size: 11px !important;
-  line-height: 1.2 !important;
-}
+#summary-box strong { font-size: 17px; font-weight: 500; }
 
 .table-wrapper {
-  max-height: 430px;
-  overflow: auto;
-  border: 1px solid var(--dc-rule);
-  border-radius: 6px;
-  margin-top: 0.85rem !important;
-  margin-bottom: 2rem !important;
+  overflow-x: auto;
+  margin: 0 !important;
+  border: 0;
+  border-radius: 0;
 }
 
 #tracker-table {
   width: 100%;
   border-collapse: collapse;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
-
-#tracker-table,
-#tracker-table thead,
-#tracker-table tbody,
-#tracker-table tr,
-#tracker-table th,
-#tracker-table td {
-  font-size: 11px !important;
-  line-height: 1.15 !important;
-}
-
-#tracker-table th,
-#tracker-table td {
+#tracker-table > thead > tr > th,
+#tracker-table > tbody > tr > td {
+  padding: 9px 14px 9px 0 !important;
   border-bottom: 1px solid var(--dc-rule);
-  padding: 4px 6px !important;
   vertical-align: top;
   text-align: left;
+  font-size: 13.5px !important;
+  line-height: 1.4 !important;
 }
-
-#tracker-table th {
+#tracker-table > thead > tr > th {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  border-bottom-color: color-mix(in srgb, var(--dc-ink) 35%, transparent);
+  background: transparent;
+  color: var(--dc-muted) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
   white-space: nowrap;
-  background: var(--dc-header);
-  color: var(--dc-blue) !important;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  font-size: 11px !important;
-  line-height: 1.12 !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.01em;
+  cursor: help;
 }
-
-#tracker-table tbody tr.project-row:nth-child(4n+1) {
-  background: var(--dc-surface);
-}
-
-#tracker-table tbody tr.project-row:nth-child(4n+3) {
-  background: var(--dc-paper);
-}
-
-#tracker-table tbody tr.project-row:hover {
-  background: var(--dc-hover);
-}
-
-#tracker-table td.project-cell {
-  font-weight: 500;
-  min-width: 145px;
-}
-
-#tracker-table td.number-cell {
-  text-align: left;
-  white-space: nowrap;
-}
-
-#tracker-table td.capacity-cell {
-  min-width: 92px;
-}
-
-#tracker-table td.capacity-cell .muted {
-  display: block;
-  margin-top: 0.08rem;
-  text-align: left;
-}
+#tracker-table > thead > tr > th.toggle-cell { cursor: default; }
+#tracker-table tbody tr.project-row:hover { background: var(--dc-control); }
+#tracker-table .toggle-cell { width: 26px; padding-right: 2px !important; padding-left: 2px !important; }
+#tracker-table td.project-cell { min-width: 170px; font-weight: 500; }
+#tracker-table td.stage-cell { min-width: 120px; font-size: 12.5px !important; white-space: nowrap; }
+#tracker-table td.size-cell { width: 26%; min-width: 150px; }
+.dc-stage-tag { display: flex; align-items: center; gap: 0.4rem; }
+.dc-stage-tag + .dc-stage-tag { margin-top: 0.15rem; }
+.dc-stage-tag i { flex: none; width: 9px; height: 9px; border-radius: 2px; }
+.dc-stage-tag.dc-stage-unknown { color: var(--dc-muted); cursor: help; }
+.dc-stage-tag.dc-stage-unknown i { box-sizing: border-box; border: 1.5px solid var(--dc-class-confirmed); background: transparent; }
+.dc-size-value { display: block; font-variant-numeric: tabular-nums; }
+.dc-size-bar { display: flex; height: 6px; margin-top: 5px; overflow: hidden; border-radius: 1px; }
+.dc-size-bar i { display: block; min-width: 1px; height: 100%; }
+.dc-row-muted { color: var(--dc-muted); }
 
 .toggle-button {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
   color: var(--dc-blue);
-  border: 1px solid var(--dc-rule);
-  background: var(--dc-surface);
-  border-radius: 4px;
-  padding: 0.1rem 0.35rem;
-  font-size: 0.72rem;
+  font: 400 17px/1 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   cursor: pointer;
 }
+.toggle-button:hover { background: var(--dc-control); }
 
-.toggle-button:hover {
-  background: var(--dc-hover);
-}
-
-.detail-row {
-  display: none;
-  background: var(--dc-paper);
-}
-
-.detail-cell {
-  padding: 0.65rem 0.75rem !important;
-  border-bottom: 1px solid var(--dc-rule) !important;
-}
-
-.detail-title {
-  font-size: 0.78rem;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-}
-
-.detail-summary {
-  margin: 0.35rem 0 0.65rem;
-  color: var(--dc-ink);
-  font-size: 10px !important;
-  line-height: 1.3 !important;
-}
-
-.entry-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--dc-surface);
+.dc-show-all {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.45rem 1.1rem;
   border: 1px solid var(--dc-rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dc-ink);
+  font: 13px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  cursor: pointer;
 }
+.dc-show-all:hover { background: var(--dc-control); }
+.dc-show-all:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
+.dc-show-all[hidden] { display: none; }
 
-.entry-table,
-.entry-table thead,
-.entry-table tbody,
-.entry-table tr,
-.entry-table th,
-.entry-table td {
-  font-size: 10px !important;
-  line-height: 1 !important;
+.detail-row { display: none; }
+#tracker-table > tbody > tr.detail-row > td.detail-cell {
+  padding: 0.3rem 0 1.3rem 28px !important;
+  font-size: 13px !important;
 }
-
-.entry-table th,
-.entry-table td {
-  padding: 3px 5px !important;
-  border-bottom: 1px solid var(--dc-rule);
-  vertical-align: top;
+.dc-project-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.7rem 1.5rem;
+  margin: 0.3rem 0 0.4rem;
 }
-
-.entry-table th {
-  background: var(--dc-header);
-  white-space: nowrap;
-  color: var(--dc-ink) !important;
-  font-size: 10.5px !important;
-  line-height: 1.12 !important;
-  font-weight: 500 !important;
-  letter-spacing: 0.01em;
+.dc-project-facts div { min-width: 0; }
+.dc-project-facts dt { margin: 0; color: var(--dc-muted); font-size: 12px; font-weight: 400; }
+.dc-project-facts dd { margin: 0.1rem 0 0; color: var(--dc-ink); font-size: 13px; line-height: 1.4; }
+#tracker-table .detail-title {
+  margin: 1.1rem 0 0.35rem;
+  color: var(--dc-ink);
+  font-size: 13px;
+  font-weight: 600;
 }
-
-.entry-table td.number-cell {
-  text-align: left;
+#tracker-table .detail-summary {
+  margin: 0.45rem 0 0;
+  color: var(--dc-ink);
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
 }
-
-.assumption-table-wrap {
-  margin: 0.75rem 0 1rem 0;
-  overflow-x: auto;
-  border: 1px solid #e0ded8;
-  border-radius: 6px;
-  background: #fffdf8;
-}
-
-.assumption-table {
+#tracker-table .entry-table {
   width: 100%;
   border-collapse: collapse;
+  border: 0;
   background: transparent;
 }
-
-.assumption-table,
-.assumption-table thead,
-.assumption-table tbody,
-.assumption-table tr,
-.assumption-table th,
-.assumption-table td {
-  font-size: 10px !important;
-  line-height: 1.16 !important;
-}
-
-.assumption-table th,
-.assumption-table td {
-  padding: 5px 6px !important;
-  border-bottom: 1px solid #ece9e2;
+#tracker-table .entry-table th,
+#tracker-table .entry-table td {
+  padding: 6px 12px 6px 0 !important;
+  border-bottom: 1px solid var(--dc-rule);
   vertical-align: top;
   text-align: left;
+  color: var(--dc-ink);
+  font-size: 12px !important;
+  line-height: 1.45 !important;
 }
-
-.assumption-table th {
-  background: #f5f3ee;
-  color: #333 !important;
+#tracker-table .entry-table th {
+  border-bottom-color: color-mix(in srgb, var(--dc-ink) 30%, transparent);
+  background: transparent;
+  color: var(--dc-muted) !important;
+  font-size: 11.5px !important;
+  font-weight: 400 !important;
   white-space: nowrap;
-  font-weight: 500 !important;
 }
-
-.assumption-table td.number-cell {
-  text-align: left;
-  white-space: nowrap;
-}
-
-.assumption-table .assumption-source {
-  color: #555;
-}
+#tracker-table .entry-table a { color: var(--dc-blue); }
+/* The wrapper adds no width to the project table; wide phase tables scroll inside it. */
+.dc-entry-wrap { width: 0; min-width: 100%; overflow-x: auto; }
+#tracker-table .entry-table { min-width: 700px; }
+#tracker-table .entry-table td:last-child { min-width: 170px; }
+#tracker-table .phase-table td:first-child { min-width: 100px; }
+#tracker-table .phase-table td:nth-child(3) { min-width: 85px; }
+#tracker-table .phase-table td:nth-child(4),
+#tracker-table .phase-table td:nth-child(5) { min-width: 140px; }
+#tracker-table .actor-table td:nth-child(5) { min-width: 200px; }
 
 .muted {
-  color: #777;
+  color: var(--dc-muted);
   font-size: 0.62rem;
 }
 
@@ -669,10 +638,10 @@ div#summary-box.summary-box,
 }
 
 .scenario-explainer {
-  max-width: 760px;
+  max-width: none;
   margin: -0.55rem auto 1.65rem auto;
-  border-top: 1px solid #d8d2c8;
-  border-bottom: 1px solid #d8d2c8;
+  border-top: 1px solid var(--dc-rule);
+  border-bottom: 1px solid var(--dc-rule);
 }
 
 .scenario-explainer summary {
@@ -682,7 +651,7 @@ div#summary-box.summary-box,
   gap: 0.4rem 0.8rem;
   align-items: baseline;
   padding: 0.78rem 1.8rem 0.78rem 0;
-  color: #2f383b;
+  color: var(--dc-ink);
   font-size: 0.84rem;
   font-weight: 500;
   list-style: none;
@@ -708,14 +677,17 @@ div#summary-box.summary-box,
 }
 
 .scenario-explainer-hint {
-  color: #747d7d;
+  color: var(--dc-muted);
   font-size: 0.72rem;
   font-weight: 400;
 }
 
+.scenario-explainer summary > span:first-child,
+.scenario-explainer-body p { color: var(--dc-ink); }
+
 .scenario-explainer-body {
   padding: 0.25rem 1.8rem 1rem 0;
-  color: #444;
+  color: var(--dc-ink);
   font-size: 0.84rem;
 }
 
@@ -735,15 +707,16 @@ div#summary-box.summary-box,
 .tracker-workflow {
   margin-top: 1.35rem;
   max-width: 78ch;
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 
 .tracker-workflow details {
   margin: 0;
-  border-top: 1px solid #d8d2c8;
+  border-top: 1px solid var(--dc-rule);
 }
 
 .tracker-workflow details:last-child {
-  border-bottom: 1px solid #d8d2c8;
+  border-bottom: 1px solid var(--dc-rule);
 }
 
 .tracker-workflow summary {
@@ -751,8 +724,8 @@ div#summary-box.summary-box,
   display: flex;
   align-items: baseline;
   gap: 0.45rem;
-  padding: 1rem 1.8rem 1rem 0;
-  color: #2f383b;
+  padding: 0.95rem 1.8rem 0.95rem 0;
+  color: var(--dc-ink);
   font-weight: 500;
   list-style: none;
   cursor: pointer;
@@ -767,7 +740,7 @@ div#summary-box.summary-box,
   position: absolute;
   right: 0;
   top: 0.85rem;
-  color: #2f6687;
+  color: var(--dc-blue);
   font-size: 1.25rem;
   font-weight: 400;
 }
@@ -778,7 +751,7 @@ div#summary-box.summary-box,
 
 .tracker-workflow .workflow-step {
   flex: 0 0 2rem;
-  color: #747d7d;
+  color: var(--dc-muted);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -788,7 +761,9 @@ div#summary-box.summary-box,
   max-width: 72ch;
   margin-left: 2.45rem;
   padding: 0 1.8rem 1.1rem 0;
-  color: #444;
+  color: var(--dc-ink);
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .tracker-workflow .workflow-body p {
@@ -806,53 +781,6 @@ div#summary-box.summary-box,
 
 .tracker-workflow .workflow-scenarios li + li {
   margin-top: 0.35rem;
-}
-
-.dc-scenario-map-root {
-  max-width: 760px;
-  margin: 0.8rem auto 1.8rem auto;
-}
-
-.dc-map-controls {
-  display: flex;
-  justify-content: center;
-  gap: 0.85rem;
-  align-items: center;
-  margin-bottom: 0.45rem;
-}
-
-.dc-scenario-controls {
-  display: inline-flex;
-  gap: 0.25rem;
-  align-items: center;
-}
-
-.dc-scenario-button {
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: #2f3331;
-  padding: 0.12rem 0.34rem 0.2rem 0.34rem;
-  cursor: pointer;
-  font-size: 12px !important;
-  line-height: 1.05 !important;
-  min-width: 55px;
-}
-
-.dc-scenario-button span,
-.dc-scenario-button small {
-  display: block;
-  letter-spacing: 0;
-}
-
-.dc-scenario-button small {
-  color: #777;
-  margin-top: 0.08rem;
-}
-
-.dc-scenario-button.active {
-  border-bottom-color: #2f3331;
-  color: #111;
 }
 
 .dc-scenario-svg-wrap {
@@ -969,9 +897,8 @@ pre {
   height: auto;
   margin: 0 auto;
 }
-#tracker-table td.number-cell { font-variant-numeric: tabular-nums; }
-#tracker-table .toggle-button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
-.filter-dropdown input[type="radio"] { margin-top: 0.05rem; }
+.filter-dropdown input[type="radio"] { margin-top: 0.1rem; }
+.toggle-button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 1px; }
 #dc-scenario-map .dc-capacity-value, #dc-scenario-map .dc-capacity-total-value { font-size: 13.4px !important; }
 @media (max-width: 820px) {
   .summary-grid { grid-template-columns: 1fr; }
@@ -981,12 +908,22 @@ pre {
 }
 @media (max-width: 600px) {
   .scenario-explainer summary { grid-template-columns: 1fr; }
+  #tracker-table > thead > tr > th:nth-child(3),
+  #tracker-table > tbody > tr.project-row > td:nth-child(3),
+  #tracker-table > thead > tr > th:nth-child(5),
+  #tracker-table > tbody > tr.project-row > td:nth-child(5) { display: none; }
+  #tracker-table td.size-cell { min-width: 100px; }
+  #tracker-table > thead > tr > th { white-space: normal; }
+  #tracker-table > thead > tr > th,
+  #tracker-table > tbody > tr > td { padding-right: 8px !important; font-size: 12.5px !important; }
+  #tracker-table td.project-cell { min-width: 120px; }
+  #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=4.1.4">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=4.1.1">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.19">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.19">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=4.1.1" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=4.1.1" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=4.1.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=4.1.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.19" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.19" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.19" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.19" defer></script>

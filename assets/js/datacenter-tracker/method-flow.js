@@ -1,7 +1,7 @@
 /* Method overview only: labels use the exported configuration; no project values are calculated here. */
 (function (global) {
   "use strict";
-  const REVIEWED_METHOD = "4.1.1";
+  const REVIEWED_METHOD = "5.0";
   const number = (value) => Number(value).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const interval = (values) => values.map(number).join("–");
 
@@ -10,153 +10,114 @@
     if (data.version !== REVIEWED_METHOD) throw new Error(`The overview needs review for method ${data.version}.`);
     const a = method.assumptions;
     const base = method.timeline.base_year;
-    const horizon = method.timeline.end_year;
-    const scenarios = (selection) => method.scenarios.filter((scenario) => scenario.selection === selection);
-    const title = (selection) => {
-      const group = scenarios(selection);
-      if (!group.length) throw new Error("The overview needs review for the scenario definitions.");
-      return `${group[0].label} ${group.map((scenario) => scenario.year).join(" / ")}`;
-    };
+    const ratio = interval(a.pue);
     const nodes = [
       {
         id: "scope",
         stage: "scope",
         title: "Reported capacity",
-        subtitle: `Capacity operating at the end of ${base} is excluded.`,
+        subtitle: "Only new capacity counts.",
         detail: [
-          "Each figure is linked to the building, phase or campus it describes. Dates and investment decisions stay with that part of the project.",
-          `Capacity operating at the end of ${base} is deducted in the source's unit before conversion. Where this earlier capacity is unknown, the estimate ranges from zero to the reported total. Known new phases provide a minimum.`,
+          "Each MW figure is linked to the building, phase or site it describes. Dates and investment decisions stay with that part of the project.",
+          `Capacity already operating at the end of ${base} is subtracted. If the existing amount is unknown, new capacity is shown as a range from zero to the reported total.`,
         ],
       },
       {
         id: "it",
         stage: "measure",
         title: "IT power",
-        subtitle: `PUE ${interval(a.pue)} is applied.`,
+        subtitle: `Multiplied by ${ratio}.`,
         basis: ["it_nameplate", "it_unspecified"],
         detail: [
-          "PUE is the ratio of total site electricity use to IT equipment use. Multiplying IT MW by PUE adds cooling and other site loads. A reported design PUE replaces the upper value in the standard range.",
+          "IT power is what the servers and network equipment can draw. Cooling and other equipment come on top.",
+          "In the ten projects in the register that report both, the whole site is 1.20 to 1.44 times the IT power. A project's own reported ratio is used when there is one.",
         ],
       },
       {
         id: "site",
         stage: "measure",
         title: "Site or grid power",
-        subtitle: "The full reported MW is used.",
+        subtitle: "Used as reported.",
         basis: ["facility_nameplate", "facility_unspecified", "grid", "unspecified"],
         detail: [
-          "Site and grid figures are treated as total datacenter power, including cooling and other site loads. Assigning the whole connection to datacenter use is a conservative estimate of potential load. The same reported-MW treatment applies when the source leaves the measure unspecified.",
-          "Site and grid reports are linked so that each capacity is counted once. A separately reported datacenter figure is retained even if it exceeds the connection figure.",
-        ],
-      },
-      {
-        id: "peak",
-        stage: "measure",
-        title: "Peak power",
-        subtitle: "Capacity is estimated from peak power.",
-        basis: ["it_peak", "facility_peak"],
-        detail: [
-          `Peak power is the highest electricity draw reported by a source. Installed capacity is usually higher. In EPRI's sample, peaks were ${interval(a.peak_to_nameplate_fraction.map((value) => value * 100))}% of installed capacity. The model divides the reported peak by this ratio to estimate capacity.`,
-          "An IT peak is first converted to total site power using PUE. Annual electricity use is calculated from the original peak with a peak-based load factor.",
+          "A figure for the whole site or for the grid connection is used as it is. Counting the whole grid connection as datacenter load leans high, because connections are often larger than the load that is eventually used.",
+          `A figure that does not say what it measures is shown as a range: from the figure itself, if it is the whole site, to ${number(a.pue[1])} times the figure, if it is IT power.`,
         ],
       },
       {
         id: "unknown",
         stage: "measure",
         title: "No usable MW",
-        subtitle: "Capacity remains unquantified.",
+        subtitle: "Not counted in totals.",
         terminal: true,
         basis: ["backup", "generation", "density"],
         detail: [
-          "Projects without a usable MW figure remain visible and are omitted from capacity totals. Generator ratings and rack density are recorded separately. Thermal backup power supports a load estimate only where an authority has published the conversion.",
-          "A phase without MW can still establish timing for a campus with its own capacity figure.",
+          "Projects without a usable MW figure stay visible but are left out of the totals. Backup generators and rack density are recorded but not turned into a load figure.",
         ],
       },
       {
         id: "overlap",
         stage: "overlap",
-        title: "Campus and phases",
-        subtitle: "Overlapping capacity is counted once.",
+        title: "Sites and buildings",
+        subtitle: "Overlaps counted once.",
         detail: [
-          "A campus and its included phases are combined using the largest applicable capacity figure for each scenario and year. Tenants within the campus are counted there. Independent additions are summed separately.",
-          "Known phases can contribute when the campus total is missing and set a minimum as the site expands. A phase larger than its reported campus total triggers a source review while the larger figure remains in the calculation.",
+          "When a site total and its buildings are both reported, the larger figure is used, not the sum. A building that reports more than its site total is flagged for review.",
         ],
       },
       {
-        id: "low",
+        id: "stage",
         stage: "scenario",
-        title: title("decided_dated"),
-        subtitle: "Dated capacity with an investment decision.",
+        title: "Stage",
+        subtitle: "Four stages, from confirmed to undated plan.",
         detail: [
-          "The capacity being counted needs a current reported date and a confirmed investment decision. Observed construction qualifies as evidence of a decision. A permit alone leaves the decision unconfirmed. A phase's decision applies to that phase.",
-        ],
-      },
-      {
-        id: "stated",
-        stage: "scenario",
-        title: title("dated"),
-        subtitle: "Dated capacity, plus sites with a phase under way.",
-        detail: [
-          "Capacity with a current reported date is included. A campus without an overall timetable also qualifies through an included datacenter phase in the same project. That phase needs observed construction or an investment decision, plus its own construction, opening or completion date. Its MW may be undisclosed.",
-          `These campuses expand from an earlier or later estimated opening to full capacity in ${horizon}. Known phases keep their schedules and set a minimum. Grid works and backup generators are excluded from the qualifying evidence.`,
-        ],
-      },
-      {
-        id: "high",
-        stage: "scenario",
-        title: title("all"),
-        subtitle: `All announced capacity, fully built by ${horizon}.`,
-        detail: [
-          `All active announced capacity is treated as fully built by ${horizon}, after deductions for overlaps and existing capacity. Later schedules are brought forward and grid restrictions are set aside. This gives the same endpoint as full build-out. Cancelled and dormant plans are excluded.`,
+          "Each MW figure is placed in one of four stages, from confirmed to undated plan, based on the investment decision, construction start and dates in the sources.",
+          "When a site and a building on it are at different stages, the building's MW counts at its own stage and the rest of the site at the site's stage. The tabs Confirmed, Dated plans and All announced add stages in that order.",
         ],
       },
       {
         id: "timing",
         stage: "timing",
-        title: "Construction and opening dates",
-        subtitle: "Reported and estimated opening dates.",
+        title: "Opening year",
+        subtitle: "Reported or estimated.",
         detail: [
-          "Reported opening dates and phase schedules take precedence. Missing dates are estimated from construction starts or the project's development stage. Elapsed, unconfirmed targets are reassessed. Targets dropped or replaced by a later source are treated as undated. Actual openings are retained.",
-          "Capacity is added along an earlier and a later delivery path. A single-phase project enters in its opening year. Multi-phase projects follow a reported schedule or the expansion assumptions listed below.",
+          "A reported opening year is used. Without one, the opening is estimated from a reported construction start or from the project's status, such as planned or permitted. The chart shows the two parts in different shades.",
+          `Sites built in phases then grow in equal steps over ${number(a.first_to_full_years)} years, unless the source gives a schedule.`,
         ],
       },
       {
         id: "mw",
         stage: "result",
-        title: "Capacity · MW",
-        subtitle: "New capacity in place by the selected year.",
+        title: "Capacity · GW",
+        subtitle: "New capacity in place by a given year.",
         detail: [
-          `The range combines earlier and later delivery with lower and higher capacity estimates. It covers new installed site capacity after ${base}. Full build-out includes all active announced capacity regardless of whether a completion date is available.`,
+          `Site capacity including cooling, added after ${base}. The range combines the low and high capacity readings with early and late timing.`,
         ],
       },
       {
         id: "energy",
         stage: "result",
         title: "Electricity use · TWh/year",
-        subtitle: "Annual use at that level of capacity.",
+        subtitle: "Annual use at that capacity.",
         detail: [
-          "Annual electricity use is calculated from installed capacity and the load factor for the datacenter type. Explicit peak figures use the original peak and a peak-based load factor. The factors and equations are listed below.",
-          "The result represents a full year of operation at the selected level of capacity. Consumption during a partial opening year can differ.",
+          "Capacity multiplied by a load factor for the type of datacenter. The result is a full year of use at that capacity, not the use during the year it opens.",
         ],
       },
     ];
     const covered = nodes.flatMap((node) => node.basis || []).sort();
     if (data.capacity.some((claim) => !covered.includes(claim.basis))) throw new Error("The overview needs review for the capacity measures.");
     const stages = [
-      { id: "scope", label: "Reported and existing capacity" },
-      { id: "measure", label: "What does the source measure?" },
-      { id: "overlap", label: "Campus and phase relationships" },
-      { id: "scenario", label: "Scenario selection" },
-      { id: "timing", label: "Timing and build-out" },
-      { id: "result", label: "Results" },
+      { id: "scope", label: "1. New capacity" },
+      { id: "measure", label: "2. What the figure measures" },
+      { id: "overlap", label: "3. Overlaps" },
+      { id: "scenario", label: "4. How far the plan has come" },
+      { id: "timing", label: "5. When it could open" },
+      { id: "result", label: "6. Results" },
     ].map((stage) => ({ ...stage, nodes: nodes.filter((node) => node.stage === stage.id) }));
     const links = [
-      ...["it", "site", "peak", "unknown"].map((target) => ({ source: "scope", target })),
-      ...["it", "site", "peak"].map((source) => ({ source, target: "overlap" })),
-      ...["low", "stated", "high"].flatMap((id) => [
-        { source: "overlap", target: id },
-        { source: id, target: "timing" },
-      ]),
+      ...["it", "site", "unknown"].map((target) => ({ source: "scope", target })),
+      ...["it", "site"].map((source) => ({ source, target: "overlap" })),
+      { source: "overlap", target: "stage" },
+      { source: "stage", target: "timing" },
       ...["mw", "energy"].map((target) => ({ source: "timing", target })),
     ];
     return { version: data.version, stages, nodes, links };
@@ -164,6 +125,9 @@
 
   function buildReference(data) {
     const { assumptions: a, timeline, type_assumptions: types } = data.method;
+    // Stage names and meanings are shared with the map legend.
+    const shared = global.DCTrackerMap || {};
+    const STAGES = (shared.CLASSES || []).map((id, index) => ({ id, label: shared.CLASS_LABELS[index], text: shared.CLASS_TEXT[index] }));
     const range = (values, format = number) => [...new Set(values.map(format))].join("–");
     const factor = (value) => Number(value).toFixed(2);
     const labels = {
@@ -172,7 +136,6 @@
       AI_HPC: "AI / HPC",
       Colocation_AI: "Colocation with AI",
       Colocation: "Colocation",
-      Research_SMR: "Research / SMR-linked",
     };
     return {
       values: {
@@ -186,43 +149,47 @@
           headers: ["Parameter", "Value", "Application"],
           rows: [
             [
-              "Operating baseline",
+              "Existing capacity",
               `End of ${timeline.base_year}`,
-              "Comparable operating capacity is deducted in the source's unit before conversion. An unknown baseline gives a range from zero to the reported total, subject to known new phases.",
+              `Capacity already operating at the end of ${timeline.base_year} is subtracted before conversion. If the amount is unknown, new capacity ranges from zero to the reported total.`,
             ],
             [
-              "PUE",
+              "Site / IT power ratio",
               range(a.pue),
-              "Site MW = IT MW × PUE. The range applies to all datacenter types. A reported design PUE replaces the upper value and can lower the minimum.",
+              "Site MW = IT MW × ratio. This is a design ratio for capacity, not the annual PUE. A project's own reported ratio replaces the standard range.",
             ],
             [
-              "Peak / installed capacity",
-              range(a.peak_to_nameplate_fraction, factor),
-              "Installed MW = site peak MW ÷ ratio. An IT peak is first converted to site power with PUE.",
+              "MW figure without a stated measure",
+              `1–${number(a.pue[1])} × MW`,
+              "The low value reads the figure as site power, the high value as IT power.",
             ],
-            [
-              "Source minimum",
-              "Reported MW",
-              "For ‘at least X MW’, X enters the calculation with the usual conversion. The source qualification stays beside the original figure.",
-            ],
+            ["At least X MW", "X", "Counted as X, with the usual conversion."],
           ],
         },
         {
           id: "annual",
-          headers: ["Datacenter type", "Annual / installed capacity", "Annual / peak power"],
+          headers: ["Datacenter type", "Load factor"],
           rows: [
-            ...Object.entries(types.categories).map(([id, item]) => [
-              labels[id] || id.replaceAll("_", " "),
-              factor(item.load_factor),
-              range(item.peak_load_factor, factor),
-            ]),
-            ["Unknown type", range(a.nameplate_annual_fraction, factor), range(a.peak_annual_fraction, factor)],
+            ...Object.entries(types.categories)
+              .filter(([id]) => labels[id])
+              .map(([id, item]) => [labels[id], factor(item.load_factor)]),
+            ["Unknown type", range(a.nameplate_annual_fraction, factor)],
           ],
         },
         {
+          id: "stages",
+          headers: ["Stage", "Meaning", ...timeline.families.map((family) => family.label)],
+          swatches: STAGES.map((stage) => stage.id),
+          rows: STAGES.map((stage) => [
+            stage.label,
+            stage.text,
+            ...timeline.families.map((family) => (Number(family.weights[stage.id]) > 0 ? "✓" : "–")),
+          ]),
+        },
+        {
           id: "timing",
-          headers: ["Development stage", "To build start (years)", "Build time left (years)"],
-          rows: ["Concept study", "Planned", "Permitted", "Under construction", "Unclear", "Operational"].map((status) => [
+          headers: ["Project status", "Years until construction starts", "Years of construction left"],
+          rows: ["Concept study", "Planned", "Permitted", "Under construction", "Unclear"].map((status) => [
             status,
             range(a.stage_lead_times[status].to_construction),
             range(a.stage_lead_times[status].remaining_construction),
@@ -235,9 +202,13 @@
   function renderReference(element, reference) {
     if (!element) return;
     const doc = element.ownerDocument;
-    for (const { id, headers, rows } of reference.tables) {
+    for (const { id, headers, rows, swatches } of reference.tables) {
       const host = element.querySelector(`[data-method-table="${id}"]`);
       if (!host) continue;
+      if (!rows.length) {
+        host.replaceChildren();
+        continue;
+      }
       const table = doc.createElement("table");
       const head = table.createTHead().insertRow();
       for (const label of headers) {
@@ -254,6 +225,13 @@
           if (!index) cell.scope = "row";
           cell.dataset.label = headers[index];
           cell.textContent = value;
+          if (!index && swatches) {
+            const swatch = doc.createElement("i");
+            swatch.className = "dc-method-swatch";
+            swatch.style.background = `var(--dc-class-${swatches[body.rows.length - 1]})`;
+            cell.prepend(swatch);
+          }
+          if (index > 1 && swatches) cell.className = "dc-method-check";
           row.append(cell);
         });
       }
@@ -417,7 +395,19 @@
       .attr("aria-label", "Close explanation")
       .text("×");
     const popupBody = popup.append("div").attr("class", "dc-method-node-detail");
-    popup.append("a").attr("href", "#dc-method-reference").attr("class", "dc-method-popover-reference").text("Parameters and assumptions");
+    const referenceLink = popup.append("a").attr("href", "#dc-method-reference").attr("class", "dc-method-popover-reference");
+    // Each step points to the part of the reference that holds its numbers.
+    const references = {
+      scope: ["dc-method-capacity", "Capacity conversion"],
+      it: ["dc-method-capacity", "Capacity conversion"],
+      site: ["dc-method-capacity", "Capacity conversion"],
+      unknown: ["dc-data-coverage", "Data coverage"],
+      overlap: ["dc-method-reference", "Parameters and assumptions"],
+      stage: ["dc-method-stages", "Stages"],
+      timing: ["dc-method-timing", "Opening dates and build-out"],
+      mw: ["dc-method-capacity", "Capacity conversion"],
+      energy: ["dc-method-energy", "Annual electricity use"],
+    };
     const panel = popup.node(),
       doc = container.ownerDocument;
     const nativePopover = typeof panel.showPopover === "function";
@@ -457,6 +447,8 @@
       this.setAttribute("aria-expanded", "true");
       panel.style.setProperty("--dc-method-accent", getComputedStyle(this.parentElement).getPropertyValue("--dc-method-accent"));
       popupTitle.text(node.title);
+      const [target, label] = references[node.id] || ["dc-method-reference", "Parameters and assumptions"];
+      referenceLink.attr("href", "#" + target).text(label);
       popupBody
         .selectAll("p")
         .data(node.detail)

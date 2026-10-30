@@ -108,15 +108,21 @@ html[data-theme="dark"] .dc-method-flow {
   position: relative;
   margin: 0;
   min-width: 0;
-  border: 1px solid color-mix(in srgb, var(--dc-method-accent) 38%, var(--dc-surface));
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--dc-method-accent) 13%, var(--dc-surface));
+  border: 1px solid color-mix(in srgb, var(--dc-method-accent) 34%, transparent);
+  border-radius: 10px;
+  background: var(--dc-paper);
+  transition: border-color 120ms ease, background 120ms ease;
+}
+.dc-method-flow .dc-method-node:hover,
+.dc-method-flow .dc-method-node:has([aria-expanded="true"]) {
+  border-color: color-mix(in srgb, var(--dc-method-accent) 70%, transparent);
+  background: color-mix(in srgb, var(--dc-method-accent) 5%, var(--dc-paper));
 }
 
 .dc-method-flow .dc-method-terminal {
   --dc-method-accent: var(--dc-muted);
   border-style: dashed;
-  background: var(--dc-surface);
+  background: var(--dc-paper);
 }
 
 .dc-method-nodes[data-columns="1"] .dc-method-node {
@@ -134,7 +140,7 @@ html[data-theme="dark"] .dc-method-flow {
   padding: 9px 28px 9px 12px;
   width: 100%;
   border: 0;
-  border-radius: 13px;
+  border-radius: 9px;
   background: transparent;
   color: var(--dc-ink);
   font: inherit;
@@ -162,11 +168,11 @@ html[data-theme="dark"] .dc-method-flow {
 .dc-method-node-title {
   color: var(--dc-ink);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
 }
 .dc-method-node-subtitle {
-  color: var(--dc-ink);
+  color: var(--dc-muted);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -181,8 +187,8 @@ html[data-theme="dark"] .dc-method-flow {
   margin: 0;
   padding: 10px 12px 12px;
   border: 1px solid var(--dc-method-accent, var(--dc-blue));
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--dc-method-accent, var(--dc-blue)) 8%, var(--dc-surface));
+  border-radius: 10px;
+  background: var(--dc-paper);
   color: var(--dc-ink);
   box-shadow: 0 10px 28px rgba(20, 30, 35, 0.22);
   font-family: inherit;
@@ -299,9 +305,15 @@ html[data-theme="dark"] .dc-method-flow {
   line-height: 1.5;
 }
 .dc-method-reference thead th {
-  background: var(--dc-control);
+  border-bottom-color: color-mix(in srgb, var(--dc-ink) 35%, transparent);
+  background: transparent;
+  color: var(--dc-muted);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
+}
+.dc-method-reference th:first-child,
+.dc-method-reference td:first-child {
+  padding-left: 0;
 }
 .dc-method-reference tbody th {
   font-weight: 500;
@@ -317,12 +329,34 @@ html[data-theme="dark"] .dc-method-flow {
 .dc-method-reference [data-method-table="capacity"] tbody th {
   width: 20%;
 }
+.dc-method-reference [data-method-table="stages"] tbody th {
+  width: 22%;
+  white-space: nowrap;
+}
+.dc-method-reference .dc-method-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 0.45rem;
+  border-radius: 2px;
+  vertical-align: -1px;
+}
+.dc-method-reference th.dc-method-check,
+.dc-method-reference td.dc-method-check,
+.dc-method-reference [data-method-table="stages"] thead th:nth-child(n + 3) {
+  width: 11%;
+  text-align: center;
+}
+.dc-method-reference td.dc-method-check {
+  color: var(--dc-blue);
+}
 .dc-method-reference [data-method-table="capacity"] td:first-of-type {
   width: 15%;
 }
 .dc-method-reference .dc-method-formula {
-  padding: 7px 9px;
-  background: var(--dc-control);
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid var(--dc-rule);
+  background: transparent;
   font-family: ui-monospace, monospace;
   font-size: 12px !important;
 }
