@@ -198,22 +198,6 @@
         </figure>
       </div>
     </details>
-    <details class="pf-drawer">
-      <summary><strong>Matched hour by hour</strong><span>How much of datacenter use each portfolio covers in the same hour</span></summary>
-      <div class="pf-drawer-body">
-        <p class="pf-prose">{{ sc.coverage.text }}</p>
-        <figure class="pf-bars pf-bars-thin" aria-label="Hourly coverage by portfolio">
-          {% for i in sc.coverage.items %}
-            <div class="pf-bar-row{% if i.highlight %} pf-bar-highlight{% endif %}">
-              <span class="pf-bar-label">{{ i.label }}</span>
-              <span class="pf-bar-track"><span class="pf-bar" style="width: {{ i.value }}%"></span></span>
-              <span class="pf-bar-value">{{ i.value }}%</span>
-            </div>
-          {% endfor %}
-          <p class="pf-caption">Annual output equal to annual use. Scale 0–100%.</p>
-        </figure>
-      </div>
-    </details>
   </div>
 
   <div class="pf-closing">
