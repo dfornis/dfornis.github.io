@@ -54,11 +54,11 @@
         Electricity price in SE3 and extra cost for other Swedish customers, {{ sc.model.result_year }}
       </figcaption>
       <p class="pf-mix-legend">
-        <span><span class="pf-key pf-price-avg" aria-hidden="true"></span>Average price</span>
+        <span><span class="pf-key pf-price-avg" aria-hidden="true"></span>Average spot price</span>
         <span><span class="pf-key pf-price-p99" aria-hidden="true"></span>Most expensive 1% of hours</span>
       </p>
       <div class="pf-price-row pf-price-head" aria-hidden="true">
-        <span></span><span>Price, SE3 · EUR/MWh</span><span></span><span>Extra cost, other customers · bn EUR/yr</span><span></span>
+        <span></span><span>Spot price, SE3 · EUR/MWh</span><span></span><span>Extra cost, other customers · bn EUR/yr</span><span></span>
       </div>
       {% assign rows = sc.cases | unshift: ref %}
       {% for c in rows %}
@@ -85,10 +85,10 @@
         </div>
       {% endfor %}
       <p class="pf-caption">
-        Price in bidding zone SE3: the yearly average and the price exceeded in only 1% of the hours. Extra cost for other customers: their
-        electricity use multiplied by the hourly wholesale price, summed over the year and compared with the reference run. Most other electricity use
-        is fixed in the model, so it does not fall when prices rise. Only part of hydrogen production and some flexible use respond to prices. Network
-        tariffs and taxes are not included.
+        Modelled spot price in bidding zone SE3: the yearly average and the price exceeded in only 1% of the hours. Extra cost for other customers:
+        their electricity use multiplied by the hourly wholesale price, summed over the year and compared with the reference run. Most other
+        electricity use is fixed in the model, so it does not fall when prices rise. Only part of hydrogen production and some flexible use respond to
+        prices. Network tariffs and taxes are not included.
       </p>
     </figure>
   </div>
