@@ -297,26 +297,6 @@
           "evidence": ["E86", "E84", "E89", "E40", "E78", "E77"]
         }
       },
-      "pairs": {
-        "T0-T1": {
-          "judgement": "T0 has the stronger starting position, but its business support is vulnerable to conflict between electricity users. T1 offers a possible agreement between expansion advocates and groups demanding that developers add supply. Its present advocates still need a wider parliamentary majority and agreement over eligible generation.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
-          "evidence": ["E76", "E84", "E89", "E40", "E78", "E79", "E82"],
-          "takeaway": "Business associations defend voluntary contracts, while SKGS is in between. The coalition for T1 is broader and growing, with the Green Party, the Social Democrats, Svenska kraftnät and some firms."
-        },
-        "T0-T2": {
-          "judgement": "T0 has stronger organised support. For T2 to overtake it, electricity-cost and connection conflicts would need to produce an alliance willing to block new sites, with parties able to legislate for it.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
-          "evidence": ["E76", "E77", "E84", "E89", "E86"],
-          "takeaway": "T0 starts with stronger organised support. T2 needs a new alliance willing to halt investment."
-        },
-        "T1-T2": {
-          "judgement": "T1 is easier to build an agreement around: it preserves an investment route while requiring new supply. T2 would gain ground if those commitments failed to address the grievances driving opposition.",
-          "condition": "Track whether industry associations and household campaigns begin demanding conditions specifically on datacenter expansion, and whether parliamentary parties adopt those demands.",
-          "evidence": ["E40", "E78", "E13", "E86"],
-          "takeaway": "T1 has identifiable reform advocates. A coalition for T2 would have to accept that no new datacenters open."
-        }
-      },
       "overview": {
         "T0": "Business support can split if industry faces delays and households organise over bills.",
         "T1": "Reform advocates disagree over renewables, nuclear and existing plants.",
@@ -364,26 +344,6 @@
           "evidence": ["E87", "E88", "E48"]
         }
       },
-      "pairs": {
-        "T0-T1": {
-          "judgement": "T0 can continue under existing rules. T1 requires a government bill, parliamentary approval and a monitoring mandate for Ei before implementation in 2028.",
-          "condition": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
-          "evidence": ["E02", "E43", "E08", "E48", "E51"],
-          "takeaway": "T0 fits existing rules. T1 requires legislation and a monitoring mandate for Ei."
-        },
-        "T0-T2": {
-          "judgement": "T0 has a clear institutional advantage. T2 must replace an open application route with a sector-wide restriction and justify the treatment of projects already underway.",
-          "condition": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
-          "evidence": ["E02", "E48", "E87", "E88"],
-          "takeaway": "T0 follows established procedures. T2 requires legislation, a public-interest justification and transition rules."
-        },
-        "T1-T2": {
-          "judgement": "Both reforms need legislation. T1 creates a compliance route for new sites. T2 closes that route even for a developer willing to add generation. That broader restriction is harder to justify when less restrictive policy responses are available.",
-          "condition": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
-          "evidence": ["E08", "E48", "E87", "E88"],
-          "takeaway": "Both require legislation. T2 faces the harder task of justifying a sector-wide restriction."
-        }
-      },
       "overview": {
         "T0": "Existing contracts and authorities are sufficient.",
         "T1": "Needs legislation, a sector-specific justification and supervision.",
@@ -428,26 +388,6 @@
         "T2": {
           "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
           "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
-        }
-      },
-      "pairs": {
-        "T0-T1": {
-          "judgement": "T0 benefits most while attracting AI investment is the dominant priority. T1 gains if energy affordability and industrial electrification become more pressing. The comparison follows how demand, supply and public debate develop together.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
-          "evidence": ["E63", "E77", "E40", "E78", "E83", "E84", "E89"],
-          "takeaway": "T0 fits the drive to attract AI investment. T1 also addresses concern over electricity prices and industrial electrification."
-        },
-        "T0-T2": {
-          "judgement": "T0 fits the present digital-investment agenda more closely. T2 becomes a serious competitor if persistent shortages and price pressure make limiting new demand a widely accepted public priority.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
-          "evidence": ["E63", "E77", "E83", "E89", "E86"],
-          "takeaway": "T0 fits current digital-investment ambitions. T2 gains relevance when limiting electricity demand becomes a political priority."
-        },
-        "T1-T2": {
-          "judgement": "T1 can respond to competing priorities without stopping investment. T2 gains relative to it if the public problem becomes total resource use or connection displacement, which an annual generation requirement does not settle.",
-          "condition": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
-          "evidence": ["E83", "E84", "E86", "E40"],
-          "takeaway": "T1 combines continued investment with new generation. T2 gains if opposition concerns the scale of expansion itself."
         }
       },
       "overview": {
@@ -498,26 +438,6 @@
           "evidence": ["E77", "E83", "E87"]
         }
       },
-      "pairs": {
-        "T0-T1": {
-          "judgement": "T0 leaves more of the risk from inadequate new supply with other electricity users. T1 assigns developers a financing obligation and gives them a contractual way to comply. It is easier to defend as a response to price pressure, but first-year compliance can delay openings and organise industry resistance around the timetable.",
-          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
-          "evidence": ["E83", "E84", "E89", "E43", "E15"],
-          "takeaway": "Under T0, households and other firms can face higher bills and delayed connections. T1 places generation costs and delivery risks on developers."
-        },
-        "T0-T2": {
-          "judgement": "T2 removes this cohort’s new electricity demand and the associated pressure on other users. Its losses are more concentrated and politically organised than under T0: developers cannot comply their way into opening. Sustaining the stop therefore requires a coalition prepared to defend those losses.",
-          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
-          "evidence": ["E83", "E84", "E77", "E87"],
-          "takeaway": "T2 reduces pressure from new demand, while concentrating losses on developers and prospective host communities."
-        },
-        "T1-T2": {
-          "judgement": "T1 gives developers an adjustment route through investment or a power contract. T2 removes the investment opportunity altogether. That makes T1 easier to sustain against business and municipal opposition, provided generation can be delivered on the required timetable.",
-          "condition": "Reassess when bills, delayed projects or cancelled investments become politically salient. For T1, check whether generation delivery dates leave developers a workable route to comply.",
-          "evidence": ["E43", "E15", "E77"],
-          "takeaway": "T1 offers developers a contractual route to open. T2 closes that route, increasing their incentive to oppose it."
-        }
-      },
       "overview": {
         "T0": "Higher bills and delayed industrial projects can create organised opposition.",
         "T1": "Developers must finance new plants or sign long-term power contracts.",
@@ -563,26 +483,6 @@
         "T2": {
           "assessment": "A national stop departs sharply from investment promotion and case-by-case administration. Firms and municipalities already preparing projects have reasons to resist it. If adopted, the stop could build support among users who benefit from reduced demand, while developers press for exceptions or reopening. Keeping it in place until 2035 would be a separate political challenge.",
           "evidence": ["E63", "E77", "E87", "E88", "E83"]
-        }
-      },
-      "pairs": {
-        "T0-T1": {
-          "judgement": "T0 has the advantage of existing practice. T1 is already on the policy agenda and could gain further support as the costs of continuation become visible. After adoption, new generation contracts would give investors an interest in stable rules, while developers could still press to postpone compliance.",
-          "condition": "Track whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop hold up against pressure for postponement and exemptions.",
-          "evidence": ["E43", "E69", "E70", "E08", "E40", "E78", "E31", "E83", "E84"],
-          "takeaway": "T0 benefits from established practice. T1 builds on reform proposals and precedents for generation requirements."
-        },
-        "T0-T2": {
-          "judgement": "T0 has a strong initial advantage. Repeated failures to manage prices and connections could undermine it, but introducing and maintaining a national stop would require a much larger departure from Swedish practice.",
-          "condition": "Track whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop hold up against pressure for postponement and exemptions.",
-          "evidence": ["E63", "E77", "E87", "E88", "E83", "E84"],
-          "takeaway": "T0 extends existing practice. T2 disrupts investment plans and creates pressure for exemptions."
-        },
-        "T1-T2": {
-          "judgement": "T1 extends an existing reform agenda and familiar contracting arrangements. T2 is a sharper break, with stronger incentives for affected firms to seek exemptions or repeal. This favours T1 both at adoption and during implementation.",
-          "condition": "Track whether voluntary contracts deliver new supply, whether losses shift organised support, and whether adopted requirements or a stop hold up against pressure for postponement and exemptions.",
-          "evidence": ["E08", "E40", "E78", "E43", "E77", "E87"],
-          "takeaway": "T1 develops existing proposals. T2 is a larger break with investment promotion and individual project decisions."
         }
       },
       "overview": {
@@ -784,20 +684,6 @@
     "url": "https://doi.org/10.1017/S0003055417000302",
     "article_locator": "Fornborg (2026), section 4.5 and reference 33"
   },
-  "pairs": [
-    {
-      "id": "T0-T1",
-      "label": "T0 / T1 · Voluntary / Requirement"
-    },
-    {
-      "id": "T0-T2",
-      "label": "T0 / T2 · Voluntary / Stop"
-    },
-    {
-      "id": "T1-T2",
-      "label": "T1 / T2 · Requirement / Stop"
-    }
-  ],
   "scope": {
     "question": "Which rules for new Swedish datacenters could be adopted and sustained as electricity demand grows?",
     "policy": "A national requirement on developers to secure additional generation",
@@ -1212,11 +1098,6 @@
       "question": "What could sustain the chosen policy or prompt its revision?"
     }
   ],
-  "initial_synthesis": {
-    "T0-T1": "T1 now has the stronger position. Support for a requirement is broad and growing, and rising bills strengthen it. T0 keeps the advantage that it needs no new legislation, and T1 still needs agreement on which generation qualifies.",
-    "T0-T2": "T0 has stronger organised support and follows established procedures. T2 requires a coalition willing to stop new datacenters and defend that decision.",
-    "T1-T2": "T1 has a clearer route to reform, because it permits investment subject to a generation requirement. T2 needs broader acceptance of the losses from stopping new sites."
-  },
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",

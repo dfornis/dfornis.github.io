@@ -6,29 +6,6 @@
   const data = JSON.parse(root.querySelector("#pf-case-data").textContent);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Pairwise comparison, inside its fold-out: one pair at a time once scripts run.
-  const pairSelect = root.querySelector("#pf-pair-select");
-  if (pairSelect) {
-    const params = new URLSearchParams(location.search);
-    if (data.pairs.some((pair) => pair.id === params.get("pair"))) pairSelect.value = params.get("pair");
-    const showPair = (announce = false) => {
-      const pair = data.pairs.find((item) => item.id === pairSelect.value);
-      root.querySelectorAll("[data-pf-comparison]").forEach((element) => {
-        element.hidden = element.dataset.pfComparison !== pair.id;
-      });
-      if (announce) {
-        root.querySelector("#pf-control-status").textContent = pair.label;
-        const url = new URL(location.href);
-        url.searchParams.set("pair", pair.id);
-        ["development", "generation", "grid", "supply"].forEach((key) => url.searchParams.delete(key));
-        history.replaceState(null, "", url);
-      }
-    };
-    root.querySelector(".pf-pair-control").hidden = false;
-    pairSelect.addEventListener("change", () => showPair(true));
-    showPair();
-  }
-
   // Links to a dimension or a place open the fold-out that holds it.
   function openLinkedTarget() {
     if (!location.hash) return;

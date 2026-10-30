@@ -41,8 +41,8 @@ nav: false
     </section>
     <section id="sources-04">
       <h3>04 Compare political feasibility</h3>
-      {% for d in pf.dimensions %} {% assign ids = d.literature %} {% for pair in pf.pairs %}{% assign ids = ids | concat: d.pairs[pair.id].evidence
-      %}{% endfor %} {% for t in pf.trajectories %}{% assign ids = ids | concat: d.cells[t.id].evidence %}{% endfor %}
+      {% for d in pf.dimensions %} {% assign ids = d.literature %} {% for t in pf.trajectories %}{% assign ids = ids | concat: d.cells[t.id].evidence
+      %}{% endfor %}
       <h4>{{ d.name }}</h4>
       {% include policy-feasibility/references.liquid ids=ids %} {% endfor %} {% assign ids = pf.developments[0].evidence %} {% for development in
       pf.developments %}{% assign ids = ids | concat: development.evidence %}{% endfor %}
