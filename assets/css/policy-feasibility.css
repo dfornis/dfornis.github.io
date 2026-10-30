@@ -2865,23 +2865,18 @@ html:has(.pf-v2) {
 .pf-fw-reuse {
   grid-area: reuse;
 }
-.pf-fw-grid a {
+.pf-fw-grid .pf-fw-box {
   color: var(--pf-ink);
   text-decoration: none;
 }
-.pf-fw-grid > a,
+.pf-fw-grid > .pf-fw-box,
 .pf-fw-dimensions,
-.pf-fw-use > a {
+.pf-fw-use > div {
   margin-top: 0.6rem;
   transition:
     transform 0.25s var(--pf-ease),
     box-shadow 0.25s var(--pf-ease),
     background-color 0.25s var(--pf-ease);
-}
-.pf-fw-grid > a:hover,
-.pf-fw-use > a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(41, 46, 44, 0.08);
 }
 
 /* Step 1: three sources of the outside view */
@@ -2897,9 +2892,6 @@ html:has(.pf-v2) {
   background: var(--pf-accent-muted);
   color: #fff;
   text-align: center;
-}
-.pf-fw-sources:hover span {
-  background: var(--pf-accent);
 }
 
 /* Candidate trajectories */
@@ -2934,35 +2926,29 @@ html:has(.pf-v2) {
   border-radius: 8px;
   background: var(--pf-soft);
 }
-.pf-fw-dimensions > a {
+.pf-fw-dimensions > .pf-fw-dimhead {
   padding: 0.8rem 0.9rem;
   background: var(--pf-accent);
   color: #fff;
   text-align: center;
 }
-.pf-v2 .pf-fw-dimensions > a strong,
+.pf-v2 .pf-fw-dimensions > .pf-fw-dimhead strong,
 .pf-v2 .pf-fw-sources span {
   color: #fff !important;
 }
-.pf-fw-dimensions > a strong {
+.pf-fw-dimensions > .pf-fw-dimhead strong {
   font-size: 0.95rem;
   font-weight: 600;
-}
-.pf-fw-dimensions > a:hover {
-  background: var(--pf-ink);
 }
 .pf-v2 .pf-fw-dimensions ul {
   padding: 0.45rem 0;
   list-style: none;
 }
-.pf-fw-dimensions li a {
+.pf-fw-dimensions li span {
   display: block;
   padding: 0.32rem 0.9rem;
   text-align: center;
   transition: background-color 0.2s ease;
-}
-.pf-fw-dimensions li a:hover {
-  background: color-mix(in srgb, var(--pf-accent) 12%, transparent);
 }
 
 /* Arrows */
@@ -3006,7 +2992,7 @@ html:has(.pf-v2) {
   gap: 0.6rem;
   margin-top: 0.6rem;
 }
-.pf-fw-use > a {
+.pf-fw-use > div {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -3018,7 +3004,7 @@ html:has(.pf-v2) {
   border-left: 3px solid var(--pf-accent);
   background: var(--pf-paper);
 }
-.pf-fw-use > a::before {
+.pf-fw-use > div::before {
   /* arrow into each outcome */
   content: "";
   position: absolute;
@@ -3027,7 +3013,7 @@ html:has(.pf-v2) {
   width: 1.1rem;
   border-top: 1.8px solid var(--pf-accent);
 }
-.pf-fw-use > a::after {
+.pf-fw-use > div::after {
   content: "";
   position: absolute;
   top: calc(50% - 4px);
@@ -3091,11 +3077,6 @@ html:has(.pf-v2) {
   opacity: 1;
   transform: none;
 }
-.pf-reveal-ready .pf-fw.pf-in-view .pf-fw-grid > a:hover,
-.pf-reveal-ready .pf-fw.pf-in-view .pf-fw-use > a:hover {
-  transform: translateY(-2px);
-  transition-delay: 0s;
-}
 
 /* Narrow screens: the figure reads top to bottom. */
 @media (max-width: 760px) {
@@ -3148,8 +3129,8 @@ html:has(.pf-v2) {
   .pf-fw-use {
     grid-template-rows: auto;
   }
-  .pf-fw-use > a::before,
-  .pf-fw-use > a::after {
+  .pf-fw-use > div::before,
+  .pf-fw-use > div::after {
     display: none;
   }
   .pf-v2 .pf-fw-reuse {
@@ -3178,7 +3159,7 @@ html:has(.pf-v2) {
     padding-bottom: 0.3rem;
     font-size: 0.68rem !important;
   }
-  .pf-fw-grid > a,
+  .pf-fw-grid > .pf-fw-box,
   .pf-fw-dimensions,
   .pf-fw-use {
     margin-top: 0.45rem;
@@ -3198,11 +3179,11 @@ html:has(.pf-v2) {
     height: 1.2rem;
   }
   .pf-fw-candidates strong,
-  .pf-fw-dimensions > a {
+  .pf-fw-dimensions > .pf-fw-dimhead {
     padding: 0.5rem 0.75rem;
   }
   .pf-fw-candidates strong,
-  .pf-fw-dimensions > a strong {
+  .pf-fw-dimensions > .pf-fw-dimhead strong {
     font-size: 0.86rem;
   }
   .pf-v2 .pf-fw-candidates ul {
@@ -3226,13 +3207,13 @@ html:has(.pf-v2) {
     gap: 0.1rem 0.2rem;
     padding: 0.4rem 0.4rem 0.5rem;
   }
-  .pf-fw-dimensions li a {
+  .pf-fw-dimensions li span {
     padding: 0.2rem 0.45rem;
   }
   .pf-fw-use {
     gap: 0.35rem;
   }
-  .pf-fw-use > a {
+  .pf-fw-use > div {
     padding: 0.5rem 0.75rem;
   }
   .pf-fw-use span {
@@ -3288,17 +3269,10 @@ html:has(.pf-v2) {
     border-radius: 50%;
     background: var(--global-bg-color, var(--pf-paper));
   }
-  .pf-fw-grid > a,
+  .pf-fw-grid > .pf-fw-box,
   .pf-fw-dimensions,
   .pf-fw-use {
     margin-top: 0.2rem;
-  }
-  .pf-fw-grid > a:hover,
-  .pf-fw-use > a:hover,
-  .pf-reveal-ready .pf-fw.pf-in-view .pf-fw-grid > a:hover,
-  .pf-reveal-ready .pf-fw.pf-in-view .pf-fw-use > a:hover {
-    transform: none;
-    box-shadow: none;
   }
   /* Sources: one light block, three lines */
   .pf-fw-sources {
@@ -3319,9 +3293,6 @@ html:has(.pf-v2) {
   .pf-fw-sources span + span {
     border-top: 1px solid var(--pf-line);
   }
-  .pf-fw-sources:hover span {
-    background: var(--pf-soft);
-  }
   .pf-fw-candidates {
     border-radius: 6px;
     overflow: hidden;
@@ -3336,7 +3307,7 @@ html:has(.pf-v2) {
   .pf-fw-dimensions {
     border-radius: 6px;
   }
-  .pf-fw-dimensions > a {
+  .pf-fw-dimensions > .pf-fw-dimhead {
     padding: 0.4rem 0.7rem;
     text-align: left;
   }
@@ -3344,14 +3315,14 @@ html:has(.pf-v2) {
     justify-content: flex-start;
     padding: 0.35rem 0.3rem 0.4rem;
   }
-  .pf-fw-dimensions li a {
+  .pf-fw-dimensions li span {
     padding: 0.15rem 0.4rem;
   }
   .pf-v2 .pf-fw-reuse {
     margin-top: 0.1rem;
     font-style: normal;
   }
-  .pf-fw-use > a {
+  .pf-fw-use > div {
     padding: 0.45rem 0.7rem;
     border-left-width: 1px;
     border-radius: 6px;
@@ -3383,19 +3354,16 @@ html:has(.pf-v2) {
   .pf-fw-sources span + span {
     border-top: 0;
   }
-  .pf-fw-sources:hover span {
-    background: var(--pf-accent);
-  }
   .pf-fw-candidates {
     background: var(--pf-paper);
   }
   .pf-fw-candidates strong {
     background: color-mix(in srgb, var(--pf-accent-muted) 18%, var(--pf-paper));
   }
-  .pf-fw-dimensions > a {
+  .pf-fw-dimensions > .pf-fw-dimhead {
     background: var(--pf-accent);
   }
-  .pf-fw-use > a {
+  .pf-fw-use > div {
     border-left: 3px solid var(--pf-accent);
   }
 }
@@ -3449,7 +3417,7 @@ html:has(.pf-v2) {
 .pf-v2 .pf-fw-grid li a,
 .pf-v2 .pf-fw-sources span,
 .pf-v2 .pf-fw-candidates strong,
-.pf-v2 .pf-fw-dimensions > a strong,
+.pf-v2 .pf-fw-dimensions > .pf-fw-dimhead strong,
 .pf-v2 .pf-fw-use strong {
   font-size: 0.86rem !important;
   line-height: 1.4;
@@ -3463,7 +3431,7 @@ html:has(.pf-v2) {
   .pf-v2 .pf-fw-grid li a,
   .pf-v2 .pf-fw-sources span,
   .pf-v2 .pf-fw-candidates strong,
-  .pf-v2 .pf-fw-dimensions > a strong,
+  .pf-v2 .pf-fw-dimensions > .pf-fw-dimhead strong,
   .pf-v2 .pf-fw-use strong {
     font-size: 0.82rem !important;
   }
@@ -3494,8 +3462,8 @@ html:has(.pf-v2) {
 /* Framework figure: a plain arrow into scenario use (the drawn fork broke with the theme's link styles). */
 .pf-fw-branch::before,
 .pf-fw-branch::after,
-.pf-fw-use > a::before,
-.pf-fw-use > a::after {
+.pf-fw-use > div::before,
+.pf-fw-use > div::after {
   display: none !important;
   content: none !important;
 }

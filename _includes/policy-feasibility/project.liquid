@@ -56,31 +56,31 @@
       <p class="pf-fw-step pf-fw-s2" style="--pf-d: 4"><span>2</span> Inside view · compare</p>
       <p class="pf-fw-step pf-fw-s3" style="--pf-d: 6">Scenario use</p>
 
-      <a class="pf-fw-sources" href="#pf-scope" style="--pf-d: 1">
+      <div class="pf-fw-box pf-fw-sources" style="--pf-d: 1">
         <span>Historical precedent and policy momentum</span>
         <span>Institutional practice and commitments</span>
         <span>Actor positions and stakeholder signals</span>
-      </a>
+      </div>
       <svg class="pf-fw-arrow pf-fw-a1" style="--pf-d: 2" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
         <path d="M4 16h22m-6-6 6 6-6 6" />
       </svg>
-      <a class="pf-fw-candidates" href="#pf-trajectories" style="--pf-d: 3">
+      <div class="pf-fw-box pf-fw-candidates" style="--pf-d: 3">
         <strong>Candidate policy trajectories</strong>
         <ul>
           <li>Trajectory 1</li>
           <li>Trajectory 2</li>
           <li>Trajectory …</li>
         </ul>
-      </a>
+      </div>
       <svg class="pf-fw-arrow pf-fw-a2" style="--pf-d: 4" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
         <path d="M4 16h22m-6-6 6 6-6 6" />
       </svg>
       <div class="pf-fw-dimensions" style="--pf-d: 5">
-        <a href="#pf-assess"><strong>Feasibility dimensions</strong></a>
+        <div class="pf-fw-dimhead"><strong>Feasibility dimensions</strong></div>
         <ul>
           {% for d in pf.dimensions %}
             <li>
-              <a href="#pf-dimension-{{ d.id }}" title="{{ d.guide }}">{{ d.name }}</a>
+              <span title="{{ d.guide }}">{{ d.name }}</span>
             </li>
           {% endfor %}
         </ul>
@@ -89,8 +89,8 @@
         <path d="M4 16h22m-6-6 6 6-6 6" />
       </svg>
       <div class="pf-fw-use" style="--pf-d: 7">
-        <a href="#pf-model"><strong>Trajectories carried into modelling</strong><span>Baseline, sensitivity case or alternative future</span></a>
-        <a href="#pf-assess"><strong>Documented rationale and disagreements</strong></a>
+        <div><strong>Trajectories carried into modelling</strong><span>Baseline, sensitivity case or alternative future</span></div>
+        <div><strong>Documented rationale and disagreements</strong></div>
       </div>
       <p class="pf-fw-reuse" style="--pf-d: 8">Evidence from step 1 is reorganised and reused in step 2</p>
     </div>
@@ -154,10 +154,10 @@
         <summary><strong>On additionality</strong><span>What T1b adds to T1, what research says and how it is used here</span></summary>
         <div class="pf-drawer-body pf-additionality-note">
           <p>
-            T1 and T1b differ only in what counts. Under T1b, the new generation must also be additional. Generation is additional if it would not
-            have been built without the buyer’s demand or contract. A power purchase agreement (PPA) for fossil-free electricity shows that a buyer
-            has contracted fossil-free generation. It does not by itself show that the generation is new to the system. If the plant would have been
-            built anyway, the contract changes who claims its output, not how much fossil-free electricity is produced.
+            Under T1b, the new generation must also be additional. Generation is additional if it would not have been built without the buyer’s demand
+            or contract. A power purchase agreement (PPA) for fossil-free electricity shows that a buyer has contracted fossil-free generation. It
+            does not by itself show that the generation is new to the system. If the plant would have been built anyway, the contract changes who
+            claims its output, not how much fossil-free electricity is produced.
           </p>
           <p>
             Research on corporate procurement points the same way. Bjørn et al. (2022) find that companies using renewable energy certificates

@@ -1268,7 +1268,7 @@
       "actors": ["A01", "A04"]
     }
   ],
-  "specification_note": "T1 and T1b differ only in what counts. Under T1b, the new generation must also be additional, which means that it would not have been built without the requirement.",
+  "specification_note": "Under T1b, the new generation must also be additional, which means that it would not have been built without the requirement.",
   "policy_directions": [
     {
       "id": "voluntary",
