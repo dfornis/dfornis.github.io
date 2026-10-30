@@ -5,7 +5,7 @@
     "name": "PyPSA-Eur adapted for the Nordics",
     "result_year": 2035,
     "weather_year": 2023,
-    "setup": "It first chooses how much wind, solar and battery capacity to build at least cost, within published limits for each Nordic country. It then runs the power system hour by hour through the year, one month at a time, using estimated values of stored water to decide when hydropower runs.",
+    "setup": "It first chooses how much wind, solar and battery capacity to build at least cost, within published limits for each Nordic country. It then runs the power system hour by hour through the year, one month at a time.",
     "runs": "datacenter-pypsa, KORNINGAR §2.21–2.22"
   },
   "dc_load_twh": {

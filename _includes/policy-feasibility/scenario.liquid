@@ -45,85 +45,53 @@
       To explore what the choice of trajectory can mean in a model, I ran all four trajectories in a power system model of the Nordic countries for
       {{ sc.model.result_year }}, together with a reference run without the new datacenters. A requirement that counts any new fossil-free generation
       (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind that the model builds anyway. A requirement
-      for additional generation (T1b) and a stop for new datacenters (T2) both reduce the extra cost for other Swedish customers by more than half.
+      for additional generation (T1b) and a stop for new datacenters (T2) both give clearly lower prices, especially in the most expensive hours.
     </p>
-    {% assign m_price = sc.metrics | where: 'id', 'price_se' | first %}
-    <figure class="pf-bars" aria-labelledby="pf-bars-caption">
-      <figcaption id="pf-bars-caption">{{ m_price.label }}, {{ sc.model.result_year }} · {{ m_price.unit }}, weighted by consumption</figcaption>
-      <div class="pf-bar-row pf-bar-reference">
-        <span class="pf-bar-label">{{ ref.label }}</span>
-        <span class="pf-bar-track"
-          ><span class="pf-bar" style="width: {{ ref.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
-        ></span>
-        <span class="pf-bar-value">{{ ref.values.price_se }}</span>
+    {% assign smax = 250.0 %}
+    {% assign cmax = 5.0 %}
+    <figure class="pf-bars pf-price" aria-labelledby="pf-bars-caption">
+      <figcaption id="pf-bars-caption" class="pf-sr-only">
+        Electricity price in SE3 and extra cost for other Swedish customers, {{ sc.model.result_year }}
+      </figcaption>
+      <p class="pf-mix-legend">
+        <span><span class="pf-key pf-price-avg" aria-hidden="true"></span>Average price</span>
+        <span><span class="pf-key pf-price-p99" aria-hidden="true"></span>Most expensive 1% of hours</span>
+      </p>
+      <div class="pf-price-row pf-price-head" aria-hidden="true">
+        <span></span><span>Price, SE3 · EUR/MWh</span><span></span><span>Extra cost, other customers · bn EUR/yr</span><span></span>
       </div>
-      {% for c in sc.cases %}
+      {% assign rows = sc.cases | unshift: ref %}
+      {% for c in rows %}
         {% assign t = pf.trajectories | where: 'id', c.id | first %}
-        <div class="pf-bar-row" data-trajectory="{{ c.id }}">
-          <span class="pf-bar-label"
-            ><small>{{ c.id }}</small>{{ t.short_title -}}
+        <div class="pf-price-row{% if c.id == 'none' %} pf-bar-reference{% endif %}" data-trajectory="{{ c.id }}">
+          <span class="pf-bar-label">
+            {%- if t -%}
+              <small>{{ c.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span>
+            {%- else -%}
+              <span class="pf-mix-short">Ref.</span><span class="pf-mix-name">{{ ref.label }}</span>
+            {%- endif -%}
           </span>
-          {% if c.values.price_se == null %}
-            <span class="pf-bar-track"
-              ><span class="pf-bar-pending"
-                >pending{% if c.note %} · {{ c.note }}{% endif -%}
-              </span></span
-            >
-            <span class="pf-bar-value">–</span>
-          {% else %}
-            <span class="pf-bar-track"
-              ><span class="pf-bar" style="width: {{ c.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
-              ><span class="pf-bar-marker" style="left: {{ ref.values.price_se | times: 100.0 | divided_by: sc.price_scale_max }}%"></span
-            ></span>
-            <span class="pf-bar-value">{{ c.values.price_se }}</span>
-          {% endif %}
+          <span class="pf-price-track">
+            <span class="pf-price-p99" style="width: {{ c.values.p99_se3 | times: 100.0 | divided_by: smax }}%"></span>
+            <span class="pf-price-avg" style="width: {{ c.values.price_se3 | times: 100.0 | divided_by: smax }}%"></span>
+          </span>
+          <span class="pf-bar-value">{{ c.values.price_se3 | round }} · {{ c.values.p99_se3 }}</span>
+          <span class="pf-price-track">
+            <span class="pf-price-avg" style="width: {{ c.values.other_bill | times: 100.0 | divided_by: cmax }}%"></span>
+          </span>
+          <span class="pf-bar-value">
+            {%- if c.id == 'none' %}–{% else %}{{ c.values.other_bill }}{% endif -%}
+          </span>
         </div>
       {% endfor %}
-      <p class="pf-caption">Scale 0–{{ sc.price_scale_max }} EUR/MWh. The thin line marks the reference run.</p>
+      <p class="pf-caption">
+        Price in bidding zone SE3: the yearly average and the price exceeded in only 1% of the hours. Extra cost for other customers: their
+        electricity use multiplied by the hourly wholesale price, summed over the year and compared with the reference run. Most other electricity use
+        is fixed in the model, so it does not fall when prices rise. Only part of hydrogen production and some flexible use respond to prices. Network
+        tariffs, taxes and hedging contracts are not included. Higher prices are also income for electricity producers, so the extra cost is not a
+        loss for society as a whole.
+      </p>
     </figure>
-    <div class="pf-table-scroll">
-      <table class="pf-results">
-        <thead>
-          <tr>
-            <th scope="col">Trajectory</th>
-            {% for m in sc.metrics %}
-              {% unless m.id == 'price_se' %}
-                <th scope="col">
-                  {{ m.label }}
-                  <span class="pf-unit">{{ m.unit }}</span>
-                </th>
-              {% endunless %}
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for c in sc.cases %}
-            {% assign t = pf.trajectories | where: 'id', c.id | first %}
-            <tr data-trajectory="{{ c.id }}">
-              <th scope="row">
-                <span class="pf-swatch" aria-hidden="true"></span><small>{{ c.id }}</small>{{ t.short_title }}
-              </th>
-              {% for m in sc.metrics %}
-                {% unless m.id == 'price_se' %}
-                  {% assign v = c.values[m.id] %}
-                  <td data-label="{{ m.label }} · {{ m.unit }}">
-                    {%- if v == null -%}
-                      {%- if c.id == 'T2' and m.id == 'dc_cost' -%}
-                        –
-                      {%- else -%}
-                        <span class="pf-pending">pending</span>
-                      {%- endif -%}
-                    {%- else -%}
-                      {{- v | replace: '-', '−' -}}
-                    {%- endif -%}
-                  </td>
-                {% endunless %}
-              {% endfor %}
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
   </div>
 
   <div id="pf-additionality" class="pf-callout">
