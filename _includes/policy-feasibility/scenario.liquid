@@ -58,7 +58,9 @@
         <span><span class="pf-key pf-price-p99" aria-hidden="true"></span>Most expensive 1% of hours</span>
       </p>
       <div class="pf-price-row pf-price-head" aria-hidden="true">
-        <span></span><span>Spot price, SE3 · EUR/MWh</span><span></span><span>Extra cost, other customers · bn EUR/yr</span><span></span>
+        <span></span><span>Spot price, SE3 · <span class="pf-nowrap">EUR/MWh</span></span
+        ><span></span><span>Extra cost, other customers · <span class="pf-nowrap">bn EUR/yr</span></span
+        ><span></span>
       </div>
       {% assign rows = sc.cases | unshift: ref %}
       {% for c in rows %}

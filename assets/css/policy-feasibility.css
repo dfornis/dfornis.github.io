@@ -3832,3 +3832,18 @@ html:has(.pf-v2) {
     display: none;
   }
 }
+/* Price figure header: each title spans its bar and value columns */
+.pf-price-head > span:nth-child(2),
+.pf-price-head > span:nth-child(4) {
+  grid-column: span 2;
+}
+.pf-price-head > span:nth-child(3),
+.pf-price-head > span:nth-child(5) {
+  display: none;
+}
+.pf-nowrap {
+  white-space: nowrap;
+}
+.pf-price-head {
+  align-items: end;
+}
