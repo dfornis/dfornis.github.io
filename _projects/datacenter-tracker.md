@@ -14,7 +14,7 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.19">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.20">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
@@ -28,16 +28,16 @@ permalink: /projects/datacenter-tracker/
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-**Ranges.** Ranges come from different readings of the same sources, for example whether a MW figure refers to the servers alone or to the whole site. They are not statistical confidence intervals.
+**Ranges.** Most values are shown as a range, for example 1.4–1.5 GW. The low and high values come from reading the same sources in two ways. For example, a MW figure that does not say what it measures is counted once as site power and once as IT power. Bars, areas and map colours show the high value.
 
-**HQ.** HQ selects projects by where the developer's global headquarters is. Domestic means the same country as the project. Other Europe means another European country. Outside Europe means elsewhere. A project with several developers can match more than one group. A dash means that headquarters have not been reviewed for that country.
+**HQ.** HQ shows only projects whose developer has its global headquarters in the chosen region. Domestic means the same country as the project. Other Europe means another European country, and Outside Europe means the rest of the world. A project with several developers can appear in more than one group.
 
 **Controls.** The tabs, Measure and HQ apply to the whole page. The project list also has its own filters.
 
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.19">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.20">
   <h2 id="dc-timeline-title">When the capacity could be built</h2>
   <p class="dc-timeline-intro">The chart spreads the capacity in the selected tab over the years it could open. The dark area is capacity with an opening year given by the developer or a public document. The light area is capacity where no source gives an opening year. For that capacity, the opening year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. Together the two areas show the total.</p>
   <div class="dc-timeline-content" hidden>
@@ -218,7 +218,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.19' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.20' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -920,10 +920,10 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.19">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.19">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.20">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.20">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.19" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.19" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.19" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.19" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.20" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.20" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.20" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.20" defer></script>

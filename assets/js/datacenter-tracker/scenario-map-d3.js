@@ -721,8 +721,9 @@
         row.append("span").attr("class", "dc-zone-class-name").text((zone === country && country !== "FI" ? "Σ Total" : zone) + (detail.unknown ? "*" : ""));
         const track = row.append("span").attr("class", "dc-zone-class-track").attr("aria-hidden", true);
         const bar = track.append("span").attr("class", "dc-zone-class-bar");
-        for (const layer of detail.classes) bar.append("span").attr("class", `dc-class-segment dc-class-${layer.evidence_class}`)
-          .style("width", `${percent(layer.high)}%`).style("opacity", selected.includes(layer.evidence_class) ? 1 : 0.5);
+        // Colours are set inline: the site's CSS purge cannot see class names built at run time.
+        for (const layer of detail.classes) bar.append("span").attr("class", "dc-class-segment")
+          .style("background", `var(--dc-class-${layer.evidence_class})`).style("width", `${percent(layer.high)}%`).style("opacity", selected.includes(layer.evidence_class) ? 1 : 0.5);
         if (detail.high > 0) track.append("span").attr("class", "dc-zone-class-range")
           .style("left", `${percent(detail.low)}%`).style("width", `${percent(detail.high) - percent(detail.low)}%`);
         const unit = view.measure === "mw" ? "GW" : "TWh/year";
@@ -738,7 +739,7 @@
     legend.append("div").attr("class", "dc-class-legend-title").text("How far the plans have come");
     CLASSES.forEach((klass, i) => {
       const item = legend.append("div").attr("class", "dc-class-legend-item");
-      item.append("i").attr("class", `dc-class-${klass}`).attr("aria-hidden", true);
+      item.append("i").style("background", `var(--dc-class-${klass})`).attr("aria-hidden", true);
       item.append("strong").text(CLASS_LABELS[i]);
       item.append("span").text(CLASS_TEXT[i]);
     });
