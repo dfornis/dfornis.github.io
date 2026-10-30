@@ -11,7 +11,7 @@
   <p class="pf-prose">{{ pf.model_application.setting }}</p>
   <div class="pf-settings">
     <div class="pf-setting">
-      <p class="pf-setting-label">Adopted-policy setting</p>
+      <p class="pf-setting-label">Adopted policy</p>
       <ul>
         {% for t in pf.trajectories %}
           {% if t.scenario_use == 'Adopted-policy baseline' or t.scenario_use == 'Sensitivity case' %}
@@ -25,7 +25,7 @@
       </ul>
     </div>
     <div class="pf-setting">
-      <p class="pf-setting-label">Exploratory setting</p>
+      <p class="pf-setting-label">Exploratory</p>
       <ul>
         {% for t in pf.trajectories %}
           {% if t.scenario_use == 'Alternative policy future' %}
