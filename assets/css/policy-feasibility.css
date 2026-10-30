@@ -3815,3 +3815,11 @@ html:has(.pf-v2) {
 .pf-price-head {
   align-items: end;
 }
+
+/* Framework figure: candidate trajectories styled like the scenario-use boxes */
+.pf-fw-candidates {
+  border-left: 3px solid var(--pf-accent-muted) !important;
+}
+.pf-fw-candidates strong {
+  background: color-mix(in srgb, var(--pf-accent-muted) 18%, var(--pf-paper));
+}
