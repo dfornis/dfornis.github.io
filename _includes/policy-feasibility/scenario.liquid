@@ -178,13 +178,17 @@
       <summary><strong>Electricity use in the model</strong><span>Where demand comes from and how it varies over the day and year</span></summary>
       <div class="pf-drawer-body">
         <p class="pf-prose">
-          Electricity use per bidding zone follows the Swedish Energy Agency’s current-policy scenario, broken down by county and sector in AI
-          Sweden’s Behovskartan. The scenario’s own growth in datacenter use after 2025 is removed and replaced by the projects in the tracker. Growth
-          after 2025 gets an hourly profile per sector. Electric cars, trucks and rail use Behovskartan’s typical profiles. Households and services
-          use measured 2023 data, and electric heating follows heat pumps at 2023 temperatures. Industry and hydrogen are flat. Large datacenters use
-          the hourly shape of Norwegian datacenters with monthly factors from Airon, and AI and HPC facilities are flat. There are no open hourly
+          Electricity use per bidding zone follows the Swedish Energy Agency’s current-policy scenario, broken down by county and sector in
+          <a href="https://www.behovskartan.se/">Behovskartan</a>, a tool for exploring Sweden’s future electricity needs developed by AI Sweden. The
+          scenario’s own growth in datacenter use after 2025 is removed. It is replaced by the projects in the high scenario of the
+          <a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a>, a separate project on this site that lists
+          announced datacenters and their expected electricity use. Growth after 2025 gets an hourly profile per sector. Electric cars, trucks and
+          rail use typical profiles from Behovskartan. Households and services use measured 2023 data, and electric heating follows heat pumps at 2023
+          temperatures. Industry and hydrogen production are flat. Large datacenters use the hourly shape of Norwegian datacenters, with monthly
+          factors from the datacenter data in Behovskartan. Datacenters for AI and high-performance computing are flat. There are no open hourly
           series per sector for Sweden, so households, services and datacenters use Norwegian measured data from
-          <a href="https://data.elhub.no/">Elhub</a>.
+          <a href="https://data.elhub.no/">Elhub</a>, the Norwegian data hub for electricity metering. The charts show bidding zone SE3, central
+          Sweden including Stockholm.
         </p>
         <figure class="pf-loadprof" aria-labelledby="pf-loadprof-caption">
           <p class="pf-mix-legend">

@@ -118,9 +118,7 @@
         <figcaption>
           {{ site.data.policy_feasibility_context.metric }}.<br>
           Announced projects by {{ site.data.policy_feasibility_context.year }}.<br>
-          <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}"
-            >Tracker · {{ site.data.policy_feasibility_context.scenario_label -}}
-          </a>
+          <a href="{{ site.data.policy_feasibility_context.source_url | relative_url }}">Nordic datacenter tracker, high scenario</a>
           · {{ site.data.policy_feasibility_context.snapshot_date | date: '%-d %B %Y' }}
         </figcaption>
       </figure>
@@ -128,7 +126,8 @@
         <h3>Why the rules are contested</h3>
         <ul class="pf-contested">
           <li>
-            If the announced datacenter projects in the tracker’s high scenario are built, they would add about
+            If the announced datacenter projects in the high scenario of the
+            <a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a> are built, they would add about
             {{ site.data.policy_feasibility_scenarios.dc_load_twh.total | round }} TWh to Swedish electricity use by 2035, roughly a quarter of
             today’s use.
           </li>
