@@ -3728,3 +3728,20 @@ html:has(.pf-v2) {
     stroke-width: 2.4;
   }
 }
+
+/* On additionality */
+.pf-additionality-note p {
+  max-width: 68ch;
+}
+.pf-v2 .pf-lit {
+  max-width: 72ch;
+  margin: 1rem 0 0.6rem;
+  padding-left: 1.1rem;
+  color: var(--pf-secondary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.pf-v2 .pf-lit li {
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem !important;
+}

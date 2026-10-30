@@ -149,7 +149,65 @@
     <h2><span class="pf-section-number">03</span> Define comparable trajectories</h2>
     <p class="pf-prose">{{ pf.derivation }}</p>
     {% include policy-feasibility/trajectory-cards.liquid %}
-    <p class="pf-specification-note">{{ pf.specification_note }}</p>
+    <div class="pf-drawers">
+      <details class="pf-drawer" id="pf-on-additionality">
+        <summary><strong>On additionality</strong><span>What T1b adds to T1, what research says and how it is used here</span></summary>
+        <div class="pf-drawer-body pf-additionality-note">
+          <p>
+            T1 and T1b differ only in what counts. Under T1b, the new generation must also be additional. Generation is additional if it would not
+            have been built without the buyer’s demand or contract. A power purchase agreement (PPA) for fossil-free electricity shows that a buyer
+            has contracted fossil-free generation. It does not by itself show that the generation is new to the system. If the plant would have been
+            built anyway, the contract changes who claims its output, not how much fossil-free electricity is produced.
+          </p>
+          <p>
+            Research on corporate procurement points the same way. Bjørn et al. (2022) find that companies using renewable energy certificates
+            reported emission cuts about three times larger than their actual cuts, because buying certificates rarely changes how much renewable
+            electricity is produced. Model studies of the US power system find that matching annual use with clean generation has little effect on
+            emissions in the system as a whole (Xu et al., 2024). Matching use hour by hour with new generation reduces emissions more, at a higher
+            cost (Xu et al., 2024; Riepin and Brown, 2024).
+          </p>
+          <p>
+            The idea already has a place in EU law. Renewable hydrogen must be produced with electricity from installations that started operating at
+            most 36 months before the electrolyser, matched monthly and, from 2030, hour by hour (Delegated Regulation (EU) 2023/1184). For
+            datacenters, Fingrid has argued that moving existing resources between contracts does not add capacity, and EcoDataCenter favours
+            requirements that lead to new generation. Svenska kraftnät’s proposal is broader and concerns fossil-free generation in general.
+          </p>
+          <p>
+            In this demonstration, the limit on onshore wind decides much of the answer. The model limits onshore wind in Sweden to a level that
+            corresponds to 70 TWh a year, the lower of the Swedish Energy Agency’s estimates. Because the model builds up to this limit in all runs,
+            new onshore wind under T1 is mostly wind that would have been built anyway. With a higher limit, the result could differ. T1b therefore
+            counts only generation that the model would not otherwise build in Sweden, which is offshore wind and new nuclear power.
+          </p>
+          <p>
+            Additionality is hard to verify, since it requires a judgement about what would have happened otherwise. In practice, rules use proxies
+            such as the age of the plant, the absence of subsidies or a link to a specific new project. The definition used here is a modelling
+            choice, not a settled standard.
+          </p>
+          <ul class="pf-lit">
+            <li>
+              Bjørn, A., Lloyd, S. M., Brander, M. and Matthews, H. D. (2022). Renewable energy certificates threaten the integrity of corporate
+              science-based targets. <em>Nature Climate Change</em>, 12, 539–546.
+              <a href="https://doi.org/10.1038/s41558-022-01379-5">doi:10.1038/s41558-022-01379-5</a>
+            </li>
+            <li>
+              Xu, Q., Ricks, W., Manocha, A., Patankar, N. and Jenkins, J. D. (2024). System-level impacts of voluntary carbon-free electricity
+              procurement strategies. <em>Joule</em>, 8(2), 374–400.
+              <a href="https://doi.org/10.1016/j.joule.2023.12.007">doi:10.1016/j.joule.2023.12.007</a>
+            </li>
+            <li>
+              Riepin, I. and Brown, T. (2024). On the means, costs, and system-level impacts of 24/7 carbon-free energy procurement.
+              <em>Energy Strategy Reviews</em>. <a href="https://arxiv.org/abs/2403.07876">arXiv:2403.07876</a>
+            </li>
+            <li>
+              Commission Delegated Regulation (EU) 2023/1184 on rules for renewable fuels of non-biological origin.
+              <a href="https://eur-lex.europa.eu/eli/reg_del/2023/1184/oj">EUR-Lex</a>
+            </li>
+          </ul>
+          {% assign add_ids = 'E28,E13,E08' | split: ',' %}
+          {% include policy-feasibility/references.liquid ids=add_ids %}
+        </div>
+      </details>
+    </div>
     {% include policy-feasibility/next.liquid href='#pf-assess' number='04' title='Assess political feasibility' %}
 
     <figure
