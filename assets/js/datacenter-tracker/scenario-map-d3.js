@@ -752,7 +752,9 @@
     const width = 760, height = 570;
     let { family: tab, measure, hq } = shared.get();
     const root = d3.select(container).attr("class", "dc-scenario-map-root");
-    const headlineNode = root.append("p").attr("class", "dc-map-headline").attr("aria-live", "polite");
+    // Every tab and measure variant is laid out in the same grid cell and only the current one is visible.
+    // The block then keeps the height of the longest variant, so the page does not shift when the selection changes.
+    const headlineNode = root.append("div").attr("class", "dc-map-headline").attr("aria-live", "polite");
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
     const svg = figure.append("svg").attr("class", "dc-scenario-svg").attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
     const projection = d3.geoMercator();
@@ -790,7 +792,10 @@
       renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab);
       root.classed("dc-hq-highlighting", hq !== "none");
       renderMapLegend(root, measure);
-      headlineNode.text(headline(data, tab, measure, hq));
+      const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: headline(data, item.id, m, hq) })));
+      headlineNode.selectAll("p").data(variants, (d) => d.key).join("p").text((d) => d.text)
+        .classed("dc-map-headline-current", (d) => d.key === `${tab}:${measure}`)
+        .attr("aria-hidden", (d) => (d.key === `${tab}:${measure}` ? null : "true"));
       renderClassList(root, view, openZone, highlightZone, data);
     }
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;render(); });

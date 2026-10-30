@@ -615,11 +615,18 @@
 
 /* Main figure for the current selection, above the map. */
 #dc-scenario-map .dc-map-headline {
+  display: grid;
   max-width: 62ch;
   margin: 0.2rem 0 0.6rem;
   color: var(--dc-ink);
   font: 500 17px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
+#dc-scenario-map .dc-map-headline p {
+  grid-area: 1 / 1;
+  margin: 0;
+  visibility: hidden;
+}
+#dc-scenario-map .dc-map-headline p.dc-map-headline-current { visibility: visible; }
 @media (max-width: 600px) {
   #dc-scenario-map .dc-map-headline { font-size: 15px; }
 }
