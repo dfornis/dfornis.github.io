@@ -3816,10 +3816,65 @@ html:has(.pf-v2) {
   align-items: end;
 }
 
-/* Framework figure: candidate trajectories styled like the scenario-use boxes */
-.pf-fw-candidates {
-  border-left: 3px solid var(--pf-accent-muted) !important;
+/* Framework figure: candidate trajectories as a soft card holding three small cards */
+.pf-v2 .pf-fw-candidates {
+  gap: 0.55rem;
+  padding: 0.85rem 0.85rem 0.9rem;
+  border: 1px solid var(--pf-line);
+  border-radius: 8px;
+  background: var(--pf-paper);
+  overflow: visible;
 }
-.pf-fw-candidates strong {
-  background: color-mix(in srgb, var(--pf-accent-muted) 18%, var(--pf-paper));
+.pf-v2 .pf-fw-candidates strong {
+  padding: 0 0.1rem;
+  background: none;
+  text-align: center;
+}
+.pf-v2 .pf-fw-candidates ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.pf-v2 .pf-fw-candidates li {
+  flex: 1;
+  margin: 0;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--pf-line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--pf-ink);
+  text-align: left;
+}
+.pf-v2 .pf-fw-candidates li:last-child {
+  border-style: dashed;
+  background: none;
+  color: var(--pf-secondary);
+}
+@media (max-width: 760px) {
+  .pf-v2 .pf-fw-candidates {
+    gap: 0.45rem;
+    padding: 0.6rem 0.6rem 0.65rem;
+  }
+  .pf-v2 .pf-fw-candidates strong {
+    text-align: left;
+  }
+  .pf-v2 .pf-fw-candidates ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .pf-v2 .pf-fw-candidates li {
+    flex: 1 1 auto;
+    padding: 0.3rem 0.35rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+/* Framework figure: the same rounded corners on every box */
+.pf-v2 .pf-fw-use > div {
+  border-radius: 8px;
 }
