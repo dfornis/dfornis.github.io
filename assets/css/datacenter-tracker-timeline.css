@@ -321,3 +321,4 @@
 .dc-timeline-end-label { fill: var(--dc-chart-text); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--dc-chart-paper); stroke-width: 3px; stroke-linejoin: round; }
 .dc-timeline-marker { fill: var(--dc-chart-paper); stroke: var(--dc-chart-text); stroke-width: 1.5px; pointer-events: none; }
 .dc-timeline-end-label { pointer-events: none; }
+.dc-timeline-grid .domain { display: none; }

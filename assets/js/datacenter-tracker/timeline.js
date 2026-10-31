@@ -90,6 +90,7 @@
       svg.append("desc").attr("id", "dc-timeline-svg-desc");
       const panelsLayer = svg.append("g");
       let selectedYear = timeline.years.at(-1);
+      let lastLayout = null;
       const resizeObserver = new ResizeObserver(() => render());
       resizeObserver.observe(chart);
       [...measureInputs].forEach((control) => control.addEventListener("change", render));
@@ -145,63 +146,89 @@
         const height = stacked ? 3 * (panelHeight + top + bottomPad) : panelHeight + top + bottomPad;
         svg.attr("viewBox", `0 0 ${width} ${height}`);
         const y = d3.scaleLinear().domain([0, maxValue]).nice(4).range([panelHeight, 0]);
-        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(series, (country) => country.key).join("g").attr("class", "dc-timeline-panel");
+        // Elements are kept between renders so that axis, areas and bars can move smoothly to new values.
+        // A new width or a switch between areas and bars redraws without animation.
+        const layout = `${width}:${added}`;
+        const reduced = global.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        const animate = lastLayout === layout && !reduced;
+        lastLayout = layout;
+        const t = svg.transition().duration(animate ? 550 : 0).ease(d3.easeCubicInOut);
+        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(series, (country) => country.key)
+          .join((enter) => {
+            const g = enter.append("g").attr("class", "dc-timeline-panel");
+            g.append("text").attr("class", "dc-timeline-panel-title").attr("x", 0).attr("y", -12);
+            g.append("g").attr("class", "dc-timeline-grid");
+            g.append("g").attr("class", "dc-timeline-axis");
+            g.append("path").attr("class", "dc-timeline-estimated dc-timeline-area-estimated");
+            g.append("path").attr("class", "dc-timeline-reported dc-timeline-area-reported");
+            g.append("g").attr("class", "dc-timeline-bars");
+            g.append("line").attr("class", "dc-timeline-cursor");
+            g.append("circle").attr("class", "dc-timeline-marker").attr("r", 3.5);
+            g.append("text").attr("class", "dc-timeline-end-label");
+            g.append("rect").attr("class", "dc-timeline-hit").attr("fill", "transparent");
+            return g;
+          });
         panels.each(function (country, index) {
-          const g = d3.select(this).html("");
+          const g = d3.select(this);
           const x0 = stacked ? left : left + index * (panelWidth + gap);
           const y0 = stacked ? index * (panelHeight + top + bottomPad) + top : top;
           g.attr("transform", `translate(${x0},${y0})`);
           const x = d3.scaleLinear().domain([timeline.years[0], timeline.years.at(-1)]).range([0, panelWidth]);
-          g.append("text").attr("class", "dc-timeline-panel-title").attr("x", 0).attr("y", -12).text(country.label);
-          g.append("g").attr("class", "dc-timeline-grid")
-            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => (index && !stacked ? "" : value.toLocaleString("en-US"))))
-            .call((axis) => axis.select(".domain").remove());
+          g.select(".dc-timeline-panel-title").text(country.label);
+          g.select(".dc-timeline-grid").transition(t)
+            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => (index && !stacked ? "" : value.toLocaleString("en-US"))));
           const ticks = timeline.years.filter((year, i) => i === 0 || year === timeline.years.at(-1) || year === 2030);
-          g.append("g").attr("class", "dc-timeline-axis").attr("transform", `translate(0,${panelHeight})`)
+          g.select(".dc-timeline-axis").attr("transform", `translate(0,${panelHeight})`)
             .call(d3.axisBottom(x).tickValues(ticks).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
             .call((axis) => axis.selectAll(".tick text").attr("text-anchor", (d, i, all) => (i === 0 ? "start" : i === all.length - 1 ? "end" : "middle")));
           const v = (value) => y((value || 0) / divisor);
+          const estimatedArea = g.select(".dc-timeline-area-estimated").attr("display", added ? "none" : null);
+          const reportedArea = g.select(".dc-timeline-area-reported").attr("display", added ? "none" : null);
+          const band = panelWidth / timeline.years.length;
+          const bars = g.select(".dc-timeline-bars").attr("display", added ? null : "none");
           if (added) {
-            const band = panelWidth / timeline.years.length;
-            const bars = g.append("g");
-            country.points.forEach((point) => {
-              const bx = x(point.year) - band * 0.35, bw = band * 0.7;
-              bars.append("rect").attr("class", "dc-timeline-estimated").attr("x", bx).attr("width", bw)
-                .attr("y", v(point.reported + point.estimated)).attr("height", Math.max(0, v(point.reported) - v(point.reported + point.estimated)));
-              bars.append("rect").attr("class", "dc-timeline-reported").attr("x", bx).attr("width", bw)
-                .attr("y", v(point.reported)).attr("height", Math.max(0, v(0) - v(point.reported)));
+            const groups = bars.selectAll("g").data(country.points, (point) => point.year).join((enter) => {
+              const bar = enter.append("g");
+              bar.append("rect").attr("class", "dc-timeline-estimated").attr("y", v(0)).attr("height", 0);
+              bar.append("rect").attr("class", "dc-timeline-reported").attr("y", v(0)).attr("height", 0);
+              return bar;
             });
+            groups.select(".dc-timeline-estimated").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
+              .attr("y", (p) => v(p.reported + p.estimated)).attr("height", (p) => Math.max(0, v(p.reported) - v(p.reported + p.estimated)));
+            groups.select(".dc-timeline-reported").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
+              .attr("y", (p) => v(p.reported)).attr("height", (p) => Math.max(0, v(0) - v(p.reported)));
           } else {
-            g.append("path").datum(country.points).attr("class", "dc-timeline-estimated")
+            estimatedArea.datum(country.points).transition(t)
               .attr("d", d3.area().x((p) => x(p.year)).y0((p) => v(p.reported)).y1((p) => v(p.reported + p.estimated)));
-            g.append("path").datum(country.points).attr("class", "dc-timeline-reported")
+            reportedArea.datum(country.points).transition(t)
               .attr("d", d3.area().x((p) => x(p.year)).y0(v(0)).y1((p) => v(p.reported)));
           }
-          const cursor = g.append("line").attr("class", "dc-timeline-cursor").attr("y1", 0).attr("y2", panelHeight);
+          const cursor = g.select(".dc-timeline-cursor").attr("y1", 0).attr("y2", panelHeight);
           // The value for the hovered year is written in the panel, next to the top of the area or bar.
-          const marker = g.append("circle").attr("class", "dc-timeline-marker").attr("r", 3.5);
-          const valueLabel = g.append("text").attr("class", "dc-timeline-end-label");
-          const setCursor = (year) => {
-            cursor.attr("x1", x(year)).attr("x2", x(year));
+          const marker = g.select(".dc-timeline-marker");
+          const valueLabel = g.select(".dc-timeline-end-label");
+          const setCursor = (year, transition = null) => {
             const point = country.points.find((p) => p.year === year);
             const top = v(point.reported + point.estimated);
             const at = x(year);
-            marker.attr("cx", at).attr("cy", top).attr("hidden", point.high ? null : true);
-            valueLabel.attr("x", at < 40 ? at + 4 : at > panelWidth - 40 ? at - 4 : at)
-              .attr("text-anchor", at < 40 ? "start" : at > panelWidth - 40 ? "end" : "middle")
-              .attr("y", top < 20 ? top + 18 : top - 9).text(range(point, measure));
+            cursor.attr("x1", at).attr("x2", at);
+            marker.attr("hidden", point.high ? null : true);
+            valueLabel.attr("text-anchor", at < 40 ? "start" : at > panelWidth - 40 ? "end" : "middle").text(range(point, measure));
+            const move = (selection) => (transition ? selection.transition(transition) : selection.interrupt());
+            move(marker).attr("cx", at).attr("cy", top);
+            move(valueLabel).attr("x", at < 40 ? at + 4 : at > panelWidth - 40 ? at - 4 : at).attr("y", top < 20 ? top + 18 : top - 9);
           };
-          setCursor(selectedYear);
+          setCursor(selectedYear, t);
           country.setCursor = setCursor;
           // Hovering moves only this panel's marker and value. The other panels and the summary below keep the last year.
           const pick = (event) => setCursor(Math.max(timeline.years[0], Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event, this)[0])))));
-          g.append("rect").attr("width", panelWidth).attr("height", panelHeight).attr("fill", "transparent")
+          g.select(".dc-timeline-hit").raise().attr("width", panelWidth).attr("height", panelHeight)
             .on("pointermove", pick).on("pointerdown", pick)
             .on("pointerleave", (event) => {if (event.pointerType === "mouse") setCursor(selectedYear);});
         });
-        function inspect(year) {
+        function inspect(year, transition = null) {
           selectedYear = year;
-          series.forEach((country) => country.setCursor && country.setCursor(year));
+          series.forEach((country) => country.setCursor && country.setCursor(year, transition));
           container.querySelector(".dc-timeline-year").textContent = year;
           readout.replaceChildren();
           series.forEach((country) => {
@@ -225,7 +252,7 @@
             readout.append(item);
           });
         }
-        inspect(selectedYear);
+        inspect(selectedYear, t);
         table.replaceChildren();
         const caption = document.createElement("caption");
         caption.textContent = measureLabels[measure] + ". Range, and in brackets the part with a reported opening year (upper estimate).";

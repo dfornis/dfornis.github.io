@@ -14,11 +14,11 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.21">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.29">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
-<p class="dc-map-intro">The map shows new datacenter capacity announced in each bidding zone, at its full announced size. It does not show when the capacity will be built. The tabs set how far a plan must have come to be counted. Confirmed counts only capacity with an investment decision or a construction start. Dated plans adds plans that have a date but no decision. All announced adds everything else.</p>
+<p class="dc-map-intro">The map shows new datacenter capacity announced in each bidding zone, at its full announced size. It does not show when the capacity will be built. Confirmed, Dated plans and All announced set how far a plan must have come to be counted. Confirmed counts only capacity with an investment decision or a construction start. Dated plans adds plans that have a date but no decision. All announced adds everything else.</p>
 
 <div id="dc-scenario-map"></div>
 
@@ -32,14 +32,14 @@ permalink: /projects/datacenter-tracker/
 
 **HQ.** HQ shows only projects whose developer has its global headquarters in the chosen region. Domestic means the same country as the project. Other Europe means another European country, and Outside Europe means the rest of the world. A project with several developers can appear in more than one group.
 
-**Controls.** The tabs, Measure and HQ apply to the whole page. The project list also has its own filters.
+**Controls.** The choice between Confirmed, Dated plans and All announced, Measure and HQ apply to the whole page. The project list also has its own filters.
 
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.21">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.29">
   <h2 id="dc-timeline-title">When the capacity could be built</h2>
-  <p class="dc-timeline-intro">The chart spreads the capacity in the selected tab over the years it could open. The dark area is capacity with an opening year given by the developer or a public document. The light area is capacity where no source gives an opening year. For that capacity, the opening year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. Together the two areas show the total.</p>
+  <p class="dc-timeline-intro">The chart spreads the counted capacity over the years it could open. The dark area is capacity with an opening year given by the developer or a public document. The light area is capacity where no source gives an opening year. For that capacity, the opening year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. Together the two areas show the total.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
       <div class="dc-timeline-measure-control" data-timeline-capacity-view>
@@ -61,7 +61,7 @@ permalink: /projects/datacenter-tracker/
     <details class="dc-timeline-data">
       <summary>Values and notes</summary>
       <p class="dc-timeline-note dc-timeline-unknown" hidden>An asterisk (*) means that at least one project has no MW figure, so the actual value is higher.</p>
-      <p class="dc-timeline-note">The areas show the upper estimate. Hover over a panel to see the range for each year. The three countries share one y-axis. It changes with the tab but not with HQ, so an HQ selection shows its share of the tab.</p>
+      <p class="dc-timeline-note">The areas show the upper estimate. Hover over a panel to see the range for each year. The three countries share one y-axis. It changes between Confirmed, Dated plans and All announced but not with HQ, so an HQ selection shows its share of the total.</p>
       <p class="dc-timeline-note">Cumulative shows all new capacity in operation since the end of 2025. Added/year shows how much opens in each year. TWh/year is the electricity a full year of operation would use at that year's capacity, not the use during the year the capacity opens.</p>
       <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
     </details>
@@ -145,7 +145,7 @@ permalink: /projects/datacenter-tracker/
   <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway and 82.9 TWh in Finland. The share is only there to give a sense of scale. It is not part of the calculation.</p>
 
   <h4 id="dc-method-stages">Stages</h4>
-  <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show which tabs count each stage.</p>
+  <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show where each stage is counted.</p>
   <div data-method-table="stages"></div>
 
   <h4 id="dc-method-timing">Opening dates and build-out</h4>
@@ -218,7 +218,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.21' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.29' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -920,10 +920,10 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.21">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.21">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.29">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.29">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.21" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.21" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.21" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.21" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.29" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.29" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.29" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.29" defer></script>

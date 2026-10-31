@@ -443,13 +443,25 @@
     const navbar = document.querySelector("#navbar");
     const observer = new ResizeObserver(() => root.style("--dc-navbar-offset", `${Math.ceil(navbar?.getBoundingClientRect().height || 0)}px`));
     if (navbar) observer.observe(navbar);
+    // A single underline slides to the active tab.
+    const tabs = root.select(".dc-view-tabs");
+    const indicator = tabs.append("span").attr("class", "dc-view-tab-indicator").attr("aria-hidden", "true");
+    const placeIndicator = () => {
+      const active = tabs.select("button.active").node();
+      if (!active) return;
+      indicator.style("width", `${active.offsetWidth}px`).style("transform", `translateX(${active.offsetLeft}px)`);
+    };
+    const tabObserver = new ResizeObserver(placeIndicator);
+    tabObserver.observe(tabs.node());
+    document.fonts?.ready?.then(placeIndicator);
     const unsubscribe = shared.subscribe(state => {
       root.selectAll("[data-scenario]").classed("active", function() { return this.dataset.scenario === state.family; })
         .attr("aria-pressed", function() { return String(this.dataset.scenario === state.family); });
+      placeIndicator();
       root.selectAll("[data-measure]").attr("aria-pressed", function() { return String(this.dataset.measure === state.measure); });
       root.select("select").property("value", state.hq);
     });
-    return { disconnect() {unsubscribe();observer.disconnect();} };
+    return { disconnect() {unsubscribe();observer.disconnect();tabObserver.disconnect();} };
   }
 
   function renderZoneLabels(labelG, geojson, path, projection) {
@@ -635,7 +647,8 @@
     box.style("left", `${left}px`).style("top", `${Math.max(12, top)}px`);
   }
 
-  function renderMapLegend(root, measure) {
+  function renderMapLegend(root, measure, tab = DEFAULT_TAB) {
+    const tabLabel = TABS.find((item) => item.id === tab).label;
     const legend = root.selectAll(".dc-map-scale").data([null]).join("div").attr("class", "dc-map-scale");
     legend.selectAll("*").remove();
     legend.append("span").attr("class", "dc-map-scale-label").text(`Map · upper estimate (${measure === "mw" ? "GW" : "TWh/year"})`);
@@ -646,8 +659,12 @@
       item.append("span").text(bin.label);
     }
     const points = legend.append("div").attr("class", "dc-point-key");
-    points.append("span").html('<i class="dc-point-key-selected"></i>Counted in this tab');
-    points.append("span").html('<i></i>Not counted in this tab');
+    const counted = points.append("span");
+    counted.append("i").attr("class", "dc-point-key-selected");
+    counted.append("span").text(`Counted in ${tabLabel}`);
+    const other = points.append("span");
+    other.append("i");
+    other.append("span").text(`Not counted in ${tabLabel}`);
     points.append("span").text("Number in a dot: projects at the same location");
   }
 
@@ -682,58 +699,73 @@
     const countries = "Sweden, Norway and Finland";
     if (measure === "mw") {
       return tab === "announced"
-        ? `All announced plans for new datacenters in ${countries}${hqText} add up to ${amountLabel(all.totals, measure)}.`
-        : `${label} counts ${amountLabel(view.totals, measure)} of new datacenter capacity in ${countries}${hqText}, out of ${amountLabel(all.totals, measure)} in all announced plans.`;
+        ? `All publicly announced plans for new datacenters in ${countries}${hqText} add up to ${amountLabel(all.totals, measure)}.`
+        : `${label} counts ${amountLabel(view.totals, measure)} of new datacenter capacity in ${countries}${hqText}, out of ${amountLabel(all.totals, measure)} in all publicly announced plans.`;
     }
     const base = consumptionFor(data, "SE") + consumptionFor(data, "NO") + consumptionFor(data, "FI");
     const year = data.method.assumptions.context_consumption?.year;
     const share = base ? ` That equals ${shareLabel(view.totals, base)} of the three countries' electricity use in ${year}.` : "";
-    return `${tab === "announced" ? "All announced datacenter capacity" : `The datacenter capacity counted in ${label}`} in ${countries}${hqText} would use ${amountLabel(view.totals, measure)} a year when fully built.${share}`;
+    return `${tab === "announced" ? "All publicly announced datacenter capacity" : `The datacenter capacity counted in ${label}`} in ${countries}${hqText} would use ${amountLabel(view.totals, measure)} a year when fully built.${share}`;
   }
   function renderClassList(root, view, onZoneClick, onHighlight, data) {
     const selected = TABS.find((item) => item.id === view.tab).classes;
+    // The scale is set by everything announced, so it stays the same when the selection changes and bars grow or shrink.
     const scaleRows = [...Object.entries(view.zones).filter(([id]) => !id.endsWith("-unassigned")).map(([, zone]) => zone), view.countries.NO, view.countries.SE];
     const maximum = Math.max(0, ...scaleRows.map(row => row.classes.reduce((v, layer) => v + layer.high, 0)));
     const divisor = view.measure === "mw" ? 1000 : 1;
     const scale = d3.scaleLinear().domain([0, maximum / divisor || 1]).nice(4).range([0, 100]);
     const percent = (value) => scale(value / divisor);
     const ticks = scale.ticks(4);
+    const unit = view.measure === "mw" ? "GW" : "TWh/year";
+    const tabLabel = TABS.find((item) => item.id === view.tab).label;
+    // Rows are kept between renders, so CSS transitions can grow and shrink the bars when the selection changes.
     const list = root.selectAll(".dc-zone-class-list").data([null]).join("div").attr("class", "dc-zone-class-list")
-      .attr("aria-label", "Full announced capacity by bidding zone");
-    list.selectAll("*").remove();
-    const heading = list.append("div").attr("class", "dc-class-chart-heading");
-    heading.append("span").text("Bidding zone");
-    heading.append("span").text(`Full announced capacity · ${view.measure === "mw" ? "GW" : "TWh/year"}`);
-    heading.append("span").text("Counted in this tab");
+      .attr("aria-label", `Capacity counted in ${tabLabel} by bidding zone`);
     list.style("--dc-grid-step", `${scale(ticks[1]) - scale(ticks[0])}%`);
-    for (const country of ["NO", "SE", "FI"]) {
-      const section = list.append("section").attr("class", "dc-country-classes").attr("aria-label", countryLabel(country));
-      const countryHeading = section.append("div").attr("class", "dc-country-class-heading");
-      countryHeading.append("h3").text(countryLabel(country));
+    const heading = list.selectAll(".dc-class-chart-heading").data([null]).join("div").attr("class", "dc-class-chart-heading");
+    heading.selectAll("span").data(["Bidding zone", `Counted capacity · ${unit}`, `Low–high · ${unit}`]).join("span").text((d) => d);
+    const sections = list.selectAll("section.dc-country-classes").data(["NO", "SE", "FI"], (d) => d).join((enter) => {
+      const section = enter.append("section").attr("class", "dc-country-classes").attr("aria-label", (d) => countryLabel(d));
+      section.append("div").attr("class", "dc-country-class-heading").append("h3").text((d) => countryLabel(d));
+      return section;
+    });
+    sections.each(function (country) {
       const zones = Object.entries(view.zones).filter(([zone, d]) => d.country === country && !zone.endsWith("-unassigned")).sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
       if (country !== "FI") zones.unshift([country, view.countries[country]]);
-      for (const [zone, detail] of zones) {
-        const label = capacityLabel(detail, view.measure);
-        const row = section.append("button").attr("type", "button").attr("class", "dc-zone-class-row").attr("data-zone", zone)
-          .classed("dc-country-total-row", zone === country && country !== "FI")
-          .attr("aria-label", `${zone}: ${label}`).attr("title", label).on("click", (event) => onZoneClick(zone, event))
-          .on("mouseenter", () => onHighlight(zone, true)).on("mouseleave", () => onHighlight(zone, false));
-        row.append("span").attr("class", "dc-zone-class-name").text((zone === country && country !== "FI" ? "Σ Total" : zone) + (detail.unknown ? "*" : ""));
+      const rows = d3.select(this).selectAll("button.dc-zone-class-row").data(zones, (d) => d[0]).join((enter) => {
+        const row = enter.append("button").attr("type", "button").attr("class", "dc-zone-class-row").attr("data-zone", (d) => d[0])
+          .classed("dc-country-total-row", (d) => d[0] === country && country !== "FI")
+          .on("click", (event, d) => onZoneClick(d[0], event))
+          .on("mouseenter", (event, d) => onHighlight(d[0], true)).on("mouseleave", (event, d) => onHighlight(d[0], false));
+        row.append("span").attr("class", "dc-zone-class-name");
         const track = row.append("span").attr("class", "dc-zone-class-track").attr("aria-hidden", true);
-        const bar = track.append("span").attr("class", "dc-zone-class-bar");
-        // Colours are set inline: the site's CSS purge cannot see class names built at run time.
-        for (const layer of detail.classes) bar.append("span").attr("class", "dc-class-segment")
-          .style("background", `var(--dc-class-${layer.evidence_class})`).style("width", `${percent(layer.high)}%`).style("opacity", selected.includes(layer.evidence_class) ? 1 : 0.5);
-        if (detail.high > 0) track.append("span").attr("class", "dc-zone-class-range")
-          .style("left", `${percent(detail.low)}%`).style("width", `${percent(detail.high) - percent(detail.low)}%`);
-        const unit = view.measure === "mw" ? "GW" : "TWh/year";
-        row.append("span").attr("class", "dc-zone-class-value").text(detail.high > 0 ? label : `0 ${unit}${detail.unknown ? "*" : ""}`);
-      }
-    }
+        track.append("span").attr("class", "dc-zone-class-bar");
+        track.append("span").attr("class", "dc-zone-class-range");
+        row.append("span").attr("class", "dc-zone-class-value");
+        return row;
+      });
+      rows.each(function ([zone, detail]) {
+        const row = d3.select(this);
+        const label = capacityLabel(detail, view.measure);
+        row.attr("aria-label", `${zone}: ${label}`).attr("title", label);
+        row.select(".dc-zone-class-name").text((zone === country && country !== "FI" ? "Σ Total" : zone) + (detail.unknown ? "*" : ""));
+        // Only the stages counted in the selection get a width. Colours are set inline because the site's CSS purge
+        // cannot see class names built at run time.
+        row.select(".dc-zone-class-bar").selectAll("span.dc-class-segment").data(detail.classes, (layer) => layer.evidence_class)
+          .join("span").attr("class", "dc-class-segment")
+          .style("background", (layer) => `var(--dc-class-${layer.evidence_class})`)
+          .style("width", (layer) => `${selected.includes(layer.evidence_class) ? percent(layer.high) : 0}%`);
+        row.select(".dc-zone-class-range").classed("dc-zone-class-range-empty", !(detail.high > 0))
+          .style("left", `${percent(detail.low || 0)}%`).style("width", `${Math.max(0, percent(detail.high || 0) - percent(detail.low || 0))}%`);
+        // The unit is in the column heading, so the rows show numbers only.
+        row.select(".dc-zone-class-value").text(detail.high > 0 ? label.replace(` ${unit}`, "") : `0${detail.unknown ? "*" : ""}`);
+      });
+    });
     // The scale sits below the rows, where the bars end, as in an ordinary bar chart.
-    const axis = list.append("div").attr("class", "dc-class-axis").attr("aria-hidden", true);
-    const track = axis.append("div");
-    ticks.forEach((value) => track.append("span").style("left", `${scale(value)}%`).text(value.toLocaleString("en-US")));
+    const axis = list.selectAll(".dc-class-axis").data([null]).join("div").attr("class", "dc-class-axis").attr("aria-hidden", true);
+    axis.raise();
+    const axisTrack = axis.selectAll("div").data([null]).join("div");
+    axisTrack.selectAll("span").data(ticks).join("span").style("left", (value) => `${scale(value)}%`).text((value) => value.toLocaleString("en-US"));
     const legend = root.selectAll(".dc-class-legend").data([null]).join("div").attr("class", "dc-class-legend").attr("aria-label", "How far the plans have come");
     legend.selectAll("*").remove();
     legend.append("div").attr("class", "dc-class-legend-title").text("How far the plans have come");
@@ -744,7 +776,7 @@
       item.append("span").text(CLASS_TEXT[i]);
     });
     root.selectAll(".dc-class-chart-note").data([null]).join("div").attr("class", "dc-class-chart-note")
-      .text("The bar shows all announced capacity. Stages that this tab does not count are faded. The thin line and the figure on the right show the range counted in this tab. An asterisk (*) means that at least one project in the total has no MW figure, so the actual total is higher.");
+      .text(`The bars show the capacity counted in ${tabLabel}, coloured by stage. Their length is the high value. The thin line and the figures on the right show the range from low to high. An asterisk (*) means that at least one project in the total has no MW figure, so the actual total is higher.`);
   }
 
   function mount(container, data, shared) {
@@ -791,7 +823,7 @@
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure), data), hq);
       renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab);
       root.classed("dc-hq-highlighting", hq !== "none");
-      renderMapLegend(root, measure);
+      renderMapLegend(root, measure, tab);
       const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: headline(data, item.id, m, hq) })));
       headlineNode.selectAll("p").data(variants, (d) => d.key).join("p").text((d) => d.text)
         .classed("dc-map-headline-current", (d) => d.key === `${tab}:${measure}`)

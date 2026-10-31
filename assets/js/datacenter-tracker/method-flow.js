@@ -71,7 +71,7 @@
         subtitle: "Four stages, from confirmed to undated plan.",
         detail: [
           "Each MW figure is placed in one of four stages, from confirmed to undated plan, based on the investment decision, construction start and dates in the sources.",
-          "When a site and a building on it are at different stages, the building's MW counts at its own stage and the rest of the site at the site's stage. The tabs Confirmed, Dated plans and All announced add stages in that order.",
+          "When a site and a building on it are at different stages, the building's MW counts at its own stage and the rest of the site at the site's stage. Confirmed, Dated plans and All announced add stages in that order.",
         ],
       },
       {

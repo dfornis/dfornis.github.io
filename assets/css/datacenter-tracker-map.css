@@ -436,6 +436,21 @@
   white-space: nowrap;
 }
 #dc-tracker .dc-view-tabs button.active { color: var(--dc-ink); border-bottom-color: var(--dc-blue); }
+#dc-tracker .dc-view-tabs { position: relative; }
+#dc-tracker .dc-view-tabs:has(.dc-view-tab-indicator) button.active { border-bottom-color: transparent; }
+#dc-tracker .dc-view-tab-indicator {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--dc-blue);
+  pointer-events: none;
+  transition: transform 260ms ease, width 260ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  #dc-tracker .dc-view-tab-indicator { transition: none; }
+}
 #dc-tracker .dc-view-tabs button:hover { color: var(--dc-ink); }
 #dc-tracker .dc-view-tabs button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 4px; }
 #dc-scenario-map { max-width: none; margin: 1rem 0 1.8rem; color: var(--dc-ink); }
@@ -465,13 +480,13 @@
 #dc-scenario-map .dc-zone-label-line { stroke: var(--dc-muted) !important; opacity: 0.65; }
 #dc-scenario-map .dc-zone-class-list {
   --dc-label-width: 6.5rem;
-  --dc-value-width: 7.5rem;
+  --dc-value-width: 8.5rem;
   display: block;
   margin: 0 auto 1rem;
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 #dc-scenario-map .dc-class-chart-heading { display: grid; grid-template-columns: var(--dc-label-width) minmax(0, 1fr) var(--dc-value-width); align-items: end; color: var(--dc-muted); font-size: 12px; gap: 1rem; }
-#dc-scenario-map .dc-class-chart-heading > :last-child { text-align: right; }
+#dc-scenario-map .dc-class-chart-heading > :last-child { text-align: right; white-space: nowrap; }
 #dc-scenario-map .dc-class-axis { padding-left: calc(var(--dc-label-width) + 1rem); padding-right: calc(var(--dc-value-width) + 1rem); height: 30px; margin-top: 0.55rem; color: var(--dc-muted); font-size: 12px; }
 #dc-scenario-map .dc-class-axis > div { position: relative; height: 100%; border-top: 1px solid var(--dc-rule); }
 #dc-scenario-map .dc-class-axis span { position: absolute; top: 0.3rem; transform: translateX(-50%); }
@@ -504,7 +519,13 @@
 #dc-scenario-map .dc-country-total-row .dc-zone-class-value { font-weight: 600; }
 #dc-scenario-map .dc-zone-class-track { display: block; position: relative; height: 26px; background: repeating-linear-gradient(to right, var(--dc-rule) 0 1px, transparent 1px var(--dc-grid-step)); }
 #dc-scenario-map .dc-zone-class-bar { display: flex; position: absolute; top: 4px; height: 12px; width: 100%; }
-#dc-scenario-map .dc-class-segment { height: 100%; flex: none; transition: opacity 160ms ease; }
+#dc-scenario-map .dc-class-segment { height: 100%; flex: none; transition: width 420ms ease; }
+#dc-scenario-map .dc-zone-class-range { transition: left 420ms ease, width 420ms ease, opacity 200ms ease; }
+#dc-scenario-map .dc-zone-class-range.dc-zone-class-range-empty { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  #dc-scenario-map .dc-class-segment,
+  #dc-scenario-map .dc-zone-class-range { transition: none; }
+}
 #dc-tracker .dc-class-confirmed { background: var(--dc-class-confirmed); }
 #dc-tracker .dc-class-dated_plan { background: var(--dc-class-dated_plan); }
 #dc-tracker .dc-class-campus_continuation { background: var(--dc-class-campus_continuation); }
@@ -545,7 +566,7 @@
 @media (max-width: 600px) {
   #dc-tracker .dc-view-tabs { gap: 1.25rem; }
   #dc-tracker .dc-view-tabs button { font-size: 14px; }
-  #dc-scenario-map .dc-zone-class-list { --dc-label-width: 3.6rem; --dc-value-width: 6.2rem; }
+  #dc-scenario-map .dc-zone-class-list { --dc-label-width: 3.6rem; --dc-value-width: 6.8rem; }
   #dc-scenario-map .dc-zone-class-row,
   #dc-scenario-map .dc-class-chart-heading { gap: 0.6rem; }
   #dc-scenario-map .dc-class-axis { padding-left: calc(var(--dc-label-width) + 0.6rem); padding-right: calc(var(--dc-value-width) + 0.6rem); }
@@ -633,3 +654,7 @@
 /* Scale below the rows. */
 #dc-scenario-map .dc-class-chart-heading { margin-bottom: 0.45rem; }
 #dc-scenario-map .dc-class-axis { margin-top: -0.5rem; margin-bottom: 0.6rem; }
+/* Column headings in the ink colour, so the units are easy to read. */
+#dc-scenario-map .dc-class-chart-heading { color: var(--dc-ink); }
+/* A hairline between the map and the list by bidding zone. */
+#dc-scenario-map .dc-zone-class-list { padding-top: 1.5rem; border-top: 1px solid var(--dc-rule); }
