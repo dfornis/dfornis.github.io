@@ -121,7 +121,7 @@
         <div class="pf-price-row{% if c.id == 'none' %} pf-bar-reference{% endif %}" data-trajectory="{{ c.id }}">
           <span class="pf-bar-label">
             {%- if t -%}
-              <small>{{ c.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span>
+              <span class="pf-swatch" aria-hidden="true"></span><small>{{ c.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span>
             {%- else -%}
               <span class="pf-mix-short">Ref.</span><span class="pf-mix-name">{{ ref.label }}</span>
             {%- endif -%}
@@ -139,7 +139,8 @@
       {% assign st = sc.stress %}
       <div class="pf-price-row pf-price-stress" data-trajectory="{{ st.id }}">
         <span class="pf-bar-label"
-          ><small>{{ st.id }}</small><span class="pf-mix-name">{{ st.label }}</span><span class="pf-mix-short">{{ st.short }}</span></span
+          ><span class="pf-swatch" aria-hidden="true"></span><small>{{ st.id }}</small><span class="pf-mix-name">{{ st.label }}</span
+          ><span class="pf-mix-short">{{ st.short }}</span></span
         >
         <span class="pf-price-track">
           {%- if st.values.price_se3 -%}
@@ -194,7 +195,7 @@
         {% assign t = pf.trajectories | where: 'id', r.id | first %}
         <div class="pf-bar-row pf-mix-row" data-trajectory="{{ r.id }}">
           <span class="pf-bar-label"
-            ><small>{{ r.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span></span
+            ><span class="pf-swatch" aria-hidden="true"></span><small>{{ r.id }}</small><span class="pf-mix-name">{{ t.short_title }}</span></span
           >
           <span class="pf-mix-track">
             {%- for g in r.segments -%}

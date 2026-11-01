@@ -4096,3 +4096,23 @@ html:has(.pf-v2) {
 .pf-price .pf-price-axis + .pf-caption {
   margin-top: 0.9rem;
 }
+
+/* Trajectory swatches in the result figures */
+.pf-price .pf-bar-label .pf-swatch,
+.pf-mix .pf-bar-label .pf-swatch {
+  margin-right: 0.4rem;
+}
+.pf-price-stress .pf-swatch {
+  opacity: 0.55;
+}
+@media (max-width: 760px) {
+  .pf-price .pf-bar-label .pf-swatch,
+  .pf-mix .pf-bar-label .pf-swatch {
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.3rem;
+  }
+}
+.pf-mix .pf-bar-label {
+  white-space: nowrap;
+}
