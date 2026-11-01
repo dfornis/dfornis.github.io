@@ -1,9 +1,9 @@
 /* Method overview only: labels use the exported configuration; no project values are calculated here. */
 (function (global) {
   "use strict";
-  const REVIEWED_METHOD = "5.0";
+  const REVIEWED_METHOD = "5.1";
   const number = (value) => Number(value).toLocaleString("en-US", { maximumFractionDigits: 2 });
-  const interval = (values) => values.map(number).join("–");
+  const interval = (values) => [...new Set(values.map(number))].join("–");
 
   function buildFlow(data) {
     const method = data.method;
@@ -30,7 +30,7 @@
         basis: ["it_nameplate", "it_unspecified"],
         detail: [
           "IT power is what the servers and network equipment can draw. Cooling and other equipment come on top.",
-          "In the ten projects in the register that report both, the whole site is 1.20 to 1.44 times the IT power. A project's own reported ratio is used when there is one.",
+          `In the ten projects in the register that report both, the whole site is 1.20 to 1.44 times the IT power. The median, ${ratio}, is used. A project's own reported ratio is used when there is one.`,
         ],
       },
       {
@@ -41,7 +41,7 @@
         basis: ["facility_nameplate", "facility_unspecified", "grid", "unspecified"],
         detail: [
           "A figure for the whole site or for the grid connection is used as it is. Counting the whole grid connection as datacenter load leans high, because connections are often larger than the load that is eventually used.",
-          `A figure that does not say what it measures is shown as a range: from the figure itself, if it is the whole site, to ${number(a.pue[1])} times the figure, if it is IT power.`,
+          "A figure that does not say what it measures is read as site power. Nordic plans, permits and grid documents use MW that way. IT power is used only when a source says so.",
         ],
       },
       {
@@ -156,12 +156,12 @@
             [
               "Site / IT power ratio",
               range(a.pue),
-              "Site MW = IT MW × ratio. This is a design ratio for capacity, not the annual PUE. A project's own reported ratio replaces the standard range.",
+              "Site MW = IT MW × ratio. This is a design ratio for capacity, not the annual PUE. A project's own reported ratio replaces it.",
             ],
             [
               "MW figure without a stated measure",
-              `1–${number(a.pue[1])} × MW`,
-              "The low value reads the figure as site power, the high value as IT power.",
+              "1 × MW",
+              "Read as site power. If such a figure is in fact IT power, the site is about a quarter larger.",
             ],
             ["At least X MW", "X", "Counted as X, with the usual conversion."],
           ],
@@ -189,7 +189,7 @@
         {
           id: "timing",
           headers: ["Project status", "Years until construction starts", "Years of construction left"],
-          rows: ["Concept study", "Planned", "Permitted", "Under construction", "Unclear"].map((status) => [
+          rows: ["Planned", "Permitted", "Under construction", "Unclear"].map((status) => [
             status,
             range(a.stage_lead_times[status].to_construction),
             range(a.stage_lead_times[status].remaining_construction),

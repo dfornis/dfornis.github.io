@@ -117,8 +117,9 @@
           annual_twh: "Annual electricity use of new capacity (TWh/year)",
         };
         svg.select("title").text(measureLabels[measure]);
-        svg.select("desc").text("One panel per country. The dark area is capacity with an opening year reported by a source. The light area is capacity where the opening year is estimated. The two areas together show the upper estimate. Values are listed in the table below the chart.");
-        // Cumulative split: reported part and estimated part of the upper value.
+        svg.select("desc").text("One panel per country. The dark area is the lower estimate. The light area reaches up to the upper estimate. Values are listed in the table below the chart.");
+        // The dark area is the lower estimate and the light area the rest of the upper estimate.
+        // The part with a reported opening year is kept for the text below the chart.
         const cumulative = makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: electricity ? "annual_twh" : "mw" });
         const totals = added ? makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: "annual_addition_mw" }) : cumulative;
         const series = totals.map((country, index) => ({
@@ -128,8 +129,8 @@
             let reported = source[i].reported ?? 0;
             if (added) reported = Math.max(0, reported - (i ? source[i - 1].reported ?? 0 : 0));
             const high = point.high ?? 0;
-            reported = Math.min(reported, high);
-            return { ...point, reported, estimated: Math.max(0, high - reported) };
+            const low = Math.min(point.low ?? 0, high);
+            return { ...point, reportedOpening: Math.min(reported, high), lower: low, upper: high - low };
           }),
         }));
         const unknown = series.some((country) => country.points.some((point) => point.unknown));
@@ -159,8 +160,8 @@
             g.append("text").attr("class", "dc-timeline-panel-title").attr("x", 0).attr("y", -12);
             g.append("g").attr("class", "dc-timeline-grid");
             g.append("g").attr("class", "dc-timeline-axis");
-            g.append("path").attr("class", "dc-timeline-estimated dc-timeline-area-estimated");
-            g.append("path").attr("class", "dc-timeline-reported dc-timeline-area-reported");
+            g.append("path").attr("class", "dc-timeline-upper dc-timeline-area-upper");
+            g.append("path").attr("class", "dc-timeline-lower dc-timeline-area-lower");
             g.append("g").attr("class", "dc-timeline-bars");
             g.append("line").attr("class", "dc-timeline-cursor");
             g.append("circle").attr("class", "dc-timeline-marker").attr("r", 3.5);
@@ -182,26 +183,27 @@
             .call(d3.axisBottom(x).tickValues(ticks).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
             .call((axis) => axis.selectAll(".tick text").attr("text-anchor", (d, i, all) => (i === 0 ? "start" : i === all.length - 1 ? "end" : "middle")));
           const v = (value) => y((value || 0) / divisor);
-          const estimatedArea = g.select(".dc-timeline-area-estimated").attr("display", added ? "none" : null);
-          const reportedArea = g.select(".dc-timeline-area-reported").attr("display", added ? "none" : null);
+          const upperArea = g.select(".dc-timeline-area-upper").attr("display", added ? "none" : null);
+          const lowerArea = g.select(".dc-timeline-area-lower").attr("display", added ? "none" : null);
           const band = panelWidth / timeline.years.length;
           const bars = g.select(".dc-timeline-bars").attr("display", added ? null : "none");
           if (added) {
             const groups = bars.selectAll("g").data(country.points, (point) => point.year).join((enter) => {
               const bar = enter.append("g");
-              bar.append("rect").attr("class", "dc-timeline-estimated").attr("y", v(0)).attr("height", 0);
-              bar.append("rect").attr("class", "dc-timeline-reported").attr("y", v(0)).attr("height", 0);
+              bar.append("rect").attr("class", "dc-timeline-upper").attr("y", v(0)).attr("height", 0);
+              bar.append("rect").attr("class", "dc-timeline-lower").attr("y", v(0)).attr("height", 0);
               return bar;
             });
-            groups.select(".dc-timeline-estimated").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
-              .attr("y", (p) => v(p.reported + p.estimated)).attr("height", (p) => Math.max(0, v(p.reported) - v(p.reported + p.estimated)));
-            groups.select(".dc-timeline-reported").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
-              .attr("y", (p) => v(p.reported)).attr("height", (p) => Math.max(0, v(0) - v(p.reported)));
+            groups.select(".dc-timeline-upper").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
+              .attr("y", (p) => v(p.lower + p.upper)).attr("height", (p) => Math.max(0, v(p.lower) - v(p.lower + p.upper)));
+            groups.select(".dc-timeline-lower").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
+              .attr("y", (p) => v(p.lower)).attr("height", (p) => Math.max(0, v(0) - v(p.lower)));
           } else {
-            estimatedArea.datum(country.points).transition(t)
-              .attr("d", d3.area().x((p) => x(p.year)).y0((p) => v(p.reported)).y1((p) => v(p.reported + p.estimated)));
-            reportedArea.datum(country.points).transition(t)
-              .attr("d", d3.area().x((p) => x(p.year)).y0(v(0)).y1((p) => v(p.reported)));
+            upperArea.datum(country.points).transition(t)
+              .attr("d", d3.area().x((p) => x(p.year)).y0((p) => v(p.lower)).y1((p) => v(p.lower + p.upper)));
+            lowerArea.datum(country.points).transition(t)
+              .attr("d", d3.area().x((p) => x(p.year)).y0(v(0)).y1((p) => v(p.lower)));
+
           }
           const cursor = g.select(".dc-timeline-cursor").attr("y1", 0).attr("y2", panelHeight);
           // The value for the hovered year is written in the panel, next to the top of the area or bar.
@@ -209,7 +211,7 @@
           const valueLabel = g.select(".dc-timeline-end-label");
           const setCursor = (year, transition = null) => {
             const point = country.points.find((p) => p.year === year);
-            const top = v(point.reported + point.estimated);
+            const top = v(point.lower + point.upper);
             const at = x(year);
             cursor.attr("x1", at).attr("x2", at);
             marker.attr("hidden", point.high ? null : true);
@@ -246,7 +248,7 @@
             const share = base ? mapApi.shareLabel(point, base) : "";
             const useYear = data.method.assumptions.context_consumption?.year;
             detail.textContent = point.high
-              ? `${fmt(point.reported, measure)} with a reported opening year${share ? ` · ${share} of the country's electricity use in ${useYear}` : ""}`
+              ? `${fmt(point.reportedOpening, measure)} with a reported opening year${share ? ` · ${share} of the country's electricity use in ${useYear}` : ""}`
               : "";
             item.append(label, value, detail);
             readout.append(item);
@@ -273,7 +275,7 @@
           series.forEach((country) => {
             const point = country.points.find((p) => p.year === year);
             const cell = document.createElement("td");
-            cell.textContent = range(point, measure) + (point.high ? ` (${fmt(point.reported, measure)})` : "");
+            cell.textContent = range(point, measure) + (point.high ? ` (${fmt(point.reportedOpening, measure)})` : "");
             row.append(cell);
           });
           body.append(row);

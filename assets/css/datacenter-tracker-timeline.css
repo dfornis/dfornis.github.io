@@ -311,13 +311,13 @@
 .dc-timeline .dc-timeline-controls { display: flex; justify-content: center; }
 
 /* Two-layer panels: opening year reported by a source, or estimated. */
-.dc-timeline-reported { fill: var(--dc-blue); }
-.dc-timeline-estimated { fill: var(--dc-blue); fill-opacity: 0.35; }
+.dc-timeline-lower { fill: var(--dc-blue); }
+.dc-timeline-upper { fill: var(--dc-blue); fill-opacity: 0.35; }
 .dc-timeline-panel-title { fill: var(--dc-chart-text); font-size: 14px; font-weight: 500; }
 .dc-timeline-value-detail { display: block; font-size: 12px; color: var(--dc-chart-muted); }
 .dc-timeline-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; margin: 0.4rem 0 0.2rem; font-size: 13px; color: var(--dc-chart-muted); }
 .dc-timeline-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin-right: 0.4rem; vertical-align: -1px; background: var(--dc-blue); }
-.dc-timeline-legend .estimated i { opacity: 0.35; }
+.dc-timeline-legend .upper i { opacity: 0.35; }
 .dc-timeline-end-label { fill: var(--dc-chart-text); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--dc-chart-paper); stroke-width: 3px; stroke-linejoin: round; }
 .dc-timeline-marker { fill: var(--dc-chart-paper); stroke: var(--dc-chart-text); stroke-width: 1.5px; pointer-events: none; }
 .dc-timeline-end-label { pointer-events: none; }

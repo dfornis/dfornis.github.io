@@ -14,7 +14,7 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.0.29">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.1.2">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
@@ -28,7 +28,9 @@ permalink: /projects/datacenter-tracker/
   </summary>
   <div class="scenario-explainer-body scenario-descriptions" markdown="1">
 
-**Ranges.** Most values are shown as a range, for example 1.4–1.5 GW. The low and high values come from reading the same sources in two ways. For example, a MW figure that does not say what it measures is counted once as site power and once as IT power. Bars, areas and map colours show the high value.
+**Ranges.** Most values are shown as a range, for example 1.4–1.5 GW. The low and high values come from ranges in the sources themselves, such as "600–1,000 MW", from existing capacity of unknown size, and in the chart from early and late opening years. Bars and map colours show the high value. The chart shows both.
+
+**GW and load.** GW is installed capacity, the most the sites could draw. Their average load is lower and enters the TWh figures through a load factor. A MW figure that does not say what it measures is read as the site's total power.
 
 **HQ.** HQ shows only projects whose developer has its global headquarters in the chosen region. Domestic means the same country as the project. Other Europe means another European country, and Outside Europe means the rest of the world. A project with several developers can appear in more than one group.
 
@@ -37,9 +39,9 @@ permalink: /projects/datacenter-tracker/
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.0.29">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.1.2">
   <h2 id="dc-timeline-title">When the capacity could be built</h2>
-  <p class="dc-timeline-intro">The chart spreads the counted capacity over the years it could open. The dark area is capacity with an opening year given by the developer or a public document. The light area is capacity where no source gives an opening year. For that capacity, the opening year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. Together the two areas show the total.</p>
+  <p class="dc-timeline-intro">The chart spreads the counted capacity over the years it could open. The dark area is the lower estimate and the light area reaches up to the upper estimate. Both use the same low and high capacity figures as the map. Where no source gives an opening year, the year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. The lower estimate then uses the later year and the upper estimate the earlier one. In 2035 the upper estimate therefore equals the map, while the lower estimate can be smaller because some capacity opens after 2035.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
       <div class="dc-timeline-measure-control" data-timeline-capacity-view>
@@ -52,7 +54,7 @@ permalink: /projects/datacenter-tracker/
     </div>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
-      <div class="dc-timeline-legend"><span><i></i>Opening year reported</span><span class="estimated"><i></i>Opening year estimated</span></div>
+      <div class="dc-timeline-legend"><span><i></i>Lower estimate</span><span class="upper"><i></i>Up to upper estimate</span></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
@@ -134,7 +136,7 @@ permalink: /projects/datacenter-tracker/
 
   <h4 id="dc-method-capacity">Capacity conversion</h4>
   <div data-method-table="capacity"></div>
-  <p class="dc-method-note">The range is my own calculation from Nordic projects in the register that report both IT power and site power for the same part of the site. Ten such pairs, from five companies, give ratios between 1.20 and 1.44, with a median of 1.25. <a href="https://epoch.ai/data/data-centers-documentation/methodology">Epoch AI</a> uses 1.2 for hyperscale and 1.4 for other sites. <a href="https://www.energimyndigheten.se/492f27/contentassets/054d98cfdcd54cb5a802e24b53779452/energianvandning-i-datacenter-och-digitala-system.pdf">RISE (2023)</a> reports an annual PUE of 1.1–1.3 for efficient Swedish sites. Annual PUE is lower than the design ratio because cooling needs vary over the year.</p>
+  <p class="dc-method-note">The ratio is my own calculation from Nordic projects in the register that report both IT power and site power for the same part of the site. Ten such pairs, from five companies, give ratios between 1.20 and 1.44. I use the median, 1.25. The highest value comes from a single site and is not used as a general upper bound. <a href="https://epoch.ai/data/data-centers-documentation/methodology">Epoch AI</a> uses 1.2 for hyperscale and 1.4 for other sites. <a href="https://www.energimyndigheten.se/492f27/contentassets/054d98cfdcd54cb5a802e24b53779452/energianvandning-i-datacenter-och-digitala-system.pdf">RISE (2023)</a> reports an annual PUE of 1.1–1.3 for efficient Swedish sites. Annual PUE is lower than the design ratio because cooling needs vary over the year.</p>
 
   <h4 id="dc-method-energy">Annual electricity use</h4>
   <p class="dc-method-formula">Annual TWh = site MW × annual load factor × 8,760 / 1,000,000</p>
@@ -218,7 +220,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.0.29' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.1.2' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -920,10 +922,10 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.0.29">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.0.29">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.1.2">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.1.2">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.0.29" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.0.29" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.0.29" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.0.29" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.1.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.1.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.1.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.1.2" defer></script>
