@@ -3842,9 +3842,9 @@ html:has(.pf-v2) {
   flex: 1;
   margin: 0;
   padding: 0.45rem 0.75rem;
-  border: 1px solid var(--pf-line);
+  border: 1px solid var(--pf-accent-muted);
   border-radius: 6px;
-  background: #fff;
+  background: transparent;
   color: var(--pf-ink);
   text-align: left;
 }
