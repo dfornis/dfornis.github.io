@@ -11,12 +11,12 @@
   <p class="pf-prose">{{ pf.model_application.setting }}</p>
   <div class="pf-settings">
     <div class="pf-setting">
-      <p class="pf-setting-label">Adopted policy</p>
+      <p class="pf-setting-label">Adopted-policy scenario</p>
       <ul>
         {% for t in pf.trajectories %}
-          {% if t.scenario_use == 'Adopted-policy baseline' or t.scenario_use == 'Sensitivity case' %}
+          {% if t.scenario_use == 'Baseline' or t.scenario_use == 'Sensitivity' %}
             <li data-trajectory="{{ t.id }}">
-              <span class="pf-swatch" aria-hidden="true"></span><strong>{{ t.scenario_use | remove: 'Adopted-policy ' | capitalize }}</strong>
+              <span class="pf-swatch" aria-hidden="true"></span><strong>{{ t.scenario_use }}</strong>
               {{ t.id }}
               {{ t.short_title }}
             </li>
@@ -25,12 +25,12 @@
       </ul>
     </div>
     <div class="pf-setting">
-      <p class="pf-setting-label">Exploratory</p>
+      <p class="pf-setting-label">Exploratory scenario</p>
       <ul>
         {% for t in pf.trajectories %}
-          {% if t.scenario_use == 'Alternative policy future' %}
+          {% if t.scenario_use == 'Exploratory' %}
             <li data-trajectory="{{ t.id }}">
-              <span class="pf-swatch" aria-hidden="true"></span><strong>Alternative</strong> {{ t.id }}
+              <span class="pf-swatch" aria-hidden="true"></span><strong>{{ t.scenario_use }}</strong> {{ t.id }}
               {{ t.short_title }}
             </li>
           {% endif %}
@@ -80,29 +80,28 @@
                 {% endfor %}
               </tr>
             {% endfor %}
+            {% assign g = ds.grid_row %}
+            <tr class="pf-dcscen-grid">
+              <th scope="row">
+                {{ g.label -}}
+                <small>{{ g.use }}</small>
+              </th>
+              {% for v in g.values %}
+                <td>{{ v }}</td>
+              {% endfor %}
+            </tr>
           </tbody>
         </table>
       </div>
-      <p class="pf-caption">{{ ds.caption }}</p>
-      <details class="pf-note pf-dcscen-compare">
-        <summary>{{ ds.comparison_title }}</summary>
-        <dl>
-          {% for c in ds.comparison %}
-            <div>
-              <dt>{{ c.country }}</dt>
-              <dd>
-                {{ c.text }}
-                <span class="pf-dcscen-src">
-                  {%- for src in c.sources -%}
-                    <a href="{{ src.url }}">{{ src.label }}</a>
-                    {%- unless forloop.last %} · {% endunless -%}
-                  {%- endfor -%}
-                </span>
-              </dd>
-            </div>
-          {% endfor %}
-        </dl>
-      </details>
+      <p class="pf-caption">
+        {{ ds.caption }}
+        {{ ds.grid_note }} Sources:
+        {% for src in ds.grid_sources -%}
+          <a href="{{ src.url }}">{{ src.label }}</a>
+          {%- unless forloop.last %}, {% endunless -%}
+        {%- endfor -%}
+        .
+      </p>
     </div>
 
     {% assign smax = 250.0 %}

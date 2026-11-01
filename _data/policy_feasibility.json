@@ -20,7 +20,7 @@
       "short_title": "Voluntary commitments",
       "phases": ["Continue voluntary procurement", "Keep commitments voluntary"],
       "origin_summary": "Swedish business organisations · US company pledge",
-      "scenario_use": "Adopted-policy baseline",
+      "scenario_use": "Baseline",
       "profile": {
         "coalition_alignment": {
           "rating": "mixed",
@@ -64,7 +64,7 @@
       "short_title": "Generation requirement",
       "phases": ["Prepare and adopt legislation", "Apply the generation requirement"],
       "origin_summary": "Swedish reform proposals · Ireland",
-      "scenario_use": "Sensitivity case",
+      "scenario_use": "Sensitivity",
       "profile": {
         "coalition_alignment": {
           "rating": "favourable",
@@ -108,7 +108,7 @@
       "short_title": "Additionality requirement",
       "phases": ["Prepare and adopt legislation", "Apply and verify the requirement"],
       "origin_summary": "Finnish consultation · Spanish proposal",
-      "scenario_use": "Alternative policy future",
+      "scenario_use": "Exploratory",
       "profile": {
         "coalition_alignment": {
           "rating": "mixed",
@@ -152,7 +152,7 @@
       "development": "2026–2027: legislate and manage projects already in preparation. From 2028: prevent new openings and maintain the stop.",
       "phases": ["Legislate and set transition rules", "No new sites may open"],
       "origin_summary": "Irish moratorium campaigns · Maine · Québec",
-      "scenario_use": "Alternative policy future",
+      "scenario_use": "Exploratory",
       "profile": {
         "coalition_alignment": {
           "rating": "unfavourable",

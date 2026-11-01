@@ -3992,3 +3992,32 @@ html:has(.pf-v2) {
     display: block;
   }
 }
+
+/* Grid-operator row in the datacenter table */
+.pf-v2 .pf-dcscen-grid th,
+.pf-v2 .pf-dcscen-grid td {
+  color: var(--pf-secondary);
+}
+.pf-v2 .pf-dcscen-table .pf-dcscen-grid td {
+  max-width: 9rem;
+  white-space: normal;
+  font-size: 0.8rem !important;
+  line-height: 1.35;
+}
+
+/* Scenario roles in the framework figure */
+.pf-v2 .pf-fw-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pf-v2 .pf-fw-roles li {
+  margin: 0;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--pf-accent-muted);
+  border-radius: 6px;
+  color: var(--pf-ink);
+}

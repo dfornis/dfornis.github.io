@@ -633,47 +633,30 @@
         ]
       }
     ],
-    "caption": "Electricity use added by new datacenters between 2025 and 2035, in TWh a year, with connected capacity in GW in brackets. The tracker’s lower estimates of capacity and opening year are used. Sweden’s datacenters used about 3 TWh in 2025. Projects open on the dates their developers state, and delays are not modelled.",
-    "comparison_title": "Compared with figures from the grid operators",
-    "comparison": [
-      {
-        "country": "Sweden",
-        "text": "In 2025, Svenska kraftnät received applications to connect about 9,000 MW of new electricity use to the transmission grid, and about half concerned datacenters. An application is not a decision to build, and one project can apply in several places. In Svenska kraftnät’s long-term market analysis, datacenters in Sweden use between 9 and 41 TWh a year in 2050, depending on the scenario. Central adds about 2.6 GW and 17 TWh by 2035.",
-        "sources": [
-          {
-            "label": "Svenska kraftnät, February 2026",
-            "url": "https://www.svk.se/press-och-nyheter/nyheter/allmanna-nyheter/2026/nara-5000-mw-nya-anslutningar-beviljades-2025/"
-          },
-          {
-            "label": "Svenska kraftnät, Långsiktig marknadsanalys 2026",
-            "url": "https://www.svk.se/49e8f3/siteassets/om-oss/rapporter/langsiktig-marknadsanalys/langsiktig-marknadsanalys-2026.pdf"
-          }
-        ]
-      },
-      {
-        "country": "Norway",
-        "text": "By March 2026, Statnett had reserved 3,500 MW of grid capacity for new datacenters, and more projects are waiting in line. NVE, the Norwegian energy regulator, expects datacenter use to rise from 3.3 TWh in 2025 to about 8 TWh in 2030. Central adds 5.8 TWh by 2030 and 9.5 TWh by 2035.",
-        "sources": [
-          {
-            "label": "NVE, method note on datacenter projections, 2026",
-            "url": "https://www.nve.no/media/20262/metodenotat-framskriving-datasentre-2026.pdf"
-          }
-        ]
-      },
-      {
-        "country": "Finland",
-        "text": "By June 2026, Fingrid had signed connection agreements for datacenter projects with a planned final size of over 3 GW. Central adds 1.9 GW by 2030 and 4.1 GW by 2035.",
-        "sources": [
-          {
-            "label": "Fingrid, half-year report 2026",
-            "url": "https://www.sttinfo.fi/tiedote/72200778/fingrid-konsernin-puolivuosikatsaus-11-3062026?lang=fi"
-          }
-        ]
-      }
-    ],
+    "caption": "Electricity use added by new datacenters between 2025 and 2035, in TWh a year, with connected capacity in GW in brackets. The tracker’s lower estimates of capacity and opening year are used. Sweden’s datacenters used about 3 TWh in 2025.",
     "epri": {
       "label": "EPRI (2026)",
       "url": "https://esca.epri.com/products/3002034696/"
-    }
+    },
+    "grid_row": {
+      "label": "Grid operators",
+      "use": "Not forecasts",
+      "values": ["About 4.5 GW applied for in 2025", "3.5 GW reserved", "Over 3 GW contracted"]
+    },
+    "grid_note": "The grid operators’ figures measure different things. Sweden: datacenter applications to Svenska kraftnät during 2025. Norway: grid capacity reserved by Statnett for new datacenters, March 2026. Finland: datacenter projects with signed connection agreements at Fingrid, June 2026.",
+    "grid_sources": [
+      {
+        "label": "Svenska kraftnät",
+        "url": "https://www.svk.se/press-och-nyheter/nyheter/allmanna-nyheter/2026/nara-5000-mw-nya-anslutningar-beviljades-2025/"
+      },
+      {
+        "label": "NVE",
+        "url": "https://www.nve.no/media/20262/metodenotat-framskriving-datasentre-2026.pdf"
+      },
+      {
+        "label": "Fingrid",
+        "url": "https://www.sttinfo.fi/tiedote/72200778/fingrid-konsernin-puolivuosikatsaus-11-3062026?lang=fi"
+      }
+    ]
   }
 }
