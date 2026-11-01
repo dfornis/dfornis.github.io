@@ -47,19 +47,73 @@
       (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind that the model builds anyway. A requirement
       for additional generation (T1b) and a stop for new datacenters (T2) both give clearly lower prices, especially in the most expensive hours.
     </p>
+    {% assign ds = sc.dc_scenarios %}
+    {% capture tracker_link %}<a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a>{% endcapture %}
+    {% capture epri_link %}<a href="{{ ds.epri.url }}">{{ ds.epri.label }}</a>{% endcapture %}
+    <div class="pf-dcscen">
+      <h4>{{ ds.title }}</h4>
+      {% for para in ds.text %}
+        <p>{{ para | replace: 'Nordic datacenter tracker', tracker_link | replace: ds.epri.label, epri_link }}</p>
+      {% endfor %}
+      <div class="pf-table-scroll">
+        <table class="pf-dcscen-table">
+          <thead>
+            <tr>
+              <th scope="col">Scenario</th>
+              {% for col in ds.columns %}
+                <th scope="col">{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in ds.rows %}
+              <tr>
+                <th scope="row">
+                  {{ r.label -}}
+                  <small>{{ r.use }}</small>
+                </th>
+                {% for v in r.values %}
+                  <td>
+                    {{ v.twh }}
+                    <span>({{ v.gw }} GW)</span>
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p class="pf-caption">{{ ds.caption }}</p>
+      <details class="pf-note pf-dcscen-compare">
+        <summary>{{ ds.comparison_title }}</summary>
+        <dl>
+          {% for c in ds.comparison %}
+            <div>
+              <dt>{{ c.country }}</dt>
+              <dd>
+                {{ c.text }}
+                <span class="pf-dcscen-src">
+                  {%- for src in c.sources -%}
+                    <a href="{{ src.url }}">{{ src.label }}</a>
+                    {%- unless forloop.last %} · {% endunless -%}
+                  {%- endfor -%}
+                </span>
+              </dd>
+            </div>
+          {% endfor %}
+        </dl>
+      </details>
+    </div>
+
     {% assign smax = 250.0 %}
-    {% assign cmax = 5.0 %}
     <figure class="pf-bars pf-price" aria-labelledby="pf-bars-caption">
-      <figcaption id="pf-bars-caption" class="pf-sr-only">
-        Electricity price in SE3 and extra cost for other Swedish customers, {{ sc.model.result_year }}
-      </figcaption>
+      <figcaption id="pf-bars-caption" class="pf-sr-only">Electricity price in SE3, {{ sc.model.result_year }}</figcaption>
       <p class="pf-mix-legend">
         <span><span class="pf-key pf-price-avg" aria-hidden="true"></span>Average spot price</span>
         <span><span class="pf-key pf-price-p99" aria-hidden="true"></span>Most expensive 1% of hours</span>
       </p>
       <div class="pf-price-row pf-price-head" aria-hidden="true">
         <span></span><span>Spot price, SE3 · <span class="pf-nowrap">EUR/MWh</span></span
-        ><span></span><span>Extra cost, other customers · <span class="pf-nowrap">bn EUR/yr</span></span
         ><span></span>
       </div>
       {% assign rows = sc.cases | unshift: ref %}
@@ -78,19 +132,27 @@
             <span class="pf-price-avg" style="width: {{ c.values.price_se3 | times: 100.0 | divided_by: smax }}%"></span>
           </span>
           <span class="pf-bar-value">{{ c.values.price_se3 | round }} · {{ c.values.p99_se3 }}</span>
-          <span class="pf-price-track">
-            <span class="pf-price-avg" style="width: {{ c.values.other_bill | times: 100.0 | divided_by: cmax }}%"></span>
-          </span>
-          <span class="pf-bar-value">
-            {%- if c.id == 'none' %}–{% else %}{{ c.values.other_bill }}{% endif -%}
-          </span>
         </div>
       {% endfor %}
+      {% assign st = sc.stress %}
+      <div class="pf-price-row pf-price-stress" data-trajectory="{{ st.id }}">
+        <span class="pf-bar-label"
+          ><small>{{ st.id }}</small><span class="pf-mix-name">{{ st.label }}</span><span class="pf-mix-short">{{ st.short }}</span></span
+        >
+        <span class="pf-price-track">
+          {%- if st.values.price_se3 -%}
+            <span class="pf-price-p99" style="width: {{ st.values.p99_se3 | times: 100.0 | divided_by: smax }}%"></span>
+            <span class="pf-price-avg" style="width: {{ st.values.price_se3 | times: 100.0 | divided_by: smax }}%"></span>
+          {%- endif -%}
+        </span>
+        <span class="pf-bar-value">
+          {%- if st.values.price_se3 %}{{ st.values.price_se3 | round }} · {{ st.values.p99_se3 }}{% else %}{{ st.note }}{% endif -%}
+        </span>
+      </div>
       <p class="pf-caption">
-        Modelled spot price in bidding zone SE3: the yearly average and the price exceeded in only 1% of the hours. Extra cost for other customers:
-        their electricity use multiplied by the hourly wholesale price, summed over the year and compared with the reference run. Most other
-        electricity use is fixed in the model, so it does not fall when prices rise. Only part of hydrogen production and some flexible use respond to
-        prices. Network tariffs and taxes are not included.
+        Modelled spot price in bidding zone SE3, central Sweden including Stockholm: the yearly average and the price exceeded in only 1% of the
+        hours. The trajectories are run with the Central datacenter scenario. The last row is the stress test, in which every announced project is
+        built and there is no policy response.
       </p>
     </figure>
   </div>
@@ -149,15 +211,13 @@
         <p class="pf-prose">
           Electricity use per bidding zone follows the Swedish Energy Agency’s current-policy scenario, broken down by county and sector in
           <a href="https://www.behovskartan.se/">Behovskartan</a>, a tool for exploring Sweden’s future electricity needs developed by AI Sweden. The
-          scenario’s own growth in datacenter use after 2025 is removed. It is replaced by the projects in the high scenario of the
-          <a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a>, a separate project on this site that lists
-          announced datacenters and their expected electricity use. Growth after 2025 gets an hourly profile per sector. Electric cars, trucks and
-          rail use typical profiles from Behovskartan. Households and services use measured 2023 data, and electric heating follows heat pumps at 2023
-          temperatures. Industry and hydrogen production are flat. Large datacenters use the hourly shape of Norwegian datacenters, with monthly
-          factors from the datacenter data in Behovskartan. Datacenters for AI and high-performance computing are flat. There are no open hourly
-          series per sector for Sweden, so households, services and datacenters use Norwegian measured data from
-          <a href="https://data.elhub.no/">Elhub</a>, the Norwegian data hub for electricity metering. The charts show bidding zone SE3, central
-          Sweden including Stockholm.
+          scenario’s own growth in datacenter use after 2025 is removed. It is replaced by the projects in the tracker, weighted as described under
+          “Datacenter electricity use in the runs”. Growth after 2025 gets an hourly profile per sector. Electric cars, trucks and rail use typical
+          profiles from Behovskartan. Households and services use measured 2023 data, and electric heating follows heat pumps at 2023 temperatures.
+          Industry and hydrogen production are flat. Large datacenters use the hourly shape of Norwegian datacenters, with monthly factors from the
+          datacenter data in Behovskartan. Datacenters for AI and high-performance computing are flat. There are no open hourly series per sector for
+          Sweden, so households, services and datacenters use Norwegian measured data from <a href="https://data.elhub.no/">Elhub</a>, the Norwegian
+          data hub for electricity metering. The charts show bidding zone SE3, central Sweden including Stockholm.
         </p>
         <figure class="pf-loadprof" aria-labelledby="pf-loadprof-caption">
           <p class="pf-mix-legend">

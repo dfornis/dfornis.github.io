@@ -215,7 +215,7 @@
     },
     {
       "label": "Datacenters",
-      "value": "Nordic datacenter tracker, high scenario for 2035. Projects in Norway and Finland are counted at half."
+      "value": "Nordic datacenter tracker, Central scenario for 2035, see “Datacenter electricity use in the runs” above. All announced as a stress test."
     }
   ],
   "mix": {
@@ -575,5 +575,105 @@
         "month": "M0.0,91.4 L27.3,90.9 L54.5,99.1 L81.8,107.8 L109.1,119.5 L136.4,119.7 L163.6,110.9 L190.9,110.1 L218.2,108.1 L245.5,104.5 L272.7,99.2 L300.0,95.2"
       }
     ]
+  },
+  "stress": {
+    "id": "T0",
+    "label": "All announced projects",
+    "short": "All",
+    "values": {
+      "price_se3": null,
+      "p99_se3": null
+    },
+    "note": "Pending"
+  },
+  "dc_scenarios": {
+    "title": "Datacenter electricity use in the runs",
+    "text": [
+      "The new datacenters come from the Nordic datacenter tracker, which lists announced projects with their stated capacity and expected opening year. Not every announced project will be built. I therefore weight each project by how far it has come, following the medium-growth scenario in EPRI (2026). Projects under construction or with an investment decision count in full. Projects with a dated plan, or a further phase on a campus that is already being built, count at 75%. Announcements without a date count at 10%. This is the Central scenario, and all four trajectories are run with it.",
+      "All announced counts every announced project in full. I run it only without a policy response (T0), as a stress test."
+    ],
+    "columns": ["Sweden", "Norway", "Finland"],
+    "rows": [
+      {
+        "id": "central",
+        "label": "Central",
+        "use": "All trajectories",
+        "values": [
+          {
+            "twh": 16.9,
+            "gw": 2.6
+          },
+          {
+            "twh": 9.5,
+            "gw": 1.5
+          },
+          {
+            "twh": 26.6,
+            "gw": 4.1
+          }
+        ]
+      },
+      {
+        "id": "announced",
+        "label": "All announced",
+        "use": "Stress test, T0 only",
+        "values": [
+          {
+            "twh": 35.3,
+            "gw": 5.4
+          },
+          {
+            "twh": 29.6,
+            "gw": 4.8
+          },
+          {
+            "twh": 57.2,
+            "gw": 8.7
+          }
+        ]
+      }
+    ],
+    "caption": "Electricity use added by new datacenters between 2025 and 2035, in TWh a year, with connected capacity in GW in brackets. The tracker’s lower estimates of capacity and opening year are used. Sweden’s datacenters used about 3 TWh in 2025. Projects open on the dates their developers state, and delays are not modelled.",
+    "comparison_title": "Compared with figures from the grid operators",
+    "comparison": [
+      {
+        "country": "Sweden",
+        "text": "In 2025, Svenska kraftnät received applications to connect about 9,000 MW of new electricity use to the transmission grid, and about half concerned datacenters. An application is not a decision to build, and one project can apply in several places. In Svenska kraftnät’s long-term market analysis, datacenters in Sweden use between 9 and 41 TWh a year in 2050, depending on the scenario. Central adds about 2.6 GW and 17 TWh by 2035.",
+        "sources": [
+          {
+            "label": "Svenska kraftnät, February 2026",
+            "url": "https://www.svk.se/press-och-nyheter/nyheter/allmanna-nyheter/2026/nara-5000-mw-nya-anslutningar-beviljades-2025/"
+          },
+          {
+            "label": "Svenska kraftnät, Långsiktig marknadsanalys 2026",
+            "url": "https://www.svk.se/49e8f3/siteassets/om-oss/rapporter/langsiktig-marknadsanalys/langsiktig-marknadsanalys-2026.pdf"
+          }
+        ]
+      },
+      {
+        "country": "Norway",
+        "text": "By March 2026, Statnett had reserved 3,500 MW of grid capacity for new datacenters, and more projects are waiting in line. NVE, the Norwegian energy regulator, expects datacenter use to rise from 3.3 TWh in 2025 to about 8 TWh in 2030. Central adds 5.8 TWh by 2030 and 9.5 TWh by 2035.",
+        "sources": [
+          {
+            "label": "NVE, method note on datacenter projections, 2026",
+            "url": "https://www.nve.no/media/20262/metodenotat-framskriving-datasentre-2026.pdf"
+          }
+        ]
+      },
+      {
+        "country": "Finland",
+        "text": "By June 2026, Fingrid had signed connection agreements for datacenter projects with a planned final size of over 3 GW. Central adds 1.9 GW by 2030 and 4.1 GW by 2035.",
+        "sources": [
+          {
+            "label": "Fingrid, half-year report 2026",
+            "url": "https://www.sttinfo.fi/tiedote/72200778/fingrid-konsernin-puolivuosikatsaus-11-3062026?lang=fi"
+          }
+        ]
+      }
+    ],
+    "epri": {
+      "label": "EPRI (2026)",
+      "url": "https://esca.epri.com/products/3002034696/"
+    }
   }
 }

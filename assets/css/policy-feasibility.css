@@ -3878,3 +3878,117 @@ html:has(.pf-v2) {
 .pf-v2 .pf-fw-use > div {
   border-radius: 8px;
 }
+
+/* Price figure: one panel (extra cost removed) */
+.pf-price-row {
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr) 4.6rem;
+}
+.pf-price-stress {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--pf-line);
+}
+.pf-price-stress .pf-price-avg,
+.pf-price-stress .pf-price-p99 {
+  opacity: 0.55;
+}
+.pf-v2 .pf-price-stress .pf-bar-label,
+.pf-v2 .pf-price-stress .pf-bar-value {
+  color: var(--pf-secondary);
+}
+.pf-price-stress .pf-mix-short {
+  display: none;
+}
+@media (max-width: 760px) {
+  .pf-price-row {
+    grid-template-columns: 3.4rem minmax(0, 1fr) 4.2rem;
+  }
+  .pf-price-stress .pf-mix-short {
+    display: inline;
+    margin-left: 0.25rem;
+  }
+}
+
+/* Datacenter scenarios in the runs */
+.pf-dcscen {
+  margin: 1.4rem 0 1.8rem;
+}
+.pf-v2 .pf-dcscen h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.pf-dcscen p {
+  max-width: 68ch;
+}
+.pf-v2 .pf-dcscen-table {
+  width: auto;
+  min-width: min(100%, 34rem);
+  margin: 0.4rem 0 0.5rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.pf-v2 .pf-dcscen-table th,
+.pf-v2 .pf-dcscen-table td {
+  padding: 0.45rem 0.9rem 0.45rem 0;
+  border-bottom: 1px solid var(--pf-line);
+  font-size: 0.88rem !important;
+  text-align: left;
+  vertical-align: top;
+}
+.pf-v2 .pf-dcscen-table thead th {
+  color: var(--pf-secondary);
+  font-size: 0.78rem !important;
+  font-weight: 600;
+}
+.pf-v2 .pf-dcscen-table td {
+  text-align: right;
+  white-space: nowrap;
+}
+.pf-v2 .pf-dcscen-table thead th + th {
+  text-align: right;
+}
+.pf-v2 .pf-dcscen-table tbody th {
+  font-weight: 600;
+}
+.pf-v2 .pf-dcscen-table tbody th small {
+  display: block;
+  color: var(--pf-secondary);
+  font-size: 0.76rem !important;
+  font-weight: 400;
+}
+.pf-v2 .pf-dcscen-table td span {
+  color: var(--pf-secondary);
+  font-size: 0.78rem !important;
+}
+.pf-dcscen-compare dl {
+  margin: 0.6rem 0 0.2rem;
+}
+.pf-dcscen-compare dl > div {
+  margin-bottom: 0.7rem;
+}
+.pf-v2 .pf-dcscen-compare dt {
+  font-weight: 600;
+  font-size: 0.88rem !important;
+}
+.pf-v2 .pf-dcscen-compare dd {
+  max-width: 68ch;
+  margin: 0.1rem 0 0;
+  font-size: 0.88rem !important;
+}
+.pf-v2 .pf-dcscen-src {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--pf-secondary);
+  font-size: 0.78rem !important;
+}
+@media (max-width: 760px) {
+  .pf-v2 .pf-dcscen-table th,
+  .pf-v2 .pf-dcscen-table td {
+    padding-right: 0.5rem;
+    font-size: 0.82rem !important;
+  }
+  .pf-v2 .pf-dcscen-table td span {
+    display: block;
+  }
+}
