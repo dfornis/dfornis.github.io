@@ -157,8 +157,8 @@
       <div class="pf-price-row pf-price-axis" aria-hidden="true">
         <span></span>
         <span class="pf-price-ticks">
-          {%- for v in (0..5) -%}
-            {% assign tv = v | times: 50 -%}
+          {%- for v in (0..2) -%}
+            {% assign tv = v | times: 100 -%}
             <span style="left: {{ tv | times: 100.0 | divided_by: smax }}%">{{ tv }}</span>
           {%- endfor -%}
         </span>
