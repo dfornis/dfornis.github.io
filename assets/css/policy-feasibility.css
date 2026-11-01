@@ -4021,3 +4021,78 @@ html:has(.pf-v2) {
   border-radius: 6px;
   color: var(--pf-ink);
 }
+
+/* Price figure: values at the bar ends and an x-axis */
+.pf-price-row {
+  grid-template-columns: minmax(8rem, 13rem) minmax(0, 1fr);
+  padding-right: 2.2rem;
+}
+.pf-price-track {
+  background-image: repeating-linear-gradient(to right, color-mix(in srgb, var(--pf-line) 70%, transparent) 0 1px, transparent 1px 20%);
+}
+.pf-price-num {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateY(-50%);
+}
+.pf-price-num-avg {
+  padding-right: 0.35rem;
+  color: #fff;
+  transform: translate(-100%, -50%);
+}
+.pf-price-num-p99 {
+  padding-left: 0.35rem;
+  color: var(--pf-secondary);
+}
+.pf-price-pending {
+  position: absolute;
+  top: 50%;
+  left: 0.2rem;
+  color: var(--pf-secondary);
+  font-size: 0.78rem;
+  font-style: italic;
+  transform: translateY(-50%);
+}
+.pf-price-axis {
+  margin-top: 0.15rem;
+}
+.pf-price-ticks {
+  position: relative;
+  display: block;
+  height: 1rem;
+  border-top: 1px solid var(--pf-line);
+}
+.pf-v2 .pf-price-ticks span {
+  position: absolute;
+  top: 0.15rem;
+  color: var(--pf-secondary);
+  font-size: 0.72rem !important;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+.pf-price-stress {
+  margin-bottom: 0.2rem;
+}
+@media (max-width: 760px) {
+  .pf-price-row {
+    grid-template-columns: 3.4rem minmax(0, 1fr);
+    padding-right: 1.8rem;
+  }
+  .pf-price-num {
+    font-size: 0.7rem;
+  }
+}
+.pf-price-track .pf-price-p99 {
+  background: color-mix(in srgb, var(--pf-t, var(--pf-accent-muted)) 30%, var(--pf-paper));
+}
+.pf-price-row.pf-bar-reference .pf-price-track .pf-price-p99 {
+  background: color-mix(in srgb, #b9b3aa 35%, var(--pf-paper));
+}
+.pf-price .pf-price-axis + .pf-caption {
+  margin-top: 0.9rem;
+}

@@ -215,7 +215,7 @@
     },
     {
       "label": "Datacenters",
-      "value": "Nordic datacenter tracker, Central scenario for 2035, see “Datacenter electricity use in the runs” above. All announced as a stress test."
+      "value": "Nordic datacenter tracker, Central scenario for 2035, see “Datacenter electricity use in the runs” above."
     }
   ],
   "mix": {
@@ -641,21 +641,21 @@
     "grid_row": {
       "label": "Grid operators",
       "use": "Not forecasts",
-      "values": ["About 4.5 GW applied for in 2025", "3.5 GW reserved", "Over 3 GW contracted"]
+      "values": ["7.3 GW in the queue", "4.2 GW reserved, 8.8 GW in the queue", "Almost 5 GW contracted"]
     },
-    "grid_note": "The grid operators’ figures measure different things. Sweden: datacenter applications to Svenska kraftnät during 2025. Norway: grid capacity reserved by Statnett for new datacenters, March 2026. Finland: datacenter projects with signed connection agreements at Fingrid, June 2026.",
+    "grid_note": "The grid operators’ figures measure different things. Sweden: datacenter applications in Svenska kraftnät’s queue, October 2026. Norway: capacity reserved for datacenters and capacity in the queue, from Statnett’s market analysis, October 2026. Finland: datacenter projects with signed connection agreements, including distribution grids, August 2026.",
     "grid_sources": [
       {
         "label": "Svenska kraftnät",
-        "url": "https://www.svk.se/press-och-nyheter/nyheter/allmanna-nyheter/2026/nara-5000-mw-nya-anslutningar-beviljades-2025/"
+        "url": "https://www.svk.se/aktorsportalen/anslut-till-transmissionsnatet/information-om-pagaende-anslutningsarenden/ansok-effekt-per-elomrade/"
       },
       {
-        "label": "NVE",
-        "url": "https://www.nve.no/media/20262/metodenotat-framskriving-datasentre-2026.pdf"
+        "label": "Energi og Klima on Statnett",
+        "url": "https://www.energiogklima.no/data/strom-forbruket-datasentrene-er-jokeren"
       },
       {
         "label": "Fingrid",
-        "url": "https://www.sttinfo.fi/tiedote/72200778/fingrid-konsernin-puolivuosikatsaus-11-3062026?lang=fi"
+        "url": "https://www.fingrid.fi/en/news/news/2026/electricity-consumption-is-set-to-increase-sharply--more-balancing-power-will-also-be-needed/"
       }
     ]
   }

@@ -126,11 +126,14 @@
               <span class="pf-mix-short">Ref.</span><span class="pf-mix-name">{{ ref.label }}</span>
             {%- endif -%}
           </span>
+          {% assign wa = c.values.price_se3 | times: 100.0 | divided_by: smax %}
+          {% assign wp = c.values.p99_se3 | times: 100.0 | divided_by: smax %}
           <span class="pf-price-track">
-            <span class="pf-price-p99" style="width: {{ c.values.p99_se3 | times: 100.0 | divided_by: smax }}%"></span>
-            <span class="pf-price-avg" style="width: {{ c.values.price_se3 | times: 100.0 | divided_by: smax }}%"></span>
+            <span class="pf-price-p99" style="width: {{ wp }}%"></span>
+            <span class="pf-price-avg" style="width: {{ wa }}%"></span>
+            <span class="pf-price-num pf-price-num-avg" style="left: {{ wa }}%">{{ c.values.price_se3 | round }}</span>
+            <span class="pf-price-num pf-price-num-p99" style="left: {{ wp }}%">{{ c.values.p99_se3 }}</span>
           </span>
-          <span class="pf-bar-value">{{ c.values.price_se3 | round }} · {{ c.values.p99_se3 }}</span>
         </div>
       {% endfor %}
       {% assign st = sc.stress %}
@@ -140,12 +143,24 @@
         >
         <span class="pf-price-track">
           {%- if st.values.price_se3 -%}
-            <span class="pf-price-p99" style="width: {{ st.values.p99_se3 | times: 100.0 | divided_by: smax }}%"></span>
-            <span class="pf-price-avg" style="width: {{ st.values.price_se3 | times: 100.0 | divided_by: smax }}%"></span>
+            {% assign wa = st.values.price_se3 | times: 100.0 | divided_by: smax %}
+            {% assign wp = st.values.p99_se3 | times: 100.0 | divided_by: smax %}
+            <span class="pf-price-p99" style="width: {{ wp }}%"></span>
+            <span class="pf-price-avg" style="width: {{ wa }}%"></span>
+            <span class="pf-price-num pf-price-num-avg" style="left: {{ wa }}%">{{ st.values.price_se3 | round }}</span>
+            <span class="pf-price-num pf-price-num-p99" style="left: {{ wp }}%">{{ st.values.p99_se3 }}</span>
+          {%- else -%}
+            <span class="pf-price-pending">{{ st.note }}</span>
           {%- endif -%}
         </span>
-        <span class="pf-bar-value">
-          {%- if st.values.price_se3 %}{{ st.values.price_se3 | round }} · {{ st.values.p99_se3 }}{% else %}{{ st.note }}{% endif -%}
+      </div>
+      <div class="pf-price-row pf-price-axis" aria-hidden="true">
+        <span></span>
+        <span class="pf-price-ticks">
+          {%- for v in (0..5) -%}
+            {% assign tv = v | times: 50 -%}
+            <span style="left: {{ tv | times: 100.0 | divided_by: smax }}%">{{ tv }}</span>
+          {%- endfor -%}
         </span>
       </div>
       <p class="pf-caption">
