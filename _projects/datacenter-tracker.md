@@ -14,7 +14,7 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.1.2">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.1.3">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
@@ -30,7 +30,7 @@ permalink: /projects/datacenter-tracker/
 
 **Ranges.** Most values are shown as a range, for example 1.4–1.5 GW. The low and high values come from ranges in the sources themselves, such as "600–1,000 MW", from existing capacity of unknown size, and in the chart from early and late opening years. Bars and map colours show the high value. The chart shows both.
 
-**GW and load.** GW is installed capacity, the most the sites could draw. Their average load is lower and enters the TWh figures through a load factor. A MW figure that does not say what it measures is read as the site's total power.
+**MW, GW and load.** The project list uses MW. The map and chart use GW (1 GW = 1,000 MW). Both are installed capacity, the most the sites could draw. Their average load is lower and enters the TWh figures through a load factor. A MW figure that does not say what it measures is read as the site's total power.
 
 **HQ.** HQ shows only projects whose developer has its global headquarters in the chosen region. Domestic means the same country as the project. Other Europe means another European country, and Outside Europe means the rest of the world. A project with several developers can appear in more than one group.
 
@@ -39,9 +39,9 @@ permalink: /projects/datacenter-tracker/
   </div>
 </details>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.1.2">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.1.3">
   <h2 id="dc-timeline-title">When the capacity could be built</h2>
-  <p class="dc-timeline-intro">The chart spreads the counted capacity over the years it could open. The dark area is the lower estimate and the light area reaches up to the upper estimate. Both use the same low and high capacity figures as the map. Where no source gives an opening year, the year is estimated from the project's status, such as planned or permitted, or from a reported construction start, using fixed lead times described under <a href="#dc-method-timing">Opening dates and build-out</a>. The lower estimate then uses the later year and the upper estimate the earlier one. In 2035 the upper estimate therefore equals the map, while the lower estimate can be smaller because some capacity opens after 2035.</p>
+  <p class="dc-timeline-intro">The chart shows how the selected datacenter capacity builds up year by year. Where a source gives an opening year, that year is used. Otherwise the year is estimated from the project's status or a reported construction start, using the lead times under <a href="#dc-method-timing">Opening dates and build-out</a>. Each estimated year is given as an early and a late year. The upper estimate uses the early year and the high capacity figure. The lower estimate uses the late year and the low figure. Capacity that comes into operation after 2035 is not shown, so the lower estimate for 2035 can be below the total shown with the map.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
       <div class="dc-timeline-measure-control" data-timeline-capacity-view>
@@ -112,7 +112,7 @@ permalink: /projects/datacenter-tracker/
         <th>Country</th>
         <th>Zone</th>
         <th title="How far each part of the project has come. The colours match the map.">Stage</th>
-        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not counted. The bar is coloured by stage.">Full announced size (GW)</th>
+        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not counted. The bar is coloured by stage.">Full announced size (MW)</th>
         <th id="dates-header" title="Years the sources give for when part of the project opens. If no opening year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
       </tr>
     </thead>
@@ -220,7 +220,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.1.2' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.1.3' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -922,10 +922,10 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.1.2">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.1.2">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.1.3">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.1.3">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.1.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.1.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.1.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.1.2" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.1.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.1.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.1.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.1.3" defer></script>

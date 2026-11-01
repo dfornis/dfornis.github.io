@@ -3,13 +3,12 @@
   "use strict";
   const countryNames = { SE: "Sweden", NO: "Norway", FI: "Finland" };
   const displayDivisor = (measure) => (measure === "annual_twh" ? 1 : 1000);
-  const gw = (value) => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
   function range(point, measure = "mw") {
     if (point.low === null || point.high === null || (point.high === 0 && point.unknown)) return "Unknown";
     const value =
       measure === "annual_twh"
         ? global.DCTracker.range(point.low, point.high, "twh") + " TWh/year"
-        : (gw(point.low) === gw(point.high) ? gw(point.high) : gw(point.low) + "–" + gw(point.high)) + " GW";
+        : global.DCTrackerMap.gwRange(point.low, point.high) + " GW";
     return value + (point.unknown ? "*" : "");
   }
   const plottedValue = (point) => point.high;
@@ -97,7 +96,7 @@
       const fmt = (value, measure) =>
         measure === "annual_twh"
           ? value.toLocaleString("en-US", { maximumFractionDigits: 1 }) + " TWh/year"
-          : (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 }) + " GW";
+          : global.DCTrackerMap.gwRange(value, value) + " GW";
 
       function render() {
         const state = shared.get();

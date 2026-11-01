@@ -40,11 +40,6 @@
   }
   const totalRange = (t, kind = "mw") =>
     !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind) + (t.unknown ? "*" : "");
-  function powerRange(low, high) {
-    if (numeric(low) === null || numeric(high) === null) return "Unknown";
-    const format = value => (value / 1000).toLocaleString("en-US", { maximumFractionDigits: 2 });
-    return format(low) === format(high) ? format(high) : `${format(low)}–${format(high)}`;
-  }
   function createControls() {
     let state = { family: "dated", measure: "mw", hq: "none" };
     const listeners = new Set();
@@ -587,7 +582,7 @@
         const knownSize = (anyRow.capacity_known || ["operational", "cancelled", "dormant"].includes(anyRow.indicator)) && !containedIn(anyRow);
         const stageText = [
           ...(confirmedWithoutMw(project.project_id) ? ["Confirmed, MW unknown"] : []),
-          ...stagesOf(project.project_id).map((item) => item.label + (knownSize && item.mw_high > 0 ? " " + powerRange(item.mw_low, item.mw_high) + " GW" : "")),
+          ...stagesOf(project.project_id).map((item) => item.label + (knownSize && item.mw_high > 0 ? " " + range(item.mw_low, item.mw_high) + " MW" : "")),
         ].join(", ");
         const facts = [
           ["Developer", escape(project.developer || "Unknown")],
@@ -597,7 +592,7 @@
           [
             "Full announced size",
             knownSize
-              ? escape(powerRange(anyRow.nameplate_mw_low, anyRow.nameplate_mw_high) + " GW · " + range(anyRow.buildout_twh_low, anyRow.buildout_twh_high, "twh") + " TWh/yr")
+              ? escape(range(anyRow.nameplate_mw_low, anyRow.nameplate_mw_high) + " MW · " + range(anyRow.buildout_twh_low, anyRow.buildout_twh_high, "twh") + " TWh/yr")
               : containedIn(anyRow) ? "Part of " + escape(containedIn(anyRow)) : "Unknown",
           ],
           ["By stage", escape(stageText || "Not counted")],
@@ -655,9 +650,9 @@
               tabTotal.high += electricity ? item.twh_high : item.mw_high;
             }
         }
-        const unit = electricity ? "TWh/year" : "GW";
-        const displayTotal = total => electricity ? totalRange(total, "twh") :
-          total.low === null || (total.high === 0 && total.unknown) ? "Unknown" : powerRange(total.low, total.high) + (total.unknown ? "*" : "");
+        // The project section uses MW throughout, like the table below it.
+        const unit = electricity ? "TWh/year" : "MW";
+        const displayTotal = total => totalRange(total, electricity ? "twh" : "mw");
         const notes = [];
         if (planned.unknown) notes.push(planned.unknown + " without a MW figure");
         status.innerHTML =
@@ -676,7 +671,7 @@
           "</strong></span></div>" +
           "</div>";
         const sizeHeader = document.getElementById("size-header");
-        if (sizeHeader) sizeHeader.textContent = electricity ? "Full announced size (TWh/yr)" : "Full announced size (GW)";
+        if (sizeHeader) sizeHeader.textContent = electricity ? "Full announced size (TWh/yr)" : "Full announced size (MW)";
         const sizeKey = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];
         const stageKey = electricity ? "twh_high" : "mw_high";
         const largest = Math.max(1e-9, ...rows.map((row) => (row.capacity_known && !containedIn(row) ? numeric(row[sizeKey[1]]) ?? 0 : 0)));
@@ -693,7 +688,7 @@
               : known
                 ? electricity
                   ? range(row[sizeKey[0]], row[sizeKey[1]], "twh")
-                  : powerRange(row[sizeKey[0]], row[sizeKey[1]])
+                  : range(row[sizeKey[0]], row[sizeKey[1]])
                 : '<span class="dc-row-muted">Unknown</span>';
             const total = stages.reduce((sum, item) => sum + item[stageKey], 0);
             const bar =
@@ -793,7 +788,6 @@
   const api = {
     numeric,
     createControls,
-    powerRange,
     range,
     totalRange,
     sumBounds,

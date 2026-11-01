@@ -117,10 +117,21 @@
     const countries = Object.fromEntries(["NO", "SE", "FI"].map((country) => [country, summarize(rows.filter((row) => row.country === country))]));
     return { tab, measure, hq, rows, zones, countries, totals: summarize(rows) };
   }
+  // One rule for every GW figure: one decimal from 1 GW, two below, the same on both sides of a range.
+  function gwRange(lowMw, highMw) {
+    const low = (lowMw || 0) / 1000, high = (highMw || 0) / 1000;
+    const digits = Math.max(low, high) >= 1 ? 1 : 2;
+    const smallest = 10 ** -digits;
+    const format = (value) => value > 0 && value < smallest / 2 ? "<" + smallest.toFixed(digits)
+      : value.toLocaleString("en-US", { minimumFractionDigits: value === 0 ? 0 : digits, maximumFractionDigits: digits });
+    // A difference smaller than the last shown decimal is not shown as a range.
+    const a = format(low), b = format(high);
+    return a === b || high - low < smallest / 2 ? b : `${a}–${b}`;
+  }
   function capacityLabel(detail, measure = "mw") {
-    const format = (value) => (measure === "mw" ? value / 1000 : value).toLocaleString("en-US", { maximumFractionDigits: 2 });
+    const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: 2 });
     const low = detail.low || 0, high = detail.high || 0;
-    const amount = format(low) === format(high) ? format(high) : `${format(low)}–${format(high)}`;
+    const amount = measure === "mw" ? gwRange(low, high) : format(low) === format(high) ? format(high) : `${format(low)}–${format(high)}`;
     const unit = measure === "mw" ? "GW" : "TWh/year";
     if (!high && detail.unknown) return `0 ${unit} counted · ${detail.unknown} project${detail.unknown === 1 ? "" : "s"} without MW`;
     return `${amount} ${unit}${detail.unknown ? "*" : ""}`;
@@ -686,9 +697,10 @@
     return (low === high ? high : `${low}–${high}`) + "%";
   }
   function amountLabel(detail, measure) {
-    const format = (value) => (measure === "mw" ? value / 1000 : value).toLocaleString("en-US", { minimumFractionDigits: measure === "mw" ? 1 : 0, maximumFractionDigits: measure === "mw" ? 1 : 0 });
+    const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: 0 });
     const a = format(detail.low || 0), b = format(detail.high || 0);
-    return `${a === b ? b : `${a}–${b}`}${detail.unknown ? "*" : ""} ${measure === "mw" ? "GW" : "TWh"}`;
+    const amount = measure === "mw" ? gwRange(detail.low, detail.high) : a === b ? b : `${a}–${b}`;
+    return `${amount}${detail.unknown ? "*" : ""} ${measure === "mw" ? "GW" : "TWh"}`;
   }
   // One plain sentence with the main figure for the current tab, measure and HQ selection.
   function headline(data, tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none") {
@@ -833,7 +845,7 @@
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;render(); });
     return { disconnect() {unsubscribe();root.selectAll("*").remove();} };
   }
-  const api = { mount, mountControls, matchesHq, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, headline, consumptionFor, shareLabel, fillForMeasure, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
+  const api = { mount, mountControls, matchesHq, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, headline, consumptionFor, shareLabel, fillForMeasure, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);

@@ -80,7 +80,7 @@
         title: "Opening year",
         subtitle: "Reported or estimated.",
         detail: [
-          "A reported opening year is used. Without one, the opening is estimated from a reported construction start or from the project's status, such as planned or permitted. The chart shows the two parts in different shades.",
+          "A reported opening year is used. Without one, the opening is estimated from a reported construction start or from the project's status, such as planned or permitted.",
           `Sites built in phases then grow in equal steps over ${number(a.first_to_full_years)} years, unless the source gives a schedule.`,
         ],
       },
