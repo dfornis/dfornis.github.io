@@ -4131,3 +4131,8 @@ html:has(.pf-v2) {
   margin-top: 0.4rem;
   font-size: 0.78rem !important;
 }
+.pf-v2 .pf-results-head {
+  margin: 1.4rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
