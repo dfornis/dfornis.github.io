@@ -52,9 +52,7 @@
     {% capture epri_link %}<a href="{{ ds.epri.url }}">{{ ds.epri.label }}</a>{% endcapture %}
     <div class="pf-dcscen">
       <h4>{{ ds.title }}</h4>
-      {% for para in ds.text %}
-        <p>{{ para | replace: 'Nordic datacenter tracker', tracker_link | replace: ds.epri.label, epri_link }}</p>
-      {% endfor %}
+      <p>{{ ds.lead | replace: 'Nordic datacenter tracker', tracker_link }}</p>
       <div class="pf-table-scroll">
         <table class="pf-dcscen-table">
           <thead>
@@ -167,7 +165,8 @@
       <p class="pf-caption">
         Modelled spot price in bidding zone SE3, central Sweden including Stockholm: the yearly average and the price exceeded in only 1% of the
         hours. The trajectories are run with the Central datacenter scenario. The last row is the stress test, in which every announced project is
-        built and there is no policy response.
+        built and there is no policy response. All runs, including T2, have the Central scenario’s new datacenters in Norway and Finland. The
+        reference has none, which is why T2 is above the reference.
       </p>
     </figure>
   </div>
@@ -227,18 +226,22 @@
   <div class="pf-drawers">
     {% assign lp = sc.load_profiles %}
     <details class="pf-drawer" id="pf-load-profiles">
-      <summary><strong>Electricity use in the model</strong><span>Where demand comes from and how it varies over the day and year</span></summary>
+      <summary>
+        <strong>Electricity use in the model</strong
+        ><span>How datacenter projects are weighted, where other demand comes from and how it varies over the day and year</span>
+      </summary>
       <div class="pf-drawer-body">
+        <p class="pf-prose">{{ ds.text[0] | replace: 'Nordic datacenter tracker', tracker_link | replace: ds.epri.label, epri_link }}</p>
         <p class="pf-prose">
           Electricity use per bidding zone follows the Swedish Energy Agency’s current-policy scenario, broken down by county and sector in
           <a href="https://www.behovskartan.se/">Behovskartan</a>, a tool for exploring Sweden’s future electricity needs developed by AI Sweden. The
-          scenario’s own growth in datacenter use after 2025 is removed. It is replaced by the projects in the tracker, weighted as described under
-          “Datacenter electricity use in the runs”. Growth after 2025 gets an hourly profile per sector. Electric cars, trucks and rail use typical
-          profiles from Behovskartan. Households and services use measured 2023 data, and electric heating follows heat pumps at 2023 temperatures.
-          Industry and hydrogen production are flat. Large datacenters use the hourly shape of Norwegian datacenters, with monthly factors from the
-          datacenter data in Behovskartan. Datacenters for AI and high-performance computing are flat. There are no open hourly series per sector for
-          Sweden, so households, services and datacenters use Norwegian measured data from <a href="https://data.elhub.no/">Elhub</a>, the Norwegian
-          data hub for electricity metering. The charts show bidding zone SE3, central Sweden including Stockholm.
+          scenario’s own growth in datacenter use after 2025 is removed. It is replaced by the projects in the tracker, weighted as described above.
+          Growth after 2025 gets an hourly profile per sector. Electric cars, trucks and rail use typical profiles from Behovskartan. Households and
+          services use measured 2023 data, and electric heating follows heat pumps at 2023 temperatures. Industry and hydrogen production are flat.
+          Large datacenters use the hourly shape of Norwegian datacenters, with monthly factors from the datacenter data in Behovskartan. Datacenters
+          for AI and high-performance computing are flat. There are no open hourly series per sector for Sweden, so households, services and
+          datacenters use Norwegian measured data from <a href="https://data.elhub.no/">Elhub</a>, the Norwegian data hub for electricity metering.
+          The charts show bidding zone SE3, central Sweden including Stockholm.
         </p>
         <figure class="pf-loadprof" aria-labelledby="pf-loadprof-caption">
           <p class="pf-mix-legend">

@@ -90,6 +90,11 @@
   <script>
     initTheme();
   </script>
+{% else %}
+  <!-- Dark mode is off: theme.js is not loaded, but common.js and no_defer.js ask for the theme -->
+  <script>
+    window.determineComputedTheme = () => 'light';
+  </script>
 {% endif %}
 
 {% if page.map %}

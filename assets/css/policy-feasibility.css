@@ -3009,7 +3009,7 @@ html:has(.pf-v2) {
   content: "";
   position: absolute;
   top: 50%;
-  left: calc(-1.1rem - 3px);
+  left: calc(0px - 1.1rem - 3px);
   width: 1.1rem;
   border-top: 1.8px solid var(--pf-accent);
 }
@@ -3017,7 +3017,7 @@ html:has(.pf-v2) {
   content: "";
   position: absolute;
   top: calc(50% - 4px);
-  left: calc(-9px - 3px);
+  left: -12px;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
   border-left: 8px solid var(--pf-accent);
@@ -3262,7 +3262,7 @@ html:has(.pf-v2) {
     /* node on the rail */
     top: 0.3rem;
     bottom: auto;
-    left: calc(-1.5rem + 0.35rem - 4px);
+    left: calc(0.35rem - 1.5rem - 4px);
     width: 9px;
     height: 9px;
     border: 1.5px solid var(--pf-accent);

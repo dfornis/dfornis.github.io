@@ -32,7 +32,7 @@
   "price_scale_max": 100,
   "reference": {
     "id": "none",
-    "label": "Reference, no new datacenters",
+    "label": "Reference, no new datacenters in the Nordics",
     "values": {
       "price_se": 62.0,
       "price_se3": 62.6,
@@ -236,7 +236,7 @@
     "runs": [
       {
         "id": "reference",
-        "label": "Reference, no new datacenters",
+        "label": "Reference, no new datacenters in the Nordics",
         "values": {
           "hydro": 67.8,
           "nuclear": 49.7,
@@ -484,7 +484,7 @@
           "label": "Hydro and thermal"
         }
       ],
-      "note": "Right of the line: more generation or imports than in the reference run. Left: less. The total is close to the datacenters’ electricity use in Sweden in the Central scenario (17 TWh), except in T2, where few new datacenters open.",
+      "note": "Right of the line: more generation or imports than in the reference run. Left: less. The total is close to the datacenters’ electricity use in Sweden in the Central scenario (17 TWh), except in T2, where few new datacenters open in Sweden. All four runs include the Central scenario’s new datacenters in Norway and Finland, about 36 TWh, which the reference does not. This is why solar and hydro and thermal change by about the same amount in every run.",
       "lo": -5.0,
       "hi": 20.0
     }
@@ -637,6 +637,7 @@
         "label": "Fingrid",
         "url": "https://www.fingrid.fi/en/news/news/2026/electricity-consumption-is-set-to-increase-sharply--more-balancing-power-will-also-be-needed/"
       }
-    ]
+    ],
+    "lead": "All four trajectories are run with the Central datacenter scenario, which weights each project in the Nordic datacenter tracker by how far it has come. All announced counts every project in full and is run only without a policy response (T0), as a stress test. How the weights are set is described under “Electricity use in the model” below."
   }
 }

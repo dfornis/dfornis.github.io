@@ -19,7 +19,7 @@
       "development": "2026–2027: voluntary procurement continues. From 2028: no national requirement is introduced.",
       "short_title": "Voluntary commitments",
       "phases": ["Continue voluntary procurement", "Keep commitments voluntary"],
-      "origin_summary": "Swedish business organisations · US company pledge",
+      "origin_summary": "Swedish business organisations · US White House pledge",
       "scenario_use": "Baseline",
       "profile": {
         "coalition_alignment": {
@@ -32,7 +32,7 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "Rising bills erode support"
+          "text": "AI race for it, scarcity against it"
         },
         "adjustment_burden": {
           "rating": "mixed",
@@ -76,7 +76,7 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "Rising bills strengthen it"
+          "text": "Bridges AI ambition and scarcity"
         },
         "adjustment_burden": {
           "rating": "favourable",
@@ -120,7 +120,7 @@
         },
         "landscape_pressures": {
           "rating": "favourable",
-          "text": "Rising bills strengthen it"
+          "text": "Scarcity favours added supply"
         },
         "adjustment_burden": {
           "rating": "unfavourable",
@@ -164,7 +164,7 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "Possible after a strong backlash"
+          "text": "Only after a deep crisis"
         },
         "adjustment_burden": {
           "rating": "unfavourable",
@@ -372,28 +372,28 @@
       "literature": ["L26", "L05"],
       "cells": {
         "T0": {
-          "assessment": "Competition for AI investment and the aim of digital sovereignty favour attracting new sites. But if demand keeps growing without enough new generation, affordable electricity for homes and for industrial electrification becomes a competing priority. Svenska kraftnät describes this price and competitiveness risk. If this continues, support for connecting every new project is likely to weaken.",
+          "assessment": "Two broad trends pull in different directions. The race for AI capacity and the aim of digital sovereignty favour attracting new sites with few conditions. The Swedish AI strategy makes computing capacity a national priority. At the same time, electrification makes electricity and grid capacity scarcer. Svenska kraftnät and industry warn that this can raise prices and delay industrial projects. If scarcity becomes the main frame, it gets harder to defend connecting every new project without conditions.",
           "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E63", "E77", "E83", "E84"]
         },
         "T1": {
-          "assessment": "A generation requirement can accommodate AI investment while responding to industrial decarbonisation and concern over bills. Its political appeal grows if the wider debate shifts from attracting investment towards who supplies the electricity and who benefits. The Swedish party proposals already combine these priorities.",
+          "assessment": "A generation requirement fits a debate that accepts new datacenters but expects them to bring supply of their own. It responds to both the AI ambition and the concern about scarcity, which helps explain its support across parties. It does not settle the tension between them, though. If scarcity deepens and the requirement can be met by contracting generation that is built anyway, it may come to be seen as too weak.",
           "evidence": ["E40", "E78", "E83", "E84"]
         },
         "T1b": {
-          "assessment": "Rising bills and industrial delays strengthen the case for a rule that adds supply rather than reallocating it.",
-          "uncertainty": "Track whether price debates focus on who adds supply.",
+          "assessment": "If scarcity becomes the main frame, a rule that requires generation that would not otherwise be built responds to the problem most directly. The same trend that weakens T0 therefore favours T1b more than T1.",
+          "uncertainty": "Follow whether scarcity stays at the centre of the debate, and whether the debate turns to who adds supply.",
           "evidence": ["E83", "E84", "E40", "E78"]
         },
         "T2": {
-          "assessment": "A prolonged energy crisis, delayed industrial investment and a public view that expansion serves foreign firms at households’ expense could make a stop politically attractive. Irish campaigners express this resource-priority argument. In Sweden it would compete with the ambitions for AI capacity and digital sovereignty, which favour maintaining a route for new investment.",
+          "assessment": "A deep energy crisis or a long period of scarcity could shift priorities from attracting investment to protecting supply for homes and industry. Campaigners in Ireland make this resource-priority argument, and the fuel-price protests in Sweden in 2019 showed how quickly energy costs can become a mass issue. Against this, the race for AI capacity and digital sovereignty favour keeping a route open for new investment.",
           "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
         }
       },
       "overview": {
-        "T0": "AI competition favours expansion. Persistent price pressure can reverse that advantage.",
-        "T1": "Can reconcile digital investment with growing demands for affordable electricity.",
-        "T2": "Becomes more attractive if an energy crisis changes public priorities against expansion."
+        "T0": "The AI race favours expansion. Lasting scarcity can reverse that advantage.",
+        "T1": "Fits a debate that accepts datacenters but expects them to bring supply.",
+        "T2": "Becomes more relevant if a crisis shifts priorities against expansion."
       },
       "framework_reference": "Fornborg (2026), §4.3 and Table 1. Geels (2002), reference 31 in the article.",
       "guide": "How could wider trends change political priorities?",
@@ -1109,7 +1109,7 @@
       "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
     "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until 2028 and then differ in their model inputs.",
-    "setting": "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. The assessment gives T1 the stronger position, so it is included at least as a sensitivity case. T1b and T2 have weaker support for now and are explored as alternatives to current policy in an exploratory scenario."
+    "setting": "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. The ratings are not summed into a score. T0 is the baseline because it is current policy, not because it is rated highest. T1 has broad support and no unfavourable ratings, so it is included at least as a sensitivity case. T1b and T2 face institutional constraints and a high adjustment burden, which are hard to change before 2035, and are explored as alternatives to current policy in an exploratory scenario."
   },
   "sensitivity_inputs": [
     {
@@ -1154,14 +1154,14 @@
     {
       "id": "voluntary",
       "title": "Voluntary commitments",
-      "where": "US company pledge · Swedish business organisations",
+      "where": "US White House pledge · Swedish business organisations",
       "asks": "Contracts and certificates by choice",
       "codes": ["US"]
     },
     {
       "id": "requirement",
       "title": "Generation requirements",
-      "where": "Ireland (80% of annual demand) · Spain (hourly matching, proposed) · Finland (additionality consultation) · Swedish party proposals",
+      "where": "Ireland (80% of annual demand) · Spain (hourly matching, proposed) · Germany (annual matching, start moved to 2030) · Finland (additionality consultation) · Swedish party proposals",
       "asks": "Match use with new generation, annually or hour by hour",
       "codes": ["IE", "ES", "FI", "SE", "DE"]
     },

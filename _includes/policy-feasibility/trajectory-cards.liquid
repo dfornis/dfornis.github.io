@@ -1,7 +1,7 @@
 <div class="pf-cards">
   {% for t in pf.trajectories %}
     <article class="pf-card" data-trajectory="{{ t.id }}">
-      <p class="pf-card-id"><span class="pf-swatch" aria-hidden="true"></span>{{ t.id }} · {{ t.status }}</p>
+      <p class="pf-card-id"><span class="pf-swatch" aria-hidden="true"></span>{{ t.id }}</p>
       <h3>{{ t.title }}</h3>
       <p class="pf-card-rule">{{ t.summary }}</p>
       <p class="pf-card-origin">{{ t.origin_summary }}</p>
