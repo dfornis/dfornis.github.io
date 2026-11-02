@@ -92,15 +92,18 @@
           </tbody>
         </table>
       </div>
-      <p class="pf-caption">
-        {{ ds.caption }}
-        {{ ds.grid_note }} Sources:
-        {% for src in ds.grid_sources -%}
-          <a href="{{ src.url }}">{{ src.label }}</a>
-          {%- unless forloop.last %}, {% endunless -%}
-        {%- endfor -%}
-        .
-      </p>
+      <details class="pf-dcscen-notes">
+        <summary>Notes</summary>
+        <p class="pf-caption">
+          {{ ds.caption }}
+          {{ ds.grid_note }} Sources:
+          {% for src in ds.grid_sources -%}
+            <a href="{{ src.url }}">{{ src.label }}</a>
+            {%- unless forloop.last %}, {% endunless -%}
+          {%- endfor -%}
+          .
+        </p>
+      </details>
     </div>
 
     {% assign smax = 250.0 %}

@@ -4116,3 +4116,18 @@ html:has(.pf-v2) {
 .pf-mix .pf-bar-label {
   white-space: nowrap;
 }
+
+/* Notes under the datacenter table */
+.pf-dcscen-notes {
+  margin-top: 0.3rem;
+}
+.pf-v2 .pf-dcscen-notes summary {
+  color: var(--pf-secondary);
+  font-size: 0.8rem !important;
+  cursor: pointer;
+}
+.pf-v2 .pf-dcscen-notes .pf-caption {
+  max-width: 68ch;
+  margin-top: 0.4rem;
+  font-size: 0.78rem !important;
+}
