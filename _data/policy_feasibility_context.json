@@ -1,32 +1,32 @@
 {
-  "snapshot_date": "2026-10-24",
-  "scenario_id": "high_2035",
-  "scenario_label": "High 2035",
+  "snapshot_date": "2026-11-01",
+  "scenario_id": "announced_2035",
+  "scenario_label": "All announced 2035",
   "year": 2035,
   "metric": "Estimated grid-side capacity (MW)",
   "scope": "Projects with announced operation by 2035",
   "source": "Nordic datacenter tracker",
   "source_url": "/projects/datacenter-tracker/#dc-scenario-map",
   "source_hashes": {
-    "scenario_zone.json": "31c5590aa53e813264e7835e33ae3162911be7b3ade358bc8c98f9848e99e73d",
-    "bidding_zones.geojson": "e9397d77ce28b2a52e90191b48025d687ad4533e1190b45ffd89667a7159b8fd"
+    "scenario_zone.json": "6053f885a2a49b078fd6574cee78f511952b5ebaa471603fa6cb625382d084b1",
+    "bidding_zones.geojson": "324733c3d33c23715c9f054cc90d140f5f5bc7bb125d1bd4cab5bd2509551403"
   },
   "zones": [
     {
       "zone": "SE1",
-      "grid_side_mw": 1000
+      "grid_side_mw": 832
     },
     {
       "zone": "SE2",
-      "grid_side_mw": 2300
+      "grid_side_mw": 2096.4
     },
     {
       "zone": "SE3",
-      "grid_side_mw": 2175.9
+      "grid_side_mw": 2219.9
     },
     {
       "zone": "SE4",
-      "grid_side_mw": 0
+      "grid_side_mw": 240
     }
   ]
 }
