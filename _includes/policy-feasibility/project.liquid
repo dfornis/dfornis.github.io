@@ -30,16 +30,16 @@
   </nav>
 
   <header id="pf-top" class="pf-intro pf-reveal">
+    <p class="pf-intro-lead">
+      Energy and climate scenarios rely on assumptions about future policy, and these assumptions are rarely checked for political feasibility before
+      they enter models. This page shows how that can be done for one contested question: what rules Sweden should set for new datacenters. If
+      datacenter demand grows faster than new generation, electricity prices rise for households and industry. The policy options are identified and
+      assessed, and then run as scenarios in a power system model of the Nordic countries built with PyPSA.
+    </p>
     <p class="pf-caption">
       A companion to the research article
       <a href="{{ pf.article_url }}"><em>The politics of baselines: A political feasibility framework for energy and climate scenarios</em></a> ·
       Fornborg (2026), <em>Energy Research &amp; Social Science</em>
-    </p>
-    <p class="pf-intro-lead">
-      Energy and climate scenarios often rely on assumptions about future policy that are highly contested. Even so, these assumptions are rarely
-      screened for political feasibility before they enter models. This page demonstrates how a set of plausible policy responses to the rapid growth
-      of datacenter electricity demand in Sweden can be identified and screened for political feasibility. The trajectories are then turned into
-      scenarios and run in a power system model of the Nordic countries, built with PyPSA.
     </p>
   </header>
 
@@ -47,9 +47,10 @@
     <figcaption>
       <h2 id="pf-framework-title">The framework</h2>
       <p>
-        Following Kahneman and Lovallo (1993) and Jewell and Cherp (2023), the framework combines an outside view with an inside view. The outside
-        view allows a scoping of plausible policy trajectories through spatial and temporal comparison, while the inside view enables an assessment of
-        the feasibility of trajectories informed by political economy and institutional theory.
+        The framework has two steps. The outside view looks at comparable cases in other countries and earlier periods, at institutional practice and
+        at where actors stand, and uses them to identify plausible policy trajectories. A policy trajectory is a sequence of policy decisions over
+        time, here from 2026 to 2035. The inside view compares the trajectories on five political dimensions. The result decides which trajectories
+        enter the model, and in what role.
       </p>
     </figcaption>
     <div class="pf-fw-grid">
@@ -102,7 +103,9 @@
       </div>
       <p class="pf-fw-reuse" style="--pf-d: 8">Evidence from step 1 is reorganised and reused in step 2</p>
     </div>
-    <p class="pf-caption pf-fw-source">Adapted from Fig. 2 in the article.</p>
+    <p class="pf-caption pf-fw-source">
+      Adapted from Fig. 2 in the article. The outside–inside view distinction follows Kahneman and Lovallo (1993) and Jewell and Cherp (2023).
+    </p>
   </figure>
 
   <section id="pf-define" class="pf-section pf-case-intro pf-reveal">
@@ -143,7 +146,10 @@
             New generation and grid capacity take time. Onshore wind needs municipal approval, and offshore wind and new nuclear take years to permit
             and build.
           </li>
-          <li>How the cost is shared between developers, households, industry and taxpayers is a political question.</li>
+          <li>
+            If generation and grids do not keep up, electricity prices rise for households and industry. How much new datacenters should add to supply
+            is therefore a political question.
+          </li>
         </ul>
       </div>
     </div>

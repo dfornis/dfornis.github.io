@@ -197,7 +197,7 @@
     },
     {
       "label": "Datacenters",
-      "value": "Nordic datacenter tracker, Central scenario for 2035, see “Datacenter electricity use in the runs” above."
+      "value": "Nordic datacenter tracker, Central scenario for 2035, see the table under “Model runs for 2035” above."
     }
   ],
   "mix": {
@@ -484,7 +484,7 @@
           "label": "Hydro and thermal"
         }
       ],
-      "note": "Right of the line: more generation or imports than in the reference run. Left: less. The total is close to the datacenters’ electricity use in Sweden in the Central scenario (17 TWh), except in T2, where few new datacenters open in Sweden. All four runs include the Central scenario’s new datacenters in Norway and Finland, about 36 TWh, which the reference does not. This is why solar and hydro and thermal change by about the same amount in every run.",
+      "note": "Right of the line: more generation or imports than in the reference run. Left: less. The total is close to the datacenters’ electricity use in Sweden in the Central scenario (17 TWh), except in T2, where few new datacenters open in Sweden. All four runs include the Central scenario’s new datacenters in Norway and Finland, about 36 TWh, which the reference does not.",
       "lo": -5.0,
       "hi": 20.0
     }
@@ -613,7 +613,7 @@
         ]
       }
     ],
-    "caption": "Electricity use added by new datacenters between 2025 and 2035, in TWh a year, with connected capacity in GW in brackets. The tracker’s lower estimates of capacity and opening year are used. Sweden’s datacenters used about 3 TWh in 2025.",
+    "caption": "Electricity use added by new datacenters between 2025 and 2035, in TWh a year. The figures in brackets are grid-side capacity in GW: the most power the sites would draw from the grid, including cooling, not only the servers. The tracker’s lower estimates of capacity and opening year are used. Sweden’s datacenters used about 3 TWh in 2025.",
     "epri": {
       "label": "EPRI (2026)",
       "url": "https://esca.epri.com/products/3002034696/"

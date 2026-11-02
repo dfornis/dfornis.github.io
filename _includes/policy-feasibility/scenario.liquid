@@ -8,7 +8,9 @@
   <p class="pf-step-tag">Scenario use</p>
   <h2><span class="pf-section-number">05</span> Bring the assessment into the scenario</h2>
 
-  <p class="pf-prose">{{ pf.model_application.setting }}</p>
+  {% for paragraph in pf.model_application.setting %}
+    <p class="pf-prose">{{ paragraph }}</p>
+  {% endfor %}
   <div class="pf-settings">
     <div class="pf-setting">
       <p class="pf-setting-label">Adopted-policy scenario</p>
@@ -43,17 +45,14 @@
     <h3>Model runs for {{ sc.model.result_year }}</h3>
     <p class="pf-prose">
       To explore what the choice of trajectory can mean in a model, I ran all four trajectories in a power system model of the Nordic countries for
-      {{ sc.model.result_year }}, together with a reference run without new datacenters in the Nordics. A requirement that counts any new fossil-free
-      generation (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind and solar that the model builds
-      anyway. A requirement for additional generation (T1b) and a stop for new datacenters (T2) both give clearly lower prices, especially in the most
-      expensive hours.
+      {{ sc.model.result_year }}, together with a reference run without new datacenters in the Nordics.
     </p>
     {% assign ds = sc.dc_scenarios %}
     {% capture tracker_link %}<a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a>{% endcapture %}
     {% capture epri_link %}<a href="{{ ds.epri.url }}">{{ ds.epri.label }}</a>{% endcapture %}
     <div class="pf-dcscen">
-      <h4>{{ ds.title }}</h4>
       <p>{{ ds.lead | replace: 'Nordic datacenter tracker', tracker_link }}</p>
+      <p class="pf-caption">Added annual electricity use in 2035, relative to 2025, in TWh a year. Grid-side capacity in GW in brackets.</p>
       <div class="pf-table-scroll">
         <table class="pf-dcscen-table">
           <thead>
@@ -108,6 +107,13 @@
 
     {% assign smax = 250.0 %}
     <h4 class="pf-results-head">Results</h4>
+    <p class="pf-caption">The model is currently in development and results are work in progress.</p>
+    <p class="pf-prose">
+      In SE3, the average price is {{ ref.values.price_se3 | round }} EUR/MWh in the reference run and {{ c_t0.values.price_se3 | round }} EUR/MWh
+      under both T0 and T1. T1 makes almost no difference because the requirement is mostly met with onshore wind and solar that the model builds
+      anyway. Under T1b and T2 the average price is {{ c_t1b.values.price_se3 | round }} EUR/MWh, and prices in the most expensive hours are much
+      lower.
+    </p>
     <figure class="pf-bars pf-price" aria-labelledby="pf-bars-caption">
       <figcaption id="pf-bars-caption" class="pf-sr-only">Electricity price in SE3, {{ sc.model.result_year }}</figcaption>
       <p class="pf-mix-legend">
@@ -187,12 +193,7 @@
       that run the model adds about 15 TWh of offshore wind, and Sweden goes from importing to exporting a little. The results thus depend on how a
       requirement is specified, not only on whether there is one.
     </p>
-    <p>
-      In T1b, the model can meet the requirement with offshore wind or with small modular reactors (SMRs). It builds offshore wind, which is cheaper
-      in the model, and the permitted offshore parks in SE3 and SE4 have room for most of what the datacenters need. The cost of new nuclear follows
-      the Swedish government’s financing inquiry at 7% real interest. It does not include the state loans and price guarantees for new nuclear that
-      Sweden adopted in 2025, which would lower the cost to the developer. New large reactors are assumed not to be in operation by 2035.
-    </p>
+
     {% assign dm = sc.mix.delta %}
     <figure class="pf-mix" aria-labelledby="pf-mix-caption">
       <figcaption id="pf-mix-caption">{{ dm.title }}</figcaption>
@@ -226,6 +227,14 @@
       <p class="pf-caption">{{ dm.note }}</p>
     </figure>
     <p class="pf-caption">{{ ad.note }}</p>
+  </div>
+
+  <div class="pf-model-feedback" id="pf-policy-feedback">
+    <h3>Back to the policy assumptions</h3>
+    {% include policy-feasibility/feedback-loop.liquid %}
+    {% for paragraph in pf.model_application.feedback %}
+      <p class="pf-prose">{{ paragraph }}</p>
+    {% endfor %}
   </div>
 
   <div class="pf-drawers">
@@ -289,25 +298,26 @@
         </figure>
       </div>
     </details>
-  </div>
-
-  <div class="pf-closing">
-    <div class="pf-model-feedback">
-      <p class="pf-caption">Back to the policy assumptions</p>
-      {% include policy-feasibility/feedback-loop.liquid %}
-      <p>{{ pf.model_application.feedback }}</p>
-    </div>
-    <div class="pf-assumptions">
-      <p class="pf-caption">Model and assumptions</p>
-      <p>The model is {{ sc.model.name }}. {{ sc.model.setup }} The model is currently in development and results are work in progress.</p>
-      <dl>
-        {% for a in sc.assumptions %}
-          <div>
-            <dt>{{ a.label }}</dt>
-            <dd>{{ a.value }}</dd>
-          </div>
-        {% endfor %}
-      </dl>
-    </div>
+    <details class="pf-drawer" id="pf-model-assumptions">
+      <summary><strong>Model and assumptions</strong><span>Generation limits, grid capacity, external prices and nuclear financing</span></summary>
+      <div class="pf-drawer-body pf-assumptions">
+        <p>The model is {{ sc.model.name }}. {{ sc.model.setup }}</p>
+        <dl>
+          {% for a in sc.assumptions %}
+            <div>
+              <dt>{{ a.label }}</dt>
+              <dd>{{ a.value }}</dd>
+            </div>
+          {% endfor %}
+        </dl>
+        <p>
+          In T1b, the model can meet the requirement with offshore wind or with small modular reactors (SMRs). It builds offshore wind, which is
+          cheaper in the model, and the permitted offshore parks in SE3 and SE4 have room for most of what the datacenters need. The cost of new
+          nuclear follows the Swedish government’s financing inquiry at 7% real interest. It does not include the state loans and price guarantees for
+          new nuclear that Sweden adopted in 2025, which would lower the cost to the developer. New large reactors are assumed not to be in operation
+          by 2035.
+        </p>
+      </div>
+    </details>
   </div>
 </section>

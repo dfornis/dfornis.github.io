@@ -1733,11 +1733,10 @@
   border-left: 3px solid var(--pf-accent);
   padding: 0.2rem 0 0.2rem 1.1rem;
 }
-.pf-project .pf-model-feedback .pf-caption::before {
-  content: "↻ ";
+.pf-project .pf-model-feedback p {
+  max-width: 77ch;
 }
 .pf-project .pf-model-feedback p:last-child {
-  max-width: 77ch;
   margin-bottom: 0;
 }
 .pf-model-runs {
@@ -2530,19 +2529,8 @@ html:has(.pf-v2) {
   padding: 0;
   vertical-align: -0.1rem;
 }
-.pf-closing {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  gap: 1.6rem;
-  margin-top: 2.4rem;
-}
 .pf-v2 .pf-model-feedback {
-  margin-top: 0;
-}
-.pf-assumptions {
-  padding: 1.1rem 1.2rem;
-  border: 1px solid var(--pf-line);
-  font-size: 0.86rem;
+  margin: 2.4rem 0;
 }
 .pf-assumptions dl {
   display: grid;
@@ -2612,9 +2600,6 @@ html:has(.pf-v2) {
   grid-column: 1 / -1;
   justify-self: end;
   width: 100%;
-}
-.pf-v2 .pf-closing > * {
-  align-self: start;
 }
 .pf-v2 .pf-assumptions dt,
 .pf-v2 .pf-assumptions dd {
@@ -3408,6 +3393,23 @@ html:has(.pf-v2) {
 }
 @media (max-width: 760px) {
   .pf-loop {
+    max-width: none;
+  }
+}
+/* Text wraps around the loop figure on wider screens. */
+.pf-model-feedback {
+  display: flow-root;
+}
+@media (min-width: 761px) {
+  .pf-model-feedback .pf-loop {
+    float: left;
+    width: 19rem;
+    margin: 0.2rem 1.4rem 0.4rem -0.6rem;
+  }
+  .pf-project .pf-model-feedback {
+    max-width: 54rem;
+  }
+  .pf-project .pf-model-feedback p {
     max-width: none;
   }
 }

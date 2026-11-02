@@ -8,7 +8,7 @@
       "id": "T0",
       "verb": "Continue",
       "title": "Voluntary generation commitments",
-      "summary": "Developers choose whether to contract new or existing generation.",
+      "summary": "Developers decide themselves whether to sign long-term power purchase agreements (PPAs) with new or existing plants.",
       "origin": "Swedish business organisations favour incentives and contracts. The US pledge shows how companies can also make voluntary generation commitments under political pressure.",
       "status": "Baseline",
       "example": "A company signs a PPA for its own procurement goals. Another purchases from existing generation without a national requirement to add supply.",
@@ -32,11 +32,11 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "AI race for it, scarcity against it"
+          "text": "AI investment favours it. Rising prices weaken it."
         },
         "adjustment_burden": {
           "rating": "mixed",
-          "text": "Costs spread to households and industry"
+          "text": "Higher electricity prices for households and industry"
         },
         "policy_momentum": {
           "rating": "favourable",
@@ -68,7 +68,7 @@
       "profile": {
         "coalition_alignment": {
           "rating": "favourable",
-          "text": "Broad and growing support from Social Democrats, Greens, Svenska kraftnät and some firms"
+          "text": "Several parties and actors support it, but disagree on which plants should count"
         },
         "institutional_constraints": {
           "rating": "mixed",
@@ -76,11 +76,11 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "Bridges AI ambition and scarcity"
+          "text": "Accepts new datacenters but asks them to add supply"
         },
         "adjustment_burden": {
-          "rating": "favourable",
-          "text": "Low for datacenters"
+          "rating": "mixed",
+          "text": "Developers can comply through PPAs but carry financing and delay risks"
         },
         "policy_momentum": {
           "rating": "mixed",
@@ -112,7 +112,7 @@
       "profile": {
         "coalition_alignment": {
           "rating": "mixed",
-          "text": "Broader if nuclear counts. Developers oppose."
+          "text": "Broader support if nuclear counts. Developers face higher costs and are likely to oppose."
         },
         "institutional_constraints": {
           "rating": "unfavourable",
@@ -120,11 +120,11 @@
         },
         "landscape_pressures": {
           "rating": "favourable",
-          "text": "Scarcity favours added supply"
+          "text": "Rising prices strengthen the case for added supply"
         },
         "adjustment_burden": {
           "rating": "unfavourable",
-          "text": "Concentrated on datacenters"
+          "text": "Developers pay for plants the market would not build"
         },
         "policy_momentum": {
           "rating": "mixed",
@@ -164,7 +164,7 @@
         },
         "landscape_pressures": {
           "rating": "mixed",
-          "text": "Only after a deep crisis"
+          "text": "Likely only after a price crisis"
         },
         "adjustment_burden": {
           "rating": "unfavourable",
@@ -326,11 +326,11 @@
       "cells": {
         "T0": {
           "assessment": "Voluntary generation contracts fit the existing electricity-market framework. Continuing this arrangement requires no new sector legislation or compliance authority.",
-          "uncertainty": "A bill with an established legal basis, assigned supervision and a timetable would remove much of this disadvantage.",
+          "uncertainty": "This advantage shrinks if a reform bill with a clear legal basis, a supervising authority and a timetable is presented.",
           "evidence": ["E02", "E43"]
         },
         "T1": {
-          "assessment": "In this legislative scenario, government must prepare a bill and Parliament must establish the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new datacenters and define how the requirement relates to non-discriminatory grid access.",
+          "assessment": "Under T1, the government must prepare a bill, and Parliament must adopt the requirement and give the Energy Markets Inspectorate (Ei) powers to monitor compliance. The bill must justify singling out new datacenters and explain how the requirement fits with the rule that grid access must be non-discriminatory.",
           "evidence": ["E08", "E48", "E51"]
         },
         "T1b": {
@@ -340,7 +340,7 @@
         },
         "T2": {
           "assessment": "Sweden protects freedom of trade and requires impartial administration. A national moratorium would need legislation justified by an important public interest, with rules for pending projects. Protecting particular competitors would not be a sufficient reason.",
-          "uncertainty": "A government bill would establish the proposed legal basis, transition arrangements and implementing authority. For T2, the justification must address why conditions on development would be insufficient.",
+          "uncertainty": "A government bill would need to set out the legal basis, transitional rules and which authority enforces the stop. It would also have to explain why conditions on new datacenters would not be enough.",
           "evidence": ["E87", "E88", "E48"]
         }
       },
@@ -372,21 +372,21 @@
       "literature": ["L26", "L05"],
       "cells": {
         "T0": {
-          "assessment": "Two broad trends pull in different directions. The race for AI capacity and the aim of digital sovereignty favour attracting new sites with few conditions. The Swedish AI strategy makes computing capacity a national priority. At the same time, electrification makes electricity and grid capacity scarcer. Svenska kraftnät and industry warn that this can raise prices and delay industrial projects. If scarcity becomes the main frame, it gets harder to defend connecting every new project without conditions.",
-          "uncertainty": "Follow changes in electricity affordability, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
+          "assessment": "Two broad trends pull in different directions. The race for AI capacity and the aim of digital sovereignty favour attracting new sites with few conditions. The Swedish AI strategy makes computing capacity a national priority. At the same time, electrification increases demand for electricity and grid capacity. Svenska kraftnät and industry warn that this can raise prices and delay industrial projects. If rising prices and grid queues dominate the debate, it gets harder to defend connecting every new project without conditions.",
+          "uncertainty": "Follow electricity prices, industrial project delays, energy security and public attitudes to datacenter growth. New generation that keeps pace with demand would weaken the case for tighter restrictions.",
           "evidence": ["E63", "E77", "E83", "E84"]
         },
         "T1": {
-          "assessment": "A generation requirement fits a debate that accepts new datacenters but expects them to bring supply of their own. It responds to both the AI ambition and the concern about scarcity, which helps explain its support across parties. It does not settle the tension between them, though. If scarcity deepens and the requirement can be met by contracting generation that is built anyway, it may come to be seen as too weak.",
+          "assessment": "A generation requirement fits a debate that accepts new datacenters but expects them to bring supply of their own. It responds both to the AI ambition and to concerns about rising prices, which helps explain its support across parties. It does not settle the tension between them, though. If prices keep rising and the requirement can be met with PPAs for plants that would be built anyway, it may come to be seen as too weak.",
           "evidence": ["E40", "E78", "E83", "E84"]
         },
         "T1b": {
-          "assessment": "If scarcity becomes the main frame, a rule that requires generation that would not otherwise be built responds to the problem most directly. The same trend that weakens T0 therefore favours T1b more than T1.",
-          "uncertainty": "Follow whether scarcity stays at the centre of the debate, and whether the debate turns to who adds supply.",
+          "assessment": "If rising prices dominate the debate, a rule that requires generation that would not otherwise be built responds to the problem most directly. The same trend that weakens T0 therefore favours T1b more than T1.",
+          "uncertainty": "Follow whether electricity prices stay at the centre of the debate, and whether the question becomes how much new supply datacenters actually add.",
           "evidence": ["E83", "E84", "E40", "E78"]
         },
         "T2": {
-          "assessment": "A deep energy crisis or a long period of scarcity could shift priorities from attracting investment to protecting supply for homes and industry. Campaigners in Ireland make this resource-priority argument, and the fuel-price protests in Sweden in 2019 showed how quickly energy costs can become a mass issue. Against this, the race for AI capacity and digital sovereignty favour keeping a route open for new investment.",
+          "assessment": "A deep energy crisis or a long period of high prices could shift priorities from attracting investment to protecting supply for homes and industry. Campaigners in Ireland make this resource-priority argument, and the fuel-price protests in Sweden in 2019 showed how quickly energy costs can become a mass issue. Against this, the race for AI capacity and digital sovereignty favour keeping a route open for new investment.",
           "evidence": ["E83", "E84", "E89", "E86", "E63", "E77"]
         }
       },
@@ -425,16 +425,16 @@
         },
         "T1": {
           "assessment": "New datacenter developers must finance generation or commit to long-term payments under a PPA. T1 requires the new plant to be ready when the datacenter opens. A delayed generation project can therefore delay the datacenter. Developers can respond by seeking exemptions, postponement or a different location. SweDCI’s demands for timetable guarantees show why this matters politically.",
-          "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges are a separate question. Neither trajectory changes who pays them.",
+          "uncertainty": "A phase-in or protection against generation-project delays would reduce developers’ resistance. Grid reinforcement charges are a separate question. Neither T1 nor T1b changes who pays them.",
           "evidence": ["E08", "E43", "E15"]
         },
         "T1b": {
-          "assessment": "The cost falls on developers, who must pay for generation the market would not build. Other customers gain from the added supply.",
+          "assessment": "The cost falls on developers, who must pay for generation the market would not build. Other electricity users gain, since the added supply holds prices down.",
           "uncertainty": "How visible the cost becomes depends on whether developers can pass it on or move elsewhere.",
           "evidence": ["E08", "E43", "E15"]
         },
         "T2": {
-          "assessment": "Developers lose the option to open new sites, and projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites can still expand. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Other consumers avoid the added demand from new datacenters, but this benefit has to be weighed against strong opposition from those who lose.",
+          "assessment": "Developers lose the option to open new sites, and projects already in preparation face write-downs or relocation. Host municipalities lose expected investment and jobs. Firms with existing sites can still expand. Those uneven losses create pressure for exemptions, an earlier end date or compensation. Other electricity users avoid the price increase that demand from new datacenters would bring, but this benefit has to be weighed against strong opposition from those who lose.",
           "evidence": ["E77", "E83", "E87"]
         }
       },
@@ -471,7 +471,7 @@
           "evidence": ["E43", "E69", "E70", "E83", "E84", "E89"]
         },
         "T1": {
-          "assessment": "The question has moved into party programmes and Svenska kraftnät’s recommendations. Ireland has adopted an additional-renewable-electricity requirement, providing a practical precedent. Sweden would still need to establish its own compliance system. Germany’s proposal to postpone renewable matching shows how investment concerns can reopen a requirement’s timetable after adoption.",
+          "assessment": "The question has moved into party programmes and Svenska kraftnät’s recommendations. Ireland has adopted a requirement for new renewable generation, which gives Sweden a precedent. Sweden would still need to establish its own compliance system. Germany’s proposal to postpone renewable matching shows how investment concerns can reopen a requirement’s timetable after adoption.",
           "uncertainty": "A Swedish implementation programme and completed projects meeting the requirement would strengthen expectations that it will continue.",
           "evidence": ["E08", "E15", "E31", "E40", "E78"]
         },
@@ -725,7 +725,7 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2028 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "The outside-view scoping points to a set of plausible policy responses: voluntary commitments, generation requirements and restrictions on new deployment. In this demonstration, I apply these as policy trajectories to new datacenters in Sweden from 2028 onwards, assuming a legislative lag. The fourth direction, conditions on connection, is not carried further in this demonstration. All four trajectories cover the same projects. These are new commercial datacenters in Sweden that open from 2028 or have no announced opening date. Existing datacenters and their expansions are not covered.",
+  "derivation": "Three of the four directions become policy trajectories for Sweden: voluntary commitments, a generation requirement and a stop on new datacenters. The generation requirement has two variants, T1 and T1b, depending on which plants count. The trajectories differ from 2028 onwards, since a law decided in 2026–2027 needs time to come into force. Conditions on connection are not carried further here. All four trajectories cover the same projects. These are new commercial datacenters in Sweden that open from 2028 or have no announced opening date. Existing datacenters and their expansions are not covered.",
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
@@ -1101,7 +1101,10 @@
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
-    "feedback": "In these runs, a requirement to match annual use with new fossil-free generation (T1) is met mostly by onshore wind and solar that the model would build anyway. Under the model’s assumptions, contracts that only assign such generation to datacenters, whether voluntary (T0) or required (T1), change little. Other electricity users then carry the added demand through higher prices. In SE3, the average price rises from about 63 to 77 EUR/MWh, and prices in the most expensive hours rise more. Households and electricity-intensive industry are the clearest losers, while owners of existing generation gain. This feeds back into the assessment of adjustment burden and coalitions, and could strengthen support for T1b or T2. For the modeller, it also suggests stress testing the assumptions behind the result, such as the limit on onshore wind and the fixed prices outside the Nordics, and looking more closely at T1b. The revised assessment can then be used to set the policy assumptions for the next round of model runs.",
+    "feedback": [
+      "In these runs, the requirement in T1 to match annual use with new fossil-free generation is met mostly by onshore wind and solar that the model would build anyway. Under the model’s assumptions, PPAs that only assign such generation to datacenters change little, whether they are signed voluntarily (T0) or because the law requires it (T1). Other electricity users then carry the added demand through higher prices. In SE3, the average price is about 77 EUR/MWh, compared with 63 in the run without new datacenters. In the most expensive 1% of hours it is 200 instead of 125. Households and electricity-intensive industry are the clearest losers, while owners of existing generation gain.",
+      "This feeds back into the assessment of adjustment burden and coalitions. Would industrial users and the parties that want more supply still back T1 if it adds little new generation? If not, support could shift towards T1b or T2. For the modeller, the result also suggests testing the assumptions behind it, such as the limit on onshore wind and the fixed prices outside the Nordics, and looking more closely at T1b. The revised assessment can then be used to set the policy assumptions for the next round of model runs."
+    ],
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
       "T1": "New sites must secure new fossil-free generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
@@ -1109,7 +1112,9 @@
       "T2": "No new commercial sites may open. Existing sites and their expansions continue."
     },
     "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until 2028 and then differ in their model inputs.",
-    "setting": "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. The ratings are not summed into a score. T0 is the baseline because it is current policy, not because it is rated highest. T1 has broad support and no unfavourable ratings, so it is included at least as a sensitivity case. T1b and T2 face institutional constraints and a high adjustment burden, which are hard to change before 2035, and are explored as alternatives to current policy in an exploratory scenario."
+    "setting": [
+      "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. Among the reform trajectories, the assessment gives T1 the strongest position, so it is included at least as a sensitivity case. A sensitivity case shows how much the results change if a plausible reform is adopted. T1b and T2 face larger legal obstacles and larger costs for those affected, and have weaker support for now. They are run in an exploratory scenario, which shows what alternatives to current policy would mean if political conditions change."
+    ]
   },
   "sensitivity_inputs": [
     {
