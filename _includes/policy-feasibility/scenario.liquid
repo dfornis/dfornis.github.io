@@ -43,9 +43,10 @@
     <h3>Model runs for {{ sc.model.result_year }}</h3>
     <p class="pf-prose">
       To explore what the choice of trajectory can mean in a model, I ran all four trajectories in a power system model of the Nordic countries for
-      {{ sc.model.result_year }}, together with a reference run without the new datacenters. A requirement that counts any new fossil-free generation
-      (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind that the model builds anyway. A requirement
-      for additional generation (T1b) and a stop for new datacenters (T2) both give clearly lower prices, especially in the most expensive hours.
+      {{ sc.model.result_year }}, together with a reference run without new datacenters in the Nordics. A requirement that counts any new fossil-free
+      generation (T1) changes little compared with no requirement (T0), because it is mostly met with onshore wind and solar that the model builds
+      anyway. A requirement for additional generation (T1b) and a stop for new datacenters (T2) both give clearly lower prices, especially in the most
+      expensive hours.
     </p>
     {% assign ds = sc.dc_scenarios %}
     {% capture tracker_link %}<a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a>{% endcapture %}
