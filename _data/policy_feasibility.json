@@ -1101,7 +1101,7 @@
   "model_application": {
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
-    "feedback": "The model runs indicate who gains and who loses under each trajectory. Such results can feed back into the assessment of adjustment burden and coalitions, and so into revised policy assumptions for the next round of modelling.",
+    "feedback": "The model runs indicate who gains and who loses under each trajectory. Such results can feed back into the assessment of adjustment burden and coalitions, and so into revised policy assumptions for the next round of modelling. In these runs, a requirement to match annual use with new fossil-free generation (T1) is met mostly by onshore wind and solar that the model would build anyway. Under the model’s assumptions, contracts that only assign such generation to datacenters, whether voluntary or required, change little. For the modeller, this suggests stress testing the assumptions behind that result, such as the limit on onshore wind and the fixed prices outside the Nordics, and looking more closely at the additionality requirement (T1b).",
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
       "T1": "New sites must secure new fossil-free generation in Sweden matching 100% of their annual use, through own investment or a long-term power contract.",
