@@ -177,11 +177,17 @@
     <p>
       In all runs, the model builds onshore wind in Sweden up to, or very close to, its limit, which corresponds to 70 TWh a year in an average year.
       It does so mainly to meet growing electricity demand. In the Swedish Energy Agency’s current-policy scenario, which the model uses for demand,
-      Swedish electricity use grows by about 60 TWh between 2025 and 2035, and about 46 TWh of that comes from industry. In the other runs, the
-      announced datacenters add about 36 TWh. Under T1, most of the requirement can therefore be met with onshore wind that the model builds anyway.
-      In T0 and T1, most of the added electricity use is covered by imports, although T1 adds some offshore wind. T1b counts only generation that the
-      model would not otherwise build, and in that run the model adds new nuclear power and offshore wind instead. The results thus depend on how a
+      Swedish electricity use grows by about 60 TWh between 2025 and 2035, and about 46 TWh of that comes from industry. The new datacenters in the
+      Central scenario add about 17 TWh. Under T1, the requirement is therefore met mostly with onshore wind and solar that the model builds anyway.
+      In T0 and T1, most of the added electricity use is covered by imports. T1b counts only generation that the model would not otherwise build. In
+      that run the model adds about 15 TWh of offshore wind, and Sweden goes from importing to exporting a little. The results thus depend on how a
       requirement is specified, not only on whether there is one.
+    </p>
+    <p>
+      In T1b, the model can meet the requirement with offshore wind or with small modular reactors (SMRs). It builds offshore wind, which is cheaper
+      in the model, and the permitted offshore parks in SE3 and SE4 have room for most of what the datacenters need. The cost of new nuclear follows
+      the Swedish government’s financing inquiry at 7% real interest. It does not include the state loans and price guarantees for new nuclear that
+      Sweden adopted in 2025, which would lower the cost to the developer. New large reactors are assumed not to be in operation by 2035.
     </p>
     {% assign dm = sc.mix.delta %}
     <figure class="pf-mix" aria-labelledby="pf-mix-caption">
@@ -201,11 +207,11 @@
             {%- for g in r.segments -%}
               {%- assign c = dm.carriers | where: 'id', g.key | first -%}
               <span
-                class="pf-mix-part pf-mix-{{ g.key }}{% if g.value < 4 and g.value > -4 %} pf-mix-small{% endif %}"
+                class="pf-mix-part pf-mix-{{ g.key }}{% if g.value < 2.5 and g.value > -2.5 %} pf-mix-small{% endif %}"
                 style="left: {{ g.left }}%; width: {{ g.width }}%"
                 title="{{ c.label }}: {{ g.value }} TWh"
               >
-                {%- if g.value >= 4 %}+{{ g.value | round }}{% endif -%}
+                {%- if g.value >= 2.5 %}+{{ g.value | round }}{% endif -%}
               </span>
             {%- endfor -%}
             <span class="pf-mix-axis" style="left: {{ dm.axis_left }}%" aria-hidden="true"></span>

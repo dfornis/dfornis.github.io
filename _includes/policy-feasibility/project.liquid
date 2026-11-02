@@ -134,10 +134,10 @@
         <h3>Why the rules are contested</h3>
         <ul class="pf-contested">
           <li>
-            If the announced datacenter projects in the high scenario of the
+            If all announced datacenter projects in the
             <a href="{{ '/projects/datacenter-tracker/' | relative_url }}">Nordic datacenter tracker</a> are built, they would add about
-            {{ site.data.policy_feasibility_scenarios.dc_load_twh.total | round }} TWh to Swedish electricity use by 2035, roughly a quarter of
-            today’s use.
+            {% assign ann = site.data.policy_feasibility_scenarios.dc_scenarios.rows | where: 'id', 'announced' | first -%}
+            {{- ann.values[0].twh | round }} TWh to Swedish electricity use by 2035, roughly a quarter of today’s use.
           </li>
           <li>
             New generation and grid capacity take time. Onshore wind needs municipal approval, and offshore wind and new nuclear take years to permit
