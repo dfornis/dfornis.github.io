@@ -134,7 +134,7 @@
     const amount = measure === "mw" ? gwRange(low, high) : format(low) === format(high) ? format(high) : `${format(low)}–${format(high)}`;
     const unit = measure === "mw" ? "GW" : "TWh/year";
     if (!high && detail.unknown) return `0 ${unit} counted · ${detail.unknown} project${detail.unknown === 1 ? "" : "s"} without MW`;
-    return `${amount} ${unit}${detail.unknown ? "*" : ""}`;
+    return `${amount} ${unit}`;
   }
 
   function fillForMeasure(detail, measure = "mw") {
@@ -430,7 +430,7 @@
       .attr("class", "dc-hq-control")
       .attr("role", "group")
       .attr("aria-label", "Developer headquarters")
-      .attr("title", "Global headquarters. Domestic is relative to the project's country. " + coverageNote);
+      .attr("title", "The developer's global headquarters. Domestic means the same country as the project, Other Europe another European country and Outside Europe the rest of the world. A project with several developers can appear in more than one group. " + coverageNote);
     hqControl.append("label").attr("class", "dc-hq-label").attr("for", "dc-map-hq").text("HQ");
     const hqSelect = hqControl
       .append("select")
@@ -700,7 +700,7 @@
     const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: 0 });
     const a = format(detail.low || 0), b = format(detail.high || 0);
     const amount = measure === "mw" ? gwRange(detail.low, detail.high) : a === b ? b : `${a}–${b}`;
-    return `${amount}${detail.unknown ? "*" : ""} ${measure === "mw" ? "GW" : "TWh"}`;
+    return `${amount} ${measure === "mw" ? "GW" : "TWh"}`;
   }
   // One plain sentence with the main figure for the current tab, measure and HQ selection.
   function headline(data, tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none") {
@@ -760,7 +760,7 @@
         const row = d3.select(this);
         const label = capacityLabel(detail, view.measure);
         row.attr("aria-label", `${zone}: ${label}`).attr("title", label);
-        row.select(".dc-zone-class-name").text((zone === country && country !== "FI" ? "Σ Total" : zone) + (detail.unknown ? "*" : ""));
+        row.select(".dc-zone-class-name").text((zone === country && country !== "FI" ? "Σ Total" : zone));
         // Only the stages counted in the selection get a width. Colours are set inline because the site's CSS purge
         // cannot see class names built at run time.
         row.select(".dc-zone-class-bar").selectAll("span.dc-class-segment").data(detail.classes, (layer) => layer.evidence_class)
@@ -770,7 +770,7 @@
         row.select(".dc-zone-class-range").classed("dc-zone-class-range-empty", !(detail.high > 0))
           .style("left", `${percent(detail.low || 0)}%`).style("width", `${Math.max(0, percent(detail.high || 0) - percent(detail.low || 0))}%`);
         // The unit is in the column heading, so the rows show numbers only.
-        row.select(".dc-zone-class-value").text(detail.high > 0 ? label.replace(` ${unit}`, "") : `0${detail.unknown ? "*" : ""}`);
+        row.select(".dc-zone-class-value").text(detail.high > 0 ? label.replace(` ${unit}`, "") : "0");
       });
     });
     // The scale sits below the rows, where the bars end, as in an ordinary bar chart.
@@ -788,7 +788,7 @@
       item.append("span").text(CLASS_TEXT[i]);
     });
     root.selectAll(".dc-class-chart-note").data([null]).join("div").attr("class", "dc-class-chart-note")
-      .text(`The bars show the capacity counted in ${tabLabel}, coloured by stage. Their length is the high value. The thin line and the figures on the right show the range from low to high. An asterisk (*) means that at least one project in the total has no MW figure, so the actual total is higher.`);
+      .text(`The bars show the capacity counted in ${tabLabel}, coloured by stage. Their length is the high value. The thin line and the figures on the right give the range from low to high.`);
   }
 
   function mount(container, data, shared) {
@@ -824,6 +824,7 @@
     }
     global.addEventListener("keydown", (event) => {if (event.key === "Escape") popup.attr("hidden", true);});
     root.on("click.close-popup", (event) => {if (!event.target.closest(".dc-phase-point, .dc-zone, .dc-zone-class-row, .dc-project-popup")) popup.attr("hidden", true);});
+    let zoneBody = null;
     function render() {
       popup.attr("hidden", true);
       zonePaths.classed("highlight", false);
@@ -840,7 +841,13 @@
       headlineNode.selectAll("p").data(variants, (d) => d.key).join("p").text((d) => d.text)
         .classed("dc-map-headline-current", (d) => d.key === `${tab}:${measure}`)
         .attr("aria-hidden", (d) => (d.key === `${tab}:${measure}` ? null : "true"));
-      renderClassList(root, view, openZone, highlightZone, data);
+      // The values per bidding zone and stage sit in a collapsed section under the map.
+      if (!zoneBody) {
+        const details = root.append("details").attr("class", "dc-zone-details");
+        details.append("summary").text("Breakdown by bidding zone and stage");
+        zoneBody = details.append("div").attr("class", "dc-zone-details-body");
+      }
+      renderClassList(zoneBody, view, openZone, highlightZone, data);
     }
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;render(); });
     return { disconnect() {unsubscribe();root.selectAll("*").remove();} };

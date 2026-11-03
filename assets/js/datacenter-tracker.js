@@ -39,7 +39,7 @@
     };
   }
   const totalRange = (t, kind = "mw") =>
-    !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind) + (t.unknown ? "*" : "");
+    !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind);
   function createControls() {
     let state = { family: "dated", measure: "mw", hq: "none" };
     const listeners = new Set();

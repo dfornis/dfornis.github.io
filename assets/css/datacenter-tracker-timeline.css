@@ -322,3 +322,22 @@
 .dc-timeline-marker { fill: var(--dc-chart-paper); stroke: var(--dc-chart-text); stroke-width: 1.5px; pointer-events: none; }
 .dc-timeline-end-label { pointer-events: none; }
 .dc-timeline-grid .domain { display: none; }
+
+/* Both annual charts use the same caption and inspection layout. */
+.dc-timeline .dc-chart-caption {
+  margin: 0.6rem auto;
+  max-width: 820px;
+  font: 400 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
+  color: var(--dc-chart-muted);
+}
+.dc-timeline .dc-timeline-value-detail { color: var(--dc-chart-muted); }
+
+/* Reserve the caption's longest selection so changing HQ does not move the chart. */
+.dc-timeline .dc-chart-caption { display: grid; }
+.dc-timeline .dc-chart-caption::before {
+  content: "All announced · TWh/year, including existing sites. HQ: Outside Europe. Only new projects are filtered.";
+  visibility: hidden;
+  pointer-events: none;
+  grid-area: 1 / 1;
+}
+.dc-timeline .dc-chart-caption > span { grid-area: 1 / 1; }

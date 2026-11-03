@@ -1,7 +1,7 @@
 /* Method overview only: labels use the exported configuration; no project values are calculated here. */
 (function (global) {
   "use strict";
-  const REVIEWED_METHOD = "5.1";
+  const REVIEWED_METHOD = "5.2";
   const number = (value) => Number(value).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const interval = (values) => [...new Set(values.map(number))].join("–");
 
@@ -77,20 +77,20 @@
       {
         id: "timing",
         stage: "timing",
-        title: "Opening year",
+        title: "Start of operation",
         subtitle: "Reported or estimated.",
         detail: [
-          "A reported opening year is used. Without one, the opening is estimated from a reported construction start or from the project's status, such as planned or permitted.",
-          `Sites built in phases then grow in equal steps over ${number(a.first_to_full_years)} years, unless the source gives a schedule.`,
+          "A reported start of operation is used. Without one, it is estimated from a reported construction start or from the project's status, such as planned or permitted.",
+          `Once operational, a site's capacity comes into use step by step and is fully in use after ${number(a.first_to_full_years)} years, following EPRI. This also applies to a site that comes online all at once. If a source gives the year of full operation, that year is used.`,
         ],
       },
       {
         id: "mw",
         stage: "result",
         title: "Capacity · GW",
-        subtitle: "New capacity in place by a given year.",
+        subtitle: "Modelled capacity in operation by a given year.",
         detail: [
-          `Site capacity including cooling, added after ${base}. The range combines the low and high capacity readings with early and late timing.`,
+          `Estimated power of the whole site, including cooling and other auxiliary power needs, that has come into use after ${base}. The low value combines the low capacity figure with the late start of operation. The high value combines the high figure with the early start.`,
         ],
       },
       {
@@ -99,7 +99,7 @@
         title: "Electricity use · TWh/year",
         subtitle: "Annual use at that capacity.",
         detail: [
-          "Capacity multiplied by a load factor for the type of datacenter. The result is a full year of use at that capacity, not the use during the year it opens.",
+          "Capacity in use × load factor for the type of datacenter × 8,760 hours. A site that comes online during a year enters with its first-year share for the whole of that year.",
         ],
       },
     ];
@@ -110,7 +110,7 @@
       { id: "measure", label: "2. What the figure measures" },
       { id: "overlap", label: "3. Overlaps" },
       { id: "scenario", label: "4. How far the plan has come" },
-      { id: "timing", label: "5. When it could open" },
+      { id: "timing", label: "5. When it comes online" },
       { id: "result", label: "6. Results" },
     ].map((stage) => ({ ...stage, nodes: nodes.filter((node) => node.stage === stage.id) }));
     const links = [
@@ -263,6 +263,16 @@
       const first = positions.get(fork ? ordered[0].target : ordered[0].source);
       const last = positions.get(fork ? ordered.at(-1).target : ordered.at(-1).source);
       const tone = stage.id === "scenario" ? "scenario" : nodeById.get(ordered[0].target).stage;
+      // A single connection needs no joining rail or branch bends.
+      if (group.length === 1) {
+        const source = positions.get(group[0].source), target = positions.get(group[0].target);
+        const from = cx(source), to = cx(target), middle = (source.bottom + target.top) / 2;
+        const d = Math.abs(from - to) < 1
+          ? `M${from},${source.bottom + 2}V${target.top - 4}`
+          : `M${from},${source.bottom + 2}V${middle}H${to}V${target.top - 4}`;
+        links.push({ ...group[0], d, arrow: true, tone });
+        continue;
+      }
       let d;
       if (compact) {
         const rail = fork ? 5 : width - 5;
@@ -404,7 +414,7 @@
       unknown: ["dc-data-coverage", "Data coverage"],
       overlap: ["dc-method-reference", "Parameters and assumptions"],
       stage: ["dc-method-stages", "Stages"],
-      timing: ["dc-method-timing", "Opening dates and build-out"],
+      timing: ["dc-method-timing", "Start of operation and build-out"],
       mw: ["dc-method-capacity", "Capacity conversion"],
       energy: ["dc-method-energy", "Annual electricity use"],
     };

@@ -10,38 +10,22 @@ permalink: /projects/datacenter-tracker/
 <div class="tracker-intro">
   <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
   <p>This page lists publicly reported plans for new datacenters in Sweden, Norway and Finland, and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am building the dataset for a research article on how new datacenters could affect electricity prices in the Nordic bidding zones.</p>
-  <p>The method is still being developed. Corrections, missing projects, better sources and comments on the method are very welcome. Please send them to <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
-  <p class="dc-download-line"><a href="#" data-download-csv>Download data (CSV)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
+  <p>I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.1.3">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.37">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
-<p class="dc-map-intro">The map shows new datacenter capacity announced in each bidding zone, at its full announced size. It does not show when the capacity will be built. Confirmed, Dated plans and All announced set how far a plan must have come to be counted. Confirmed counts only capacity with an investment decision or a construction start. Dated plans adds plans that have a date but no decision. All announced adds everything else.</p>
+<p class="dc-map-intro">Capacity announced for new datacenters in each Nordic bidding zone, as planned for the finished sites. Confirmed, Dated plans and All announced set how far a plan must have come to be included.</p>
 
 <div id="dc-scenario-map"></div>
 
-<details id="scenario-explainer" class="scenario-explainer">
-  <summary>
-    <span>About the figures</span>
-  </summary>
-  <div class="scenario-explainer-body scenario-descriptions" markdown="1">
+<p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. Map colours and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a zone or a dot to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
 
-**Ranges.** Most values are shown as a range, for example 1.4–1.5 GW. The low and high values come from ranges in the sources themselves, such as "600–1,000 MW", from existing capacity of unknown size, and in the chart from early and late opening years. Bars and map colours show the high value. The chart shows both.
-
-**MW, GW and load.** The project list uses MW. The map and chart use GW (1 GW = 1,000 MW). Both are installed capacity, the most the sites could draw. Their average load is lower and enters the TWh figures through a load factor. A MW figure that does not say what it measures is read as the site's total power.
-
-**HQ.** HQ shows only projects whose developer has its global headquarters in the chosen region. Domestic means the same country as the project. Other Europe means another European country, and Outside Europe means the rest of the world. A project with several developers can appear in more than one group.
-
-**Controls.** The choice between Confirmed, Dated plans and All announced, Measure and HQ apply to the whole page. The project list also has its own filters.
-
-  </div>
-</details>
-
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.1.3">
-  <h2 id="dc-timeline-title">When the capacity could be built</h2>
-  <p class="dc-timeline-intro">The chart shows how the selected datacenter capacity builds up year by year. Where a source gives an opening year, that year is used. Otherwise the year is estimated from the project's status or a reported construction start, using the lead times under <a href="#dc-method-timing">Opening dates and build-out</a>. Each estimated year is given as an early and a late year. The upper estimate uses the early year and the high capacity figure. The lower estimate uses the late year and the low figure. Capacity that comes into operation after 2035 is not shown, so the lower estimate for 2035 can be below the total shown with the map.</p>
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.37" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.37">
+  <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
+  <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-controls">
       <div class="dc-timeline-measure-control" data-timeline-capacity-view>
@@ -52,29 +36,36 @@ permalink: /projects/datacenter-tracker/
         </div>
       </div>
     </div>
+    <p class="dc-chart-caption" data-timeline-caption></p>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
-      <div class="dc-timeline-legend"><span><i></i>Lower estimate</span><span class="upper"><i></i>Up to upper estimate</span></div>
+      <div class="dc-timeline-legend" data-band-legend><span class="band"><i></i><span data-timeline-family-label>Range</span></span><span class="baseline" data-use-visible><i></i>Existing sites, 2025 level</span></div>
+      <div class="dc-timeline-legend dc-timeline-bar-legend" hidden><span><i></i>Low end of range</span><span class="upper"><i></i>Up to high end of range</span></div>
+      <div class="dc-timeline-legend dc-electricity-history-key" data-use-visible><span data-history-symbol="measured">NVE</span><span data-history-symbol="measured_subset">Elhub</span><span data-history-symbol="reported">EU reports</span><span data-history-symbol="estimate">RISE estimates</span></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
       </div>
+      <p class="dc-timeline-note dc-timeline-context" data-timeline-context hidden></p>
     </div>
     <details class="dc-timeline-data">
-      <summary>Values and notes</summary>
-      <p class="dc-timeline-note dc-timeline-unknown" hidden>An asterisk (*) means that at least one project has no MW figure, so the actual value is higher.</p>
-      <p class="dc-timeline-note">The areas show the upper estimate. Hover over a panel to see the range for each year. The three countries share one y-axis. It changes between Confirmed, Dated plans and All announced but not with HQ, so an HQ selection shows its share of the total.</p>
-      <p class="dc-timeline-note">Cumulative shows all new capacity in operation since the end of 2025. Added/year shows how much opens in each year. TWh/year is the electricity a full year of operation would use at that year's capacity, not the use during the year the capacity opens.</p>
-      <div class="dc-timeline-table-wrap" tabindex="0" aria-label="Annual capacity data. Scroll horizontally for more columns."><table class="dc-timeline-table"></table></div>
+      <summary>Notes and sources</summary>
+      <p class="dc-timeline-note"><strong>Timing.</strong> Start of operation and the ramp-up to full use follow the rules under <a href="#dc-method-timing">Start of operation and build-out</a>. Capacity that comes online after 2035 lies outside the chart.</p>
+      <p class="dc-timeline-note" data-capacity-only><strong>Added/year.</strong> The dark part of each bar is the lower value and the light part reaches the upper value.</p>
+      <div data-use-only>
+        <p class="dc-timeline-note"><strong>Starting levels.</strong> Existing sites stay at their 2025 level: <span data-electricity-baselines></span> Shares compare with national electricity use in 2025, as described under <a href="#dc-method-energy">Annual electricity use</a>.</p>
+        <p class="dc-timeline-note"><strong>HQ selection.</strong> HQ filters new projects in both chart views. Historical figures and the starting level for existing sites always cover the whole country.</p>
+        <p class="dc-timeline-note"><strong>Historical figures.</strong> The sources have different coverage: metered consumption in Norway (NVE and Elhub), reports from individual sites to the EU under the Energy Efficiency Directive, and estimates by RISE for Sweden. They give the level and the recent trend. The EU totals also rise because more sites report each year. In Sweden 6 sites reported for 2023 and 71 for 2025. <span data-electricity-sources></span></p>
+      </div>
     </details>
   </div>
-  <p class="dc-timeline-status" role="status">Loading annual capacity…</p>
+  <p class="dc-timeline-status" role="status">Loading annual data…</p>
 </section>
 
 <section id="tracker-projects" class="dc-projects" aria-labelledby="tracker-projects-title">
   <h2 id="tracker-projects-title">Projects</h2>
   <p class="dc-projects-intro">The largest projects are listed first. Click + for the developer, each phase with its MW figure and dates, and the sources.</p>
-  <p class="dc-download-line"><a href="#" data-download-csv>Download all projects (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a></p>
+  <p class="dc-download-line"><a href="#" data-download-csv>Download all projects (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
   <p class="dc-cite">The project data in the CSV file are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. You may reuse them if you credit the source. Suggested citation: Fornborg, D. (2026). <em>Nordic datacenter tracker</em>, data as of <span data-as-of></span>. https://dfornis.github.io/projects/datacenter-tracker/</p>
 
 <div id="tracker-filters" class="tracker-controls">
@@ -113,7 +104,7 @@ permalink: /projects/datacenter-tracker/
         <th>Zone</th>
         <th title="How far each part of the project has come. The colours match the map.">Stage</th>
         <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not counted. The bar is coloured by stage.">Full announced size (MW)</th>
-        <th id="dates-header" title="Years the sources give for when part of the project opens. If no opening year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
+        <th id="dates-header" title="Years the sources give for when part of the project comes online. If no such year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -139,32 +130,35 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-method-note">The ratio is my own calculation from Nordic projects in the register that report both IT power and site power for the same part of the site. Ten such pairs, from five companies, give ratios between 1.20 and 1.44. I use the median, 1.25. The highest value comes from a single site and is not used as a general upper bound. <a href="https://epoch.ai/data/data-centers-documentation/methodology">Epoch AI</a> uses 1.2 for hyperscale and 1.4 for other sites. <a href="https://www.energimyndigheten.se/492f27/contentassets/054d98cfdcd54cb5a802e24b53779452/energianvandning-i-datacenter-och-digitala-system.pdf">RISE (2023)</a> reports an annual PUE of 1.1–1.3 for efficient Swedish sites. Annual PUE is lower than the design ratio because cooling needs vary over the year.</p>
 
   <h4 id="dc-method-energy">Annual electricity use</h4>
-  <p class="dc-method-formula">Annual TWh = site MW × annual load factor × 8,760 / 1,000,000</p>
+  <p class="dc-method-formula">Annual electricity use (TWh) = modelled operational site MW × annual load factor × 8,760 / 1,000,000</p>
+  <p>Capacity in use follows the start of operation and ramp-up under <a href="#dc-method-timing">Start of operation and build-out</a>.</p>
+  <p><strong>Electricity use at full build-out</strong> is the timeless measure shown on the map and in the project list. It treats every project as fully built and fully in use. <strong>Annual electricity use</strong> is the year-specific model result shown in the chart below the map, where it is added to the 2025 starting level for existing sites. Each year has one value. A site that comes online during a year enters with its first-year share, 20 percent, for that whole year, whichever month it starts.</p>
   <p>The load factor is average electricity use over a year divided by installed capacity. A factor of 0.75 means that the site uses 75% of its capacity on average.</p>
   <div data-method-table="annual"></div>
   <p class="dc-method-note">Hyperscale and colocation values come from <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI's sample of US sites (2026)</a>. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> uses 0.70 for Norwegian datacenters. The AI/HPC value is my own assumption, based on how much of the time AI training servers run in <a href="https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report">Shehabi et al. (2024)</a>. It is the least certain value in the table. Colocation with AI is my own assumption, between colocation and AI/HPC. None of these values have been checked against Nordic operating data.</p>
 
-  <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway and 82.9 TWh in Finland. The share is only there to give a sense of scale. It is not part of the calculation.</p>
+  <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway and 82.9 TWh in Finland. The share gives a sense of scale. The calculation itself uses MW figures and load factors.</p>
 
   <h4 id="dc-method-stages">Stages</h4>
   <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show where each stage is counted.</p>
   <div data-method-table="stages"></div>
 
-  <h4 id="dc-method-timing">Opening dates and build-out</h4>
-  <p>If a source gives a construction start but no opening date, operation is assumed to start <span data-method-value="construction_years"></span> years later. If neither is available, the opening year is estimated from the project's status:</p>
+  <h4 id="dc-method-timing">Start of operation and build-out</h4>
+  <p>If a source gives a construction start but no date for start of operation, operation is assumed to start <span data-method-value="construction_years"></span> years later. If neither is available, the first year of operation is estimated from the project's status:</p>
   <div data-method-table="timing"></div>
   <dl>
-    <dt>Build-out</dt>
-    <dd>Sites built in phases are assumed to reach full size in equal steps over <span data-method-value="expansion_years"></span> years, starting in the first operating year. A schedule or completion year from the source is used instead when available. A single-building project opens in one step.</dd>
+    <dt>Operational ramp-up</dt>
+    <dd>If no source gives a year for full operation, each reported part of a project reaches full use over <span data-method-value="expansion_years"></span> years, including its first operating year. This also applies when a whole building comes online at once. A source date for full operation, or a year when full operation was observed, takes precedence.</dd>
     <dt>Rest of active site</dt>
-    <dd>The rest of a site, where one building is under way, is assumed to start when that building opens and then follow the same build-out.</dd>
+    <dd>The rest of a site, where one building is under way, is assumed to start when that building comes online and then follow the same operational ramp-up.</dd>
     <dt>Grid connection dates</dt>
-    <dd>A reported grid connection year sets the earliest possible opening. If the connection has only been applied for, or its status is unclear, the low estimate in Confirmed and Dated plans assumes that the capacity is not yet running.</dd>
+    <dd>A reported grid connection year sets the earliest possible start of operation. If the connection has only been applied for, or its status is unclear, the low estimate in Confirmed and Dated plans assumes that the capacity is not yet running.</dd>
     <dt>After 2035</dt>
-    <dd>Capacity estimated to open after 2035 is not in the chart, but it is included in the map's full announced size.</dd>
+    <dd>Capacity estimated to come online after 2035 is not in the chart, but it is included in the map's full announced size.</dd>
   </dl>
-  <p class="dc-method-note">These lead times and the build-out period are my assumptions. <a href="https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai">IEA (2025)</a> gives 2–3 years from construction start to operation. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> finds about five years from grid reservation to the first building in Norway, and three to five years from first to full operation.</p>
-</section>
+  <p class="dc-method-note">These lead times and the application of the operational ramp-up are model assumptions. <a href="https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai">IEA (2025)</a> gives 2–3 years from construction start to operation. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> finds about five years from grid reservation to the first building in Norway, and three to five years from first to full operation.</p>
+
+  <p class="dc-method-note">EPRI calibrated the curve against US state-level data, including colocation. Its use for Nordic projects is an assumption. A reported full-capacity year may mean that buildings or the grid connection are ready while customers move in later. Treating that year as full use can overstate early electricity use, especially for colocation. A grid date is not evidence of installed IT capacity.</p></section>
 
 <section id="dc-data-coverage" class="dc-method-reference" aria-labelledby="dc-data-coverage-title">
   <h3 id="dc-data-coverage-title">Data coverage and country comparisons</h3>
@@ -220,7 +214,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.1.3' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.37' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -922,10 +916,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.1.3">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.1.3">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.37">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.37">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.1.3" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.1.3" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.1.3" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.1.3" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.37" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.37" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.37" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.37">
+<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.37" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.37" defer></script>
