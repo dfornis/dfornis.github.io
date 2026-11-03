@@ -30,11 +30,10 @@
   </nav>
 
   <header id="pf-top" class="pf-intro pf-reveal">
-    <p class="pf-intro-lead">
-      Energy and climate scenarios rely on assumptions about future policy, and these assumptions are rarely checked for political feasibility before
-      they enter models. This page shows how that can be done for one contested question: what rules Sweden should set for new datacenters. If
-      datacenter demand grows faster than new generation, electricity prices rise for households and industry. The policy options are identified and
-      assessed, and then run as scenarios in a power system model of the Nordic countries built with PyPSA.
+    <p>
+      I developed this framework to help modellers and scenario practitioners in government and academia assess the political feasibility of policy
+      assumptions before they enter energy and climate models. Here I apply it to policy responses to rapid datacenter expansion in Sweden. The tested
+      trajectories are then used in adopted-policy and exploratory scenarios in a power system model of the Nordic countries built with PyPSA.
     </p>
     <p class="pf-caption">
       A companion to the research article
@@ -49,8 +48,8 @@
       <p>
         The framework has two steps. The outside view looks at comparable cases in other countries and earlier periods, at institutional practice and
         at where actors stand, and uses them to identify plausible policy trajectories. A policy trajectory is a sequence of policy decisions over
-        time, here from 2026 to 2035. The inside view compares the trajectories on five political dimensions. The result decides which trajectories
-        enter the model, and in what role.
+        time, here from 2026 to 2035. The inside view assesses the trajectories across five feasibility dimensions. The assessment informs which
+        trajectories enter the model and in what role.
       </p>
     </figcaption>
     <div class="pf-fw-grid">
@@ -161,7 +160,10 @@
   <section id="pf-trajectories" class="pf-section pf-reveal">
     <p class="pf-step-tag">From the outside view</p>
     <h2><span class="pf-section-number">03</span> Define comparable trajectories</h2>
-    <p class="pf-prose">{{ pf.derivation }}</p>
+    {% for paragraph in pf.derivation %}
+      <p class="pf-prose">{{ paragraph }}</p>
+    {% endfor %}
+    <p class="pf-prose">{{ pf.scope.cohort }}</p>
     {% include policy-feasibility/trajectory-cards.liquid %}
     <div class="pf-drawers">
       <details class="pf-drawer" id="pf-on-additionality">
@@ -187,15 +189,12 @@
             requirements that lead to new generation. Svenska kraftnät’s proposal is broader and concerns fossil-free generation in general.
           </p>
           <p>
-            In this demonstration, the limit on onshore wind decides much of the answer. The model limits onshore wind in Sweden to a level that
-            corresponds to 70 TWh a year, the lower of the Swedish Energy Agency’s estimates. Because the model builds up to this limit in all runs,
-            new onshore wind under T1 is mostly wind that would have been built anyway. With a higher limit, the result could differ. T1b therefore
-            counts only generation that the model would not otherwise build in Sweden, which is offshore wind and new nuclear power.
+            In the model, T1b counts offshore wind and new nuclear power as additional generation in Sweden. This is a modelling choice tied to
+            assumptions about what would otherwise be built. The <a href="#pf-additionality">results below</a> show how it affects the outcome.
           </p>
           <p>
             Additionality is hard to verify, since it requires a judgement about what would have happened otherwise. In practice, rules use proxies
-            such as the age of the plant, the absence of subsidies or a link to a specific new project. The definition used here is a modelling
-            choice, not a settled standard.
+            such as the age of the plant, the absence of subsidies or a link to a specific new project.
           </p>
           <ul class="pf-lit">
             <li>

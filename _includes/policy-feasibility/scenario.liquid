@@ -107,12 +107,11 @@
 
     {% assign smax = 250.0 %}
     <h4 class="pf-results-head">Results</h4>
-    <p class="pf-caption">The model is currently in development and results are work in progress.</p>
+    <p class="pf-caption">The model is still under development, and the results are preliminary.</p>
     <p class="pf-prose">
       In SE3, the average price is {{ ref.values.price_se3 | round }} EUR/MWh in the reference run and {{ c_t0.values.price_se3 | round }} EUR/MWh
-      under both T0 and T1. T1 makes almost no difference because the requirement is mostly met with onshore wind and solar that the model builds
-      anyway. Under T1b and T2 the average price is {{ c_t1b.values.price_se3 | round }} EUR/MWh, and prices in the most expensive hours are much
-      lower.
+      under both T0 and T1. Under T1b and T2 the average price is {{ c_t1b.values.price_se3 | round }} EUR/MWh, and prices in the most expensive hours
+      are much lower.
     </p>
     <figure class="pf-bars pf-price" aria-labelledby="pf-bars-caption">
       <figcaption id="pf-bars-caption" class="pf-sr-only">Electricity price in SE3, {{ sc.model.result_year }}</figcaption>

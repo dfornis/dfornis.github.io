@@ -24,7 +24,7 @@
       "profile": {
         "coalition_alignment": {
           "rating": "mixed",
-          "text": "Business groups support it. SKGS is in between, and support for requirements is growing."
+          "text": "Business groups support it. SKGS, representing energy-intensive industry, is in between. Support for requirements is growing."
         },
         "institutional_constraints": {
           "rating": "favourable",
@@ -72,7 +72,7 @@
         },
         "institutional_constraints": {
           "rating": "mixed",
-          "text": "Needs a law and Ei oversight. Annual matching can be verified."
+          "text": "Needs legislation and oversight by the Energy Markets Inspectorate (Ei). Annual matching can be verified."
         },
         "landscape_pressures": {
           "rating": "mixed",
@@ -687,7 +687,7 @@
   "scope": {
     "question": "Which rules for new Swedish datacenters could be adopted and sustained as electricity demand grows?",
     "policy": "A national requirement on developers to secure additional generation",
-    "cohort": "The same prospective projects are assessed in all four alternatives: new commercial datacenter sites in Sweden that would open from 2028 or have no announced opening date. Earlier stages, existing sites and their expansions fall outside this example.",
+    "cohort": "All four trajectories cover the same prospective projects: new commercial datacenter sites in Sweden opening from 2028 or with no announced opening date. Existing sites and their expansions are outside the policy scope.",
     "shared": "Electricity demand and the rules already in place form the common starting point. T0 keeps generation commitments voluntary. T1 makes new fossil-free generation a condition of opening. T1b requires that generation to be additional. T2 prevents new sites from opening from 2028. Grid tariffs and queue priorities are not changed by these alternatives.",
     "timing": "Assess decisions in 2026–2027 and whether the resulting policy can be sustained to 2035. The dates are scenario choices. Political support can change within this period.",
     "definition": "From the first full operating year, new fossil-free generation in Sweden must match 100% of each covered datacenter’s annual electricity demand. Developers invest directly or sign a long-term power purchase agreement (PPA). The generating plant must enter service after the investment or contract commitment and by the datacenter’s opening. The reform includes annual compliance reporting to the Energy Markets Inspectorate (Ei), with powers granted by the new legislation. Grid charges and connection priority remain as in T0. Under T1b, only generation that would not otherwise be built counts, and Ei verifies this.",
@@ -725,7 +725,9 @@
     "decisive_dimensions": ["coalition_alignment", "institutional_constraints", "landscape_pressures", "adjustment_burden", "policy_momentum"]
   },
   "model_note": "For T0 and T1, model voluntary procurement as well as the statutory generation requirement in T1. For T2, set new openings in the defined cohort to zero from 2028 and allow for postponed or relocated projects. Existing sites and expansions remain in every case. Use resulting prices, investment delays and distributional effects to reconsider political support over time.",
-  "derivation": "Three of the four directions become policy trajectories for Sweden: voluntary commitments, a generation requirement and a stop on new datacenters. The generation requirement has two variants, T1 and T1b, depending on which plants count. The trajectories differ from 2028 onwards, since a law decided in 2026–2027 needs time to come into force. Conditions on connection are not carried further here. All four trajectories cover the same projects. These are new commercial datacenters in Sweden that open from 2028 or have no announced opening date. Existing datacenters and their expansions are not covered.",
+  "derivation": [
+    "I take three of the four policy directions forward and develop them into four candidate trajectories for Sweden. Swedish business organisations’ support for voluntary contracts motivates T0. Swedish reform proposals and Ireland’s approach inform a generation requirement (T1), with an additionality variant (T1b) reflecting the debate over whether contracted generation adds supply. Moratorium proposals and earlier restrictions on electricity allocation inform a stop on new sites (T2). I leave connection conditions outside this comparison. The trajectories diverge from 2028, allowing time for decisions in 2026–2027 to take effect."
+  ],
   "actor_conflicts": [
     {
       "title": "Incentives or a legal requirement?",
@@ -1102,8 +1104,8 @@
     "before": "Without the assessment, voluntary commitments would simply continue to 2035, with no stated reason and no alternatives.",
     "after": "Voluntary commitments continue through 2027. From 2028, compare continuation, a generation requirement, an additionality requirement and an establishment stop.",
     "feedback": [
-      "In these runs, the requirement in T1 to match annual use with new fossil-free generation is met mostly by onshore wind and solar that the model would build anyway. Under the model’s assumptions, PPAs that only assign such generation to datacenters change little, whether they are signed voluntarily (T0) or because the law requires it (T1). Other electricity users then carry the added demand through higher prices. In SE3, the average price is about 77 EUR/MWh, compared with 63 in the run without new datacenters. In the most expensive 1% of hours it is 200 instead of 125. Households and electricity-intensive industry are the clearest losers, while owners of existing generation gain.",
-      "This feeds back into the assessment of adjustment burden and coalitions. Would industrial users and the parties that want more supply still back T1 if it adds little new generation? If not, support could shift towards T1b or T2. For the modeller, the result also suggests testing the assumptions behind it, such as the limit on onshore wind and the fixed prices outside the Nordics, and looking more closely at T1b. The revised assessment can then be used to set the policy assumptions for the next round of model runs."
+      "The results put pressure on the earlier judgement of T1’s coalition support and adjustment burden. Under these assumptions, households and electricity-intensive industry face higher prices, while owners of existing generation gain. Would industrial users and parties seeking more supply still support T1 if it delivers little additional generation? Their support could shift towards T1b or T2.",
+      "For the next round, I would revisit those judgements and test how the results change with a higher onshore wind limit or different assumptions about prices outside the Nordics. The revised results would inform a new assessment and the policy assumptions for the next round of model runs."
     ],
     "parameters": {
       "T0": "No statutory requirement. Developers may invest in generation or sign power contracts voluntarily.",
@@ -1113,7 +1115,9 @@
     },
     "selection": "The comparison selects a reference scenario and the alternatives to run alongside it. All three follow the same path until 2028 and then differ in their model inputs.",
     "setting": [
-      "In this demonstration, T0 represents adopted policy and is the baseline of an adopted-policy scenario. Among the reform trajectories, the assessment gives T1 the strongest position, so it is included at least as a sensitivity case. A sensitivity case shows how much the results change if a plausible reform is adopted. T1b and T2 face larger legal obstacles and larger costs for those affected, and have weaker support for now. They are run in an exploratory scenario, which shows what alternatives to current policy would mean if political conditions change."
+      "In this demonstration, T0 represents adopted policy and serves as the baseline. Concerns about its political feasibility do not automatically disqualify it from that role, but they should prompt discussion of whether the policy can be sustained over the model horizon.",
+      "The assessment gives T1 a stronger position than the other reform trajectories, particularly in coalition support and institutional constraints. I therefore include it as a sensitivity case.",
+      "T1b and T2 face greater legal obstacles, higher costs for those affected and weaker support. I include them as exploratory scenarios to examine alternatives to current policy if political conditions change."
     ]
   },
   "sensitivity_inputs": [

@@ -1925,10 +1925,6 @@ html:has(.pf-v2) {
   max-width: 68ch;
   padding-bottom: 1.6rem;
 }
-.pf-v2 .pf-intro-lead {
-  font-size: clamp(1.08rem, 1.7vw, 1.25rem);
-  line-height: 1.55;
-}
 .pf-v2 .pf-intro-teaser {
   max-width: 68ch;
   margin: 0.5rem 0 2.6rem;
@@ -2577,9 +2573,6 @@ html:has(.pf-v2) {
 }
 
 /* Paragraph sizes: the portfolio sets them with !important (see above), so the new hierarchy does too. */
-.pf-v2 .pf-intro-lead {
-  font-size: clamp(1.08rem, 1.7vw, 1.25rem) !important;
-}
 .pf-v2 .pf-step-tag,
 .pf-v2 .pf-setting-label {
   font-size: 0.72rem !important;
