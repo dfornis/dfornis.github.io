@@ -667,3 +667,5 @@
 /* A short footnote under the map on how to read the values. The method section holds the details. */
 #dc-tracker .dc-map-footnote { max-width: 760px; margin: 0.6rem auto 2rem; font: 12px/1.6 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; color: var(--dc-muted); text-align: center; }
 #dc-tracker .dc-map-footnote a { color: inherit; text-decoration: underline; }
+
+.dc-project-description { max-width: 72ch; margin: 0 0 0.6rem; line-height: 1.5; }

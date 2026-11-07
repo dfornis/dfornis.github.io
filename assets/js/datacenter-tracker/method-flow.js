@@ -30,7 +30,7 @@
         basis: ["it_nameplate", "it_unspecified"],
         detail: [
           "IT power is what the servers and network equipment can draw. Cooling and other equipment come on top.",
-          `In the ten projects in the register that report both, the whole site is 1.20 to 1.44 times the IT power. The median, ${ratio}, is used. A project's own reported ratio is used when there is one.`,
+          `Site power is IT power times PUE, ${ratio}. PUE is a site's total electricity use over a year divided by the IT equipment's use. A PUE reported for the site is used when there is one.`,
         ],
       },
       {
@@ -154,14 +154,14 @@
               `Capacity already operating at the end of ${timeline.base_year} is subtracted before conversion. If the amount is unknown, new capacity ranges from zero to the reported total.`,
             ],
             [
-              "Site / IT power ratio",
+              "PUE (site / IT)",
               range(a.pue),
-              "Site MW = IT MW × ratio. This is a design ratio for capacity, not the annual PUE. A project's own reported ratio replaces it.",
+              "Site MW = IT MW × PUE. A PUE reported for the site replaces it.",
             ],
             [
               "MW figure without a stated measure",
               "1 × MW",
-              "Read as site power. If such a figure is in fact IT power, the site is about a quarter larger.",
+              "Read as site power. If such a figure is in fact IT power, the site is about a fifth larger.",
             ],
             ["At least X MW", "X", "Counted as X, with the usual conversion."],
           ],

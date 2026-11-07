@@ -1,0 +1,127 @@
+﻿project_id,country,bidding_zone,stage,mw_low,mw_high
+P001,SE,SE1,Dated plan,672,1050
+P002,SE,SE3,Undated plan,750,750
+P003,SE,SE3,Confirmed,43.2,43.2
+P003,SE,SE3,Rest of active site,556.8,556.8
+P004,SE,SE2,Dated plan,300,300
+P008,SE,SE3,Confirmed,30,30
+P009,SE,SE3,Confirmed,32.2,32.2
+P009,SE,SE3,Rest of active site,7.8,7.8
+P011,SE,SE3,Confirmed,18,18
+P012,SE,SE3,Confirmed,8,8
+P013,SE,SE3,Confirmed,7.2,7.2
+P013,SE,SE3,Rest of active site,2.8,2.8
+P013,SE,SE3,Undated plan,2,2
+P014,SE,SE3,Confirmed,1.2,1.2
+P015,SE,SE3,Rest of active site,500,500
+P016,NO,NO2,Confirmed,240,240
+P017,NO,NO1,Dated plan,72,72
+P018,NO,NO1,Dated plan,66.2,66.2
+P018,NO,NO1,Undated plan,0,23.8
+P019,NO,NO2,Dated plan,37,37
+P019,NO,NO2,Undated plan,0,23
+P020,NO,NO2,Dated plan,12.5,12.5
+P020,NO,NO2,Undated plan,0,17.5
+P021,NO,NO5,Undated plan,0,200
+P022,NO,NO2,Confirmed,0,50.4
+P022,NO,NO2,Rest of active site,0,949.6
+P023,NO,NO2,Undated plan,250,250
+P025,FI,FI,Undated plan,100,100
+P026,FI,FI,Dated plan,211.4,211.4
+P027,FI,FI,Confirmed,57.6,57.6
+P027,FI,FI,Dated plan,118.2,118.2
+P028,FI,FI,Confirmed,57.6,57.6
+P028,FI,FI,Dated plan,176.8,176.8
+P030,FI,FI,Confirmed,64,64
+P031,FI,FI,Confirmed,60,60
+P031,FI,FI,Rest of active site,93.6,93.6
+P031,FI,FI,Undated plan,26.4,26.4
+P032,FI,FI,Confirmed,0,45
+P033,FI,FI,Rest of active site,430,430
+P034,FI,FI,Confirmed,120,120
+P035,FI,FI,Rest of active site,310,310
+P035,FI,FI,Undated plan,40,40
+P036,FI,FI,Confirmed,70,70
+P037,FI,FI,Confirmed,27,27
+P039,SE,SE3,Dated plan,150,150
+P040,SE,SE2,Undated plan,150,150
+P041,SE,SE2,Dated plan,650,650
+P041,SE,SE2,Undated plan,1350,1350
+P042,NO,NO2,Confirmed,100,100
+P043,NO,NO2,Dated plan,365,365
+P044,NO,NO2,Undated plan,250,250
+P045,NO,NO4,Confirmed,230,230
+P045,NO,NO4,Undated plan,290,290
+P171,NO,NO2,Dated plan,36,36
+P172,NO,NO2,Undated plan,25,25
+P173,NO,NO2,Undated plan,576,576
+P174,NO,NO1,Undated plan,480,480
+P175,NO,NO2,Undated plan,350,350
+P176,NO,NO2,Dated plan,100,100
+P178,NO,NO2,Undated plan,55,55
+P179,NO,NO2,Undated plan,100,100
+P180,NO,NO2,Undated plan,150,150
+P181,NO,NO5,Undated plan,80,80
+P182,NO,NO4,Undated plan,1000,1000
+P183,NO,NO2,Dated plan,50,50
+P184,NO,NO2,Confirmed,10,10
+P185,NO,NO2,Undated plan,360,360
+P186,NO,NO4,Undated plan,40,40
+P187,NO,NO1,Undated plan,9,9
+P188,NO,NO2,Undated plan,4,4
+P189,NO,NO1,Undated plan,4,4
+P190,NO,NO1,Undated plan,1,1
+P046,FI,FI,Undated plan,230,230
+P050,FI,FI,Undated plan,830,830
+P051,FI,FI,Undated plan,130,130
+P053,SE,SE3,Confirmed,24,24
+P053,SE,SE3,Rest of active site,0,56
+P054,SE,SE3,Undated plan,30,30
+P055,SE,SE3,Confirmed,1,1
+P055,SE,SE3,Rest of active site,11,11
+P060,SE,SE3,Undated plan,0,60
+P061,SE,SE3,Undated plan,0,60
+P074,SE,SE3,Confirmed,1.2,1.2
+P075,SE,,Undated plan,1,5
+P079,SE,SE3,Dated plan,1.5,1.5
+P084,FI,FI,Confirmed,132,132
+P084,FI,FI,Rest of active site,528,528
+P085,FI,FI,Confirmed,198,198
+P085,FI,FI,Undated plan,2,2
+P086,FI,FI,Dated plan,120,156
+P087,FI,FI,Dated plan,388.8,842.4
+P088,FI,FI,Dated plan,200,200
+P090,FI,FI,Undated plan,560,560
+P091,FI,FI,Dated plan,250,250
+P093,FI,FI,Dated plan,200,200
+P093,FI,FI,Undated plan,400,400
+P095,FI,FI,Rest of active site,133,400
+P097,FI,FI,Dated plan,124.8,124.8
+P099,FI,FI,Dated plan,100,100
+P121,FI,FI,Dated plan,100,100
+P121,FI,FI,Undated plan,400,400
+P125,FI,FI,Dated plan,90,90
+P125,FI,FI,Undated plan,230,230
+P126,FI,FI,Undated plan,250,250
+P150,FI,FI,Dated plan,9.6,9.6
+P150,FI,FI,Undated plan,290.4,290.4
+P151,FI,FI,Dated plan,80,80
+P151,FI,FI,Undated plan,920,920
+P152,FI,FI,Undated plan,369,884
+P154,FI,FI,Dated plan,40,40
+P159,FI,FI,Undated plan,100,100
+P166,FI,FI,Undated plan,250,250
+P167,FI,FI,Undated plan,50,50
+P192,NO,NO2,Dated plan,7.2,7.2
+P192,NO,NO2,Undated plan,0.8,3.8
+P194,NO,NO2,Undated plan,3,3
+P197,FI,FI,Dated plan,6,6
+P197,FI,FI,Undated plan,44,44
+P199,NO,NO4,Confirmed,70,70
+P199,NO,NO4,Undated plan,215,215
+P200,NO,,Undated plan,20,20
+P205,SE,SE1,Dated plan,45,45
+P205,SE,SE1,Undated plan,155,155
+P206,SE,SE2,Undated plan,95.5,100
+P208,SE,SE4,Undated plan,300,300
+P210,SE,SE3,Undated plan,250,250

@@ -1,0 +1,90 @@
+Nordic datacenter tracker, data as of 2026-10-16
+Fornborg, D. (2026). Nordic datacenter tracker. https://dfornis.github.io/projects/datacenter-tracker/
+Licence: CC BY 4.0. You may reuse the data if you credit the source.
+
+FILES
+
+The data are in three tables. They are joined on project_id.
+nordic-datacenter-tracker-projects.csv has one row per project.
+nordic-datacenter-tracker-capacity-by-stage.csv has one row per project and stage. Summing mw_low or mw_high over all rows gives the tracker total. Filter on stage, country or bidding zone to sum a part of it.
+nordic-datacenter-tracker-capacity-figures.csv has one row per MW figure in the sources. Use it to check how each figure was read and converted. Do not sum it, since figures for the same site overlap.
+All files are UTF-8, comma-separated, with a full stop as decimal mark. In Excel with Swedish or other European settings, open them through Data > From Text/CSV rather than by double-clicking.
+
+GENERAL
+
+Capacity is new electrical MW for the whole site, including cooling and other auxiliary power. Capacity already operating at the end of 2025 is not included.
+An empty cell means unknown or not applicable. It never means zero.
+IT power is converted to site power as site MW = IT MW x PUE. PUE (power usage effectiveness) is total site electricity use over a year divided by IT electricity use. The default PUE is 1.2. A PUE stated by the source replaces it.
+A figure in MW without a stated measure is read as site power.
+Low and high give the range in the sources and in the conversion.
+The files contain the inventory only. Scenarios for 2030 and 2035 and annual electricity use are model results and are in the full model output (JSON) on the website.
+
+NORDIC-DATACENTER-TRACKER-PROJECTS.CSV
+
+project_id
+  Permanent project ID. Stable between updates.
+project_name
+  Project name.
+developer
+  Developer or operator. Several are separated by a semicolon.
+country
+  SE, NO or FI.
+bidding_zone
+  Electricity bidding zone. Empty if unknown.
+municipality
+  Municipality, with locality in brackets where given.
+latitude, longitude
+  Approximate display point in WGS 84. Not a surveyed site boundary.
+type
+  Type of data centre as described by the sources (hyperscale, colocation, AI, HPC, cloud and others). Several are separated by a semicolon.
+status
+  Planned, Permitted, Under construction, Operational, Cancelled or Dormant.
+first_operation_year
+  Earliest year that the sources give for any part of the project to come into operation. Empty if no year is given.
+capacity_status
+  reported: the project has rows in nordic-datacenter-tracker-capacity-by-stage.csv. not reported: no usable MW figure has been published. part of P...: the capacity is counted under that project. no new capacity: the project adds no capacity after 2025, for example because it is already operating or cancelled.
+description
+  Short description of the project and the main uncertainties.
+source_urls
+  Sources for the project and its capacity figures, separated by spaces.
+
+NORDIC-DATACENTER-TRACKER-CAPACITY-BY-STAGE.CSV
+
+project_id
+  Project ID, as in the projects file.
+country, bidding_zone
+  As in the projects file, repeated so that the table can be summed by area.
+stage
+  Confirmed: has an investment decision, has started construction or has started operating after 2025. Dated plan: has a current source date for construction start, first operation or full capacity, but no investment decision. A grid date alone does not count. Rest of active site: undated rest of a site where another part is confirmed. Undated plan: the rest of the announced capacity, without a date or decision.
+mw_low, mw_high
+  New site power in this stage, after removing capacity already operating and overlapping figures.
+
+NORDIC-DATACENTER-TRACKER-CAPACITY-FIGURES.CSV
+
+figure_id
+  Permanent ID of the figure. Stable between updates.
+project_id
+  Project the figure belongs to.
+scope
+  Part of the project that the figure describes.
+reported_mw_low, reported_mw_high
+  MW as given by the source. Equal unless the source gives a range. Empty when the source describes a part of the project without a MW figure.
+measure
+  What the figure measures: IT power, site power, grid connection, peak demand or not stated. Backup generation, power generation and rack density are not data centre load. A qualifier from the source (up to, at least, approximate) is given in brackets.
+site_mw_low, site_mw_high
+  Site power after conversion, before removing capacity already operating.
+not_counted_because
+  Why the figure adds no capacity of its own, for example included in a larger figure (with its figure_id) or already operating. Empty if the figure is counted.
+year, year_refers_to
+  Year given by the source for this figure, and what it refers to: first operation, full capacity, grid connection or construction start.
+source_urls
+  Sources for the figure, separated by spaces.
+
+LOAD FACTORS USED IN THE MODEL OUTPUT
+Load factor is average annual electricity use divided by site capacity. It follows the project type.
+  Hyperscale: 0.75
+  Hyperscale AI: 0.75
+  AI HPC: 0.8
+  Colocation AI: 0.6
+  Colocation: 0.57
+  Research SMR: 0.8

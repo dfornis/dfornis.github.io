@@ -322,55 +322,19 @@
         const date = new Date(value + "T00:00:00Z");
         return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
       };
-      function csvText() {
-        const cell = (value) => {
-          const text = value === null || value === undefined ? "" : String(value);
-          return /[",\n]/.test(text) ? '"' + text.replaceAll('"', '""') + '"' : text;
-        };
-        const stageKeys = { confirmed: "confirmed", dated_plan: "dated_plan", campus_continuation: "rest_of_active_site", undated_announcement: "undated_plan" };
-        const byScenario = new Map(data.project_scenarios.map((row) => [row.scenario + ":" + row.project_id, row]));
-        const header = [
-          "project_id", "project_name", "developer", "country", "bidding_zone", "municipality", "latitude", "longitude", "type", "status",
-          "investment_decision", "announced_dates", "part_of_site",
-          "full_size_mw_low", "full_size_mw_high", "full_size_twh_low", "full_size_twh_high",
-          ...stageIds.flatMap((id) => [stageKeys[id] + "_mw_low", stageKeys[id] + "_mw_high"]),
-          ...data.method.scenarios.flatMap((item) => ["mw_low", "mw_high", "twh_low", "twh_high"].map((key) => "counted_" + item.id + "_" + key)),
-          "last_checked", "source_urls", "notes",
-        ];
-        const lines = data.projects.map((project) => {
-          const own = claims.get(project.project_id);
-          const any = byScenario.get(firstScenario + ":" + project.project_id) || {};
-          const known = any.capacity_known || ["operational", "cancelled", "dormant"].includes(any.indicator);
-          const parents = containedIn(any);
-          const stages = stageRows.get(project.project_id) || new Map();
-          const round = (value, digits) => (numeric(value) === null ? "" : Math.round(Number(value) * 10 ** digits) / 10 ** digits);
-          return [
-            project.project_id, project.project_name, project.developer, project.country, project.bidding_zone, project.municipality,
-            project.latitude, project.longitude, project.type, project.status, projectDecision(own), operationYears(own, project.status), parents || "",
-            ...(known && !parents
-              ? [round(any.nameplate_mw_low, 1), round(any.nameplate_mw_high, 1), round(any.buildout_twh_low, 3), round(any.buildout_twh_high, 3)]
-              : ["", "", "", ""]),
-            ...stageIds.flatMap((id) => (known && stages.has(id) ? [round(stages.get(id).mw_low, 1), round(stages.get(id).mw_high, 1)] : ["", ""])),
-            ...data.method.scenarios.flatMap((item) => {
-              const row = byScenario.get(item.id + ":" + project.project_id) || {};
-              return known ? [round(row.mw_low, 1), round(row.mw_high, 1), round(row.annual_twh_low, 3), round(row.annual_twh_high, 3)] : ["", "", "", ""];
-            }),
-            lastChecked(project),
-            sourceIds(project).map((id) => sources.get(id)?.url).filter(Boolean).join(" "),
-            project.notes,
-          ].map(cell).join(",");
+      // The downloads are built by the pipeline next to results.json, so every reader gets the same files.
+      const fileUrl = (name) => root.dataset.results.replace(/results\.json(\?.*)?$/, name + "$1");
+      const downloads = {
+        "data-download-projects": "nordic-datacenter-tracker-projects.csv",
+        "data-download-stages": "nordic-datacenter-tracker-capacity-by-stage.csv",
+        "data-download-figures": "nordic-datacenter-tracker-capacity-figures.csv",
+        "data-download-columns": "nordic-datacenter-tracker-columns.txt",
+      };
+      for (const [attribute, name] of Object.entries(downloads))
+        document.querySelectorAll("[" + attribute + "]").forEach((link) => {
+          link.setAttribute("href", fileUrl(name));
+          link.setAttribute("download", name.replace(/\.(csv|txt)$/, "-" + (data.as_of || "data") + ".$1"));
         });
-        return [header.join(","), ...lines].join("\n") + "\n";
-      }
-      const csvFile = "nordic-datacenter-tracker-" + (data.as_of || "data") + ".csv";
-      let csvUrl = null;
-      document.querySelectorAll("[data-download-csv]").forEach((link) => {
-        link.setAttribute("download", csvFile);
-        link.addEventListener("click", () => {
-          if (!csvUrl) csvUrl = URL.createObjectURL(new Blob(["﻿" + csvText()], { type: "text/csv;charset=utf-8" }));
-          link.href = csvUrl;
-        });
-      });
       document.querySelectorAll("[data-download-json]").forEach((link) => link.setAttribute("href", root.dataset.results));
       document.querySelectorAll("[data-download-meta]").forEach((node) => {
         node.textContent = "Data as of " + longDate(data.as_of) + " · Updated monthly";
@@ -561,7 +525,6 @@
               escape([actor.hq_city, hqCountryLabel(actor.hq_country)].filter(Boolean).join(", ")) +
               "</td><td>" +
               escape(actor.ownership_notes || "Not verified") +
-              (actor.notes ? "<br>" + escape(actor.notes) : "") +
               "</td><td>" +
               escape(actor.checked_at) +
               "</td><td>" +
@@ -572,7 +535,7 @@
         const actorInfo =
           '<div class="detail-title">Project actors and headquarters</div>' +
           (actors.length
-            ? '<div class="dc-entry-wrap"><table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership and notes</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' +
+            ? '<div class="dc-entry-wrap"><table class="entry-table actor-table"><thead><tr><th>Actor</th><th>Role</th><th>Actor type</th><th>Global HQ</th><th>Ownership</th><th>Checked</th><th>Sources</th></tr></thead><tbody>' +
               actorBody +
               "</tbody></table></div>"
             : '<div class="detail-summary">Actor headquarters have not been reviewed for this project.</div>');
@@ -601,6 +564,7 @@
         const factList =
           '<dl class="dc-project-facts">' + facts.map(([term, value]) => "<div><dt>" + term + "</dt><dd>" + value + "</dd></div>").join("") + "</dl>";
         return (
+          (project.description ? '<p class="dc-project-description">' + escape(project.description) + "</p>" : "") +
           factList +
           actorInfo +
           '<div class="detail-title">Project phases and sources</div>' +
