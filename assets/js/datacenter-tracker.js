@@ -324,16 +324,11 @@
       };
       // The downloads are built by the pipeline next to results.json, so every reader gets the same files.
       const fileUrl = (name) => root.dataset.results.replace(/results\.json(\?.*)?$/, name + "$1");
-      const downloads = {
-        "data-download-projects": "nordic-datacenter-tracker-projects.csv",
-        "data-download-stages": "nordic-datacenter-tracker-capacity-by-stage.csv",
-        "data-download-figures": "nordic-datacenter-tracker-capacity-figures.csv",
-        "data-download-columns": "nordic-datacenter-tracker-columns.txt",
-      };
+      const downloads = { "data-download-zip": "nordic-datacenter-tracker-data.zip" };
       for (const [attribute, name] of Object.entries(downloads))
         document.querySelectorAll("[" + attribute + "]").forEach((link) => {
           link.setAttribute("href", fileUrl(name));
-          link.setAttribute("download", name.replace(/\.(csv|txt)$/, "-" + (data.as_of || "data") + ".$1"));
+          link.setAttribute("download", name.replace(/\.(zip|csv|txt)$/, "-" + (data.as_of || "data") + ".$1"));
         });
       document.querySelectorAll("[data-download-json]").forEach((link) => link.setAttribute("href", root.dataset.results));
       document.querySelectorAll("[data-download-meta]").forEach((node) => {

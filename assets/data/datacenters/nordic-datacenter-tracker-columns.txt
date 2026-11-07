@@ -1,5 +1,5 @@
 Nordic datacenter tracker, data as of 2026-10-16
-Fornborg, D. (2026). Nordic datacenter tracker. https://dfornis.github.io/projects/datacenter-tracker/
+https://dfornis.github.io/projects/datacenter-tracker/
 Licence: CC BY 4.0. You may reuse the data if you credit the source.
 
 FILES

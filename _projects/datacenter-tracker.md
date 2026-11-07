@@ -9,11 +9,10 @@ permalink: /projects/datacenter-tracker/
 
 <div class="tracker-intro">
   <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
-  <p>This page lists publicly reported plans for new datacenters in Sweden, Norway and Finland, and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am building the dataset for a research article on how new datacenters could affect electricity prices in the Nordic bidding zones.</p>
-  <p>I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <p>This page lists publicly reported plans for new datacenters in Sweden, Norway and Finland, and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.39">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.40">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
@@ -23,7 +22,7 @@ permalink: /projects/datacenter-tracker/
 
 <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. Map colours and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a zone or a dot to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.39" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.39">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.40" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.40">
   <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
   <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   <div class="dc-timeline-content" hidden>
@@ -65,8 +64,8 @@ permalink: /projects/datacenter-tracker/
 <section id="tracker-projects" class="dc-projects" aria-labelledby="tracker-projects-title">
   <h2 id="tracker-projects-title">Projects</h2>
   <p class="dc-projects-intro">The largest projects are listed first. Click + for the developer, each phase with its MW figure and dates, and the sources.</p>
-  <p class="dc-download-line">Download: <a href="#" data-download-projects>Projects (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-stages>Capacity by stage (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-figures>Capacity figures (CSV)</a><span aria-hidden="true"> · </span><a href="#" data-download-columns>Column descriptions</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
-  <p class="dc-cite">The data are in three tables joined on project_id. The projects file has one row per project. The capacity by stage file has one row per project and stage and sums to the totals above. The capacity figures file has one row per MW figure in the sources and shows how each was read and converted. The data in the CSV files are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. You may reuse them if you credit the source. Suggested citation: Fornborg, D. (2026). <em>Nordic datacenter tracker</em>, data as of <span data-as-of></span>. https://dfornis.github.io/projects/datacenter-tracker/</p>
+  <p class="dc-download-line"><a href="#" data-download-zip>Download data (ZIP)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
+  <p class="dc-cite">The data are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The ZIP file contains three CSV tables and a description of every column.</p>
 
 <div id="tracker-filters" class="tracker-controls">
 
@@ -214,7 +213,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.39' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.40' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -916,12 +915,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.39">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.39">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.40">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.40">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.39" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.39" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.39" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.39">
-<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.39" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.39" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.40" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.40" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.40" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.40">
+<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.40" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.40" defer></script>
