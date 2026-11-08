@@ -57,9 +57,9 @@
     "capacity": "566b6216481d49de0fac59950eb2243a187e2e9e3af08bf92f40fbf1937bd13f",
     "sources": "f0658f4a029284945b23f5260a879794a2f9bf31985e632813b73c1fa9c70586",
     "actors": "c4fdf4d7a6f8799e238701476a2abe965729621e365d7aff9d6a2ee224ded4eb",
-    "model": "894697e91343b17fe9249abccf9d974ba9b7c4b466bcd529668dc4112c89873b",
-    "method": "6317e292b78816945dea22f009c829b5f6842419c0e44d41b1a3eaf60f6574c1",
-    "electricity_history": "35f143c81ddd7b422af2178e89c094adb2699c2099f35cf3b43a6f7c43d5ab11"
+    "model": "c8126d1035b7ffaaec9d2d90193d8a9500bb8f368071ec5c60286ddbfda85a11",
+    "method": "4ee9d112797ff948ebacd67c717d7bf9dc49a2c827f0ef377cacec396ed73470",
+    "electricity_history": "f3f384d62d904b8ea99e83adaf850983b512b7a8c66c2af83e280c8df259f170"
   },
   "assumptions": [
     "The model holds electricity use at existing sites constant through 2035. All changes shown come from new projects in the tracker.",
@@ -1401,7 +1401,8 @@
     "countries": {
       "SE": 126.73,
       "NO": 139.19,
-      "FI": 82.94
+      "FI": 82.94,
+      "DK": 39.78
     },
     "source": "eSett Open Data, hourly consumption per bidding zone (EXP15), summed over calendar year 2025. Compiled in the datacenter-pypsa project (data/processed/m2/validation-inputs/esett-2019-2025.csv.gz).",
     "url": "https://opendata.esett.com/"

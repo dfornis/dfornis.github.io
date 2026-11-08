@@ -9,20 +9,21 @@ permalink: /projects/datacenter-tracker/
 
 <div class="tracker-intro">
   <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
-  <p>This page lists publicly reported plans for new datacenters in Sweden, Norway and Finland, and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <p>This page lists publicly reported plans for new datacenters in the Nordic countries covered by the project register and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.40">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.46">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
-<p class="dc-map-intro">Capacity announced for new datacenters in each Nordic bidding zone, as planned for the finished sites. Confirmed, Dated plans and All announced set how far a plan must have come to be included.</p>
+<section id="dc-map" class="dc-map-section" aria-labelledby="dc-map-title">
+  <h2 id="dc-map-title">Planned datacenter sites</h2>
+  <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included.</p>
+  <div id="dc-scenario-map"></div>
+  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. The map circles, zone values and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
+</section>
 
-<div id="dc-scenario-map"></div>
-
-<p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. Map colours and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a zone or a dot to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
-
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.40" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.40">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.46" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.46">
   <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
   <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   <div class="dc-timeline-content" hidden>
@@ -102,7 +103,7 @@ permalink: /projects/datacenter-tracker/
         <th>Country</th>
         <th>Zone</th>
         <th title="How far each part of the project has come. The colours match the map.">Stage</th>
-        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not counted. The bar is coloured by stage.">Full announced size (MW)</th>
+        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not included. The bar is coloured by stage.">Full announced size (MW)</th>
         <th id="dates-header" title="Years the sources give for when part of the project comes online. If no such year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
       </tr>
     </thead>
@@ -136,10 +137,10 @@ permalink: /projects/datacenter-tracker/
   <div data-method-table="annual"></div>
   <p class="dc-method-note">Hyperscale and colocation values come from <a href="https://powering-intelligence.epri.com/annual-peak-use.html">EPRI's sample of US sites (2026)</a>. <a href="https://publikasjoner.nve.no/diverse/2026/Metode.for.framskriving.av.strombruk.i.datasentre2026.pdf">NVE (2026)</a> uses 0.70 for Norwegian datacenters. The AI/HPC value is my own assumption, based on how much of the time AI training servers run in <a href="https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report">Shehabi et al. (2024)</a>. It is the least certain value in the table. Colocation with AI is my own assumption, between colocation and AI/HPC. None of these values have been checked against Nordic operating data.</p>
 
-  <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway and 82.9 TWh in Finland. The share gives a sense of scale. The calculation itself uses MW figures and load factors.</p>
+  <p id="dc-method-context">When Measure is set to annual electricity use, the summary above the map and the values under the chart also give the result as a share of electricity use in 2025. The comparison uses consumption per bidding zone from <a href="https://opendata.esett.com/">eSett Open Data</a>, summed over 2025: 126.7 TWh in Sweden, 139.2 TWh in Norway, 82.9 TWh in Finland and 39.8 TWh in Denmark. The share gives a sense of scale. The calculation itself uses MW figures and load factors.</p>
 
   <h4 id="dc-method-stages">Stages</h4>
-  <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show where each stage is counted.</p>
+  <p>Each MW figure is placed in one stage based on the investment decision, construction start and dates in its sources. The ticks show which tabs include each stage.</p>
   <div data-method-table="stages"></div>
 
   <h4 id="dc-method-timing">Start of operation and build-out</h4>
@@ -173,8 +174,8 @@ Country updates follow a common search and review process. The record keeps the 
   <details>
     <summary><span class="workflow-step">01</span><span>Search for new capacity</span></summary>
     <div class="workflow-body">
-      <p>Searches are run country by country by an AI research agent that follows a fixed set of instructions and search terms in Swedish, Norwegian, Finnish and English. The searches cover company announcements, planning and permit records, grid information and local news.</p>
-      <p>A project is added when sources link a named datacenter company or customer to a specific site and to new capacity. I review and approve every new project before it is counted.</p>
+      <p>Searches are run country by country by an AI research agent that follows a fixed set of instructions and search terms in Swedish, Norwegian, Finnish, Danish and English. The searches cover company announcements, planning and permit records, grid information and local news.</p>
+      <p>A project is added when sources link a named datacenter company or customer to a specific site and to new capacity. I review and approve every new project before it is included.</p>
     </div>
   </details>
   <details>
@@ -213,7 +214,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.40' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.46' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -221,6 +222,7 @@ Country updates follow a common search and review process. The record keeps the 
   --dc-country-SE: #9b6659;
   --dc-country-NO: #5f7968;
   --dc-country-FI: var(--dc-blue);
+  --dc-country-DK: #b18b5e;
   --dc-map-0: #e5eae8;
   --dc-map-1: #c9d6da;
   --dc-map-2: #a7bdc7;
@@ -246,6 +248,7 @@ html[data-theme="dark"] #dc-tracker {
   --dc-country-SE: #d49c8b;
   --dc-country-NO: #91b39c;
   --dc-country-FI: var(--dc-blue);
+  --dc-country-DK: #d9ad77;
   --dc-map-0: #303d43;
   --dc-map-1: #3d5360;
   --dc-map-2: #557080;
@@ -915,12 +918,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.40">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.40">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.46">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.46">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.40" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.40" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.40" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.40">
-<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.40" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.40" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.46" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.46" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.46" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.46">
+<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.46" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.46" defer></script>

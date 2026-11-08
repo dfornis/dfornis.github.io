@@ -48,7 +48,7 @@
         id: "unknown",
         stage: "measure",
         title: "No usable MW",
-        subtitle: "Not counted in totals.",
+        subtitle: "Not included in totals.",
         terminal: true,
         basis: ["backup", "generation", "density"],
         detail: [

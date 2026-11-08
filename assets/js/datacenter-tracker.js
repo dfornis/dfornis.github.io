@@ -94,7 +94,7 @@
       .filter(Boolean);
   const regionNames = typeof Intl.DisplayNames === "function" ? new Intl.DisplayNames(["en"], { type: "region" }) : null;
   const hqCountryLabel = (country) => (country ? regionNames?.of(country) || country : "Unknown");
-  const countryLabel = (value) => ({ SE: "Sweden", NO: "Norway", FI: "Finland" })[value] || value;
+  const countryLabel = (value) => ({ SE: "Sweden", NO: "Norway", FI: "Finland", DK: "Denmark" })[value] || value;
   const basisLabel = (value) =>
     ({
       it_nameplate: "IT capacity",
@@ -233,7 +233,7 @@
       };
     }
     const countries = {};
-    for (const country of ["NO", "SE", "FI"])
+    for (const country of [...new Set(data.projects.map((project) => project.country))])
       countries[country] = {
         ...totals(rows.filter((row) => row.country === country))[measure],
         excluded: Boolean(
@@ -257,8 +257,8 @@
       if (missing) missing.textContent = (data.coverage?.projects_without_mw?.length ?? 0) + " of " + data.projects.length;
       const actorNote = document.querySelector("[data-actor-coverage]");
       if (actorNote && Array.isArray(data.actor_coverage)) {
-        const names = { SE: "Swedish", NO: "Norwegian", FI: "Finnish" };
-        const parts = ["SE", "NO", "FI"].map((c) => data.actor_coverage.find((r) => r.country === c)).filter(Boolean);
+        const names = { SE: "Swedish", NO: "Norwegian", FI: "Finnish", DK: "Danish" };
+        const parts = ["SE", "NO", "FI", "DK"].map((c) => data.actor_coverage.find((r) => r.country === c)).filter(Boolean);
         actorNote.textContent = "Headquarters have been reviewed for " + parts.map((r) => r.reviewed + " of " + r.projects + " " + names[r.country]).join(", ") +
           " projects. HQ selection filters the map and its totals without splitting capacity between actors.";
       }
@@ -425,7 +425,7 @@
           if (!row) return "Unknown";
           if (reasonLabel[row.reason]) return escape(reasonLabel[row.reason]);
           if (numeric(row.layer_mw_high) > 0)
-            return escape(range(row.layer_mw_low, row.layer_mw_high)) + '<br><span class="dc-row-muted">Counted in ' + escape(tabsFor(row.evidence_class).join(", ")) + "</span>";
+            return escape(range(row.layer_mw_low, row.layer_mw_high)) + '<br><span class="dc-row-muted">Included in ' + escape(tabsFor(row.evidence_class).join(", ")) + "</span>";
           if (claim.baseline_scope === "existing_known") return "No addition to existing";
           return "Already in another figure";
         };
@@ -493,7 +493,7 @@
         const totalLine = !total
           ? ""
           : parents
-            ? "Counted as part of " + escape(parents) + "."
+            ? "Included in " + escape(parents) + "."
             : [
                 total.partial_capacity ? "Some phases have no MW figure." : "",
                 overlap ? "Overlapping figures are counted once." : "",
@@ -553,7 +553,7 @@
               ? escape(range(anyRow.nameplate_mw_low, anyRow.nameplate_mw_high) + " MW · " + range(anyRow.buildout_twh_low, anyRow.buildout_twh_high, "twh") + " TWh/yr")
               : containedIn(anyRow) ? "Part of " + escape(containedIn(anyRow)) : "Unknown",
           ],
-          ["By stage", escape(stageText || "Not counted")],
+          ["By stage", escape(stageText || "Not included")],
           ["Last checked", escape(lastChecked(project))],
         ];
         const factList =
@@ -625,7 +625,7 @@
           '<div class="summary-block"><span class="summary-kicker">Full announced size</span><span><strong>' +
           displayTotal(electricity ? buildout : planned) + " " + unit +
           "</strong></span></div>" +
-          '<div class="summary-block"><span class="summary-kicker">Counted in ' + escape(tab.label) + '</span><span><strong>' +
+          '<div class="summary-block"><span class="summary-kicker">Included in ' + escape(tab.label) + '</span><span><strong>' +
           displayTotal(tabTotal) + " " + unit +
           "</strong></span></div>" +
           "</div>";
@@ -665,14 +665,14 @@
                   "</span>"
                 : "";
             const unknownConfirmed = confirmedWithoutMw(row.project_id)
-              ? '<span class="dc-stage-tag dc-stage-unknown" title="Part of the project has an investment decision or has started construction, but no MW figure is reported. It is not counted in the totals."><i></i>Confirmed, MW unknown</span>'
+              ? '<span class="dc-stage-tag dc-stage-unknown" title="Part of the project has an investment decision or has started construction, but no MW figure is reported. It is not included in the totals."><i></i>Confirmed, MW unknown</span>'
               : "";
             const stageCell = stages.length || unknownConfirmed
               ? unknownConfirmed +
                 stages
                   .map((item) => '<span class="dc-stage-tag"><i style="background:var(--dc-class-' + item.id + ')"></i>' + escape(item.label) + "</span>")
                   .join("")
-              : '<span class="dc-row-muted">Not counted</span>';
+              : '<span class="dc-row-muted">Not included</span>';
             return (
               '<tr class="project-row" data-project="' +
               escape(project.project_id) +
