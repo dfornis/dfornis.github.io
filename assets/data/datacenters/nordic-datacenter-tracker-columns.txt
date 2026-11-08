@@ -28,7 +28,7 @@ project_name
 developer
   Developer or operator. Several are separated by a semicolon.
 country
-  SE, NO or FI.
+  ISO country code of the project site.
 bidding_zone
   Electricity bidding zone. Empty if unknown.
 municipality
