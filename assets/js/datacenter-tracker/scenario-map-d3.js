@@ -16,25 +16,6 @@
 
 
 
-  const BREAKS = {
-    mw: [
-      { max: 0, label: "0", color: "var(--dc-map-0)" },
-      { max: 500, label: "<0.5", color: "var(--dc-map-1)" },
-      { max: 1000, label: "0.5–1", color: "var(--dc-map-2)" },
-      { max: 1500, label: "1–1.5", color: "var(--dc-map-3)" },
-      { max: 2500, label: "1.5–2.5", color: "var(--dc-map-4)" },
-      { max: Infinity, label: "2.5+", color: "var(--dc-map-5)" },
-    ],
-    twh: [
-      { max: 0, label: "0", color: "var(--dc-map-0)" },
-      { max: 3, label: "<3", color: "var(--dc-map-1)" },
-      { max: 6, label: "3–6", color: "var(--dc-map-2)" },
-      { max: 10, label: "6–10", color: "var(--dc-map-3)" },
-      { max: 15, label: "10–15", color: "var(--dc-map-4)" },
-      { max: Infinity, label: "15+", color: "var(--dc-map-5)" },
-    ],
-  };
-
   // Circle radius grows with the square root of the site's high value, from a minimum size.
   // The minimum compresses the span, so area is not exactly proportional. The key uses the same function.
   // The scale is fixed so sizes compare across selections.
@@ -171,15 +152,6 @@
     return `${amount} ${unit}`;
   }
 
-  function fillForMeasure(detail, measure = "mw") {
-    if (detail.excluded || detail.hq_unreviewed) return "#e8e5df";
-    const value = detail.high;
-    if (value === null) return BREAKS[measure][0].color;
-    const breaks = BREAKS[measure];
-    if (value === 0) return breaks[0].color;
-    return breaks.slice(1).find((bin) => value < bin.max).color;
-  }
-
   function splitTags(value) {
     if (!value) return [];
     return String(value)
@@ -213,28 +185,6 @@
     return groups.map((group) => ({ ...group, hq_mode: mode,
       hq_match_count: group.phases.filter((project) => matchesHq(project, mode)).length,
       selected_count: group.phases.filter((project) => project.participates && (mode === "none" || matchesHq(project, mode))).length }));
-  }
-
-  function phaseRadius(group) {
-    if (group.phase_count <= 1) {
-      return 4.9;
-    }
-
-    return Math.min(10.6, 6.5 + group.phase_count * 0.85);
-  }
-
-  function phaseCountFontSize(group) {
-    const radius = markerRadius(group);
-    const digits = String(markerCount(group)).length;
-    return digits > 1 ? Math.min(10, radius * 0.98) : Math.min(10.4, radius * 1.18);
-  }
-
-  function markerCount(group) {
-    return group.selected_count || group.project_count;
-  }
-
-  function markerRadius(group) {
-    return phaseRadius({ ...group, phase_count: markerCount(group) });
   }
 
   function countryLabel(value) {
@@ -329,7 +279,7 @@
       anchorY: point.xy[1],
       displayX: point.xy[0],
       displayY: point.xy[1],
-      radius: point.radius ?? phaseRadius(point),
+      radius: point.radius,
     }));
 
     const minPadding = options.minPadding ?? 5.5;
@@ -776,6 +726,26 @@
     return svg;
   }
 
+  // The outline and the no-size ring, after the size key. The same for every selection.
+  // Each symbol's label sits on the same baseline as the size labels, with the symbol in front of it.
+  // Each item is a separate SVG so it can wrap to its own line on a narrow screen.
+  // The row is bottom-aligned, so the baselines match.
+  function drawSymbolKey(container, k) {
+    const item = (drawSymbol, symbolWidth, text) => {
+      const h = 20;
+      const svg = container.append("svg").attr("class", "dc-site-key-sizes dc-site-key-item").attr("height", h).attr("aria-hidden", true);
+      drawSymbol(svg.append("g").attr("transform", `translate(${symbolWidth / 2 + 1},${h - 3 - 3.8})`));
+      const label = svg.append("text").attr("x", symbolWidth + 7).attr("y", h - 3).text(text);
+      const w = Math.ceil(label.node().getComputedTextLength ? label.node().getComputedTextLength() : 200);
+      svg.attr("width", symbolWidth + 9 + w);
+    };
+    item((g) => g.append("circle").attr("r", 6).style("fill", "none").style("stroke", "var(--dc-blue)").style("stroke-width", 0.9).style("stroke-opacity", 0.8),
+      12, "All announced capacity at the site");
+    const ring = SITE_RING_RADIUS * k;
+    item((g) => g.append("circle").attr("r", ring).style("fill", "none").style("stroke", "#8b969c").style("stroke-width", 0.9).style("stroke-dasharray", "1.5 1.2"),
+      2 * ring, "No stated size");
+  }
+
   function renderMapLegend(root, measure, tab = DEFAULT_TAB) {
     const legend = root.selectAll(".dc-map-scale").data([null]).join("div").attr("class", "dc-map-scale dc-site-key");
     legend.selectAll("*").remove();
@@ -783,24 +753,7 @@
     const mapSvg = root.select(".dc-scenario-svg").node();
     const k = mapSvg && mapSvg.getBoundingClientRect().width ? mapSvg.getBoundingClientRect().width / 760 : 1;
     drawSizeKey(legend, measure, k);
-    // Each symbol's label sits on the same baseline as the size labels, with the symbol in front of it.
-    // Each item is a separate SVG so it can wrap to its own line on a narrow screen.
-    // The row is bottom-aligned, so the baselines match.
-    const item = (drawSymbol, symbolWidth, text) => {
-      const h = 20;
-      const svg = legend.append("svg").attr("class", "dc-site-key-sizes dc-site-key-item").attr("height", h).attr("aria-hidden", true);
-      drawSymbol(svg.append("g").attr("transform", `translate(${symbolWidth / 2 + 1},${h - 3 - 3.8})`));
-      const label = svg.append("text").attr("x", symbolWidth + 7).attr("y", h - 3).text(text);
-      const w = Math.ceil(label.node().getComputedTextLength ? label.node().getComputedTextLength() : 200);
-      svg.attr("width", symbolWidth + 9 + w);
-    };
-    if (tab !== "announced") {
-      item((g) => g.append("circle").attr("r", 6).style("fill", "none").style("stroke", "var(--dc-blue)").style("stroke-width", 0.9).style("stroke-opacity", 0.8),
-        12, "All announced capacity at the site");
-    }
-    const ring = SITE_RING_RADIUS * k;
-    item((g) => g.append("circle").attr("r", ring).style("fill", "none").style("stroke", "#8b969c").style("stroke-width", 0.9).style("stroke-dasharray", "1.5 1.2"),
-      2 * ring, "No stated size");
+    drawSymbolKey(legend, k);
   }
 
 
@@ -820,12 +773,7 @@
     const low = pct(detail.low || 0), high = pct(detail.high);
     return (low === high ? high : `${low}–${high}`) + "%";
   }
-  function amountLabel(detail, measure) {
-    const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: 0 });
-    const a = format(detail.low || 0), b = format(detail.high || 0);
-    const amount = measure === "mw" ? gwRange(detail.low, detail.high) : a === b ? b : `${a}–${b}`;
-    return `${amount} ${measure === "mw" ? "GW" : "TWh"}`;
-  }
+
   // One plain sentence with the main figure for the current tab, measure and HQ selection.
   // What a circle on the map shows, for the current selection. It is the text above the map.
   function circleText(tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none") {
@@ -837,24 +785,7 @@
     }
     return `Each circle is one site. The filled circle shows ${use}the capacity included in ${label}${hqText}. The outline shows ${measure === "mw" ? "all announced capacity" : "the same for all announced capacity"} at the site. Both use the high end of the range.`;
   }
-  function headline(data, tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none") {
-    const label = TABS.find((item) => item.id === tab).label;
-    const view = trackerView(data, tab, measure, hq);
-    const all = trackerView(data, "announced", measure, hq);
-    const hqText = hq === "none" ? "" : ` from developers headquartered ${{ domestic: "in the project's own country", other_europe: "elsewhere in Europe", outside_europe: "outside Europe" }[hq]}`;
-    const covered = Object.keys(view.countries);
-    const countries = new Intl.ListFormat("en-GB").format(covered.map(countryLabel));
-    if (measure === "mw") {
-      return tab === "announced"
-        ? `All publicly announced plans for new datacenters in ${countries}${hqText} add up to ${amountLabel(all.totals, measure)}.`
-        : `${label} counts ${amountLabel(view.totals, measure)} of new datacenter capacity in ${countries}${hqText}. All publicly announced plans${hq === "none" ? "" : " from these developers"} add up to ${amountLabel(all.totals, measure)}.`;
-    }
-    const bases = covered.map((country) => consumptionFor(data, country));
-    const base = bases.every(v => v > 0) && bases.reduce((sum, v) => sum + v, 0);
-    const year = data.method.assumptions.context_consumption?.year;
-    const share = base ? ` That equals ${shareLabel(view.totals, base)} of their combined electricity use in ${year}.` : "";
-    return `${tab === "announced" ? "All publicly announced datacenter capacity" : `The datacenter capacity included in ${label}`} in ${countries}${hqText} would use ${amountLabel(view.totals, measure)} a year when fully built.${share}`;
-  }
+
   function renderClassList(root, view, onZoneClick, onHighlight, data) {
     const selected = TABS.find((item) => item.id === view.tab).classes;
     // The scale is set by everything announced, so it stays the same when the selection changes and bars grow or shrink.
@@ -1031,14 +962,23 @@
     global.addEventListener("resize", onResize);
     // Screen pixels per map unit in the main map.
     const mainScale = () => { const rect = svg.node().getBoundingClientRect(); return { k: rect.width / width, left: rect.left, top: rect.top }; };
-    function focusSetup(country) {
+    // The top margin leaves room for the country name and the key. It grows if the key wraps.
+    let focusTop = 112;
+    function focusSetup(country, top = focusTop) {
       const W = global.innerWidth, H = global.innerHeight;
       const features = geojson.features.filter((f) => f.properties.country === country);
       const collection = { type: "FeatureCollection", features };
       const margin = W < 600 ? 16 : 48;
-      // The top margin leaves room for the country name and the size key.
-      const focusProjection = d3.geoMercator().fitExtent([[margin, 112], [W - margin, H - margin]], collection);
+      const focusProjection = d3.geoMercator().fitExtent([[margin, top], [W - margin, H - margin]], collection);
       return { W, H, features, collection, focusProjection, focusPath: d3.geoPath(focusProjection) };
+    }
+    // Circles grow with the square root of the enlargement, at most 1.8 times their size in the main map.
+    function focusRadiusScale(setup) {
+      const main = mainScale();
+      const mainBounds = setup.features.map((f) => translatedBounds(f, path));
+      const mainWidth = main.k * (d3.max(mainBounds, (b) => b[1][0]) - d3.min(mainBounds, (b) => b[0][0]));
+      const focusBounds = setup.focusPath.bounds(setup.collection);
+      return main.k * Math.max(1, Math.min(1.8, Math.sqrt((focusBounds[1][0] - focusBounds[0][0]) / mainWidth)));
     }
     // Places the large drawing over the country's position in the main map, so it can grow from there.
     function countryStartTransform(focusPath, features) {
@@ -1052,7 +992,27 @@
     }
     function drawCountry(country, zone, animate) {
       const view = trackerView(data, tab, measure, hq);
-      const { W, H, features, collection, focusProjection, focusPath } = focusSetup(country);
+      const drawHeader = (radiusScale) => {
+        focusTitle.html("");
+        const name = focusTitle.append("div").attr("class", "dc-focus-name");
+        name.append("strong").text(countryLabel(country));
+        name.append("span").text(zoneValueLabel(view.countries[country], measure));
+        const focusKey = focusTitle.append("div").attr("class", "dc-focus-key");
+        drawSizeKey(focusKey, measure, radiusScale);
+        drawSymbolKey(focusKey, radiusScale);
+      };
+      // The header is drawn first. If it is taller than the default margin, the country starts below it.
+      let setup = focusSetup(country, 112);
+      let radiusScale = focusRadiusScale(setup);
+      drawHeader(radiusScale);
+      const headerBottom = Math.ceil(focusTitle.node().getBoundingClientRect().bottom) + 16;
+      focusTop = Math.max(112, headerBottom);
+      if (focusTop > 112) {
+        setup = focusSetup(country, focusTop);
+        radiusScale = focusRadiusScale(setup);
+        drawHeader(radiusScale);
+      }
+      const { W, H, features, collection, focusProjection, focusPath } = setup;
       focusSvg.attr("viewBox", `0 0 ${W} ${H}`);
       focusG.selectAll("*").remove();
       focusG.append("g").selectAll("path").data(features).join("path").attr("class", "dc-zone dc-focus-zone")
@@ -1062,13 +1022,6 @@
       const labelLayer = focusG.append("g").attr("class", "dc-focus-labels");
       const phases = focusG.append("g").attr("class", "dc-phase-layer");
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure), data), hq).filter((g) => g.country === country);
-      // Circles grow with the square root of the enlargement, at most 1.8 times their size in the main map.
-      const main = mainScale();
-      const mainBounds = features.map((f) => translatedBounds(f, path));
-      const mainWidth = main.k * (d3.max(mainBounds, (b) => b[1][0]) - d3.min(mainBounds, (b) => b[0][0]));
-      const focusBounds = focusPath.bounds(collection);
-      const growth = Math.max(1, Math.min(1.8, Math.sqrt((focusBounds[1][0] - focusBounds[0][0]) / mainWidth)));
-      const radiusScale = main.k * growth;
       renderPhaseLayer(phases, popup, groups, focusProjection, W, H, measure, tab, false, radiusScale);
       const circles = phases.selectAll("g.dc-phase-point").data().map((d) => ({ x: d.xy[0], y: d.xy[1], r: d.radius }));
       const labels = labelLayer.selectAll("text").data(features).join("text")
@@ -1083,12 +1036,6 @@
         if (spot.line) labelLayer.insert("line", "text").attr("class", "dc-zone-label-line")
           .attr("x1", spot.line[0]).attr("y1", spot.line[1]).attr("x2", spot.line[2]).attr("y2", spot.line[3]);
       });
-      const total = view.countries[country];
-      focusTitle.html("");
-      const name = focusTitle.append("div").attr("class", "dc-focus-name");
-      name.append("strong").text(countryLabel(country));
-      name.append("span").text(zoneValueLabel(total, measure));
-      drawSizeKey(focusTitle.append("div").attr("class", "dc-focus-key"), measure, radiusScale);
       focus.attr("aria-label", `${countryLabel(country)}, ${TABS.find((t) => t.id === tab).label}`);
       if (!animate) return;
       const start = countryStartTransform(focusPath, features);
@@ -1167,7 +1114,7 @@
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;render(); });
     return { disconnect() {unsubscribe();global.document.removeEventListener("click", closeOnOutsideClick);global.removeEventListener("resize", onResize);root.selectAll("*").remove();} };
   }
-  const api = { mount, mountControls, matchesHq, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, headline, circleText, consumptionFor, shareLabel, fillForMeasure, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
+  const api = { mount, mountControls, matchesHq, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);

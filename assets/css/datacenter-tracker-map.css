@@ -98,61 +98,6 @@
   box-shadow: inset 0 0 0 1.5px var(--dc-blue);
 }
 
-#dc-scenario-map .dc-map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.35rem 0.7rem;
-  color: var(--dc-muted);
-  font:
-    10px/1.4 "Avenir Next",
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-}
-
-#dc-scenario-map .dc-map-legend-unit {
-  margin-right: 0.15rem;
-}
-
-#dc-scenario-map .dc-map-legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  white-space: nowrap;
-}
-
-#dc-scenario-map .dc-map-legend-item i {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-}
-
-#dc-scenario-map .dc-phase-dot {
-  fill: #c8cfcc;
-  fill-opacity: 1;
-  transition:
-    fill 160ms ease,
-    stroke 160ms ease;
-}
-
-#dc-scenario-map .selection-active .dc-phase-dot {
-  fill: #5f7968;
-}
-
-#dc-scenario-map.dc-hq-highlighting .selection-active .dc-phase-dot {
-  fill: #a97050;
-}
-
-#dc-scenario-map .dc-phase-count {
-  fill: var(--dc-ink);
-}
-
-#dc-scenario-map .selection-active .dc-phase-count {
-  fill: #fff;
-}
-
 #dc-scenario-map .dc-phase-hit {
   pointer-events: all;
 }
@@ -162,11 +107,6 @@
     gap: 0.45rem;
   }
 
-  #dc-scenario-map .dc-map-legend-unit {
-    flex-basis: 100%;
-    margin-right: 0;
-    text-align: center;
-  }
 }
 
 @media (max-width: 400px) {
@@ -176,8 +116,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-button,
-  #dc-scenario-map .dc-phase-dot {
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-button {
     transition: none;
   }
 }
@@ -332,27 +271,6 @@
   pointer-events: none;
 }
 
-.dc-phase-dot {
-  fill: #5f7968;
-  fill-opacity: 1;
-  stroke: #fbf8f0;
-  stroke-width: 1.1;
-  vector-effect: non-scaling-stroke;
-}
-
-.dc-phase-point:hover .dc-phase-dot,
-.dc-phase-point:focus .dc-phase-dot {
-  fill-opacity: 0.9;
-  stroke-width: 1.6;
-}
-
-.dc-phase-count {
-  fill: #ffffff;
-  font-size: 9.5px;
-  font-weight: 700;
-  pointer-events: none;
-}
-
 .dc-phase-popup-bg {
   fill: #fffdf8;
   stroke: #d8d2c8;
@@ -457,15 +375,7 @@
   color: var(--dc-muted);
   font: 12px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
-#dc-scenario-map .dc-map-scale-bins { display: flex; gap: 0.75rem; }
-#dc-scenario-map .dc-map-scale-bins > span { display: flex; align-items: center; gap: 0.3rem; }
-#dc-scenario-map .dc-map-scale-bins i { display: inline-block; width: 15px; height: 9px; border: 1px solid var(--dc-rule); border-radius: 2px; }
-#dc-scenario-map .dc-point-key { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem 1rem; font-size: 11px; }
-#dc-scenario-map .dc-point-key > span { display: inline-flex; align-items: center; gap: 0.3rem; }
-#dc-scenario-map .dc-point-key i { width: 8px; height: 8px; border-radius: 50%; background: #c8cfcc; }
-#dc-scenario-map .dc-point-key .dc-point-key-selected { background: var(--dc-blue); }
-#dc-scenario-map .selection-active .dc-phase-dot,
-#dc-scenario-map.dc-hq-highlighting .selection-active .dc-phase-dot { fill: var(--dc-blue); }
+
 #dc-scenario-map .dc-zone-label { fill: var(--dc-ink); }
 #dc-scenario-map .dc-zone-label-line { stroke: var(--dc-muted) !important; opacity: 0.65; }
 #dc-scenario-map .dc-zone-class-list {
@@ -562,8 +472,7 @@
   #dc-scenario-map .dc-class-axis { padding-left: calc(var(--dc-label-width) + 0.6rem); padding-right: calc(var(--dc-value-width) + 0.6rem); }
   #dc-scenario-map .dc-zone-class-value { font-size: 11.5px; }
   :is(#dc-scenario-map, #dc-shared-controls) .dc-map-options { gap: 0.8rem 1rem; }
-  #dc-scenario-map .dc-map-scale-bins { gap: 0.5rem; font-size: 11px; }
-  #dc-scenario-map .dc-map-scale-bins i { width: 10px; }
+
   #dc-scenario-map .dc-class-chart-heading { font-size: 11px; }
   #dc-scenario-map .dc-country-class-total { font-size: 11px; }
   #dc-scenario-map .dc-zone-class-zero { font-size: 10px; }
@@ -686,6 +595,7 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-focus-name { display: flex; flex-direction: column; }
 #dc-scenario-map .dc-focus-name strong { font-size: 17px; font-weight: 600; }
 #dc-scenario-map .dc-focus-name span { color: var(--dc-muted); }
+#dc-scenario-map .dc-focus-key { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.4rem 1.4rem; }
 #dc-scenario-map .dc-focus-key svg { display: block; overflow: visible; }
 #dc-scenario-map .dc-focus-close { position: absolute; top: 0.6rem; right: 0.9rem; border: 0; background: transparent; color: var(--dc-muted); font-size: 24px; line-height: 1; padding: 0.2rem 0.4rem; cursor: pointer; }
 #dc-scenario-map .dc-focus-close:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
