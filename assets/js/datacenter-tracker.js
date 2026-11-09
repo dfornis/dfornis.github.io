@@ -41,17 +41,17 @@
   const totalRange = (t, kind = "mw") =>
     !t || t.low === null || (t.high === 0 && t.unknown) ? "Unknown" : range(t.low, t.high, kind);
   function createControls() {
-    let state = { family: "dated", measure: "mw", hq: "none" };
+    let state = { family: "dated", measure: "mw", hq: "none", type: [] };
     const listeners = new Set();
     return {
-      get: () => ({ ...state }),
+      get: () => ({ ...state, type: [...state.type] }),
       set(patch) {
         const next = { ...state, ...patch };
-        if (Object.keys(state).every(key => state[key] === next[key])) return;
+        if (Object.keys(state).every(key => key === "type" ? state.type.join("\0") === next.type.join("\0") : state[key] === next[key])) return;
         state = next;
-        for (const listener of listeners) listener({ ...state });
+        for (const listener of listeners) listener({ ...state, type: [...state.type] });
       },
-      subscribe(listener) { listeners.add(listener); listener({ ...state }); return () => listeners.delete(listener); },
+      subscribe(listener) { listeners.add(listener); listener({ ...state, type: [...state.type] }); return () => listeners.delete(listener); },
     };
   }
   function assertContract(data) {
@@ -252,7 +252,7 @@
       if (!response.ok) throw new Error("Could not load project data.");
       const data = assertContract(await response.json());
       const controls = createControls();
-      global.DCTrackerMap.mountControls(document.getElementById("dc-shared-controls"), controls);
+      global.DCTrackerMap.mountControls(document.getElementById("dc-shared-controls"), controls, data);
       const missing = document.querySelector("[data-coverage-missing]");
       if (missing) missing.textContent = (data.coverage?.projects_without_mw?.length ?? 0) + " of " + data.projects.length;
       const actorNote = document.querySelector("[data-actor-coverage]");
@@ -590,7 +590,10 @@
       let timeline = null;
       function render() {
         const shared = controls.get();
-        const selectedIds = stageSelection();
+        const selectedStageIds = stageSelection();
+        const selectedIds = !shared.type.length ? selectedStageIds : data.projects
+          .filter((project) => (!selectedStageIds || selectedStageIds.includes(project.project_id)) && mapApi.matchesType(project, shared.type))
+          .map((project) => project.project_id);
         const view = makeView(data, scenario, { ...filters(), hq: shared.hq, ...(selectedIds ? { projectIds: selectedIds } : {}) });
         const electricity = shared.measure === "twh";
         const [sortLow, sortHigh] = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];

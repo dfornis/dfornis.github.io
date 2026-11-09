@@ -62,7 +62,8 @@
   function makeSeries(timeline, data, options) {
     const projects = new Map(data.projects.map((project) => [project.project_id, project]));
     const rows = timeline.rows.filter((row) => row.family === options.family &&
-      (options.hq === "none" || global.DCTrackerMap.matchesHq(projects.get(row.project_id), options.hq)));
+      (options.hq === "none" || global.DCTrackerMap.matchesHq(projects.get(row.project_id), options.hq)) &&
+      global.DCTrackerMap.matchesType(projects.get(row.project_id), options.type));
     return (options.countries || countriesIn(timeline)).map((country) => ({ key: country, label: countryNames[country] || country, color: `var(--dc-country-${country})`,
       points: timeline.years.map((year) => {
         const yearRows = rows.filter((row) => row.country === country && row.year === year);
@@ -81,7 +82,7 @@
       const points = [{ year: SEAM, base: baseline.low_twh, low: baseline.low_twh, high: baseline.high_twh, newLow: 0, newHigh: 0 },
         ...country.points.map((point) => {
           const saved = rows.find((r) => r.year === point.year);
-          const all = options.hq === "none";
+          const all = options.hq === "none" && (!options.type || options.type === "all" || Array.isArray(options.type) && !options.type.length);
           return { year: point.year, base: baseline.low_twh,
             low: all ? saved?.total_use_twh_low ?? null : point.low === null ? null : baseline.low_twh + point.low,
             high: all ? saved?.total_use_twh_high ?? null : point.high === null ? null : baseline.high_twh + point.high,
@@ -209,15 +210,15 @@
           : "One panel per country. The dark area is the lower estimate. The light area reaches up to the upper estimate. Values are listed in the table below the chart.");
 
         // New capacity, as in the tracker: cumulative or added per year, from timeline.json.
-        const capacitySeries = makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: "mw", countries });
+        const capacitySeries = makeSeries(timeline, data, { family: state.family, hq: state.hq, type: state.type, measure: "mw", countries });
         const cumulative = use ? null : capacitySeries;
-        const totals = added ? makeSeries(timeline, data, { family: state.family, hq: state.hq, measure: "annual_addition_mw", countries }) : cumulative;
+        const totals = added ? makeSeries(timeline, data, { family: state.family, hq: state.hq, type: state.type, measure: "annual_addition_mw", countries }) : cumulative;
         const unknown = capacitySeries.some((country) => country.points.some((point) => point.unknown));
         if (unknownNote) unknownNote.hidden = !unknown;
 
         // Each panel gets a list of 11 points: the seam at the end of 2025 and the years 2026–2035.
         // The same list in both measures lets d3 interpolate the areas when the measure changes.
-        const useSeries = use ? makeUseSeries(timeline, data, electricity, { family: state.family, hq: state.hq, countries }) : null;
+        const useSeries = use ? makeUseSeries(timeline, data, electricity, { family: state.family, hq: state.hq, type: state.type, countries }) : null;
         const series = countries.map((country, index) => {
           const label = countryNames[country] || country;
           if (use) {
