@@ -65,10 +65,11 @@
   // Used by the hover label and the project card.
   function siteStatusText(group, measure, tabLabel) {
     const value = siteValue(group, measure), total = siteTotal(group, measure);
+    const where = mapYear ? `in operation at the end of ${mapYear.year} in ${tabLabel}` : `in ${tabLabel}`;
     if (!(total > 0)) return "No stated size";
-    if (!(value > 0)) return `${siteAmount(total, measure)} announced, none in ${tabLabel}`;
-    if (value >= total - 1e-6) return `${siteAmount(total, measure)} in ${tabLabel}`;
-    return `${siteAmount(value, measure)} of ${siteAmount(total, measure)} in ${tabLabel}`;
+    if (!(value > 0)) return `${siteAmount(total, measure)} announced, none ${where}`;
+    if (value >= total - 1e-6) return `${siteAmount(total, measure)} ${where}`;
+    return `${siteAmount(value, measure)} of ${siteAmount(total, measure)} ${where}`;
   }
   // Blue means included in the selection and grey means not included, on the map and in the project card.
   // The shades of blue in the card and the table only tell the stages apart.
@@ -82,7 +83,26 @@
   }
   const siteShare = (d) => (d.no_size || !(d.site_total > 0) ? 0 : Math.min(1, d.site_value / d.site_total));
   const prefersReducedMotion = () => typeof global.matchMedia === "function" && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // The map can show a year from the timeline model instead of the finished state. mapYear holds the chosen
+  // year, the selection (the timeline's family is the tab) and an index of the model's rows by project.
+  // When it is null, the map shows announced capacity when each site is finished.
+  let mapYear = null;
+  const YEAR_FIRST = 2026, YEAR_LAST = 2035, YEAR_FINISHED = 2036;
+  function yearProjectValue(projectId, measure) {
+    const row = mapYear.index.get(`${projectId}|${mapYear.family}|${mapYear.year}`);
+    return row ? (measure === "mw" ? row.mw_high : row.annual_twh_high) || 0 : 0;
+  }
+  // Zone and country values for the chosen year, summed over the same projects as the view.
+  function yearView(view, measure) {
+    if (!mapYear) return view;
+    const sum = (rows) => { const v = rows.reduce((total, row) => total + yearProjectValue(row.project_id, measure), 0); return { low: v, high: v }; };
+    const zones = Object.fromEntries(Object.entries(view.zones).map(([zone, detail]) => [zone, { ...detail, ...sum(view.rows.filter((row) => row.bidding_zone === zone)) }]));
+    const countries = Object.fromEntries(Object.entries(view.countries).map(([country, detail]) => [country, { ...detail, ...sum(view.rows.filter((row) => row.country === country)) }]));
+    return { ...view, zones, countries };
+  }
   function siteValue(group, measure) {
+    if (mapYear) return group.phases.filter((p) => !group.hq_mode || group.hq_mode === "none" || matchesHq(p, group.hq_mode))
+      .reduce((total, p) => total + yearProjectValue(p.project_id, measure), 0);
     const field = measure === "mw" ? "mw_high" : "annual_twh_high";
     return group.phases.filter((p) => p.participates && (!group.hq_mode || group.hq_mode === "none" || matchesHq(p, group.hq_mode)))
       .reduce((total, p) => total + (p[field] || 0), 0);
@@ -830,6 +850,7 @@
     })).filter((stage) => stage.high > 0);
     const siteHigh = stages.reduce((sum, stage) => sum + stage.high, 0);
     box.append("div").attr("class", "dc-project-popup-summary").text(siteStatusText(group, measure, tabItem.label));
+    if (mapYear) box.append("div").attr("class", "dc-project-popup-meta").text(`A model result for ${mapYear.year}. The bar and stages below show the announced plans.`);
     if (siteHigh > 0) {
       const bar = box.append("div").attr("class", "dc-project-site-bar").attr("aria-hidden", true);
       for (const stage of stages) {
@@ -911,6 +932,33 @@
       2 * ring, "No stated size");
   }
 
+  // A year slider. The last stop is the finished state, which is the default.
+  function buildYearSlider(container, value, onChange) {
+    const box = container.append("div").attr("class", "dc-year");
+    const head = box.append("div").attr("class", "dc-year-head");
+    head.append("span").text("Year");
+    const shown = head.append("strong");
+    const input = box.append("input").attr("type", "range").attr("min", YEAR_FIRST).attr("max", YEAR_FINISHED).attr("step", 1)
+      .attr("aria-label", "Year shown on the map");
+    const ticks = box.append("div").attr("class", "dc-year-ticks").attr("aria-hidden", true);
+    // 2035 is one step from the end, so it gets no label of its own. The last stop is labelled Finished.
+    for (const [year, text] of [[YEAR_FIRST, String(YEAR_FIRST)], [2030, "2030"], [YEAR_FINISHED, "Finished"]]) {
+      ticks.append("span").style("left", `${(100 * (year - YEAR_FIRST)) / (YEAR_FINISHED - YEAR_FIRST)}%`).text(text);
+    }
+    const note = box.append("div").attr("class", "dc-year-note");
+    const set = (year) => {
+      const finished = !year;
+      input.property("value", finished ? YEAR_FINISHED : year).attr("aria-valuetext", finished ? "When finished" : String(year));
+      shown.text(finished ? "When finished" : String(year));
+      note.text(finished ? "Announced capacity when each site is finished." : `Modelled capacity in operation at the end of ${year}.`);
+    };
+    input.on("input", (event) => {
+      const year = Number(event.target.value);
+      onChange(year >= YEAR_FINISHED ? null : year);
+    });
+    set(value);
+    return { node: box.node(), set };
+  }
   function renderMapLegend(root, measure, tab = DEFAULT_TAB) {
     // The key sits inside the map's frame. On a wide screen it fills the empty corner at the bottom right.
     const host = root.select(".dc-scenario-svg-wrap");
@@ -943,13 +991,14 @@
 
   // One plain sentence with the main figure for the current tab, measure and HQ selection.
   // What a circle on the map shows, for the current selection. It is the text above the map.
-  function circleText(tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none", type = []) {
+  function circleText(tab = DEFAULT_TAB, measure = DEFAULT_MEASURE, hq = "none", type = [], year = null) {
     const label = TABS.find((item) => item.id === tab).label;
     const hqText = hq === "none" ? "" : ` from developers headquartered ${{ domestic: "in the project's own country", other_europe: "elsewhere in Europe", outside_europe: "outside Europe" }[hq]}`;
     const use = measure === "mw" ? "" : "the yearly electricity use, once fully built, of ";
     const selectedTypes = Array.isArray(type) ? type : type === "all" ? [] : [type];
     const typeText = selectedTypes.length ? ` matching ${selectedTypes.join(" or ")}` : "";
     const size = `Each circle is one site${typeText}. Its size shows ${use}all announced capacity at the site${hqText}, at the high end of the range.`;
+    if (year) return `${size} The dark part is the modelled share in operation at the end of ${year} in ${label}.`;
     return tab === "announced" ? size : `${size} The dark part is the share included in ${label}.`;
   }
 
@@ -1063,6 +1112,35 @@
       root.classed("dc-map-compact", compact);
     }
     fitMap();
+    // The year slider uses the timeline model behind the charts further down the page. Its data are loaded
+    // the first time a year is chosen. Without the timeline section the slider is left out.
+    const timelineUrl = document.querySelector("#dc-timeline")?.dataset.timeline;
+    let year = null, yearIndex = null, yearLoading = null, renderPending = false;
+    const yearSliders = [];
+    const scheduleRender = () => {
+      if (renderPending) return;
+      renderPending = true;
+      global.requestAnimationFrame(() => { renderPending = false; render(); });
+    };
+    function loadTimeline() {
+      if (!yearLoading) {
+        yearLoading = fetch(timelineUrl).then((response) => response.json()).then((timeline) => {
+          yearIndex = new Map(timeline.rows.map((row) => [`${row.project_id}|${row.family}|${row.year}`, row]));
+        }).catch(() => { yearLoading = null; });
+      }
+      return yearLoading;
+    }
+    function setYear(value) {
+      year = value;
+      yearSliders.forEach((slider) => slider.set(year));
+      if (year && !yearIndex) loadTimeline().then(() => scheduleRender());
+      else scheduleRender();
+    }
+    if (timelineUrl) {
+      const slider = buildYearSlider(figure, null, setYear);
+      figure.node().insertBefore(slider.node, svg.node());
+      yearSliders.push(slider);
+    }
     // The map fills the text width on a wide screen, so the drawing is scaled up. The zone labels are scaled back,
     // so they keep the size they have at the former width of 640 px and match the other small text on the page.
     // The key is redrawn when the width changes, so its circles keep matching the circles on the map.
@@ -1117,6 +1195,8 @@
     // A plain band behind the name and key. It shows only when zoomed in, so the land passes under it cleanly.
     const focusHeadband = focus.append("div").attr("class", "dc-focus-headband").attr("aria-hidden", "true");
     const focusTitle = focus.append("div").attr("class", "dc-focus-title");
+    // The same year slider in the enlarged view. It sits outside the title, which is redrawn on every change.
+    if (timelineUrl) yearSliders.push(buildYearSlider(focus.append("div").attr("class", "dc-focus-year"), null, setYear));
     focus.append("button").attr("type", "button").attr("class", "dc-focus-close").attr("aria-label", "Close country view").text("×")
       .on("click", (event) => { event.stopPropagation(); closeCountry(); });
     const focusSvg = focus.append("svg").attr("class", "dc-focus-svg");
@@ -1274,7 +1354,7 @@
       return table;
     }
     function drawCountry(country, zone, animate) {
-      const view = trackerView(data, tab, measure, hq, type);
+      const view = yearView(trackerView(data, tab, measure, hq, type), measure);
       const narrow = focusNarrow();
       const u = focusUnit();
       const radiusScale = focusRadiusScale();
@@ -1407,7 +1487,10 @@
     function render() {
       popup.attr("hidden", true);
       zonePaths.classed("highlight", false);
-      const view = trackerView(data, tab, measure, hq, type);
+      mapYear = year && yearIndex ? { year, family: tab, index: yearIndex } : null;
+      // The zone breakdown under the map always shows the announced plans. The labels follow the chosen year.
+      const announcedView = trackerView(data, tab, measure, hq, type);
+      const view = yearView(announcedView, measure);
       root.attr("data-measure", measure).attr("data-tab", tab).attr("data-hq", hq).attr("data-type", type);
       svg.attr("aria-label", `Planned datacenter sites: ${TABS.find((t) => t.id === tab).label}`);
       updateZoneLabelValues(zoneLabelG, view, measure);
@@ -1419,7 +1502,7 @@
       root.classed("dc-hq-highlighting", hq !== "none");
       // The text above the map says what a circle shows.
       renderMapLegend(root, measure, tab);
-      const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: circleText(item.id, m, hq, type) })));
+      const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: circleText(item.id, m, hq, type, mapYear?.year) })));
       headlineNode.selectAll("p").data(variants, (d) => d.key).join("p").text((d) => d.text)
         .classed("dc-map-headline-current", (d) => d.key === `${tab}:${measure}`)
         .attr("aria-hidden", (d) => (d.key === `${tab}:${measure}` ? null : "true"));
@@ -1429,7 +1512,7 @@
         details.append("summary").text("Breakdown by bidding zone and stage");
         zoneBody = details.append("div").attr("class", "dc-zone-details-body");
       }
-      renderClassList(zoneBody, view, openZone, highlightZone, data);
+      renderClassList(zoneBody, announcedView, openZone, highlightZone, data);
       if (focusCountry) drawCountry(focusCountry.country, focusCountry.zone, false);
     }
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;type = state.type;render(); });

@@ -12,7 +12,7 @@ permalink: /projects/datacenter-tracker/
   <p>This page lists publicly reported plans for new datacenters in the Nordic countries covered by the project register and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.67">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.2.68">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
@@ -20,10 +20,10 @@ permalink: /projects/datacenter-tracker/
   <h2 id="dc-map-title">Planned datacenter sites</h2>
   <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included. Type accepts several selections: a project with any selected type is counted once.</p>
   <div id="dc-scenario-map"></div>
-  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. The map circles, zone values and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>. Map boundaries for Denmark: <a href="https://github.com/eurostat/Nuts2json/blob/master/pub/v2/2024/4326/03M/nutsrg_2.json">Eurostat/GISCO, NUTS 2024</a>, © EuroGeographics for the administrative boundaries.</p>
+  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Values are ranges because sources often give a span, such as 600–1,000 MW. The map circles, zone values and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. The year slider shows modelled capacity in operation at the end of each year, from the same model as the charts below. It rests on assumptions about start dates and how fast capacity comes into use. Where a source gives no date, the start year is estimated from the project's status, as described in the method. <a href="#dc-method-flow">Full method below</a>. Map boundaries for Denmark: <a href="https://github.com/eurostat/Nuts2json/blob/master/pub/v2/2024/4326/03M/nutsrg_2.json">Eurostat/GISCO, NUTS 2024</a>, © EuroGeographics for the administrative boundaries.</p>
 </section>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.67" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.67">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.2.68" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.2.68">
   <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
   <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   <div class="dc-timeline-content" hidden>
@@ -214,7 +214,7 @@ Country updates follow a common search and review process. The record keeps the 
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.67' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.2.68' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -910,12 +910,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.67">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.67">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.2.68">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.2.68">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.67" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.67" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.67" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.67">
-<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.67" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.67" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.2.68" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.2.68" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.2.68" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.2.68">
+<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.2.68" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.2.68" defer></script>
