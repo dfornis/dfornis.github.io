@@ -573,10 +573,10 @@
 #dc-tracker { --dc-land: #e4dccf; --dc-land-line: #b7ad9c; }
 html[data-theme="dark"] #dc-tracker { --dc-land: #2b3337; --dc-land-line: #4a565c; }
 #dc-scenario-map .dc-zone { stroke: var(--dc-land-line); }
-/* Filled circle: capacity included in the selection. Outline: all announced capacity at the site.
+/* Pale disc: all announced capacity at the site. Dark sector: the share included in the selection.
    The same styles are also set inline by the script. */
-#dc-scenario-map .dc-phase-dot { fill: var(--dc-blue); fill-opacity: 0.78; stroke: #fbf8f0; stroke-width: 0.8; }
-#dc-scenario-map .dc-phase-outline { fill: none; stroke: var(--dc-blue); stroke-width: 0.9; }
+#dc-scenario-map .dc-phase-disc { fill: var(--dc-blue); fill-opacity: 0.25; stroke: #fbf8f0; stroke-width: 0.8; }
+#dc-scenario-map .dc-phase-share { fill: var(--dc-blue); fill-opacity: 0.8; }
 #dc-scenario-map .dc-site-key { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 2rem; max-width: 640px; }
 #dc-scenario-map .dc-site-key-sizes { flex: none; overflow: visible; }
 #dc-scenario-map .dc-site-key-sizes text { fill: var(--dc-muted); font-size: 11px; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }

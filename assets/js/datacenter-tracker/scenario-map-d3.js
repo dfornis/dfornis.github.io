@@ -40,6 +40,18 @@
   function siteAmount(value, measure) {
     return measure === "mw" ? `${Math.round(value).toLocaleString("en-US")} MW` : `${value.toLocaleString("en-US", { maximumFractionDigits: 1 })} TWh/year`;
   }
+  // The share of a site that is included in the selection, drawn as a sector from twelve o'clock.
+  // d3 is looked up when drawing, so the module also loads without it, as in the tests.
+  const sharePath = (r, share) => (r > 0 && share > 0
+    ? d3.arc()({ innerRadius: 0, outerRadius: r, startAngle: 0, endAngle: Math.min(1, share) * 2 * Math.PI })
+    : "");
+  // The pale disc for a site, or a small dashed ring when the site has no stated size.
+  function styleDisc(sel, noSize, opacity) {
+    return sel.style("fill", noSize ? "none" : "var(--dc-blue)").style("fill-opacity", noSize ? 0 : opacity)
+      .style("stroke", noSize ? "#8b969c" : "#fbf8f0").style("stroke-width", noSize ? 0.9 : 0.8)
+      .style("stroke-dasharray", noSize ? "1.5 1.2" : null);
+  }
+  const siteShare = (d) => (d.no_size || !(d.site_total > 0) ? 0 : Math.min(1, d.site_value / d.site_total));
   const prefersReducedMotion = () => typeof global.matchMedia === "function" && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
   function siteValue(group, measure) {
     const field = measure === "mw" ? "mw_high" : "annual_twh_high";
@@ -550,15 +562,14 @@
       })
       .filter((group) => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
 
-    // Each site has a filled circle for the capacity included in the selection and an outline for all
-    // announced capacity at the site. The outline does not change with the selection, so positions stay put
-    // and only the fill grows or shrinks. A site without a stated size is a small dashed ring.
+    // Each site is a pale disc whose size shows all announced capacity at the site. The share included in
+    // the selection is a darker sector from twelve o'clock. The disc does not change with the selection, so
+    // positions stay put and only the sector grows or shrinks. A site without a stated size is a small dashed ring.
     // A small nudge only. Circles may still overlap. Smaller circles are drawn on top.
     const sized = projectedPoints.map((group) => {
       const value = siteValue(group, measure);
       const total = siteTotal(group, measure);
       return { ...group, site_value: value, site_total: total, no_size: !(total > 0),
-        inner_radius: value > 0 ? siteRadius(value, measure) * radiusScale : 0,
         radius: siteRadius(total, measure) * radiusScale };
     });
     const points = resolvePhaseOverlaps(sized, width, height, { minPadding: 1, maxShift: 9, overlap: 1 })
@@ -576,9 +587,8 @@
           const g = enter.append("g").attr("class", "dc-phase-point").attr("tabindex", 0).attr("role", "button");
           g.append("line").attr("class", "dc-phase-anchor");
           g.append("circle").attr("class", "dc-phase-hit").attr("fill", "transparent").attr("aria-hidden", "true");
-          g.append("circle").attr("class", "dc-phase-outline").style("fill", "none").style("stroke-width", 0.9);
-          g.append("circle").attr("class", "dc-phase-dot").attr("r", 0)
-            .style("fill", "var(--dc-blue)").style("fill-opacity", 0.78).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
+          g.append("circle").attr("class", "dc-phase-disc").attr("r", 0);
+          g.append("path").attr("class", "dc-phase-share").style("fill", "var(--dc-blue)").style("fill-opacity", 0.8);
           return g;
         },
         (update) => update,
@@ -599,8 +609,8 @@
     const hover = phaseG.selectAll("g.dc-hover-layer").data([null]).join((enter) => {
       const g = enter.append("g").attr("class", "dc-hover-layer").attr("pointer-events", "none").attr("aria-hidden", "true").style("opacity", 0);
       g.append("circle").attr("class", "dc-hover-halo").style("fill", "var(--dc-blue)").style("fill-opacity", 0.2).style("stroke", "none");
-      g.append("circle").attr("class", "dc-hover-outline").style("fill", "none").style("stroke-width", 1.1);
-      g.append("circle").attr("class", "dc-hover-dot").style("fill", "var(--dc-blue)").style("fill-opacity", 0.95).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
+      g.append("circle").attr("class", "dc-hover-disc");
+      g.append("path").attr("class", "dc-hover-share").style("fill", "var(--dc-blue)").style("fill-opacity", 0.9);
       return g;
     });
     const tipHost = d3.select(popupG.node().parentNode);
@@ -609,10 +619,8 @@
     function showHover(event, d) {
       hover.attr("transform", `translate(${d.xy[0]},${d.xy[1]})`).style("opacity", 1);
       hover.select(".dc-hover-halo").attr("r", d.radius + Math.max(3.5, d.radius * 0.3));
-      hover.select(".dc-hover-outline").attr("r", d.radius)
-        .style("stroke", d.no_size ? "#8b969c" : "var(--dc-blue)").style("stroke-dasharray", d.no_size ? "1.5 1.2" : null)
-        .style("stroke-opacity", d.no_size || d.site_value < d.site_total - 1e-6 ? 1 : 0);
-      hover.select(".dc-hover-dot").attr("r", d.inner_radius);
+      styleDisc(hover.select(".dc-hover-disc").attr("r", d.radius), d.no_size, 0.35);
+      hover.select(".dc-hover-share").attr("d", sharePath(d.radius, siteShare(d)));
       tip.html("");
       tip.append("strong").text(d.municipality);
       tip.append("span").text(`${statusText(d)}${d.project_count > 1 ? ` · ${d.project_count} projects` : ""}`);
@@ -662,16 +670,22 @@
 
     groups.order();
     hover.raise();
-    // The outline is hidden when the whole site is included. Then the filled circle is the whole site.
-    groups.select("circle.dc-phase-outline")
-      .style("stroke", (d) => (d.no_size ? "#8b969c" : "var(--dc-blue)"))
-      .style("stroke-dasharray", (d) => (d.no_size ? "1.5 1.2" : null))
+    groups.select("circle.dc-phase-disc").each(function (d) { styleDisc(d3.select(this), d.no_size, 0.25); })
       .transition().duration(duration).ease(d3.easeCubicInOut)
-      .attr("r", (d) => d.radius)
-      .style("stroke-opacity", (d) => (d.no_size ? 0.9 : d.site_value >= d.site_total - 1e-6 ? 0 : 0.8));
-    groups.select("circle.dc-phase-dot")
+      .attr("r", (d) => d.radius);
+    // The sector sweeps from its current angle and size to the new ones. The state is kept on each frame,
+    // so an interrupted change continues from where it was.
+    groups.select("path.dc-phase-share")
       .transition().duration(duration).ease(d3.easeCubicInOut)
-      .attr("r", (d) => d.inner_radius);
+      .attrTween("d", function (d) {
+        const from = this.__share || { r: d.radius, share: 0 };
+        const to = { r: d.no_size ? 0 : d.radius, share: siteShare(d) };
+        const r = d3.interpolate(from.r, to.r), share = d3.interpolate(from.share, to.share);
+        return (t) => {
+          this.__share = { r: r(t), share: share(t) };
+          return sharePath(this.__share.r, this.__share.share);
+        };
+      });
     // The click area covers the whole outline. Smaller sites lie on top, so they stay clickable in clusters.
     groups.select("circle.dc-phase-hit").attr("r", (d) => Math.max(d.no_size ? 4.5 : 7, d.radius + 2));
     hideHover();
@@ -718,7 +732,7 @@
       const r = radii[i], slot = Math.max(r * 2, 44);
       const cx = x + slot / 2;
       svg.append("circle").attr("cx", cx).attr("cy", h - labelHeight - r - 2).attr("r", r)
-        .style("fill", "var(--dc-blue)").style("fill-opacity", 0.78).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
+        .style("fill", "var(--dc-blue)").style("fill-opacity", 0.8).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
       svg.append("text").attr("x", cx).attr("y", h - 3).attr("text-anchor", "middle").text(`${format(value)} ${scale.unit}`);
       x += slot + gap;
     });
@@ -726,7 +740,7 @@
     return svg;
   }
 
-  // The outline and the no-size ring, after the size key. The same for every selection.
+  // The share symbol and the no-size ring, after the size key. The same for every selection.
   // Each symbol's label sits on the same baseline as the size labels, with the symbol in front of it.
   // Each item is a separate SVG so it can wrap to its own line on a narrow screen.
   // The row is bottom-aligned, so the baselines match.
@@ -739,8 +753,10 @@
       const w = Math.ceil(label.node().getComputedTextLength ? label.node().getComputedTextLength() : 200);
       svg.attr("width", symbolWidth + 9 + w);
     };
-    item((g) => g.append("circle").attr("r", 6).style("fill", "none").style("stroke", "var(--dc-blue)").style("stroke-width", 0.9).style("stroke-opacity", 0.8),
-      12, "All announced capacity at the site");
+    item((g) => {
+      styleDisc(g.append("circle").attr("r", 7), false, 0.25);
+      g.append("path").attr("d", sharePath(7, 0.4)).style("fill", "var(--dc-blue)").style("fill-opacity", 0.8);
+    }, 14, "Dark part: included in the selection");
     const ring = SITE_RING_RADIUS * k;
     item((g) => g.append("circle").attr("r", ring).style("fill", "none").style("stroke", "#8b969c").style("stroke-width", 0.9).style("stroke-dasharray", "1.5 1.2"),
       2 * ring, "No stated size");
@@ -780,11 +796,10 @@
     const label = TABS.find((item) => item.id === tab).label;
     const hqText = hq === "none" ? "" : ` from developers headquartered ${{ domestic: "in the project's own country", other_europe: "elsewhere in Europe", outside_europe: "outside Europe" }[hq]}`;
     const use = measure === "mw" ? "" : "the yearly electricity use, once fully built, of ";
-    if (tab === "announced") {
-      return `Each circle is one site. Its size shows ${use}all announced capacity at the site${hqText}, at the high end of the range.`;
-    }
-    return `Each circle is one site. The filled circle shows ${use}the capacity included in ${label}${hqText}. The outline shows ${measure === "mw" ? "all announced capacity" : "the same for all announced capacity"} at the site. Both use the high end of the range.`;
+    const size = `Each circle is one site. Its size shows ${use}all announced capacity at the site${hqText}, at the high end of the range.`;
+    return tab === "announced" ? size : `${size} The dark part is the share included in ${label}.`;
   }
+
 
   function renderClassList(root, view, onZoneClick, onHighlight, data) {
     const selected = TABS.find((item) => item.id === view.tab).classes;

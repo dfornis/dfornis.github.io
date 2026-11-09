@@ -1,13 +1,13 @@
 {
   "version": 3,
   "as_of": "2026-10-16",
-  "assessment_date": "2026-11-01",
+  "assessment_date": "2026-11-08",
   "base_year": 2025,
   "source_hashes": {
-    "projects": "41ff1a76067bdc6170700823884f970bcf556cf527b4d86bcb4b3131b8782d83",
-    "capacity": "566b6216481d49de0fac59950eb2243a187e2e9e3af08bf92f40fbf1937bd13f",
-    "sources": "f0658f4a029284945b23f5260a879794a2f9bf31985e632813b73c1fa9c70586",
-    "actors": "c4fdf4d7a6f8799e238701476a2abe965729621e365d7aff9d6a2ee224ded4eb",
+    "projects": "cf9d493e5309a29b95316d9a1ff714dcdf57846b25799ade3172337237f778f1",
+    "capacity": "e3d9f9b58565c4b5c8bd7de8e562861d9a08905ee0d8bf57e64dbe23429d76ea",
+    "sources": "171d9a8ed76e9a6f90eb9c6e0031724df57c921adfdd4c370677201fa1e71a11",
+    "actors": "bd0b269721137919f243f8960582f90d405449ec1c6c2ef23c6d2a0fcb19da78",
     "model": "c8126d1035b7ffaaec9d2d90193d8a9500bb8f368071ec5c60286ddbfda85a11",
     "method": "4ee9d112797ff948ebacd67c717d7bf9dc49a2c827f0ef377cacec396ed73470"
   },
