@@ -37,14 +37,24 @@
     return group.phases.filter((p) => !group.hq_mode || group.hq_mode === "none" || matchesHq(p, group.hq_mode))
       .reduce((total, p) => total + (p.classes || []).reduce((sum, c) => sum + (c[field] || 0), 0), 0);
   }
+  // Same format as the stage rows in the project card and the rest of the page.
   function siteAmount(value, measure) {
-    return measure === "mw" ? `${Math.round(value).toLocaleString("en-US")} MW` : `${value.toLocaleString("en-US", { maximumFractionDigits: 1 })} TWh/year`;
+    return capacityLabel({ low: value, high: value }, measure);
   }
   // The share of a site that is included in the selection, drawn as a sector from twelve o'clock.
   // d3 is looked up when drawing, so the module also loads without it, as in the tests.
   const sharePath = (r, share) => (r > 0 && share > 0
     ? d3.arc()({ innerRadius: 0, outerRadius: r, startAngle: 0, endAngle: Math.min(1, share) * 2 * Math.PI })
     : "");
+  // A short line on how much of a site is included in the selection, at the high end of the range.
+  // Used by the hover label and the project card.
+  function siteStatusText(group, measure, tabLabel) {
+    const value = siteValue(group, measure), total = siteTotal(group, measure);
+    if (!(total > 0)) return "No stated size";
+    if (!(value > 0)) return `${siteAmount(total, measure)} announced, none in ${tabLabel}`;
+    if (value >= total - 1e-6) return `${siteAmount(total, measure)} in ${tabLabel}`;
+    return `${siteAmount(value, measure)} of ${siteAmount(total, measure)} in ${tabLabel}`;
+  }
   // The pale disc for a site, or a small dashed ring when the site has no stated size.
   function styleDisc(sel, noSize, opacity) {
     return sel.style("fill", noSize ? "none" : "var(--dc-blue)").style("fill-opacity", noSize ? 0 : opacity)
@@ -595,12 +605,7 @@
         (exit) => exit.remove()
       );
 
-    const statusText = (d) => {
-      if (d.no_size) return "No stated size";
-      if (!(d.site_value > 0)) return `${siteAmount(d.site_total, measure)} announced, none in ${tabLabel}`;
-      if (d.site_value >= d.site_total - 1e-6) return `${siteAmount(d.site_total, measure)} in ${tabLabel}`;
-      return `${siteAmount(d.site_value, measure)} of ${siteAmount(d.site_total, measure)} in ${tabLabel}`;
-    };
+    const statusText = (d) => siteStatusText(d, measure, tabLabel);
 
     // Hover: a copy of the site with a soft ring is drawn in a layer on top, with a short label.
     // The circles themselves never change order, so moving the pointer across a cluster does not
@@ -698,19 +703,48 @@
     const header = box.append("div").attr("class", "dc-project-popup-heading");
     header.append("strong").text(group.municipality || group.zone);
     header.append("button").attr("type", "button").attr("aria-label", "Close project details").text("×").on("click", () => host.attr("hidden", true));
-    box.append("p").attr("class", "dc-project-popup-meta").text([countryLabel(group.country), group.bidding_zone || group.zone].filter(Boolean).join(" · "));
-    const selected = TABS.find((item) => item.id === tab).classes;
-    for (const project of group.phases.filter((row) => !group.hq_mode || group.hq_mode === "none" || matchesHq(row, group.hq_mode))) {
-      const item = box.append("section");
-      item.append("strong").text(project.project_name);
-      item.append("span").attr("class", "dc-project-popup-meta").text(project.status);
-      if (!project.capacity_known) item.append("p").text("Project without MW");
-      for (const klass of selected) {
-        const value = project.classes.find((row) => row.evidence_class === klass);
-        const line = item.append("div").attr("class", "dc-project-class-value");
-        line.append("span").text(CLASS_LABELS[CLASSES.indexOf(klass)]);
-        line.append("strong").text(capacityLabel({ low: value?.[`${measure}_low`] || 0, high: value?.[`${measure}_high`] || 0 }, measure));
+    // Divs, not paragraphs, so the site's paragraph styles do not change the card's text sizes.
+    box.append("div").attr("class", "dc-project-popup-meta").text([countryLabel(group.country), group.bidding_zone || group.zone].filter(Boolean).join(" · "));
+    // The card shows all announced capacity at the site, whatever the selection. One bar for the whole site
+    // in the stage colours of the breakdown table, the stages with their values, and then each project
+    // with its total. Stages outside the selection are greyed out, as the pale part of the circle is on the map.
+    const tabItem = TABS.find((item) => item.id === tab);
+    const selected = tabItem.classes;
+    const projects = group.phases.filter((row) => !group.hq_mode || group.hq_mode === "none" || matchesHq(row, group.hq_mode));
+    const stageValue = (project, klass, bound) => (project.classes || []).find((row) => row.evidence_class === klass)?.[`${measure}_${bound}`] || 0;
+    const stages = CLASSES.map((klass) => ({
+      klass,
+      low: projects.reduce((sum, p) => sum + stageValue(p, klass, "low"), 0),
+      high: projects.reduce((sum, p) => sum + stageValue(p, klass, "high"), 0),
+      included: selected.includes(klass),
+    })).filter((stage) => stage.high > 0);
+    const siteHigh = stages.reduce((sum, stage) => sum + stage.high, 0);
+    box.append("div").attr("class", "dc-project-popup-summary").text(siteStatusText(group, measure, tabItem.label));
+    if (siteHigh > 0) {
+      const bar = box.append("div").attr("class", "dc-project-site-bar").attr("aria-hidden", true);
+      for (const stage of stages) {
+        bar.append("i").style("width", `${(100 * stage.high) / siteHigh}%`).style("background", `var(--dc-class-${stage.klass})`)
+          .style("opacity", stage.included ? 1 : 0.3);
       }
+      for (const stage of stages) {
+        const line = box.append("div").attr("class", "dc-project-class-value").classed("dc-project-class-out", !stage.included);
+        const label = line.append("span");
+        label.append("i").attr("aria-hidden", true).style("background", `var(--dc-class-${stage.klass})`);
+        label.append("span").text(CLASS_LABELS[CLASSES.indexOf(stage.klass)]);
+        line.append("strong").text(capacityLabel({ low: stage.low, high: stage.high }, measure));
+      }
+    }
+    for (const project of projects) {
+      const item = box.append("section").attr("class", "dc-project-popup-project");
+      const title = item.append("div").attr("class", "dc-project-popup-project-title");
+      title.append("strong").text(project.project_name);
+      const own = CLASSES.filter((klass) => stageValue(project, klass, "high") > 0);
+      const low = own.reduce((sum, klass) => sum + stageValue(project, klass, "low"), 0);
+      const high = own.reduce((sum, klass) => sum + stageValue(project, klass, "high"), 0);
+      if (high > 0) title.append("span").text(capacityLabel({ low, high }, measure));
+      const stageNames = own.map((klass) => CLASS_LABELS[CLASSES.indexOf(klass)]).join(", ");
+      const note = project.capacity_known ? stageNames : "Project without MW";
+      item.append("span").attr("class", "dc-project-popup-meta").text([project.status, note].filter(Boolean).join(" · "));
     }
     const node = box.node();
     const left = Math.min(global.innerWidth - node.offsetWidth - 12, Math.max(12, (event?.clientX || global.innerWidth / 2) + 12));
@@ -756,7 +790,7 @@
     item((g) => {
       styleDisc(g.append("circle").attr("r", 7), false, 0.25);
       g.append("path").attr("d", sharePath(7, 0.4)).style("fill", "var(--dc-blue)").style("fill-opacity", 0.8);
-    }, 14, "Dark part: included in the selection");
+    }, 14, "Included in the selection");
     const ring = SITE_RING_RADIUS * k;
     item((g) => g.append("circle").attr("r", ring).style("fill", "none").style("stroke", "#8b969c").style("stroke-width", 0.9).style("stroke-dasharray", "1.5 1.2"),
       2 * ring, "No stated size");

@@ -463,6 +463,19 @@
 #dc-scenario-map .dc-project-popup p { margin: 0.2rem 0; }
 #dc-scenario-map .dc-project-class-value { display: flex; justify-content: space-between; gap: 0.7rem; margin-top: 0.2rem; font-size: 11px; }
 #dc-scenario-map .dc-project-class-value strong { font-weight: 500; }
+/* Stage rows in the project card: colour swatch as in the breakdown, stages outside the selection toned down. */
+#dc-scenario-map .dc-project-popup-summary { margin: 0 0 0.2rem; font-size: 12px; color: var(--dc-ink); }
+#dc-scenario-map .dc-project-class-value > span { display: inline-flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+#dc-scenario-map .dc-project-class-value i { flex: none; width: 13px; height: 9px; border-radius: 2px; display: inline-block; }
+#dc-scenario-map .dc-project-site-bar { display: flex; height: 9px; margin: 0.4rem 0 0.35rem; border-radius: 2px; overflow: hidden; background: var(--dc-rule); }
+#dc-scenario-map .dc-project-site-bar i { display: block; height: 100%; }
+#dc-scenario-map .dc-project-popup-project { padding-top: 0.5rem; margin-top: 0.5rem; }
+#dc-scenario-map .dc-project-popup-project-title { display: flex; justify-content: space-between; gap: 0.7rem; }
+#dc-scenario-map .dc-project-popup-project-title span { flex: none; font-size: 11px; font-weight: 500; }
+#dc-scenario-map .dc-project-popup-project .dc-project-popup-meta { margin: 0.1rem 0 0; }
+#dc-scenario-map .dc-project-class-out { color: var(--dc-muted); }
+#dc-scenario-map .dc-project-class-out strong { font-weight: 400; }
+#dc-scenario-map .dc-project-class-out i { opacity: 0.45; }
 @media (max-width: 600px) {
   #dc-tracker .dc-view-tabs { gap: 1.25rem; }
   #dc-tracker .dc-view-tabs button { font-size: 14px; }
