@@ -41,11 +41,26 @@
   function siteAmount(value, measure) {
     return capacityLabel({ low: value, high: value }, measure);
   }
-  // The share of a site that is included in the selection, drawn as a sector from twelve o'clock.
-  // d3 is looked up when drawing, so the module also loads without it, as in the tests.
-  const sharePath = (r, share) => (r > 0 && share > 0
-    ? d3.arc()({ innerRadius: 0, outerRadius: r, startAngle: 0, endAngle: Math.min(1, share) * 2 * Math.PI })
-    : "");
+  // The share of a site that is included in the selection, drawn as a level filled from the bottom.
+  // The filled area is the share of the circle's area. The height is not, because the circle is narrower
+  // at the bottom. At half the area the level is exactly in the middle.
+  const circlePath = (r) => `M${-r},0A${r},${r} 0 1,0 ${r},0A${r},${r} 0 1,0 ${-r},0Z`;
+  function levelHeight(r, share) {
+    const target = share * Math.PI * r * r;
+    let lo = 0, hi = 2 * r;
+    for (let i = 0; i < 30; i++) {
+      const h = (lo + hi) / 2, d = r - h;
+      const area = r * r * Math.acos(Math.max(-1, Math.min(1, d / r))) - d * Math.sqrt(Math.max(0, r * r - d * d));
+      if (area < target) lo = h; else hi = h;
+    }
+    return (lo + hi) / 2;
+  }
+  function sharePath(r, share) {
+    if (!(r > 0 && share > 0)) return "";
+    if (share >= 0.999) return circlePath(r);
+    const h = levelHeight(r, share), y = r - h, x = Math.sqrt(Math.max(0, r * r - y * y));
+    return `M${-x},${y}A${r},${r} 0 ${h > r ? 1 : 0},0 ${x},${y}Z`;
+  }
   // A short line on how much of a site is included in the selection, at the high end of the range.
   // Used by the hover label and the project card.
   function siteStatusText(group, measure, tabLabel) {
@@ -73,6 +88,7 @@
     NO: [-82, -24],
     SE: [8, 8],
     FI: [109, 8],
+    DK: [-30, 34],
   };
 
   const ZONE_LABEL_OFFSETS = {
@@ -84,10 +100,10 @@
     SE1: [78, -12],
     SE2: [78, 0],
     SE3: [78, 12],
-    SE4: [-58, 12],
+    SE4: [44, 0],
     FI: [-66, 0],
-    DK1: [-58, -5],
-    DK2: [42, 6],
+    DK1: [-60, 0],
+    DK2: [72, 8],
   };
 
   function num(value) {
@@ -573,8 +589,8 @@
       .filter((group) => group.xy && Number.isFinite(group.xy[0]) && Number.isFinite(group.xy[1]));
 
     // Each site is a pale disc whose size shows all announced capacity at the site. The share included in
-    // the selection is a darker sector from twelve o'clock. The disc does not change with the selection, so
-    // positions stay put and only the sector grows or shrinks. A site without a stated size is a small dashed ring.
+    // the selection fills the disc from the bottom. The disc does not change with the selection, so
+    // positions stay put and only the level rises or falls. A site without a stated size is a small dashed ring.
     // A small nudge only. Circles may still overlap. Smaller circles are drawn on top.
     const sized = projectedPoints.map((group) => {
       const value = siteValue(group, measure);
@@ -678,7 +694,7 @@
     groups.select("circle.dc-phase-disc").each(function (d) { styleDisc(d3.select(this), d.no_size, 0.25); })
       .transition().duration(duration).ease(d3.easeCubicInOut)
       .attr("r", (d) => d.radius);
-    // The sector sweeps from its current angle and size to the new ones. The state is kept on each frame,
+    // The level moves from its current height and size to the new ones. The state is kept on each frame,
     // so an interrupted change continues from where it was.
     groups.select("path.dc-phase-share")
       .transition().duration(duration).ease(d3.easeCubicInOut)
@@ -763,7 +779,11 @@
     let x = 2;
     const svg = container.append("svg").attr("class", "dc-site-key-sizes").attr("height", h).attr("aria-hidden", true);
     scale.keys.forEach((value, i) => {
-      const r = radii[i], slot = Math.max(r * 2, 44);
+      // Each slot is as wide as its circle or its label, whichever is wider, so labels never touch.
+      const probe = svg.append("text").text(`${format(value)} ${scale.unit}`);
+      const textWidth = probe.node().getComputedTextLength ? probe.node().getComputedTextLength() : 44;
+      probe.remove();
+      const r = radii[i], slot = Math.max(r * 2, 44, textWidth + 6);
       const cx = x + slot / 2;
       svg.append("circle").attr("cx", cx).attr("cy", h - labelHeight - r - 2).attr("r", r)
         .style("fill", "var(--dc-blue)").style("fill-opacity", 0.8).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
@@ -776,21 +796,22 @@
 
   // The share symbol and the no-size ring, after the size key. The same for every selection.
   // Each symbol's label sits on the same baseline as the size labels, with the symbol in front of it.
-  // Each item is a separate SVG so it can wrap to its own line on a narrow screen.
+  // The two symbols share one group, so on a narrow screen they wrap together to a line below the sizes.
   // The row is bottom-aligned, so the baselines match.
-  function drawSymbolKey(container, k) {
+  function drawSymbolKey(container, k, iconRadius = 7) {
+    const group = container.append("div").attr("class", "dc-site-key-symbols");
     const item = (drawSymbol, symbolWidth, text) => {
-      const h = 20;
-      const svg = container.append("svg").attr("class", "dc-site-key-sizes dc-site-key-item").attr("height", h).attr("aria-hidden", true);
-      drawSymbol(svg.append("g").attr("transform", `translate(${symbolWidth / 2 + 1},${h - 3 - 3.8})`));
+      const h = Math.max(20, iconRadius * 2 + 4);
+      const svg = group.append("svg").attr("class", "dc-site-key-sizes dc-site-key-item").attr("height", h).attr("aria-hidden", true);
+      drawSymbol(svg.append("g").attr("transform", `translate(${symbolWidth / 2 + 1},${h - 3 - Math.max(3.8, iconRadius - 3.2)})`));
       const label = svg.append("text").attr("x", symbolWidth + 7).attr("y", h - 3).text(text);
       const w = Math.ceil(label.node().getComputedTextLength ? label.node().getComputedTextLength() : 200);
       svg.attr("width", symbolWidth + 9 + w);
     };
     item((g) => {
-      styleDisc(g.append("circle").attr("r", 7), false, 0.25);
-      g.append("path").attr("d", sharePath(7, 0.4)).style("fill", "var(--dc-blue)").style("fill-opacity", 0.8);
-    }, 14, "Included in the selection");
+      styleDisc(g.append("circle").attr("r", iconRadius), false, 0.25);
+      g.append("path").attr("d", sharePath(iconRadius, 0.4)).style("fill", "var(--dc-blue)").style("fill-opacity", 0.8);
+    }, iconRadius * 2, "Included in the selection");
     const ring = SITE_RING_RADIUS * k;
     item((g) => g.append("circle").attr("r", ring).style("fill", "none").style("stroke", "#8b969c").style("stroke-width", 0.9).style("stroke-dasharray", "1.5 1.2"),
       2 * ring, "No stated size");
@@ -907,78 +928,41 @@
       .text(`The bars show the capacity included in ${tabLabel}, coloured by stage. Their length is the high value. The thin line and the figures on the right give the range from low to high.`);
   }
 
-  // Finds a spot inside a zone for its label, as far as possible from the circles.
-  // Candidates lie on a grid over the zone. The whole label box must fit inside the zone when possible.
-  // If no spot inside is clear of circles, the label moves outside the zone with a line to it.
-  // Both sides are tried. The chosen side keeps the label off land and off labels already placed.
-  function focusLabelPosition(feature, box, focusPath, projection, circles, onLand, placed, screenWidth = Infinity) {
-    const [[x0, y0], [x1, y1]] = focusPath.bounds(feature);
-    const inside = (x, y) => { const p = projection.invert([x, y]); return p ? d3.geoContains(feature, p) : false; };
-    const centroid = focusPath.centroid(feature);
-    const hw = box.width / 2 + 3, top = box.y - 3, bottom = box.y + box.height + 3;
-    const step = Math.max(x1 - x0, y1 - y0) / 28;
-    let best = null;
-    for (let x = x0 + step / 2; x < x1; x += step) {
-      for (let y = y0 + step / 2; y < y1; y += step) {
-        if (!inside(x, y)) continue;
-        const corners = [[x - hw, y + top], [x + hw, y + top], [x - hw, y + bottom], [x + hw, y + bottom]];
-        const fits = corners.every(([cx, cy]) => inside(cx, cy));
-        let clearance = 60;
-        for (const c of circles) {
-          const dx = Math.max(x - hw - c.x, 0, c.x - (x + hw));
-          const dy = Math.max(y + top - c.y, 0, c.y - (y + bottom));
-          clearance = Math.min(clearance, Math.hypot(dx, dy) - c.r);
-        }
-        const score = (fits ? 1000 : 0) + Math.min(clearance, 24) - Math.hypot(x - centroid[0], y - centroid[1]) * 0.02;
-        if (!best || score > best.score) best = { score, x, y, fits, clearance };
-      }
-    }
-    if (best && best.fits && best.clearance >= 2) {
-      const spot = { x: best.x, y: best.y, anchor: "middle", rect: [best.x - hw, best.y + top, best.x + hw, best.y + bottom] };
-      placed.push(spot.rect);
-      return spot;
-    }
-    const target = best ? [best.x, best.y] : centroid;
-    const w = box.width + 6;
-    // Each side is tried at a few distances, so the label can clear circles that reach past the coast.
-    const hitsCircle = (rect) => circles.some((c) => {
-      const dx = Math.max(rect[0] - c.x, 0, c.x - rect[2]), dy = Math.max(rect[1] - c.y, 0, c.y - rect[3]);
-      return Math.hypot(dx, dy) < c.r + 3;
-    });
-    const options = [-1, 1].flatMap((side) => [16, 40, 70].map((gap) => {
-      const x = side < 0 ? x0 - gap : x1 + gap;
-      const rect = side < 0 ? [x - w, target[1] + top, x, target[1] + bottom] : [x, target[1] + top, x + w, target[1] + bottom];
-      const samples = [];
-      for (let i = 0; i <= 4; i += 1) for (const yy of [rect[1], (rect[1] + rect[3]) / 2, rect[3]]) samples.push([rect[0] + (i / 4) * (rect[2] - rect[0]), yy]);
-      const land = samples.filter(([sx, sy]) => onLand(sx, sy)).length;
-      const clash = placed.some((r) => !(rect[2] < r[0] || rect[0] > r[2] || rect[3] < r[1] || rect[1] > r[3]));
-      const offscreen = rect[0] < 4 || rect[2] > screenWidth - 4;
-      return { side, x, rect, cost: (offscreen ? 1000 : 0) + land * 10 + (clash ? 100 : 0) + (hitsCircle(rect) ? 50 : 0) + Math.abs(x - target[0]) * 0.05 };
-    }));
-    const pick = options.sort((a, b) => a.cost - b.cost)[0];
-    // On a narrow screen there may be no room beside the country. The label then stays inside the zone.
-    if (pick.cost >= 1000 && best) {
-      const rect = [best.x - hw, best.y + top, best.x + hw, best.y + bottom];
-      placed.push(rect);
-      return { x: best.x, y: best.y, anchor: "middle", rect };
-    }
-    placed.push(pick.rect);
-    return { x: pick.x, y: target[1], anchor: pick.side < 0 ? "end" : "start", line: [pick.x - pick.side * 4, target[1], target[0], target[1]] };
-  }
+  // An equal-area projection, so countries and zones keep their true relative sizes.
+  const mapProjection = () => d3.geoConicEqualArea().parallels([57, 68]).rotate([-17, 0]);
+  // On a narrow screen the map uses the full width, the zone values move to a row under the map
+  // and the map gets less margin. The labels would otherwise be too small to read.
+  const COMPACT_QUERY = "(max-width: 600px)";
+  const MAP_LAYOUTS = {
+    wide: { extent: [[128, 58], [610, 536]], bottom: 40 },
+    compact: { extent: [[92, 10], [642, 1000]], bottom: 14 },
+  };
 
   function mount(container, data, shared) {
     const geojson = data.bidding_zones;
-    const width = 760, height = 570;
+    const width = 760;
+    let height = 570;
     let { family: tab, measure, hq } = shared.get();
     const root = d3.select(container).attr("class", "dc-scenario-map-root");
     // Every tab and measure variant is laid out in the same grid cell and only the current one is visible.
     // The block then keeps the height of the longest variant, so the page does not shift when the selection changes.
     const headlineNode = root.append("div").attr("class", "dc-map-headline").attr("aria-live", "polite");
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
-    const svg = figure.append("svg").attr("class", "dc-scenario-svg").attr("viewBox", `0 0 ${width} ${height}`).attr("role", "img");
-    const projection = d3.geoMercator();
-    projection.fitExtent([[128, 58], [610, 536]], geojson);
+    const svg = figure.append("svg").attr("class", "dc-scenario-svg").attr("role", "img");
+    const zoneStrip = figure.append("div").attr("class", "dc-zone-strip").attr("hidden", true);
+    const compactMedia = typeof global.matchMedia === "function" ? global.matchMedia(COMPACT_QUERY) : null;
+    let compact = Boolean(compactMedia && compactMedia.matches);
+    const projection = mapProjection();
     const path = d3.geoPath(projection);
+    // Fits the map to the layout. The height follows the lowest country, so there is no empty band below.
+    function fitMap() {
+      const layout = MAP_LAYOUTS[compact ? "compact" : "wide"];
+      projection.fitExtent(layout.extent, geojson);
+      height = Math.ceil(d3.max(geojson.features, (f) => translatedBounds(f, path)[1][1]) + layout.bottom);
+      svg.attr("viewBox", `0 0 ${width} ${height}`);
+      root.classed("dc-map-compact", compact);
+    }
+    fitMap();
     const mapG = svg.append("g").attr("class", "dc-map-zones");
     const zoneLabelG = svg.append("g").attr("class", "dc-zone-label-layer");
     const phaseG = svg.append("g").attr("class", "dc-phase-layer");
@@ -988,7 +972,28 @@
       .attr("transform", (d) => `translate(${countryOffset(d.properties.country).join(",")})`).attr("d", path)
       .on("click", (event, d) => openCountry(d.properties.country, d.properties.bidding_zone))
       .on("keydown", (event, d) => {if (event.key === "Enter" || event.key === " ") {event.preventDefault();openCountry(d.properties.country, d.properties.bidding_zone);}});
-    renderZoneLabels(zoneLabelG, geojson, path, projection);
+    function drawZoneLabels() {
+      zoneLabelG.selectAll("*").remove();
+      if (!compact) renderZoneLabels(zoneLabelG, geojson, path, projection);
+    }
+    drawZoneLabels();
+    // The zone values for a narrow screen, in a grid in the same order as the countries in the table.
+    // Each value opens its country, like a click on the map.
+    const stripZones = geojson.features.map((f) => f.properties)
+      .sort((a, b) => countryOrder(a.country) - countryOrder(b.country) || a.bidding_zone.localeCompare(b.bidding_zone));
+    function renderZoneStrip(view) {
+      zoneStrip.attr("hidden", compact ? null : true);
+      if (!compact) return;
+      zoneStrip.selectAll("button").data(stripZones, (z) => z.bidding_zone).join((enter) => {
+        const button = enter.append("button").attr("type", "button").attr("class", "dc-zone-strip-item")
+          .on("click", (event, z) => openCountry(z.country, z.bidding_zone));
+        button.append("strong");
+        button.append("span");
+        return button;
+      })
+        .call((button) => button.select("strong").text((z) => z.bidding_zone))
+        .call((button) => button.select("span").text((z) => zoneValueLabel(view.zones[z.bidding_zone], measure)));
+    }
 
     // Country focus: the clicked country is redrawn to fill the window, over a blurred page.
     // The focus SVG uses one unit per screen pixel. Circles are scaled to the same pixel size
@@ -1003,31 +1008,49 @@
     const reduceMotion = () => global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // A click anywhere outside the country closes the view. Clicks on the main map are the ones that open it.
     const closeOnOutsideClick = (event) => {
-      if (!focusCountry || event.target.closest(".dc-focus-country, .dc-project-popup, .dc-focus-title, .dc-scenario-svg")) return;
+      if (!focusCountry || event.target.closest(".dc-focus-country, .dc-project-popup, .dc-focus-title, .dc-focus-zones, .dc-scenario-svg, .dc-zone-strip")) return;
       closeCountry();
     };
     global.document.addEventListener("click", closeOnOutsideClick);
-    const onResize = () => { if (focusCountry) drawCountry(focusCountry.country, focusCountry.zone, false); };
+    // Switching between the wide and the narrow layout redraws the map. Otherwise only an open country view is redrawn.
+    const onResize = () => {
+      const nextCompact = Boolean(compactMedia && compactMedia.matches);
+      if (nextCompact !== compact) {
+        compact = nextCompact;
+        fitMap();
+        phaseG.attr("data-drawn", null);
+        zonePaths.attr("d", path);
+        drawZoneLabels();
+        render();
+        return;
+      }
+      if (focusCountry) drawCountry(focusCountry.country, focusCountry.zone, false);
+    };
     global.addEventListener("resize", onResize);
     // Screen pixels per map unit in the main map.
     const mainScale = () => { const rect = svg.node().getBoundingClientRect(); return { k: rect.width / width, left: rect.left, top: rect.top }; };
-    // The top margin leaves room for the country name and the key. It grows if the key wraps.
-    let focusTop = 112;
-    function focusSetup(country, top = focusTop) {
+    // Wide screen: the country name, a table of its zones and the key sit in a panel on the left,
+    // and the country fills the rest. Narrow screen: the name and key sit on top, and the zones in a grid
+    // under the country. In both, the zone names are written on the map.
+    const focusNarrow = () => global.innerWidth < 600;
+    // One unit for all sizes in the wide view, from the window size, so text, circles and key stay in proportion.
+    const focusUnit = () => Math.max(1, Math.min(1.35, Math.min(global.innerWidth, global.innerHeight) / 900));
+    // One circle scale for every country, so countries can be compared with each other.
+    const focusRadiusScale = () => (focusNarrow()
+      ? Math.max(1.2, Math.min(2, Math.min(global.innerWidth, global.innerHeight) / 600))
+      : 1.5 * focusUnit());
+    const focusZones = focus.append("div").attr("class", "dc-focus-zones").attr("hidden", true);
+    // The space the panel or the header and grid take, set when a country is drawn.
+    const focusFrame = { top: 112, bottom: 0, left: 0 };
+    function focusSetup(country) {
       const W = global.innerWidth, H = global.innerHeight;
       const features = geojson.features.filter((f) => f.properties.country === country);
       const collection = { type: "FeatureCollection", features };
-      const margin = W < 600 ? 16 : 48;
-      const focusProjection = d3.geoMercator().fitExtent([[margin, top], [W - margin, H - margin]], collection);
+      const extent = focusNarrow()
+        ? [[16, focusFrame.top], [W - 16, H - focusFrame.bottom - 20]]
+        : [[focusFrame.left, focusFrame.top], [W - 64 * focusUnit(), H - 48 * focusUnit()]];
+      const focusProjection = mapProjection().fitExtent(extent, collection);
       return { W, H, features, collection, focusProjection, focusPath: d3.geoPath(focusProjection) };
-    }
-    // Circles grow with the square root of the enlargement, at most 1.8 times their size in the main map.
-    function focusRadiusScale(setup) {
-      const main = mainScale();
-      const mainBounds = setup.features.map((f) => translatedBounds(f, path));
-      const mainWidth = main.k * (d3.max(mainBounds, (b) => b[1][0]) - d3.min(mainBounds, (b) => b[0][0]));
-      const focusBounds = setup.focusPath.bounds(setup.collection);
-      return main.k * Math.max(1, Math.min(1.8, Math.sqrt((focusBounds[1][0] - focusBounds[0][0]) / mainWidth)));
     }
     // Places the large drawing over the country's position in the main map, so it can grow from there.
     function countryStartTransform(focusPath, features) {
@@ -1039,65 +1062,106 @@
       const k = (x1 - x0) / (target[1][0] - target[0][0]);
       return `translate(${x0 - k * target[0][0]},${y0 - k * target[0][1]}) scale(${k})`;
     }
+    // A point for a zone's name: the centre of its largest piece of land, so Bornholm does not pull DK2 out to sea.
+    function zoneAnchor(feature, focusPath) {
+      if (feature.geometry.type !== "MultiPolygon") return focusPath.centroid(feature);
+      const parts = feature.geometry.coordinates.map((coordinates) => ({ type: "Polygon", coordinates }));
+      return focusPath.centroid(parts.reduce((a, b) => (focusPath.area(a) >= focusPath.area(b) ? a : b)));
+    }
+    const highlightFocusZone = (zone) => focusG.selectAll(".dc-focus-zone").classed("dc-focus-zone-highlight", (d) => d.properties.bidding_zone === zone);
     function drawCountry(country, zone, animate) {
       const view = trackerView(data, tab, measure, hq);
-      const drawHeader = (radiusScale) => {
-        focusTitle.html("");
-        const name = focusTitle.append("div").attr("class", "dc-focus-name");
-        name.append("strong").text(countryLabel(country));
-        name.append("span").text(zoneValueLabel(view.countries[country], measure));
-        const focusKey = focusTitle.append("div").attr("class", "dc-focus-key");
-        drawSizeKey(focusKey, measure, radiusScale);
-        drawSymbolKey(focusKey, radiusScale);
-      };
-      // The header is drawn first. If it is taller than the default margin, the country starts below it.
-      let setup = focusSetup(country, 112);
-      let radiusScale = focusRadiusScale(setup);
-      drawHeader(radiusScale);
-      const headerBottom = Math.ceil(focusTitle.node().getBoundingClientRect().bottom) + 16;
-      focusTop = Math.max(112, headerBottom);
-      if (focusTop > 112) {
-        setup = focusSetup(country, focusTop);
-        radiusScale = focusRadiusScale(setup);
-        drawHeader(radiusScale);
+      const narrow = focusNarrow();
+      const u = focusUnit();
+      const radiusScale = focusRadiusScale();
+      const zones = geojson.features.filter((f) => f.properties.country === country).map((f) => f.properties.bidding_zone);
+      focusSvg.selectAll(".dc-focus-labels").interrupt().style("opacity", null);
+      focusZones.interrupt();
+      focus.classed("dc-focus-narrow", narrow).style("--dc-u", narrow ? null : u);
+      focusTitle.html("");
+      const name = focusTitle.append("div").attr("class", "dc-focus-name");
+      name.append("strong").text(countryLabel(country));
+      // On a narrow screen a country with one zone shows its total by the name. Otherwise the total is in the list.
+      if (narrow && zones.length === 1) name.append("span").text(zoneValueLabel(view.countries[country], measure));
+      if (!narrow) {
+        // The zones as a table, with the total after a rule. A country with one zone needs no total row.
+        const table = focusTitle.append("div").attr("class", "dc-focus-table");
+        for (const z of zones) {
+          const row = table.append("button").attr("type", "button").attr("class", "dc-focus-row")
+            .on("mouseenter focus", () => highlightFocusZone(z))
+            .on("mouseleave blur", () => highlightFocusZone(null))
+            .on("click", (event) => { event.stopPropagation(); openZone(z, event); });
+          row.append("span").text(z);
+          row.append("span").text(zoneValueLabel(view.zones[z], measure));
+        }
+        if (zones.length > 1) {
+          const row = table.append("div").attr("class", "dc-focus-row dc-focus-row-total");
+          row.append("span").text("Total");
+          row.append("span").text(zoneValueLabel(view.countries[country], measure));
+        }
       }
-      const { W, H, features, collection, focusProjection, focusPath } = setup;
+      const focusKey = focusTitle.append("div").attr("class", "dc-focus-key");
+      drawSizeKey(focusKey, measure, radiusScale);
+      // The key's symbols are as large as the smallest size circle, so the key reads as one set.
+      drawSymbolKey(focusKey, radiusScale, narrow ? 7 : siteRadius(SITE_SCALE.mw.keys[0], "mw") * radiusScale);
+      // Narrow screen: the zones in a grid under the country, each with its value, and the total last.
+      focusZones.attr("hidden", narrow ? null : true).selectAll("*").remove();
+      if (narrow) {
+        for (const z of zones) {
+          const item = focusZones.append("button").attr("type", "button").attr("class", "dc-focus-zone-item")
+            .on("click", (event) => { event.stopPropagation(); openZone(z, event); });
+          item.append("strong").text(z);
+          item.append("span").text(zoneValueLabel(view.zones[z], measure));
+        }
+        if (zones.length > 1) {
+          const item = focusZones.append("div").attr("class", "dc-focus-zone-item dc-focus-zone-total");
+          item.append("strong").text("Total");
+          item.append("span").text(zoneValueLabel(view.countries[country], measure));
+        }
+      }
+      const titleBox = focusTitle.node().getBoundingClientRect();
+      focusFrame.top = narrow ? Math.max(96, Math.ceil(titleBox.bottom) + 24) : 48 * u;
+      focusFrame.left = narrow ? 0 : Math.ceil(titleBox.right) + 40 * u;
+      focusFrame.bottom = narrow ? Math.ceil(focusZones.node().getBoundingClientRect().height) + 20 : 0;
+      const { W, H, features, focusProjection, focusPath } = focusSetup(country);
       focusSvg.attr("viewBox", `0 0 ${W} ${H}`);
       focusG.selectAll("*").remove();
       focusG.append("g").selectAll("path").data(features).join("path").attr("class", "dc-zone dc-focus-zone")
         .attr("d", focusPath).attr("fill", "var(--dc-land)").attr("tabindex", 0).attr("role", "button")
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`)
         .on("click", (event, d) => { event.stopPropagation(); openZone(d.properties.bidding_zone, event); });
-      const labelLayer = focusG.append("g").attr("class", "dc-focus-labels");
       const phases = focusG.append("g").attr("class", "dc-phase-layer");
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure), data), hq).filter((g) => g.country === country);
       renderPhaseLayer(phases, popup, groups, focusProjection, W, H, measure, tab, false, radiusScale);
-      const circles = phases.selectAll("g.dc-phase-point").data().map((d) => ({ x: d.xy[0], y: d.xy[1], r: d.radius }));
-      const labels = labelLayer.selectAll("text").data(features).join("text")
-        .attr("class", "dc-focus-zone-label").attr("text-anchor", "middle");
-      labels.append("tspan").attr("class", "dc-zone-label-name").attr("x", 0).attr("dy", "-0.2em").text((d) => d.properties.bidding_zone);
-      labels.append("tspan").attr("class", "dc-zone-label-value").attr("x", 0).attr("dy", "1.2em").text((d) => zoneValueLabel(view.zones[d.properties.bidding_zone], measure));
-      const onLand = (x, y) => { const p = focusProjection.invert([x, y]); return p ? features.some((f) => d3.geoContains(f, p)) : false; };
-      const placed = [];
-      labels.each(function (d) {
-        const spot = focusLabelPosition(d, this.getBBox(), focusPath, focusProjection, circles, onLand, placed, W);
-        d3.select(this).attr("transform", `translate(${spot.x},${spot.y})`).attr("text-anchor", spot.anchor);
-        if (spot.line) labelLayer.insert("line", "text").attr("class", "dc-zone-label-line")
-          .attr("x1", spot.line[0]).attr("y1", spot.line[1]).attr("x2", spot.line[2]).attr("y2", spot.line[3]);
-      });
+      // The zone names on the map, in their own layer so they keep their size while the country grows.
+      // A country with one zone needs none.
+      const labelLayer = focusSvg.selectAll("g.dc-focus-labels").data([null]).join("g").attr("class", "dc-focus-labels");
+      const labels = labelLayer.selectAll("text").data(features.length > 1 ? features : []).join("text")
+        .attr("class", "dc-focus-inside-label").attr("text-anchor", "middle")
+        .attr("transform", (d) => `translate(${zoneAnchor(d, focusPath).join(",")})`).text((d) => d.properties.bidding_zone);
       focus.attr("aria-label", `${countryLabel(country)}, ${TABS.find((t) => t.id === tab).label}`);
-      if (!animate) return;
+      focusTitle.interrupt();
+      if (!animate) {
+        labels.style("opacity", 1);
+        focusTitle.style("opacity", null).style("transform", null);
+        focusZones.style("opacity", null).style("transform", null);
+        return;
+      }
       const start = countryStartTransform(focusPath, features);
       const duration = reduceMotion() ? 0 : 520;
       focus.classed("dc-focus-open", false);
       focusG.attr("transform", start);
       phases.style("opacity", 0);
       labels.style("opacity", 0);
+      focusZones.style("opacity", 0).style("transform", "translateY(12px)");
+      focusTitle.style("opacity", 0).style("transform", "translateY(8px)");
       focus.node().offsetWidth;
       focus.classed("dc-focus-open", true);
       focusG.transition().duration(duration).ease(d3.easeCubicOut).attr("transform", "translate(0,0) scale(1)");
       phases.transition().delay(duration * 0.55).duration(duration * 0.6).style("opacity", 1);
-      labels.transition().delay(duration * 0.55).duration(duration * 0.6).style("opacity", 1);
+      labels.transition().delay(duration * 0.75).duration(duration * 0.6).style("opacity", 1);
+      focusTitle.transition().delay(duration * 0.3).duration(duration * 0.8).ease(d3.easeCubicOut).style("opacity", 1).style("transform", "translateY(0px)");
+      focusZones.transition().delay(duration * 0.6).duration(duration * 0.7).ease(d3.easeCubicOut).style("opacity", 1).style("transform", "translateY(0px)");
     }
     function openCountry(country, zone) {
       popup.attr("hidden", true);
@@ -1113,7 +1177,9 @@
       popup.attr("hidden", true);
       const { features, focusPath } = focusSetup(country);
       const duration = reduceMotion() ? 0 : 380;
-      focusG.selectAll(".dc-phase-layer, .dc-focus-labels").transition().duration(duration * 0.4).style("opacity", 0);
+      focusG.selectAll(".dc-phase-layer").transition().duration(duration * 0.4).style("opacity", 0);
+      focusSvg.selectAll(".dc-focus-labels").transition().duration(duration * 0.4).style("opacity", 0).on("end", function () { d3.select(this).style("opacity", null); });
+      focusZones.transition().duration(duration * 0.4).style("opacity", 0);
       focus.classed("dc-focus-open", false);
       focusG.transition().duration(duration).ease(d3.easeCubicIn).attr("transform", countryStartTransform(focusPath, features))
         .on("end", () => { if (!focusCountry) focus.attr("hidden", true); });
@@ -1140,6 +1206,7 @@
       root.attr("data-measure", measure).attr("data-tab", tab).attr("data-hq", hq);
       svg.attr("aria-label", `Planned datacenter sites: ${TABS.find((t) => t.id === tab).label}`);
       updateZoneLabelValues(zoneLabelG, view, measure);
+      renderZoneStrip(view);
       zonePaths.attr("fill", "var(--dc-land)")
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`);
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure), data), hq);
