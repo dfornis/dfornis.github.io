@@ -125,3 +125,20 @@ P205,SE,SE1,Undated plan,155,155
 P206,SE,SE2,Undated plan,95.5,100
 P208,SE,SE4,Undated plan,300,300
 P210,SE,SE3,Undated plan,250,250
+P211,DK,DK1,Dated plan,60,60
+P211,DK,DK1,Undated plan,440,440
+P212,DK,DK1,Dated plan,192,192
+P212,DK,DK1,Undated plan,468,468
+P213,DK,DK1,Confirmed,11.5,11.5
+P214,DK,DK1,Confirmed,25,25
+P214,DK,DK1,Rest of active site,95,95
+P214,DK,DK1,Undated plan,15,15
+P215,DK,DK2,Undated plan,350,350
+P216,DK,DK2,Undated plan,60,60
+P217,DK,DK2,Undated plan,800,800
+P218,DK,DK1,Dated plan,180,240
+P223,DK,DK2,Undated plan,119.9,154.7
+P225,DK,DK1,Undated plan,490,490
+P228,DK,DK1,Undated plan,100,100
+P229,DK,DK2,Undated plan,960,960
+P230,DK,DK2,Undated plan,249.6,249.6
