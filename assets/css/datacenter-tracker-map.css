@@ -680,7 +680,7 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-focus-table-row { cursor: pointer; outline: none; }
 #dc-scenario-map .dc-focus-table-row:hover .dc-focus-table-name, #dc-scenario-map .dc-focus-table-row:focus-visible .dc-focus-table-name { text-decoration: underline; }
 #dc-scenario-map .dc-focus-table-total line { stroke: var(--dc-muted); stroke-width: 1; opacity: 0.6; }
-#dc-scenario-map .dc-focus-zone.dc-focus-zone-highlight { fill: #d9cfbf; }
+#dc-scenario-map .dc-focus-zone.dc-focus-zone-highlight { filter: brightness(0.97); }
 /* Zoom in the enlarged view: borders keep their width, and a small button resets the zoom. */
 #dc-scenario-map .dc-focus-zone { vector-effect: non-scaling-stroke; }
 #dc-scenario-map .dc-focus-svg { cursor: grab; }
@@ -747,12 +747,51 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 
 #dc-scenario-map .dc-scenario-svg { position: relative; width: 100%; overflow: hidden; background: transparent; }
 /* Pointing at a zone or a circle darkens its whole country. */
-#dc-scenario-map .dc-scenario-svg .dc-zone { transition: fill 160ms ease; }
-#dc-scenario-map .dc-scenario-svg .dc-zone.dc-country-hover { fill: #d6ccba; }
+#dc-scenario-map .dc-scenario-svg .dc-zone { transition: fill 160ms ease, filter 160ms ease; }
+#dc-scenario-map .dc-scenario-svg .dc-zone.dc-country-hover { filter: brightness(0.97); }
 @media (prefers-reduced-motion: reduce) { #dc-scenario-map .dc-scenario-svg .dc-zone { transition: none; } }
+/* In the compact layouts, use the width for Nordic land and place the circle key below it. */
+#dc-scenario-map.dc-map-compact .dc-scenario-svg-wrap > .dc-site-key { position: static; margin: 0.4rem auto 0; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 1.6rem; }
+#dc-scenario-map.dc-map-compact .dc-scenario-svg-wrap > .dc-site-key .dc-site-key-symbols { flex-direction: row; align-items: flex-end; gap: 0.6rem 1.4rem; }
 @media (max-width: 600px) {
-  /* On a narrow screen the land fills the width, so the key sits under the map. */
-  #dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key { position: static; margin: 0.4rem auto 0; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 1.6rem; }
-  #dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key .dc-site-key-symbols { flex-direction: row; align-items: flex-end; gap: 0.6rem 1.4rem; }
   #dc-scenario-map .dc-map-scale .dc-site-key-sizes text { font-size: 10px; }
+}
+
+
+/* The area key shares the open sea beside the map, including on a narrow screen. */
+#dc-scenario-map .dc-zone-key { pointer-events: none; }
+#dc-scenario-map .dc-zone-key text {
+  font: 11px "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  fill: var(--dc-muted);
+}
+#dc-scenario-map .dc-zone-key-title { font-weight: 500; }
+
+/* Three compact controls stay on one row in both map views. */
+@media (max-width: 600px) {
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-map-options {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 0.4rem;
+    width: 100%;
+    max-width: 420px;
+  }
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-control,
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-type-control,
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-hq-control { width: auto; min-width: 0; gap: 0.3rem; }
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-label,
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-type-label,
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-hq-label { min-height: 15px; line-height: 15px; }
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-button { padding: 0.3rem 0.5rem; min-height: 25px; }
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-type-menu summary { padding-left: 0.5rem; padding-right: 1.1rem; }
+  :is(#dc-scenario-map, #dc-shared-controls) .dc-type-menu summary::after { right: 0.6rem; }
+  #dc-shared-controls select,
+  #dc-scenario-map .dc-focus-controls select { padding-left: 0.5rem; padding-right: 1.05rem; }
+}
+
+/* The colour key stays still during zoom, with a plain backing when land moves behind it. */
+#dc-scenario-map .dc-focus-zone { transition: fill 160ms ease, filter 160ms ease; }
+#dc-scenario-map .dc-zone-key-backdrop { fill: var(--dc-paper); opacity: 0; transition: opacity 200ms ease; }
+#dc-scenario-map .dc-focus-zoomed .dc-zone-key-backdrop { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  #dc-scenario-map .dc-focus-zone, #dc-scenario-map .dc-zone-key-backdrop { transition: none; }
 }

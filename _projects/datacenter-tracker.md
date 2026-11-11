@@ -12,18 +12,18 @@ permalink: /projects/datacenter-tracker/
   <p>This page lists publicly reported plans for new datacenters in the Nordic countries covered by the project register and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
 </div>
 
-<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.4.0">
+<div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.4.11">
 
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
 <section id="dc-map" class="dc-map-section" aria-labelledby="dc-map-title">
   <h2 id="dc-map-title">Planned datacenter sites</h2>
   <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included. Type accepts several selections: a project with any selected type is counted once.</p>
-  <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.0"></div>
-  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. The map circles, zone values and bars use the upper value. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>. Map of Denmark: <a href="https://github.com/eurostat/Nuts2json">© EuroGeographics</a> for the administrative boundaries.</p>
+  <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.4"></div>
+  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>. Map of Denmark: <a href="https://github.com/eurostat/Nuts2json">© EuroGeographics</a> for the administrative boundaries.</p>
 </section>
 
-<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.4.0" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.4.0">
+<section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.4.11" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.4.11">
   <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
   <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   <div class="dc-timeline-content" hidden>
@@ -64,7 +64,8 @@ permalink: /projects/datacenter-tracker/
 
 <section id="tracker-projects" class="dc-projects" aria-labelledby="tracker-projects-title">
   <h2 id="tracker-projects-title">Projects</h2>
-  <p class="dc-projects-intro">The largest projects are listed first. Click + for the developer, each phase with its MW figure and dates, and the sources.</p>
+  <p class="dc-projects-intro">The list shows new site capacity at full build-out, including cooling. Capacity already operating at the end of 2025 is excluded. Click a project to see IT capacity, source figures, conversions, phases and sources.</p>
+  <p class="dc-projects-intro"><strong>From source</strong> gives the published figure. <strong>Estimated</strong> marks values converted by the tracker.</p>
   <p class="dc-download-line"><a href="#" data-download-zip>Download data (ZIP)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
   <p class="dc-cite">The data are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The ZIP file contains three CSV tables and a description of every column.</p>
 
@@ -85,16 +86,11 @@ permalink: /projects/datacenter-tracker/
     <div id="filter-stage-group" class="checkbox-filter-options"></div>
   </details>
 
-  <details class="filter-dropdown">
-    <summary>Type</summary>
-    <div id="filter-type-group" class="checkbox-filter-options"></div>
-  </details>
-
 </div>
 
 <div id="summary-box" class="summary-box" role="status" aria-live="polite">Loading projects…</div>
 
-<div class="table-wrapper" tabindex="0" aria-label="Project table. Scroll horizontally for more columns.">
+<div class="table-wrapper" tabindex="0" aria-label="Project table. Scroll horizontally if needed.">
   <table id="tracker-table">
     <thead>
       <tr>
@@ -103,8 +99,7 @@ permalink: /projects/datacenter-tracker/
         <th>Country</th>
         <th>Zone</th>
         <th title="How far each part of the project has come. The colours match the map.">Stage</th>
-        <th id="size-header" title="Site power including cooling, if everything announced is built. Capacity already operating at the end of 2025 is not included. The bar is coloured by stage.">Full announced size (MW)</th>
-        <th id="dates-header" title="Years the sources give for when part of the project comes online. If no such year is given, a construction start or grid connection year is shown. The dated part can be much smaller than the full size. Expand the row to see which MW each date belongs to.">Announced dates</th>
+        <th id="size-header" title="New site power at full build-out, including cooling. Existing capacity is excluded. Expand a project to compare source figures and estimates.">Site capacity (MW)</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -143,6 +138,8 @@ permalink: /projects/datacenter-tracker/
   <div data-method-table="capacity"></div>
   <p>PUE (power usage effectiveness) is the electricity used by the whole site divided by the electricity used by its IT equipment. The tracker uses 1.2 unless a source reports a value for the site. In the <a href="https://energy.ec.europa.eu/topics/energy-efficiency/energy-efficiency-targets-directive-and-rules/energy-efficiency-directive/energy-performance-data-centres_en">EU reporting scheme</a>, very large datacenters have an energy-weighted average PUE of 1.20. Country averages for 2025 were 1.23 in Sweden and 1.17 in Denmark. Finland reported 1.16 for 2024. Norway is outside the scheme. <a href="https://epoch.ai/data/data-centers-documentation/methodology">Epoch AI</a> also uses 1.2 for hyperscale sites, while <a href="https://www.energimyndigheten.se/492f27/contentassets/054d98cfdcd54cb5a802e24b53779452/energianvandning-i-datacenter-och-digitala-system.pdf">RISE (2023)</a> reports 1.1–1.3 for efficient Swedish sites.</p>
   <p>PUE is an annual average. Using it to convert power assumes a constant cooling share, so it can understate demand on the hottest days.</p>
+
+  <p>When IT capacity is missing, the project details estimate it by dividing site power by PUE. A PUE given by the source takes precedence over the default of 1.2. Grid capacity and MW with no stated measure are treated as site power. Peak demand is first converted to installed capacity. Each estimate keeps the building, phase or campus named in the source.</p>
 
   <h4 id="dc-method-energy">Annual electricity use</h4>
   <p class="dc-method-formula">Annual electricity use (TWh) = site MW in use × load factor × 8,760 / 1,000,000</p>
@@ -243,7 +240,7 @@ Each country is reviewed using the same search instructions. Sources, earlier an
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.4.0' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.4.11' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -295,29 +292,31 @@ html[data-theme="dark"] #dc-tracker > p { color: var(--dc-ink); }
 #tracker-table .project-row span { color: inherit; }
 
 .tracker-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: center;
+  gap: 1.5rem;
   margin-bottom: 1.1rem;
 }
 
-.tracker-intro::after {
-  content: "";
-  display: block;
-  clear: both;
-}
+.tracker-intro > p { margin: 0; }
 
 .tracker-intro-illustration {
   display: block;
-  float: right;
-  width: min(40%, 600px);
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
   height: auto;
-  margin: 0.2rem 0 0.85rem 1.5rem;
+  margin: 0;
   opacity: 0.82;
 }
 
 @media (max-width: 700px) {
+  .tracker-intro { grid-template-columns: minmax(0, 1fr); gap: 0.8rem; }
   .tracker-intro-illustration {
-    float: none;
+    grid-column: 1;
     width: min(100%, 430px);
-    margin: 0.25rem auto 0.8rem;
+    margin: 0 auto;
   }
 }
 
@@ -469,6 +468,12 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   line-height: 1.3;
 }
 #summary-box strong { font-size: 17px; font-weight: 500; }
+#summary-box .summary-context {
+  margin-top: 0.25rem;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--dc-ink);
+}
 
 .table-wrapper {
   overflow-x: auto;
@@ -502,14 +507,15 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   font-size: 12px !important;
   font-weight: 400 !important;
   white-space: nowrap;
-  cursor: help;
+  cursor: default;
 }
 #tracker-table > thead > tr > th.toggle-cell { cursor: default; }
 #tracker-table tbody tr.project-row:hover { background: var(--dc-control); }
+#tracker-table tbody tr.project-row { cursor: pointer; }
 #tracker-table .toggle-cell { width: 26px; padding-right: 2px !important; padding-left: 2px !important; }
 #tracker-table td.project-cell { min-width: 170px; font-weight: 500; }
 #tracker-table td.stage-cell { min-width: 120px; font-size: 12.5px !important; white-space: nowrap; }
-#tracker-table td.size-cell { width: 26%; min-width: 150px; }
+#tracker-table td.size-cell { width: 30%; min-width: 150px; }
 .dc-stage-tag { display: flex; align-items: center; gap: 0.4rem; }
 .dc-stage-tag + .dc-stage-tag { margin-top: 0.15rem; }
 .dc-stage-tag i { flex: none; width: 9px; height: 9px; border-radius: 2px; }
@@ -519,6 +525,29 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
 .dc-size-bar { display: flex; height: 6px; margin-top: 5px; overflow: hidden; border-radius: 1px; }
 .dc-size-bar i { display: block; min-width: 1px; height: 100%; }
 .dc-row-muted { color: var(--dc-muted); }
+/* Scoped project summaries use the same quiet rules as the main list. */
+.dc-summary-table { width: 100%; border-collapse: collapse; font: inherit; font-weight: 400; color: var(--dc-ink); }
+.dc-summary-table th, .dc-summary-table td { text-align: left; vertical-align: top; padding: 0.6rem 1rem 0.6rem 0; border: 0; border-bottom: 1px solid var(--dc-rule); }
+.dc-summary-table td { font-weight: 400 !important; color: var(--dc-ink); }
+.dc-summary-table th { color: var(--dc-muted); font-size: 12px; font-weight: 400; }
+.dc-summary-table td:first-child { width: 42%; }
+.dc-summary-sources { font-size: 11px; margin-top: 0.25rem; }
+.dc-project-meta { font-size: 12px !important; color: var(--dc-muted); }
+.dc-project-section { border-top: 1px solid var(--dc-rule); padding: 0.75rem 0; margin-top: 0.6rem; }
+.dc-project-section > summary { cursor: pointer; font-weight: 500; }
+.dc-project-section[open] > summary { margin-bottom: 0.8rem; }
+.dc-size-bar { overflow: visible; }
+.dc-size-bar i { position: relative; }
+.dc-size-bar i:is(:hover, :focus-visible)::after { content: attr(data-caption); position: absolute; z-index: 5; right: 0; bottom: 12px; width: max-content; max-width: 240px; padding: 0.4rem 0.6rem; color: var(--dc-ink); background: var(--dc-paper); border: 1px solid var(--dc-rule); font: 12px/1.4 "Avenir Next", sans-serif; }
+.dc-size-bar i:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
+@media (max-width: 600px) { .dc-summary-table { font-size: 12px; } .dc-summary-table td { overflow-wrap: anywhere; } }
+.dc-source-conversion {
+  display: block;
+  margin-top: 0.25rem;
+  max-width: 165px;
+  white-space: normal;
+  font-size: 11.5px;
+}
 
 .toggle-button {
   width: 22px;
@@ -551,8 +580,17 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
 .detail-row { display: none; }
 #tracker-table > tbody > tr.detail-row > td.detail-cell {
   padding: 0.3rem 0 1.3rem 28px !important;
-  font-size: 13px !important;
+  font-size: 12px !important;
 }
+/* A single compact reading size throughout an expanded project. */
+#tracker-table .detail-cell :is(p, li, td, summary) {
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+#tracker-table .detail-cell p { margin: 0.35rem 0 0.65rem; }
+#tracker-table .detail-cell :is(ul, ol) { margin: 0.35rem 0 0.65rem; }
+#tracker-table .detail-cell .dc-summary-table :is(th, td) { padding: 0.4rem 0.8rem 0.4rem 0; }
+#tracker-table .detail-cell :is(.dc-project-meta, .dc-summary-sources, .dc-summary-sources a) { font-size: 11px !important; }
 .dc-project-facts {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -560,10 +598,18 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   margin: 0.3rem 0 0.4rem;
 }
 .dc-project-facts div { min-width: 0; }
+#tracker-table .dc-project-progress {
+  margin: 0.35rem 0 1rem;
+  padding-left: 1.15rem;
+  color: var(--dc-ink);
+  font-size: 13px;
+  line-height: 1.5;
+}
+#tracker-table .dc-project-progress li + li { margin-top: 0.35rem; }
 .dc-project-facts dt { margin: 0; color: var(--dc-muted); font-size: 12px; font-weight: 400; }
 .dc-project-facts dd { margin: 0.1rem 0 0; color: var(--dc-ink); font-size: 13px; line-height: 1.4; }
 #tracker-table .detail-title {
-  margin: 1.1rem 0 0.35rem;
+  margin: 0.8rem 0 0.3rem;
   color: var(--dc-ink);
   font-size: 13px;
   font-weight: 600;
@@ -603,10 +649,8 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
 .dc-entry-wrap { width: 0; min-width: 100%; overflow-x: auto; }
 #tracker-table .entry-table { min-width: 700px; }
 #tracker-table .entry-table td:last-child { min-width: 170px; }
-#tracker-table .phase-table td:first-child { min-width: 100px; }
-#tracker-table .phase-table td:nth-child(3) { min-width: 85px; }
-#tracker-table .phase-table td:nth-child(4),
-#tracker-table .phase-table td:nth-child(5) { min-width: 140px; }
+.dc-source-list { padding-left: 1.2rem; }
+.dc-source-list li + li { margin-top: 0.3rem; }
 #tracker-table .actor-table td:nth-child(5) { min-width: 200px; }
 
 .muted {
@@ -939,12 +983,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.4.0">
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.1">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.4.4">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.2" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.4.0" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.4.0" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.4.0">
-<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.0" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.4.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.4.15" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.4.11" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.4.4">
+<script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.4.16" defer></script>

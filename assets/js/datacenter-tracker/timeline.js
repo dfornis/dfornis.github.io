@@ -32,7 +32,7 @@
       timeline.as_of !== data.as_of ||
       sourceKeys.some((key) => !data.input_hashes?.[key] || timeline.source_hashes?.[key] !== data.input_hashes[key])
     )
-      throw new Error("The annual chart is awaiting a refresh for the latest project data.");
+      throw new Error("The chart and project list have different data versions. Reload the page. If this continues, the site needs to be rebuilt.");
     const expected = new Set(
       data.projects.flatMap((project) => timeline.years.flatMap((year) => timeline.families.map(({ id: family }) => `${project.project_id}:${year}:${family}`)))
     );
@@ -116,13 +116,13 @@
     const message = container.querySelector(".dc-timeline-status");
     try {
       if (!global.d3) throw new Error("The chart library could not be loaded. Please reload the page.");
-      const response = await fetch(container.dataset.timeline);
+      const response = await fetch(container.dataset.timeline, { cache: "no-cache" });
       if (!response.ok) throw new Error("Annual capacity data could not be loaded.");
       const timeline = assertTimeline(await response.json(), data);
       // Electricity use, the 2025 starting levels and the historical figures, all precomputed in R.
       let electricity = null;
       if (container.dataset.electricity && global.DCTrackerElectricity) {
-        const reply = await fetch(container.dataset.electricity);
+        const reply = await fetch(container.dataset.electricity, { cache: "no-cache" });
         if (!reply.ok) throw new Error("Electricity use data could not be loaded.");
         electricity = global.DCTrackerElectricity.assertData(await reply.json(), data);
       }

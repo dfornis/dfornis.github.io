@@ -30,7 +30,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 560,
+    "estimated_it_mw_high": 875
   },
   {
     "claim_id": "C003",
@@ -63,7 +65,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 625,
+    "estimated_it_mw_high": 625
   },
   {
     "claim_id": "C004",
@@ -96,7 +100,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 500,
+    "estimated_it_mw_high": 500
   },
   {
     "claim_id": "C005",
@@ -129,7 +135,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C006",
@@ -162,12 +170,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C007",
     "project_id": "P005",
-    "phase": "Expansion / cumulative 2030 capacity",
+    "phase": "Total capacity after expansion by 2030",
     "mw": "300",
     "mw_max": "",
     "basis": "unspecified",
@@ -195,7 +205,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C008",
@@ -228,7 +240,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C009",
@@ -261,12 +275,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C010",
     "project_id": "P005",
-    "phase": "Phase 2 / cumulative site capacity",
+    "phase": "Total site capacity after phase 2",
     "mw": "95",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -294,7 +310,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 79.1666666666667,
+    "estimated_it_mw_high": 79.1666666666667
   },
   {
     "claim_id": "C012",
@@ -327,7 +345,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 25,
+    "estimated_it_mw_high": 25
   },
   {
     "claim_id": "C013",
@@ -360,7 +380,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C014",
@@ -393,7 +415,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 19.1666666666667,
+    "estimated_it_mw_high": 19.1666666666667
   },
   {
     "claim_id": "C015",
@@ -426,7 +450,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 16.6666666666667,
+    "estimated_it_mw_high": 16.6666666666667
   },
   {
     "claim_id": "C016",
@@ -459,7 +485,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 16.6666666666667,
+    "estimated_it_mw_high": 16.6666666666667
   },
   {
     "claim_id": "C017",
@@ -492,7 +520,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 15,
+    "estimated_it_mw_high": 15
   },
   {
     "claim_id": "C018",
@@ -525,12 +555,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C019",
     "project_id": "P012",
-    "phase": "Incremental expansion",
+    "phase": "Additional capacity",
     "mw": "8",
     "mw_max": "",
     "basis": "grid",
@@ -558,7 +590,9 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 6.66666666666667,
+    "estimated_it_mw_high": 6.66666666666667
   },
   {
     "claim_id": "C020",
@@ -591,12 +625,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C021",
     "project_id": "P014",
-    "phase": "Incremental expansion",
+    "phase": "Additional capacity",
     "mw": "1.2",
     "mw_max": "",
     "basis": "unspecified",
@@ -624,7 +660,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 1,
+    "estimated_it_mw_high": 1
   },
   {
     "claim_id": "C022",
@@ -657,7 +695,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C023",
@@ -690,7 +730,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 8.33333333333333,
+    "estimated_it_mw_high": 8.33333333333333
   },
   {
     "claim_id": "C024",
@@ -723,7 +765,9 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 200,
+    "estimated_it_mw_high": 200
   },
   {
     "claim_id": "C025",
@@ -756,7 +800,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C026",
@@ -789,7 +835,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C027",
@@ -822,7 +870,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 77.5,
+    "estimated_it_mw_high": 77.5
   },
   {
     "claim_id": "C028",
@@ -855,7 +905,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C029",
@@ -888,7 +940,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C030",
@@ -921,7 +975,9 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 66.6666666666667,
+    "estimated_it_mw_high": 66.6666666666667
   },
   {
     "claim_id": "C031",
@@ -954,12 +1010,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C032",
     "project_id": "P022",
-    "phase": "42 MW IT facility, phased delivery",
+    "phase": "42 MW IT building",
     "mw": "42",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -987,7 +1045,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C033",
@@ -1020,7 +1080,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 833.333333333333,
+    "estimated_it_mw_high": 833.333333333333
   },
   {
     "claim_id": "C034",
@@ -1053,7 +1115,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 100,
+    "estimated_it_mw_high": 100
   },
   {
     "claim_id": "C035",
@@ -1086,12 +1150,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C036",
     "project_id": "P031",
-    "phase": "Scalable full-site potential",
+    "phase": "Full site potential",
     "mw": "128",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -1119,7 +1185,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C037",
@@ -1152,7 +1220,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C038",
@@ -1185,7 +1255,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 358.333333333333,
+    "estimated_it_mw_high": 358.333333333333
   },
   {
     "claim_id": "C039",
@@ -1218,7 +1290,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 62.5,
+    "estimated_it_mw_high": 62.5
   },
   {
     "claim_id": "C040",
@@ -1251,7 +1325,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 258.333333333333,
+    "estimated_it_mw_high": 258.333333333333
   },
   {
     "claim_id": "C041",
@@ -1284,7 +1360,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 58.3333333333333,
+    "estimated_it_mw_high": 58.3333333333333
   },
   {
     "claim_id": "C042",
@@ -1317,7 +1395,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C043",
@@ -1350,7 +1430,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C044",
@@ -1383,7 +1465,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 8.33333333333333,
+    "estimated_it_mw_high": 8.33333333333333
   },
   {
     "claim_id": "C045",
@@ -1416,7 +1500,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 176.133333333333,
+    "estimated_it_mw_high": 176.133333333333
   },
   {
     "claim_id": "C046",
@@ -1449,7 +1535,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 146.5,
+    "estimated_it_mw_high": 146.5
   },
   {
     "claim_id": "C047",
@@ -1482,7 +1570,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 195.333333333333,
+    "estimated_it_mw_high": 195.333333333333
   },
   {
     "claim_id": "C048",
@@ -1515,12 +1605,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 160,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C049",
     "project_id": "P003",
-    "phase": "B1 and B2 — combined first constructed halls",
+    "phase": "Halls B1 and B2",
     "mw": "24",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -1548,7 +1640,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C050",
@@ -1581,7 +1675,9 @@
     "grid_status": "contracted",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C051",
@@ -1614,12 +1710,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C052",
     "project_id": "P015",
-    "phase": "Länsstyrelsen campus estimate",
+    "phase": "County administrative board estimate for the campus",
     "mw": "500",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -1647,12 +1745,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 416.666666666667,
+    "estimated_it_mw_high": 416.666666666667
   },
   {
     "claim_id": "C053",
     "project_id": "P015",
-    "phase": "First facility under construction — MW unknown",
+    "phase": "First building under construction",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -1680,7 +1780,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C054",
@@ -1713,7 +1815,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C055",
@@ -1746,7 +1850,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 833.333333333333,
+    "estimated_it_mw_high": 833.333333333333
   },
   {
     "claim_id": "C056",
@@ -1779,7 +1885,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 34.1666666666667,
+    "estimated_it_mw_high": 34.1666666666667
   },
   {
     "claim_id": "C057",
@@ -1812,12 +1920,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 66.6666666666667,
+    "estimated_it_mw_high": 66.6666666666667
   },
   {
     "claim_id": "C058",
     "project_id": "P053",
-    "phase": "Cumulative campus after E/F completion",
+    "phase": "Campus capacity after halls E and F",
     "mw": "65",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -1845,12 +1955,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 54.1666666666667,
+    "estimated_it_mw_high": 54.1666666666667
   },
   {
     "claim_id": "C059",
     "project_id": "P054",
-    "phase": "Incremental contracted power upgrade",
+    "phase": "Contracted power increase",
     "mw": "30",
     "mw_max": "",
     "basis": "grid",
@@ -1878,7 +1990,9 @@
     "grid_status": "contracted",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 25,
+    "estimated_it_mw_high": 25
   },
   {
     "claim_id": "C060",
@@ -1911,12 +2025,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 10,
+    "estimated_it_mw_high": 10
   },
   {
     "claim_id": "C061",
     "project_id": "P055",
-    "phase": "First hall — normal designed power",
+    "phase": "First hall, normal power demand",
     "mw": "1",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -1944,7 +2060,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 0.833333333333333,
+    "estimated_it_mw_high": 0.833333333333333
   },
   {
     "claim_id": "C062",
@@ -1977,7 +2095,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 26.6666666666667,
+    "estimated_it_mw_high": 26.6666666666667
   },
   {
     "claim_id": "C063",
@@ -2010,7 +2130,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 26.6666666666667,
+    "estimated_it_mw_high": 26.6666666666667
   },
   {
     "claim_id": "C068",
@@ -2043,12 +2165,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 4.8,
+    "estimated_it_mw_high": 4.8
   },
   {
     "claim_id": "C069",
     "project_id": "P074",
-    "phase": "Incremental capacity expansion",
+    "phase": "Additional capacity",
     "mw": "1.2",
     "mw_max": "",
     "basis": "unspecified",
@@ -2076,7 +2200,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 1,
+    "estimated_it_mw_high": 1
   },
   {
     "claim_id": "C070",
@@ -2109,7 +2235,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 0.833333333333333,
+    "estimated_it_mw_high": 4.16666666666667
   },
   {
     "claim_id": "C071",
@@ -2142,7 +2270,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 1.25,
+    "estimated_it_mw_high": 1.25
   },
   {
     "claim_id": "C072",
@@ -2175,7 +2305,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 541.666666666667,
+    "estimated_it_mw_high": 541.666666666667
   },
   {
     "claim_id": "C073",
@@ -2208,7 +2340,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 1666.66666666667,
+    "estimated_it_mw_high": 1666.66666666667
   },
   {
     "claim_id": "C074",
@@ -2241,12 +2375,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C075",
     "project_id": "P026",
-    "phase": "First construction phase - MW undisclosed",
+    "phase": "First construction phase",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2274,7 +2410,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C076",
@@ -2307,7 +2445,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C077",
@@ -2340,12 +2480,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C078",
     "project_id": "P032",
-    "phase": "Gross facility after expansion",
+    "phase": "Total site capacity after expansion",
     "mw": "45",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -2373,12 +2515,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 37.5,
+    "estimated_it_mw_high": 37.5
   },
   {
     "claim_id": "C079",
     "project_id": "P033",
-    "phase": "YIT-contracted building - MW undisclosed",
+    "phase": "Building contracted to YIT",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2406,7 +2550,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C080",
@@ -2439,12 +2585,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 58.3333333333333,
+    "estimated_it_mw_high": 58.3333333333333
   },
   {
     "claim_id": "C081",
     "project_id": "P035",
-    "phase": "First building under construction - MW undisclosed",
+    "phase": "First building under construction",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2472,7 +2620,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C082",
@@ -2505,7 +2655,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 53.3333333333333,
+    "estimated_it_mw_high": 53.3333333333333
   },
   {
     "claim_id": "C083",
@@ -2538,12 +2690,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 108.333333333333,
+    "estimated_it_mw_high": 108.333333333333
   },
   {
     "claim_id": "C084",
     "project_id": "P051",
-    "phase": "IT capacity within facility",
+    "phase": "Building IT capacity",
     "mw": "100",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2571,12 +2725,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C085",
     "project_id": "P038",
-    "phase": "LUMI-AI / LUMI-IQ new facility - MW unknown",
+    "phase": "New LUMI-AI and LUMI-IQ building",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2604,12 +2760,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C086",
     "project_id": "P037",
-    "phase": "Further contracted buildings - MW undisclosed",
+    "phase": "Further buildings under contract",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2637,12 +2795,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C087",
     "project_id": "P026",
-    "phase": "IT capacity within full-site design",
+    "phase": "Full campus",
     "mw": "172.8",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2670,12 +2830,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C088",
     "project_id": "P027",
-    "phase": "IT capacity within full-site design",
+    "phase": "Full site IT capacity",
     "mw": "144",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2703,12 +2865,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C089",
     "project_id": "P028",
-    "phase": "IT capacity within full-site design",
+    "phase": "Full site IT capacity",
     "mw": "192",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2736,12 +2900,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C090",
     "project_id": "P046",
-    "phase": "Full campus gross power",
+    "phase": "Total campus power",
     "mw": "230",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -2769,12 +2935,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 191.666666666667,
+    "estimated_it_mw_high": 191.666666666667
   },
   {
     "claim_id": "C091",
     "project_id": "P046",
-    "phase": "IT capacity within campus total",
+    "phase": "Campus IT capacity",
     "mw": "160",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2802,7 +2970,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C092",
@@ -2835,12 +3005,14 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 62.5,
+    "estimated_it_mw_high": 62.5
   },
   {
     "claim_id": "C093",
     "project_id": "P046",
-    "phase": "First-phase IT within secured supply",
+    "phase": "First-phase IT capacity",
     "mw": "60",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -2868,12 +3040,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C094",
     "project_id": "P029",
-    "phase": "Further expansion potential - MW undisclosed",
+    "phase": "Further expansion potential",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -2901,7 +3075,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C095",
@@ -2934,7 +3110,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C096",
@@ -2967,7 +3145,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C097",
@@ -3000,7 +3180,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C098",
@@ -3033,7 +3215,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C099",
@@ -3066,7 +3250,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C100",
@@ -3099,7 +3285,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C101",
@@ -3132,7 +3320,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C102",
@@ -3165,7 +3355,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C103",
@@ -3198,7 +3390,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 466.666666666667,
+    "estimated_it_mw_high": 466.666666666667
   },
   {
     "claim_id": "C104",
@@ -3231,7 +3425,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 150,
+    "estimated_it_mw_high": 150
   },
   {
     "claim_id": "C105",
@@ -3264,7 +3460,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C106",
@@ -3297,7 +3495,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 500,
+    "estimated_it_mw_high": 500
   },
   {
     "claim_id": "C107",
@@ -3330,7 +3530,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C110",
@@ -3363,12 +3565,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": 110.833333333333,
+    "estimated_it_mw_high": 333.333333333333
   },
   {
     "claim_id": "C111",
     "project_id": "P095",
-    "phase": "IT in alternative designs",
+    "phase": "IT capacity in alternative designs",
     "mw": "100",
     "mw_max": "300",
     "basis": "it_nameplate",
@@ -3396,12 +3600,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C112",
     "project_id": "P096",
-    "phase": "First phases - MW undisclosed",
+    "phase": "First phases",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -3429,7 +3635,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C113",
@@ -3462,7 +3670,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C115",
@@ -3495,7 +3705,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C129",
@@ -3528,7 +3740,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 291.666666666667,
+    "estimated_it_mw_high": 291.666666666667
   },
   {
     "claim_id": "C132",
@@ -3561,7 +3775,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 416.666666666667,
+    "estimated_it_mw_high": 416.666666666667
   },
   {
     "claim_id": "C133",
@@ -3594,12 +3810,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C134",
     "project_id": "P121",
-    "phase": "Second cumulative phase",
+    "phase": "Total capacity after phase 2",
     "mw": "100",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -3627,7 +3845,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C141",
@@ -3660,7 +3880,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 266.666666666667,
+    "estimated_it_mw_high": 266.666666666667
   },
   {
     "claim_id": "C142",
@@ -3693,7 +3915,9 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 75,
+    "estimated_it_mw_high": 75
   },
   {
     "claim_id": "C143",
@@ -3726,12 +3950,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C155",
     "project_id": "P095",
-    "phase": "First construction phase - MW undisclosed",
+    "phase": "First construction phase",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -3759,7 +3985,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C159",
@@ -3792,12 +4020,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C160",
     "project_id": "P150",
-    "phase": "Initial deployment",
+    "phase": "Initial phase",
     "mw": "8",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -3825,7 +4055,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C161",
@@ -3858,7 +4090,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 833.333333333333,
+    "estimated_it_mw_high": 833.333333333333
   },
   {
     "claim_id": "C162",
@@ -3891,7 +4125,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 433.333333333333,
+    "estimated_it_mw_high": 433.333333333333
   },
   {
     "claim_id": "C163",
@@ -3924,7 +4160,9 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 8.33333333333333,
+    "estimated_it_mw_high": 8.33333333333333
   },
   {
     "claim_id": "C164",
@@ -3957,12 +4195,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 45.8333333333333,
+    "estimated_it_mw_high": 45.8333333333333
   },
   {
     "claim_id": "C165",
     "project_id": "P151",
-    "phase": "First plot gross load",
+    "phase": "Total power for first plot",
     "mw": "80",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -3990,7 +4230,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 66.6666666666667,
+    "estimated_it_mw_high": 66.6666666666667
   },
   {
     "claim_id": "C166",
@@ -4023,12 +4265,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 307.5,
+    "estimated_it_mw_high": 736.666666666667
   },
   {
     "claim_id": "C167",
     "project_id": "P152",
-    "phase": "IT within alternative designs",
+    "phase": "IT capacity in alternative designs",
     "mw": "284",
     "mw_max": "680",
     "basis": "it_nameplate",
@@ -4056,7 +4300,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C171",
@@ -4089,12 +4335,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C172",
     "project_id": "P159",
-    "phase": "Initial development scope",
+    "phase": "Initial development phase",
     "mw": "30",
     "mw_max": "",
     "basis": "unspecified",
@@ -4122,12 +4370,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 25,
+    "estimated_it_mw_high": 25
   },
   {
     "claim_id": "C174",
     "project_id": "P018",
-    "phase": "Current operating power baseline",
+    "phase": "Existing operating capacity",
     "mw": "26.8",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4155,12 +4405,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 22.3333333333333,
+    "estimated_it_mw_high": 22.3333333333333
   },
   {
     "claim_id": "C175",
     "project_id": "P018",
-    "phase": "Near-term power expansion envelope",
+    "phase": "Near-term power expansion",
     "mw": "41.8",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4188,7 +4440,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 34.8333333333333,
+    "estimated_it_mw_high": 34.8333333333333
   },
   {
     "claim_id": "C176",
@@ -4221,12 +4475,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C177",
     "project_id": "P019",
-    "phase": "Current operating power baseline",
+    "phase": "Existing operating capacity",
     "mw": "6.7",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4254,12 +4510,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 5.58333333333333,
+    "estimated_it_mw_high": 5.58333333333333
   },
   {
     "claim_id": "C178",
     "project_id": "P019",
-    "phase": "Expected power expansion envelope",
+    "phase": "Expected power expansion",
     "mw": "43.7",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4287,12 +4545,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 36.4166666666667,
+    "estimated_it_mw_high": 36.4166666666667
   },
   {
     "claim_id": "C179",
     "project_id": "P020",
-    "phase": "Current operating power baseline",
+    "phase": "Existing operating capacity",
     "mw": "16.5",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4320,12 +4580,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 13.75,
+    "estimated_it_mw_high": 13.75
   },
   {
     "claim_id": "C180",
     "project_id": "P020",
-    "phase": "Expected power expansion envelope",
+    "phase": "Expected power expansion",
     "mw": "29",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4353,7 +4615,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 24.1666666666667,
+    "estimated_it_mw_high": 24.1666666666667
   },
   {
     "claim_id": "C181",
@@ -4386,7 +4650,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C182",
@@ -4419,12 +4685,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C183",
     "project_id": "P043",
-    "phase": "Full planned grid envelope",
+    "phase": "Total planned grid capacity",
     "mw": "365",
     "mw_max": "",
     "basis": "grid",
@@ -4452,7 +4720,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 304.166666666667,
+    "estimated_it_mw_high": 304.166666666667
   },
   {
     "claim_id": "C184",
@@ -4485,7 +4755,9 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 116.666666666667,
+    "estimated_it_mw_high": 116.666666666667
   },
   {
     "claim_id": "C185",
@@ -4518,7 +4790,9 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 41.6666666666667,
+    "estimated_it_mw_high": 41.6666666666667
   },
   {
     "claim_id": "C186",
@@ -4551,7 +4825,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 187.5,
+    "estimated_it_mw_high": 187.5
   },
   {
     "claim_id": "C187",
@@ -4584,12 +4860,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C188",
     "project_id": "P045",
-    "phase": "Campus expected electrical consumption",
+    "phase": "Expected campus power demand",
     "mw": "230",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4617,12 +4895,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 191.666666666667,
+    "estimated_it_mw_high": 191.666666666667
   },
   {
     "claim_id": "C189",
     "project_id": "P045",
-    "phase": "Three-building construction package",
+    "phase": "Three buildings under construction",
     "mw": "100",
     "mw_max": "",
     "basis": "unspecified",
@@ -4650,7 +4930,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C190",
@@ -4683,7 +4965,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 241.666666666667,
+    "estimated_it_mw_high": 241.666666666667
   },
   {
     "claim_id": "C194",
@@ -4716,7 +5000,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 32.7272727272727,
+    "estimated_it_mw_high": 32.7272727272727
   },
   {
     "claim_id": "C195",
@@ -4749,7 +5035,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C196",
@@ -4782,12 +5070,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 20.8333333333333,
+    "estimated_it_mw_high": 20.8333333333333
   },
   {
     "claim_id": "C197",
     "project_id": "P173",
-    "phase": "Applied grid capacity",
+    "phase": "Requested grid capacity",
     "mw": "576",
     "mw_max": "",
     "basis": "grid",
@@ -4815,12 +5105,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 480,
+    "estimated_it_mw_high": 480
   },
   {
     "claim_id": "C198",
     "project_id": "P174",
-    "phase": "Reported grid scope",
+    "phase": "Reported grid capacity",
     "mw": "480",
     "mw_max": "",
     "basis": "grid",
@@ -4848,12 +5140,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 400,
+    "estimated_it_mw_high": 400
   },
   {
     "claim_id": "C199",
     "project_id": "P175",
-    "phase": "Full site power envelope",
+    "phase": "Full site power capacity",
     "mw": "350",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -4881,7 +5175,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 291.666666666667,
+    "estimated_it_mw_high": 291.666666666667
   },
   {
     "claim_id": "C200",
@@ -4914,7 +5210,9 @@
     "grid_status": "contracted",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 100,
+    "estimated_it_mw_high": 100
   },
   {
     "claim_id": "C201",
@@ -4947,7 +5245,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 20.8333333333333,
+    "estimated_it_mw_high": 20.8333333333333
   },
   {
     "claim_id": "C204",
@@ -4980,12 +5280,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C205",
     "project_id": "P179",
-    "phase": "Full energy capacity",
+    "phase": "Total power capacity",
     "mw": "100",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -5013,12 +5315,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 89.2857142857143,
+    "estimated_it_mw_high": 89.2857142857143
   },
   {
     "claim_id": "C206",
     "project_id": "P179",
-    "phase": "IT load in development",
+    "phase": "Planned IT capacity",
     "mw": "41",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -5046,7 +5350,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C207",
@@ -5079,12 +5385,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C208",
     "project_id": "P181",
-    "phase": "Planned operating-stage capacity",
+    "phase": "Planned capacity in operation",
     "mw": "80",
     "mw_max": "",
     "basis": "unspecified",
@@ -5112,7 +5420,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 66.6666666666667,
+    "estimated_it_mw_high": 66.6666666666667
   },
   {
     "claim_id": "C209",
@@ -5145,7 +5455,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C210",
@@ -5178,12 +5490,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 625,
+    "estimated_it_mw_high": 625
   },
   {
     "claim_id": "C211",
     "project_id": "P184",
-    "phase": "Delivered site power",
+    "phase": "Site power provided",
     "mw": "10",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -5211,12 +5525,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 8.33333333333333,
+    "estimated_it_mw_high": 8.33333333333333
   },
   {
     "claim_id": "C212",
     "project_id": "P185",
-    "phase": "Applied grid capacity",
+    "phase": "Requested grid capacity",
     "mw": "360",
     "mw_max": "",
     "basis": "grid",
@@ -5244,7 +5560,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 300,
+    "estimated_it_mw_high": 300
   },
   {
     "claim_id": "C213",
@@ -5277,7 +5595,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C214",
@@ -5310,7 +5630,9 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 7.5,
+    "estimated_it_mw_high": 7.5
   },
   {
     "claim_id": "C215",
@@ -5343,12 +5665,14 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 0.833333333333333,
+    "estimated_it_mw_high": 0.833333333333333
   },
   {
     "claim_id": "C216",
     "project_id": "P188",
-    "phase": "Permitted full grid scope",
+    "phase": "Permitted grid capacity",
     "mw": "4",
     "mw_max": "",
     "basis": "grid",
@@ -5376,7 +5700,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 3.33333333333333,
+    "estimated_it_mw_high": 3.33333333333333
   },
   {
     "claim_id": "C217",
@@ -5409,12 +5735,14 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 1.66666666666667,
+    "estimated_it_mw_high": 1.66666666666667
   },
   {
     "claim_id": "C218",
     "project_id": "P189",
-    "phase": "Full existing-premises potential",
+    "phase": "Potential capacity within existing premises",
     "mw": "5",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -5442,12 +5770,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 4.16666666666667,
+    "estimated_it_mw_high": 4.16666666666667
   },
   {
     "claim_id": "C219",
     "project_id": "P189",
-    "phase": "Installed operating baseline",
+    "phase": "Existing installed capacity",
     "mw": "1",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -5475,7 +5805,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 0.833333333333333,
+    "estimated_it_mw_high": 0.833333333333333
   },
   {
     "claim_id": "C220",
@@ -5508,12 +5840,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 2.5,
+    "estimated_it_mw_high": 2.5
   },
   {
     "claim_id": "C221",
     "project_id": "P190",
-    "phase": "Currently installed baseline",
+    "phase": "Existing installed capacity",
     "mw": "2",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -5541,7 +5875,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 1.66666666666667,
+    "estimated_it_mw_high": 1.66666666666667
   },
   {
     "claim_id": "C222",
@@ -5574,7 +5910,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 45.8333333333333,
+    "estimated_it_mw_high": 45.8333333333333
   },
   {
     "claim_id": "C223",
@@ -5607,7 +5945,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C224",
@@ -5640,12 +5980,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 41.6666666666667,
+    "estimated_it_mw_high": 41.6666666666667
   },
   {
     "claim_id": "C225",
     "project_id": "P022",
-    "phase": "Reserved network expansion envelope",
+    "phase": "Grid capacity for expansion",
     "mw": "700",
     "mw_max": "",
     "basis": "grid",
@@ -5673,12 +6015,14 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 583.333333333333,
+    "estimated_it_mw_high": 583.333333333333
   },
   {
     "claim_id": "C226",
     "project_id": "P176",
-    "phase": "Phased Suldal site potential",
+    "phase": "Suldal site potential, developed in stages",
     "mw": "100",
     "mw_max": "",
     "basis": "unspecified",
@@ -5706,7 +6050,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C230",
@@ -5739,12 +6085,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C231",
     "project_id": "P192",
-    "phase": "Earlier planned expansion envelope",
+    "phase": "Earlier expansion plan",
     "mw": "8",
     "mw_max": "",
     "basis": "unspecified",
@@ -5772,12 +6120,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 6.66666666666667,
+    "estimated_it_mw_high": 6.66666666666667
   },
   {
     "claim_id": "C232",
     "project_id": "P192",
-    "phase": "Current gross power specification",
+    "phase": "Current total power rating",
     "mw": "11",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -5805,12 +6155,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 9.16666666666667,
+    "estimated_it_mw_high": 9.16666666666667
   },
   {
     "claim_id": "C233",
     "project_id": "P192",
-    "phase": "End-2025 installed IT baseline",
+    "phase": "IT capacity installed at end-2025",
     "mw": "5",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -5838,7 +6190,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C238",
@@ -5871,12 +6225,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 10,
+    "estimated_it_mw_high": 10
   },
   {
     "claim_id": "C239",
     "project_id": "P194",
-    "phase": "Current installed power baseline",
+    "phase": "Existing installed power",
     "mw": "9",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -5904,12 +6260,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 7.5,
+    "estimated_it_mw_high": 7.5
   },
   {
     "claim_id": "C240",
     "project_id": "P033",
-    "phase": "Additional FIN04 A1 building - MW undisclosed",
+    "phase": "Additional FIN04 A1 building",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -5937,12 +6295,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C241",
     "project_id": "P034",
-    "phase": "Verified pre-expansion operating baseline",
+    "phase": "Operating capacity before expansion",
     "mw": "25",
     "mw_max": "",
     "basis": "unspecified",
@@ -5970,7 +6330,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 20.8333333333333,
+    "estimated_it_mw_high": 20.8333333333333
   },
   {
     "claim_id": "C242",
@@ -6003,12 +6365,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 58.3333333333333,
+    "estimated_it_mw_high": 58.3333333333333
   },
   {
     "claim_id": "C243",
     "project_id": "P027",
-    "phase": "HEL04 and HEL05 cumulative IT milestone",
+    "phase": "Combined IT capacity of HEL04 and HEL05",
     "mw": "96",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -6036,12 +6400,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C244",
     "project_id": "P028",
-    "phase": "HEL10 and HEL11 cumulative IT milestone",
+    "phase": "Combined IT capacity of HEL10 and HEL11",
     "mw": "96",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -6069,12 +6435,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C245",
     "project_id": "P028",
-    "phase": "HEL10, HEL11 and HEL12 cumulative IT milestone",
+    "phase": "Combined IT capacity of HEL10, HEL11 and HEL12",
     "mw": "144",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -6102,12 +6470,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C246",
     "project_id": "P085",
-    "phase": "Second cumulative contracted IT step",
+    "phase": "Total contracted IT capacity after second stage",
     "mw": "80",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -6135,12 +6505,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C247",
     "project_id": "P126",
-    "phase": "First building - MW undisclosed",
+    "phase": "First building",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -6168,7 +6540,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C249",
@@ -6201,7 +6575,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C250",
@@ -6234,7 +6610,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 41.6666666666667,
+    "estimated_it_mw_high": 41.6666666666667
   },
   {
     "claim_id": "C251",
@@ -6267,7 +6645,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 5,
+    "estimated_it_mw_high": 5
   },
   {
     "claim_id": "C252",
@@ -6300,7 +6680,9 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 41.6666666666667,
+    "estimated_it_mw_high": 41.6666666666667
   },
   {
     "claim_id": "C253",
@@ -6333,7 +6715,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C254",
@@ -6366,7 +6750,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C255",
@@ -6399,12 +6785,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C256",
     "project_id": "P199",
-    "phase": "First site expansion customer readiness",
+    "phase": "First expansion ready for customers",
     "mw": "110",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -6432,7 +6820,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 91.6666666666667,
+    "estimated_it_mw_high": 91.6666666666667
   },
   {
     "claim_id": "C257",
@@ -6465,7 +6855,9 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 33.3333333333333,
+    "estimated_it_mw_high": 33.3333333333333
   },
   {
     "claim_id": "C258",
@@ -6498,12 +6890,14 @@
     "grid_status": "reserved",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 91.6666666666667,
+    "estimated_it_mw_high": 91.6666666666667
   },
   {
     "claim_id": "C259",
     "project_id": "P199",
-    "phase": "Older further energized-capacity target",
+    "phase": "Earlier target for further power connections",
     "mw": "325",
     "mw_max": "",
     "basis": "grid",
@@ -6531,7 +6925,9 @@
     "grid_status": "unknown",
     "timing_status": "superseded",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 270.833333333333,
+    "estimated_it_mw_high": 270.833333333333
   },
   {
     "claim_id": "C260",
@@ -6564,7 +6960,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 16.6666666666667,
+    "estimated_it_mw_high": 16.6666666666667
   },
   {
     "claim_id": "C261",
@@ -6597,7 +6995,9 @@
     "grid_status": "available",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 4.16666666666667,
+    "estimated_it_mw_high": 4.16666666666667
   },
   {
     "claim_id": "C262",
@@ -6630,7 +7030,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C264",
@@ -6663,7 +7065,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C263",
@@ -6696,7 +7100,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C265",
@@ -6729,7 +7135,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C266",
@@ -6762,7 +7170,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C267",
@@ -6795,12 +7205,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 691.666666666667,
+    "estimated_it_mw_high": 691.666666666667
   },
   {
     "claim_id": "C268",
     "project_id": "P050",
-    "phase": "First datacenter building — MW undisclosed",
+    "phase": "First data centre building",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -6828,7 +7240,9 @@
     "grid_status": "",
     "timing_status": "current",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C269",
@@ -6861,7 +7275,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C270",
@@ -6894,7 +7310,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C271",
@@ -6927,7 +7345,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C272",
@@ -6960,7 +7380,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C273",
@@ -6993,7 +7415,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C274",
@@ -7026,12 +7450,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 400,
+    "estimated_it_mw_high": 625
   },
   {
     "claim_id": "C275",
     "project_id": "P003",
-    "phase": "B1–B3 combined constructed halls",
+    "phase": "Halls B1 to B3",
     "mw": "36",
     "mw_max": "",
     "basis": "it_nameplate",
@@ -7059,7 +7485,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C276",
@@ -7092,7 +7520,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C277",
@@ -7125,7 +7555,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C278",
@@ -7158,12 +7590,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C279",
     "project_id": "P040",
-    "phase": "Proposed phased facility electrical demand",
+    "phase": "Power demand of proposed facility, developed in stages",
     "mw": "150",
     "mw_max": "",
     "basis": "facility_unspecified",
@@ -7191,7 +7625,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C280",
@@ -7224,7 +7660,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C281",
@@ -7257,12 +7695,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C282",
     "project_id": "P039",
-    "phase": "First operation – phase MW undisclosed",
+    "phase": "First operating phase",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -7290,12 +7730,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C283",
     "project_id": "P204",
-    "phase": "First hall – MW undisclosed",
+    "phase": "First hall",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -7323,12 +7765,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C284",
     "project_id": "P205",
-    "phase": "Planned phased AI platform",
+    "phase": "Planned AI campus, developed in stages",
     "mw": "200",
     "mw_max": "",
     "basis": "unspecified",
@@ -7356,7 +7800,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 166.666666666667,
+    "estimated_it_mw_high": 166.666666666667
   },
   {
     "claim_id": "C285",
@@ -7389,7 +7835,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 37.5,
+    "estimated_it_mw_high": 37.5
   },
   {
     "claim_id": "C286",
@@ -7422,7 +7870,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 3.75,
+    "estimated_it_mw_high": 3.75
   },
   {
     "claim_id": "C287",
@@ -7455,12 +7905,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C288",
     "project_id": "P206",
-    "phase": "Application pursued for 100 MW total power",
+    "phase": "Requested total power capacity",
     "mw": "100",
     "mw_max": "",
     "basis": "grid",
@@ -7488,12 +7940,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C289",
     "project_id": "P208",
-    "phase": "Proposed 300 MW facility envelope",
+    "phase": "Proposed facility capacity",
     "mw": "300",
     "mw_max": "",
     "basis": "facility_nameplate",
@@ -7521,7 +7975,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 250,
+    "estimated_it_mw_high": 250
   },
   {
     "claim_id": "C290",
@@ -7554,12 +8010,14 @@
     "grid_status": "unknown",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 125,
+    "estimated_it_mw_high": 125
   },
   {
     "claim_id": "C291",
     "project_id": "P208",
-    "phase": "Possible first opening – MW undisclosed",
+    "phase": "Possible first opening",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -7587,12 +8045,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C292",
     "project_id": "P210",
-    "phase": "Applied 250 MW network supply",
+    "phase": "Requested network supply",
     "mw": "250",
     "mw_max": "",
     "basis": "grid",
@@ -7620,12 +8080,14 @@
     "grid_status": "requested",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C293",
     "project_id": "P210",
-    "phase": "First hall – construction target, MW unknown",
+    "phase": "First hall, planned construction",
     "mw": "",
     "mw_max": "",
     "basis": "unspecified",
@@ -7653,7 +8115,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C294",
@@ -7686,7 +8150,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C295",
@@ -7719,7 +8185,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C296",
@@ -7752,7 +8220,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 416.666666666667,
+    "estimated_it_mw_high": 416.666666666667
   },
   {
     "claim_id": "C297",
@@ -7785,7 +8255,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C298",
@@ -7818,7 +8290,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C299",
@@ -7851,7 +8325,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C300",
@@ -7884,7 +8360,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 9.58333333333333,
+    "estimated_it_mw_high": 9.58333333333333
   },
   {
     "claim_id": "C301",
@@ -7917,7 +8395,9 @@
     "grid_status": "contracted",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 9.58333333333333,
+    "estimated_it_mw_high": 9.58333333333333
   },
   {
     "claim_id": "C302",
@@ -7950,7 +8430,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "campus_continuation"
+    "evidence_class": "campus_continuation",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C303",
@@ -7983,7 +8465,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "confirmed"
+    "evidence_class": "confirmed",
+    "estimated_it_mw_low": 20.8333333333333,
+    "estimated_it_mw_high": 20.8333333333333
   },
   {
     "claim_id": "C304",
@@ -8016,7 +8500,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 20.8333333333333,
+    "estimated_it_mw_high": 20.8333333333333
   },
   {
     "claim_id": "C305",
@@ -8049,7 +8535,9 @@
     "grid_status": "contracted",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 112.5,
+    "estimated_it_mw_high": 112.5
   },
   {
     "claim_id": "C306",
@@ -8082,7 +8570,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 291.666666666667,
+    "estimated_it_mw_high": 291.666666666667
   },
   {
     "claim_id": "C307",
@@ -8115,7 +8605,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C308",
@@ -8148,7 +8640,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 666.666666666667,
+    "estimated_it_mw_high": 666.666666666667
   },
   {
     "claim_id": "C309",
@@ -8181,7 +8675,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C310",
@@ -8214,7 +8710,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C311",
@@ -8247,7 +8745,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C312",
@@ -8280,7 +8780,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C314",
@@ -8313,7 +8815,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C316",
@@ -8346,7 +8850,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 50
   },
   {
     "claim_id": "C317",
@@ -8379,7 +8885,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 458.333333333333,
+    "estimated_it_mw_high": 458.333333333333
   },
   {
     "claim_id": "C318",
@@ -8412,7 +8920,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C319",
@@ -8445,7 +8955,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": 103.333333333333,
+    "estimated_it_mw_high": 103.333333333333
   },
   {
     "claim_id": "C320",
@@ -8478,7 +8990,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C321",
@@ -8511,7 +9025,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 400,
+    "estimated_it_mw_high": 400
   },
   {
     "claim_id": "C322",
@@ -8544,7 +9060,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 50,
+    "estimated_it_mw_high": 100
   },
   {
     "claim_id": "C323",
@@ -8577,7 +9095,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "dated_plan"
+    "evidence_class": "dated_plan",
+    "estimated_it_mw_low": 100,
+    "estimated_it_mw_high": 100
   },
   {
     "claim_id": "C324",
@@ -8610,7 +9130,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C325",
@@ -8643,7 +9165,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 83.3333333333333,
+    "estimated_it_mw_high": 83.3333333333333
   },
   {
     "claim_id": "C326",
@@ -8676,7 +9200,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 800,
+    "estimated_it_mw_high": 800
   },
   {
     "claim_id": "C327",
@@ -8709,7 +9235,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "yes",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   },
   {
     "claim_id": "C329",
@@ -8742,12 +9270,14 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 208.333333333333,
+    "estimated_it_mw_high": 208.333333333333
   },
   {
     "claim_id": "C330",
     "project_id": "P223",
-    "phase": "Proposed CPH04 three-hall component",
+    "phase": "Proposed three-hall CPH04 facility",
     "mw": "95.9",
     "mw_max": "",
     "basis": "facility_peak",
@@ -8775,7 +9305,9 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "undated_announcement"
+    "evidence_class": "undated_announcement",
+    "estimated_it_mw_low": 99.8958333333333,
+    "estimated_it_mw_high": 128.897849462366
   },
   {
     "claim_id": "C331",
@@ -8808,6 +9340,8 @@
     "grid_status": "",
     "timing_status": "",
     "campus_total": "",
-    "evidence_class": "not_counted"
+    "evidence_class": "not_counted",
+    "estimated_it_mw_low": null,
+    "estimated_it_mw_high": null
   }
 ]

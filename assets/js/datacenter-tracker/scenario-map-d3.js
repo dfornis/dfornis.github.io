@@ -4,7 +4,7 @@
   const DEFAULT_TAB = "announced";
   const DEFAULT_MEASURE = "twh";
   const MEASURES = [
-    { id: "twh", label: "Annual electricity", shortLabel: "TWh/year", unit: "TWh/year", field: "annual_twh" },
+    { id: "twh", label: "Annual electricity", shortLabel: "TWh", unit: "TWh/year", field: "annual_twh" },
     { id: "mw", label: "Power", shortLabel: "GW", unit: "MW", field: "mw" },
   ];
   const HQ_HIGHLIGHTS = [
@@ -107,11 +107,11 @@
   }
 
   const CLASSES = ["confirmed", "dated_plan", "campus_continuation", "undated_announcement"];
-  const CLASS_LABELS = ["Confirmed", "Dated plan", "Rest of active site", "Undated plan"];
+  const CLASS_LABELS = ["Confirmed", "Dated plan", "Further campus plans", "Undated plan"];
   const CLASS_TEXT = [
     "Investment decision taken or construction started.",
     "No investment decision yet. The developer or a public document gives a date.",
-    "One building on the site is under construction or has an investment decision. This is the rest of the announced site size, which has no date of its own.",
+    "Undated capacity at a campus where a phase is under construction or has an investment decision.",
     "Announced, but with no date and no building started. Includes early ideas and feasibility studies.",
   ];
   const TABS = [
@@ -811,6 +811,42 @@
       2 * ring, "No stated size");
   }
 
+
+  // Fixed classes keep area colours comparable between stage, HQ and type selections.
+  const ZONE_COLOURS = ["#e0d5c6", "#dbcebb", "#d5c6af", "#cebba1"];
+  const ZONE_SCALES = {
+    mw: { limits: [500, 2000, 5000], labels: ["0–0.5", "0.5–2", "2–5", "5+"], unit: "GW" },
+    twh: { limits: [2, 10, 30], labels: ["0–2", "2–10", "10–30", "30+"], unit: "TWh/year" },
+  };
+  function zoneFill(detail, measure = DEFAULT_MEASURE) {
+    if (!(detail?.high > 0)) return "var(--dc-land)";
+    const index = ZONE_SCALES[measure].limits.findIndex((limit) => detail.high <= limit);
+    return ZONE_COLOURS[index < 0 ? ZONE_COLOURS.length - 1 : index];
+  }
+
+
+  // Both map views share the same classes, labels and screen-sized key.
+  function renderZoneKey(container, measure, { x, y, k = 1, barHeight = 132, focus = false }) {
+    const barWidth = 7, scale = ZONE_SCALES[measure];
+    const key = container.selectAll("g.dc-zone-key").data([null]).join("g")
+      .attr("class", focus ? "dc-zone-key dc-focus-zone-key" : "dc-zone-key")
+      .attr("role", "img").attr("aria-label", `Quantified zone totals in ${scale.unit}, upper estimate`)
+      .attr("transform", `translate(${x},${y}) scale(${1 / k})`);
+    key.selectAll("rect.dc-zone-key-backdrop").data(focus ? [null] : []).join("rect")
+      .attr("class", "dc-zone-key-backdrop").attr("x", -52).attr("y", -24)
+      .attr("width", 70).attr("height", barHeight + 36).attr("rx", 6).lower();
+    key.selectAll("text.dc-zone-key-unit").data([null]).join("text").attr("class", "dc-zone-key-unit")
+      .attr("x", barWidth).attr("y", -12).attr("text-anchor", "end").text(measure === "twh" ? "TWh" : scale.unit);
+    const rows = key.selectAll("g.dc-zone-key-step").data(ZONE_COLOURS).join("g").attr("class", "dc-zone-key-step");
+    rows.selectAll("rect").data((colour) => [colour]).join("rect")
+      .attr("x", 0).attr("y", (d) => (3 - ZONE_COLOURS.indexOf(d)) * barHeight / 4)
+      .attr("width", barWidth).attr("height", barHeight / 4 + 0.1).attr("fill", (d) => d);
+    rows.selectAll("text").data((colour) => [colour]).join("text").attr("text-anchor", "end")
+      .attr("x", -8).attr("y", (d) => (3 - ZONE_COLOURS.indexOf(d) + 0.5) * barHeight / 4 + 4)
+      .text((d) => scale.labels[ZONE_COLOURS.indexOf(d)]);
+    return key;
+  }
+
   function renderMapLegend(root, measure, tab = DEFAULT_TAB) {
     // The key occupies the empty lower right corner, without a separate surface.
     const host = root.select(".dc-scenario-svg-wrap");
@@ -938,10 +974,11 @@
   // An equal-area projection, so countries and zones keep their true relative sizes.
   const mapProjection = () => d3.geoConicEqualArea().parallels([57, 68]).rotate([-17, 0]);
   // The overview fits the Nordic zones. Neighbours do not change its scale.
-  const COMPACT_QUERY = "(max-width: 600px)";
+  const mapLayout = () => global.innerWidth <= 600 ? "mobile" : global.innerWidth <= 900 ? "compact" : "wide";
   const MAP_LAYOUTS = {
     wide: { extent: [[150, 36], [610, 506]], bottom: 84 },
-    compact: { extent: [[70, 40], [690, 840]], bottom: 50 },
+    compact: { extent: [[100, 28], [660, 720]], bottom: 40 },
+    mobile: { extent: [[22, 24], [738, 990]], bottom: 35 },
   };
 
   function mount(container, data, shared) {
@@ -957,13 +994,13 @@
     const headlineNode = root.append("div").attr("class", "dc-map-headline").attr("aria-live", "polite");
     const figure = root.append("div").attr("class", "dc-scenario-svg-wrap");
     const svg = figure.append("svg").attr("class", "dc-scenario-svg").attr("role", "img");
-    const compactMedia = typeof global.matchMedia === "function" ? global.matchMedia(COMPACT_QUERY) : null;
-    let compact = Boolean(compactMedia && compactMedia.matches);
+    let layoutName = mapLayout();
+    let compact = layoutName !== "wide";
     const projection = mapProjection();
     const path = d3.geoPath(projection);
     // Fits the map to the layout. The height follows the lowest country, so there is no empty band below.
     function fitMap() {
-      const layout = MAP_LAYOUTS[compact ? "compact" : "wide"];
+      const layout = MAP_LAYOUTS[layoutName];
       projection.fitExtent(layout.extent, geojson);
       // On a narrow screen the width sets the scale, so the land would sit low with an empty band above it.
       // It is moved up to the top of the frame.
@@ -1047,6 +1084,7 @@
       if (!rendered) return;
       root.style("--dc-map-pixel", width / rendered).style("--dc-map-height", `${svg.node().getBoundingClientRect().height}px`);
       if (Math.abs(rendered - keyWidth) > 2 && keyWidth) renderMapLegend(root, measure, tab);
+      drawZoneKey();
       keyWidth = rendered;
     }) : null;
     if (sizeObserver) sizeObserver.observe(svg.node());
@@ -1066,6 +1104,21 @@
       root.append("p").attr("class", "dc-map-background-status").attr("role", "status")
         .text("Neighbouring country outlines could not be loaded.");
     });
+
+    function drawZoneKey() {
+      const rendered = svg.node().getBoundingClientRect().width;
+      if (!rendered) return;
+      const k = rendered / width, barWidth = 7;
+      const barHeight = compact ? (rendered < 340 ? 80 : 100) : 132;
+      const pad = compact ? 12 : 22;
+      const bounds = path.bounds(geojson);
+      const centre = bounds[0][1] + (bounds[1][1] - bounds[0][1]) * 0.72;
+      const keyY = Math.max(24 / k, Math.min(height - (pad + barHeight) / k, centre - barHeight / (2 * k)));
+      renderZoneKey(svg, measure, {
+        x: width - (pad + barWidth) / k, y: keyY, k, barHeight,
+      });
+    }
+
     const popup = root.append("div").attr("class", "dc-map-popup-host").attr("hidden", true);
     const zonePaths = mapG.selectAll("path").data(geojson.features).join("path").attr("class", "dc-zone")
       .attr("data-zone", (d) => d.properties.bidding_zone).attr("tabindex", 0).attr("role", "button")
@@ -1132,9 +1185,10 @@
     global.document.addEventListener("click", closeOnOutsideClick);
     // Switching between the wide and the narrow layout redraws the map. Otherwise only an open country view is redrawn.
     const onResize = () => {
-      const nextCompact = Boolean(compactMedia && compactMedia.matches);
-      if (nextCompact !== compact) {
-        compact = nextCompact;
+      const nextLayout = mapLayout();
+      if (nextLayout !== layoutName) {
+        layoutName = nextLayout;
+        compact = layoutName !== "wide";
         fitMap();
         phaseG.attr("data-drawn", null);
         zonePaths.attr("d", path);
@@ -1173,7 +1227,7 @@
       // On a wide screen both sides leave room for the table, since it may go on either side.
       const side = focusNarrow() ? 16 : 190 * focusUnit();
       const extent = focusNarrow()
-        ? [[side, focusFrame.top], [W - side, H - focusFrame.bottom - 20]]
+        ? [[side, focusFrame.top], [W - side - 64, H - focusFrame.bottom - 20]]
         : [[side, focusFrame.top], [W - side, H - 40 * focusUnit()]];
       const focusProjection = mapProjection().fitExtent(extent, collection);
       return { W, H, features, collection, focusProjection, focusPath: d3.geoPath(focusProjection) };
@@ -1219,7 +1273,7 @@
       const distance = (side) => d3.sum(items, (d) => Math.abs(edge(side) - d.anchor[0]));
       const side = items.length === 1 || distance(1) <= distance(-1) ? 1 : -1;
       const x = side > 0 ? edge(1) : edge(-1) - tableWidth;
-      const table = layer.append("g").attr("class", "dc-focus-table").attr("transform", `translate(${x},0)`);
+      const table = layer.append("g").attr("class", "dc-focus-table").attr("data-side", side > 0 ? "right" : "left").attr("transform", `translate(${x},0)`);
       // A card behind the table. It shows only when zoomed in, so the table stays readable over the land.
       const cardTop = items[0].y - rowHeight * (withShare ? 1.15 : 0.62) - 10 * u;
       const cardBottom = items[items.length - 1].y + (items.length > 1 ? rowHeight + 8 * u : 0) + rowHeight * 0.38 + 10 * u;
@@ -1299,7 +1353,7 @@
       focusZoom.extent([[0, 0], [W, H]]).translateExtent([[0, 0], [W, H]]);
       focusG.selectAll("g.dc-focus-zone-layer").data([null]).join("g").attr("class", "dc-focus-zone-layer")
         .selectAll("path").data(features, (d) => d.properties.bidding_zone).join("path").attr("class", "dc-zone dc-focus-zone")
-        .attr("d", focusPath).attr("fill", "var(--dc-land)").attr("tabindex", 0).attr("role", "button")
+        .attr("d", focusPath).attr("fill", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure)).attr("tabindex", 0).attr("role", "button")
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`)
         .on("click", (event, d) => { event.stopPropagation(); openZone(d.properties.bidding_zone, event); });
       const phases = focusG.selectAll("g.dc-phase-layer").data([null]).join("g").attr("class", "dc-phase-layer");
@@ -1311,6 +1365,7 @@
       // The zone names on the map. A country with one zone needs none.
       labelLayer.selectAll("text.dc-focus-inside-label").data(features.length > 1 ? features : []).join("text")
         .attr("class", "dc-focus-inside-label").attr("text-anchor", "middle")
+        .style("stroke", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
         .each(function (d) { this.__base = zoneAnchor(d, focusPath); })
         .attr("transform", function () { return `translate(${this.__base.join(",")})`; }).text((d) => d.properties.bidding_zone);
       if (!animate) labelLayer.selectAll("g.dc-focus-table").classed("dc-focus-table-current", false)
@@ -1320,6 +1375,18 @@
           .classed("dc-focus-table-current", true);
         if (!animate && !reduceMotion()) table.style("opacity", 0).transition().duration(320).style("opacity", 1);
       }
+
+      const tableOnRight = !narrow && labelLayer.select(".dc-focus-table-current").attr("data-side") === "right";
+      const keyPad = narrow ? 18 : 30;
+      const keyBottom = H - focusFrame.bottom - keyPad;
+      const keyHeight = Math.min(narrow ? 100 : 132, Math.max(48, keyBottom - focusFrame.top - 24));
+      const landBounds = focusPath.bounds({ type: "FeatureCollection", features });
+      const landCentre = landBounds[0][1] + (landBounds[1][1] - landBounds[0][1]) * 0.72;
+      const keyY = Math.max(focusFrame.top + 24, Math.min(keyBottom - keyHeight, landCentre - keyHeight / 2));
+      renderZoneKey(labelLayer, measure, {
+        x: tableOnRight ? keyPad + 52 : W - keyPad - 7,
+        y: keyY, barHeight: keyHeight, focus: true,
+      });
       focus.attr("aria-label", `${countryLabel(country)}, ${TABS.find((t) => t.id === tab).label}`);
       // A new country starts unzoomed. A change of selection keeps the zoom.
       if (animate) focusSvg.call(focusZoom.transform, d3.zoomIdentity);
@@ -1396,12 +1463,14 @@
       const view = trackerView(data, tab, measure, hq, type);
       root.attr("data-measure", measure).attr("data-tab", tab).attr("data-hq", hq).attr("data-type", type);
       svg.attr("aria-label", `Planned datacenter sites: ${TABS.find((t) => t.id === tab).label}`);
-      zonePaths.attr("fill", "var(--dc-land)")
+      zonePaths.attr("fill", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`);
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure, "none", type), data), hq);
       renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab);
       phaseG.selectAll("g.dc-phase-point").on("mouseenter.country", (event, d) => hoverCountry(d.country)).on("mouseleave.country", leaveCountry);
       root.classed("dc-hq-highlighting", hq !== "none");
+      zoneLabelG.selectAll("text.dc-zone-label").style("stroke", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure));
+      drawZoneKey();
       // The text above the map says what a circle shows.
       renderMapLegend(root, measure, tab);
       const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: circleText(item.id, m, hq, type) })));
@@ -1420,7 +1489,7 @@
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;type = state.type;render(); });
     return { disconnect() {backgroundAbort.abort();sizeObserver?.disconnect();unsubscribe();global.document.removeEventListener("click", closeOnOutsideClick);global.removeEventListener("resize", onResize);root.selectAll("*").remove();} };
   }
-  const api = { COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
+  const api = { ZONE_COLOURS, ZONE_SCALES, zoneFill, COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);
