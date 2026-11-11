@@ -1,7 +1,7 @@
 /* Method overview only: labels use the exported configuration; no project values are calculated here. */
 (function (global) {
   "use strict";
-  const REVIEWED_METHOD = "5.2";
+  const REVIEWED_METHOD = "5.4";
   const number = (value) => Number(value).toLocaleString("en-US", { maximumFractionDigits: 2 });
   const interval = (values) => [...new Set(values.map(number))].join("–");
 
@@ -45,6 +45,17 @@
         ],
       },
       {
+        id: "peak",
+        stage: "measure",
+        title: "Peak power",
+        subtitle: "Converted to installed capacity.",
+        basis: ["facility_peak", "it_peak"],
+        detail: [
+          `Peak demand is assumed to be ${a.peak_to_nameplate_fraction.map((value) => number(value * 100)).join("–")}% of installed capacity. Dividing the reported peak by these fractions gives the capacity range. An IT peak is first multiplied by PUE.`,
+          "For electricity use, the reported peak is multiplied by the campus load factor relative to peak demand.",
+        ],
+      },
+      {
         id: "unknown",
         stage: "measure",
         title: "No usable MW",
@@ -61,7 +72,7 @@
         title: "Sites and buildings",
         subtitle: "Overlaps counted once.",
         detail: [
-          "When a site total and its buildings are both reported, the larger figure is used, not the sum. A building that reports more than its site total is flagged for review.",
+          "When a site total and its buildings are both reported, the larger figure is used to avoid counting the same capacity twice. A building that reports more than its site total is flagged for review.",
         ],
       },
       {
@@ -99,7 +110,7 @@
         title: "Electricity use · TWh/year",
         subtitle: "Annual use at that capacity.",
         detail: [
-          "Capacity in use × load factor for the type of datacenter × 8,760 hours. A site that comes online during a year enters with its first-year share for the whole of that year.",
+          "Capacity in use × campus load factor × 8,760 hours. A site that comes online during a year enters with its first-year share for the whole of that year.",
         ],
       },
     ];
@@ -114,8 +125,8 @@
       { id: "result", label: "6. Results" },
     ].map((stage) => ({ ...stage, nodes: nodes.filter((node) => node.stage === stage.id) }));
     const links = [
-      ...["it", "site", "unknown"].map((target) => ({ source: "scope", target })),
-      ...["it", "site"].map((source) => ({ source, target: "overlap" })),
+      ...["it", "site", "peak", "unknown"].map((target) => ({ source: "scope", target })),
+      ...["it", "site", "peak"].map((source) => ({ source, target: "overlap" })),
       { source: "overlap", target: "stage" },
       { source: "stage", target: "timing" },
       ...["mw", "energy"].map((target) => ({ source: "timing", target })),
@@ -131,11 +142,8 @@
     const range = (values, format = number) => [...new Set(values.map(format))].join("–");
     const factor = (value) => Number(value).toFixed(2);
     const labels = {
-      Hyperscale: "Hyperscale",
-      Hyperscale_AI: "Hyperscale with AI",
-      AI_HPC: "AI / HPC",
-      Colocation_AI: "Colocation with AI",
-      Colocation: "Colocation",
+      Hyperscale: `Dedicated campus, at least ${types.campus_threshold_it_mw} MW IT`,
+      Colocation: `Multi-tenant campus, under ${types.campus_threshold_it_mw} MW IT`,
     };
     return {
       values: {
@@ -164,16 +172,17 @@
               "Read as site power. If such a figure is in fact IT power, the site is about a fifth larger.",
             ],
             ["At least X MW", "X", "Counted as X, with the usual conversion."],
+            ["Peak power", range(a.peak_to_nameplate_fraction.map((value) => value * 100)) + "% of installed capacity", "Divide peak MW by these fractions to estimate installed capacity. Convert an IT peak to site power first."],
           ],
         },
         {
           id: "annual",
-          headers: ["Datacenter type", "Load factor"],
+          headers: ["Full campus", "Load factor"],
           rows: [
             ...Object.entries(types.categories)
               .filter(([id]) => labels[id])
               .map(([id, item]) => [labels[id], factor(item.load_factor)]),
-            ["Unknown type", range(a.nameplate_annual_fraction, factor)],
+            ["Other campuses, including unknown size or use", range(a.nameplate_annual_fraction, factor)],
           ],
         },
         {
@@ -322,21 +331,22 @@
 
   function mount(container, data) {
     if (!container) return null;
+    renderReference(container.ownerDocument?.getElementById("dc-method-reference"), buildReference(data));
     let flow;
     try {
       flow = buildFlow(data);
     } catch (error) {
       container.setAttribute?.("data-flow-state", "needs-review");
       const message = container.querySelector?.(".dc-method-flow-canvas");
-      if (message) message.textContent = error.message;
+      if (message) message.textContent = "The calculation steps are described below.";
+      global.console?.warn("Method diagram:", error);
       return null;
     }
-    renderReference(container.ownerDocument?.getElementById("dc-method-reference"), buildReference(data));
     if (!global.d3) return null;
     const root = global.d3.select(container);
     const canvas = root.select(".dc-method-flow-canvas");
     root.attr("data-flow-state", "ready").attr("data-method-version", flow.version);
-    root.select(".dc-method-flow-caption").text("Each step opens a short explanation.");
+    root.select(".dc-method-flow-caption").text("Click a step for details.");
     canvas.selectAll("*").remove();
     const svg = canvas.append("svg").attr("class", "dc-method-links").attr("aria-hidden", "true");
     svg
@@ -411,6 +421,7 @@
       scope: ["dc-method-capacity", "Capacity conversion"],
       it: ["dc-method-capacity", "Capacity conversion"],
       site: ["dc-method-capacity", "Capacity conversion"],
+      peak: ["dc-method-capacity", "Capacity conversion"],
       unknown: ["dc-data-coverage", "Data coverage"],
       overlap: ["dc-method-reference", "Parameters and assumptions"],
       stage: ["dc-method-stages", "Stages"],

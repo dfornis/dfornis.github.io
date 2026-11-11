@@ -187,7 +187,7 @@
   display: block;
   width: 100%;
   height: auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .dc-zone {
@@ -205,23 +205,18 @@
 .dc-zone-label,
 #dc-scenario-map .dc-zone-label {
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif !important;
-  font-size: calc(13.4px * var(--dc-label-scale, 1)) !important;
-  font-weight: 400 !important;
+  font-size: calc(10px * var(--dc-map-pixel, 1)) !important;
+  font-weight: 500 !important;
+  paint-order: stroke;
+  stroke: var(--dc-land);
+  stroke-width: calc(2.5px * var(--dc-map-pixel, 1));
+  stroke-linejoin: round;
   letter-spacing: 0.01em;
   fill: #4b5356;
   pointer-events: none;
   dominant-baseline: middle;
 }
 
-.dc-zone-label-line,
-#dc-scenario-map .dc-zone-label-line {
-  stroke: #3a403f !important;
-  stroke-width: 0.78 !important;
-  stroke-linecap: round;
-  stroke-dasharray: 2 4;
-  opacity: 0.44;
-  vector-effect: non-scaling-stroke;
-}
 
 .dc-callout-line,
 #dc-scenario-map .dc-callout-line {
@@ -359,11 +354,6 @@
 }
 
 @media (max-width: 720px) {
-  .dc-zone-label,
-  #dc-scenario-map .dc-zone-label {
-    font-size: 13px !important;
-  }
-
   .dc-callout-value,
   #dc-scenario-map .dc-callout-value {
     font-size: 15.4px !important;
@@ -422,32 +412,14 @@
 :is(#dc-scenario-map, #dc-shared-controls) .dc-map-controls { gap: 0.3rem; }
 :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-control { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 :is(#dc-scenario-map, #dc-shared-controls) .dc-map-options { align-items: flex-start; }
-/* The map fills the text width. On a wide screen the key sits in the empty corner at the bottom right of the map. */
-#dc-scenario-map .dc-scenario-svg-wrap { max-width: none; }
+/* The map fills the text width. The key sits in the open sea at the upper left. */
+#dc-scenario-map .dc-scenario-svg-wrap { width: 100%; max-width: none; }
 #dc-scenario-map:not(.dc-map-compact) .dc-scenario-svg-wrap { margin-bottom: 1.4rem; }
-#dc-scenario-map:not(.dc-map-compact) .dc-scenario-svg-wrap > .dc-site-key {
-  position: absolute; right: 0; bottom: 2%; margin: 0; max-width: none;
+#dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key {
+  position: absolute; left: 0; top: 3%; margin: 0; max-width: none;
   flex-direction: column; align-items: flex-start; gap: 0.5rem;
 }
-#dc-scenario-map:not(.dc-map-compact) .dc-scenario-svg-wrap > .dc-site-key .dc-site-key-symbols { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
-/* Year slider. On a wide screen it sits in the empty corner at the top left of the map, and on a narrow screen above it. */
-#dc-scenario-map .dc-year { box-sizing: border-box; width: 230px; max-width: 100%; color: var(--dc-muted); font: 12px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; }
-#dc-scenario-map:not(.dc-map-compact) .dc-scenario-svg-wrap > .dc-year { position: absolute; top: 0; left: 0; z-index: 1; }
-#dc-scenario-map.dc-map-compact .dc-scenario-svg-wrap > .dc-year { width: 100%; max-width: 320px; margin: 0 auto 0.6rem; }
-#dc-scenario-map .dc-year-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.15rem; }
-#dc-scenario-map .dc-year-head strong { color: var(--dc-ink); font-size: 15px; font-weight: 500; }
-#dc-scenario-map .dc-year input { display: block; width: 100%; margin: 0; accent-color: var(--dc-blue); cursor: pointer; }
-#dc-scenario-map .dc-year input:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 3px; }
-#dc-scenario-map .dc-year-ticks { position: relative; height: 1.1rem; margin: 0 8px; font-size: 11px; }
-#dc-scenario-map .dc-year-ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
-#dc-scenario-map .dc-year-ticks span:first-child { transform: none; }
-#dc-scenario-map .dc-year-ticks span:last-child { transform: translateX(-100%); }
-#dc-scenario-map .dc-year-note { margin-top: 0.2rem; font-size: 11.5px; line-height: 1.4; }
-/* In the enlarged view the slider sits at the top right, under the close button. Not on a narrow screen. */
-#dc-scenario-map .dc-focus-year { position: absolute; z-index: 2; top: calc(var(--dc-focus-bar, 0px) + 18px * var(--dc-u)); right: calc(72px * var(--dc-u)); }
-#dc-scenario-map .dc-focus-year .dc-year { width: calc(230px * var(--dc-u)); }
-#dc-scenario-map .dc-focus:not(.dc-focus-narrow) .dc-focus-title { right: calc(72px * var(--dc-u) + 250px * var(--dc-u)); }
-#dc-scenario-map .dc-focus-narrow .dc-focus-year { display: none; }
+#dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key .dc-site-key-symbols { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 #dc-scenario-map .dc-map-scale {
   display: flex;
   flex-direction: column;
@@ -459,7 +431,6 @@
 }
 
 #dc-scenario-map .dc-zone-label { fill: var(--dc-ink); }
-#dc-scenario-map .dc-zone-label-line { stroke: var(--dc-muted) !important; opacity: 0.65; }
 #dc-scenario-map .dc-zone-class-list {
   --dc-label-width: 6.5rem;
   --dc-value-width: 8.5rem;
@@ -545,12 +516,10 @@
 #dc-scenario-map .dc-project-popup p { margin: 0.2rem 0; }
 #dc-scenario-map .dc-project-class-value { display: flex; justify-content: space-between; gap: 0.7rem; margin-top: 0.2rem; font-size: 11px; }
 #dc-scenario-map .dc-project-class-value strong { font-weight: 500; }
-/* Stage rows in the project card: colour swatch as in the breakdown, stages outside the selection toned down. */
+/* Stage rows in the project card: plain text, stages outside the selection in grey. */
 #dc-scenario-map .dc-project-popup-summary { margin: 0 0 0.2rem; font-size: 12px; color: var(--dc-ink); }
 #dc-scenario-map .dc-project-class-value > span { display: inline-flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
-#dc-scenario-map .dc-project-class-value i { flex: none; width: 13px; height: 9px; border-radius: 2px; display: inline-block; }
-#dc-scenario-map .dc-project-site-bar { display: flex; height: 9px; margin: 0.4rem 0 0.35rem; border-radius: 2px; overflow: hidden; background: var(--dc-rule); }
-#dc-scenario-map .dc-project-site-bar i { display: block; height: 100%; }
+#dc-scenario-map .dc-project-class-list { margin: 0.35rem 0 0.1rem; }
 #dc-scenario-map .dc-project-popup-project { padding-top: 0.5rem; margin-top: 0.5rem; }
 #dc-scenario-map .dc-project-popup-project-title { display: flex; justify-content: space-between; gap: 0.7rem; }
 #dc-scenario-map .dc-project-popup-project-title span { flex: none; font-size: 11px; font-weight: 500; }
@@ -672,7 +641,7 @@ html[data-theme="dark"] #dc-tracker { --dc-land: #2b3337; --dc-land-line: #4a565
 /* Grey disc: all announced capacity at the site. Blue level from the bottom: the share included in the selection.
    The same styles are also set inline by the script. */
 #dc-scenario-map .dc-phase-disc { fill: var(--dc-blue); fill-opacity: 0.25; stroke: #fbf8f0; stroke-width: 0.8; }
-#dc-scenario-map .dc-phase-share { fill: var(--dc-blue); fill-opacity: 0.8; }
+#dc-scenario-map .dc-phase-share { fill: var(--dc-blue); fill-opacity: 0.66; }
 #dc-scenario-map .dc-site-key { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 2rem; max-width: 640px; }
 #dc-scenario-map .dc-site-key-sizes { flex: none; overflow: visible; }
 #dc-scenario-map .dc-site-key-sizes text { fill: var(--dc-muted); font-size: 11px; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
@@ -681,14 +650,6 @@ html[data-theme="dark"] #dc-tracker { --dc-land: #2b3337; --dc-land-line: #4a565
 @media (max-width: 600px) {
   #dc-scenario-map .dc-site-key-symbols { gap: 0.6rem 1.4rem; }
 }
-/* Narrow screens: the zone values sit in a grid under the map instead of labels on the map. */
-#dc-scenario-map .dc-zone-strip { margin: 0.5rem auto 0; display: grid; grid-template-columns: repeat(4, auto); justify-content: center; gap: 0.05rem 1.1rem; }
-#dc-scenario-map .dc-zone-strip[hidden] { display: none; }
-#dc-scenario-map .dc-zone-strip-item { appearance: none; border: 0; background: none; padding: 0.1rem 0; text-align: left; cursor: pointer; white-space: nowrap; font: 12.5px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; color: var(--dc-muted); }
-#dc-scenario-map .dc-zone-strip-item strong { color: var(--dc-ink); font-weight: 500; margin-right: 0.3em; }
-#dc-scenario-map .dc-zone-strip-item:hover strong, #dc-scenario-map .dc-zone-strip-item:focus-visible strong { text-decoration: underline; }
-#dc-scenario-map .dc-zone-strip-item:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
-
 /* Country focus view over a blurred map. */
 #dc-scenario-map .dc-scenario-svg-wrap { position: relative; }
 #dc-scenario-map .dc-zone { cursor: pointer; }
@@ -710,12 +671,12 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
   font: calc(14px * var(--dc-u))/1.35 "Avenir Next", "Helvetica Neue", Arial, sans-serif; color: var(--dc-ink); }
 #dc-scenario-map .dc-focus-name { display: flex; flex-direction: column; }
 #dc-scenario-map .dc-focus-name strong { font-size: calc(26px * var(--dc-u)); font-weight: 500; line-height: 1.2; }
-#dc-scenario-map .dc-focus-name span { color: var(--dc-muted); font-size: calc(15px * var(--dc-u)); }
+#dc-scenario-map .dc-focus-name span { color: var(--dc-ink); font-size: calc(15px * var(--dc-u)); }
 #dc-scenario-map .dc-focus-key { display: flex; flex-wrap: wrap; align-items: flex-end; gap: calc(10px * var(--dc-u)) calc(28px * var(--dc-u)); }
-#dc-scenario-map .dc-focus-key .dc-site-key-sizes text { font-size: calc(13px * var(--dc-u)); }
+#dc-scenario-map .dc-focus-key .dc-site-key-sizes text { font-size: calc(13px * var(--dc-u)); fill: var(--dc-ink); }
 #dc-scenario-map .dc-focus-table text { font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
 #dc-scenario-map .dc-focus-table-name { font-size: calc(15px * var(--dc-u)); font-weight: 500; fill: var(--dc-ink); }
-#dc-scenario-map .dc-focus-table-value { font-size: calc(14px * var(--dc-u)); fill: var(--dc-muted); }
+#dc-scenario-map .dc-focus-table-value { font-size: calc(14px * var(--dc-u)); fill: var(--dc-ink); font-variant-numeric: tabular-nums; }
 #dc-scenario-map .dc-focus-table-row { cursor: pointer; outline: none; }
 #dc-scenario-map .dc-focus-table-row:hover .dc-focus-table-name, #dc-scenario-map .dc-focus-table-row:focus-visible .dc-focus-table-name { text-decoration: underline; }
 #dc-scenario-map .dc-focus-table-total line { stroke: var(--dc-muted); stroke-width: 1; opacity: 0.6; }
@@ -751,7 +712,7 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-focus-narrow .dc-focus-inside-label { font-size: 13px; font-weight: 400; }
 #dc-scenario-map .dc-focus-zones { position: absolute; z-index: 2; left: 16px; right: 16px; bottom: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1.4rem; }
 #dc-scenario-map .dc-focus-zones[hidden] { display: none; }
-#dc-scenario-map .dc-focus-zone-item { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; font: 14px/1.35 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; color: var(--dc-muted); }
+#dc-scenario-map .dc-focus-zone-item { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; font: 14px/1.35 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; color: var(--dc-ink); }
 #dc-scenario-map .dc-focus-zone-item strong { color: var(--dc-ink); font-weight: 500; font-size: 15px; }
 #dc-scenario-map .dc-focus-zone-total { flex-basis: 100%; cursor: default; }
 #dc-scenario-map .dc-focus-zone-total::before { content: ""; width: 4rem; border-top: 1px solid var(--dc-muted); opacity: 0.6; margin-bottom: 0.35rem; }
@@ -772,4 +733,26 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-site-tip strong { display: block; font-weight: 600; color: var(--dc-ink); }
 #dc-scenario-map .dc-site-tip span { color: var(--dc-muted); }
 @media (prefers-reduced-motion: reduce) { #dc-scenario-map .dc-site-tip { transition: none; } }
-#dc-scenario-map .dc-focus:not(.dc-focus-narrow) .dc-focus-reset { top: auto; bottom: 24px; }
+
+/* Share of 2025 electricity use, shown with annual electricity use in the breakdown and the enlarged country view. */
+#dc-scenario-map .dc-zone-class-share { display: none; }
+#dc-scenario-map .dc-zone-class-list-share { --dc-share-width: 5.5rem; }
+#dc-scenario-map .dc-zone-class-list-share .dc-zone-class-row,
+#dc-scenario-map .dc-zone-class-list-share .dc-class-chart-heading { grid-template-columns: var(--dc-label-width) minmax(0, 1fr) var(--dc-value-width) var(--dc-share-width); }
+#dc-scenario-map .dc-zone-class-list-share .dc-class-axis { padding-right: calc(var(--dc-value-width) + var(--dc-share-width) + 2rem); }
+#dc-scenario-map .dc-zone-class-list-share .dc-zone-class-share { display: block; text-align: right; color: var(--dc-muted); font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-zone-class-list-share .dc-class-chart-heading > :nth-child(3) { text-align: right; }
+#dc-scenario-map .dc-focus-table-share { font-size: calc(14px * var(--dc-u)); fill: var(--dc-ink); font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-focus-table-share-head { font-size: calc(13px * var(--dc-u)); font-weight: 500; fill: var(--dc-ink); }
+
+#dc-scenario-map .dc-scenario-svg { position: relative; width: 100%; overflow: hidden; background: transparent; }
+/* Pointing at a zone or a circle darkens its whole country. */
+#dc-scenario-map .dc-scenario-svg .dc-zone { transition: fill 160ms ease; }
+#dc-scenario-map .dc-scenario-svg .dc-zone.dc-country-hover { fill: #d6ccba; }
+@media (prefers-reduced-motion: reduce) { #dc-scenario-map .dc-scenario-svg .dc-zone { transition: none; } }
+@media (max-width: 600px) {
+  /* On a narrow screen the land fills the width, so the key sits under the map. */
+  #dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key { position: static; margin: 0.4rem auto 0; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 1.6rem; }
+  #dc-scenario-map .dc-scenario-svg-wrap > .dc-site-key .dc-site-key-symbols { flex-direction: row; align-items: flex-end; gap: 0.6rem 1.4rem; }
+  #dc-scenario-map .dc-map-scale .dc-site-key-sizes text { font-size: 10px; }
+}

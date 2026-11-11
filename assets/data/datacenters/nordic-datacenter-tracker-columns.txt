@@ -36,9 +36,11 @@ municipality
 latitude, longitude
   Approximate display point in WGS 84. Not a surveyed site boundary.
 type
-  Type of data centre as described by the sources (hyperscale, colocation, AI, HPC, cloud and others). Several are separated by a semicolon.
+  Type of data centre, from the sources under fixed evidence rules. hyperscale: a documented large platform or an explicitly described hyperscale development. colocation: customers lease space, a hall or a building for their own servers. enterprise: an organisation runs the facility for its own computing. AI/HPC: planned for or marketed for AI or high-performance computing. A project can have several types, separated by a semicolon. Empty means that the sources do not establish the type.
 status
   Planned, Permitted, Under construction, Operational, Cancelled or Dormant.
+campus_it_use
+  Physical IT use across the whole campus: dedicated, multi_tenant or empty if unknown.
 first_operation_year
   Earliest year that the sources give for any part of the project to come into operation. Empty if no year is given.
 capacity_status
@@ -71,6 +73,8 @@ reported_mw_low, reported_mw_high
   MW as given by the source. Equal unless the source gives a range. Empty when the source describes a part of the project without a MW figure.
 measure
   What the figure measures: IT power, site power, grid connection, peak demand or not stated. Backup generation, power generation and rack density are not data centre load. A qualifier from the source (up to, at least, approximate) is given in brackets.
+campus_total
+  Yes marks a current gross design rating used to classify the full campus against the IT size threshold.
 site_mw_low, site_mw_high
   Site power after conversion, before removing capacity already operating.
 not_counted_because
@@ -81,10 +85,7 @@ source_urls
   Sources for the figure, separated by spaces.
 
 LOAD FACTORS USED IN THE MODEL OUTPUT
-Load factor is average annual electricity use divided by site capacity. It follows the project type.
-  Hyperscale: 0.75
-  Hyperscale AI: 0.75
-  AI HPC: 0.8
-  Colocation AI: 0.6
-  Colocation: 0.57
-  Research SMR: 0.8
+Load factor is average annual electricity use divided by site capacity. All phases use the campus profile, based on gross full-build IT size and physical IT use. Project tags are descriptive.
+  dedicated whole campus, at least 50 MW IT: 0.75
+  multi-tenant whole campus, below 50 MW IT: 0.57
+  all other campuses, including unknown size or use: 0.57-0.75

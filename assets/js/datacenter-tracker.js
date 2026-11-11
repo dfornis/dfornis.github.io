@@ -445,6 +445,7 @@
             return (
               "<tr><td>" +
               escape(claim.phase) +
+              (claim.campus_total === "yes" ? "<br>Full-campus size reference" : "") +
               '</td><td class="number-cell">' +
               escape(reported(claim)) +
               "</td><td>" +
@@ -542,9 +543,16 @@
           ...(confirmedWithoutMw(project.project_id) ? ["Confirmed, MW unknown"] : []),
           ...stagesOf(project.project_id).map((item) => item.label + (knownSize && item.mw_high > 0 ? " " + range(item.mw_low, item.mw_high) + " MW" : "")),
         ].join(", ");
+        const campusIds = [...new Set(Array.from(ledger.values(), (row) => row.campus_project_id))];
+        const campusUse = (campusId) => {
+          const campus = projects.get(campusId);
+          const use = ({ dedicated: "Dedicated", multi_tenant: "Multi-tenant" })[campus?.campus_it_use] || "Unknown";
+          return campusId === project.project_id ? use : use + " (" + (campus?.project_name || campusId) + ")";
+        };
         const facts = [
           ["Developer", escape(project.developer || "Unknown")],
           ["Type", escape(tags(project.type).join(", ") || "Unknown")],
+          ["Campus IT use", escape((campusIds.length ? campusIds : [project.project_id]).map(campusUse).join(", "))],
           ["Project status", escape(project.status || "Unknown")],
           ["Investment decision", escape(projectDecision(own))],
           [
