@@ -20,7 +20,7 @@ permalink: /projects/datacenter-tracker/
   <h2 id="dc-map-title">Planned datacenter sites</h2>
   <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included. Type accepts several selections: a project with any selected type is counted once.</p>
   <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.4"></div>
-  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>. Map of Denmark: <a href="https://github.com/eurostat/Nuts2json">© EuroGeographics</a> for the administrative boundaries.</p>
+  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
 </section>
 
 <section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.4.13" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.4.13">
@@ -240,7 +240,7 @@ Each country is reviewed using the same search instructions. Sources, earlier an
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.4.18' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.4.20' | relative_url }}");
 
 /* The illustration's slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -987,7 +987,7 @@ pre {
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.4.18" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.4.20" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.4.13" defer></script>
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.4.4">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>

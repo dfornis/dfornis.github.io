@@ -761,12 +761,14 @@
 
   // Reference circles side by side, bottom-aligned, with the value below each.
   // k is the number of screen pixels per map unit, so the key matches the circles it explains.
-  function drawSizeKey(container, measure, k) {
+  function drawSizeKey(container, measure, k, vertical = false) {
     const scale = SITE_SCALE[measure];
     const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: 2 });
     const radii = scale.keys.map((value) => siteRadius(value, measure) * k);
     const gap = 14, labelHeight = 16;
-    const h = Math.max(...radii) * 2 + labelHeight + 4;
+    const largest = Math.max(...radii);
+    const rowHeight = Math.max(22, largest * 2 + 8);
+    const h = vertical ? rowHeight * radii.length : largest * 2 + labelHeight + 4;
     let x = 2;
     const svg = container.append("svg").attr("class", "dc-site-key-sizes").attr("height", h).attr("aria-hidden", true);
     scale.keys.forEach((value, i) => {
@@ -775,13 +777,16 @@
       const textWidth = probe.node().getComputedTextLength ? probe.node().getComputedTextLength() : 44;
       probe.remove();
       const r = radii[i], slot = Math.max(r * 2, 44, textWidth + 6);
-      const cx = x + slot / 2;
-      svg.append("circle").attr("cx", cx).attr("cy", h - labelHeight - r - 2).attr("r", r)
+      const cx = vertical ? 2 + largest : x + slot / 2;
+      const cy = vertical ? rowHeight * (i + 0.5) : h - labelHeight - r - 2;
+      svg.append("circle").attr("cx", cx).attr("cy", cy).attr("r", r)
         .style("fill", "var(--dc-blue)").style("fill-opacity", SHARE_OPACITY).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
-      svg.append("text").attr("x", cx).attr("y", h - 3).attr("text-anchor", "middle").text(`${format(value)} ${scale.unit}`);
-      x += slot + gap;
+      const labelX = vertical ? 2 + largest * 2 + 8 : cx;
+      svg.append("text").attr("x", labelX).attr("y", vertical ? cy + 4 : h - 3)
+        .attr("text-anchor", vertical ? "start" : "middle").text(`${format(value)} ${scale.unit}`);
+      x = vertical ? Math.max(x, labelX + textWidth + 2) : x + slot + gap;
     });
-    svg.attr("width", x - gap + 2);
+    svg.attr("width", vertical ? x : x - gap + 2);
     return svg;
   }
 
@@ -1229,7 +1234,7 @@
     // offset is the height of the site's menu bar. The enlarged view starts below it, so the menu stays usable.
     const focusFrame = { top: 112, bottom: 0, offset: 0 };
     function focusSetup(country) {
-      const W = global.innerWidth, H = global.innerHeight - focusFrame.offset;
+      const W = focusSvg.node().clientWidth, H = focusSvg.node().clientHeight;
       const features = geojson.features.filter((f) => f.properties.country === country);
       const collection = { type: "FeatureCollection", features };
       // On a wide screen both sides leave room for the table, since it may go on either side.
@@ -1334,7 +1339,7 @@
       // A country with one zone shows its total by the name. Otherwise the total sits under the zones.
       if (zones.length === 1) name.append("span").text(zoneValueLabel(view.countries[country], measure));
       const focusKey = focusTitle.append("div").attr("class", "dc-focus-key");
-      drawSizeKey(focusKey, measure, radiusScale);
+      drawSizeKey(focusKey, measure, radiusScale, narrow);
       // Narrow screen: the zones in a grid under the country, each with its value, and the total last.
       focusZones.attr("hidden", narrow ? null : true).selectAll("*").remove();
       if (narrow) {
@@ -1350,8 +1355,9 @@
           item.append("span").text(zoneValueLabel(view.countries[country], measure));
         }
       }
-      // Fit the land below its name. Keys float over spare space and never shrink the country.
-      focusFrame.top = Math.ceil(name.node().getBoundingClientRect().bottom) - focusFrame.offset + (narrow ? 24 : 32 * u);
+      // Fit from the controls, not the animated heading or its floating key.
+      const controlsBottom = focusControls.node().getBoundingClientRect().bottom - focus.node().getBoundingClientRect().top;
+      focusFrame.top = Math.ceil(controlsBottom) + (narrow ? 20 : 32 * u);
       focusFrame.bottom = narrow ? Math.ceil(focusZones.node().getBoundingClientRect().height) + 20 : 0;
       focusHeadband.style("height", `${Math.ceil(focusTitle.node().getBoundingClientRect().bottom - focusControls.node().getBoundingClientRect().bottom) + (narrow ? 12 : 18 * u)}px`);
       const { W, H, features, focusProjection, focusPath } = focusSetup(country);

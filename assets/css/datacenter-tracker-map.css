@@ -770,10 +770,12 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 @media (max-width: 600px) {
   :is(#dc-scenario-map, #dc-shared-controls) .dc-map-options {
     display: grid;
-    grid-template-columns: max-content minmax(0, 1fr) minmax(0, 1.5fr);
+    grid-template-columns: max-content minmax(0, 1fr) minmax(0, 1fr);
     gap: 0.4rem;
     width: 100%;
-    max-width: 420px;
+    max-width: 380px;
+    box-sizing: border-box;
+    padding-inline: 1rem;
   }
   :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-control,
   :is(#dc-scenario-map, #dc-shared-controls) .dc-type-control,
