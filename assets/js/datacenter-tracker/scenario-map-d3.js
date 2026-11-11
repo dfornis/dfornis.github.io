@@ -855,8 +855,9 @@
     // The map is drawn in a 760-unit viewBox and scaled to the page. The key uses the same scale.
     const mapSvg = root.select(".dc-scenario-svg").node();
     const k = mapSvg && mapSvg.getBoundingClientRect().width ? mapSvg.getBoundingClientRect().width / 760 : 1;
-    drawSizeKey(legend, measure, k);
-    drawSymbolKey(legend, k, 7, tab);
+    const mobileScale = root.classed("dc-map-compact") ? 1.2 : 1;
+    drawSizeKey(legend, measure, k * mobileScale);
+    drawSymbolKey(legend, k * mobileScale, 7 * mobileScale, tab);
   }
 
 
@@ -1112,7 +1113,7 @@
       const barHeight = compact ? (rendered < 340 ? 80 : 100) : 132;
       const pad = compact ? 12 : 22;
       const bounds = path.bounds(geojson);
-      const centre = bounds[0][1] + (bounds[1][1] - bounds[0][1]) * 0.72;
+      const centre = bounds[0][1] + (bounds[1][1] - bounds[0][1]) * (compact ? 0.80 : 0.72);
       const keyY = Math.max(24 / k, Math.min(height - (pad + barHeight) / k, centre - barHeight / (2 * k)));
       renderZoneKey(svg, measure, {
         x: width - (pad + barWidth) / k, y: keyY, k, barHeight,
@@ -1466,7 +1467,7 @@
       zonePaths.attr("fill", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`);
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure, "none", type), data), hq);
-      renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab);
+      renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab, true, compact ? 1.2 : 1);
       phaseG.selectAll("g.dc-phase-point").on("mouseenter.country", (event, d) => hoverCountry(d.country)).on("mouseleave.country", leaveCountry);
       root.classed("dc-hq-highlighting", hq !== "none");
       zoneLabelG.selectAll("text.dc-zone-label").style("stroke", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure));
