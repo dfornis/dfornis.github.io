@@ -804,3 +804,14 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-focus-key .dc-site-key-symbols { display: none; }
 #dc-scenario-map .dc-focus-details-hidden .dc-focus-zones,
 #dc-scenario-map .dc-focus-details-hidden .dc-focus-table { pointer-events: none; }
+
+/* Only the name takes header space. The keys float over the map. */
+#dc-scenario-map .dc-focus-controls { position: relative; }
+#dc-scenario-map .dc-focus-svg { position: absolute; inset: 0; }
+#dc-scenario-map .dc-focus-title {
+  position: relative; top: auto; left: auto; right: auto;
+  margin: calc(24px * var(--dc-u)) calc(72px * var(--dc-u)) 0 calc(40px * var(--dc-u));
+}
+#dc-scenario-map .dc-focus-narrow .dc-focus-title {
+  top: auto; left: auto; right: auto; margin: 0.9rem 3.5rem 0 1rem;
+}

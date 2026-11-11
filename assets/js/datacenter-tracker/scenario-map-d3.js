@@ -1177,6 +1177,15 @@
       focus.style("--dc-focus-detail-opacity", Math.max(0, 1 - (t.k - 1) / 0.35));
     }
     let focusCountry = null;
+    // Font loading and wrapping can change the controls after the country opens.
+    const focusControlsObserver = new ResizeObserver(() => {
+      if (!focusCountry) return;
+      const height = Math.ceil(focusControls.node().getBoundingClientRect().height);
+      if (height !== parseFloat(focus.node().style.getPropertyValue("--dc-focus-bar"))) {
+        drawCountry(focusCountry.country, focusCountry.zone, false);
+      }
+    });
+    focusControlsObserver.observe(focusControls.node());
     const reduceMotion = () => global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // A click anywhere outside the country closes the view. Clicks on the main map are the ones that open it.
     const closeOnOutsideClick = (event) => {
@@ -1485,7 +1494,7 @@
       if (focusCountry) drawCountry(focusCountry.country, focusCountry.zone, false);
     }
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;type = state.type;render(); });
-    return { disconnect() {backgroundAbort.abort();sizeObserver?.disconnect();unsubscribe();global.document.removeEventListener("click", closeOnOutsideClick);global.removeEventListener("resize", onResize);root.selectAll("*").remove();} };
+    return { disconnect() {backgroundAbort.abort();sizeObserver?.disconnect();unsubscribe();global.document.removeEventListener("click", closeOnOutsideClick);global.removeEventListener("resize", onResize);focusControlsObserver.disconnect();root.selectAll("*").remove();} };
   }
   const api = { ZONE_COLOURS, ZONE_SCALES, zoneFill, COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
