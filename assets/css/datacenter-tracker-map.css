@@ -788,16 +788,19 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
   #dc-scenario-map .dc-focus-controls select { padding-left: 0.5rem; padding-right: 1.05rem; }
 }
 
-/* The colour key stays still during zoom, with a plain backing when land moves behind it. */
+/* Focus details float over the map without reserving a frame around the land. */
 #dc-scenario-map .dc-focus-zone { transition: fill 160ms ease, filter 160ms ease; }
-#dc-scenario-map .dc-zone-key-backdrop { fill: var(--dc-paper); opacity: 0; transition: opacity 200ms ease; }
-#dc-scenario-map .dc-focus-zoomed .dc-zone-key-backdrop { opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  #dc-scenario-map .dc-focus-zone, #dc-scenario-map .dc-zone-key-backdrop { transition: none; }
+#dc-scenario-map .dc-focus-key { position: absolute; top: 100%; left: 0; margin-top: 12px; max-width: 220px; pointer-events: none; }
+#dc-scenario-map .dc-focus-key, #dc-scenario-map .dc-focus-zone-key,
+#dc-scenario-map .dc-focus-table > *, #dc-scenario-map .dc-focus-zones > * {
+  opacity: var(--dc-focus-detail-opacity, 1) !important;
 }
-
-/* Keep the country heading and circle key in flow below the actual toolbar height. */
-#dc-scenario-map .dc-focus-controls { position: relative; }
-#dc-scenario-map .dc-focus-svg { position: absolute; inset: 0; }
-#dc-scenario-map .dc-focus-title { position: relative; top: auto; left: auto; right: auto; margin: calc(24px * var(--dc-u)) calc(72px * var(--dc-u)) 0 calc(40px * var(--dc-u)); }
-#dc-scenario-map .dc-focus-narrow .dc-focus-title { top: auto; left: auto; right: auto; margin: 0.9rem 3.5rem 0 1rem; }
+#dc-scenario-map .dc-focus-headband, #dc-scenario-map .dc-focus-table-card,
+#dc-scenario-map .dc-focus-zones::before { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  #dc-scenario-map .dc-focus-zone { transition: none; }
+}
+/* The overview explains the symbols. Keep only the size references over the country. */
+#dc-scenario-map .dc-focus-key .dc-site-key-symbols { display: none; }
+#dc-scenario-map .dc-focus-details-hidden .dc-focus-zones,
+#dc-scenario-map .dc-focus-details-hidden .dc-focus-table { pointer-events: none; }

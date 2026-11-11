@@ -3,6 +3,7 @@
 (function (global) {
   const DEFAULT_TAB = "announced";
   const DEFAULT_MEASURE = "twh";
+  const MOBILE_SITE_SCALE = 1.4;
   const MEASURES = [
     { id: "twh", label: "Annual electricity", shortLabel: "TWh", unit: "TWh/year", field: "annual_twh" },
     { id: "mw", label: "Power", shortLabel: "GW", unit: "MW", field: "mw" },
@@ -532,7 +533,7 @@
       .text((f) => f.properties.bidding_zone);
   }
 
-  // Both map views keep circles and names at a fixed size while the land grows.
+  // Circles grow gently with zoom. Names keep their screen size.
   function applyMapZoom(land, points, labels, t, smooth = false) {
     land.attr("transform", t);
     points.selectAll("g.dc-phase-point:not(.dc-phase-exiting)").each(function (d) {
@@ -541,10 +542,11 @@
       d.xy = [ax + (d.base.xy[0] - d.base.anchor[0]) / t.k, ay + (d.base.xy[1] - d.base.anchor[1]) / t.k];
       d.anchorX = ax;
       d.anchorY = ay;
+      d.zoomScale = Math.sqrt(t.k);
       const point = d3.select(this).interrupt();
       (smooth && !prefersReducedMotion() ? point.transition().duration(420).ease(d3.easeCubicInOut) : point)
-        .attr("transform", `translate(${d.xy[0]},${d.xy[1]})`);
-      point.select("line.dc-phase-anchor").attr("x1", ax - d.xy[0]).attr("y1", ay - d.xy[1]);
+        .attr("transform", `translate(${d.xy[0]},${d.xy[1]}) scale(${d.zoomScale})`);
+      point.select("line.dc-phase-anchor").attr("x1", (ax - d.xy[0]) / d.zoomScale).attr("y1", (ay - d.xy[1]) / d.zoomScale);
     });
     points.selectAll("g.dc-hover-layer").style("opacity", 0);
     labels.attr("transform", function () { return `translate(${t.apply(this.__base).join(",")})`; });
@@ -629,7 +631,7 @@
     const tip = tipHost.selectAll("div.dc-site-tip").data([null]).join("div").attr("class", "dc-site-tip").attr("aria-hidden", "true").style("opacity", 0);
     function hideHover() { hover.style("opacity", 0); tip.style("opacity", 0); }
     function showHover(event, d) {
-      hover.attr("transform", `translate(${d.xy[0]},${d.xy[1]})`).style("opacity", 1);
+      hover.attr("transform", `translate(${d.xy[0]},${d.xy[1]}) scale(${d.zoomScale || 1})`).style("opacity", 1);
       hover.select(".dc-hover-halo").attr("r", d.r + Math.max(3.5, d.r * 0.3));
       styleDisc(hover.select(".dc-hover-disc").attr("r", d.r), d.no_size, d.empty ? 0.85 : 0.52);
       hover.select(".dc-hover-share").attr("d", sharePath(d.r, siteShare(d)));
@@ -832,9 +834,6 @@
       .attr("class", focus ? "dc-zone-key dc-focus-zone-key" : "dc-zone-key")
       .attr("role", "img").attr("aria-label", `Quantified zone totals in ${scale.unit}, upper estimate`)
       .attr("transform", `translate(${x},${y}) scale(${1 / k})`);
-    key.selectAll("rect.dc-zone-key-backdrop").data(focus ? [null] : []).join("rect")
-      .attr("class", "dc-zone-key-backdrop").attr("x", -52).attr("y", -24)
-      .attr("width", 70).attr("height", barHeight + 36).attr("rx", 6).lower();
     key.selectAll("text.dc-zone-key-unit").data([null]).join("text").attr("class", "dc-zone-key-unit")
       .attr("x", barWidth).attr("y", -12).attr("text-anchor", "end").text(measure === "twh" ? "TWh" : scale.unit);
     const rows = key.selectAll("g.dc-zone-key-step").data(ZONE_COLOURS).join("g").attr("class", "dc-zone-key-step");
@@ -855,7 +854,7 @@
     // The map is drawn in a 760-unit viewBox and scaled to the page. The key uses the same scale.
     const mapSvg = root.select(".dc-scenario-svg").node();
     const k = mapSvg && mapSvg.getBoundingClientRect().width ? mapSvg.getBoundingClientRect().width / 760 : 1;
-    const mobileScale = root.classed("dc-map-compact") ? 1.2 : 1;
+    const mobileScale = root.classed("dc-map-compact") ? MOBILE_SITE_SCALE : 1;
     drawSizeKey(legend, measure, k * mobileScale);
     drawSymbolKey(legend, k * mobileScale, 7 * mobileScale, tab);
   }
@@ -1159,7 +1158,7 @@
     const focusSvg = focus.append("svg").attr("class", "dc-focus-svg");
     const focusG = focusSvg.append("g").attr("class", "dc-focus-country");
     // Zoom in the enlarged view, by pinching, scrolling or a trackpad. The land grows, while circles and names
-    // keep their size and move apart, so sites in a cluster can be told apart. Double-click or the button resets it.
+    // grow more slowly than the land and move apart. Double-click or the button resets it.
     let focusTransform = d3.zoomIdentity;
     const focusReset = focus.append("button").attr("type", "button").attr("class", "dc-focus-reset").attr("hidden", true).text("Reset zoom")
       .on("click", (event) => { event.stopPropagation(); resetFocusZoom(true); });
@@ -1174,7 +1173,8 @@
       applyMapZoom(focusG.select(".dc-focus-zone-layer"), focusG.select(".dc-phase-layer"),
         focusSvg.selectAll(".dc-focus-inside-label"), t, smooth);
       focusReset.attr("hidden", t.k > 1.01 ? null : true);
-      focus.classed("dc-focus-zoomed", t.k > 1.01);
+      focus.classed("dc-focus-zoomed", t.k > 1.01).classed("dc-focus-details-hidden", t.k >= 1.35);
+      focus.style("--dc-focus-detail-opacity", Math.max(0, 1 - (t.k - 1) / 0.35));
     }
     let focusCountry = null;
     const reduceMotion = () => global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1214,9 +1214,7 @@
     // One unit for all sizes in the wide view, from the window size, so text, circles and key stay in proportion.
     const focusUnit = () => Math.max(1, Math.min(1.35, Math.min(global.innerWidth, global.innerHeight) / 900));
     // One circle scale for every country, so countries can be compared with each other.
-    const focusRadiusScale = () => (focusNarrow()
-      ? Math.max(1.2, Math.min(2, Math.min(global.innerWidth, global.innerHeight) / 600))
-      : 1.5 * focusUnit());
+    const focusRadiusScale = () => mainScale().k * (compact ? MOBILE_SITE_SCALE : 1);
     const focusZones = focus.append("div").attr("class", "dc-focus-zones").attr("hidden", true);
     // The space the header and the zone grid take, set when a country is drawn.
     // offset is the height of the site's menu bar. The enlarged view starts below it, so the menu stays usable.
@@ -1228,7 +1226,7 @@
       // On a wide screen both sides leave room for the table, since it may go on either side.
       const side = focusNarrow() ? 16 : 190 * focusUnit();
       const extent = focusNarrow()
-        ? [[side, focusFrame.top], [W - side - 64, H - focusFrame.bottom - 20]]
+        ? [[side, focusFrame.top], [W - side, H - focusFrame.bottom - 20]]
         : [[side, focusFrame.top], [W - side, H - 40 * focusUnit()]];
       const focusProjection = mapProjection().fitExtent(extent, collection);
       return { W, H, features, collection, focusProjection, focusPath: d3.geoPath(focusProjection) };
@@ -1328,8 +1326,6 @@
       if (zones.length === 1) name.append("span").text(zoneValueLabel(view.countries[country], measure));
       const focusKey = focusTitle.append("div").attr("class", "dc-focus-key");
       drawSizeKey(focusKey, measure, radiusScale);
-      // The key's symbols are as large as the smallest size circle, so the key reads as one set.
-      drawSymbolKey(focusKey, radiusScale, narrow ? 7 : siteRadius(SITE_SCALE.mw.keys[0], "mw") * radiusScale, tab);
       // Narrow screen: the zones in a grid under the country, each with its value, and the total last.
       focusZones.attr("hidden", narrow ? null : true).selectAll("*").remove();
       if (narrow) {
@@ -1345,7 +1341,8 @@
           item.append("span").text(zoneValueLabel(view.countries[country], measure));
         }
       }
-      focusFrame.top = Math.ceil(focusTitle.node().getBoundingClientRect().bottom) - focusFrame.offset + (narrow ? 24 : 32 * u);
+      // Fit the land below its name. Keys float over spare space and never shrink the country.
+      focusFrame.top = Math.ceil(name.node().getBoundingClientRect().bottom) - focusFrame.offset + (narrow ? 24 : 32 * u);
       focusFrame.bottom = narrow ? Math.ceil(focusZones.node().getBoundingClientRect().height) + 20 : 0;
       focusHeadband.style("height", `${Math.ceil(focusTitle.node().getBoundingClientRect().bottom - focusControls.node().getBoundingClientRect().bottom) + (narrow ? 12 : 18 * u)}px`);
       const { W, H, features, focusProjection, focusPath } = focusSetup(country);
@@ -1467,7 +1464,7 @@
       zonePaths.attr("fill", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`);
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure, "none", type), data), hq);
-      renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab, true, compact ? 1.2 : 1);
+      renderPhaseLayer(phaseG, popup, groups, projection, width, height, measure, tab, true, compact ? MOBILE_SITE_SCALE : 1);
       phaseG.selectAll("g.dc-phase-point").on("mouseenter.country", (event, d) => hoverCountry(d.country)).on("mouseleave.country", leaveCountry);
       root.classed("dc-hq-highlighting", hq !== "none");
       zoneLabelG.selectAll("text.dc-zone-label").style("stroke", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure));
