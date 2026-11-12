@@ -894,7 +894,7 @@
     const selectedTypes = Array.isArray(type) ? type : type === "all" ? [] : [type];
     const typeText = selectedTypes.length ? ` for ${selectedTypes.join(" or ")} projects` : "";
     const size = `Announced ${what} per site${typeText}${hqText}, at the upper value.`;
-    return tab === "announced" ? size : `${size} Blue shows how much is in ${label}.`;
+    return tab === "announced" ? size : `${size} Blue shows how much is included in ${label}.`;
   }
 
 

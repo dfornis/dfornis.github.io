@@ -64,8 +64,7 @@ permalink: /projects/datacenter-tracker/
 
 <section id="tracker-projects" class="dc-projects" aria-labelledby="tracker-projects-title">
   <h2 id="tracker-projects-title">Projects</h2>
-  <p class="dc-projects-intro">The list shows new site capacity at full build-out, including cooling. Capacity already operating at the end of 2025 is excluded. Click a project to see IT capacity, source figures, conversions, phases and sources.</p>
-  <p class="dc-projects-intro"><strong>From source</strong> gives the published figure. <strong>Estimated</strong> marks values converted by the tracker.</p>
+  <p class="dc-projects-intro">The list shows new site capacity at full build-out, including cooling. Capacity already operating at the end of 2025 is excluded. Click a project to see IT capacity, source figures, conversions, phases and sources. Values labelled “From source” come directly from the sources. Values labelled “Estimated” have been converted by the tracker.</p>
   <p class="dc-download-line"><a href="#" data-download-zip>Download data (ZIP)</a><span aria-hidden="true"> · </span><a href="#" data-download-json>Full model output (JSON)</a><span aria-hidden="true"> · </span><span data-download-meta></span></p>
   <p class="dc-cite">The data are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The ZIP file contains three CSV tables and a description of every column.</p>
 
