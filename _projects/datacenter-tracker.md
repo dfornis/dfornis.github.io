@@ -18,7 +18,7 @@ permalink: /projects/datacenter-tracker/
 
 <section id="dc-map" class="dc-map-section" aria-labelledby="dc-map-title">
   <h2 id="dc-map-title">Planned datacenter sites</h2>
-  <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included. Type accepts several selections: a project with any selected type is counted once.</p>
+  <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included.</p>
   <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.4"></div>
   <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
 </section>
@@ -86,6 +86,8 @@ permalink: /projects/datacenter-tracker/
     <div id="filter-stage-group" class="checkbox-filter-options"></div>
   </details>
 
+
+
 </div>
 
 <div id="summary-box" class="summary-box" role="status" aria-live="polite">Loading projects…</div>
@@ -95,7 +97,16 @@ permalink: /projects/datacenter-tracker/
     <thead>
       <tr>
         <th class="toggle-cell"><span class="visually-hidden">Details</span></th>
-        <th>Project</th>
+        <th>
+          <div id="project-search-header" class="project-search-header">
+            <span class="project-heading">Project</span>
+            <button id="project-search-open" class="project-search-button" type="button" aria-label="Search projects" aria-expanded="false" aria-controls="project-search-field"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5.5"/><path d="m12 12 5 5"/></svg></button>
+            <div id="project-search-field" class="project-search-field" hidden>
+              <input id="tracker-search" type="text" inputmode="search" placeholder="Search projects" aria-label="Search projects by name, company or location" autocomplete="off" spellcheck="false">
+              <button id="project-search-close" class="project-search-button" type="button" aria-label="Clear and close search"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+            </div>
+          </div>
+        </th>
         <th>Country</th>
         <th>Zone</th>
         <th title="How far each part of the project has come. The colours match the map.">Stage</th>
@@ -371,6 +382,23 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   align-items: flex-start;
 }
 
+.project-search-header { position: relative; height: 1.4em; display: flex; align-items: center; font: inherit; color: inherit; }
+#tracker-table .project-search-header > .project-heading { font: inherit; color: inherit; line-height: inherit; }
+.project-search-button { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 28px; height: 28px; padding: 5px; border: 0; background: transparent; color: var(--dc-muted); cursor: pointer; }
+.project-search-button svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.project-search-button:hover { color: var(--dc-blue); }
+.project-search-button:focus-visible { outline: 1px solid var(--dc-blue); outline-offset: 1px; }
+.project-search-field { position: absolute; inset: 0; display: flex; align-items: center; border-bottom: 1px solid var(--dc-rule); }
+.project-search-field[hidden] { display: none; }
+.project-search-field:focus-within { border-color: var(--dc-blue); }
+#tracker-search { flex: 1; width: 0; min-width: 0; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--dc-ink); font: inherit; }
+#tracker-search::placeholder { color: var(--dc-muted); opacity: 1; }
+#tracker-search:focus { outline: none; }
+.project-search-header.is-searching > .project-heading { visibility: hidden; }
+.project-search-header.is-searching > #project-search-open { visibility: hidden; }
+.dc-search-empty { padding: 1rem !important; color: var(--dc-muted); }
+@media (max-width: 600px) { #tracker-search { font-size: 16px; } }
+
 .filter-dropdown {
   position: relative;
   font: 12px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
@@ -503,9 +531,10 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   padding-bottom: 6px !important;
   border-bottom-color: color-mix(in srgb, var(--dc-ink) 35%, transparent);
   background: transparent;
-  color: var(--dc-muted) !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
+  color: color-mix(in srgb, var(--dc-ink) 85%, var(--dc-muted)) !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  vertical-align: middle;
   white-space: nowrap;
   cursor: default;
 }
@@ -979,6 +1008,7 @@ pre {
   #tracker-table > thead > tr > th { white-space: normal; }
   #tracker-table > thead > tr > th,
   #tracker-table > tbody > tr > td { padding-right: 8px !important; font-size: 12.5px !important; }
+  #tracker-table > thead > tr > th { font-size: 13px !important; }
   #tracker-table td.project-cell { min-width: 120px; }
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
@@ -991,4 +1021,4 @@ pre {
 <script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.4.13" defer></script>
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.4.4">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.4.16" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.4.18" defer></script>

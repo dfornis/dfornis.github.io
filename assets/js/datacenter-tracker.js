@@ -188,6 +188,8 @@
       if (!actors.has(actor.project_id)) actors.set(actor.project_id, []);
       actors.get(actor.project_id).push(actor);
     }
+    const normalise = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const searchTerms = normalise(filters.search).trim().split(/\s+/).filter(Boolean);
     const match = (values, value) => !values?.length || values.includes(value);
     const anyTag = (values, value) => !values?.length || tags(value).some((tag) => values.includes(tag));
     return data.project_scenarios.filter((row) => {
@@ -197,6 +199,7 @@
       const actorMatch = own.some((actor) => anyTag(filters.hqCountries, actor.hq_facets) && anyTag(filters.actorTypes, actor.actor_type));
       return (
         row.scenario === scenario &&
+        searchTerms.every((term) => normalise([project.project_name, project.developer, project.municipality, countryLabel(project.country), project.bidding_zone].join(" ")).includes(term)) &&
         (!projectIds || projectIds.has(row.project_id)) &&
         match(filters.countries, project.country) &&
         match(filters.zones, row.bidding_zone) &&
@@ -346,6 +349,29 @@
         countries: "country",
         zones: "zone",
       };
+      const searchInput = document.getElementById("tracker-search");
+      const searchHeader = document.getElementById("project-search-header");
+      const searchOpen = document.getElementById("project-search-open");
+      const searchField = document.getElementById("project-search-field");
+      const closeSearch = () => {
+        searchInput.value = "";
+        searchField.hidden = true;
+        searchHeader.classList.remove("is-searching");
+        searchOpen.setAttribute("aria-expanded", "false");
+        render();
+        searchOpen.focus();
+      };
+      searchOpen?.addEventListener("click", () => {
+        searchField.hidden = false;
+        searchHeader.classList.add("is-searching");
+        searchOpen.setAttribute("aria-expanded", "true");
+        searchInput.focus();
+      });
+      document.getElementById("project-search-close")?.addEventListener("click", closeSearch);
+      searchInput?.addEventListener("input", render);
+      searchInput?.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") { event.preventDefault(); closeSearch(); }
+      });
       const filters = () =>
         Object.fromEntries(
           Object.entries(groupNames).map(([key, name]) => [
@@ -538,7 +564,7 @@
         const selectedIds = !shared.type.length ? selectedStageIds : data.projects
           .filter((project) => (!selectedStageIds || selectedStageIds.includes(project.project_id)) && mapApi.matchesType(project, shared.type))
           .map((project) => project.project_id);
-        const view = makeView(data, scenario, { ...filters(), hq: shared.hq, ...(selectedIds ? { projectIds: selectedIds } : {}) });
+        const view = makeView(data, scenario, { ...filters(), search: searchInput?.value || "", hq: shared.hq, ...(selectedIds ? { projectIds: selectedIds } : {}) });
         const electricity = shared.measure === "twh";
         const [sortLow, sortHigh] = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];
         const sortValue = (row) => (row.capacity_known && !containedIn(row) ? numeric(row[sortHigh]) ?? numeric(row[sortLow]) ?? -1 : -1);
@@ -585,7 +611,8 @@
         const sizeKey = electricity ? ["buildout_twh_low", "buildout_twh_high"] : ["nameplate_mw_low", "nameplate_mw_high"];
         const stageKey = electricity ? "twh_high" : "mw_high";
         const largest = Math.max(1e-9, ...rows.map((row) => (row.capacity_known && !containedIn(row) ? numeric(row[sizeKey[1]]) ?? 0 : 0)));
-        const visible = showAll ? rows : rows.slice(0, TOP_ROWS);
+        const searching = Boolean(searchInput?.value.trim());
+        const visible = showAll || searching ? rows : rows.slice(0, TOP_ROWS);
         const tbody = document.querySelector("#tracker-table tbody");
         tbody.innerHTML = visible
           .map((row) => {
@@ -669,9 +696,10 @@
             if (open && !detail.firstElementChild.innerHTML) detail.firstElementChild.innerHTML = evidence(projects.get(id));
           });
         });
+        if (!rows.length) tbody.innerHTML = '<tr><td colspan="6" class="dc-search-empty">No projects match your search or filters.</td></tr>';
         const more = document.getElementById("tracker-show-all");
         if (more) {
-          more.hidden = rows.length <= TOP_ROWS;
+          more.hidden = searching || rows.length <= TOP_ROWS;
           more.textContent = showAll ? "Show the " + TOP_ROWS + " largest" : "Show all " + rows.length + " projects";
           more.setAttribute("aria-expanded", String(showAll));
         }
