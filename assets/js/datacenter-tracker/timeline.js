@@ -1,10 +1,9 @@
 /* Display precomputed annual results from the shared R model. No phasing rules here.
-   One chart with two measures, following the shared measure control:
+   One chart for all four countries, with a band per country, and two measures following the shared measure control:
    - Power: modelled new capacity in operation since 2025 (cumulative or added per year), GW.
    - Annual electricity use: the 2025 starting level for existing sites, held constant, with the
      electricity use of new capacity stacked on top, and historical figures before 2026. TWh/year.
-   Both measures use the same x-axis (2020–2035), so switching measure animates the new-capacity
-   areas between units while the starting level and the historical figures fade in or out. */
+   Both measures use the same 11 points per country, so switching measure animates the bands between units while the starting level and the historical figures fade in or out. */
 (function (global) {
   "use strict";
   const countryOrder = ["SE", "NO", "FI", "DK"];
@@ -105,12 +104,6 @@
     return Math.max(0, ...totals.values()) / displayDivisor(measure) || 1;
   }
 
-  // Panel grid: one row when there is room, two by two for four countries on medium screens, one column on phones.
-  function panelLayout(width, count) {
-    const columns = width < 620 ? 1 : count === 4 && width < 900 ? 2 : count;
-    return { columns, rows: Math.ceil(count / columns) };
-  }
-
   async function mount(container, data, shared) {
     if (!container) return null;
     const message = container.querySelector(".dc-timeline-status");
@@ -153,11 +146,28 @@
       const svg = d3.select(chart).append("svg").attr("role", "img").attr("aria-labelledby", "dc-timeline-svg-title dc-timeline-svg-desc");
       svg.append("title").attr("id", "dc-timeline-svg-title");
       svg.append("desc").attr("id", "dc-timeline-svg-desc");
-      const panelsLayer = svg.append("g");
+      // One chart for all countries. Each layer holds one element per country, so bands, lines, bars and points
+      // keep their identity between renders and can move smoothly to new values.
+      const plot = svg.append("g").attr("class", "dc-timeline-plot");
+      const gridG = plot.append("g").attr("class", "dc-timeline-grid");
+      const axisG = plot.append("g").attr("class", "dc-timeline-axis");
+      const unitText = plot.append("text").attr("class", "dc-timeline-unit").attr("x", -36).attr("y", -14).attr("text-anchor", "start");
+      const seam = plot.append("line").attr("class", "dc-electricity-seam").style("opacity", 0);
+      const bandsG = plot.append("g").attr("class", "dc-timeline-bands");
+      const barsG = plot.append("g").attr("class", "dc-timeline-bars").style("opacity", 0);
+      const baselinesG = plot.append("g").attr("class", "dc-timeline-baselines-layer").style("opacity", 0);
+      const linesG = plot.append("g").attr("class", "dc-timeline-lines");
+      const historyG = plot.append("g").attr("class", "dc-timeline-history").style("opacity", 0);
+      const cursor = plot.append("line").attr("class", "dc-timeline-cursor");
+      const markersG = plot.append("g").attr("class", "dc-timeline-markers");
+      const labelsG = plot.append("g").attr("class", "dc-timeline-labels");
+      const hit = plot.append("rect").attr("class", "dc-timeline-hit").attr("fill", "transparent");
+      const subtitle = container.querySelector("[data-timeline-subtitle]");
+      let subtitleTimer = null;
       let selectedYear = timeline.years.at(-1);
-      let lastLayout = null;
-      let lastMode = null;
-      const resizeObserver = new ResizeObserver(() => render());
+      let lastWidth = null;
+      const reducedMotion = () => Boolean(global.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
+      const resizeObserver = new ResizeObserver(() => { if (chart.clientWidth !== lastWidth) render(); });
       resizeObserver.observe(chart);
       [...measureInputs].forEach((control) => control.addEventListener("change", render));
       const fmt = (value, measure) =>
@@ -169,6 +179,26 @@
         const f = (n) => n.toLocaleString("en-US", { maximumFractionDigits: 3 });
         return low === null || high === null ? "Unknown" : `${f(low)}${low === high ? "" : "–" + f(high)} TWh`;
       };
+      // A short grey line under the heading says what the chart shows for the current selection.
+      // A new text fades in over the old one, so the heading area does not flicker.
+      function setSubtitle(text) {
+        if (!subtitle || subtitle.textContent === text) return;
+        clearTimeout(subtitleTimer);
+        if (!subtitle.textContent || reducedMotion()) {
+          subtitle.textContent = text;
+          subtitle.classList.remove("dc-fading");
+          return;
+        }
+        subtitle.classList.add("dc-fading");
+        subtitleTimer = setTimeout(() => { subtitle.textContent = text; subtitle.classList.remove("dc-fading"); }, 180);
+      }
+      function subtitleText(state, use, added, familyLabel) {
+        const hq = { domestic: "HQ in own country", other_europe: "HQ elsewhere in Europe", outside_europe: "HQ outside Europe" }[state.hq];
+        const types = Array.isArray(state.type) ? state.type : state.type && state.type !== "all" ? [state.type] : [];
+        const base = `${types.length ? `${types.join(" or ")} sites` : "Sites"} in ${familyLabel}${hq ? `, ${hq}` : ""}.`;
+        if (use) return `${base} Existing sites stay at their 2025 level.${hq || types.length ? " The filter applies to new projects only." : ""}`;
+        return `${base} ${added ? "The solid part is the lower estimate." : "Range from lower to upper estimate."}`;
+      }
 
       function render() {
         const state = shared.get();
@@ -185,7 +215,7 @@
         const view = container.querySelector("[name='timeline-measure']:checked").value;
         const measure = use ? "annual_twh" : view;
         const added = !use && measure === "annual_addition_mw";
-        container.querySelector("[data-band-legend]")?.toggleAttribute("hidden", added);
+        container.querySelector("[data-band-legend] .band")?.toggleAttribute("hidden", added);
         container.querySelector(".dc-timeline-bar-legend")?.toggleAttribute("hidden", !added);
         const familyLabel = timeline.families.find((f) => f.id === state.family)?.label || state.family;
         const measureLabels = {
@@ -193,24 +223,19 @@
           annual_addition_mw: "Annual increase in modelled capacity in operation (GW)",
           annual_twh: "Annual electricity use including existing sites (TWh/year)",
         };
-
-        const hqNames = { domestic: "Domestic", other_europe: "Other Europe", outside_europe: "Outside Europe" };
-        const hqNote = state.hq !== "none"
-          ? ` HQ: ${hqNames[state.hq] || state.hq}.${use ? " Only new projects are filtered." : ""}` : "";
         svg.select("title").text(measureLabels[measure]);
-        // The heading follows the measure. The note under the chart is only used when an HQ filter is on.
+        // The heading follows the measure, and the line under it the selection.
         container.querySelectorAll("[data-heading]").forEach((el) => {
           const current = el.dataset.heading === measure;
           el.classList.toggle("dc-heading-current", current);
           el.setAttribute("aria-hidden", String(!current));
         });
-        const note = container.querySelector("[data-timeline-caption]");
-        if (note) note.textContent = hqNote.trim();
+        setSubtitle(subtitleText(state, use, added, familyLabel));
         container.querySelectorAll("[data-timeline-family-label]").forEach((el) => { el.textContent = `${familyLabel}: range`; });
         container.querySelectorAll("[data-timeline-family-name]").forEach((el) => { el.textContent = familyLabel; });
         svg.select("desc").text(use
-          ? "One panel per country. Grey shows the 2025 starting level for existing sites. The dark area adds the lower estimate for new capacity. The light area reaches the upper estimate. Points before 2026 are historical figures."
-          : "One panel per country. The dark area is the lower estimate. The light area reaches up to the upper estimate. Values are listed in the table below the chart.");
+          ? "One band per country. Each band starts at the 2025 level for existing sites and runs from the lower to the upper estimate with new capacity. Points before 2026 are historical figures."
+          : "One band per country, from the lower to the upper estimate. Values are listed in the table below the chart.");
 
         // New capacity, as in the tracker: cumulative or added per year, from timeline.json.
         const capacitySeries = makeSeries(timeline, data, { family: state.family, hq: state.hq, type: state.type, measure: "mw", countries });
@@ -219,14 +244,13 @@
         const unknown = capacitySeries.some((country) => country.points.some((point) => point.unknown));
         if (unknownNote) unknownNote.hidden = !unknown;
 
-        // Each panel gets a list of 11 points: the seam at the end of 2025 and the years 2026–2035.
-        // The same list in both measures lets d3 interpolate the areas when the measure changes.
+        // Each country gets a list of 11 points: the seam at the end of 2025 and the years 2026–2035.
+        // The same list in both measures lets d3 interpolate the bands when the measure changes.
         const useSeries = use ? makeUseSeries(timeline, data, electricity, { family: state.family, hq: state.hq, type: state.type, countries }) : null;
         const series = countries.map((country, index) => {
           const label = countryNames[country] || country;
-          if (use) {
-            return useSeries[index];
-          }
+          const color = `var(--dc-country-${country})`;
+          if (use) return { ...useSeries[index], color };
           const source = totals[index].points;
           const points = [{ year: SEAM, base: 0, low: 0, high: 0, reportedOpening: 0, unknown: false },
             ...source.map((point, i) => {
@@ -236,7 +260,7 @@
               const low = Math.min(point.low ?? 0, high);
               return { ...point, base: 0, low, high, reportedOpening: Math.min(reported, high), rawLow: point.low, rawHigh: point.high };
             })];
-          return { key: country, label, history: [], points };
+          return { key: country, label, color, history: [], points };
         });
 
         message.textContent = !use && series.every((country) => country.points.every((point) => !point.high))
@@ -249,143 +273,159 @@
           ? global.DCTrackerElectricity.maximum(global.DCTrackerElectricity.seriesFor(electricity, state.family))
           : capacityMax(timeline, data, measure, state.family);
 
-        const panelsData = series;
-
         const width = Math.max(300, chart.clientWidth);
-        const grid = panelLayout(width, countries.length);
-        const single = grid.columns === 1;
-        // The country name sits above each panel and the unit just above the y-axis labels.
-        const gap = 40, left = 44, top = 46, bottomPad = 28;
-        const panelHeight = single ? 190 : grid.columns === 2 ? 220 : 260;
-        const panelWidth = (width - left - 10 - (grid.columns - 1) * gap) / grid.columns;
-        const height = grid.rows * (panelHeight + top + bottomPad);
-        svg.attr("viewBox", `0 0 ${width} ${height}`);
-        const y = d3.scaleLinear().domain([0, maxValue]).nice(4).range([panelHeight, 0]);
-        // Elements are kept between renders so that axis, areas and markers can move smoothly to new values.
-        // A new width or a switch between areas and bars redraws without animation.
-        const layout = `${width}:${added}:${countries.length}`;
-        const reduced = global.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-        const animate = lastLayout === layout && !reduced;
-        const modeChanged = lastMode !== null && lastMode !== use;
-        lastLayout = layout;
-        lastMode = use;
-        const t = svg.transition().duration(animate ? (modeChanged ? 750 : 550) : 0).ease(d3.easeCubicInOut);
+        const compact = width < 560;
+        // Country names and their 2035 values are written at the right end of the bands, instead of a legend.
+        const m = { left: 40, right: compact ? 100 : 136, top: 30, bottom: 28 };
+        const plotW = width - m.left - m.right;
+        const plotH = compact ? 240 : 300;
+        svg.attr("viewBox", `0 0 ${width} ${plotH + m.top + m.bottom}`);
+        plot.attr("transform", `translate(${m.left},${m.top})`);
+        // A change of width redraws at once. Every other change moves smoothly.
+        const animate = lastWidth === width && !reducedMotion();
+        lastWidth = width;
+        const t = svg.transition().duration(animate ? 650 : 0).ease(d3.easeCubicInOut);
+        const lastYear = timeline.years.at(-1);
         const firstYear = use ? X_START : timeline.years[0];
         // Capacity is tracked from 2026, so the power view starts at the end of 2025. Electricity use shows history from 2020.
         const xStart = use ? X_START : 2025;
-        if (selectedYear < firstYear) selectedYear = timeline.years.at(-1);
+        if (selectedYear < firstYear) selectedYear = lastYear;
+        // Bars sit centred on their year, so the bar view leaves half a year of room at both ends.
+        const x = d3.scaleLinear().domain(added ? [timeline.years[0] - 0.5, lastYear + 0.5] : [xStart, lastYear]).range([0, plotW]);
+        const y = d3.scaleLinear().domain([0, maxValue]).nice(compact ? 4 : 5).range([plotH, 0]);
+        const v = (value) => y((value || 0) / divisor);
+        const defined = (p) => p.low !== null && p.high !== null;
 
-        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(panelsData, (country) => country.key)
+        gridG.transition(t).call(d3.axisLeft(y).ticks(compact ? 4 : 5).tickSize(-plotW).tickFormat((value) => value.toLocaleString("en-US")));
+        axisG.attr("transform", `translate(0,${plotH})`).transition(t)
+          .call(d3.axisBottom(x).tickValues(use ? [2020, 2025, 2030, 2035] : added ? [timeline.years[0], 2030, lastYear] : [2025, 2030, 2035]).tickFormat(d3.format("d")).tickSize(4).tickPadding(6));
+        axisG.selectAll(".tick text").attr("text-anchor", (d) => (added ? "middle" : d === xStart ? "start" : d === lastYear ? "end" : "middle"));
+        fadeText(unitText, use ? "TWh/year" : added ? "GW per year" : "GW", animate);
+        seam.transition(t).attr("x1", x(SEAM)).attr("x2", x(SEAM)).attr("y1", 0).attr("y2", plotH).style("opacity", use ? 0.6 : 0);
+
+        // Bands and lines: the range for each country. In the added-per-year view they fade out and bars grow in.
+        const area = d3.area().defined(defined).x((p) => x(p.year)).y0((p) => v(p.low)).y1((p) => v(p.high));
+        const lineAt = (key) => d3.line().defined(defined).x((p) => x(p.year)).y((p) => v(p[key]));
+        bandsG.attr("pointer-events", "none").transition(t).style("opacity", added ? 0 : 1);
+        linesG.attr("pointer-events", "none").transition(t).style("opacity", added ? 0 : 1);
+        const bands = bandsG.selectAll("path.dc-timeline-band").data(series, (c) => c.key)
+          .join((enter) => enter.append("path").attr("class", "dc-timeline-band").attr("d", (c) => area(c.points)))
+          .style("fill", (c) => c.color);
+        const highs = linesG.selectAll("path.dc-timeline-line-high").data(series, (c) => c.key)
+          .join((enter) => enter.append("path").attr("class", "dc-timeline-line-high").attr("d", (c) => lineAt("high")(c.points)))
+          .style("stroke", (c) => c.color);
+        const lows = linesG.selectAll("path.dc-timeline-line-low").data(series, (c) => c.key)
+          .join((enter) => enter.append("path").attr("class", "dc-timeline-line-low").attr("d", (c) => lineAt("low")(c.points)))
+          .style("stroke", (c) => c.color);
+        // While bars are shown the bands keep their last shape, and move to the new one when they come back.
+        if (!added) {
+          bands.transition(t).attr("d", (c) => area(c.points));
+          highs.transition(t).attr("d", (c) => lineAt("high")(c.points));
+          lows.transition(t).attr("d", (c) => lineAt("low")(c.points));
+        }
+
+        // Bars: one thin bar per country and year, side by side. The solid part is the lower estimate.
+        const step = x(timeline.years[1]) - x(timeline.years[0]);
+        const barW = (step * 0.76) / series.length;
+        const barData = series.flatMap((c, ci) => c.points.filter((p) => p.year !== SEAM).map((p) => ({
+          key: `${c.key}:${p.year}`, color: c.color, at: x(p.year) - (step * 0.76) / 2 + ci * barW,
+          low: added ? p.low : 0, high: added ? p.high : 0 })));
+        barsG.attr("pointer-events", "none").transition(t).style("opacity", added ? 1 : 0);
+        for (const part of ["upper", "lower"]) {
+          barsG.selectAll(`rect.dc-timeline-${part}`).data(barData, (b) => b.key)
+            .join((enter) => enter.append("rect").attr("class", `dc-timeline-${part}`).attr("x", (b) => b.at).attr("width", Math.max(1, barW - 0.8))
+              .attr("y", v(0)).attr("height", 0))
+            .style("fill", (b) => b.color)
+            .transition(t).attr("x", (b) => b.at).attr("width", Math.max(1, barW - 0.8))
+            .attr("y", (b) => v(part === "upper" ? b.high : b.low))
+            .attr("height", (b) => Math.max(0, part === "upper" ? v(b.low) - v(b.high) : v(0) - v(b.low)));
+        }
+
+        // The 2025 level for existing sites, as a dotted line per country in the electricity view.
+        baselinesG.transition(t).style("opacity", use ? 1 : 0);
+        baselinesG.selectAll("line.dc-timeline-baseline").data(series, (c) => c.key)
+          .join((enter) => enter.append("line").attr("class", "dc-timeline-baseline").attr("y1", v(0)).attr("y2", v(0)))
+          .style("stroke", (c) => c.color)
+          .transition(t).attr("x1", x(SEAM)).attr("x2", x(lastYear))
+          .attr("y1", (c) => v(use ? c.baseline.low_twh : 0)).attr("y2", (c) => v(use ? c.baseline.low_twh : 0));
+
+        // Historical figures in the electricity view, in each country's colour.
+        historyG.attr("pointer-events", use ? null : "none").transition(t).style("opacity", use ? 1 : 0);
+        if (use) historyG.selectAll("g.dc-timeline-history-country").data(series, (c) => c.key)
+          .join("g").attr("class", "dc-timeline-history-country")
+          .each(function (c) { drawHistory(d3.select(this), c, x, y, t); });
+
+        // Names at the right end, nudged apart so they never overlap. The value is the range in the last year.
+        const gap = compact ? 28 : 31;
+        const ends = series.map((c) => {
+          const p = c.points.at(-1);
+          const text = added ? ""
+            : use ? `${global.DCTracker.range(p.low, p.high, "twh")} TWh`
+            : range({ ...p, low: p.rawLow ?? p.low, high: p.rawHigh ?? p.high }, measure);
+          return { key: c.key, label: c.label, color: c.color, text, y: added ? v(p.high) : (v(p.low) + v(p.high)) / 2 };
+        }).sort((a, b) => a.y - b.y);
+        ends.forEach((e, i) => { if (i && e.y - ends[i - 1].y < gap) e.y = ends[i - 1].y + gap; });
+        const overflow = ends.at(-1).y - (plotH - 14);
+        if (overflow > 0) ends.forEach((e) => { e.y -= overflow; });
+        ends.forEach((e, i) => { if (e.y < 4 + i * gap) e.y = 4 + i * gap; });
+        labelsG.selectAll("g.dc-timeline-end").data(ends, (e) => e.key)
           .join((enter) => {
-            const g = enter.append("g").attr("class", "dc-timeline-panel");
-            g.append("text").attr("class", "dc-timeline-panel-title").attr("x", -38).attr("y", -28);
-            g.append("text").attr("class", "dc-timeline-unit").attr("x", -38).attr("y", -10).attr("text-anchor", "start");
-            g.append("g").attr("class", "dc-timeline-grid");
-            g.append("g").attr("class", "dc-timeline-axis");
-            g.append("line").attr("class", "dc-timeline-baseline").attr("opacity", 0);
-            g.append("path").attr("class", "dc-timeline-band");
-            g.append("g").attr("class", "dc-timeline-bars");
-            g.append("line").attr("class", "dc-electricity-seam");
-            g.append("g").attr("class", "dc-timeline-history").attr("opacity", 0);
-            g.append("line").attr("class", "dc-timeline-cursor");
-            g.append("line").attr("class", "dc-timeline-span");
-            g.append("circle").attr("class", "dc-timeline-marker dc-timeline-marker-low").attr("r", 2.5);
-            g.append("circle").attr("class", "dc-timeline-marker dc-timeline-marker-high").attr("r", 2.5);
-            g.append("text").attr("class", "dc-timeline-end-label");
-            g.append("rect").attr("class", "dc-timeline-hit").attr("fill", "transparent");
+            const g = enter.append("g").attr("class", "dc-timeline-end").attr("transform", (e) => `translate(${plotW + 10},${e.y})`);
+            g.append("text").attr("class", "dc-timeline-end-name").attr("y", -2);
+            g.append("text").attr("class", "dc-timeline-end-value").attr("y", 13);
+            return g;
+          })
+          .each(function (e) {
+            const g = d3.select(this);
+            g.select(".dc-timeline-end-name").style("fill", e.color).text(e.label);
+            fadeText(g.select(".dc-timeline-end-value"), e.text, animate);
+          })
+          .transition(t).attr("transform", (e) => `translate(${plotW + 10},${e.y})`);
+
+        // The selected year: a thin vertical line, small markers at both ends of each range, and the values below.
+        const markers = markersG.selectAll("g.dc-timeline-marker-pair").data(series, (c) => c.key)
+          .join((enter) => {
+            const g = enter.append("g").attr("class", "dc-timeline-marker-pair");
+            g.append("circle").attr("class", "dc-timeline-marker dc-timeline-marker-low").attr("r", 2.6);
+            g.append("circle").attr("class", "dc-timeline-marker dc-timeline-marker-high").attr("r", 2.6);
             return g;
           });
-        panels.each(function (country, index) {
-          const g = d3.select(this);
-          // Every panel has its own axis labels and unit. The countries share one scale.
-          const column = index % grid.columns, row = Math.floor(index / grid.columns);
-          const x0 = left + column * (panelWidth + gap);
-          const y0 = row * (panelHeight + top + bottomPad) + top;
-          g.attr("transform", `translate(${x0},${y0})`);
-          const x = d3.scaleLinear().domain([xStart, timeline.years.at(-1)]).range([0, panelWidth]);
-          g.select(".dc-timeline-panel-title").text(country.label);
-          g.select(".dc-timeline-unit").text(use ? "TWh/year" : added ? "GW per year" : "GW");
-          g.select(".dc-timeline-grid").transition(t)
-            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => value.toLocaleString("en-US")));
-          g.select(".dc-timeline-axis").attr("transform", `translate(0,${panelHeight})`)
-            .call(d3.axisBottom(x).tickValues(use ? [2020, 2025, 2030, 2035] : [2025, 2030, 2035]).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
-            .call((axis) => axis.selectAll(".tick text").attr("text-anchor", (d, i, all) => (i === 0 ? "start" : i === all.length - 1 ? "end" : "middle")));
-          g.select(".dc-electricity-seam").attr("x1", x(SEAM)).attr("x2", x(SEAM)).attr("y1", 0).attr("y2", panelHeight);
-          const v = (value) => y((value || 0) / divisor);
-          const defined = (p) => p.low !== null && p.high !== null;
-          const bandArea = g.select(".dc-timeline-band").attr("display", added ? "none" : null);
-          // The 2025 starting level for existing sites, as a dotted line in the electricity view.
-          const baseline = g.select(".dc-timeline-baseline").attr("x1", x(SEAM)).attr("x2", x(timeline.years.at(-1)));
-          baseline.transition(t).attr("y1", v(use ? country.baseline.low_twh : 0)).attr("y2", v(use ? country.baseline.low_twh : 0)).attr("opacity", use && !added ? 1 : 0);
-          const band = panelWidth / (timeline.years.at(-1) - xStart + 1);
-          const bars = g.select(".dc-timeline-bars").attr("display", added ? null : "none");
-          if (added) {
-            const yearly = country.points.filter((p) => p.year !== SEAM);
-            const groups = bars.selectAll("g").data(yearly, (point) => point.year).join((enter) => {
-              const bar = enter.append("g");
-              bar.append("rect").attr("class", "dc-timeline-upper").attr("y", v(0)).attr("height", 0);
-              bar.append("rect").attr("class", "dc-timeline-lower").attr("y", v(0)).attr("height", 0);
-              return bar;
-            });
-            groups.select(".dc-timeline-upper").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
-              .attr("y", (p) => v(p.high)).attr("height", (p) => Math.max(0, v(p.low) - v(p.high)));
-            groups.select(".dc-timeline-lower").attr("x", (p) => x(p.year) - band * 0.35).attr("width", band * 0.7).transition(t)
-              .attr("y", (p) => v(p.low)).attr("height", (p) => Math.max(0, v(0) - v(p.low)));
-          } else {
-            // One band from the low to the high end of the range. No midline, since there is no central estimate.
-            bandArea.datum(country.points).transition(t)
-              .attr("d", d3.area().defined(defined).x((p) => x(p.year)).y0((p) => v(p.low)).y1((p) => v(p.high)));
-          }
-          drawHistory(g.select(".dc-timeline-history"), country, x, y, use, t);
-          g.select(".dc-timeline-history").raise();
-          const cursor = g.select(".dc-timeline-cursor").attr("y1", 0).attr("y2", panelHeight).raise();
-          // The value for the selected year is written in the panel, next to the top of the area or bar.
-          const span = g.select(".dc-timeline-span").raise();
-          const markerLow = g.select(".dc-timeline-marker-low").raise();
-          const marker = g.select(".dc-timeline-marker-high").raise();
-          const valueLabel = g.select(".dc-timeline-end-label").raise();
-          const setCursor = (year, transition = null) => {
-            const at = x(year);
-            cursor.attr("x1", at).attr("x2", at);
-            const point = country.points.find((p) => p.year === year);
-            const show = point && point.high !== null && (use || point.high);
-            const twoEnds = show && point.low !== point.high;
-            marker.attr("display", show ? null : "none");
-            markerLow.attr("display", twoEnds ? null : "none");
-            span.attr("display", twoEnds ? null : "none");
-            valueLabel.attr("display", show ? null : "none");
+        markers.selectAll("circle").style("fill", function () { return this.parentNode.__data__.color; });
+        cursor.attr("y1", 0).attr("y2", plotH);
+        function placeCursor(year, transition) {
+          const move = (selection) => (transition ? selection.transition(transition) : selection.interrupt());
+          move(cursor).attr("x1", x(year)).attr("x2", x(year));
+          markers.each(function (c) {
+            const g = d3.select(this);
+            const p = c.points.find((point) => point.year === year);
+            const show = !added && p && p.high !== null && (use || p.high);
+            g.attr("display", show ? null : "none");
             if (!show) return;
-            const topValue = v(point.high);
-            const bottomValue = v(point.low);
-            const text = use ? global.DCTracker.range(point.low, point.high, "twh") + " TWh" : range({ ...point, low: point.rawLow ?? point.low, high: point.rawHigh ?? point.high }, measure);
-            valueLabel.attr("text-anchor", at < 40 ? "start" : at > panelWidth - 40 ? "end" : "middle").text(text);
-            const move = (selection) => (transition ? selection.transition(transition) : selection.interrupt());
-            move(marker).attr("cx", at).attr("cy", topValue);
-            move(markerLow).attr("cx", at).attr("cy", bottomValue);
-            move(span).attr("x1", at).attr("x2", at).attr("y1", bottomValue).attr("y2", topValue);
-            move(valueLabel).attr("x", at < 40 ? at + 4 : at > panelWidth - 40 ? at - 4 : at).attr("y", topValue < 20 ? topValue + 18 : topValue - 9);
-          };
-          country.setCursor = setCursor;
-          const pick = (event) => inspect(Math.max(Math.max(firstYear, Math.ceil(xStart)), Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event, this)[0])))));
-          g.select(".dc-timeline-hit").raise().attr("width", panelWidth).attr("height", panelHeight)
-            .on("pointermove", pick).on("pointerdown", pick)
-            // With a mouse, the chart returns to the last year when the pointer leaves. A tap keeps its year.
-            .on("pointerleave", (event) => { if (event.pointerType === "mouse") inspect(timeline.years.at(-1)); });
-        });
+            move(g.select(".dc-timeline-marker-high")).attr("cx", x(year)).attr("cy", v(p.high));
+            move(g.select(".dc-timeline-marker-low")).attr("cx", x(year)).attr("cy", v(p.low)).attr("display", p.low === p.high ? "none" : null);
+          });
+        }
+        const pick = (event) => inspect(Math.max(Math.max(firstYear, Math.ceil(xStart)), Math.min(lastYear, Math.round(x.invert(d3.pointer(event, plot.node())[0])))));
+        hit.raise().attr("width", plotW).attr("height", plotH)
+          .on("pointermove", pick).on("pointerdown", pick)
+          // With a mouse, the chart returns to the last year when the pointer leaves. A tap keeps its year.
+          .on("pointerleave", (event) => { if (event.pointerType === "mouse") inspect(lastYear); });
 
         function inspect(year, transition = null) {
           selectedYear = year;
-          panelsData.forEach((country) => country.setCursor && country.setCursor(year, transition));
+          placeCursor(year, transition);
           container.querySelector(".dc-timeline-year").textContent = year;
           readout.replaceChildren();
           readout.classList.toggle("dc-timeline-readout-use", use);
           const context = container.querySelector("[data-timeline-context]");
-          const shares = [];
-          panelsData.forEach((country) => {
+          series.forEach((country) => {
             const item = doc.createElement("span");
             item.className = "dc-timeline-value";
             const label = doc.createElement("span");
-            label.textContent = country.label;
+            label.className = "dc-timeline-value-name";
+            const swatch = doc.createElement("i");
+            swatch.style.background = country.color;
+            label.append(swatch, doc.createTextNode(country.label));
             item.append(label);
             if (use && year <= 2025) {
               const points = country.history.filter((h) => h.year === year);
@@ -434,7 +474,7 @@
           });
           context.hidden = true;
         }
-        inspect(selectedYear, t);
+        inspect(selectedYear, animate ? t : null);
 
         if (table) {
         table.replaceChildren();
@@ -470,35 +510,48 @@
         }
       }
 
+      // A text in the chart that changes fades out and the new text fades in.
+      function fadeText(selection, text, animate) {
+        const node = selection.node();
+        if (!node || node.__text === text) return;
+        node.__text = text;
+        if (!animate || !node.textContent) {
+          selection.interrupt("fade").style("opacity", 1).text(text);
+          return;
+        }
+        selection.interrupt("fade").transition("fade").duration(160).style("opacity", 0)
+          .on("end", () => selection.text(text).transition("fade").duration(240).style("opacity", 1));
+      }
+
       // Historical figures: thin lines per source series, interval lines and source-specific markers.
       // Elements are keyed by series and year, so they move smoothly when the axis changes.
-      function drawHistory(layer, country, x, y, use, t) {
-        layer.attr("pointer-events", use ? null : "none");
-        layer.transition(t).attr("opacity", use ? 1 : 0);
-        if (!use) return;
+      function drawHistory(layer, country, x, y, t) {
         const keyOf = (h) => `${h.series}:${h.year}`;
         const series = [...new Set(country.history.map((h) => h.series))]
           .map((key) => ({ key, points: country.history.filter((h) => h.series === key).sort((a, b) => a.year - b.year) }));
         const line = d3.line().x((d) => x(d.year)).y((d) => y(d.value_twh));
         layer.selectAll("path.dc-electricity-history-line").data(series, (d) => d.key)
           .join((enter) => enter.append("path").attr("class", "dc-electricity-history-line").attr("d", (d) => line(d.points)))
+          .style("stroke", country.color)
           .transition(t).attr("d", (d) => line(d.points));
         const ranged = country.history.filter((h) => h.low_twh !== null && h.low_twh !== undefined);
         layer.selectAll("line.dc-electricity-interval").data(ranged, keyOf)
           .join((enter) => enter.append("line").attr("class", "dc-electricity-interval")
             .attr("x1", (h) => x(h.year)).attr("x2", (h) => x(h.year)).attr("y1", (h) => y(h.low_twh)).attr("y2", (h) => y(h.high_twh)))
+          .style("stroke", country.color)
           .transition(t).attr("x1", (h) => x(h.year)).attr("x2", (h) => x(h.year)).attr("y1", (h) => y(h.low_twh)).attr("y2", (h) => y(h.high_twh));
         const at = (h) => `translate(${x(h.year)},${y(h.value_twh)})`;
         layer.selectAll("path.dc-electricity-history-point").data(country.history, keyOf)
           .join((enter) => {
             const marker = enter.append("path").attr("class", "dc-electricity-history-point")
               .attr("d", (h) => historySymbol(h.kind))
-              .attr("fill", (h) => (h.kind === "measured" ? "currentColor" : "var(--dc-chart-paper, #fff)"))
               .attr("transform", at);
-            marker.append("title").text((h) => `${h.year}: ${twhPlain(h.low_twh ?? h.value_twh, h.high_twh ?? h.value_twh)}. ${h.source}` +
+            marker.append("title").text((h) => `${country.label} ${h.year}: ${twhPlain(h.low_twh ?? h.value_twh, h.high_twh ?? h.value_twh)}. ${h.source}` +
               (h.reporting_facilities ? `. Reported by ${h.reporting_facilities} sites` : ""));
             return marker;
           })
+          .style("stroke", country.color)
+          .style("fill", (h) => (h.kind === "measured" ? country.color : "var(--dc-chart-paper, #fff)"))
           .raise()
           .transition(t).attr("transform", at);
       }
@@ -555,7 +608,7 @@
     }
   }
 
-  const api = { assertTimeline, makeSeries, makeUseSeries, capacityMax, countriesIn, panelLayout, range, mount };
+  const api = { assertTimeline, makeSeries, makeUseSeries, capacityMax, countriesIn, range, mount };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerTimeline = api;
 })(typeof window === "undefined" ? globalThis : window);

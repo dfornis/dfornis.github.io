@@ -26,21 +26,18 @@ permalink: /projects/datacenter-tracker/
 <section id="dc-map" class="dc-map-section" aria-labelledby="dc-map-title">
   <h2 id="dc-map-title" class="visually-hidden">Planned datacenter sites</h2>
   <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.4"></div>
-  <details class="dc-map-about">
-    <summary>How to read the map</summary>
-    <p>Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a site to see its projects, and a zone to zoom in. Ctrl + scroll or pinch also zooms. <a href="#dc-method-flow">Full method below</a>.</p>
-  </details>
+  <p class="dc-map-footnote">Values are the upper end of each range. Power is for the whole site, including cooling. Full build-out means that all capacity in the selected scenario is built and in use. <a href="#dc-method-flow">Method below</a>.</p>
 </section>
 
 <section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.4.13" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.4.13">
   <h2 id="dc-timeline-title" class="dc-timeline-heading" aria-live="polite"><span data-heading="mw" class="dc-heading-current">Modelled capacity in operation by year</span><span data-heading="annual_addition_mw" aria-hidden="true">Modelled capacity added by year</span><span data-heading="annual_twh" aria-hidden="true">Modelled electricity use by year</span></h2>
+  <p class="dc-chart-subtitle" data-timeline-subtitle aria-live="polite"></p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
       <div class="dc-timeline-legend" data-band-legend><span class="band"><i></i><span data-timeline-family-label>Range</span></span><span class="baseline" data-use-visible><i></i>Existing sites, 2025 level</span></div>
       <div class="dc-timeline-legend dc-timeline-bar-legend" hidden><span><i></i>Low end of range</span><span class="upper"><i></i>Up to high end of range</span></div>
       <div class="dc-timeline-legend dc-electricity-history-key" data-use-visible><span data-history-symbol="measured">NVE</span><span data-history-symbol="measured_subset">Elhub</span><span data-history-symbol="reported">EU reports</span><span data-history-symbol="estimate">RISE estimates</span></div>
-      <p class="dc-chart-filter-note" data-timeline-caption></p>
       <div class="dc-timeline-controls">
         <div class="dc-timeline-measure-control" data-timeline-capacity-view>
           <span id="dc-timeline-measure-label">View</span>
@@ -249,7 +246,7 @@ Each country is reviewed using the same search instructions. Sources, earlier an
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.5.0' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.5.2' | relative_url }}");
 
 /* A slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -319,9 +316,12 @@ html[data-theme="dark"] #dc-tracker > p { color: var(--dc-ink); }
 #dc-timeline .dc-timeline-heading > span { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 260ms ease, visibility 0s linear 260ms; }
 #dc-timeline .dc-timeline-heading > span.dc-heading-current { opacity: 1; visibility: visible; transition: opacity 260ms ease 80ms, visibility 0s; }
 @media (prefers-reduced-motion: reduce) { #dc-timeline .dc-timeline-heading > span { transition: none !important; } }
-/* A note under the chart when an HQ filter is on. */
-#dc-tracker .dc-chart-filter-note { margin: 0.2rem 0 0; text-align: center; color: var(--dc-muted); font: 12px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; }
-#dc-tracker .dc-chart-filter-note:empty { display: none; }
+/* A short grey line under the chart heading says what is shown for the current selection. A new text fades in. */
+#dc-tracker .dc-chart-subtitle { max-width: 640px; margin: -0.35rem 0 0.6rem; color: var(--dc-muted);
+  font: 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; transition: opacity 180ms ease; }
+#dc-tracker .dc-chart-subtitle.dc-fading { opacity: 0; }
+#dc-tracker .dc-chart-subtitle:empty { min-height: 1.5em; }
+@media (prefers-reduced-motion: reduce) { #dc-tracker .dc-chart-subtitle { transition: none; } }
 
 /* The chart's view control sits under the chart, on one line like the year control under the map. */
 #dc-timeline .dc-timeline-paper .dc-timeline-controls { display: flex; justify-content: center; max-width: none; margin: 0.5rem 0 0.9rem; }
@@ -1018,12 +1018,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.4.21">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.5.1">
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.5.0" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.0" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.5.0">
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.5.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.1" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.5.1">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.5.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.5.1" defer></script>

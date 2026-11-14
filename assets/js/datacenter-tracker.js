@@ -747,7 +747,9 @@
         root.dataset.measure = state.measure;
         root.dataset.family = state.family;
         root.dataset.hq = state.hq;
-        if (!previous || state.measure !== previous.measure || state.hq !== previous.hq || state.family !== previous.family) render();
+        // The project list follows every shared control: measure, scenario, HQ and type.
+        if (!previous || state.measure !== previous.measure || state.hq !== previous.hq || state.family !== previous.family ||
+          state.type.join("\0") !== previous.type.join("\0")) render();
         previous = state;
       });
       if (global.DCTrackerTimeline) {

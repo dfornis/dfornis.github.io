@@ -26,8 +26,10 @@
   };
   const SITE_MIN_RADIUS = 3;
   const SITE_MAX_RADIUS = 15;
-  // The blue part of a circle is slightly see-through, so overlapping sites in a cluster can be told apart.
-  const SHARE_OPACITY = 0.85;
+  // The included part of a site is a solid dark blue disc with a light edge, so sites in a cluster stay apart.
+  const SITE_FILL = "var(--dc-site)";
+  const SITE_EDGE = "var(--dc-site-edge)";
+  const styleShare = (sel, width = 1.1) => sel.style("fill", SITE_FILL).style("fill-opacity", 1).style("stroke", SITE_EDGE).style("stroke-width", width);
   const SITE_RING_RADIUS = 2.6;
   function siteRadius(value, measure) {
     const scale = SITE_SCALE[measure];
@@ -59,14 +61,15 @@
   }
   // A ring shows all announced capacity at the site, and the blue disc inside it the part included in the selection.
   // A site with nothing included keeps its ring in grey. A site without a stated size is a small dashed ring.
-  const RING_EMPTY = "#7d8a90";
+  const RING_EMPTY = "#8b969c";
   const RING_NO_SIZE = "#8b969c";
   function styleRing(sel, d) {
     const noSize = d.no_size, empty = !noSize && d.empty;
-    return sel.style("fill", noSize ? "none" : empty ? "var(--dc-paper)" : "var(--dc-blue)")
-      .style("fill-opacity", noSize ? 0 : empty ? 0.55 : 0.1)
-      .style("stroke", noSize ? RING_NO_SIZE : empty ? RING_EMPTY : "var(--dc-blue)")
-      .style("stroke-width", noSize ? 0.9 : 1).style("stroke-dasharray", noSize ? "1.5 1.2" : null);
+    // A ring with a disc inside has a faint fill in the same blue. A ring with nothing inside is a grey outline only.
+    return sel.style("fill", noSize || empty ? "none" : SITE_FILL).style("fill-opacity", noSize || empty ? 0 : 0.1)
+      .style("stroke", noSize ? RING_NO_SIZE : empty ? RING_EMPTY : SITE_FILL)
+      .style("stroke-opacity", noSize ? 1 : empty ? 0.55 : 0.45)
+      .style("stroke-width", noSize ? 0.9 : 0.7).style("stroke-dasharray", noSize ? "1.5 1.2" : null);
   }
   const innerRadius = (d) => (d.no_size || !(d.site_value > 0) ? 0 : d.inner);
   const prefersReducedMotion = () => typeof global.matchMedia === "function" && global.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -633,7 +636,7 @@
           g.append("line").attr("class", "dc-phase-anchor");
           g.append("circle").attr("class", "dc-phase-hit").attr("fill", "transparent").attr("aria-hidden", "true");
           g.append("circle").attr("class", "dc-phase-disc").attr("r", 0);
-          g.append("path").attr("class", "dc-phase-share").style("fill", "var(--dc-blue)").style("fill-opacity", SHARE_OPACITY);
+          styleShare(g.append("path").attr("class", "dc-phase-share"));
           return g;
         },
         (update) => update.classed("dc-phase-exiting", false).interrupt("visibility").style("opacity", 1),
@@ -651,9 +654,9 @@
     // stylesheet is cached.
     const hover = phaseG.selectAll("g.dc-hover-layer").data([null]).join((enter) => {
       const g = enter.append("g").attr("class", "dc-hover-layer").attr("pointer-events", "none").attr("aria-hidden", "true").style("opacity", 0);
-      g.append("circle").attr("class", "dc-hover-halo").style("fill", "var(--dc-blue)").style("fill-opacity", 0.2).style("stroke", "none");
+      g.append("circle").attr("class", "dc-hover-halo").style("fill", SITE_FILL).style("fill-opacity", 0.16).style("stroke", "none");
       g.append("circle").attr("class", "dc-hover-disc");
-      g.append("path").attr("class", "dc-hover-share").style("fill", "var(--dc-blue)").style("fill-opacity", 0.9);
+      styleShare(g.append("path").attr("class", "dc-hover-share"));
       return g;
     });
     const tipHost = d3.select(popupG.node().parentNode);
@@ -862,8 +865,7 @@
       const r = radii[i], slot = Math.max(r * 2, 44, textWidth + 6);
       const cx = vertical ? 2 + largest : x + slot / 2;
       const cy = vertical ? rowHeight * (i + 0.5) : h - labelHeight - r - 2;
-      svg.append("circle").attr("cx", cx).attr("cy", cy).attr("r", r)
-        .style("fill", "var(--dc-blue)").style("fill-opacity", SHARE_OPACITY).style("stroke", "#fbf8f0").style("stroke-width", 0.8);
+      styleShare(svg.append("circle").attr("cx", cx).attr("cy", cy).attr("r", r), 0.8);
       const labelX = vertical ? 2 + largest * 2 + 8 : cx;
       svg.append("text").attr("x", labelX).attr("y", vertical ? cy + 4 : h - 3)
         .attr("text-anchor", vertical ? "start" : "middle").text(`${format(value)} ${scale.unit}`);
@@ -890,48 +892,17 @@
       const w = Math.ceil(text_.node().getComputedTextLength ? text_.node().getComputedTextLength() : 200);
       svg.attr("width", symbolWidth + 10 + w);
     };
-    item((g) => g.append("path").attr("d", circlePath(iconRadius * 0.62)).style("fill", "var(--dc-blue)").style("fill-opacity", SHARE_OPACITY),
+    item((g) => styleShare(g.append("path").attr("d", circlePath(iconRadius * 0.62)), 0.8),
       iconRadius * 2, `Blue: ${where}`);
     item((g) => styleRing(g.append("circle").attr("r", iconRadius), {}), iconRadius * 2, "Ring: all announced at the site");
-    if (tab !== "announced" || year) item((g) => styleRing(g.append("circle").attr("r", iconRadius * 0.8), { empty: true }), iconRadius * 2,
-      year ? `Grey ring: none ${where.replace("in operation", "operating")}` : `Grey ring: none ${where}`);
-    const ring = SITE_RING_RADIUS * k;
-    item((g) => styleRing(g.append("circle").attr("r", ring), { no_size: true }), iconRadius * 2, "No stated size");
+    item((g) => styleRing(g.append("circle").attr("r", SITE_RING_RADIUS * k), { no_size: true }), iconRadius * 2, "Dashed: no stated size");
   }
 
 
 
-  // Fixed classes keep area colours comparable between stage, HQ and type selections.
-  const ZONE_COLOURS = ["#e0d5c6", "#dbcebb", "#d5c6af", "#cebba1"];
-  const ZONE_SCALES = {
-    mw: { limits: [500, 2000, 5000], labels: ["0–0.5", "0.5–2", "2–5", "5+"], unit: "GW" },
-    twh: { limits: [2, 10, 30], labels: ["0–2", "2–10", "10–30", "30+"], unit: "TWh/year" },
-  };
-  function zoneFill(detail, measure = DEFAULT_MEASURE) {
-    if (!(detail?.high > 0)) return "var(--dc-land)";
-    const index = ZONE_SCALES[measure].limits.findIndex((limit) => detail.high <= limit);
-    return ZONE_COLOURS[index < 0 ? ZONE_COLOURS.length - 1 : index];
-  }
+  // The zone totals are written on the map, so all land has one quiet colour.
+  const LAND_FILL = "var(--dc-land-flat)";
 
-
-  // Both map views share the same classes, labels and screen-sized key.
-  function renderZoneKey(container, measure, { x, y, k = 1, barHeight = 132, focus = false }) {
-    const barWidth = 7, scale = ZONE_SCALES[measure];
-    const key = container.selectAll("g.dc-zone-key").data([null]).join("g")
-      .attr("class", focus ? "dc-zone-key dc-focus-zone-key" : "dc-zone-key")
-      .attr("role", "img").attr("aria-label", `Quantified zone totals in ${scale.unit}, upper estimate`)
-      .attr("transform", `translate(${x},${y}) scale(${1 / k})`);
-    key.selectAll("text.dc-zone-key-unit").data([null]).join("text").attr("class", "dc-zone-key-unit")
-      .attr("x", barWidth).attr("y", -12).attr("text-anchor", "end").text(measure === "twh" ? "TWh" : scale.unit);
-    const rows = key.selectAll("g.dc-zone-key-step").data(ZONE_COLOURS).join("g").attr("class", "dc-zone-key-step");
-    rows.selectAll("rect").data((colour) => [colour]).join("rect")
-      .attr("x", 0).attr("y", (d) => (3 - ZONE_COLOURS.indexOf(d)) * barHeight / 4)
-      .attr("width", barWidth).attr("height", barHeight / 4 + 0.1).attr("fill", (d) => d);
-    rows.selectAll("text").data((colour) => [colour]).join("text").attr("text-anchor", "end")
-      .attr("x", -8).attr("y", (d) => (3 - ZONE_COLOURS.indexOf(d) + 0.5) * barHeight / 4 + 4)
-      .text((d) => scale.labels[ZONE_COLOURS.indexOf(d)]);
-    return key;
-  }
 
   function renderMapLegend(root, measure, tab = DEFAULT_TAB, year = null) {
     // The key occupies the empty lower right corner, without a separate surface.
@@ -1095,7 +1066,6 @@
       if (!rendered) return;
       root.style("--dc-map-pixel", width / rendered).style("--dc-map-height", `${svg.node().getBoundingClientRect().height}px`);
       if (Math.abs(rendered - keyWidth) > 2 && keyWidth) renderMapLegend(root, measure, tab, year);
-      drawZoneKey();
       keyWidth = rendered;
     }) : null;
     if (sizeObserver) sizeObserver.observe(svg.node());
@@ -1116,19 +1086,6 @@
         .text("Neighbouring country outlines could not be loaded.");
     });
 
-    function drawZoneKey() {
-      const rendered = svg.node().getBoundingClientRect().width;
-      if (!rendered) return;
-      const k = rendered / width, barWidth = 7;
-      const barHeight = compact ? (rendered < 340 ? 80 : 100) : 132;
-      const pad = compact ? 12 : 22;
-      const bounds = path.bounds(geojson);
-      const centre = bounds[0][1] + (bounds[1][1] - bounds[0][1]) * (compact ? 0.80 : 0.72);
-      const keyY = Math.max(24 / k, Math.min(height - (pad + barHeight) / k, centre - barHeight / (2 * k)));
-      renderZoneKey(svg, measure, {
-        x: width - (pad + barWidth) / k, y: keyY, k, barHeight,
-      });
-    }
 
     const popup = root.append("div").attr("class", "dc-map-popup-host").attr("hidden", true);
     const zonePaths = mapG.selectAll("path").data(geojson.features).join("path").attr("class", "dc-zone")
@@ -1303,7 +1260,7 @@
       const view = trackerView(data, tab, measure, hq, type, yearMap());
       root.attr("data-measure", measure).attr("data-tab", tab).attr("data-hq", hq).attr("data-type", type);
       svg.attr("aria-label", `Planned datacenter sites: ${TABS.find((t) => t.id === tab).label}`);
-      zonePaths.attr("fill", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
+      zonePaths.attr("fill", LAND_FILL)
         .attr("aria-label", (d) => `${d.properties.bidding_zone}: ${capacityLabel(view.zones[d.properties.bidding_zone], measure)}`);
       const groups = highlightGroups(buildPhaseGroups(trackerView(data, tab, measure, "none", type, yearMap()), data), hq);
       lastGroups = groups;
@@ -1316,9 +1273,19 @@
       if (transform.k > 1.01) applyMainZoom(transform);
       if (selectedKey) selectSite(selectedKey, false);
       root.classed("dc-hq-highlighting", hq !== "none");
-      zoneLabelG.selectAll("text.dc-zone-label").style("stroke", (d) => zoneFill(view.zones[d.properties.bidding_zone], measure))
-        .select(".dc-zone-label-value").text((d) => zoneValueLabel(view.zones[d.properties.bidding_zone], measure));
-      drawZoneKey();
+      zoneLabelG.selectAll("text.dc-zone-label").style("stroke", LAND_FILL)
+        .select(".dc-zone-label-value").each(function (d) {
+          // A changed zone total fades out and the new one fades in, at the same pace as the circles.
+          const detail = view.zones[d.properties.bidding_zone];
+          const next = detail?.high > 0 ? zoneValueLabel(detail, measure) : "";
+          const value = d3.select(this);
+          if (this.__text === next) return;
+          const first = this.__text === undefined;
+          this.__text = next;
+          if (first || prefersReducedMotion()) { value.interrupt().style("opacity", 1).text(next); return; }
+          value.interrupt().transition().duration(200).style("opacity", 0)
+            .on("end", () => value.text(next).transition().duration(320).style("opacity", 1));
+        });
       // The text above the map says what a circle shows.
       renderMapLegend(root, measure, tab, year);
       const variants = TABS.flatMap((item) => ["mw", "twh"].map((m) => ({ key: `${item.id}:${m}`, text: circleText(item.id, m, hq, type, year) })));
@@ -1329,7 +1296,7 @@
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;type = state.type;render(); });
     return { setTimeline(value) { setTimeline(value); render(); }, disconnect() {backgroundAbort.abort();sizeObserver?.disconnect();unsubscribe();global.removeEventListener("resize", onResize);root.selectAll("*").remove();} };
   }
-  const api = { ZONE_COLOURS, ZONE_SCALES, zoneFill, COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
+  const api = { COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);
