@@ -193,16 +193,19 @@
           annual_addition_mw: "Annual increase in modelled capacity in operation (GW)",
           annual_twh: "Annual electricity use including existing sites (TWh/year)",
         };
-        // The heading names what the chart shows. The caption gives the selection and the unit.
-        const captions = { mw: "GW in operation since 2025", annual_addition_mw: "GW added per year", annual_twh: "TWh/year, including existing sites" };
 
         const hqNames = { domestic: "Domestic", other_europe: "Other Europe", outside_europe: "Outside Europe" };
         const hqNote = state.hq !== "none"
           ? ` HQ: ${hqNames[state.hq] || state.hq}.${use ? " Only new projects are filtered." : ""}` : "";
         svg.select("title").text(measureLabels[measure]);
-        const captionText = doc.createElement("span");
-        captionText.textContent = `${familyLabel} · ${captions[measure]}.${hqNote}`;
-        container.querySelector("[data-timeline-caption]").replaceChildren(captionText);
+        // The heading follows the measure. The note under the chart is only used when an HQ filter is on.
+        container.querySelectorAll("[data-heading]").forEach((el) => {
+          const current = el.dataset.heading === measure;
+          el.classList.toggle("dc-heading-current", current);
+          el.setAttribute("aria-hidden", String(!current));
+        });
+        const note = container.querySelector("[data-timeline-caption]");
+        if (note) note.textContent = hqNote.trim();
         container.querySelectorAll("[data-timeline-family-label]").forEach((el) => { el.textContent = `${familyLabel}: range`; });
         container.querySelectorAll("[data-timeline-family-name]").forEach((el) => { el.textContent = familyLabel; });
         svg.select("desc").text(use
@@ -246,10 +249,14 @@
           ? global.DCTrackerElectricity.maximum(global.DCTrackerElectricity.seriesFor(electricity, state.family))
           : capacityMax(timeline, data, measure, state.family);
 
+        const panelsData = series;
+
         const width = Math.max(300, chart.clientWidth);
         const grid = panelLayout(width, countries.length);
         const single = grid.columns === 1;
-        const gap = 36, left = 44, panelHeight = single ? 190 : grid.columns === 2 ? 220 : 300, top = 30, bottomPad = 28;
+        // The country name sits above each panel and the unit just above the y-axis labels.
+        const gap = 40, left = 44, top = 46, bottomPad = 28;
+        const panelHeight = single ? 190 : grid.columns === 2 ? 220 : 260;
         const panelWidth = (width - left - 10 - (grid.columns - 1) * gap) / grid.columns;
         const height = grid.rows * (panelHeight + top + bottomPad);
         svg.attr("viewBox", `0 0 ${width} ${height}`);
@@ -264,15 +271,17 @@
         lastMode = use;
         const t = svg.transition().duration(animate ? (modeChanged ? 750 : 550) : 0).ease(d3.easeCubicInOut);
         const firstYear = use ? X_START : timeline.years[0];
+        // Capacity is tracked from 2026, so the power view starts at the end of 2025. Electricity use shows history from 2020.
+        const xStart = use ? X_START : 2025;
         if (selectedYear < firstYear) selectedYear = timeline.years.at(-1);
 
-        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(series, (country) => country.key)
+        const panels = panelsLayer.selectAll("g.dc-timeline-panel").data(panelsData, (country) => country.key)
           .join((enter) => {
             const g = enter.append("g").attr("class", "dc-timeline-panel");
-            g.append("text").attr("class", "dc-timeline-panel-title").attr("x", 0).attr("y", -12);
+            g.append("text").attr("class", "dc-timeline-panel-title").attr("x", -38).attr("y", -28);
+            g.append("text").attr("class", "dc-timeline-unit").attr("x", -38).attr("y", -10).attr("text-anchor", "start");
             g.append("g").attr("class", "dc-timeline-grid");
             g.append("g").attr("class", "dc-timeline-axis");
-            g.append("text").attr("class", "dc-timeline-untracked");
             g.append("line").attr("class", "dc-timeline-baseline").attr("opacity", 0);
             g.append("path").attr("class", "dc-timeline-band");
             g.append("g").attr("class", "dc-timeline-bars");
@@ -288,30 +297,27 @@
           });
         panels.each(function (country, index) {
           const g = d3.select(this);
+          // Every panel has its own axis labels and unit. The countries share one scale.
           const column = index % grid.columns, row = Math.floor(index / grid.columns);
           const x0 = left + column * (panelWidth + gap);
           const y0 = row * (panelHeight + top + bottomPad) + top;
           g.attr("transform", `translate(${x0},${y0})`);
-          const x = d3.scaleLinear().domain([X_START, timeline.years.at(-1)]).range([0, panelWidth]);
+          const x = d3.scaleLinear().domain([xStart, timeline.years.at(-1)]).range([0, panelWidth]);
           g.select(".dc-timeline-panel-title").text(country.label);
+          g.select(".dc-timeline-unit").text(use ? "TWh/year" : added ? "GW per year" : "GW");
           g.select(".dc-timeline-grid").transition(t)
-            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => (column ? "" : value.toLocaleString("en-US"))));
+            .call(d3.axisLeft(y).ticks(4).tickSize(-panelWidth).tickFormat((value) => value.toLocaleString("en-US")));
           g.select(".dc-timeline-axis").attr("transform", `translate(0,${panelHeight})`)
-            .call(d3.axisBottom(x).tickValues([2020, 2025, 2030, 2035]).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
+            .call(d3.axisBottom(x).tickValues(use ? [2020, 2025, 2030, 2035] : [2025, 2030, 2035]).tickFormat(d3.format("d")).tickSize(4).tickPadding(6))
             .call((axis) => axis.selectAll(".tick text").attr("text-anchor", (d, i, all) => (i === 0 ? "start" : i === all.length - 1 ? "end" : "middle")));
           g.select(".dc-electricity-seam").attr("x1", x(SEAM)).attr("x2", x(SEAM)).attr("y1", 0).attr("y2", panelHeight);
-          // Capacity has no history in the tracker. The left part says so in the power view.
-          const untracked = g.select(".dc-timeline-untracked").attr("text-anchor", "middle").attr("aria-hidden", use ? "true" : null);
-          untracked.selectAll("tspan").data(["Tracked", "from 2026"]).join("tspan")
-            .attr("x", x(SEAM) / 2).attr("y", (d, i) => panelHeight - 28 + i * 15).text((d) => d);
-          untracked.transition(t).attr("opacity", use ? 0 : 1);
           const v = (value) => y((value || 0) / divisor);
           const defined = (p) => p.low !== null && p.high !== null;
           const bandArea = g.select(".dc-timeline-band").attr("display", added ? "none" : null);
           // The 2025 starting level for existing sites, as a dotted line in the electricity view.
           const baseline = g.select(".dc-timeline-baseline").attr("x1", x(SEAM)).attr("x2", x(timeline.years.at(-1)));
           baseline.transition(t).attr("y1", v(use ? country.baseline.low_twh : 0)).attr("y2", v(use ? country.baseline.low_twh : 0)).attr("opacity", use && !added ? 1 : 0);
-          const band = panelWidth / (timeline.years.at(-1) - X_START + 1);
+          const band = panelWidth / (timeline.years.at(-1) - xStart + 1);
           const bars = g.select(".dc-timeline-bars").attr("display", added ? null : "none");
           if (added) {
             const yearly = country.points.filter((p) => p.year !== SEAM);
@@ -360,7 +366,7 @@
             move(valueLabel).attr("x", at < 40 ? at + 4 : at > panelWidth - 40 ? at - 4 : at).attr("y", topValue < 20 ? topValue + 18 : topValue - 9);
           };
           country.setCursor = setCursor;
-          const pick = (event) => inspect(Math.max(firstYear, Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event, this)[0])))));
+          const pick = (event) => inspect(Math.max(Math.max(firstYear, Math.ceil(xStart)), Math.min(timeline.years.at(-1), Math.round(x.invert(d3.pointer(event, this)[0])))));
           g.select(".dc-timeline-hit").raise().attr("width", panelWidth).attr("height", panelHeight)
             .on("pointermove", pick).on("pointerdown", pick)
             // With a mouse, the chart returns to the last year when the pointer leaves. A tap keeps its year.
@@ -369,13 +375,13 @@
 
         function inspect(year, transition = null) {
           selectedYear = year;
-          series.forEach((country) => country.setCursor && country.setCursor(year, transition));
+          panelsData.forEach((country) => country.setCursor && country.setCursor(year, transition));
           container.querySelector(".dc-timeline-year").textContent = year;
           readout.replaceChildren();
           readout.classList.toggle("dc-timeline-readout-use", use);
           const context = container.querySelector("[data-timeline-context]");
           const shares = [];
-          series.forEach((country) => {
+          panelsData.forEach((country) => {
             const item = doc.createElement("span");
             item.className = "dc-timeline-value";
             const label = doc.createElement("span");
@@ -500,6 +506,8 @@
       container.querySelector(".dc-timeline-content").hidden = false;
       const unsubscribe = shared.subscribe(render);
       return {
+        timeline,
+        electricity,
         disconnect() {
           unsubscribe();
           resizeObserver.disconnect();

@@ -408,7 +408,7 @@
 }
 #dc-tracker .dc-view-tabs button:hover { color: var(--dc-ink); }
 #dc-tracker .dc-view-tabs button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 4px; }
-#dc-scenario-map { max-width: none; margin: 1rem 0 1.8rem; color: var(--dc-ink); }
+#dc-scenario-map { max-width: none; margin: 1rem 0 0.4rem; color: var(--dc-ink); }
 :is(#dc-scenario-map, #dc-shared-controls) .dc-map-controls { gap: 0.3rem; }
 :is(#dc-scenario-map, #dc-shared-controls) .dc-measure-control { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
 :is(#dc-scenario-map, #dc-shared-controls) .dc-map-options { align-items: flex-start; }
@@ -645,7 +645,7 @@ html[data-theme="dark"] #dc-tracker { --dc-land: #2b3337; --dc-land-line: #4a565
 #dc-scenario-map .dc-site-key { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 0.6rem 2rem; max-width: 640px; }
 #dc-scenario-map .dc-site-key-sizes { flex: none; overflow: visible; }
 #dc-scenario-map .dc-site-key-sizes text { fill: var(--dc-muted); font-size: 11px; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
-#dc-scenario-map .dc-zone-label-value { fill: var(--dc-muted); font-weight: 400; }
+#dc-scenario-map .dc-zone-label-value { fill: var(--dc-ink); font-weight: 400 !important; font-size: 0.92em; font-variant-numeric: tabular-nums; }
 #dc-scenario-map .dc-site-key-symbols { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: inherit; }
 @media (max-width: 600px) {
   #dc-scenario-map .dc-site-key-symbols { gap: 0.6rem 1.4rem; }
@@ -817,3 +817,102 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-focus-narrow .dc-focus-title {
   top: auto; left: auto; right: auto; margin: 0.9rem 3.5rem 0 1rem;
 }
+
+
+/* Zoom: quiet buttons at the upper right, and a short hint when the wheel is used without Ctrl.
+   When zoomed in, the map is cut cleanly at its edges. */
+#dc-scenario-map .dc-map-zoom { position: absolute; top: 0.4rem; right: 0; z-index: 3; display: flex; flex-direction: column; gap: 2px; }
+#dc-scenario-map .dc-map-zoom button { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--dc-control); color: var(--dc-muted); cursor: pointer; }
+#dc-scenario-map .dc-map-zoom button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+#dc-scenario-map .dc-map-zoom button:hover { color: var(--dc-ink); background: color-mix(in srgb, var(--dc-blue) 14%, transparent); }
+#dc-scenario-map .dc-map-zoom button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
+#dc-scenario-map .dc-map-zoom button[hidden] { display: none; }
+#dc-scenario-map .dc-map-hint { position: absolute; left: 50%; top: 42%; z-index: 4; transform: translate(-50%, -50%); padding: 0.4rem 0.8rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--dc-ink) 82%, transparent); color: var(--dc-paper); font: 12.5px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  pointer-events: none; opacity: 0; transition: opacity 200ms ease; }
+#dc-scenario-map .dc-map-hint.dc-map-hint-on { opacity: 1; }
+#dc-scenario-map.dc-map-zoomed .dc-scenario-svg { cursor: grab; }
+#dc-scenario-map.dc-map-zoomed .dc-scenario-svg:active { cursor: grabbing; }
+#dc-scenario-map .dc-phase-point.dc-site-selected .dc-phase-disc { stroke: var(--dc-ink) !important; stroke-width: 1.6 !important; }
+
+/* The side panel for a selected site slides in from the right over the open sea east of the land. */
+#dc-scenario-map .dc-site-panel {
+  position: absolute; top: 0.4rem; right: 2.4rem; z-index: 5; width: 290px; max-height: calc(100% - 0.8rem); overflow-y: auto;
+  border: 1px solid var(--dc-rule); border-radius: 10px; background: var(--dc-paper); box-shadow: 0 10px 28px rgba(30, 43, 52, 0.12);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  opacity: 0; transform: translateX(16px); visibility: hidden; pointer-events: none;
+  transition: opacity 240ms ease, transform 280ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s linear 280ms;
+}
+#dc-scenario-map .dc-site-panel.dc-site-panel-open { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+/* On a phone and a narrow window the card opens compactly at the bottom of the map. */
+#dc-scenario-map.dc-map-compact .dc-site-panel {
+  top: auto; bottom: 0.5rem; left: 0.5rem; right: 0.5rem; width: auto; max-height: 55%;
+  transform: translateY(14px); box-shadow: 0 8px 24px rgba(30, 43, 52, 0.16);
+}
+#dc-scenario-map.dc-map-compact .dc-site-panel.dc-site-panel-open { transform: none; }
+@media (prefers-reduced-motion: reduce) { #dc-scenario-map .dc-site-panel, #dc-scenario-map .dc-map-hint { transition: none; } }
+
+/* Full build-out or one year: the same small segmented control as Measure, with a slim slider. */
+#dc-scenario-map .dc-map-years { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.4rem 0.8rem; margin: 0.6rem auto 0.3rem;
+  font: 12px/1.4 "Avenir Next", "Helvetica Neue", Arial, sans-serif; color: var(--dc-muted); }
+#dc-scenario-map .dc-map-years[hidden] { display: none; }
+#dc-scenario-map .dc-map-years .dc-measure-button { font-size: 12px; }
+#dc-scenario-map .dc-map-year-range { display: inline-flex; align-items: center; gap: 0.6rem; }
+#dc-scenario-map .dc-map-year-range[hidden] { display: none; }
+#dc-scenario-map .dc-map-year-range input { width: 160px; height: 16px; accent-color: var(--dc-blue); }
+#dc-scenario-map .dc-map-year-range output { min-width: 8.5em; color: var(--dc-ink); font-variant-numeric: tabular-nums; }
+
+/* "How to read the map" under the map, in the same quiet style as the breakdown. */
+#dc-tracker .dc-map-about { max-width: 760px; margin: 0 auto 2rem; text-align: center; }
+#dc-tracker .dc-map-about > summary { width: fit-content; margin: 0 auto; cursor: pointer; font: 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif; color: var(--dc-ink); }
+#dc-tracker .dc-map-about > p { margin: 0.6rem auto 0; font: 12px/1.6 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; color: var(--dc-muted); }
+#dc-tracker .dc-map-about a { color: inherit; text-decoration: underline; }
+#dc-tracker .dc-scenario-control { position: relative; display: flex; align-items: center; gap: 0.35rem; }
+/* The info button sits on the tab text's centre line, not the centre of the tab with its underline. */
+#dc-tracker .dc-scenario-info-button { position: relative; top: -1px; }
+#dc-tracker .dc-scenario-control .dc-view-tabs { margin: 0; }
+#dc-tracker .dc-scenario-control .dc-scenario-info { top: 2.4rem; }
+/* A clicked zone gets no browser focus box. Keyboard focus shows as a darker outline of the zone. */
+#dc-scenario-map .dc-zone:focus { outline: none; }
+#dc-scenario-map .dc-zone:focus-visible { stroke: var(--dc-ink); stroke-width: 1.6; }
+
+/* The card for a selected site. One type family, three sizes and two text colours:
+   15 px titles, 13 px text and 12 px notes, in ink or the darker grey, with one large figure. */
+#dc-scenario-map .dc-site-card { padding: 0.95rem 1.05rem 1rem; color: var(--dc-ink); font: 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+#dc-scenario-map .dc-site-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.6rem; }
+#dc-scenario-map .dc-site-card-kicker { display: none; }
+#dc-scenario-map .dc-site-card-title { font-size: 15px; font-weight: 500; line-height: 1.35; }
+#dc-scenario-map .dc-site-card-meta { color: var(--dc-muted); font-size: 12px; line-height: 1.45; }
+#dc-scenario-map .dc-site-card-close { flex: none; width: 28px; height: 28px; margin: -4px -6px 0 0; border: 0; border-radius: 50%; background: none; color: var(--dc-muted);
+  font: 400 18px/1 "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer; }
+#dc-scenario-map .dc-site-card-close:hover { color: var(--dc-ink); background: var(--dc-control); }
+#dc-scenario-map .dc-site-card-summary { margin-top: 0.7rem; color: var(--dc-muted); font-size: 12px; }
+#dc-scenario-map .dc-site-card-summary strong { margin-right: 0.15rem; color: var(--dc-ink); font-size: 20px; font-weight: 400; font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-site-card-note { display: block; }
+#dc-scenario-map .dc-site-card-stages { display: flex; flex-direction: column; gap: 0.1rem; margin-top: 0.75rem; }
+#dc-scenario-map .dc-site-card-label { margin-bottom: 0.15rem; color: var(--dc-muted); font-size: 12px; }
+#dc-scenario-map .dc-site-card-stage { display: flex; align-items: center; gap: 0.45rem; }
+#dc-scenario-map .dc-site-card-stage i { flex: none; width: 9px; height: 9px; border-radius: 2px; }
+#dc-scenario-map .dc-site-card-stage span { flex: 1; }
+#dc-scenario-map .dc-site-card-stage strong { font-weight: 500; font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-site-card-out { color: var(--dc-muted); }
+#dc-scenario-map .dc-site-card-out strong { font-weight: 400; }
+#dc-scenario-map .dc-site-card-text { margin: 0.75rem 0 0; color: var(--dc-ink); font-size: 13px; line-height: 1.5; }
+#dc-scenario-map .dc-site-card-project { margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px solid var(--dc-rule); }
+#dc-scenario-map .dc-site-card-project-title { display: flex; justify-content: space-between; gap: 0.6rem; }
+#dc-scenario-map .dc-site-card-project-title strong { font-weight: 500; }
+#dc-scenario-map .dc-site-card-project-title span { flex: none; font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-site-card-link { margin-top: 0.25rem; padding: 0; border: 0; background: none; color: var(--dc-blue); font: inherit; cursor: pointer;
+  text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--dc-blue) 40%, transparent); text-underline-offset: 3px; }
+#dc-scenario-map .dc-site-card-link:hover { text-decoration-color: currentColor; }
+#dc-scenario-map .dc-site-card button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
+#dc-scenario-map.dc-map-compact .dc-site-card { padding: 0.75rem 0.9rem 0.85rem; }
+#dc-scenario-map.dc-map-compact .dc-site-card-summary strong { font-size: 18px; }
+
+/* The key: 12 px in the darker grey, the same as the other notes on the page. */
+#dc-scenario-map .dc-site-key-sizes text { fill: var(--dc-muted) !important; font-size: 12px !important; }
+
+/* On a wide screen the key sits over the sea, so the year control can move up close to the land.
+   In the narrower layouts the key sits under the map, and the control follows it with normal spacing. */
+#dc-scenario-map:not(.dc-map-compact) .dc-map-years { margin-top: -0.6rem; }

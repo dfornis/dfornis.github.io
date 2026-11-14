@@ -707,6 +707,36 @@
           if (!map) map = global.DCTrackerMap.mount(document.getElementById("dc-scenario-map"), data, controls);
         }
       }
+      // "Show in project list" on the map: open the project in the table, even if a search, a filter or the
+      // short list hides it, and scroll to it.
+      document.addEventListener("dc:show-project", (event) => {
+        const id = event.detail?.id;
+        if (!projects.has(id)) return;
+        const rowFor = () => document.querySelector('#tracker-table tr.project-row[data-project="' + id + '"]');
+        if (searchInput?.value) {
+          searchInput.value = "";
+          searchField.hidden = true;
+          searchHeader.classList.remove("is-searching");
+          searchOpen.setAttribute("aria-expanded", "false");
+        }
+        expandedProjects.add(id);
+        render();
+        if (!rowFor()) {
+          showAll = true;
+          render();
+        }
+        if (!rowFor()) {
+          document.querySelectorAll("#tracker-filters input:checked").forEach((input) => { input.checked = false; });
+          render();
+        }
+        const row = rowFor();
+        if (!row) return;
+        const reduced = global.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+        row.scrollIntoView({ block: "center", behavior: reduced ? "auto" : "smooth" });
+        row.classList.add("dc-row-flash");
+        setTimeout(() => row.classList.remove("dc-row-flash"), 1800);
+        row.querySelector(".toggle-button")?.focus({ preventScroll: true });
+      });
       document.getElementById("tracker-show-all")?.addEventListener("click", () => {
         showAll = !showAll;
         render();
@@ -722,6 +752,8 @@
       });
       if (global.DCTrackerTimeline) {
         timeline = await global.DCTrackerTimeline.mount(document.getElementById("dc-timeline"), data, controls);
+        // The map's year control uses the same annual model results as the chart.
+        if (timeline?.timeline) map?.setTimeline?.(timeline.timeline);
       }
     } catch (error) {
       status.textContent = "Could not load tracker: " + error.message;

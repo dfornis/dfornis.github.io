@@ -8,8 +8,15 @@ permalink: /projects/datacenter-tracker/
 ---
 
 <div class="tracker-intro">
-  <img class="tracker-intro-illustration" src="{{ '/assets/images/policy-feasibility/datacenter-linework.png' | relative_url }}" alt="" width="1714" height="918" decoding="async">
-  <p>This page lists publicly reported plans for new datacenters in the Nordic countries covered by the project register and estimates how much electricity they would use. The data come from company announcements, news reports, planning and permit documents, and grid operators. I am still developing the method. Comments, corrections and missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+  <div>
+    <p class="tracker-lede">The method for this tracker is still being developed, so comments, corrections and tips about missing projects are welcome at <a href="mailto:fornborg@kth.se">fornborg@kth.se</a>.</p>
+    <details class="tracker-about">
+      <summary>About this page</summary>
+      <p>This page tracks publicly reported plans for new datacenters in Sweden, Norway, Finland and Denmark, and estimates how much electricity they would use.</p>
+      <p>I collect the plans from company announcements, news reports, planning and permit documents, and grid operators. Figures for future years are model results, explained in the <a href="#dc-method-flow">method section</a> further down.</p>
+      <p><span data-download-meta></span>. The data are shared under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+    </details>
+  </div>
 </div>
 
 <div id="dc-tracker" markdown="1" data-results="{{ '/assets/data/datacenters/results.json' | relative_url }}?v=5.4.13">
@@ -17,47 +24,39 @@ permalink: /projects/datacenter-tracker/
 <div id="dc-shared-controls" aria-label="Shared tracker controls"></div>
 
 <section id="dc-map" class="dc-map-section" aria-labelledby="dc-map-title">
-  <h2 id="dc-map-title">Planned datacenter sites</h2>
-  <p class="dc-map-intro">Announced capacity at new datacenter sites, as planned when each site is finished. Confirmed, Dated plans and All announced set how far a plan must have come to be included.</p>
+  <h2 id="dc-map-title" class="visually-hidden">Planned datacenter sites</h2>
   <div id="dc-scenario-map" data-neighbours="{{ '/assets/data/maps/nordic-neighbours.geojson' | relative_url }}?v=5.4.4"></div>
-  <p class="dc-map-footnote">Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a country to enlarge it, and a circle to see its projects. <a href="#dc-method-flow">Full method below</a>.</p>
+  <details class="dc-map-about">
+    <summary>How to read the map</summary>
+    <p>Confirmed has capacity with an investment decision or a construction start. Dated plans adds plans with a date but no decision. All announced adds everything else. Some values are ranges, as explained under <a href="#dc-method-ranges">Ranges</a>. Circles show sites and the sand shading shows the total for each bidding zone. The circles, shading and bars use the upper value of the quantified capacity. Capacity is the estimated power of the whole site, including cooling and other auxiliary power needs. Electricity use is the yearly use once all capacity is built and in full use. Click a site to see its projects, and a zone to zoom in. Ctrl + scroll or pinch also zooms. <a href="#dc-method-flow">Full method below</a>.</p>
+  </details>
 </section>
 
 <section id="dc-timeline" class="dc-timeline" aria-labelledby="dc-timeline-title" data-timeline="{{ '/assets/data/datacenters/timeline.json' | relative_url }}?v=5.4.13" data-electricity="{{ '/assets/data/datacenters/electricity_use.json' | relative_url }}?v=5.4.13">
-  <h2 id="dc-timeline-title">Electricity use and new capacity, 2020–2035</h2>
-  <p class="dc-timeline-intro">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
+  <h2 id="dc-timeline-title" class="dc-timeline-heading" aria-live="polite"><span data-heading="mw" class="dc-heading-current">Modelled capacity in operation by year</span><span data-heading="annual_addition_mw" aria-hidden="true">Modelled capacity added by year</span><span data-heading="annual_twh" aria-hidden="true">Modelled electricity use by year</span></h2>
   <div class="dc-timeline-content" hidden>
-    <div class="dc-timeline-controls">
-      <div class="dc-timeline-measure-control" data-timeline-capacity-view>
-        <span id="dc-timeline-measure-label">View</span>
-        <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
-          <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
-          <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
-        </div>
-      </div>
-    </div>
-    <p class="dc-chart-caption" data-timeline-caption></p>
     <div class="dc-timeline-paper">
       <div class="dc-timeline-chart"></div>
       <div class="dc-timeline-legend" data-band-legend><span class="band"><i></i><span data-timeline-family-label>Range</span></span><span class="baseline" data-use-visible><i></i>Existing sites, 2025 level</span></div>
       <div class="dc-timeline-legend dc-timeline-bar-legend" hidden><span><i></i>Low end of range</span><span class="upper"><i></i>Up to high end of range</span></div>
       <div class="dc-timeline-legend dc-electricity-history-key" data-use-visible><span data-history-symbol="measured">NVE</span><span data-history-symbol="measured_subset">Elhub</span><span data-history-symbol="reported">EU reports</span><span data-history-symbol="estimate">RISE estimates</span></div>
+      <p class="dc-chart-filter-note" data-timeline-caption></p>
+      <div class="dc-timeline-controls">
+        <div class="dc-timeline-measure-control" data-timeline-capacity-view>
+          <span id="dc-timeline-measure-label">View</span>
+          <div class="dc-timeline-measure-switch" role="group" aria-labelledby="dc-timeline-measure-label">
+            <label><input type="radio" name="timeline-measure" value="mw" checked><span>Cumulative</span></label>
+            <label><input type="radio" name="timeline-measure" value="annual_addition_mw"><span>Added/year</span></label>
+          </div>
+        </div>
+      </div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
       </div>
       <p class="dc-timeline-note dc-timeline-context" data-timeline-context hidden></p>
     </div>
-    <details class="dc-timeline-data">
-      <summary>Notes and sources</summary>
-      <p class="dc-timeline-note"><strong>Timing.</strong> Start of operation and the ramp-up to full use follow the rules under <a href="#dc-method-timing">Start of operation and build-out</a>. Capacity that comes online after 2035 lies outside the chart.</p>
-      <p class="dc-timeline-note" data-capacity-only><strong>Added/year.</strong> The dark part of each bar is the lower value and the light part reaches the upper value.</p>
-      <div data-use-only>
-        <p class="dc-timeline-note"><strong>Starting levels.</strong> Existing sites stay at their 2025 level: <span data-electricity-baselines></span> Shares compare with national electricity use in 2025, as described under <a href="#dc-method-energy">Annual electricity use</a>.</p>
-        <p class="dc-timeline-note"><strong>HQ and type selections.</strong> These filter new projects in both chart views. Historical figures and the starting level for existing sites always cover the whole country.</p>
-        <p class="dc-timeline-note"><strong>Historical figures.</strong> The sources have different coverage: metered consumption in Norway (NVE and Elhub), reports from individual sites to the EU under the Energy Efficiency Directive, and estimates by RISE for Sweden. They give the level and the recent trend. The EU totals also rise because more sites report each year. In Sweden 6 sites reported for 2023 and 71 for 2025. <span data-electricity-sources></span></p>
-      </div>
-    </details>
+    <p class="dc-chart-footnote">Estimated electricity use in datacenters in each country, recorded up to 2025, and new capacity in operation from 2026. Values from 2026 are model results for the case that the projects in <strong data-timeline-family-name>Dated plans</strong> are built. They rest on assumptions about when projects come online, how fast their capacity comes into use and, for electricity use, the average share of capacity in use (the load factor), as described in the <a href="#dc-method-flow">method below</a>. Existing sites stay at their 2025 level. The shaded range reflects uncertain project sizes and start dates in the sources.</p>
   </div>
   <p class="dc-timeline-status" role="status">Loading annual data…</p>
 </section>
@@ -250,9 +249,9 @@ Each country is reviewed using the same search instructions. Sources, earlier an
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.4.20' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.5.0' | relative_url }}");
 
-/* The illustration's slate blue anchors the controls and table surfaces. */
+/* A slate blue anchors the controls and table surfaces. */
 #dc-tracker {
   --dc-blue: #4c7088;
   --dc-country-SE: #9b6659;
@@ -264,7 +263,7 @@ Each country is reviewed using the same search instructions. Sources, earlier an
   --dc-class-campus_continuation: #86a9bf;
   --dc-class-undated_announcement: #c3d4df;
   --dc-ink: #303d43;
-  --dc-muted: #657177;
+  --dc-muted: #56636a;
   --dc-paper: var(--global-bg-color, #f4f0e9);
   --dc-surface: #f8f5ef;
   --dc-header: #e3e8e7;
@@ -301,39 +300,46 @@ html[data-theme="dark"] #dc-tracker > p { color: var(--dc-ink); }
 #tracker-table .project-row td { color: var(--dc-ink); }
 #tracker-table .project-row span { color: inherit; }
 
-.tracker-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.1rem;
-}
+/* A one-sentence introduction. The rest sits behind "About this page", in the same type as the introduction. */
+.tracker-intro { margin-bottom: 1.1rem; max-width: 760px; }
+.tracker-intro p { margin: 0; }
+.tracker-intro .tracker-lede { margin: -0.3rem 0 0; font-size: 0.95em; color: color-mix(in srgb, var(--dc-ink, #303d43) 85%, transparent); }
+.tracker-intro .tracker-lede a { color: var(--dc-blue, #4c7088); }
+.tracker-about { margin-top: 0.3rem; }
+.tracker-about > summary { width: fit-content; cursor: pointer; list-style: none; color: var(--dc-blue, #4c7088); font-size: 0.9em; }
+.tracker-about > summary::-webkit-details-marker { display: none; }
+.tracker-about > summary::after { content: " +"; }
+.tracker-about[open] > summary::after { content: " −"; }
+.tracker-intro .tracker-about p { margin: 0.5rem 0 0; font-size: 0.9em; color: color-mix(in srgb, var(--dc-ink, #303d43) 85%, transparent); }
+.tracker-intro .tracker-about a { color: var(--dc-blue, #4c7088); }
 
-.tracker-intro > p { margin: 0; }
+/* The chart heading follows the measure. All three headings share one grid cell, so the heading keeps the height
+   of the longest and changing measure fades one into the next without moving the page. */
+#dc-timeline .dc-timeline-heading { display: grid; }
+#dc-timeline .dc-timeline-heading > span { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 260ms ease, visibility 0s linear 260ms; }
+#dc-timeline .dc-timeline-heading > span.dc-heading-current { opacity: 1; visibility: visible; transition: opacity 260ms ease 80ms, visibility 0s; }
+@media (prefers-reduced-motion: reduce) { #dc-timeline .dc-timeline-heading > span { transition: none !important; } }
+/* A note under the chart when an HQ filter is on. */
+#dc-tracker .dc-chart-filter-note { margin: 0.2rem 0 0; text-align: center; color: var(--dc-muted); font: 12px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; }
+#dc-tracker .dc-chart-filter-note:empty { display: none; }
 
-.tracker-intro-illustration {
-  display: block;
-  grid-column: 2;
-  grid-row: 1;
-  width: 100%;
-  height: auto;
-  margin: 0;
-  opacity: 0.82;
-}
+/* The chart's view control sits under the chart, on one line like the year control under the map. */
+#dc-timeline .dc-timeline-paper .dc-timeline-controls { display: flex; justify-content: center; max-width: none; margin: 0.5rem 0 0.9rem; }
+#dc-timeline .dc-timeline-paper .dc-timeline-measure-control { flex-direction: row; align-items: center; gap: 0.6rem; }
 
-@media (max-width: 700px) {
-  .tracker-intro { grid-template-columns: minmax(0, 1fr); gap: 0.8rem; }
-  .tracker-intro-illustration {
-    grid-column: 1;
-    width: min(100%, 430px);
-    margin: 0 auto;
-  }
-}
+/* The note under the chart, in the same quiet style as the notes under the map. */
+#dc-tracker .dc-chart-footnote { max-width: 760px; margin: 1.2rem auto 0; text-align: center; color: var(--dc-muted);
+  font: 12px/1.6 "Avenir Next", "Helvetica Neue", Arial, sans-serif !important; }
+#dc-tracker .dc-chart-footnote strong { font-weight: 500; color: var(--dc-ink); }
+#dc-tracker .dc-chart-footnote a { color: inherit; text-decoration: underline; }
+
+/* A project opened from the map is marked briefly. */
+#tracker-table tr.project-row.dc-row-flash { background: color-mix(in srgb, var(--dc-blue) 16%, transparent); transition: background 0.6s ease; }
 
 /* Project list: same type, rules and colours as the map and chart. */
 .dc-download-line {
   margin: 0.7rem 0 0;
-  color: #657177;
+  color: var(--dc-muted, #56636a);
   font: 13px/1.5 "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
 .dc-download-line a {
@@ -1012,12 +1018,12 @@ pre {
   #tracker-table > tbody > tr.detail-row > td.detail-cell { padding-left: 0 !important; }
 }
 </style>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.4.4">
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-timeline.css' | relative_url }}?v=5.4.21">
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.4.20" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.4.13" defer></script>
-<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.4.4">
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.5.0" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.0" defer></script>
+<link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.5.0">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.4.18" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.5.0" defer></script>
