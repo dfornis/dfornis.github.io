@@ -827,7 +827,7 @@
       }
     }
     // One project: its description from the project list. Several projects: each gets its own short row.
-    if (projects.length === 1 && projects[0].description) card.append("p").attr("class", "dc-site-card-text").text(projects[0].description);
+    if (projects.length === 1 && projects[0].description) card.append("div").attr("class", "dc-site-card-text").text(projects[0].description);
     for (const project of projects) {
       const item = card.append("div").attr("class", "dc-site-card-project");
       const own = CLASSES.filter((klass) => stageValue(project, klass, "high") > 0);
@@ -1060,11 +1060,20 @@
     // The map fills the text width on a wide screen, so the drawing is scaled up. The zone labels are scaled back,
     // so they keep the size they have at the former width of 640 px and match the other small text on the page.
     // The key is redrawn when the width changes, so its circles keep matching the circles on the map.
+    // The label size is set here and not with calc() in the stylesheet, because the site's CSS minifier breaks
+    // custom properties inside calc().
     let keyWidth = 0;
+    let mapPixel = 1;
+    function sizeZoneLabels() {
+      const base = root.classed("dc-map-compact") ? 11 : 10;
+      zoneLabelG.selectAll("text.dc-zone-label").style("font-size", `${base * mapPixel}px`, "important").style("stroke-width", `${2.5 * mapPixel}px`);
+    }
     const sizeObserver = typeof ResizeObserver === "function" ? new ResizeObserver(() => {
       const rendered = svg.node().getBoundingClientRect().width;
       if (!rendered) return;
-      root.style("--dc-map-pixel", width / rendered).style("--dc-map-height", `${svg.node().getBoundingClientRect().height}px`);
+      mapPixel = width / rendered;
+      sizeZoneLabels();
+      root.style("--dc-map-height", `${svg.node().getBoundingClientRect().height}px`);
       if (Math.abs(rendered - keyWidth) > 2 && keyWidth) renderMapLegend(root, measure, tab, year);
       keyWidth = rendered;
     }) : null;
@@ -1108,6 +1117,7 @@
     function drawZoneLabels() {
       zoneLabelG.selectAll("*").remove();
       renderZoneLabels(zoneLabelG, geojson, projection);
+      sizeZoneLabels();
     }
     drawZoneLabels();
 
