@@ -919,7 +919,10 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 /* Zone labels: a small name and a lighter total, so they read as background to the sites.
    On a narrow screen they are a little larger, so they stay readable on a phone. */
 #dc-scenario-map .dc-zone-label { fill: color-mix(in srgb, var(--dc-ink) 88%, transparent); }
-#dc-scenario-map .dc-zone-label-value { fill: var(--dc-muted); font-size: 0.9em; }
+#dc-scenario-map .dc-zone-label-value { fill: color-mix(in srgb, var(--dc-ink) 78%, transparent); font-size: 0.9em; }
+/* A label out at sea gets a halo in the page colour instead of the land colour. */
+#dc-scenario-map .dc-zone-label-out { stroke: var(--dc-paper) !important; }
+#dc-scenario-map .dc-zone-label-line { stroke: var(--dc-muted) !important; stroke-width: 0.8px; stroke-dasharray: 1.5 2; opacity: 0.7; vector-effect: non-scaling-stroke; pointer-events: none; }
 #dc-tracker { --dc-land-flat: #e2d8c9; }
 html[data-theme="dark"] #dc-tracker { --dc-land-flat: #3a3a38; }
 /* On a wide screen the zoom buttons sit beside the land, not in the far corner. */
