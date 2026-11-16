@@ -949,17 +949,30 @@
 
   // The card for a selected site: what the site is, how much of it is included, the stages and each project.
   // A button on each project opens it in the project list below the map.
-  // Round flags for the country of a company's global headquarters, from flag-icons (MIT licence) in assets/vendor/flags.
-  // The folder is found from this script's own address, so it works on the site and in a local preview.
-  const FLAG_BASE = (global.document?.currentScript?.src || "").replace(/js\/datacenter-tracker\/scenario-map-d3\.js.*$/, "vendor/flags/");
-  const FLAGS = new Set(["CA", "DE", "DK", "FI", "FR", "GB", "IS", "NL", "NO", "SE", "SG", "US"]);
+  /*! Flags: flag-icons 7.6.0, https://github.com/lipis/flag-icons. MIT License. Copyright (c) 2013 Panayiotis Lipiridis. */
+  // Round flags for the country of a company's global headquarters. The images are kept in this script, so the
+  // page needs no separate files. Unchanged copies of the flags/1x1 images of flag-icons, with whitespace removed.
+  const FLAG_SVGS = {
+      "CA": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#fff\" d=\"M81.1 0h362.3v512H81.1z\"/><path fill=\"#d52b1e\" d=\"M-100 0H81.1v512H-100zm543.4 0h181.1v512H443.4zM135.3 247.4l-14 4.8 65.4 57.5c5 14.8-1.7 19.1-6 26.9l71-9-1.8 71.5 14.8-.5-3.3-70.9 71.2 8.4c-4.4-9.3-8.3-14.2-4.3-29l65.4-54.5-11.4-4.1c-9.4-7.3 4-34.8 6-52.2 0 0-38.1 13.1-40.6 6.2l-9.9-18.5-34.6 38c-3.8 1-5.4-.6-6.3-3.8l16-79.7-25.4 14.3q-3.3 1.3-5.6-2.4l-24.5-49-25.2 50.9q-3 2.7-5.4.8l-24.2-13.6 14.5 79.2c-1.1 3-3.9 4-7.1 2.3l-33.3-37.8c-4.3 7-7.3 18.4-13 21-5.7 2.3-25-4.9-37.9-7.7 4.4 15.9 18.2 42.3 9.5 51z\"/></svg>",
+      "DE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#fc0\" d=\"M0 341.3h512V512H0z\"/><path fill=\"#000001\" d=\"M0 0h512v170.7H0z\"/><path fill=\"red\" d=\"M0 170.7h512v170.6H0z\"/></svg>",
+      "DK": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#c8102e\" d=\"M0 0h512.1v512H0z\"/><path fill=\"#fff\" d=\"M144 0h73.1v512H144z\"/><path fill=\"#fff\" d=\"M0 219.4h512.1v73.2H0z\"/></svg>",
+      "FI": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#fff\" d=\"M0 0h512v512H0z\"/><path fill=\"#002f6c\" d=\"M0 186.2h512v139.6H0z\"/><path fill=\"#002f6c\" d=\"M123.2 0h139.6v512H123.1z\"/></svg>",
+      "FR": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#fff\" d=\"M0 0h512v512H0z\"/><path fill=\"#000091\" d=\"M0 0h170.7v512H0z\"/><path fill=\"#e1000f\" d=\"M341.3 0H512v512H341.3z\"/></svg>",
+      "GB": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#012169\" d=\"M0 0h512v512H0z\"/><path fill=\"#FFF\" d=\"M512 0v64L322 256l190 187v69h-67L254 324 68 512H0v-68l186-187L0 74V0h62l192 188L440 0z\"/><path fill=\"#C8102E\" d=\"m184 324 11 34L42 512H0v-3zm124-12 54 8 150 147v45zM512 0 320 196l-4-44L466 0zM0 1l193 189-59-8L0 49z\"/><path fill=\"#FFF\" d=\"M176 0v512h160V0zM0 176v160h512V176z\"/><path fill=\"#C8102E\" d=\"M0 208v96h512v-96zM208 0v512h96V0z\"/></svg>",
+      "IS": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><defs><clipPath id=\"is-a\"><path fill-opacity=\".7\" d=\"M85.4 0h486v486h-486z\"/></clipPath></defs><g fill-rule=\"evenodd\" stroke-width=\"0\" clip-path=\"url(#is-a)\" transform=\"translate(-90)scale(1.0535)\"><path fill=\"#003897\" d=\"M0 0h675v486H0z\"/><path fill=\"#fff\" d=\"M0 189h189V0h108v189h378v108H297v189H189V297H0z\"/><path fill=\"#d72828\" d=\"M0 216h216V0h54v216h405v54H270v216h-54V270H0z\"/></g></svg>",
+      "NL": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#ae1c28\" d=\"M0 0h512v170.7H0z\"/><path fill=\"#fff\" d=\"M0 170.7h512v170.6H0z\"/><path fill=\"#21468b\" d=\"M0 341.3h512V512H0z\"/></svg>",
+      "NO": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#ed2939\" d=\"M0 0h512v512H0z\"/><path fill=\"#fff\" d=\"M128 0h128v512H128z\"/><path fill=\"#fff\" d=\"M0 192h512v128H0z\"/><path fill=\"#002664\" d=\"M160 0h64v512h-64z\"/><path fill=\"#002664\" d=\"M0 224h512v64H0z\"/></svg>",
+      "SE": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#005293\" d=\"M0 0h512v512H0z\"/><path fill=\"#fecb00\" d=\"M134 0v204.8H0v102.4h134V512h102.4V307.2H512V204.8H236.4V0z\"/></svg>",
+      "SG": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><defs><clipPath id=\"sg-a\"><path fill-opacity=\".7\" d=\"M27.7 0h708.6v708.7H27.7z\"/></clipPath></defs><g fill-rule=\"evenodd\" clip-path=\"url(#sg-a)\" transform=\"translate(-20)scale(.72249)\"><path fill=\"#fff\" d=\"M0 0h1063v708.7H0z\"/><path fill=\"#df0000\" d=\"M0 0h1063v354.3H0z\"/><path fill=\"#fff\" d=\"M245.2 59.4a124.6 124.6 0 0 0 1.1 243.9 126.9 126.9 0 1 1-1.1-243.9\"/><path fill=\"#fff\" d=\"m202 162.4-18.9-13.8 23.5-.2 7.2-22.3 7.5 22.3h23.4l-18.8 14 7.2 22.3L214 171l-19 13.8zm26 76.9-19-13.8 23.5-.2 7.3-22.3 7.4 22.2h23.5l-19 14 7.3 22.3-19-13.6-19 13.8zm86.3-.6-19-13.8 23.4-.2 7.3-22.3 7.4 22.3H357l-18.9 14 7.3 22.3-19.1-13.7-19 13.8zm25.7-76.2-19-13.8 23.5-.2 7.2-22.3 7.5 22.2h23.4l-18.8 14 7.2 22.3-19.1-13.6-19 13.8zM271.7 112l-19-13.8 23.5-.2 7.3-22.3 7.4 22.3h23.5l-19 14 7.3 22.2-19-13.6-19 13.8z\"/></g></svg>",
+      "US": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path fill=\"#bd3d44\" d=\"M0 0h512v512H0\"/><path stroke=\"#fff\" stroke-width=\"40\" d=\"M0 58h512M0 137h512M0 216h512M0 295h512M0 374h512M0 453h512\"/><path fill=\"#192f5d\" d=\"M0 0h390v275H0z\"/><marker id=\"us-a\" markerHeight=\"30\" markerWidth=\"30\"><path fill=\"#fff\" d=\"m15 0 9.3 28.6L0 11h30L5.7 28.6\"/></marker><path fill=\"none\" marker-mid=\"url(#us-a)\" d=\"m0 0 18 11h65 65 65 65 66L51 39h65 65 65 65L18 66h65 65 65 65 66L51 94h65 65 65 65L18 121h65 65 65 65 66L51 149h65 65 65 65L18 177h65 65 65 65 66L51 205h65 65 65 65L18 232h65 65 65 65 66z\"/></svg>"
+  };
   function regionName(code) {
     try { return new Intl.DisplayNames(["en"], { type: "region" }).of(code); } catch { return code; }
   }
   // A known country gets its flag. An unknown headquarters gets a plain grey circle of the same size.
   function flagHtml(code) {
     const c = String(code || "").toUpperCase();
-    return FLAGS.has(c) ? `<img class="dc-flag" src="${FLAG_BASE}${c.toLowerCase()}.svg" alt="" width="14" height="14">`
+    return FLAG_SVGS[c] ? `<img class="dc-flag" src="data:image/svg+xml,${encodeURIComponent(FLAG_SVGS[c])}" alt="" width="14" height="14">`
       : '<span class="dc-flag dc-flag-unknown" aria-hidden="true"></span>';
   }
 
