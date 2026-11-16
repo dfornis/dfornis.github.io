@@ -210,12 +210,12 @@
           input.disabled = use;
         });
         useOnly.forEach((element) => { element.hidden = !use; });
-        container.querySelectorAll("[data-use-visible]").forEach((element) => { element.style.visibility = use ? "" : "hidden"; });
+        // The legends for the electricity view take no room in the power view.
+        container.querySelectorAll("[data-use-visible]").forEach((element) => { element.hidden = !use; });
         capacityOnly.forEach((element) => { element.hidden = use; });
         const view = container.querySelector("[name='timeline-measure']:checked").value;
         const measure = use ? "annual_twh" : view;
         const added = !use && measure === "annual_addition_mw";
-        container.querySelector("[data-band-legend] .band")?.toggleAttribute("hidden", added);
         container.querySelector(".dc-timeline-bar-legend")?.toggleAttribute("hidden", !added);
         const familyLabel = timeline.families.find((f) => f.id === state.family)?.label || state.family;
         const measureLabels = {
@@ -231,7 +231,6 @@
           el.setAttribute("aria-hidden", String(!current));
         });
         setSubtitle(subtitleText(state, use, added, familyLabel));
-        container.querySelectorAll("[data-timeline-family-label]").forEach((el) => { el.textContent = `${familyLabel}: range`; });
         container.querySelectorAll("[data-timeline-family-name]").forEach((el) => { el.textContent = familyLabel; });
         svg.select("desc").text(use
           ? "One band per country. Each band starts at the 2025 level for existing sites and runs from the lower to the upper estimate with new capacity. Points before 2026 are historical figures."

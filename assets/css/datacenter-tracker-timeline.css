@@ -355,10 +355,10 @@
 .dc-timeline-value-name { display: inline-flex; align-items: center; gap: 0.4rem; }
 .dc-timeline-value-name i { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; }
 /* The legend swatches are neutral, since the colours stand for countries. */
-.dc-timeline-legend .band i { background: var(--dc-chart-muted); opacity: 0.3; }
 .dc-timeline-bar-legend i { background: var(--dc-chart-muted); opacity: 0.8; }
 .dc-timeline-bar-legend .upper i { opacity: 0.3; }
 /* On phones the four countries' values sit two by two, so the list under the chart stays short. */
 @media (max-width: 600px) {
   .dc-timeline .dc-timeline-readout.dc-timeline-readout-use { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem 1rem; }
 }
+.dc-timeline [data-use-visible][hidden] { display: none !important; }

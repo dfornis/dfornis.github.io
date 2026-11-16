@@ -598,9 +598,15 @@
   function layoutZoneLabels(features, projection, circles, size, mapWidth, mapHeight, boxes = new Map()) {
     const zoneAt = zoneLookup(features, projection, mapWidth, mapHeight);
     const index = new Map(features.map((f, i) => [f, i + 1]));
-    const contains = (f, x, y) => zoneAt(x, y) === index.get(f);
     const onLand = (x, y) => zoneAt(x, y) > 0;
     const path = d3.geoPath(projection);
+    // A label belongs on the zone's largest piece of land. Islands such as Bornholm in DK2 are left out of the
+    // search, so a label never ends up alone on an island without a line to the main part of its zone.
+    const cores = features.map((f) => f.geometry.type !== "MultiPolygon" ? f : { ...f, geometry: { type: "Polygon",
+      coordinates: d3.greatest(f.geometry.coordinates, (c) => path.area({ type: "Polygon", coordinates: c })) } });
+    const coreAt = zoneLookup(cores, projection, mapWidth, mapHeight);
+    const coreOf = new Map(features.map((f, i) => [f, cores[i]]));
+    const contains = (f, x, y) => coreAt(x, y) === index.get(f);
     const hitsCircle = (r, pad = 2) => circles.some((c) => {
       const dx = Math.max(r[0] - c.x, 0, c.x - r[2]), dy = Math.max(r[1] - c.y, 0, c.y - r[3]);
       return Math.hypot(dx, dy) < c.r + pad;
@@ -616,7 +622,7 @@
       const box = boxes.get(zone) || { width: 4.3, lines: 2 };
       const w = box.width * size, top = -0.95 * size, bottom = (box.lines > 1 ? 1.5 : 0.35) * size, h = bottom - top;
       const inside = (x, y) => contains(f, x, y);
-      const [[x0, y0], [x1, y1]] = path.bounds(f);
+      const [[x0, y0], [x1, y1]] = path.bounds(coreOf.get(f));
       const anchor = projection(ZONE_ANCHORS[zone]);
       const step = Math.max(x1 - x0, y1 - y0) / 26;
       let best = null;
@@ -659,7 +665,7 @@
       };
       const target = best && best.fits ? [best.x, best.y] : anchor;
       const options = [];
-      for (const gap of [2.2, 3.4, 5].map((g) => g * size)) {
+      for (const gap of [2.2, 3.4, 5, 7].map((g) => g * size)) {
         const left = edge([x0 - 10, target[1]], target), right = edge([x1 + 10, target[1]], target);
         const below = edge([target[0], y1 + 10], target), above = edge([target[0], y0 - 10], target);
         options.push(

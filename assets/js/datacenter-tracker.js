@@ -262,8 +262,9 @@
       if (actorNote && Array.isArray(data.actor_coverage)) {
         const names = { SE: "Swedish", NO: "Norwegian", FI: "Finnish", DK: "Danish" };
         const parts = ["SE", "NO", "FI", "DK"].map((c) => data.actor_coverage.find((r) => r.country === c)).filter(Boolean);
-        actorNote.textContent = "Headquarters have been reviewed for " + parts.map((r) => r.reviewed + " of " + r.projects + " " + names[r.country]).join(", ") +
-          " projects. HQ selection filters the map and its totals without splitting capacity between actors.";
+        const counts = parts.map((r) => r.reviewed + " of " + r.projects + " " + names[r.country]);
+        const list = counts.length > 1 ? counts.slice(0, -1).join(", ") + " and " + counts.at(-1) : counts.join("");
+        actorNote.textContent = "Headquarters have been reviewed for " + list + " projects. Projects with unknown or unreviewed headquarters are left out when an HQ option is selected.";
       }
       if (global.DCTrackerMethodFlow) global.DCTrackerMethodFlow.mount(document.getElementById("dc-method-flow"), data);
       const projects = new Map(data.projects.map((project) => [project.project_id, project]));

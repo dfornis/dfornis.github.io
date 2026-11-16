@@ -34,10 +34,6 @@ permalink: /projects/datacenter-tracker/
   <p class="dc-chart-subtitle" data-timeline-subtitle aria-live="polite"></p>
   <div class="dc-timeline-content" hidden>
     <div class="dc-timeline-paper">
-      <div class="dc-timeline-chart"></div>
-      <div class="dc-timeline-legend" data-band-legend><span class="band"><i></i><span data-timeline-family-label>Range</span></span><span class="baseline" data-use-visible><i></i>Existing sites, 2025 level</span></div>
-      <div class="dc-timeline-legend dc-timeline-bar-legend" hidden><span><i></i>Low end of range</span><span class="upper"><i></i>Up to high end of range</span></div>
-      <div class="dc-timeline-legend dc-electricity-history-key" data-use-visible><span data-history-symbol="measured">NVE</span><span data-history-symbol="measured_subset">Elhub</span><span data-history-symbol="reported">EU reports</span><span data-history-symbol="estimate">RISE estimates</span></div>
       <div class="dc-timeline-controls">
         <div class="dc-timeline-measure-control" data-timeline-capacity-view>
           <span id="dc-timeline-measure-label">View</span>
@@ -47,6 +43,10 @@ permalink: /projects/datacenter-tracker/
           </div>
         </div>
       </div>
+      <div class="dc-timeline-chart"></div>
+      <div class="dc-timeline-legend" data-band-legend data-use-visible><span class="baseline"><i></i>Existing sites, 2025 level</span></div>
+      <div class="dc-timeline-legend dc-timeline-bar-legend" hidden><span><i></i>Low end of range</span><span class="upper"><i></i>Up to high end of range</span></div>
+      <div class="dc-timeline-legend dc-electricity-history-key" data-use-visible><span data-history-symbol="measured">NVE</span><span data-history-symbol="measured_subset">Elhub</span><span data-history-symbol="reported">EU reports</span><span data-history-symbol="estimate">RISE estimates</span></div>
       <div class="dc-timeline-inspect">
         <span class="dc-timeline-year"></span>
         <div class="dc-timeline-readout" aria-live="polite" aria-atomic="true"></div>
@@ -200,45 +200,37 @@ permalink: /projects/datacenter-tracker/
 
 ## How the tracker is updated
 
-Each country is reviewed using the same search instructions. Sources, earlier announcements and unresolved questions are kept with each project.
+<p class="tracker-workflow-intro">The tracker is updated one country at a time. An AI research agent does the searching and drafts the changes. I review the result and decide which new projects are included.</p>
 
 <div class="tracker-workflow">
   <details>
-    <summary><span class="workflow-step">01</span><span>Search for new capacity</span></summary>
+    <summary><span class="workflow-step">01</span><span>Search</span></summary>
     <div class="workflow-body">
-      <p>An AI research agent searches company announcements, planning and permit records, grid information and local news. It works country by country, following written instructions and search terms in Swedish, Norwegian, Finnish, Danish and English.</p>
-      <p>A project is added when sources link a named datacenter company or customer to a specific site and to new capacity. I review and approve every new project before it is included.</p>
+      <p>The agent searches company announcements, planning and permit documents, grid operators' publications and local news. For each country it uses a fixed list of search terms in the country's own languages and in English. The list covers datacenters, permits and grid connections, the words used for capacity and building phases, and later steps such as the start of construction. The agent also follows up every project already in the tracker, to see whether plans, dates or capacity have changed.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">02</span><span>Check project identity, phases and dates</span></summary>
+    <summary><span class="workflow-step">02</span><span>Record</span></summary>
     <div class="workflow-body">
-      <p>Each announcement is checked against the projects and earlier names already recorded. Addresses, land parcels, company relationships and previous announcements help distinguish a new site from an expansion or a change of name.</p>
-      <p>Capacity figures, dates and investment decisions are recorded for the building, phase or campus they describe. A date for one building is not applied to the entire campus. Overlapping announcements are counted once.</p>
-      <p>Historic names, superseded targets and earlier capacity claims are retained with their sources.</p>
+      <p>New information is matched against the projects already recorded, so that an expansion or a renamed project is not counted as a new site. Figures, dates and decisions are recorded as the sources state them, with a link to each source. Earlier names and figures are kept.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">03</span><span>Record what each MW figure measures</span></summary>
+    <summary><span class="workflow-step">03</span><span>Approve</span></summary>
     <div class="workflow-body">
-      <p>Every MW figure is recorded as IT power, site power, grid capacity or another stated measure. Its dates, project status and investment decision are kept with the part of the project they describe.</p>
-      <p>Source ranges and qualifications are retained. Conflicting figures and unresolved relationships are flagged for follow-up, with the questions linked to the relevant projects and sources. The calculations use the rules described above.</p>
+      <p>A new site is proposed only when its location, the company or customer behind it, new capacity and concrete steps at the site are documented. I check each proposal before it is counted. Sites that do not meet these criteria are not counted, but are kept on record so they can be recognised if they return.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">04</span><span>Calculate and review the totals</span></summary>
+    <summary><span class="workflow-step">04</span><span>Check and publish</span></summary>
     <div class="workflow-body">
-      <p>The map, chart, table and downloadable data all come from the same calculation. Results are checked for overlapping capacity, missing information and conflicts between sources before the site is updated.</p>
-      <p>New projects are reviewed one by one before they are included in the totals.</p>
+      <p>The map, the chart, the project list and the downloadable data are recalculated from the updated records. Automated checks look for missing or inconsistent data, and the agent reads through every changed project once more before I publish the update.</p>
     </div>
   </details>
   <details>
-    <summary><span class="workflow-step">05</span><span>Identify actors and global headquarters</span></summary>
+    <summary><span class="workflow-step">05</span><span>Companies and headquarters</span></summary>
     <div class="workflow-body">
-      <p>Project announcements and site records identify the developer, operator, named customer and any property owner or project partner. Their roles are recorded separately. A partnership does not create extra capacity.</p>
-      <p>Global headquarters are checked using company reports, official contact pages and announcements. Headquarters refers to the company group, so a local office or subsidiary may have a different address. Registration, headquarters and financial ownership are recorded separately.</p>
-      <p>Ownership notes describe the ownership reported in each source and the date of that report. The HQ filter groups projects by where their companies are headquartered. Financial ownership is recorded separately. Unknown headquarters stay unknown. A project can match a known partner's HQ even when another partner is unidentified. Expand a project to see the companies, roles, headquarters and sources.</p>
-      <p data-actor-coverage>HQ selection filters the map and its totals without splitting capacity between actors.</p>
+      <p>The companies behind each project and their headquarters are reviewed in a separate round, using annual reports, company websites and company registers. Not all projects have been reviewed yet.</p>
     </div>
   </details>
 </div>
@@ -323,8 +315,8 @@ html[data-theme="dark"] #dc-tracker > p { color: var(--dc-ink); }
 #dc-tracker .dc-chart-subtitle:empty { min-height: 1.5em; }
 @media (prefers-reduced-motion: reduce) { #dc-tracker .dc-chart-subtitle { transition: none; } }
 
-/* The chart's view control sits under the chart, on one line like the year control under the map. */
-#dc-timeline .dc-timeline-paper .dc-timeline-controls { display: flex; justify-content: center; max-width: none; margin: 0.5rem 0 0.9rem; }
+/* The view control sits under the chart heading, as the controls do elsewhere on the site. */
+#dc-timeline .dc-timeline-paper .dc-timeline-controls { display: flex; justify-content: flex-start; max-width: none; margin: 0 0 0.6rem; }
 #dc-timeline .dc-timeline-paper .dc-timeline-measure-control { flex-direction: row; align-items: center; gap: 0.6rem; }
 
 /* The note under the chart, in the same quiet style as the notes under the map. */
@@ -803,6 +795,7 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
 
 .tracker-workflow {
   margin-top: 1.35rem;
+  margin-bottom: 1.35rem;
   max-width: 78ch;
   font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
 }
@@ -858,14 +851,21 @@ html[data-theme="dark"] .dc-download-line a { color: #9eb9ca; border-bottom-colo
   max-width: 72ch;
   margin-left: 2.45rem;
   padding: 0 1.8rem 1.1rem 0;
-  color: var(--dc-ink);
-  font-size: 14px;
-  line-height: 1.55;
 }
 
+/* The text in this section has the same type as the method text above: 13 px in the ink colour.
+   The site's own paragraph size is important, so it is overridden explicitly. */
+.tracker-workflow-intro,
 .tracker-workflow .workflow-body p {
   margin: 0;
+  color: var(--dc-ink);
+  font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px !important;
+  font-weight: 400;
+  line-height: 1.5;
 }
+.tracker-workflow-intro { max-width: 78ch; }
+.tracker-workflow summary { font-size: 14px; }
 
 .tracker-workflow .workflow-body p + p {
   margin-top: 0.7rem;
@@ -1022,8 +1022,8 @@ pre {
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.5.6" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.5.7" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.3" defer></script>
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.5.1">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.5.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker.js' | relative_url }}?v=5.5.3" defer></script>
