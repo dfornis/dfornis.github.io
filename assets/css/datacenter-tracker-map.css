@@ -887,7 +887,7 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
   font: 400 18px/1 "Avenir Next", "Helvetica Neue", Arial, sans-serif; cursor: pointer; }
 #dc-scenario-map .dc-site-card-close:hover { color: var(--dc-ink); background: var(--dc-control); }
 #dc-scenario-map .dc-site-card-summary { margin-top: 0.7rem; color: var(--dc-muted); font-size: 12px; }
-#dc-scenario-map .dc-site-card-summary strong { margin-right: 0.15rem; color: var(--dc-ink); font-size: 20px; font-weight: 400; font-variant-numeric: tabular-nums; }
+#dc-scenario-map .dc-site-card-summary strong { margin-right: 0.15rem; color: var(--dc-ink); font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; }
 #dc-scenario-map .dc-site-card-note { display: block; }
 #dc-scenario-map .dc-site-card-stages { display: flex; flex-direction: column; gap: 0.1rem; margin-top: 0.75rem; }
 #dc-scenario-map .dc-site-card-label { margin-bottom: 0.15rem; color: var(--dc-muted); font-size: 12px; }
@@ -907,7 +907,7 @@ html[data-theme="dark"] #dc-scenario-map .dc-focus.dc-focus-open { background: r
 #dc-scenario-map .dc-site-card-link:hover { text-decoration-color: currentColor; }
 #dc-scenario-map .dc-site-card button:focus-visible { outline: 2px solid var(--dc-blue); outline-offset: 2px; }
 #dc-scenario-map.dc-map-compact .dc-site-card { padding: 0.75rem 0.9rem 0.85rem; }
-#dc-scenario-map.dc-map-compact .dc-site-card-summary strong { font-size: 18px; }
+#dc-scenario-map.dc-map-compact .dc-site-card-summary strong { font-size: 15px; }
 
 /* The key: 12 px in the darker grey, the same as the other notes on the page. */
 #dc-scenario-map .dc-site-key-sizes text { fill: var(--dc-muted) !important; font-size: 12px !important; }
@@ -933,3 +933,16 @@ html[data-theme="dark"] #dc-tracker { --dc-land-flat: #3a3a38; }
 /* Site discs: a solid dark blue with a light edge, so neighbouring sites stay apart. */
 #dc-tracker { --dc-site: #35566d; --dc-site-edge: #fbf8f2; }
 html[data-theme="dark"] #dc-tracker { --dc-site: #a9c4d6; --dc-site-edge: #1c1c1d; }
+
+/* Round flags for the country of a company's global headquarters, in the site card and the project list. */
+#dc-tracker .dc-flag { display: inline-block; flex: none; width: 14px; height: 14px; border-radius: 50%; object-fit: cover;
+  vertical-align: -2px; margin-right: 0.35rem; box-shadow: 0 0 0 0.5px rgba(48, 61, 67, 0.25); }
+#dc-tracker .dc-flag-unknown { background: #d9d4cb; }
+#dc-scenario-map .dc-site-card-companies { display: grid; gap: 0.3rem; margin-top: 0.5rem; }
+/* Flag on the left, the company name beside it, and its headquarters on the line below the name. */
+#dc-scenario-map .dc-site-card-company { display: grid; grid-template-columns: 14px 1fr; column-gap: 0.45rem; align-items: center; color: var(--dc-ink); font-size: 12px; line-height: 1.4; }
+#dc-scenario-map .dc-site-card-company .dc-flag { margin: 0; }
+#dc-scenario-map .dc-site-card-company-hq { grid-column: 2; }
+#dc-scenario-map .dc-site-card-company-none { grid-column: 1 / -1; }
+#dc-scenario-map .dc-site-card-company-name { font-weight: 500; }
+#dc-scenario-map .dc-site-card-company-hq, #dc-scenario-map .dc-site-card-company-none { color: var(--dc-muted); }

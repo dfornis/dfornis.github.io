@@ -43,8 +43,16 @@
       .reduce((total, p) => total + (p.classes || []).reduce((sum, c) => sum + (c[field] || 0), 0), 0);
   }
   // Same format as the stage rows in the project card and the rest of the page.
+  // Single sites and projects are given in MW, as the circles and the project list are. Totals for zones and
+  // countries stay in GW.
+  function siteRange(detail, measure) {
+    if (measure !== "mw") return capacityLabel(detail, measure);
+    const format = (value) => value.toLocaleString("en-US", { maximumFractionDigits: value < 10 ? 1 : 0 });
+    const low = format(detail.low || 0), high = format(detail.high || 0);
+    return `${low === high ? high : `${low}–${high}`} MW`;
+  }
   function siteAmount(value, measure) {
-    return capacityLabel({ low: value, high: value }, measure);
+    return siteRange({ low: value, high: value }, measure);
   }
   // The part of a site that is included in the selection is a blue disc from the centre. Its size follows the
   // same scale as the grey circle and the size key, so a blue disc can be read on its own.
@@ -918,7 +926,7 @@
       for (const stage of stages) {
         const line = list.append("div").attr("class", "dc-project-class-value").classed("dc-project-class-out", !stage.included);
         line.append("span").text(CLASS_LABELS[CLASSES.indexOf(stage.klass)]);
-        line.append("strong").text(capacityLabel({ low: stage.low, high: stage.high }, measure));
+        line.append("strong").text(siteRange({ low: stage.low, high: stage.high }, measure));
       }
     }
     for (const project of projects) {
@@ -928,7 +936,7 @@
       const own = CLASSES.filter((klass) => stageValue(project, klass, "high") > 0);
       const low = own.reduce((sum, klass) => sum + stageValue(project, klass, "low"), 0);
       const high = own.reduce((sum, klass) => sum + stageValue(project, klass, "high"), 0);
-      if (high > 0) title.append("span").text(capacityLabel({ low, high }, measure));
+      if (high > 0) title.append("span").text(siteRange({ low, high }, measure));
       const stageNames = own.map((klass) => CLASS_LABELS[CLASSES.indexOf(klass)]).join(", ");
       const note = project.capacity_known ? stageNames : "Project without MW";
       item.append("span").attr("class", "dc-project-popup-meta").text([project.status, note].filter(Boolean).join(" · "));
@@ -941,7 +949,21 @@
 
   // The card for a selected site: what the site is, how much of it is included, the stages and each project.
   // A button on each project opens it in the project list below the map.
-  function renderSiteCard(host, group, measure, tab, yearLabel, onClose) {
+  // Round flags for the country of a company's global headquarters, from flag-icons (MIT licence) in assets/vendor/flags.
+  // The folder is found from this script's own address, so it works on the site and in a local preview.
+  const FLAG_BASE = (global.document?.currentScript?.src || "").replace(/js\/datacenter-tracker\/scenario-map-d3\.js.*$/, "vendor/flags/");
+  const FLAGS = new Set(["CA", "DE", "DK", "FI", "FR", "GB", "IS", "NL", "NO", "SE", "SG", "US"]);
+  function regionName(code) {
+    try { return new Intl.DisplayNames(["en"], { type: "region" }).of(code); } catch { return code; }
+  }
+  // A known country gets its flag. An unknown headquarters gets a plain grey circle of the same size.
+  function flagHtml(code) {
+    const c = String(code || "").toUpperCase();
+    return FLAGS.has(c) ? `<img class="dc-flag" src="${FLAG_BASE}${c.toLowerCase()}.svg" alt="" width="14" height="14">`
+      : '<span class="dc-flag dc-flag-unknown" aria-hidden="true"></span>';
+  }
+
+  function renderSiteCard(host, group, measure, tab, yearLabel, onClose, actorsByProject = new Map()) {
     host.selectAll("*").remove();
     const tabItem = TABS.find((item) => item.id === tab);
     const projects = group.phases.filter((row) => !group.hq_mode || group.hq_mode === "none" || matchesHq(row, group.hq_mode));
@@ -958,7 +980,7 @@
     if (types.length) titles.append("div").attr("class", "dc-site-card-meta").text(types.join(", "));
     const where = yearLabel ? `in operation in ${yearLabel}, ${tabItem.label}` : `in ${tabItem.label}`;
     const value = siteValue(group, measure), total = siteTotal(group, measure);
-    // The included amount as a large figure, with what it is part of beside it.
+    // The included amount, with what it is part of beside it.
     const summary = card.append("div").attr("class", "dc-site-card-summary");
     if (!(total > 0)) summary.append("strong").text("No stated size");
     else {
@@ -966,22 +988,7 @@
       summary.append("span").text(value >= total - 1e-6 ? ` ${where}` : ` of ${siteAmount(total, measure)} ${value > 0 ? where : `${measure === "mw" ? "announced" : "estimated"} is ${where}`}`);
     }
     if (yearLabel) summary.append("span").attr("class", "dc-site-card-note").text("Model result");
-    // The stages at full build-out, whatever the selection. Stages outside the selection are grey.
     const stageValue = (project, klass, bound) => (project.classes || []).find((row) => row.evidence_class === klass)?.[`${measure}_${bound}`] || 0;
-    const stages = CLASSES.map((klass) => ({ klass,
-      low: projects.reduce((sum, p) => sum + stageValue(p, klass, "low"), 0),
-      high: projects.reduce((sum, p) => sum + stageValue(p, klass, "high"), 0),
-      included: tabItem.classes.includes(klass) })).filter((stage) => stage.high > 0);
-    if (stages.length) {
-      const list = card.append("div").attr("class", "dc-site-card-stages");
-      list.append("div").attr("class", "dc-site-card-label").text("At full build-out, by stage");
-      for (const stage of stages) {
-        const line = list.append("div").attr("class", "dc-site-card-stage").classed("dc-site-card-out", !stage.included);
-        line.append("i").style("background", `var(--dc-class-${stage.klass})`).attr("aria-hidden", true);
-        line.append("span").text(CLASS_LABELS[CLASSES.indexOf(stage.klass)]);
-        line.append("strong").text(capacityLabel({ low: stage.low, high: stage.high }, measure));
-      }
-    }
     // One project: its description from the project list. Several projects: each gets its own short row.
     if (projects.length === 1 && projects[0].description) card.append("div").attr("class", "dc-site-card-text").text(projects[0].description);
     for (const project of projects) {
@@ -992,9 +999,20 @@
       if (projects.length > 1) {
         const title = item.append("div").attr("class", "dc-site-card-project-title");
         title.append("strong").text(project.project_name);
-        if (high > 0) title.append("span").text(capacityLabel({ low, high }, measure));
+        if (high > 0) title.append("span").text(siteRange({ low, high }, measure));
       }
       item.append("div").attr("class", "dc-site-card-meta").text([project.status, project.capacity_known ? "" : "No MW figure"].filter(Boolean).join(" · "));
+      // The companies behind the project, each with the flag of its global headquarters.
+      const companies = actorsByProject.get(project.project_id) || [];
+      const list = item.append("div").attr("class", "dc-site-card-companies");
+      if (!companies.length) list.append("div").attr("class", "dc-site-card-company dc-site-card-company-none").text("Companies not yet reviewed");
+      for (const actor of companies) {
+        const row = list.append("div").attr("class", "dc-site-card-company");
+        row.html(flagHtml(actor.hq_country));
+        row.append("span").attr("class", "dc-site-card-company-name").text(actor.actor_name);
+        row.append("span").attr("class", "dc-site-card-company-hq")
+          .text(actor.hq_country ? `HQ ${[actor.hq_city, regionName(actor.hq_country)].filter(Boolean).join(", ")}` : "HQ not confirmed");
+      }
       item.append("button").attr("type", "button").attr("class", "dc-site-card-link")
         .attr("aria-label", `Show ${project.project_name} in the project list`).text("Show in project list")
         .on("click", () => global.document.dispatchEvent(new CustomEvent("dc:show-project", { detail: { id: project.project_id } })));
@@ -1121,6 +1139,7 @@
 
   function mount(container, data, shared) {
     const geojson = data.bidding_zones;
+    const actorsByProject = d3.group(data.actors || [], (actor) => actor.project_id);
     const width = 760;
     let height = 570;
     let { family: tab, measure, hq, type } = shared.get();
@@ -1387,7 +1406,7 @@
       phaseG.selectAll("g.dc-phase-point").classed("dc-site-selected", (d) => d.key === selectedKey);
       const group = lastGroups.find((g) => g.key === key);
       if (!group) { closeCard(); return; }
-      renderSiteCard(card, group, measure, tab, year, closeCard);
+      renderSiteCard(card, group, measure, tab, year, closeCard, actorsByProject);
       card.classed("dc-site-panel-open", true).attr("aria-hidden", null);
       if (!fromClick) return;
       card.select(".dc-site-card-close").node()?.focus({ preventScroll: true });
@@ -1511,7 +1530,7 @@
     const unsubscribe = shared.subscribe(state => { tab = state.family;measure = state.measure;hq = state.hq;type = state.type;render(); });
     return { setTimeline(value) { setTimeline(value); render(); }, disconnect() {backgroundAbort.abort();sizeObserver?.disconnect();unsubscribe();global.removeEventListener("resize", onResize);root.selectAll("*").remove();} };
   }
-  const api = { COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
+  const api = { flagHtml, COUNTRY_OFFSETS, ZONE_ANCHORS, mapProjection, applyMapZoom, mount, mountControls, matchesHq, matchesType, gwRange, highlightGroups, mapState, mapRows, projectClasses, trackerView, capacityLabel, circleText, consumptionFor, shareLabel, CLASSES, CLASS_LABELS, CLASS_TEXT, TABS, DEFAULT_MEASURE };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   global.DCTrackerMap = api;
 })(typeof window === "undefined" ? globalThis : window);

@@ -463,6 +463,7 @@
                   .join("; ")
               ) +
               "</td><td>" +
+              (global.DCTrackerMap.flagHtml ? global.DCTrackerMap.flagHtml(actor.hq_country) : "") +
               escape([actor.hq_city, hqCountryLabel(actor.hq_country)].filter(Boolean).join(", ")) +
               "</td><td>" +
               escape(actor.ownership_notes || "Not verified") +
