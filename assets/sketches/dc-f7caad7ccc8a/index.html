@@ -22,7 +22,7 @@ body{margin:0;background:#f4f0e9}
 .play{width:40px;height:40px;border-radius:50%;border:0;background:#4c7088;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0}
 .play:hover{background:#303d43}
 .rb{width:28px;height:28px;border-radius:50%;border:1px solid rgba(76,112,136,0.19);background:none;font:inherit;font-size:15px;line-height:1;color:#303d43;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;flex:none}
-@media (max-width: 760px){.rb{width:22px;height:22px;font-size:13px}}
+@media (max-width: 760px){.chip{padding:0 9px;gap:6px}.rb{width:22px;height:22px;font-size:13px}}
 .mob .mw{white-space:nowrap}
 .rb:hover{border-color:#4c7088}
 .rb:disabled{opacity:0.35;cursor:default}
@@ -60,6 +60,17 @@ body{margin:0;background:#f4f0e9}
 .flab{font-size:13px;color:#56636a;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fval{font-size:20px;font-weight:500;line-height:1.2;font-variant-numeric:tabular-nums lining-nums;white-space:nowrap;color:#303d43}
 @media (max-width: 760px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.fact:nth-child(3){border-left:0;padding-left:0}.fact:nth-child(n+3){border-top:1px solid rgba(76,112,136,0.19)}}
+.tick{display:flex;align-items:stretch;background:#303d43;color:#f4f0e9;border-radius:6px;overflow:hidden;font-size:13px;height:30px}
+.tick-b{flex:none;display:flex;align-items:center;padding:0 10px;background:#b8322a;color:#ffffff;font-weight:600;letter-spacing:0.06em;font-size:11px}
+.tick-w{flex:1;overflow:hidden;display:flex;align-items:center;min-width:0}
+.tick-in{display:inline-flex;white-space:nowrap;animation:tick 30s linear infinite;will-change:transform}
+.tick-in span{padding-right:64px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.tick{height:auto}.tick-in{animation:none;white-space:normal;padding:6px 0}.tick-in span+span{display:none}}
+.mood{display:flex;align-items:center;gap:10px;font-size:13px}
+.mood-bar{flex:1;height:12px;border-radius:6px;background:rgba(76,112,136,0.06);box-shadow:inset 0 0 0 1px rgba(76,112,136,0.19);display:flex;overflow:hidden}
+.mood-seg{height:100%;border-right:1.5px solid #f4f0e9;box-sizing:border-box;transition:width .5s ease,background-color .5s ease}
+.mood-w{font-weight:600;min-width:64px;text-align:right}
 .dl{font-size:13px;color:#56636a;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 .dl.on{color:#303d43;font-weight:600}
 .link{background:none;border:0;font:inherit;font-size:13px;color:#4c7088;padding:0;cursor:pointer}
@@ -103,7 +114,8 @@ body{margin:0;background:#f4f0e9}
 
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
 <button type="button" class="chip" aria-expanded="{{ruleOpen}}" onClick="{{toggleRule}}"><span class="{{dotCls}}"></span>Rule: {{ruleText}}</button>
-<button type="button" class="chip" aria-expanded="{{optOpen}}" onClick="{{toggleOpt}}">Cheapest mix</button>
+<button type="button" class="chip" aria-expanded="{{optOpen}}" onClick="{{toggleOpt}}">Find mix</button>
+<button type="button" class="chip" aria-expanded="{{showStatus}}" onClick="{{toggleStatus}}"><span class="dot" style="background: {{mood.color}}"></span>Status</button>
 <sc-if value="{{ruleOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Policy rule"><sc-for list="{{matchingButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
 <sc-if value="{{showShare}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Required share"><sc-for list="{{shareButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
 <sc-if value="{{optOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Which plants"><sc-for list="{{setButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div><button type="button" class="run" disabled="{{cantRun}}" onClick="{{runOpt}}">{{runLabel}}</button><span style="font-size: 13px">{{optMsg}}</span></sc-if>
@@ -111,6 +123,11 @@ body{margin:0;background:#f4f0e9}
 
 <sc-if value="{{loading}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 13px; color: #56636a">Loading…</p></sc-if>
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{showStatus}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column; gap: 8px">
+<div class="tick" role="status"><span class="tick-b">STATUS</span><div class="tick-w"><span class="tick-in" style="animation-duration: {{ticker.dur}}"><span>{{ticker.text}}</span><span aria-hidden="true">{{ticker.text}}</span></span></div></div>
+<div class="mood"><span class="name">Public anger</span><div class="mood-bar" role="meter" aria-label="Public anger" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{mood.pct}}"><sc-for list="{{mood.segs}}" as="sg" hint-placeholder-count="3"><span class="mood-seg" style="{{sg.style}}" title="{{sg.title}}"></span></sc-for></div><span class="mood-w" style="color: {{mood.color}}">{{mood.word}}</span></div>
+<span style="font-size: 13px; color: #56636a; margin-top: -4px">Angry: {{mood.legend}}</span>
+</div></sc-if>
 <div class="desk" style="position: relative; width: 100%">
 <svg viewBox="0 0 900 470" width="100%" style="display: block" role="img" aria-label="The datacenter in the middle, new plants around it, with electricity flowing in this hour">
 <rect x="0" y="205" width="900" height="40" fill="#ebe6dc"/><rect x="0" y="430" width="900" height="40" fill="#ebe6dc"/>
@@ -151,7 +168,7 @@ body{margin:0;background:#f4f0e9}
 <g opacity="{{tiles.gas.vis.s4}}"><use href="#p3gs" x="680" y="373"/><circle cx="684" cy="314" r="5.5" fill="#b9b2a7" opacity="{{smoke}}"/></g>
 <g opacity="{{sky.sunOp}}"><circle cx="{{sky.sunX}}" cy="{{sky.sunY}}" r="9" fill="#efbd52" opacity="0.18"/><circle cx="{{sky.sunX}}" cy="{{sky.sunY}}" r="5" fill="#e9b85a" opacity="0.75"/></g>
 <g opacity="{{sky.moonOp}}"><circle cx="{{sky.moonX}}" cy="{{sky.moonY}}" r="5" fill="#b9c0c4" opacity="0.7"/><circle cx="{{sky.moonCutX}}" cy="{{sky.moonCutY}}" r="4.4" fill="#f4f0e9"/></g>
-<rect x="400" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="410" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
+<g opacity="{{dc.op}}"><rect x="400" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="410" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
 <rect x="426" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="436" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
 <rect x="452" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="462" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
 <rect x="478" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="488" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
@@ -179,7 +196,7 @@ body{margin:0;background:#f4f0e9}
 <circle cx="470" cy="168" r="1.5" fill="{{dc.led}}"/>
 <circle cx="478" cy="168" r="1.5" fill="{{dc.led}}"/>
 <circle cx="486" cy="168" r="1.5" fill="{{dc.led}}"/>
-<circle cx="494" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="494" cy="168" r="1.5" fill="{{dc.led}}"/></g>
 <path d="M408,290 L492,290" stroke="#59605b" stroke-width="1.8"/>
 <rect x="416" y="298" width="22" height="26" rx="2" fill="#cfd3d1" stroke="#59605b" stroke-width="0.9"/><path d="M422,302 L422,320 M427,302 L427,320 M432,302 L432,320" stroke="#9aa19f" stroke-width="0.9"/><path d="M427,298 L427,290" stroke="#59605b" stroke-width="1.1"/>
 <rect x="462" y="298" width="22" height="26" rx="2" fill="#cfd3d1" stroke="#59605b" stroke-width="0.9"/><path d="M468,302 L468,320 M473,302 L473,320 M478,302 L478,320" stroke="#9aa19f" stroke-width="0.9"/><path d="M473,298 L473,290" stroke="#59605b" stroke-width="1.1"/>
@@ -228,10 +245,10 @@ body{margin:0;background:#f4f0e9}
 <svg viewBox="0 0 100 80" width="100%" height="62" aria-hidden="true" style="margin-top: auto; display: block">
 <g opacity="{{sky.sunOp}}"><circle cx="86" cy="6" r="4" fill="#e9b85a" opacity="0.6"/></g>
 <g opacity="{{sky.moonOp}}"><circle cx="86" cy="6" r="3.5" fill="#b9c0c4" opacity="0.7"/><circle cx="87.8" cy="4.6" r="3" fill="#f4f0e9"/></g>
-<rect x="14" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="32" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="50" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="68" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/>
+<g opacity="{{dc.op}}"><rect x="14" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="32" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="50" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="68" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/>
 <rect x="8" y="16" width="84" height="30" rx="2" fill="#e7e2d8" stroke="#303d43" stroke-width="1"/>
 <rect x="14" y="24" width="72" height="5" rx="1" fill="#3a4448"/>
-<circle cx="18" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="24" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="30" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="36" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="42" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="48" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="54" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="60" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="66" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="72" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="78" cy="26.5" r="1" fill="{{dc.led}}"/>
+<circle cx="18" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="24" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="30" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="36" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="42" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="48" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="54" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="60" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="66" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="72" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="78" cy="26.5" r="1" fill="{{dc.led}}"/></g>
 <path d="M50,46 L50,56" stroke="#303d43" stroke-width="1.2"/>
 <path d="M22,58 L78,58" stroke="#59605b" stroke-width="1.4"/>
 <rect x="26" y="62" width="16" height="16" rx="1.5" fill="#cfd3d1" stroke="#59605b" stroke-width="0.8"/><path d="M34,62 L34,58" stroke="#59605b" stroke-width="1"/><rect x="58" y="62" width="16" height="16" rx="1.5" fill="#cfd3d1" stroke="#59605b" stroke-width="0.8"/><path d="M66,62 L66,58" stroke="#59605b" stroke-width="1"/>
@@ -267,7 +284,7 @@ body{margin:0;background:#f4f0e9}
 
 <div>
 <button type="button" class="link" aria-expanded="{{showAbout}}" onClick="{{toggleAbout}}">About this model +</button>
-<sc-if value="{{showAbout}}" hint-placeholder-val="{{ false }}"><p style="margin: 8px 0 0; font-size: 13px; color: #56636a; line-height: 1.6; max-width: 760px">Model data from the PyPSA model behind this project: 2035, bidding zone SE3, one weather year. One site and its own plants, not the whole electricity system. Use matched is the share of the datacenter's use in the month shown that its new wind, solar and nuclear plants cover in the same hour, directly or through the batteries. Gas and grid power do not count. The grid connection needed is the largest hourly flow to or from the grid in January and July. Nuclear runs at full capacity in every hour, which is this page's own choice. Batteries store 4 hours. A shortfall is covered by the battery, then gas, then the grid. Existing hydro is left out because it is not additional. Costs are annualised investment and running costs of the new plants, without gas fuel or electricity prices.</p></sc-if>
+<sc-if value="{{showAbout}}" hint-placeholder-val="{{ false }}"><p style="margin: 8px 0 0; font-size: 13px; color: #56636a; line-height: 1.6; max-width: 760px">Model data from the PyPSA model behind this project: 2035, bidding zone SE3, one weather year. One site and its own plants, not the whole electricity system. Use matched is the share of the datacenter's use in the month shown that its new wind, solar and nuclear plants cover in the same hour, directly or through the batteries. Gas and grid power do not count. The grid connection needed is the largest hourly flow to or from the grid in January and July. Nuclear runs at full capacity in every hour, which is this page's own choice. Batteries store 4 hours. A shortfall is covered by the battery, then gas, then the grid. Existing hydro is left out because it is not additional. When there is not enough power, the datacenter throttles and runs at whatever power it gets. The anger meter and the status messages are made up for fun. They are not model results. Costs are annualised investment and running costs of the new plants, without gas fuel or electricity prices.</p></sc-if>
 </div>
 </div>
 </div>
@@ -439,8 +456,8 @@ class Component extends DCLogic {
       month: s.month || 'jan',
       matching: s.matching || 'hourly',
       share: s.share || 100,
-      grid: s.grid || 'on',
-      mw: s.mw || { onwind: 900, solar: 800, offwind: 0, nuclear: 0, battery: 225, gas: 0 },
+      grid: s.grid || 'off',
+      mw: s.mw || { onwind: 0, solar: 0, offwind: 0, nuclear: 0, battery: 0, gas: 0 },
       batH: s.batH || 4
     };
   }
@@ -457,7 +474,7 @@ class Component extends DCLogic {
     let soc = E / 2;
     const r = { load: [], gen: {}, dis: [], ch: [], soc: [], gas: [], imp: [], exp: [], uns: [], curt: [], stack: [] };
     M.clean.forEach((k) => { r.gen[k] = []; });
-    const sum = { load: 0, clean: 0, gas: 0, unsHours: 0, maxImp: 0, maxExp: 0 };
+    const sum = { load: 0, clean: 0, gas: 0, imp: 0, uns: 0, unsHours: 0, maxImp: 0, maxExp: 0 };
     for (let t = 0; t < n; t++) {
       const load = M.dcMW * m.load[t];
       let G = 0;
@@ -481,7 +498,7 @@ class Component extends DCLogic {
       r.imp.push(imp); r.exp.push(exp); r.uns.push(uns); r.curt.push(curt); r.stack.push(G + dis + gas);
       sum.load += load; sum.clean += Math.min(G, load) + dis; sum.gas += gas;
       if (uns > 0.5) sum.unsHours += 1;
-      sum.maxImp = Math.max(sum.maxImp, imp); sum.maxExp = Math.max(sum.maxExp, exp);
+      sum.imp += imp; sum.uns += uns; sum.maxImp = Math.max(sum.maxImp, imp); sum.maxExp = Math.max(sum.maxExp, exp);
     }
     r.sum = sum;
     return r;
@@ -562,13 +579,13 @@ class Component extends DCLogic {
     return A;
   }
 
-  feasible(A, x, rule, share, gridOn, batH, eta, data) {
+  feasible(A, x, rule, share, gridOn, batH, eta, data, full) {
     if (rule === 'annual') {
       const ann = (x.onwind * data.annual_cf.onwind + x.solar * data.annual_cf.solar + x.offwind * data.annual_cf.offwind + x.nuclear) / 300;
       if (ann < share - 1e-9) return null;
-      if (gridOn) return { gas: 0 };
+      if (gridOn && !full) return { gas: 0, imp: 0 };
     }
-    let gasTot = 0;
+    let gasTot = 0, impTot = 0;
     const keys = ['jan', 'jul'];
     for (let q = 0; q < 2; q++) {
       const m = A[keys[q]];
@@ -590,10 +607,11 @@ class Component extends DCLogic {
           gasTot += g;
           need -= g;
           if (!gridOn && need > 0.5) return null;
+          if (need > 0) impTot += need;
         }
       }
     }
-    return { gas: gasTot };
+    return { gas: gasTot, imp: impTot };
   }
 
   optimize(data, c, M, set) {
@@ -608,7 +626,12 @@ class Component extends DCLogic {
     const fixed = (x) => x.onwind * cc.onwind + x.solar * cc.solar + x.offwind * cc.offwind + x.nuclear * (cc.nuclear + 8760 * M.nuclearVar) + x.battery * batCost + x.gas * M.gas.capital;
     const gasPrice = 135.1;
     const useNuclear = kind !== 'renewable';
-    const useGas = kind === 'any' && !gridOn;
+    const useGas = kind === 'calm' && !gridOn;
+    const calm = kind === 'calm';
+    // Least angry: the same made-up anger score as the meter, summed over plants, cost, gas and grid use.
+    const nh = A.jan.load.length + A.jul.load.length;
+    const base = (x, f) => calm ? x.onwind / 20 + x.offwind / 40 + x.solar / 40 + x.nuclear / 30 + f / 6e6 : f;
+    const total = (x, f, r) => calm ? base(x, f) + (r.gas / 2) * M.gas.co2 / 1000 / 2 + (r.imp / nh) / 3 : f + r.gas * 6 * gasPrice;
     const range = (a, b, st) => { const r = []; for (let v = a; v <= b + 1e-9; v += st) r.push(v); return r; };
     const L = {
       onwind: range(0, 2400, 200), solar: range(0, 2000, 250), offwind: range(0, 1500, 250),
@@ -617,15 +640,16 @@ class Component extends DCLogic {
     const combos = [];
     L.onwind.forEach((a) => L.solar.forEach((b) => L.offwind.forEach((d) => L.nuclear.forEach((e) => L.battery.forEach((f) => L.gas.forEach((g) => {
       const x = { onwind: a, solar: b, offwind: d, nuclear: e, battery: f, gas: g };
-      combos.push({ x: x, f: fixed(x) });
+      const fx = fixed(x);
+      combos.push({ x: x, f: fx, b: base(x, fx) });
     }))))));
-    combos.sort((p, q) => p.f - q.f);
+    combos.sort((p, q) => p.b - q.b);
     let best = null, bestCost = Infinity;
     for (let i = 0; i < combos.length; i++) {
-      if (combos[i].f >= bestCost) break;
-      const r = this.feasible(A, combos[i].x, rule, share, gridOn, c.batH, eta, data);
+      if (combos[i].b >= bestCost) break;
+      const r = this.feasible(A, combos[i].x, rule, share, gridOn, c.batH, eta, data, calm);
       if (!r) continue;
-      const tot = combos[i].f + r.gas * 6 * gasPrice;
+      const tot = total(combos[i].x, combos[i].f, r);
       if (tot < bestCost) { bestCost = tot; best = combos[i].x; }
     }
     if (!best) return null;
@@ -644,11 +668,11 @@ class Component extends DCLogic {
           x[ti] = Math.max(0, x[ti] - steps[ti]);
           if (cands[j]) { const tj = cands[j]; x[tj] = x[tj] + steps[tj]; if (x[tj] > M.t[tj].max) continue; }
           const f = fixed(x);
-          if (f >= curCost) continue;
-          const r = this.feasible(A, x, rule, share, gridOn, c.batH, eta, data);
+          if (base(x, f) >= curCost) continue;
+          const r = this.feasible(A, x, rule, share, gridOn, c.batH, eta, data, calm);
           if (!r) continue;
-          const tot = f + r.gas * 6 * gasPrice;
-          if (tot < curCost - 1) { cur = x; curCost = tot; moved = true; }
+          const tot = total(x, f, r);
+          if (tot < curCost - (calm ? 0.01 : 1)) { cur = x; curCost = tot; moved = true; }
         }
       }
       if (!moved) break;
@@ -780,7 +804,7 @@ class Component extends DCLogic {
       hasRequirement: c.matching !== 'none',
       showShare: !!s.ruleOpen && c.matching !== 'none',
       optOpen: !!s.optOpen, toggleOpt: () => set({ optOpen: !s.optOpen, ruleOpen: false, showInfo: false, optMsg: '' }),
-      setButtons: seg([{ key: 'renewable', label: 'Renewable' }, { key: 'fossilfree', label: 'Fossil-free' }, { key: 'any', label: 'Any' }], optKind, 'optSet'),
+      setButtons: seg([{ key: 'renewable', label: 'Renewable' }, { key: 'fossilfree', label: 'Fossil-free' }, { key: 'calm', label: 'Least angry' }], optKind, 'optSet'),
       cantRun: !canOpt || !!s.optBusy, runLabel: s.optBusy ? 'Searching…' : 'Find',
       optMsg: !canOpt ? 'Pick a rule first.' : (s.optMsg || ''),
       runOpt: () => {
@@ -789,12 +813,14 @@ class Component extends DCLogic {
         setTimeout(() => {
           const res = this.optimize(data, c, M, set);
           if (!res) { this.setState({ optBusy: false, optMsg: 'Not possible within the page’s limits.' }); return; }
-          this.setState({ optBusy: false, optMsg: 'Cheapest: ' + this.fmt(res.fixedCost / 1e6) + ' M€ a year.', mw: Object.assign({}, res.x) });
+          this.setState({ optBusy: false, optMsg: (optKind === 'calm' ? 'Least angry mix found. ' : 'Cheapest: ') + this.fmt(res.fixedCost / 1e6) + ' M€ a year.', mw: Object.assign({}, res.x) });
         }, 40);
       },
+      showStatus: !!s.showStatus, toggleStatus: () => set({ showStatus: !s.showStatus }),
       showAbout: !!s.showAbout, toggleAbout: () => set({ showAbout: !s.showAbout }),
       gridTile: { now: grid ? '' : 'off', on: grid, swCls: grid ? 'sw on' : 'sw', toggle: () => set({ grid: grid ? 'off' : 'on' }), pylon: grid ? '1' : '0.3', cross: grid ? '0' : '1', aria: grid ? 'Grid connected. Switch off' : 'Grid not connected. Switch on' },
-      dc: { now: '', cls: 'val', led: '#a9cdb0' },
+      dc: { now: '', cls: 'val', led: '#59605b', op: '0.35' },
+      mood: { segs: [], word: '', legend: '', color: '#e2b763', pct: '0' }, ticker: { text: '', dur: '30s' },
       bar: { clean: { x: '0', w: '0' }, battery: { x: '0', w: '0' }, gas: { x: '0', w: '0' }, grid: { x: '0', w: '0' }, short: { x: '0', w: '0' } },
       ready: !!data, loading: !data,
       playLabel: s.playing ? 'Pause' : 'Play', isPlaying: !!s.playing, isPaused: !s.playing,
@@ -879,9 +905,15 @@ class Component extends DCLogic {
     let x0 = 0;
     const bseg = (v) => { const w = Math.max(0, (v / load) * 100); const o = { x: x0.toFixed(1), w: w.toFixed(1) }; x0 += w; return o; };
     out.bar = { clean: bseg(cleanDirect), battery: bseg(at(r.dis)), gas: bseg(at(r.gas)), grid: bseg(at(r.imp)), short: bseg(at(r.uns)) };
-    out.dc = at(r.uns) > 0.5
-      ? { now: this.fmt(load) + ' MW, ' + this.fmt(at(r.uns)) + ' missing', cls: 'val short', led: '#e0805e' }
-      : { now: this.fmt(load) + ' MW', cls: 'val', led: '#a9cdb0' };
+    {
+      const served = load - at(r.uns), f = load > 0 ? served / load : 0;
+      const op = (0.35 + 0.65 * f).toFixed(2);
+      out.dc = f < 0.02
+        ? { now: 'Off', cls: 'val short', led: '#59605b', op: op }
+        : f < 0.98
+          ? { now: this.fmt(served) + ' MW', cls: 'val short', led: '#e2b763', op: op }
+          : { now: this.fmt(served) + ' MW', cls: 'val', led: '#a9cdb0', op: '1' };
+    }
 
     const hourlyShare = r.sum.clean / r.sum.load;
     let annualMW = 0;
@@ -901,11 +933,67 @@ class Component extends DCLogic {
     const mon = M.short[c.month];
     const stats = [
       { label: c.matching === 'annual' ? 'Use matched over the year' : 'Use matched each hour', value: pct(c.matching === 'annual' ? annualShare : hourlyShare) },
-      grid ? { label: 'Grid connection needed', value: this.fmt(conn) + ' MW' } : { label: 'Hours without power', value: String(r.sum.unsHours) },
+      grid ? { label: 'Grid connection needed', value: this.fmt(conn) + ' MW' } : { label: 'Hours throttled', value: String(r.sum.unsHours) },
       { label: 'Yearly cost of new plants', value: this.fmt(cost / 1e6) + ' M€' },
       { label: 'CO2 from gas', value: this.fmt(r.sum.gas * M.gas.co2 / 1000, 1) + ' kt' }
     ];
     out.stats = stats;
+
+    // Game layer: a made-up anger meter and a status ticker. Not model results.
+    {
+      const nh = r.load.length;
+      const sumOf = (a) => a.reduce((x, y) => x + y, 0);
+      const servedShare = 1 - r.sum.uns / r.sum.load;
+      const unsShare = r.sum.uns / r.sum.load;
+      const parts = [
+        { label: 'Wind turbine neighbours', v: c.mw.onwind / 20 },
+        { label: 'Fishermen', v: c.mw.offwind / 40 },
+        { label: 'Farmers', v: c.mw.solar / 40 },
+        { label: 'Nuclear sceptics', v: c.mw.nuclear / 30 },
+        { label: 'Climate activists', v: (r.sum.gas * M.gas.co2 / 1000) / 2 },
+        { label: 'Neighbours with higher power bills', v: (r.sum.imp / nh) / 3 },
+        { label: 'Your customers', v: servedShare > 0.02 ? unsShare * 60 : 0 },
+        { label: 'Your CFO', v: cost / 1e6 / 6 }
+      ].filter((p) => p.v >= 0.5).sort((a, b) => b.v - a.v);
+      const total = parts.reduce((x, p) => x + p.v, 0);
+      const scale = total > 100 ? 100 / total : 1;
+      const mix = (a, b, f) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * f).toString(16).padStart(2, '0')).join(''); };
+      const tt = Math.min(1, total / 100);
+      const color = tt < 0.5 ? mix('#e2b763', '#d9894f', tt * 2) : mix('#d9894f', '#b8322a', (tt - 0.5) * 2);
+      const word = total < 10 ? 'Calm' : total < 35 ? 'Grumbling' : total < 65 ? 'Annoyed' : total < 100 ? 'Angry' : 'Furious';
+      out.mood = {
+        segs: parts.map((p) => ({ style: 'width: ' + (p.v * scale).toFixed(2) + '%; background: ' + color, title: p.label })),
+        word: word, color: color, pct: Math.min(100, total).toFixed(0),
+        legend: parts.length ? parts.slice(0, 3).map((p) => p.label).join(', ') + (parts.length > 3 ? ' and others' : '') : 'Nobody, yet'
+      };
+
+      const anyPlant = Object.keys(M.t).some((k) => c.mw[k] > 0);
+      const msgs = [];
+      if (!anyPlant && !grid) {
+        msgs.push('No power. Your datacenter needs electricity to run. Build something or plug into the grid.');
+      } else {
+        if (servedShare < 0.02) msgs.push('Your datacenter is dark. Nothing is running.');
+        else if (unsShare > 0.5) msgs.push('Your datacenter is throttled most of the time, ' + pct(unsShare) + ' of the work is cut. Customers are leaving.');
+        else if (unsShare > 0.005) msgs.push('Your datacenter throttles when power runs short. ' + pct(unsShare) + ' of the work is cut.');
+        else msgs.push('Your datacenter runs at full speed.');
+        const renGen = ['onwind', 'offwind', 'solar'].reduce((x, k) => x + sumOf(r.gen[k]), 0);
+        const nucGen = sumOf(r.gen.nuclear);
+        if (r.sum.imp / r.sum.load > 0.5) msgs.push('Mostly running on the grid. Your neighbours’ electricity bills just went up.');
+        else if (r.sum.gas / r.sum.load > 0.3) msgs.push('Burning gas. Cheap and reliable, but the climate disagrees.');
+        else if (nucGen > renGen && nucGen > 0) msgs.push('Nuclear baseload. Steady power, and a bill your CFO will remember.');
+        else if (renGen > 0) msgs.push(total >= 65 ? 'You are running your datacenter cheaply on renewables, but people are pissed off about it.' : 'Running on wind and sun. So far people put up with it.');
+        if (c.matching !== 'none') {
+          const shown = c.matching === 'annual' ? annualShare : hourlyShare;
+          const name = (c.matching === 'annual' ? 'Annual' : 'Hourly') + ' ' + c.share + ' % rule';
+          msgs.push(shown >= c.share / 100 - 0.0005 ? name + ' met.' : name + ' not met, ' + this.fmt(Math.floor(shown * 1000) / 10, 1) + ' % matched.');
+        }
+        if (total >= 100) msgs.push('The public is furious. Expect protests outside the fence.');
+        else if (total >= 65) msgs.push(parts[0].label + ' are getting angry.');
+        else if (total < 10 && servedShare > 0.5) msgs.push('Nobody is complaining. Suspicious.');
+      }
+      const text = msgs.join('   •   ');
+      out.ticker = { text: text, dur: Math.max(12, text.length * 0.16).toFixed(1) + 's' };
+    }
 
     const hourF = hour + fr;
     const startF = Math.min(n - M.win, Math.floor(hour / M.win) * M.win);
