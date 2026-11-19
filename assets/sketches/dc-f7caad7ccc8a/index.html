@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Power a datacenter (sketch)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#f4f0e9}
+.tab{background:none;border:0;border-bottom:2px solid transparent;font:inherit;font-size:15px;color:#56636a;padding:6px 0;cursor:pointer;min-height:36px}
+.tab.on{color:#303d43;border-bottom-color:#4c7088}
+.pill{background:none;border:0;border-radius:999px;font:inherit;font-size:13px;color:#56636a;padding:6px 12px;min-height:32px;cursor:pointer}
+.pill.on{background:#f4f0e9;color:#303d43;box-shadow:0 0 0 1px rgba(76,112,136,0.19)}
+.track{display:inline-flex;background:rgba(76,112,136,0.06);border-radius:999px;padding:3px;gap:2px}
+.chip{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid rgba(76,112,136,0.19);border-radius:999px;font:inherit;font-size:13px;color:#303d43;padding:0 12px;height:32px;cursor:pointer}
+.chip:hover{border-color:#4c7088}
+.dot{width:8px;height:8px;border-radius:50%;background:#c9c3b6;display:block}
+.dot.good{background:#5f8a64}
+.dot.bad{background:#c4704c}
+.info{width:22px;height:22px;border:1px solid #56636a;border-radius:50%;background:none;font:inherit;font-size:13px;line-height:1;color:#56636a;cursor:pointer;padding:0}
+.play{width:40px;height:40px;border-radius:50%;border:0;background:#4c7088;color:#ffffff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0}
+.play:hover{background:#303d43}
+.rb{width:28px;height:28px;border-radius:50%;border:1px solid rgba(76,112,136,0.19);background:none;font:inherit;font-size:15px;line-height:1;color:#303d43;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;flex:none}
+@media (max-width: 760px){.rb{width:22px;height:22px;font-size:13px}}
+.mob .mw{white-space:nowrap}
+.rb:hover{border-color:#4c7088}
+.rb:disabled{opacity:0.35;cursor:default}
+.add{width:32px;height:32px;border-radius:50%;border:1px dashed #4c7088;background:none;color:#4c7088;font:inherit;font-size:15px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+.add:hover{background:rgba(76,112,136,0.06)}
+.sw{width:40px;height:24px;border-radius:12px;border:0;background:#c9c3b6;padding:3px;display:flex;justify-content:flex-start;cursor:pointer;flex:none}
+.sw.on{background:#4c7088;justify-content:flex-end}
+.knob{width:18px;height:18px;border-radius:50%;background:#f4f0e9;display:block}
+.run{background:#4c7088;color:#ffffff;border:0;border-radius:999px;font:inherit;font-size:13px;padding:0 16px;height:32px;cursor:pointer}
+.run:disabled{opacity:0.4;cursor:default}
+.ov{position:absolute;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ctl{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.lab{position:absolute;display:flex;flex-direction:column;line-height:1.3;font-size:13px;white-space:nowrap}
+.name{color:#56636a}
+.val{color:#303d43;font-weight:600;font-variant-numeric:tabular-nums}
+.val.short{color:#b0532f}
+.mw{font-size:13px;color:#303d43;font-variant-numeric:tabular-nums;min-width:52px;text-align:center}
+.flow{animation:flow 1s linear infinite}
+.flow-rev{animation:flowrev 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-26}}
+@keyframes flowrev{to{stroke-dashoffset:26}}
+.spin-slow{animation:spin 9s linear infinite}
+.spin{animation:spin 4.5s linear infinite}
+.spin-fast{animation:spin 2s linear infinite}
+.spin-slow,.spin,.spin-fast{transform-origin:0 0}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.flow,.flow-rev,.spin-slow,.spin,.spin-fast{animation:none}}
+.chart{display:block;cursor:pointer}
+.desk{display:block}
+.mob{display:none}
+@media (max-width: 760px){.desk{display:none}.mob{display:block}}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid rgba(76,112,136,0.19);border-bottom:1px solid rgba(76,112,136,0.19)}
+.fact{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-left:1px solid rgba(76,112,136,0.19);min-width:0}
+.fact:first-child{border-left:0;padding-left:0}
+.flab{font-size:13px;color:#56636a;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fval{font-size:20px;font-weight:500;line-height:1.2;font-variant-numeric:tabular-nums lining-nums;white-space:nowrap;color:#303d43}
+@media (max-width: 760px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.fact:nth-child(3){border-left:0;padding-left:0}.fact:nth-child(n+3){border-top:1px solid rgba(76,112,136,0.19)}}
+.dl{font-size:13px;color:#56636a;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dl.on{color:#303d43;font-weight:600}
+.link{background:none;border:0;font:inherit;font-size:13px;color:#4c7088;padding:0;cursor:pointer}
+</style>
+</head>
+<body>
+<template id="dc-template">
+<div style="background: #f4f0e9; color: #303d43; font-family: 'Avenir Next', 'Nunito Sans', 'Helvetica Neue', Arial, sans-serif; font-size: 15px; min-height: 100vh">
+<svg width="0" height="0" style="position: absolute" aria-hidden="true"><defs>
+<g id="p3tw"><path d="M-2,0 L2,0 L1,-108 L-1,-108 Z" fill="#59605b"/><rect x="-4.5" y="-113" width="9" height="6" rx="2" fill="#59605b"/></g>
+<g id="p3blon"><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#4f7a96"/><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#4f7a96" transform="rotate(120)"/><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#4f7a96" transform="rotate(240)"/><circle r="3.5" fill="#59605b"/></g>
+<g id="p3bloff"><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#24435a"/><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#24435a" transform="rotate(120)"/><path d="M0,0 L-2.8,-34 L0,-40 L2.8,-34 Z" fill="#24435a" transform="rotate(240)"/><circle r="3.5" fill="#59605b"/></g>
+<g id="p3pv"><path d="M0,0 L58,0 L66,-16 L8,-16 Z" fill="#b18b5e"/><path d="M4,-8 L62,-8 M22,0 L30,-16 M40,0 L48,-16" stroke="#f4f0e9" stroke-width="0.9"/><path d="M14,0 L14,4 M50,0 L50,4" stroke="#59605b" stroke-width="1.5"/></g>
+<g id="p3bc"><rect width="36" height="15" rx="2" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g id="p3gs"><rect x="0" y="-44" width="8" height="44" fill="#8a7666"/><rect x="-1.5" y="-47" width="11" height="3.5" fill="#59605b"/></g>
+<g id="p3nt"><path d="M-15,0 C-9,-24 -11,-40 -12.5,-62 L12.5,-62 C11,-40 9,-24 15,0 Z" fill="#e7e1d6" stroke="#7a6a8c" stroke-width="1.6"/></g>
+</defs></svg>
+<div style="max-width: 930px; margin: 0 auto; padding: 28px 20px 48px; display: flex; flex-direction: column; gap: 18px">
+
+<h1 style="margin: 0; font-size: 26px; font-weight: 500; line-height: 1.25">Power a datacenter</h1>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px">
+<button type="button" class="play" aria-label="{{playLabel}}" onClick="{{togglePlay}}"><sc-if value="{{isPaused}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></sc-if><sc-if value="{{isPlaying}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><rect x="6.5" y="5" width="3.6" height="14" rx="1" fill="currentColor"/><rect x="13.9" y="5" width="3.6" height="14" rx="1" fill="currentColor"/></svg></sc-if></button>
+<span style="font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; width: 112px">{{hourDate}}, {{hourTime}}</span>
+<div style="display: flex; align-items: center; gap: 18px; margin-left: auto" role="group" aria-label="Month"><sc-for list="{{monthButtons}}" as="b" hint-placeholder-count="2"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for><button type="button" class="info" aria-label="Why the months differ" aria-expanded="{{showInfo}}" onClick="{{toggleInfo}}">i</button></div>
+</div>
+<sc-if value="{{showInfo}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 13px; line-height: 1.5; color: #56636a">January: strong wind, little sun. July: less wind, more sun. The datacenter uses about 7 % more in July, for cooling.</p></sc-if>
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column">
+<svg class="chart" viewBox="0 0 360 34" width="100%" height="26" preserveAspectRatio="none" role="img" aria-label="The whole month. Select a point to move there." onClick="{{onOverview}}" style="background: rgba(76,112,136,0.06); border-radius: 6px">
+<path d="{{overview}}" fill="#b5c9d6"></path>
+<path d="{{ovLoad}}" fill="none" stroke="#303d43" stroke-width="1" stroke-opacity="0.7" vector-effect="non-scaling-stroke"></path>
+<rect x="{{winX}}" y="0.5" width="{{winW}}" height="33" fill="none" stroke="#4c7088" stroke-width="1.2" vector-effect="non-scaling-stroke"></rect>
+<line x1="{{ovX}}" x2="{{ovX}}" y1="0" y2="34" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line>
+</svg>
+<svg viewBox="0 0 360 14" width="100%" height="14" preserveAspectRatio="none" aria-hidden="true" style="display: block"><polygon points="{{zoomPts}}" fill="#4c7088" fill-opacity="0.08"></polygon></svg>
+<svg class="chart" viewBox="0 0 360 160" width="100%" height="120" preserveAspectRatio="none" role="img" aria-label="Supply by source against datacenter use, one week. Select a point to move there." onClick="{{onWindow}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><path d="{{chart.mid}}" stroke="rgba(76,112,136,0.19)" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="{{chart.paths.deficit}}" fill="{{deficitColor}}"></path><path d="{{chart.paths.nuclear}}" fill="#7a6a8c"></path><path d="{{chart.paths.onwind}}" fill="#4f7a96"></path><path d="{{chart.paths.offwind}}" fill="#24435a"></path><path d="{{chart.paths.solar}}" fill="#b18b5e"></path><path d="{{chart.paths.battery}}" fill="#5f7968"></path><path d="{{chart.paths.gas}}" fill="#8a7666"></path><path d="{{chart.paths.load}}" fill="none" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></path><path d="{{chart.ticks}}" stroke="#56636a" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></path><line x1="{{playX}}" x2="{{playX}}" y1="0" y2="160" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line></svg><div style="position: relative; height: 20px; overflow: hidden"><sc-for list="{{days}}" as="dd" hint-placeholder-count="7"><span class="{{dd.cls}}" style="position: absolute; top: 3px; transform: translateX(-50%); {{dd.left}}">{{dd.label}}</span></sc-for></div>
+</div>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<button type="button" class="chip" aria-expanded="{{ruleOpen}}" onClick="{{toggleRule}}"><span class="{{dotCls}}"></span>Rule: {{ruleText}}</button>
+<button type="button" class="chip" aria-expanded="{{optOpen}}" onClick="{{toggleOpt}}">Cheapest mix</button>
+<sc-if value="{{ruleOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Policy rule"><sc-for list="{{matchingButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
+<sc-if value="{{showShare}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Required share"><sc-for list="{{shareButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
+<sc-if value="{{optOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Which plants"><sc-for list="{{setButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div><button type="button" class="run" disabled="{{cantRun}}" onClick="{{runOpt}}">{{runLabel}}</button><span style="font-size: 13px">{{optMsg}}</span></sc-if>
+</div>
+
+<sc-if value="{{loading}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 13px; color: #56636a">Loading…</p></sc-if>
+<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
+<div class="desk" style="position: relative; width: 100%">
+<svg viewBox="0 0 900 470" width="100%" style="display: block" role="img" aria-label="The datacenter in the middle, new plants around it, with electricity flowing in this hour">
+<rect x="0" y="205" width="900" height="40" fill="#ebe6dc"/><rect x="0" y="430" width="900" height="40" fill="#ebe6dc"/>
+<rect x="20" y="40" width="155" height="165" rx="10" fill="#4f7a96" fill-opacity="0.07" stroke="#4f7a96" stroke-opacity="0.3" stroke-dasharray="{{tiles.onwind.dash}}"/><svg x="20" y="40" width="155" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.onwind.fillY}}" width="100" height="{{tiles.onwind.fill}}" fill="#4f7a96" fill-opacity="0.18"/></svg>
+<rect x="185" y="40" width="145" height="165" rx="10" fill="#b18b5e" fill-opacity="0.07" stroke="#b18b5e" stroke-opacity="0.3" stroke-dasharray="{{tiles.solar.dash}}"/><svg x="185" y="40" width="145" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.solar.fillY}}" width="100" height="{{tiles.solar.fill}}" fill="#b18b5e" fill-opacity="0.18"/></svg>
+<rect x="570" y="40" width="150" height="165" rx="10" fill="#7a6a8c" fill-opacity="0.07" stroke="#7a6a8c" stroke-opacity="0.3" stroke-dasharray="{{tiles.nuclear.dash}}"/><svg x="570" y="40" width="150" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.nuclear.fillY}}" width="100" height="{{tiles.nuclear.fill}}" fill="#7a6a8c" fill-opacity="0.18"/></svg>
+<rect x="730" y="40" width="150" height="165" rx="10" fill="#24435a" fill-opacity="0.07" stroke="#24435a" stroke-opacity="0.3" stroke-dasharray="{{tiles.offwind.dash}}"/><svg x="730" y="40" width="150" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.offwind.fillY}}" width="100" height="{{tiles.offwind.fill}}" fill="#24435a" fill-opacity="0.18"/></svg>
+<rect x="20" y="265" width="155" height="165" rx="10" fill="rgba(76,112,136,0.06)" stroke="rgba(76,112,136,0.19)"/>
+<rect x="185" y="265" width="145" height="165" rx="10" fill="#5f7968" fill-opacity="0.07" stroke="#5f7968" stroke-opacity="0.3" stroke-dasharray="{{tiles.battery.dash}}"/><svg x="185" y="265" width="145" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.battery.fillY}}" width="100" height="{{tiles.battery.fill}}" fill="#5f7968" fill-opacity="0.18"/></svg>
+<rect x="570" y="265" width="150" height="165" rx="10" fill="#8a7666" fill-opacity="0.07" stroke="#8a7666" stroke-opacity="0.3" stroke-dasharray="{{tiles.gas.dash}}"/><svg x="570" y="265" width="150" height="165" viewBox="0 0 100 100" preserveAspectRatio="none"><rect x="0" y="{{tiles.gas.fillY}}" width="100" height="{{tiles.gas.fill}}" fill="#8a7666" fill-opacity="0.18"/></svg>
+<line x1="30" y1="160" x2="165" y2="160" stroke="#cdc6b9"/>
+<g transform="translate(44,160) scale(0.46)" opacity="{{tiles.onwind.vis.s1}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g><g transform="translate(76,160) scale(0.46)" opacity="{{tiles.onwind.vis.s2}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g><g transform="translate(108,160) scale(0.46)" opacity="{{tiles.onwind.vis.s3}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g><g transform="translate(140,160) scale(0.46)" opacity="{{tiles.onwind.vis.s4}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g>
+<line x1="195" y1="160" x2="320" y2="160" stroke="#cdc6b9"/>
+<use href="#p3pv" x="198" y="138" opacity="{{tiles.solar.vis.s3}}"/>
+<use href="#p3pv" x="256" y="138" opacity="{{tiles.solar.vis.s4}}"/>
+<use href="#p3pv" x="192" y="160" opacity="{{tiles.solar.vis.s1}}"/>
+<use href="#p3pv" x="250" y="160" opacity="{{tiles.solar.vis.s2}}"/>
+<line x1="580" y1="160" x2="710" y2="160" stroke="#cdc6b9"/>
+<g opacity="{{tiles.nuclear.vis.s1}}"><g transform="translate(605,160) scale(0.85)"><use href="#p3nt"/></g><ellipse cx="605" cy="100" rx="11" ry="4.5" fill="#ffffff" opacity="{{steam}}"/></g>
+<g opacity="{{tiles.nuclear.vis.s2}}"><g transform="translate(645,160) scale(0.85)"><use href="#p3nt"/></g><ellipse cx="645" cy="100" rx="11" ry="4.5" fill="#ffffff" opacity="{{steam}}"/></g>
+<g opacity="{{tiles.nuclear.vis.s3}}"><g transform="translate(685,160) scale(0.85)"><use href="#p3nt"/></g><ellipse cx="685" cy="100" rx="11" ry="4.5" fill="#ffffff" opacity="{{steam}}"/></g>
+<rect x="740" y="148" width="130" height="14" rx="3" fill="#dde4e5"/>
+<g transform="translate(770,156) scale(0.4)" opacity="{{tiles.offwind.vis.s1}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g><g transform="translate(805,156) scale(0.4)" opacity="{{tiles.offwind.vis.s2}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g><g transform="translate(840,156) scale(0.4)" opacity="{{tiles.offwind.vis.s3}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g>
+<line x1="30" y1="385" x2="165" y2="385" stroke="#cdc6b9"/>
+<g opacity="{{gridTile.pylon}}" transform="translate(0,-85)"><path d="M89,470 L97,385 L105,470 M91,445 L103,445 M93,420 L101,420 M90,460 L104,430 M104,460 L90,430 M93,405 L101,395" fill="none" stroke="#59605b" stroke-width="1.4"/><path d="M78,392 L116,392 M82,404 L112,404" stroke="#59605b" stroke-width="1.5"/><path d="M78,392 L40,380 M116,392 L160,378" stroke="#59605b" stroke-width="0.9" opacity="0.6"/></g>
+<g opacity="{{gridTile.cross}}"><path d="M80,323 L114,357 M114,323 L80,357" stroke="#b0532f" stroke-width="2"/></g>
+<line x1="195" y1="385" x2="320" y2="385" stroke="#cdc6b9"/>
+<g transform="translate(215,370)" opacity="{{tiles.battery.vis.s1}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g transform="translate(260,370)" opacity="{{tiles.battery.vis.s2}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g transform="translate(215,352)" opacity="{{tiles.battery.vis.s3}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g transform="translate(260,352)" opacity="{{tiles.battery.vis.s4}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g transform="translate(215,334)" opacity="{{tiles.battery.vis.s5}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<g transform="translate(260,334)" opacity="{{tiles.battery.vis.s6}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
+<line x1="580" y1="385" x2="710" y2="385" stroke="#cdc6b9"/><rect x="592" y="373" width="106" height="12" rx="2" fill="#ddd6ca" opacity="{{tiles.gas.vis.s1}}"/>
+<g opacity="{{tiles.gas.vis.s1}}"><use href="#p3gs" x="605" y="373"/><circle cx="609" cy="319" r="5.5" fill="#b9b2a7" opacity="{{smoke}}"/></g>
+<g opacity="{{tiles.gas.vis.s2}}"><use href="#p3gs" x="630" y="373"/><circle cx="634" cy="314" r="5.5" fill="#b9b2a7" opacity="{{smoke}}"/></g>
+<g opacity="{{tiles.gas.vis.s3}}"><use href="#p3gs" x="655" y="373"/><circle cx="659" cy="319" r="5.5" fill="#b9b2a7" opacity="{{smoke}}"/></g>
+<g opacity="{{tiles.gas.vis.s4}}"><use href="#p3gs" x="680" y="373"/><circle cx="684" cy="314" r="5.5" fill="#b9b2a7" opacity="{{smoke}}"/></g>
+<g opacity="{{sky.sunOp}}"><circle cx="{{sky.sunX}}" cy="{{sky.sunY}}" r="9" fill="#efbd52" opacity="0.18"/><circle cx="{{sky.sunX}}" cy="{{sky.sunY}}" r="5" fill="#e9b85a" opacity="0.75"/></g>
+<g opacity="{{sky.moonOp}}"><circle cx="{{sky.moonX}}" cy="{{sky.moonY}}" r="5" fill="#b9c0c4" opacity="0.7"/><circle cx="{{sky.moonCutX}}" cy="{{sky.moonCutY}}" r="4.4" fill="#f4f0e9"/></g>
+<rect x="400" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="410" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
+<rect x="426" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="436" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
+<rect x="452" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="462" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
+<rect x="478" y="140" width="20" height="10" rx="2" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.8"/><circle cx="488" cy="145" r="3" fill="none" stroke="#7d8481" stroke-width="0.9"/>
+<rect x="392" y="150" width="116" height="55" rx="2" fill="#e7e2d8" stroke="#303d43" stroke-width="1.3"/>
+<path d="M402,154 L402,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M412,154 L412,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M422,154 L422,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M432,154 L432,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M442,154 L442,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M452,154 L452,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M462,154 L462,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M472,154 L472,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M482,154 L482,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M492,154 L492,201" stroke="#d6d0c4" stroke-width="1"/>
+<path d="M502,154 L502,201" stroke="#d6d0c4" stroke-width="1"/>
+<rect x="400" y="164" width="100" height="8" rx="1.5" fill="#3a4448"/>
+<circle cx="406" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="414" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="422" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="430" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="438" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="446" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="454" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="462" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="470" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="478" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="486" cy="168" r="1.5" fill="{{dc.led}}"/>
+<circle cx="494" cy="168" r="1.5" fill="{{dc.led}}"/>
+<path d="M408,290 L492,290" stroke="#59605b" stroke-width="1.8"/>
+<rect x="416" y="298" width="22" height="26" rx="2" fill="#cfd3d1" stroke="#59605b" stroke-width="0.9"/><path d="M422,302 L422,320 M427,302 L427,320 M432,302 L432,320" stroke="#9aa19f" stroke-width="0.9"/><path d="M427,298 L427,290" stroke="#59605b" stroke-width="1.1"/>
+<rect x="462" y="298" width="22" height="26" rx="2" fill="#cfd3d1" stroke="#59605b" stroke-width="0.9"/><path d="M468,302 L468,320 M473,302 L473,320 M478,302 L478,320" stroke="#9aa19f" stroke-width="0.9"/><path d="M473,298 L473,290" stroke="#59605b" stroke-width="1.1"/>
+<path d="M97,205 L97,231 L374,231 L374,315 L400,315" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.onwind}}"/><path d="M97,205 L97,231 L374,231 L374,315 L400,315" fill="none" stroke="#4f7a96" stroke-width="{{flows.onwind.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.onwind.off}}" opacity="{{flows.onwind.op}}"/>
+<path d="M257,205 L257,217 L384,217 L384,300 L400,300" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.solar}}"/><path d="M257,205 L257,217 L384,217 L384,300 L400,300" fill="none" stroke="#b18b5e" stroke-width="{{flows.solar.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.solar.off}}" opacity="{{flows.solar.op}}"/>
+<path d="M645,205 L645,217 L516,217 L516,300 L500,300" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.nuclear}}"/><path d="M645,205 L645,217 L516,217 L516,300 L500,300" fill="none" stroke="#7a6a8c" stroke-width="{{flows.nuclear.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.nuclear.off}}" opacity="{{flows.nuclear.op}}"/>
+<path d="M805,205 L805,231 L526,231 L526,315 L500,315" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.offwind}}"/><path d="M805,205 L805,231 L526,231 L526,315 L500,315" fill="none" stroke="#24435a" stroke-width="{{flows.offwind.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.offwind.off}}" opacity="{{flows.offwind.op}}"/>
+<path d="M97,430 L97,456 L440,456 L440,325" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.grid}}"/><path d="M97,430 L97,456 L440,456 L440,325" fill="none" stroke="#a97050" stroke-width="{{flows.grid.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.grid.off}}" opacity="{{flows.grid.op}}"/>
+<path d="M257,430 L257,442 L420,442 L420,325" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.battery}}"/><path d="M257,430 L257,442 L420,442 L420,325" fill="none" stroke="#5f7968" stroke-width="{{flows.battery.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.battery.off}}" opacity="{{flows.battery.op}}"/>
+<path d="M645,430 L645,442 L480,442 L480,325" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.gas}}"/><path d="M645,430 L645,442 L480,442 L480,325" fill="none" stroke="#8a7666" stroke-width="{{flows.gas.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.gas.off}}" opacity="{{flows.gas.op}}"/>
+<path d="M450,290 L450,205" fill="none" stroke="#cdc6b9" stroke-width="1.5" stroke-linejoin="round" opacity="{{lines.dc}}"/><path d="M450,290 L450,205" fill="none" stroke="#303d43" stroke-width="{{flows.dc.w}}" stroke-dasharray="0.1 11" stroke-linecap="round" stroke-linejoin="round" stroke-dashoffset="{{flows.dc.off}}" opacity="{{flows.dc.op}}"/>
+</svg>
+<div class="lab" style="left: 3.33%; top: 10.21%"><span class="name">Onshore wind</span><span class="val">{{tiles.onwind.now}}</span></div><div class="lab" style="left: 21.67%; top: 10.21%"><span class="name">Solar</span><span class="val">{{tiles.solar.now}}</span></div><div class="lab" style="left: 64.44%; top: 10.21%"><span class="name">Nuclear</span><span class="val">{{tiles.nuclear.now}}</span></div><div class="lab" style="left: 82.22%; top: 10.21%"><span class="name">Offshore wind</span><span class="val">{{tiles.offwind.now}}</span></div><div class="lab" style="left: 21.67%; top: 58.09%"><span class="name">Battery</span><span class="val">{{tiles.battery.now}}</span></div><div class="lab" style="left: 64.44%; top: 58.09%"><span class="name">Gas</span><span class="val">{{tiles.gas.now}}</span></div><div class="lab" style="left: 3.33%; top: 58.09%"><span class="name">Grid</span><span class="val">{{gridTile.now}}</span></div><div class="lab" style="left: 43.56%; top: 10.21%"><span class="name">Datacenter</span><span class="{{dc.cls}}">{{dc.now}}</span></div><div class="ctl" style="left: 10.83%; top: 39.15%"><sc-if value="{{tiles.onwind.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.onwind.minusLabel}}" onClick="{{tiles.onwind.minus}}">−</button></sc-if><sc-if value="{{tiles.onwind.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.onwind.cap}}</span><button type="button" class="rb" aria-label="{{tiles.onwind.plusLabel}}" disabled="{{tiles.onwind.atMax}}" onClick="{{tiles.onwind.plus}}">+</button></div><div class="ctl" style="left: 28.61%; top: 39.15%"><sc-if value="{{tiles.solar.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.solar.minusLabel}}" onClick="{{tiles.solar.minus}}">−</button></sc-if><sc-if value="{{tiles.solar.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.solar.cap}}</span><button type="button" class="rb" aria-label="{{tiles.solar.plusLabel}}" disabled="{{tiles.solar.atMax}}" onClick="{{tiles.solar.plus}}">+</button></div><div class="ctl" style="left: 71.67%; top: 39.15%"><sc-if value="{{tiles.nuclear.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.nuclear.minusLabel}}" onClick="{{tiles.nuclear.minus}}">−</button></sc-if><sc-if value="{{tiles.nuclear.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.nuclear.cap}}</span><button type="button" class="rb" aria-label="{{tiles.nuclear.plusLabel}}" disabled="{{tiles.nuclear.atMax}}" onClick="{{tiles.nuclear.plus}}">+</button></div><div class="ctl" style="left: 89.44%; top: 39.15%"><sc-if value="{{tiles.offwind.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.offwind.minusLabel}}" onClick="{{tiles.offwind.minus}}">−</button></sc-if><sc-if value="{{tiles.offwind.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.offwind.cap}}</span><button type="button" class="rb" aria-label="{{tiles.offwind.plusLabel}}" disabled="{{tiles.offwind.atMax}}" onClick="{{tiles.offwind.plus}}">+</button></div><div class="ctl" style="left: 28.61%; top: 87.02%"><sc-if value="{{tiles.battery.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.battery.minusLabel}}" onClick="{{tiles.battery.minus}}">−</button></sc-if><sc-if value="{{tiles.battery.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.battery.cap}}</span><button type="button" class="rb" aria-label="{{tiles.battery.plusLabel}}" disabled="{{tiles.battery.atMax}}" onClick="{{tiles.battery.plus}}">+</button></div><div class="ctl" style="left: 71.67%; top: 87.02%"><sc-if value="{{tiles.gas.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.gas.minusLabel}}" onClick="{{tiles.gas.minus}}">−</button></sc-if><sc-if value="{{tiles.gas.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block"></span></sc-if><span class="mw">{{tiles.gas.cap}}</span><button type="button" class="rb" aria-label="{{tiles.gas.plusLabel}}" disabled="{{tiles.gas.atMax}}" onClick="{{tiles.gas.plus}}">+</button></div><div class="ctl" style="left: 10.83%; top: 87.02%"><button type="button" class="{{gridTile.swCls}}" role="switch" aria-checked="{{gridTile.on}}" aria-label="{{gridTile.aria}}" onClick="{{gridTile.toggle}}"><span class="knob"></span></button></div>
+</div>
+<div class="mob" style="position: relative">
+<svg viewBox="0 0 300 300" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><path d="M46.0,93.4 L46.0,93.3 Q46.0,98.3 51.0,98.3 L117.0,98.3 Q122.0,98.3 122.0,103.3 L122.0,103.3" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.onwind}}"/><path d="M46.0,93.4 L46.0,93.3 Q46.0,98.3 51.0,98.3 L117.0,98.3 Q122.0,98.3 122.0,103.3 L122.0,103.3" fill="none" stroke="#4f7a96" stroke-width="{{flows.onwind.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.onwind.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.onwind.op}}"/><path d="M254.0,93.4 L254.0,93.3 Q254.0,98.3 249.0,98.3 L183.0,98.3 Q178.0,98.3 178.0,103.3 L178.0,103.3" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.nuclear}}"/><path d="M254.0,93.4 L254.0,93.3 Q254.0,98.3 249.0,98.3 L183.0,98.3 Q178.0,98.3 178.0,103.3 L178.0,103.3" fill="none" stroke="#7a6a8c" stroke-width="{{flows.nuclear.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.nuclear.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.nuclear.op}}"/><path d="M150.0,93.4 L150.0,103.3" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.grid}}"/><path d="M150.0,93.4 L150.0,103.3" fill="none" stroke="#a97050" stroke-width="{{flows.grid.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.grid.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.grid.op}}"/><path d="M93.4,150.0 L103.3,150.0" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.solar}}"/><path d="M93.4,150.0 L103.3,150.0" fill="none" stroke="#b18b5e" stroke-width="{{flows.solar.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.solar.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.solar.op}}"/><path d="M206.6,150.0 L196.7,150.0" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.battery}}"/><path d="M206.6,150.0 L196.7,150.0" fill="none" stroke="#5f7968" stroke-width="{{flows.battery.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.battery.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.battery.op}}"/><path d="M46.0,206.6 L46.0,206.7 Q46.0,201.7 51.0,201.7 L117.0,201.7 Q122.0,201.7 122.0,196.7 L122.0,196.7" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.offwind}}"/><path d="M46.0,206.6 L46.0,206.7 Q46.0,201.7 51.0,201.7 L117.0,201.7 Q122.0,201.7 122.0,196.7 L122.0,196.7" fill="none" stroke="#24435a" stroke-width="{{flows.offwind.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.offwind.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.offwind.op}}"/><path d="M254.0,206.6 L254.0,206.7 Q254.0,201.7 249.0,201.7 L183.0,201.7 Q178.0,201.7 178.0,196.7 L178.0,196.7" fill="none" stroke="#cdc6b9" stroke-width="1.5" vector-effect="non-scaling-stroke" opacity="{{lines.gas}}"/><path d="M254.0,206.6 L254.0,206.7 Q254.0,201.7 249.0,201.7 L183.0,201.7 Q178.0,201.7 178.0,196.7 L178.0,196.7" fill="none" stroke="#8a7666" stroke-width="{{flows.gas.w}}" stroke-dasharray="0.1 9" stroke-dashoffset="{{flows.gas.off}}" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="{{flows.gas.op}}"/></svg>
+<div style="position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+<div style="position: relative; overflow: hidden; border-radius: 12px; background: #e7e7e2; border: 1px solid #4f7a9640; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.onwind.fillY}}" width="100" height="{{tiles.onwind.fill}}" fill="#4f7a96" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Wind</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.onwind.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><g transform="translate(20,60) scale(0.42)" opacity="{{tiles.onwind.mvis.s1}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g><g transform="translate(50,60) scale(0.42)" opacity="{{tiles.onwind.mvis.s2}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g><g transform="translate(80,60) scale(0.42)" opacity="{{tiles.onwind.mvis.s3}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.onwind}})"><use href="#p3blon"/></g></g></g></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.onwind.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.onwind.minusLabel}}" onClick="{{tiles.onwind.minus}}">−</button></sc-if><sc-if value="{{tiles.onwind.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.onwind.cap}}</span><button type="button" class="rb" aria-label="{{tiles.onwind.plusLabel}}" disabled="{{tiles.onwind.atMax}}" onClick="{{tiles.onwind.plus}}">+</button></div>
+</div></div><div style="border-radius: 12px; border: 1px solid rgba(76,112,136,0.19); aspect-ratio: 1 / 1; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 13px; line-height: 1.3; background: #f4f0e9">
+<span class="name" style="align-self: flex-start">Grid</span><span class="val" style="align-self: flex-start; min-height: 17px">{{gridTile.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="flex: 1 1 auto; min-height: 0"><g opacity="{{gridTile.pylon}}"><path d="M44,60 L50,8 L56,60 M46,46 L54,46 M47,32 L53,32 M45,54 L55,38 M55,54 L45,38" fill="none" stroke="#59605b" stroke-width="1.3"/><path d="M38,16 L62,16 M40,23 L60,23" stroke="#59605b" stroke-width="1.3"/></g><g opacity="{{gridTile.cross}}"><path d="M38,22 L62,46 M62,22 L38,46" stroke="#b0532f" stroke-width="2"/></g></svg>
+<button type="button" class="{{gridTile.swCls}}" style="margin-top: auto" role="switch" aria-checked="{{gridTile.on}}" aria-label="{{gridTile.aria}}" onClick="{{gridTile.toggle}}"><span class="knob"></span></button>
+</div><div style="position: relative; overflow: hidden; border-radius: 12px; background: #eae5e2; border: 1px solid #7a6a8c40; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.nuclear.fillY}}" width="100" height="{{tiles.nuclear.fill}}" fill="#7a6a8c" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Nuclear</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.nuclear.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><g opacity="{{tiles.nuclear.mvis.s1}}"><use href="#p3nt" x="30" y="60"/></g><g opacity="{{tiles.nuclear.mvis.s2}}"><use href="#p3nt" x="70" y="60"/></g></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.nuclear.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.nuclear.minusLabel}}" onClick="{{tiles.nuclear.minus}}">−</button></sc-if><sc-if value="{{tiles.nuclear.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.nuclear.cap}}</span><button type="button" class="rb" aria-label="{{tiles.nuclear.plusLabel}}" disabled="{{tiles.nuclear.atMax}}" onClick="{{tiles.nuclear.plus}}">+</button></div>
+</div></div>
+<div style="position: relative; overflow: hidden; border-radius: 12px; background: #efe8de; border: 1px solid #b18b5e40; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.solar.fillY}}" width="100" height="{{tiles.solar.fill}}" fill="#b18b5e" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Solar</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.solar.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><circle cx="86" cy="10" r="7" fill="#e2b763" opacity="{{sunOp}}"/><use href="#p3pv" x="26" y="42" opacity="{{tiles.solar.mvis.s2}}"/><use href="#p3pv" x="16" y="60" opacity="{{tiles.solar.mvis.s1}}"/></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.solar.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.solar.minusLabel}}" onClick="{{tiles.solar.minus}}">−</button></sc-if><sc-if value="{{tiles.solar.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.solar.cap}}</span><button type="button" class="rb" aria-label="{{tiles.solar.plusLabel}}" disabled="{{tiles.solar.atMax}}" onClick="{{tiles.solar.plus}}">+</button></div>
+</div></div><div style="aspect-ratio: 1 / 1; box-sizing: border-box; padding: 6px; border: 1px solid #303d4340; border-radius: 12px; background: #f4f0e9; display: flex; flex-direction: column; gap: 2px; font-size: 13px; line-height: 1.3">
+<span class="name">Datacenter</span><span class="{{dc.cls}}" style="min-height: 17px">{{dc.now}}</span>
+<svg viewBox="0 0 100 80" width="100%" height="62" aria-hidden="true" style="margin-top: auto; display: block">
+<g opacity="{{sky.sunOp}}"><circle cx="86" cy="6" r="4" fill="#e9b85a" opacity="0.6"/></g>
+<g opacity="{{sky.moonOp}}"><circle cx="86" cy="6" r="3.5" fill="#b9c0c4" opacity="0.7"/><circle cx="87.8" cy="4.6" r="3" fill="#f4f0e9"/></g>
+<rect x="14" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="32" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="50" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/><rect x="68" y="10" width="14" height="6" rx="1.5" fill="#d6d2c8" stroke="#a9a397" stroke-width="0.6"/>
+<rect x="8" y="16" width="84" height="30" rx="2" fill="#e7e2d8" stroke="#303d43" stroke-width="1"/>
+<rect x="14" y="24" width="72" height="5" rx="1" fill="#3a4448"/>
+<circle cx="18" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="24" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="30" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="36" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="42" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="48" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="54" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="60" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="66" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="72" cy="26.5" r="1" fill="{{dc.led}}"/><circle cx="78" cy="26.5" r="1" fill="{{dc.led}}"/>
+<path d="M50,46 L50,56" stroke="#303d43" stroke-width="1.2"/>
+<path d="M22,58 L78,58" stroke="#59605b" stroke-width="1.4"/>
+<rect x="26" y="62" width="16" height="16" rx="1.5" fill="#cfd3d1" stroke="#59605b" stroke-width="0.8"/><path d="M34,62 L34,58" stroke="#59605b" stroke-width="1"/><rect x="58" y="62" width="16" height="16" rx="1.5" fill="#cfd3d1" stroke="#59605b" stroke-width="0.8"/><path d="M66,62 L66,58" stroke="#59605b" stroke-width="1"/>
+</svg>
+</div><div style="position: relative; overflow: hidden; border-radius: 12px; background: #e8e6df; border: 1px solid #5f796840; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.battery.fillY}}" width="100" height="{{tiles.battery.fill}}" fill="#5f7968" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Battery</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.battery.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><g transform="translate(12,45)" opacity="{{tiles.battery.mvis.s1}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g><g transform="translate(52,45)" opacity="{{tiles.battery.mvis.s2}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g><g transform="translate(12,28)" opacity="{{tiles.battery.mvis.s3}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g><g transform="translate(52,28)" opacity="{{tiles.battery.mvis.s4}}"><rect width="36" height="15" rx="2" fill="#5f7968" fill-opacity="0.18" stroke="#5f7968" stroke-width="1"/><rect y="{{bat.fy}}" width="36" height="{{bat.fh}}" rx="1.5" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.battery.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.battery.minusLabel}}" onClick="{{tiles.battery.minus}}">−</button></sc-if><sc-if value="{{tiles.battery.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.battery.cap}}</span><button type="button" class="rb" aria-label="{{tiles.battery.plusLabel}}" disabled="{{tiles.battery.atMax}}" onClick="{{tiles.battery.plus}}">+</button></div>
+</div></div>
+<div style="position: relative; overflow: hidden; border-radius: 12px; background: #e3e2de; border: 1px solid #24435a40; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.offwind.fillY}}" width="100" height="{{tiles.offwind.fill}}" fill="#24435a" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Offshore</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.offwind.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><rect x="0" y="50" width="100" height="10" fill="#dde4e5"/><g transform="translate(25,56) scale(0.38)" opacity="{{tiles.offwind.mvis.s1}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g><g transform="translate(55,56) scale(0.38)" opacity="{{tiles.offwind.mvis.s2}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g><g transform="translate(85,56) scale(0.38)" opacity="{{tiles.offwind.mvis.s3}}"><use href="#p3tw"/><g transform="translate(0,-110)"><g transform="rotate({{rot.offwind}})"><use href="#p3bloff"/></g></g></g></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.offwind.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.offwind.minusLabel}}" onClick="{{tiles.offwind.minus}}">−</button></sc-if><sc-if value="{{tiles.offwind.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.offwind.cap}}</span><button type="button" class="rb" aria-label="{{tiles.offwind.plusLabel}}" disabled="{{tiles.offwind.atMax}}" onClick="{{tiles.offwind.plus}}">+</button></div>
+</div></div><div></div><div style="position: relative; overflow: hidden; border-radius: 12px; background: #ece6df; border: 1px solid #8a766640; aspect-ratio: 1 / 1; box-sizing: border-box">
+<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" style="position: absolute; inset: 0; display: block"><rect x="0" y="{{tiles.gas.fillY}}" width="100" height="{{tiles.gas.fill}}" fill="#8a7666" fill-opacity="0.18"/></svg>
+<div style="position: relative; height: 100%; box-sizing: border-box; padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 13px; line-height: 1.25">
+<span class="name" style="align-self: flex-start">Gas</span>
+<span class="val" style="align-self: flex-start; min-height: 17px">{{tiles.gas.now}}</span>
+<svg viewBox="0 0 100 62" width="100%" height="34" aria-hidden="true" style="display: block; flex: 1 1 auto; min-height: 0"><g opacity="{{tiles.gas.mvis.s1}}"><use href="#p3gs" x="24" y="60"/><circle cx="28" cy="9" r="5" fill="#b9b2a7" opacity="{{smoke}}"/></g><g opacity="{{tiles.gas.mvis.s2}}"><use href="#p3gs" x="46" y="60"/><circle cx="50" cy="9" r="5" fill="#b9b2a7" opacity="{{smoke}}"/></g><g opacity="{{tiles.gas.mvis.s3}}"><use href="#p3gs" x="68" y="60"/><circle cx="72" cy="9" r="5" fill="#b9b2a7" opacity="{{smoke}}"/></g></svg>
+<div style="display: flex; align-items: center; gap: 2px; margin-top: auto; width: 100%"><sc-if value="{{tiles.gas.built}}" hint-placeholder-val="{{ true }}"><button type="button" class="rb" aria-label="{{tiles.gas.minusLabel}}" onClick="{{tiles.gas.minus}}">−</button></sc-if><sc-if value="{{tiles.gas.empty}}" hint-placeholder-val="{{ false }}"><span style="width: 28px; height: 28px; display: block; flex: none"></span></sc-if><span class="mw" style="min-width: 0; flex: 1">{{tiles.gas.cap}}</span><button type="button" class="rb" aria-label="{{tiles.gas.plusLabel}}" disabled="{{tiles.gas.atMax}}" onClick="{{tiles.gas.plus}}">+</button></div>
+</div></div>
+</div></div>
+<div class="facts">
+<sc-for list="{{stats}}" as="t" hint-placeholder-count="4"><div class="fact"><span class="flab">{{t.label}}</span><span class="fval">{{t.value}}</span></div></sc-for>
+</div>
+</sc-if>
+
+<div>
+<button type="button" class="link" aria-expanded="{{showAbout}}" onClick="{{toggleAbout}}">About this model +</button>
+<sc-if value="{{showAbout}}" hint-placeholder-val="{{ false }}"><p style="margin: 8px 0 0; font-size: 13px; color: #56636a; line-height: 1.6; max-width: 760px">Model data from the PyPSA model behind this project: 2035, bidding zone SE3, one weather year. One site and its own plants, not the whole electricity system. Use matched is the share of the datacenter's use in the month shown that its new wind, solar and nuclear plants cover in the same hour, directly or through the batteries. Gas and grid power do not count. The grid connection needed is the largest hourly flow to or from the grid in January and July. Nuclear runs at full capacity in every hour, which is this page's own choice. Batteries store 4 hours. A shortfall is covered by the battery, then gas, then the grid. Existing hydro is left out because it is not additional. Costs are annualised investment and running costs of the new plants, without gas fuel or electricity prices.</p></sc-if>
+</div>
+</div>
+</div>
+</template>
+<div id="dc-root"></div>
+<script>window.__DC_DATA = {"zone":"SE3","source":"datacenter-pypsa, scenario b2-dc-T1-alla, annual.nc","load_project":"dc P002 (hyperscale profile)","annual_cf":{"onwind":0.3759,"offwind":0.47,"solar":0.0882,"nuclear":0.85},"capital_cost_eur_per_mw_year":{"onwind":119106,"offwind":319918,"solar":42366,"nuclear":699101},"battery":{"energy_eur_per_mwh_year":12511,"power_eur_per_mw_year":24364,"efficiency_one_way":0.96},"months":{"jan":{"load":[0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963,0.959,0.954,0.949,0.948,0.95,0.953,0.957,0.961,0.964,0.967,0.97,0.973,0.975,0.978,0.978,0.98,0.981,0.98,0.979,0.979,0.978,0.976,0.97,0.963],"onwind":[0.264,0.195,0.174,0.129,0.097,0.097,0.128,0.16,0.168,0.174,0.23,0.227,0.196,0.166,0.136,0.125,0.136,0.152,0.161,0.163,0.19,0.242,0.351,0.363,0.401,0.378,0.361,0.348,0.324,0.342,0.309,0.276,0.225,0.18,0.123,0.101,0.094,0.102,0.114,0.123,0.156,0.198,0.241,0.26,0.286,0.309,0.29,0.29,0.297,0.302,0.333,0.362,0.376,0.374,0.345,0.317,0.307,0.295,0.256,0.243,0.223,0.207,0.201,0.199,0.176,0.153,0.13,0.11,0.096,0.093,0.128,0.135,0.128,0.148,0.167,0.226,0.319,0.425,0.533,0.667,0.739,0.812,0.806,0.829,0.842,0.855,0.874,0.887,0.886,0.877,0.871,0.869,0.862,0.874,0.886,0.917,0.942,0.963,0.965,0.972,0.978,0.983,0.97,0.946,0.916,0.855,0.619,0.583,0.512,0.442,0.409,0.341,0.306,0.316,0.346,0.337,0.298,0.3,0.344,0.356,0.369,0.43,0.505,0.56,0.646,0.707,0.769,0.832,0.871,0.897,0.913,0.939,0.973,0.975,0.96,0.979,0.995,0.963,0.922,0.902,0.879,0.842,0.74,0.75,0.737,0.687,0.653,0.607,0.542,0.466,0.413,0.389,0.39,0.401,0.386,0.401,0.417,0.46,0.535,0.609,0.666,0.717,0.753,0.77,0.771,0.767,0.704,0.713,0.731,0.75,0.75,0.774,0.797,0.827,0.86,0.88,0.907,0.899,0.76,0.688,0.645,0.578,0.507,0.461,0.437,0.428,0.408,0.368,0.352,0.343,0.335,0.299,0.265,0.252,0.245,0.249,0.268,0.274,0.279,0.309,0.326,0.333,0.409,0.382,0.364,0.375,0.385,0.392,0.384,0.362,0.331,0.305,0.282,0.255,0.238,0.239,0.228,0.215,0.209,0.221,0.236,0.247,0.263,0.291,0.323,0.347,0.346,0.349,0.362,0.373,0.429,0.494,0.545,0.574,0.6,0.615,0.654,0.68,0.741,0.769,0.816,0.878,0.928,0.953,0.987,1.0,1.0,1.0,1.0,1.0,0.999,0.993,0.975,0.958,0.952,0.962,0.958,0.949,0.958,0.968,0.968,0.97,0.973,0.97,0.974,0.975,0.962,0.956,0.906,0.854,0.82,0.744,0.687,0.646,0.663,0.604,0.542,0.459,0.379,0.331,0.297,0.296,0.291,0.293,0.324,0.332,0.354,0.395,0.409,0.452,0.503,0.541,0.581,0.586,0.618,0.598,0.568,0.553,0.603,0.58,0.552,0.548,0.517,0.493,0.471,0.462,0.444,0.407,0.375,0.337,0.368,0.332,0.306,0.293,0.326,0.372,0.406,0.43,0.452,0.475,0.485,0.456,0.434,0.422,0.376,0.282,0.216,0.181,0.173,0.258,0.377,0.504,0.629,0.727,0.804,0.843,0.892,0.955,0.984,0.97,0.967,0.942,0.884,0.87,0.907,0.96,0.975,0.974,0.977,0.975,0.973,0.973,0.968,0.87,0.795,0.756,0.754,0.7,0.654,0.675,0.697,0.696,0.739,0.764,0.795,0.811,0.825,0.831,0.811,0.741,0.655,0.618,0.537,0.438,0.349,0.338,0.39,0.416,0.457,0.508,0.554,0.603,0.702,0.732,0.736,0.763,0.796,0.814,0.843,0.86,0.884,0.894,0.888,0.867,0.849,0.868,0.857,0.864,0.869,0.811,0.744,0.684,0.622,0.563,0.514,0.493,0.507,0.535,0.522,0.493,0.544,0.603,0.614,0.618,0.649,0.684,0.707,0.705,0.681,0.687,0.669,0.629,0.559,0.516,0.468,0.438,0.406,0.381,0.343,0.309,0.225,0.223,0.21,0.199,0.189,0.183,0.178,0.184,0.183,0.177,0.181,0.172,0.201,0.195,0.174,0.171,0.166,0.192,0.196,0.203,0.214,0.232,0.24,0.235,0.227,0.231,0.226,0.209,0.19,0.174,0.172,0.173,0.165,0.155,0.143,0.129,0.119,0.107,0.095,0.082,0.091,0.097,0.097,0.096,0.093,0.093,0.085,0.073,0.078,0.066,0.059,0.057,0.075,0.087,0.075,0.081,0.099,0.091,0.075,0.069,0.07,0.064,0.067,0.073,0.083,0.111,0.13,0.127,0.139,0.131,0.109,0.092,0.11,0.116,0.139,0.154,0.163,0.167,0.159,0.158,0.162,0.162,0.159,0.138,0.138,0.117,0.104,0.097,0.096,0.116,0.135,0.136,0.13,0.147,0.156,0.16,0.179,0.179,0.19,0.212,0.238,0.264,0.267,0.281,0.32,0.353,0.376,0.385,0.407,0.46,0.493,0.509,0.52,0.56,0.618,0.681,0.723,0.763,0.816,0.852,0.851,0.886,0.904,0.913,0.91,0.906,0.915,0.904,0.884,0.853,0.811,0.793,0.714,0.696,0.695,0.719,0.743,0.76,0.791,0.836,0.87,0.89,0.917,0.944,0.96,0.98,0.989,0.988,0.984,0.994,0.996,0.997,0.996,0.996,0.998,0.997,0.958,0.961,0.965,0.952,0.932,0.925,0.909,0.877,0.804,0.698,0.615,0.538,0.43,0.396,0.363,0.332,0.344,0.392,0.455,0.527,0.572,0.585,0.586,0.577,0.555,0.508,0.51,0.518,0.484,0.489,0.503,0.516,0.507,0.464,0.444,0.411,0.406,0.341,0.3,0.26,0.225,0.186,0.133,0.093,0.061,0.041,0.038,0.048,0.093,0.095,0.108,0.134,0.181,0.252,0.321,0.384,0.437,0.503,0.574,0.632,0.675,0.744,0.804,0.862,0.872,0.893,0.909,0.921,0.914,0.891,0.847,0.778,0.698,0.641,0.558,0.545,0.477,0.5,0.537,0.554,0.517,0.5,0.474,0.474,0.444,0.43,0.461,0.452,0.512,0.563,0.56,0.621,0.71,0.763,0.827,0.877,0.914,0.935,0.963,0.996,0.999,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.999,0.999,1.0,1.0,1.0,0.993,1.0,0.997,0.994,0.998,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.983,0.971,0.922,0.879,0.828,0.779,0.737,0.664,0.592,0.539,0.471,0.343,0.321,0.307,0.273,0.235,0.222,0.204,0.234,0.236,0.245,0.254,0.265,0.284,0.333],"offwind":[0.289,0.199,0.16,0.073,0.105,0.215,0.351,0.514,0.613,0.613,0.732,0.857,0.857,0.691,0.55,0.495,0.594,0.654,0.509,0.46,0.543,0.624,0.857,0.857,0.857,0.857,0.786,0.176,0.0,0.0,0.0,0.055,0.135,0.167,0.234,0.246,0.218,0.195,0.271,0.439,0.668,0.648,0.582,0.599,0.613,0.573,0.505,0.631,0.689,0.651,0.562,0.656,0.701,0.614,0.5,0.388,0.323,0.272,0.136,0.081,0.054,0.058,0.105,0.158,0.12,0.071,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.137,0.287,0.61,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.782,0.857,0.857,0.674,0.642,0.781,0.857,0.82,0.684,0.651,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.637,0.431,0.326,0.18,0.189,0.268,0.334,0.38,0.604,0.769,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.734,0.62,0.612,0.562,0.507,0.616,0.528,0.407,0.427,0.372,0.318,0.404,0.472,0.446,0.607,0.663,0.673,0.857,0.687,0.732,0.801,0.857,0.83,0.835,0.857,0.857,0.795,0.683,0.442,0.186,0.136,0.095,0.06,0.076,0.152,0.235,0.332,0.366,0.39,0.49,0.543,0.334,0.233,0.335,0.479,0.689,0.752,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.798,0.724,0.641,0.598,0.601,0.679,0.726,0.786,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.677,0.771,0.734,0.732,0.708,0.619,0.642,0.692,0.705,0.647,0.643,0.598,0.443,0.308,0.212,0.178,0.089,0.074,0.113,0.165,0.202,0.22,0.2,0.161,0.14,0.115,0.02,0.0,0.0,0.0,0.0,0.0,0.081,0.129,0.422,0.841,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.644,0.133,0.282,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.58,0.49,0.531,0.567,0.545,0.584,0.739,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.782,0.853,0.815,0.631,0.406,0.441,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.758,0.657,0.607,0.657,0.699,0.656,0.712,0.703,0.483,0.589,0.65,0.653,0.648,0.65,0.651,0.633,0.584,0.584,0.58,0.476,0.608,0.484,0.275,0.204,0.221,0.276,0.225,0.133,0.079,0.111,0.181,0.213,0.34,0.433,0.452,0.45,0.45,0.501,0.549,0.602,0.502,0.478,0.527,0.532,0.444,0.546,0.461,0.484,0.617,0.551,0.413,0.34,0.252,0.205,0.163,0.109,0.166,0.053,0.0,0.0,0.0,0.085,0.046,0.0,0.09,0.02,0.0,0.0,0.053,0.0,0.0,0.0,0.0,0.076,0.071,0.066,0.059,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02,0.029,0.006,0.074,0.084,0.116,0.15,0.24,0.367,0.355,0.455,0.55,0.57,0.596,0.492,0.465,0.683,0.748,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.704,0.731,0.735,0.763,0.786,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.815,0.618,0.431,0.318,0.194,0.176,0.248,0.521,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.796,0.681,0.521,0.455,0.347,0.179,0.06,0.0,0.0,0.0,0.0,0.077,0.056,0.064,0.133,0.233,0.433,0.633,0.745,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.854,0.653,0.517,0.514,0.269,0.209,0.272,0.261,0.227,0.237,0.228,0.257,0.269,0.369,0.376,0.429,0.613,0.655,0.725,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.706,0.452,0.291,0.182,0.092,0.073,0.06,0.1,0.195,0.118,0.092,0.066,0.0,0.0,0.0,0.0,0.0],"solar":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.094,0.114,0.1,0.067,0.013,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.039,0.039,0.034,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.081,0.12,0.117,0.077,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014,0.03,0.031,0.014,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.053,0.076,0.085,0.048,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.015,0.027,0.024,0.013,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.008,0.017,0.019,0.013,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.008,0.013,0.011,0.008,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.034,0.053,0.049,0.029,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.009,0.041,0.051,0.051,0.037,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.038,0.04,0.026,0.017,0.011,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.009,0.055,0.064,0.059,0.049,0.026,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.01,0.058,0.077,0.07,0.059,0.039,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014,0.054,0.071,0.078,0.065,0.05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.027,0.094,0.103,0.11,0.102,0.058,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.038,0.211,0.251,0.249,0.205,0.108,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014,0.019,0.02,0.017,0.01,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05,0.126,0.131,0.115,0.1,0.063,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.05,0.178,0.192,0.171,0.139,0.08,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.027,0.047,0.048,0.041,0.031,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.018,0.031,0.033,0.028,0.02,0.014,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.016,0.03,0.039,0.039,0.029,0.014,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.011,0.011,0.008,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.013,0.023,0.03,0.031,0.032,0.03,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.012,0.022,0.026,0.024,0.019,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.095,0.233,0.293,0.308,0.271,0.191,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.087,0.193,0.222,0.221,0.201,0.131,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.096,0.12,0.1,0.091,0.089,0.073,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.036,0.046,0.067,0.061,0.046,0.012,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.101,0.216,0.223,0.225,0.192,0.164,0.042,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.119,0.238,0.301,0.297,0.237,0.146,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"nuclear":[0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85]},"jul":{"load":[1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033,1.028,1.023,1.018,1.016,1.019,1.022,1.026,1.03,1.033,1.037,1.041,1.043,1.046,1.048,1.049,1.051,1.052,1.051,1.05,1.05,1.049,1.046,1.04,1.033],"onwind":[0.553,0.504,0.506,0.449,0.437,0.441,0.39,0.364,0.355,0.344,0.317,0.301,0.28,0.269,0.273,0.251,0.261,0.231,0.203,0.193,0.181,0.18,0.226,0.218,0.231,0.263,0.274,0.281,0.308,0.36,0.377,0.399,0.459,0.519,0.551,0.636,0.685,0.679,0.706,0.7,0.694,0.636,0.547,0.477,0.47,0.447,0.524,0.538,0.537,0.534,0.574,0.598,0.61,0.615,0.617,0.623,0.626,0.621,0.617,0.636,0.644,0.665,0.698,0.707,0.712,0.725,0.746,0.77,0.796,0.816,0.826,0.848,0.829,0.81,0.803,0.775,0.756,0.766,0.691,0.604,0.584,0.559,0.65,0.711,0.728,0.704,0.672,0.643,0.641,0.598,0.553,0.563,0.553,0.56,0.643,0.615,0.58,0.553,0.52,0.488,0.465,0.458,0.376,0.32,0.244,0.221,0.189,0.169,0.147,0.128,0.125,0.131,0.157,0.194,0.257,0.332,0.393,0.405,0.454,0.487,0.485,0.463,0.443,0.445,0.476,0.512,0.469,0.412,0.374,0.37,0.344,0.389,0.444,0.499,0.573,0.62,0.588,0.605,0.559,0.555,0.544,0.546,0.571,0.572,0.574,0.561,0.547,0.559,0.534,0.525,0.495,0.464,0.404,0.39,0.343,0.379,0.413,0.457,0.471,0.451,0.387,0.327,0.304,0.289,0.269,0.261,0.213,0.219,0.199,0.196,0.197,0.183,0.147,0.066,0.037,0.022,0.018,0.022,0.013,0.014,0.014,0.013,0.017,0.022,0.03,0.024,0.029,0.043,0.058,0.079,0.077,0.093,0.094,0.094,0.101,0.099,0.076,0.032,0.006,0.001,0.001,0.002,0.002,0.005,0.004,0.002,0.002,0.003,0.004,0.011,0.04,0.073,0.1,0.117,0.121,0.109,0.094,0.089,0.089,0.095,0.096,0.069,0.057,0.078,0.122,0.172,0.155,0.18,0.192,0.198,0.185,0.175,0.153,0.139,0.133,0.142,0.164,0.171,0.183,0.189,0.199,0.196,0.198,0.19,0.201,0.206,0.193,0.188,0.173,0.162,0.134,0.179,0.202,0.204,0.223,0.222,0.197,0.197,0.26,0.364,0.447,0.516,0.562,0.62,0.65,0.673,0.648,0.616,0.581,0.55,0.535,0.525,0.485,0.491,0.493,0.49,0.454,0.393,0.424,0.423,0.417,0.429,0.395,0.402,0.478,0.536,0.592,0.553,0.561,0.566,0.538,0.524,0.535,0.602,0.562,0.51,0.476,0.484,0.385,0.451,0.462,0.495,0.506,0.538,0.546,0.502,0.444,0.449,0.484,0.519,0.57,0.555,0.523,0.472,0.433,0.419,0.407,0.377,0.348,0.334,0.37,0.415,0.348,0.382,0.403,0.42,0.407,0.386,0.337,0.263,0.218,0.189,0.186,0.192,0.188,0.161,0.134,0.117,0.107,0.106,0.106,0.098,0.101,0.128,0.2,0.294,0.337,0.402,0.461,0.537,0.59,0.627,0.689,0.706,0.729,0.737,0.768,0.794,0.818,0.807,0.825,0.81,0.756,0.678,0.723,0.75,0.753,0.701,0.659,0.667,0.639,0.717,0.784,0.855,0.867,0.932,0.956,0.956,0.98,0.962,0.956,0.962,0.975,0.938,0.912,0.905,0.92,0.921,0.927,0.952,0.967,0.961,0.929,0.92,0.827,0.836,0.862,0.843,0.892,0.91,0.87,0.866,0.857,0.827,0.82,0.833,0.841,0.853,0.846,0.82,0.802,0.78,0.745,0.75,0.717,0.691,0.673,0.67,0.687,0.696,0.684,0.667,0.662,0.649,0.623,0.59,0.559,0.536,0.518,0.507,0.535,0.481,0.414,0.355,0.335,0.302,0.336,0.369,0.308,0.277,0.281,0.323,0.285,0.322,0.374,0.439,0.508,0.545,0.573,0.512,0.441,0.415,0.412,0.437,0.485,0.431,0.382,0.337,0.309,0.285,0.263,0.27,0.242,0.23,0.241,0.228,0.181,0.199,0.215,0.239,0.281,0.307,0.285,0.279,0.254,0.281,0.294,0.303,0.336,0.304,0.272,0.256,0.239,0.241,0.235,0.264,0.26,0.234,0.243,0.246,0.264,0.271,0.316,0.333,0.387,0.406,0.408,0.412,0.379,0.363,0.326,0.3,0.334,0.306,0.286,0.259,0.235,0.216,0.179,0.14,0.117,0.094,0.09,0.096,0.127,0.143,0.195,0.242,0.263,0.279,0.272,0.231,0.201,0.2,0.217,0.238,0.268,0.233,0.196,0.177,0.18,0.173,0.151,0.101,0.068,0.055,0.057,0.056,0.023,0.025,0.027,0.037,0.03,0.03,0.019,0.019,0.027,0.037,0.048,0.056,0.081,0.088,0.105,0.122,0.152,0.19,0.236,0.253,0.273,0.3,0.349,0.416,0.328,0.374,0.354,0.387,0.434,0.432,0.433,0.431,0.42,0.409,0.414,0.428,0.348,0.374,0.386,0.368,0.365,0.355,0.33,0.338,0.342,0.33,0.296,0.31,0.237,0.274,0.331,0.382,0.432,0.49,0.486,0.447,0.399,0.409,0.427,0.443,0.459,0.417,0.389,0.377,0.37,0.368,0.349,0.334,0.328,0.302,0.321,0.342,0.265,0.325,0.352,0.362,0.379,0.383,0.326,0.316,0.259,0.284,0.288,0.302,0.317,0.296,0.284,0.265,0.246,0.253,0.254,0.263,0.268,0.241,0.207,0.198,0.18,0.164,0.159,0.154,0.148,0.144,0.162,0.166,0.118,0.11,0.116,0.109,0.118,0.097,0.081,0.071,0.058,0.044,0.039,0.026,0.015,0.013,0.012,0.019,0.028,0.038,0.046,0.053,0.063,0.075,0.07,0.071,0.088,0.133,0.172,0.196,0.253,0.246,0.245,0.271,0.268,0.253,0.231,0.177,0.094,0.068,0.068,0.091,0.08,0.081,0.097,0.102,0.11,0.096,0.071,0.078,0.102,0.128,0.159,0.168,0.171,0.144,0.12,0.104,0.094,0.089,0.086,0.114,0.113,0.115,0.122,0.158,0.213,0.226,0.217,0.262,0.264,0.267,0.253,0.196,0.165,0.179,0.177,0.16,0.153,0.168,0.159,0.148,0.134,0.115,0.082,0.064,0.047,0.039,0.041,0.049,0.038,0.043,0.043,0.066,0.062,0.049,0.054,0.061,0.061,0.056,0.051,0.044,0.064,0.072],"offwind":[0.857,0.857,0.857,0.695,0.632,0.669,0.594,0.583,0.592,0.557,0.681,0.615,0.583,0.371,0.248,0.312,0.414,0.437,0.327,0.131,0.3,0.264,0.284,0.192,0.14,0.075,0.0,0.0,0.101,0.185,0.203,0.301,0.648,0.857,0.517,0.659,0.799,0.857,0.857,0.855,0.857,0.857,0.799,0.641,0.573,0.408,0.296,0.118,0.0,0.0,0.0,0.0,0.0,0.07,0.103,0.331,0.311,0.255,0.185,0.278,0.515,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.673,0.64,0.575,0.404,0.36,0.458,0.409,0.374,0.33,0.37,0.351,0.246,0.25,0.352,0.301,0.245,0.202,0.194,0.253,0.301,0.329,0.438,0.397,0.365,0.354,0.12,0.105,0.196,0.16,0.175,0.327,0.478,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.67,0.56,0.489,0.432,0.334,0.293,0.137,0.1,0.275,0.737,0.769,0.683,0.611,0.632,0.625,0.782,0.662,0.434,0.405,0.412,0.493,0.474,0.312,0.257,0.212,0.208,0.094,0.213,0.227,0.217,0.51,0.466,0.383,0.392,0.427,0.387,0.351,0.338,0.26,0.278,0.211,0.198,0.175,0.14,0.111,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.086,0.154,0.303,0.258,0.278,0.361,0.38,0.346,0.256,0.198,0.081,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.073,0.183,0.287,0.319,0.199,0.0,0.0,0.0,0.064,0.111,0.228,0.321,0.192,0.22,0.373,0.587,0.43,0.593,0.656,0.641,0.689,0.445,0.124,0.0,0.0,0.138,0.431,0.441,0.224,0.49,0.573,0.636,0.568,0.55,0.446,0.51,0.434,0.493,0.34,0.251,0.171,0.189,0.359,0.434,0.489,0.421,0.459,0.317,0.28,0.493,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.541,0.273,0.079,0.0,0.0,0.384,0.745,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.691,0.75,0.798,0.857,0.851,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.829,0.681,0.581,0.568,0.455,0.265,0.129,0.058,0.141,0.33,0.324,0.344,0.37,0.423,0.485,0.631,0.683,0.548,0.496,0.49,0.464,0.424,0.314,0.235,0.211,0.187,0.136,0.086,0.0,0.036,0.106,0.156,0.288,0.497,0.717,0.844,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.654,0.59,0.646,0.381,0.235,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.757,0.672,0.697,0.62,0.688,0.761,0.689,0.603,0.585,0.629,0.535,0.606,0.604,0.688,0.848,0.828,0.746,0.685,0.445,0.248,0.151,0.108,0.089,0.109,0.133,0.201,0.357,0.353,0.393,0.498,0.598,0.621,0.689,0.857,0.606,0.439,0.512,0.533,0.558,0.609,0.579,0.495,0.418,0.374,0.306,0.178,0.064,0.035,0.056,0.078,0.098,0.067,0.083,0.116,0.169,0.309,0.335,0.233,0.179,0.337,0.411,0.255,0.181,0.205,0.111,0.068,0.064,0.024,0.001,0.0,0.0,0.0,0.0,0.017,0.076,0.237,0.197,0.165,0.717,0.578,0.285,0.42,0.288,0.393,0.55,0.588,0.56,0.76,0.633,0.536,0.455,0.394,0.355,0.405,0.24,0.129,0.122,0.151,0.126,0.1,0.093,0.429,0.604,0.365,0.223,0.266,0.257,0.156,0.193,0.291,0.369,0.327,0.31,0.206,0.055,0.097,0.095,0.039,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.009,0.081,0.12,0.191,0.343,0.586,0.646,0.571,0.531,0.673,0.857,0.63,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.857,0.75,0.668,0.581,0.371,0.335,0.446,0.759,0.752,0.572,0.334,0.269,0.113,0.188,0.434,0.561,0.677,0.841,0.799,0.738,0.789,0.767,0.775,0.811,0.671,0.441,0.405,0.577,0.682,0.619,0.552,0.455,0.404,0.382,0.432,0.61,0.368,0.5,0.754,0.857,0.754,0.559,0.563,0.473,0.372,0.416,0.559,0.566,0.361,0.458,0.573,0.546,0.543,0.492,0.351,0.233,0.225,0.228,0.224,0.2,0.185,0.096,0.09,0.129,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.055,0.059,0.0,0.019,0.06,0.062,0.058,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.119,0.245,0.185,0.042,0.077,0.339,0.539,0.512,0.439,0.354,0.289,0.318,0.252,0.158,0.073,0.0,0.0,0.0,0.0,0.048,0.021,0.0,0.061,0.097,0.132,0.165,0.197,0.163,0.15,0.205,0.281,0.276,0.165,0.106,0.093,0.08,0.0,0.0,0.0,0.0,0.0,0.0,0.087,0.31,0.176,0.156,0.119,0.276,0.383,0.414,0.487,0.394,0.464,0.5,0.34,0.241,0.121,0.246,0.323,0.321,0.261,0.145,0.063,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"solar":[0.0,0.0,0.0,0.01,0.041,0.115,0.213,0.305,0.36,0.375,0.354,0.36,0.325,0.27,0.219,0.169,0.11,0.058,0.021,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.017,0.058,0.125,0.191,0.241,0.269,0.291,0.297,0.298,0.273,0.238,0.188,0.123,0.061,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.018,0.052,0.096,0.14,0.183,0.213,0.208,0.212,0.23,0.217,0.193,0.164,0.111,0.059,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.034,0.095,0.17,0.233,0.291,0.335,0.337,0.34,0.322,0.278,0.229,0.176,0.118,0.061,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.031,0.109,0.228,0.345,0.445,0.504,0.511,0.487,0.424,0.334,0.249,0.162,0.094,0.048,0.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.024,0.071,0.148,0.226,0.28,0.304,0.288,0.287,0.27,0.238,0.203,0.177,0.124,0.068,0.024,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.02,0.077,0.169,0.272,0.351,0.396,0.398,0.408,0.392,0.356,0.317,0.242,0.153,0.076,0.024,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.008,0.035,0.126,0.257,0.38,0.477,0.525,0.512,0.47,0.427,0.382,0.331,0.256,0.162,0.079,0.024,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.038,0.127,0.258,0.382,0.476,0.524,0.517,0.491,0.46,0.423,0.371,0.288,0.181,0.086,0.025,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.033,0.118,0.228,0.339,0.427,0.481,0.482,0.457,0.406,0.351,0.286,0.201,0.115,0.05,0.014,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.021,0.075,0.156,0.23,0.287,0.337,0.351,0.372,0.36,0.313,0.261,0.19,0.115,0.054,0.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.011,0.038,0.073,0.119,0.16,0.171,0.157,0.144,0.129,0.107,0.085,0.071,0.059,0.041,0.015,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.039,0.103,0.193,0.284,0.352,0.387,0.396,0.412,0.401,0.358,0.315,0.255,0.158,0.08,0.024,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.031,0.104,0.218,0.341,0.437,0.486,0.498,0.504,0.488,0.441,0.374,0.298,0.195,0.09,0.023,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.028,0.074,0.126,0.183,0.224,0.274,0.294,0.319,0.309,0.278,0.233,0.171,0.106,0.054,0.015,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.019,0.033,0.068,0.132,0.202,0.257,0.342,0.366,0.327,0.279,0.223,0.146,0.072,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.015,0.069,0.153,0.246,0.306,0.303,0.282,0.308,0.31,0.291,0.285,0.239,0.159,0.077,0.022,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.027,0.096,0.196,0.294,0.367,0.417,0.422,0.42,0.399,0.364,0.309,0.239,0.148,0.071,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.032,0.095,0.195,0.295,0.376,0.407,0.409,0.418,0.395,0.35,0.307,0.241,0.156,0.075,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.029,0.109,0.223,0.328,0.393,0.412,0.397,0.414,0.404,0.361,0.298,0.24,0.158,0.076,0.02,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.098,0.198,0.294,0.367,0.387,0.375,0.374,0.354,0.334,0.289,0.236,0.162,0.079,0.021,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.105,0.211,0.297,0.356,0.388,0.376,0.371,0.354,0.311,0.258,0.206,0.145,0.073,0.019,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.026,0.105,0.216,0.31,0.39,0.435,0.441,0.448,0.419,0.377,0.304,0.234,0.153,0.067,0.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.018,0.067,0.143,0.216,0.268,0.288,0.274,0.285,0.27,0.232,0.19,0.152,0.103,0.051,0.014,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.014,0.054,0.125,0.204,0.286,0.342,0.366,0.382,0.379,0.356,0.306,0.245,0.158,0.072,0.018,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.031,0.098,0.176,0.245,0.31,0.367,0.402,0.45,0.451,0.417,0.348,0.264,0.165,0.071,0.016,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.022,0.085,0.167,0.235,0.295,0.328,0.319,0.304,0.28,0.267,0.226,0.186,0.128,0.059,0.013,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.019,0.075,0.164,0.253,0.322,0.362,0.341,0.305,0.275,0.268,0.27,0.229,0.159,0.071,0.015,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.022,0.105,0.227,0.347,0.447,0.506,0.515,0.487,0.456,0.417,0.346,0.248,0.145,0.06,0.013,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.012,0.054,0.135,0.223,0.287,0.32,0.323,0.334,0.338,0.328,0.293,0.233,0.147,0.061,0.011,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.016,0.057,0.126,0.192,0.233,0.264,0.305,0.321,0.287,0.254,0.216,0.169,0.104,0.049,0.01,0.0,0.0,0.0,0.0,0.0],"nuclear":[0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85]}}};</script>
+<script>
+// Small runtime that renders a .dc.html template in a plain web page.
+// Supports {{a.b}} holes in text and attributes, <sc-if value>, <sc-for list as>,
+// onClick handlers and setState. Re-renders by morphing the live DOM in place.
+(function () {
+  const tpl = document.getElementById('dc-template');
+  const root = document.getElementById('dc-root');
+  const tree = tpl.content;
+  const HOLE = /\{\{\s*([^}]*?)\s*\}\}/g;
+  const ONE = /^\{\{\s*([^}]*?)\s*\}\}$/;
+
+  function look(scope, path) {
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    let v = scope;
+    for (const k of path.split('.')) {
+      if (v == null) return undefined;
+      v = v[k];
+    }
+    return v;
+  }
+  const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const sub = (str, scope) => str.replace(HOLE, (_, p) => { const v = look(scope, p); return v == null ? '' : String(v); });
+
+  let handlers = [];
+  function attrs(el, scope) {
+    let out = '';
+    for (const a of el.attributes) {
+      const name = a.name;
+      if (name.startsWith('hint-')) continue;
+      const m = a.value.match(ONE);
+      if (m) {
+        const v = look(scope, m[1]);
+        if (/^on[A-Z]?[a-z]+$/i.test(name)) {
+          if (typeof v === 'function') { handlers.push(v); out += ' data-dc-' + name.slice(2).toLowerCase() + '="' + (handlers.length - 1) + '"'; }
+          continue;
+        }
+        if (name.startsWith('aria-')) { out += ' ' + name + '="' + esc(v == null ? '' : v) + '"'; continue; }
+        if (v === false || v == null) continue;
+        out += ' ' + name + '="' + (v === true ? '' : esc(v)) + '"';
+        continue;
+      }
+      out += ' ' + name + '="' + esc(sub(a.value, scope)) + '"';
+    }
+    return out;
+  }
+  const VOID = new Set(['br', 'hr', 'img', 'input', 'link', 'meta', 'source', 'area', 'col', 'wbr']);
+  function kids(node, scope) {
+    let s = '';
+    for (const ch of node.childNodes) s += render(ch, scope);
+    return s;
+  }
+  function render(node, scope) {
+    if (node.nodeType === 3) return esc(sub(node.nodeValue, scope));
+    if (node.nodeType !== 1) return '';
+    const tag = node.localName;
+    if (tag === 'sc-if') {
+      const m = (node.getAttribute('value') || '').match(ONE);
+      return m && look(scope, m[1]) ? kids(node, scope) : '';
+    }
+    if (tag === 'sc-for') {
+      const m = (node.getAttribute('list') || '').match(ONE);
+      const list = (m && look(scope, m[1])) || [];
+      const as = node.getAttribute('as') || 'item';
+      let s = '';
+      for (let i = 0; i < list.length; i++) s += kids(node, Object.assign(Object.create(scope), { [as]: list[i] }));
+      return s;
+    }
+    const open = '<' + tag + attrs(node, scope) + '>';
+    if (VOID.has(tag)) return open;
+    return open + kids(node, scope) + '</' + tag + '>';
+  }
+
+  function morph(a, b) {
+    if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName) { a.replaceWith(b); return; }
+    if (a.nodeType === 3) { if (a.nodeValue !== b.nodeValue) a.nodeValue = b.nodeValue; return; }
+    if (a.nodeType !== 1) return;
+    for (const at of [...a.attributes]) if (!b.hasAttribute(at.name)) a.removeAttribute(at.name);
+    for (const at of b.attributes) if (a.getAttribute(at.name) !== at.value) a.setAttribute(at.name, at.value);
+    const ak = a.childNodes, bk = [...b.childNodes];
+    let i = 0;
+    for (; i < bk.length; i++) {
+      if (i < ak.length) morph(ak[i], bk[i]);
+      else a.appendChild(bk[i]);
+    }
+    while (ak.length > bk.length) a.removeChild(a.lastChild);
+  }
+
+  window.DCLogic = class {
+    constructor() { this.state = {}; }
+    setState(p) { Object.assign(this.state, p); schedule(); }
+  };
+  let comp, queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; paint(); });
+  }
+  const scratch = document.createElement('div');
+  function paint() {
+    handlers = [];
+    let vals = {};
+    try { vals = comp.renderVals() || {}; } catch (e) { console.error(e); }
+    scratch.innerHTML = kids(tree, vals);
+    if (!root.firstChild) { while (scratch.firstChild) root.appendChild(scratch.firstChild); }
+    else {
+      const ak = root.childNodes, bk = [...scratch.childNodes];
+      for (let i = 0; i < bk.length; i++) { if (i < ak.length) morph(ak[i], bk[i]); else root.appendChild(bk[i]); }
+      while (ak.length > bk.length) root.removeChild(root.lastChild);
+    }
+    current = handlers;
+  }
+  let current = [];
+  root.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-dc-click]');
+    if (!el || !root.contains(el)) return;
+    const f = current[+el.getAttribute('data-dc-click')];
+    if (f) f(e);
+  });
+  window.__dcStart = function (Component) {
+    comp = new Component();
+    paint();
+    if (comp.componentDidMount) comp.componentDidMount();
+  };
+})();
+
+</script>
+<script>
+class Component extends DCLogic {
+  componentDidMount() {
+    Promise.resolve(window.__DC_DATA)
+      .then((d) => this.setState({ data: d }))
+      .catch(() => this.setState({ loadError: true }));
+  }
+
+  componentWillUnmount() {
+    if (this._timer) clearInterval(this._timer);
+  }
+
+  meta() {
+    return {
+      clean: ['nuclear', 'onwind', 'offwind', 'solar'],
+      t: {
+        onwind: { label: 'Onshore wind', color: '#4f7a96', step: 50, max: 3000, first: 200, unit: 200, slots: 5 },
+        solar: { label: 'Solar', color: '#b18b5e', step: 50, max: 3000, first: 250, unit: 250, slots: 4 },
+        offwind: { label: 'Offshore wind', color: '#24435a', step: 50, max: 2000, first: 250, unit: 250, slots: 4 },
+        nuclear: { label: 'Nuclear', color: '#7a6a8c', step: 50, max: 1200, first: 300, unit: 300, slots: 3 },
+        battery: { label: 'Battery', color: '#5f7968', step: 25, max: 800, first: 100, unit: 100, slots: 6 },
+        gas: { label: 'Gas', color: '#8a7666', step: 25, max: 600, first: 100, unit: 100, slots: 6 }
+      },
+      gas: { capital: 56876, co2: 0.477 },
+      nuclearVar: 6.1,
+      dcMW: 300,
+      win: 168,
+      months: { jan: 'January', jul: 'July' },
+      short: { jan: 'Jan', jul: 'Jul' }
+    };
+  }
+
+  cfg() {
+    const s = this.state || {};
+    return {
+      month: s.month || 'jan',
+      matching: s.matching || 'hourly',
+      share: s.share || 100,
+      grid: s.grid || 'on',
+      mw: s.mw || { onwind: 900, solar: 800, offwind: 0, nuclear: 0, battery: 225, gas: 0 },
+      batH: s.batH || 4
+    };
+  }
+
+  fmt(x, d) {
+    return Number(x).toLocaleString('en-US', { maximumFractionDigits: d || 0, minimumFractionDigits: d || 0 });
+  }
+
+  simMonth(data, c, M, key) {
+    const m = data.months[key];
+    const n = m.load.length;
+    const P = c.mw.battery, E = P * c.batH, eta = data.battery.efficiency_one_way;
+    const grid = c.grid === 'on';
+    let soc = E / 2;
+    const r = { load: [], gen: {}, dis: [], ch: [], soc: [], gas: [], imp: [], exp: [], uns: [], curt: [], stack: [] };
+    M.clean.forEach((k) => { r.gen[k] = []; });
+    const sum = { load: 0, clean: 0, gas: 0, unsHours: 0, maxImp: 0, maxExp: 0 };
+    for (let t = 0; t < n; t++) {
+      const load = M.dcMW * m.load[t];
+      let G = 0;
+      M.clean.forEach((k) => { const g = c.mw[k] * (k === 'nuclear' ? 1 : m[k][t]); r.gen[k].push(g); G += g; });
+      let dis = 0, ch = 0, gas = 0, imp = 0, exp = 0, uns = 0, curt = 0;
+      if (G >= load) {
+        ch = Math.max(0, Math.min(G - load, P, E > 0 ? (E - soc) / eta : 0));
+        soc += ch * eta;
+        const rest = G - load - ch;
+        if (grid) exp = rest; else curt = rest;
+      } else {
+        let need = load - G;
+        dis = Math.max(0, Math.min(need, P, soc * eta));
+        soc -= dis / eta;
+        need -= dis;
+        gas = Math.min(need, c.mw.gas);
+        need -= gas;
+        if (grid) imp = need; else uns = need;
+      }
+      r.load.push(load); r.dis.push(dis); r.ch.push(ch); r.soc.push(E > 0 ? soc / E : 0); r.gas.push(gas);
+      r.imp.push(imp); r.exp.push(exp); r.uns.push(uns); r.curt.push(curt); r.stack.push(G + dis + gas);
+      sum.load += load; sum.clean += Math.min(G, load) + dis; sum.gas += gas;
+      if (uns > 0.5) sum.unsHours += 1;
+      sum.maxImp = Math.max(sum.maxImp, imp); sum.maxExp = Math.max(sum.maxExp, exp);
+    }
+    r.sum = sum;
+    return r;
+  }
+
+  derived(data, c, M) {
+    const key = JSON.stringify([c.mw, c.batH, c.grid, c.month]);
+    if (this._d && this._d.key === key && this._d.data === data) return this._d;
+    const jan = this.simMonth(data, c, M, 'jan');
+    const jul = this.simMonth(data, c, M, 'jul');
+    const r = c.month === 'jan' ? jan : jul;
+    let ymax = 0;
+    for (let i = 0; i < r.load.length; i++) ymax = Math.max(ymax, r.stack[i], r.load[i]);
+    const step = ymax > 1500 ? 500 : ymax > 600 ? 200 : 100;
+    ymax = Math.max(2 * step, Math.ceil((ymax * 1.05) / (2 * step)) * 2 * step);
+    // Month overview: on-site supply against use, scaled to this month.
+    const n = r.load.length;
+    let om = 0;
+    for (let i = 0; i < n; i++) om = Math.max(om, r.stack[i], r.load[i]);
+    om = om * 1.1;
+    const ox = (i) => ((i * 360) / (n - 1)).toFixed(1);
+    const oy = (v) => (34 - (v / om) * 32).toFixed(1);
+    let ov = 'M0,34';
+    for (let i = 0; i < n; i++) ov += 'L' + ox(i) + ',' + oy(Math.min(r.stack[i], om));
+    ov += 'L360,34Z';
+    let ovLoad = 'M0,' + oy(r.load[0]);
+    for (let i = 1; i < n; i++) ovLoad += 'L' + ox(i) + ',' + oy(r.load[i]);
+    this._d = { key: key, data: data, jan: jan, jul: jul, r: r, ymax: ymax, overview: ov, ovLoad: ovLoad };
+    return this._d;
+  }
+
+  windowChart(r, start, ymax, M) {
+    const w = M.win, W = 360, H = 150, top = 6;
+    const x = (i) => ((i * W) / (w - 1)).toFixed(1);
+    const y = (v) => (top + H - Math.min(1, v / ymax) * H).toFixed(1);
+    const layers = [
+      { key: 'nuclear', vals: r.gen.nuclear }, { key: 'onwind', vals: r.gen.onwind }, { key: 'offwind', vals: r.gen.offwind },
+      { key: 'solar', vals: r.gen.solar }, { key: 'battery', vals: r.dis }, { key: 'gas', vals: r.gas }
+    ];
+    const cum = new Array(w).fill(0);
+    const paths = {};
+    layers.forEach((L) => {
+      const bot = cum.slice();
+      for (let i = 0; i < w; i++) cum[i] += L.vals[start + i];
+      let s = 'M0,' + y(cum[0]);
+      for (let i = 1; i < w; i++) s += 'L' + x(i) + ',' + y(cum[i]);
+      for (let i = w - 1; i >= 0; i--) s += 'L' + x(i) + ',' + y(bot[i]);
+      paths[L.key] = s + 'Z';
+    });
+    let load = 'M0,' + y(r.load[start]);
+    for (let i = 1; i < w; i++) load += 'L' + x(i) + ',' + y(r.load[start + i]);
+    paths.load = load;
+    let def = 'M0,' + y(r.load[start]);
+    for (let i = 1; i < w; i++) def += 'L' + x(i) + ',' + y(r.load[start + i]);
+    for (let i = w - 1; i >= 0; i--) {
+      const short = r.imp[start + i] + r.uns[start + i];
+      def += 'L' + x(i) + ',' + y(r.load[start + i] - short);
+    }
+    paths.deficit = def + 'Z';
+    const midnights = [];
+    for (let i = 0; i < w; i++) if ((start + i) % 24 === 0) midnights.push(x(i));
+    while (midnights.length < 4) midnights.push('-10');
+    return { paths: paths, m1: midnights[0], m2: midnights[1], m3: midnights[2], m4: midnights[3], useY: y(M.dcMW) };
+  }
+
+  arrays(data) {
+    if (this._arr && this._arr.data === data) return this._arr;
+    const A = { data: data };
+    ['jan', 'jul'].forEach((k) => {
+      const m = data.months[k];
+      const o = { load: Float64Array.from(m.load, (v) => v * 300), onwind: Float64Array.from(m.onwind), solar: Float64Array.from(m.solar), offwind: Float64Array.from(m.offwind) };
+      let sum = 0;
+      for (let i = 0; i < o.load.length; i++) sum += o.load[i];
+      o.sum = sum;
+      A[k] = o;
+    });
+    this._arr = A;
+    return A;
+  }
+
+  feasible(A, x, rule, share, gridOn, batH, eta, data) {
+    if (rule === 'annual') {
+      const ann = (x.onwind * data.annual_cf.onwind + x.solar * data.annual_cf.solar + x.offwind * data.annual_cf.offwind + x.nuclear) / 300;
+      if (ann < share - 1e-9) return null;
+      if (gridOn) return { gas: 0 };
+    }
+    let gasTot = 0;
+    const keys = ['jan', 'jul'];
+    for (let q = 0; q < 2; q++) {
+      const m = A[keys[q]];
+      const n = m.load.length;
+      const P = x.battery, E = P * batH;
+      let soc = E / 2, short = 0;
+      const allowed = rule === 'hourly' ? (1 - share) * m.sum + 1e-6 : Infinity;
+      for (let t = 0; t < n; t++) {
+        const load = m.load[t];
+        const G = x.onwind * m.onwind[t] + x.solar * m.solar[t] + x.offwind * m.offwind[t] + x.nuclear;
+        if (G >= load) {
+          if (E > 0) { const ch = Math.min(G - load, P, (E - soc) / eta); if (ch > 0) soc += ch * eta; }
+        } else {
+          let need = load - G;
+          if (E > 0) { const dis = Math.min(need, P, soc * eta); if (dis > 0) { soc -= dis / eta; need -= dis; } }
+          short += need;
+          if (short > allowed) return null;
+          const g = Math.min(need, x.gas);
+          gasTot += g;
+          need -= g;
+          if (!gridOn && need > 0.5) return null;
+        }
+      }
+    }
+    return { gas: gasTot };
+  }
+
+  optimize(data, c, M, set) {
+    const A = this.arrays(data);
+    const eta = data.battery.efficiency_one_way;
+    const gridOn = c.grid === 'on';
+    const rule = c.matching;
+    const share = c.share / 100;
+    const kind = (this.state && this.state.optSet) || 'renewable';
+    const cc = data.capital_cost_eur_per_mw_year;
+    const batCost = data.battery.power_eur_per_mw_year + c.batH * data.battery.energy_eur_per_mwh_year;
+    const fixed = (x) => x.onwind * cc.onwind + x.solar * cc.solar + x.offwind * cc.offwind + x.nuclear * (cc.nuclear + 8760 * M.nuclearVar) + x.battery * batCost + x.gas * M.gas.capital;
+    const gasPrice = 135.1;
+    const useNuclear = kind !== 'renewable';
+    const useGas = kind === 'any' && !gridOn;
+    const range = (a, b, st) => { const r = []; for (let v = a; v <= b + 1e-9; v += st) r.push(v); return r; };
+    const L = {
+      onwind: range(0, 2400, 200), solar: range(0, 2000, 250), offwind: range(0, 1500, 250),
+      nuclear: useNuclear ? range(0, 600, 100) : [0], battery: range(0, 800, 100), gas: useGas ? range(0, 400, 50) : [0]
+    };
+    const combos = [];
+    L.onwind.forEach((a) => L.solar.forEach((b) => L.offwind.forEach((d) => L.nuclear.forEach((e) => L.battery.forEach((f) => L.gas.forEach((g) => {
+      const x = { onwind: a, solar: b, offwind: d, nuclear: e, battery: f, gas: g };
+      combos.push({ x: x, f: fixed(x) });
+    }))))));
+    combos.sort((p, q) => p.f - q.f);
+    let best = null, bestCost = Infinity;
+    for (let i = 0; i < combos.length; i++) {
+      if (combos[i].f >= bestCost) break;
+      const r = this.feasible(A, combos[i].x, rule, share, gridOn, c.batH, eta, data);
+      if (!r) continue;
+      const tot = combos[i].f + r.gas * 6 * gasPrice;
+      if (tot < bestCost) { bestCost = tot; best = combos[i].x; }
+    }
+    if (!best) return null;
+    // Refine in small steps: remove a step, or move a step from one technology to another.
+    const steps = { onwind: 50, solar: 50, offwind: 50, nuclear: 50, battery: 25, gas: 25 };
+    const techs = ['onwind', 'solar', 'offwind', 'battery'].concat(useNuclear ? ['nuclear'] : []).concat(useGas ? ['gas'] : []);
+    let cur = Object.assign({}, best), curCost = bestCost;
+    for (let it = 0; it < 400; it++) {
+      let moved = false;
+      for (let i = 0; i < techs.length && !moved; i++) {
+        const ti = techs[i];
+        if (cur[ti] <= 0) continue;
+        const cands = [null].concat(techs.filter((t) => t !== ti));
+        for (let j = 0; j < cands.length && !moved; j++) {
+          const x = Object.assign({}, cur);
+          x[ti] = Math.max(0, x[ti] - steps[ti]);
+          if (cands[j]) { const tj = cands[j]; x[tj] = x[tj] + steps[tj]; if (x[tj] > M.t[tj].max) continue; }
+          const f = fixed(x);
+          if (f >= curCost) continue;
+          const r = this.feasible(A, x, rule, share, gridOn, c.batH, eta, data);
+          if (!r) continue;
+          const tot = f + r.gas * 6 * gasPrice;
+          if (tot < curCost - 1) { cur = x; curCost = tot; moved = true; }
+        }
+      }
+      if (!moved) break;
+    }
+    return { x: cur, cost: curCost, fixedCost: fixed(cur) };
+  }
+
+  smoothChart(r, startF, M) {
+    const w = M.win, W = 360, H = 150, top = 6, ymax = 1000, n = r.load.length;
+    const i0 = Math.max(0, Math.floor(startF)), i1 = Math.min(n - 1, Math.ceil(startF + w - 1));
+    const x = (i) => (((i - startF) * W) / (w - 1)).toFixed(1);
+    const y = (v) => (top + H - Math.min(1, Math.max(0, v) / ymax) * H).toFixed(1);
+    const layers = [
+      { key: 'nuclear', vals: r.gen.nuclear }, { key: 'onwind', vals: r.gen.onwind }, { key: 'offwind', vals: r.gen.offwind },
+      { key: 'solar', vals: r.gen.solar }, { key: 'battery', vals: r.dis }, { key: 'gas', vals: r.gas }
+    ];
+    const cnt = i1 - i0 + 1;
+    const cum = new Array(cnt).fill(0);
+    const paths = {};
+    layers.forEach((L) => {
+      const bot = cum.slice();
+      for (let j = 0; j < cnt; j++) cum[j] += L.vals[i0 + j];
+      let p = 'M' + x(i0) + ',' + y(cum[0]);
+      for (let j = 1; j < cnt; j++) p += 'L' + x(i0 + j) + ',' + y(cum[j]);
+      for (let j = cnt - 1; j >= 0; j--) p += 'L' + x(i0 + j) + ',' + y(bot[j]);
+      paths[L.key] = p + 'Z';
+    });
+    let load = 'M' + x(i0) + ',' + y(r.load[i0]);
+    for (let j = 1; j < cnt; j++) load += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j]);
+    paths.load = load;
+    let def = 'M' + x(i0) + ',' + y(r.load[i0]);
+    for (let j = 1; j < cnt; j++) def += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j]);
+    for (let j = cnt - 1; j >= 0; j--) def += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j] - r.imp[i0 + j] - r.uns[i0 + j]);
+    paths.deficit = def + 'Z';
+    let mid = '', ticks = '';
+    for (let h = Math.ceil(startF); h <= startF + w - 1; h++) {
+      if (h % 24 === 0) mid += 'M' + x(h) + ',0L' + x(h) + ',160';
+      else if (h % 6 === 0) ticks += 'M' + x(h) + ',' + (h % 24 === 12 ? 146 : 152) + 'L' + x(h) + ',160';
+    }
+    return { paths: paths, mid: mid || 'M-5,0L-5,0', ticks: ticks || 'M-5,0L-5,0' };
+  }
+
+  winStart(hour, n, M) {
+    return Math.max(0, Math.min(n - M.win, Math.floor(hour / 24) * 24 - 72));
+  }
+
+  tick() {
+    const s = this.state || {};
+    const f = (s.frame || 0) + 1;
+    let hour = s.hour == null ? 18 * 24 + 12 : s.hour;
+    if (f % 4 === 0) hour = (hour + 1) % 744;
+    if (s.data) {
+      const m = s.data.months[s.month || 'jan'];
+      const mw = (s.mw || {});
+      this._rot = this._rot || { onwind: 0, offwind: 0 };
+      this._rot.onwind = (this._rot.onwind + 10 * m.onwind[hour]) % 360;
+      this._rot.offwind = (this._rot.offwind + 10 * m.offwind[hour]) % 360;
+    }
+    this.setState({ frame: f, hour: hour });
+  }
+
+  togglePlay() {
+    if (this._timer) {
+      clearInterval(this._timer); this._timer = null; this.setState({ playing: false }); return;
+    }
+    this._timer = setInterval(() => this.tick(), 40);
+    this.setState({ playing: true });
+  }
+
+  stop() {
+    if (this._timer) { clearInterval(this._timer); this._timer = null; }
+  }
+
+  renderVals() {
+    const M = this.meta();
+    const c = this.cfg();
+    const s = this.state || {};
+    const data = s.data;
+    const set = (p) => this.setState(p);
+    const n = 744;
+    const hour = s.hour == null ? 18 * 24 + 12 : s.hour;
+    const monthName = M.months[c.month];
+    const grid = c.grid === 'on';
+    const pct = (v) => this.fmt(v * 100) + ' %';
+    const hh = (h) => ((h % 24) < 10 ? '0' : '') + (h % 24) + ':00';
+    const seg = (list, cur, key, base) => list.map((o) => ({
+      label: o.label, pressed: o.key === cur, cls: (base || 'pill') + (o.key === cur ? ' on' : ''),
+      pick: () => { const p = {}; p[key] = o.key; set(p); }
+    }));
+    const setMw = (k, v) => { const u = M.t[k]; const x = Object.assign({}, c.mw); x[k] = Math.max(0, Math.min(u.max, v)); set({ mw: x }); };
+    const slots = { onwind: 4, solar: 4, offwind: 3, nuclear: 3, battery: 6, gas: 4 };
+    const unitMw = { onwind: 200, solar: 250, offwind: 250, nuclear: 300, battery: 100, gas: 100 };
+
+    const tiles = {};
+    Object.keys(M.t).forEach((k) => {
+      const u = M.t[k], mw = c.mw[k];
+      const cnt = mw > 0 ? Math.min(slots[k], Math.max(1, Math.ceil(mw / unitMw[k] - 0.001))) : 0;
+      const vis = {};
+      for (let i = 1; i <= slots[k]; i++) vis['s' + i] = i <= cnt ? '1' : '0';
+      const mslots = { onwind: 3, solar: 2, offwind: 3, nuclear: 2, battery: 4, gas: 3 }[k];
+      const mcnt = mw > 0 ? Math.min(mslots, Math.max(1, Math.ceil((mw / unitMw[k]) * mslots / slots[k] - 0.001))) : 0;
+      const mvis = {};
+      for (let i = 1; i <= mslots; i++) mvis['s' + i] = i <= mcnt ? '1' : '0';
+      tiles[k] = {
+        built: mw > 0, empty: mw <= 0, vis: vis, mvis: mvis, dash: mw > 0 ? 'none' : '6 5', now: '', cap: this.fmt(mw) + ' MW', fill: '0', fillY: '100',
+        minus: () => setMw(k, mw - u.step), plus: () => (mw > 0 ? setMw(k, mw + u.step) : setMw(k, u.first)), build: () => setMw(k, u.first), atMax: mw >= u.max,
+        minusLabel: 'Less ' + u.label.toLowerCase(), plusLabel: 'More ' + u.label.toLowerCase(), buildLabel: 'Build ' + u.label.toLowerCase()
+      };
+    });
+
+    const hidden = { w: '0', op: '0', cls: '', on: false, label: '', off: '0' };
+    const flows = { onwind: hidden, solar: hidden, offwind: hidden, nuclear: hidden, battery: hidden, gas: hidden, grid: hidden, dc: hidden };
+    const lines = {};
+    ['onwind', 'solar', 'offwind', 'nuclear', 'battery', 'gas'].forEach((k) => { lines[k] = c.mw[k] > 0 ? '1' : '0.25'; });
+    lines.grid = grid ? '1' : '0.25';
+    lines.dc = '1';
+
+    let ruleText = 'No rule', dotCls = 'dot';
+    const optKind = s.optSet || 'renewable';
+    const canOpt = !(grid && c.matching === 'none');
+    const out = {
+      tiles, flows, lines,
+      rot: { onwind: this._rot ? this._rot.onwind.toFixed(1) : '0', offwind: this._rot ? this._rot.offwind.toFixed(1) : '30' }, spin: { onwind: '', offwind: '' }, sunOp: '0.2', smoke: '0', steam: '0',
+      monthButtons: seg([{ key: 'jan', label: 'January' }, { key: 'jul', label: 'July' }], c.month, 'month', 'tab'),
+      showInfo: !!s.showInfo, toggleInfo: () => set({ showInfo: !s.showInfo, ruleOpen: false, optOpen: false }),
+      ruleOpen: !!s.ruleOpen, toggleRule: () => set({ ruleOpen: !s.ruleOpen, optOpen: false, showInfo: false }),
+      matchingButtons: seg([{ key: 'none', label: 'None' }, { key: 'annual', label: 'Annual' }, { key: 'hourly', label: 'Hourly' }], c.matching, 'matching'),
+      shareButtons: seg([{ key: 80, label: '80 %' }, { key: 90, label: '90 %' }, { key: 100, label: '100 %' }], c.share, 'share'),
+      hasRequirement: c.matching !== 'none',
+      showShare: !!s.ruleOpen && c.matching !== 'none',
+      optOpen: !!s.optOpen, toggleOpt: () => set({ optOpen: !s.optOpen, ruleOpen: false, showInfo: false, optMsg: '' }),
+      setButtons: seg([{ key: 'renewable', label: 'Renewable' }, { key: 'fossilfree', label: 'Fossil-free' }, { key: 'any', label: 'Any' }], optKind, 'optSet'),
+      cantRun: !canOpt || !!s.optBusy, runLabel: s.optBusy ? 'Searching…' : 'Find',
+      optMsg: !canOpt ? 'Pick a rule first.' : (s.optMsg || ''),
+      runOpt: () => {
+        if (!data || !canOpt) return;
+        set({ optBusy: true, optMsg: '' });
+        setTimeout(() => {
+          const res = this.optimize(data, c, M, set);
+          if (!res) { this.setState({ optBusy: false, optMsg: 'Not possible within the page’s limits.' }); return; }
+          this.setState({ optBusy: false, optMsg: 'Cheapest: ' + this.fmt(res.fixedCost / 1e6) + ' M€ a year.', mw: Object.assign({}, res.x) });
+        }, 40);
+      },
+      showAbout: !!s.showAbout, toggleAbout: () => set({ showAbout: !s.showAbout }),
+      gridTile: { now: grid ? '' : 'off', on: grid, swCls: grid ? 'sw on' : 'sw', toggle: () => set({ grid: grid ? 'off' : 'on' }), pylon: grid ? '1' : '0.3', cross: grid ? '0' : '1', aria: grid ? 'Grid connected. Switch off' : 'Grid not connected. Switch on' },
+      dc: { now: '', cls: 'val', led: '#a9cdb0' },
+      bar: { clean: { x: '0', w: '0' }, battery: { x: '0', w: '0' }, gas: { x: '0', w: '0' }, grid: { x: '0', w: '0' }, short: { x: '0', w: '0' } },
+      ready: !!data, loading: !data,
+      playLabel: s.playing ? 'Pause' : 'Play', isPlaying: !!s.playing, isPaused: !s.playing,
+      togglePlay: () => this.togglePlay(),
+      hourDate: M.short[c.month] + ' ' + (Math.floor(hour / 24) + 1), hourTime: hh(hour),
+      onOverview: (e) => {
+        const b = e.currentTarget.getBoundingClientRect();
+        const h = Math.round(((e.clientX - b.left) / b.width) * (n - 1));
+        this.stop(); set({ hour: Math.max(0, Math.min(n - 1, h)), playing: false });
+      },
+      onWindow: (e) => {
+        const st = this._startF == null ? this.winStart(hour, n, M) : this._startF;
+        const b = e.currentTarget.getBoundingClientRect();
+        const h = st + Math.round(((e.clientX - b.left) / b.width) * (M.win - 1));
+        this.stop(); set({ hour: Math.max(0, Math.min(n - 1, h)), playing: false });
+      },
+      bat: { fh: '0', fy: '15' }, overview: '', ovLoad: '', winX: '0', winW: '0', ovX: '0', topLabel: '', zoomPts: '0,0 0,0 360,12 0,12',
+      chart: { paths: {}, mid: 'M-5,0L-5,0', ticks: 'M-5,0L-5,0' }, playX: '0',
+      days: [],
+      sky: { nightOp: '0', moonCutX: '-50', moonCutY: '30', color: '#e9ece8', starOp: '0', sunOp: '0', sunX: '-50', sunY: '40', moonOp: '0', moonX: '-50', moonY: '30', moonCut: '#e9ece8' },
+      stats: [], deficitColor: grid ? '#e3c7b0' : '#d07a58', ruleText: 'No rule', dotCls: 'dot'
+    };
+    if (!data) return out;
+
+    const d = this.derived(data, c, M);
+    const fr = s.playing ? ((s.frame || 0) % 4) / 4 : 0;
+    const hNext = Math.min(n - 1, hour + 1);
+    const at = (arr) => arr[hour] + (arr[hNext] - arr[hour]) * fr;
+    const r = d.r;
+    const m = data.months[c.month];
+    const start = this.winStart(hour, n, M);
+    const fillOf = (t, f) => { const v = Math.max(0, Math.min(1, f)) * 100; t.fill = v.toFixed(1); t.fillY = (100 - v).toFixed(1); };
+    const frame = s.frame || 0;
+    const flow = (mwNow, built, rev) => {
+      if (!built || mwNow < 0.5) return { w: '0', op: '0', cls: '', on: false, label: '', off: '0' };
+      const off = (((rev ? 1 : -1) * frame * 0.4) % 12).toFixed(2);
+      return { w: Math.min(8, 2.5 + mwNow / 60).toFixed(1), op: '1', cls: '', on: true, label: this.fmt(mwNow), off: off };
+    };
+    ['onwind', 'solar', 'offwind', 'nuclear'].forEach((k) => {
+      if (c.mw[k] <= 0) return;
+      tiles[k].now = this.fmt(at(r.gen[k])) + ' MW';
+      fillOf(tiles[k], at(r.gen[k]) / c.mw[k]);
+      flows[k] = flow(at(r.gen[k]), true, false);
+    });
+    if (c.mw.battery > 0) {
+      fillOf(tiles.battery, (at(r.dis) + at(r.ch)) / c.mw.battery);
+      { const fh = 15 * Math.max(0, Math.min(1, at(r.soc))); out.bat = { fh: fh.toFixed(1), fy: (15 - fh).toFixed(1) }; }
+      tiles.battery.now = at(r.dis) > 0.5 ? 'out ' + this.fmt(at(r.dis)) + ' MW' : at(r.ch) > 0.5 ? 'in ' + this.fmt(at(r.ch)) + ' MW' : 'idle';
+      flows.battery = at(r.dis) > 0.5 ? flow(at(r.dis), true, false) : flow(at(r.ch), true, true);
+    }
+    if (c.mw.gas > 0) { tiles.gas.now = at(r.gas) > 0.5 ? this.fmt(at(r.gas)) + ' MW' : 'idle'; fillOf(tiles.gas, at(r.gas) / c.mw.gas); flows.gas = flow(at(r.gas), true, false); }
+    out.gridTile.now = !grid ? 'off' : at(r.imp) > 0.5 ? 'in ' + this.fmt(at(r.imp)) + ' MW' : at(r.exp) > 0.5 ? 'out ' + this.fmt(at(r.exp)) + ' MW' : '0 MW';
+    if (grid) flows.grid = at(r.imp) > 0.5 ? flow(at(r.imp), true, false) : flow(at(r.exp), true, true);
+    const spinCls = (cf, built) => !built || cf < 0.03 ? '' : cf < 0.3 ? 'spin-slow' : cf < 0.65 ? 'spin' : 'spin-fast';
+    out.spin = { onwind: spinCls(at(m.onwind), c.mw.onwind > 0), offwind: spinCls(at(m.offwind), c.mw.offwind > 0) };
+    out.sunOp = (0.15 + 0.85 * at(m.solar)).toFixed(2);
+    out.smoke = c.mw.gas > 0 && at(r.gas) > 0.5 ? (0.3 + 0.6 * at(r.gas) / c.mw.gas).toFixed(2) : '0';
+    out.steam = c.mw.nuclear > 0 ? '0.9' : '0';
+
+    {
+      const mix = (a, b, f) => { const p = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)); const x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * f).toString(16).padStart(2, '0')).join(''); };
+      const day0 = Math.floor(hour / 24) * 24, hd = (hour % 24) + fr;
+      let rise = -1, sset = -1;
+      for (let i = 0; i < 24; i++) { if (m.solar[day0 + i] > 0.002) { if (rise < 0) rise = i; sset = i; } }
+      const cfS = at(m.solar);
+      if (rise >= 0 && hd >= rise && hd <= sset) {
+        const t = sset > rise ? (hd - rise) / (sset - rise) : 0.5;
+        const f = Math.min(1, 0.35 + cfS * 3);
+        out.sky = { color: mix('#39444e', '#e9ece8', f), starOp: (0.8 * (1 - f)).toFixed(2), sunOp: '1', sunX: (392 + t * 116).toFixed(1), sunY: (130 - Math.min(38, 70 * cfS)).toFixed(1), moonOp: '0', moonX: '-50', moonY: '30', moonCut: '#e9ece8' };
+      } else {
+        const nightLen = rise >= 0 ? 24 - (sset - rise) : 24;
+        const t = rise >= 0 ? ((hd - sset + 24) % 24) / nightLen : hd / 24;
+        const col = '#39444e';
+        out.sky = { color: col, starOp: '0.85', sunOp: '0', sunX: '-50', sunY: '40', moonOp: '1', moonX: (392 + t * 116).toFixed(1), moonY: (120 - Math.sin(Math.PI * t) * 20).toFixed(1), moonCut: col };
+      }
+      out.sky.moonCutX = (parseFloat(out.sky.moonX) + 2.5).toFixed(1);
+      out.sky.moonCutY = (parseFloat(out.sky.moonY) - 2).toFixed(1); out.sky.nightOp = (0.22 * (1 - Math.min(1, parseFloat(out.sky.starOp) > 0.5 ? 0 : 1))).toFixed(2);
+    }
+    const load = at(r.load);
+    flows.dc = flow(load - at(r.uns), true, false);
+    const cleanDirect = load - at(r.dis) - at(r.gas) - at(r.imp) - at(r.uns);
+    let x0 = 0;
+    const bseg = (v) => { const w = Math.max(0, (v / load) * 100); const o = { x: x0.toFixed(1), w: w.toFixed(1) }; x0 += w; return o; };
+    out.bar = { clean: bseg(cleanDirect), battery: bseg(at(r.dis)), gas: bseg(at(r.gas)), grid: bseg(at(r.imp)), short: bseg(at(r.uns)) };
+    out.dc = at(r.uns) > 0.5
+      ? { now: this.fmt(load) + ' MW, ' + this.fmt(at(r.uns)) + ' missing', cls: 'val short', led: '#e0805e' }
+      : { now: this.fmt(load) + ' MW', cls: 'val', led: '#a9cdb0' };
+
+    const hourlyShare = r.sum.clean / r.sum.load;
+    let annualMW = 0;
+    M.clean.forEach((k) => { annualMW += c.mw[k] * (k === 'nuclear' ? 1 : data.annual_cf[k]); });
+    const annualShare = annualMW / M.dcMW;
+    if (c.matching !== 'none') {
+      const shown = c.matching === 'annual' ? annualShare : hourlyShare;
+      const meets = shown >= c.share / 100 - 0.0005;
+      out.ruleText = (c.matching === 'annual' ? 'Annual' : 'Hourly') + ' ' + c.share + ' %';
+      out.dotCls = meets ? 'dot good' : 'dot bad';
+    }
+    let cost = 0;
+    M.clean.forEach((k) => { cost += c.mw[k] * data.capital_cost_eur_per_mw_year[k]; });
+    cost += c.mw.nuclear * 8760 * M.nuclearVar;
+    cost += c.mw.battery * data.battery.power_eur_per_mw_year + c.mw.battery * c.batH * data.battery.energy_eur_per_mwh_year + c.mw.gas * M.gas.capital;
+    const conn = Math.max(d.jan.sum.maxImp, d.jan.sum.maxExp, d.jul.sum.maxImp, d.jul.sum.maxExp);
+    const mon = M.short[c.month];
+    const stats = [
+      { label: c.matching === 'annual' ? 'Use matched over the year' : 'Use matched each hour', value: pct(c.matching === 'annual' ? annualShare : hourlyShare) },
+      grid ? { label: 'Grid connection needed', value: this.fmt(conn) + ' MW' } : { label: 'Hours without power', value: String(r.sum.unsHours) },
+      { label: 'Yearly cost of new plants', value: this.fmt(cost / 1e6) + ' M€' },
+      { label: 'CO2 from gas', value: this.fmt(r.sum.gas * M.gas.co2 / 1000, 1) + ' kt' }
+    ];
+    out.stats = stats;
+
+    const hourF = hour + fr;
+    const startF = Math.min(n - M.win, Math.floor(hour / M.win) * M.win);
+    this._startF = startF;
+    out.chart = this.smoothChart(r, startF, M);
+    out.playX = (((hourF - startF) * 360) / (M.win - 1)).toFixed(1);
+    out.topLabel = '1,000 MW';
+    out.overview = d.overview;
+    out.ovLoad = d.ovLoad;
+    out.winX = ((startF * 360) / (n - 1)).toFixed(1);
+    out.winW = (((M.win - 1) * 360) / (n - 1)).toFixed(1);
+    {
+      const wx = (startF * 360) / (n - 1), ww = ((M.win - 1) * 360) / (n - 1);
+      out.zoomPts = wx.toFixed(1) + ',0 ' + (wx + ww).toFixed(1) + ',0 360,14 0,14';
+    }
+    const days = [];
+    for (let dd = Math.floor(startF / 24); dd * 24 <= startF + M.win; dd++) {
+      const c12 = dd * 24 + 12;
+      const xp = ((c12 - startF) / (M.win - 1)) * 100;
+      if (xp < 3 || xp > 97 || dd > 30) continue;
+      days.push({ label: M.short[c.month] + ' ' + (dd + 1), left: 'left: ' + xp.toFixed(2) + '%', cls: dd === Math.floor(hour / 24) ? 'dl on' : 'dl' });
+    }
+    out.days = days;
+    out.ovX = ((hourF * 360) / (n - 1)).toFixed(1);
+    return out;
+  }
+}
+window.__dcStart(Component);
+</script>
+</body>
+</html>
