@@ -238,7 +238,7 @@ permalink: /projects/datacenter-tracker/
 </div>
 
 <style>
-@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.6.0' | relative_url }}");
+@import url("{{ '/assets/css/datacenter-tracker-map.css?v=5.6.2' | relative_url }}");
 
 /* A slate blue anchors the controls and table surfaces. */
 #dc-tracker {
@@ -1022,7 +1022,7 @@ pre {
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-method.css' | relative_url }}?v=5.4.4">
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="{{ '/assets/js/datacenter-tracker/method-flow.js' | relative_url }}?v=5.4.4" defer></script>
-<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.6.1" defer></script>
+<script src="{{ '/assets/js/datacenter-tracker/scenario-map-d3.js' | relative_url }}?v=5.6.5" defer></script>
 <script src="{{ '/assets/js/datacenter-tracker/timeline.js' | relative_url }}?v=5.5.3" defer></script>
 <link rel="stylesheet" href="{{ '/assets/css/datacenter-tracker-electricity.css' | relative_url }}?v=5.5.1">
 <script src="{{ '/assets/js/datacenter-tracker/electricity-use.js' | relative_url }}?v=5.4.4" defer></script>

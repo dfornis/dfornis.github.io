@@ -570,12 +570,11 @@
   }
 
   // Finds a place for each zone label, in map units at the unzoomed view.
-  // First choice is a spot inside the zone where the whole label fits and is clear of the circles.
+  // First choice is a spot outside the zone, over open sea, with a straight line to the zone's edge.
+  // Second choice is a spot inside the zone where the whole label fits and is clear of the circles.
+  // If neither exists, the label stays at the best spot inside the zone, even over circles.
   // The circles used are the outer rings, which show everything announced at a site, so the labels keep their
-  // place when the selection changes. A zone with no such spot gets its label outside, beside, above or below it,
-  // with a straight line from the label to the zone's edge. The option with the least land, circles and overlap
-  // with other labels wins. If every outside option falls off the map or lies across land, the label stays at the
-  // best inside spot.
+  // place when the selection changes.
   // Which zone a point on the map lies in. The zones are drawn once to a hidden canvas, one colour per zone, and a
   // point is looked up in that image. This is much faster than testing points against the detailed coastlines.
   // Without a canvas (in the tests) it falls back to the exact test.
@@ -603,8 +602,10 @@
     };
   }
 
-  function layoutZoneLabels(features, projection, circles, size, mapWidth, mapHeight, boxes = new Map()) {
+  function layoutZoneLabels(features, projection, circles, size, mapWidth, mapHeight, boxes = new Map(), neighbours = []) {
     const zoneAt = zoneLookup(features, projection, mapWidth, mapHeight);
+    // Neighbouring countries are only faint outlines, so a label may sit on them, but open sea is preferred.
+    const foreignAt = neighbours.length ? zoneLookup(neighbours, projection, mapWidth, mapHeight) : () => 0;
     const index = new Map(features.map((f, i) => [f, i + 1]));
     const onLand = (x, y) => zoneAt(x, y) > 0;
     const path = d3.geoPath(projection);
@@ -622,16 +623,17 @@
     const overlaps = (a, b) => !(a[2] < b[0] || a[0] > b[2] || a[3] < b[1] || a[1] > b[3]);
     const placed = [];
     const result = new Map();
-    // Zones with more room are placed first, so the narrow ones adapt to them.
-    const order = [...features].sort((a, b) => d3.geoArea(b) - d3.geoArea(a));
+    // Small zones are placed first, since they have the fewest good places for a label.
+    const order = [...features].sort((a, b) => d3.geoArea(a) - d3.geoArea(b));
     for (const f of order) {
       const zone = f.properties.bidding_zone;
       // The box follows the label's own text, so a zone with no total takes only the room of its name.
-      const box = boxes.get(zone) || { width: 4.3, lines: 2 };
+      const box = boxes.get(zone) || { width: 4.6, lines: 2 };
       const w = box.width * size, top = -0.95 * size, bottom = (box.lines > 1 ? 1.5 : 0.35) * size, h = bottom - top;
       const inside = (x, y) => contains(f, x, y);
       const [[x0, y0], [x1, y1]] = path.bounds(coreOf.get(f));
       const anchor = projection(ZONE_ANCHORS[zone]);
+      // The best spot inside the zone: the whole label inside, clear of circles, near the zone's usual label point.
       const step = Math.max(x1 - x0, y1 - y0) / 26;
       let best = null;
       for (let x = x0 + step / 2; x < x1; x += step) {
@@ -650,12 +652,6 @@
           if (!best || score > best.score) best = { score, x, y, rect, fits, clearance, clash };
         }
       }
-      // A label that only touches the edge of a ring stays inside. It moves out only when it would cover circles.
-      if (best && best.fits && !best.clash && best.clearance >= -0.3 * size) {
-        placed.push(best.rect);
-        result.set(zone, { x: best.x, y: best.y, anchor: "middle", line: null });
-        continue;
-      }
       // The edge of the zone, found by walking from a point outside towards the zone and then halving the step.
       const edge = (from, to) => {
         const n = Math.ceil(Math.hypot(to[0] - from[0], to[1] - from[1]) / 2);
@@ -669,48 +665,68 @@
           }
           out = p;
         }
-        return to;
+        return null;
       };
-      const target = best && best.fits ? [best.x, best.y] : anchor;
+      // Labels outside the zone are tried first, since they stand out better against the light background.
+      // A label goes beside, above or below the zone, with a straight line to the zone's edge. Several rows and
+      // columns through the zone are tried, not only the middle.
+      // A label beside the zone is kept near the middle of its height, and a label above or below near the
+      // middle of its width, so it reads as belonging to the whole zone rather than to one corner.
+      const middle = [(x0 + x1) / 2, (y0 + y1) / 2];
+      const rows = [...new Set([anchor[1], middle[1], ...[0.35, 0.65].map((k) => y0 + k * (y1 - y0))])];
+      const cols = [...new Set([anchor[0], middle[0], ...[0.35, 0.65].map((k) => x0 + k * (x1 - x0))])];
       const options = [];
-      for (const gap of [2.2, 3.4, 5, 7].map((g) => g * size)) {
-        const left = edge([x0 - 10, target[1]], target), right = edge([x1 + 10, target[1]], target);
-        const below = edge([target[0], y1 + 10], target), above = edge([target[0], y0 - 10], target);
-        options.push(
-          { rect: [left[0] - gap - w, target[1] - h / 2, left[0] - gap, target[1] + h / 2], anchor: "end", x: left[0] - gap, y: target[1] - (top + bottom) / 2,
-            line: [left[0] - gap + 0.3 * size, target[1], left[0], target[1]], gap },
-          { rect: [right[0] + gap, target[1] - h / 2, right[0] + gap + w, target[1] + h / 2], anchor: "start", x: right[0] + gap, y: target[1] - (top + bottom) / 2,
-            line: [right[0] + gap - 0.3 * size, target[1], right[0], target[1]], gap },
-          { rect: [below[0] - w / 2, below[1] + gap, below[0] + w / 2, below[1] + gap + h], anchor: "middle", x: below[0], y: below[1] + gap - top,
-            line: [below[0], below[1] + gap - 0.2 * size, below[0], below[1]], gap, vertical: true },
-          { rect: [above[0] - w / 2, above[1] - gap - h, above[0] + w / 2, above[1] - gap], anchor: "middle", x: above[0], y: above[1] - gap - bottom,
-            line: [above[0], above[1] - gap + 0.2 * size, above[0], above[1]], gap, vertical: true });
+      for (const gap of [1.8, 3, 4.5].map((g) => g * size)) {
+        for (const y of rows) {
+          const left = edge([x0 - 10, y], [x1 + 10, y]), right = edge([x1 + 10, y], [x0 - 10, y]);
+          if (left) options.push({ rect: [left[0] - gap - w, y - h / 2, left[0] - gap, y + h / 2], anchor: "end", x: left[0] - gap, y: y - (top + bottom) / 2,
+            line: [left[0] - gap + 0.3 * size, y, left[0], y], gap, shift: Math.abs(y - middle[1]) / (y1 - y0) });
+          if (right) options.push({ rect: [right[0] + gap, y - h / 2, right[0] + gap + w, y + h / 2], anchor: "start", x: right[0] + gap, y: y - (top + bottom) / 2,
+            line: [right[0] + gap - 0.3 * size, y, right[0], y], gap, shift: Math.abs(y - middle[1]) / (y1 - y0) });
+        }
+        for (const x of cols) {
+          const below = edge([x, y1 + 10], [x, y0 - 10]), above = edge([x, y0 - 10], [x, y1 + 10]);
+          if (below) options.push({ rect: [x - w / 2, below[1] + gap, x + w / 2, below[1] + gap + h], anchor: "middle", x, y: below[1] + gap - top,
+            line: [x, below[1] + gap - 0.2 * size, x, below[1]], gap, vertical: true, shift: Math.abs(x - middle[0]) / (x1 - x0) });
+          if (above) options.push({ rect: [x - w / 2, above[1] - gap - h, x + w / 2, above[1] - gap], anchor: "middle", x, y: above[1] - gap - bottom,
+            line: [x, above[1] - gap + 0.2 * size, x, above[1]], gap, vertical: true, shift: Math.abs(x - middle[0]) / (x1 - x0) });
+        }
       }
+      // An outside label must sit on open sea or beside the map's land, clear of circles and other labels,
+      // and its line may only cross sea between the label and its own zone.
+      const valid = [];
       for (const o of options) {
         const r = o.rect;
-        let land = 0;
-        for (let i = 0; i <= 4; i += 1) for (const yy of [r[1], (r[1] + r[3]) / 2, r[3]]) if (onLand(r[0] + (i / 4) * (r[2] - r[0]), yy)) land += 1;
-        const offMap = r[0] < 2 || r[2] > mapWidth - 2 || r[1] < 2 || r[3] > mapHeight - 2;
-        // The line may only cross sea between the label and its own zone.
+        if (r[0] < 2 || r[2] > mapWidth - 2 || r[1] < 2 || r[3] > mapHeight - 2) continue;
+        if (placed.some((p) => overlaps(p, r)) || hitsCircle(r)) continue;
+        let land = false;
+        for (let i = 0; i <= 8 && !land; i += 1) for (const yy of [r[1], (r[1] + r[3]) / 2, r[3]]) if (onLand(r[0] + (i / 8) * (r[2] - r[0]), yy)) land = true;
+        if (land) continue;
+        // The line is tested every map unit, so it cannot slip past a narrow strip of another zone.
         const [lx1, ly1, lx2, ly2] = o.line;
-        for (let i = 0; i <= 6; i += 1) {
-          const px = lx1 + ((lx2 - lx1) * i) / 6, py = ly1 + ((ly2 - ly1) * i) / 6;
-          const hit = zoneAt(px, py);
-          if (hit && hit !== index.get(f)) land += 1;
+        const n = Math.max(8, Math.ceil(Math.hypot(lx2 - lx1, ly2 - ly1)));
+        for (let i = 0; i <= n && !land; i += 1) {
+          const hit = zoneAt(lx1 + ((lx2 - lx1) * i) / n, ly1 + ((ly2 - ly1) * i) / n);
+          if (hit && hit !== index.get(f)) land = true;
         }
-        const clash = placed.some((p) => overlaps(p, r));
-        o.land = land;
-        o.cost = (offMap ? 1000 : 0) + land * 10 + (clash ? 100 : 0) + (hitsCircle(r) ? 40 : 0) + o.gap * 0.5 + (o.vertical ? 4 : 0);
+        if (land) continue;
+        // A label over a neighbouring country costs the same however much of it is covered, so the label is not
+        // pushed further out just to cover a little less of it.
+        let foreign = false;
+        for (let i = 0; i <= 5 && !foreign; i += 1) for (const yy of [r[1], (r[1] + r[3]) / 2, r[3]]) if (foreignAt(r[0] + (i / 5) * (r[2] - r[0]), yy)) foreign = true;
+        // The shift is the distance from the middle as a share of the zone's size, so it weighs the same in every zone.
+        o.cost = o.gap * 0.5 + o.shift * 30 + (o.vertical ? 3 : 0) + (foreign ? 12 : 0);
+        valid.push(o);
       }
-      const pick = options.sort((a, b) => a.cost - b.cost)[0];
-      // An outside label must sit on open sea or beside the map's land, not across another zone.
-      if ((pick.cost >= 1000 || pick.land > 0) && best) {
+      const pick = valid.sort((a, b) => a.cost - b.cost)[0];
+      if (pick) {
+        placed.push(pick.rect);
+        result.set(zone, { x: pick.x, y: pick.y, anchor: pick.anchor, line: pick.line });
+      } else if (best) {
+        // No room outside. The label stays at the best spot inside the zone.
         placed.push(best.rect);
         result.set(zone, { x: best.x, y: best.y, anchor: "middle", line: null });
-        continue;
       }
-      placed.push(pick.rect);
-      result.set(zone, { x: pick.x, y: pick.y, anchor: pick.anchor, line: pick.line });
     }
     return result;
   }
@@ -1080,9 +1096,9 @@
       svg.attr("width", symbolWidth + 10 + w);
     };
     item((g) => styleShare(g.append("path").attr("d", circlePath(iconRadius * 0.62)), 0.8),
-      iconRadius * 2, `Blue: ${where}`);
-    item((g) => styleRing(g.append("circle").attr("r", iconRadius), {}), iconRadius * 2, "Ring: all announced at the site");
-    item((g) => styleRing(g.append("circle").attr("r", SITE_RING_RADIUS * k), { no_size: true }), iconRadius * 2, "Dashed: no stated size");
+      iconRadius * 2, where.charAt(0).toUpperCase() + where.slice(1));
+    item((g) => styleRing(g.append("circle").attr("r", iconRadius), {}), iconRadius * 2, "All announced at the site");
+    item((g) => styleRing(g.append("circle").attr("r", SITE_RING_RADIUS * k), { no_size: true }), iconRadius * 2, "No stated size");
   }
 
 
@@ -1252,8 +1268,8 @@
     // custom properties inside calc().
     let keyWidth = 0;
     let mapPixel = 1;
-    // Zone labels in screen pixels: a little larger on a wide screen, a little smaller on a phone.
-    const labelBase = () => (root.classed("dc-map-compact") ? 10 : 11);
+    // Zone labels in screen pixels: 12 px on a wide screen, the size of the legend text, and 10 px on a phone.
+    const labelBase = () => (root.classed("dc-map-compact") ? 10 : 12);
     function sizeZoneLabels() {
       const base = labelBase();
       const size = base * mapPixel;
@@ -1280,9 +1296,9 @@
       zoneLabelG.selectAll("text.dc-zone-label").each(function (f) {
         const zone = f.properties.bidding_zone;
         const value = zoneLabelG.select(`text[data-zone="${zone}"] .dc-zone-label-value`).node()?.__text || "";
-        boxes.set(zone, { width: Math.max(zone.length * 0.7, value.length * 0.56) + 0.4, lines: value ? 2 : 1 });
+        boxes.set(zone, { width: Math.max(zone.length * 0.7, value.length * 0.62) + 0.4, lines: value ? 2 : 1 });
       });
-      const spots = layoutZoneLabels(geojson.features, projection, circles, size, width, height, boxes);
+      const spots = layoutZoneLabels(geojson.features, projection, circles, size, width, height, boxes, neighbourData?.features || []);
       const t = d3.zoomTransform(svg.node());
       const grow = Math.min(1.8, Math.sqrt(t.k));
       zoneLabelG.selectAll("text.dc-zone-label").each(function (f) {
@@ -1323,6 +1339,9 @@
     d3.json(container.dataset.neighbours, { signal: backgroundAbort.signal }).then((neighbours) => {
       neighbourData = neighbours;
       drawNeighbours();
+      // The labels are placed again now that the neighbouring countries are known.
+      labelKey = null;
+      placeLabels();
       svg.attr("data-background", "ready");
     }).catch((error) => {
       if (error.name === "AbortError") return;
