@@ -22,7 +22,7 @@ P019,NO,NO2,Dated plan,37,37
 P019,NO,NO2,Undated plan,0,23
 P020,NO,NO2,Dated plan,12.5,12.5
 P020,NO,NO2,Undated plan,0,17.5
-P021,NO,NO5,Undated plan,0,200
+P021,NO,NO3,Undated plan,0,200
 P022,NO,NO2,Confirmed,0,50.4
 P022,NO,NO2,Rest of active site,0,949.6
 P023,NO,NO2,Undated plan,250,250
@@ -61,7 +61,7 @@ P176,NO,NO2,Dated plan,100,100
 P178,NO,NO2,Undated plan,55,55
 P179,NO,NO2,Undated plan,100,100
 P180,NO,NO2,Undated plan,150,150
-P181,NO,NO5,Undated plan,80,80
+P181,NO,NO3,Undated plan,80,80
 P182,NO,NO4,Undated plan,1000,1000
 P183,NO,NO2,Dated plan,50,50
 P184,NO,NO2,Confirmed,10,10
@@ -119,7 +119,7 @@ P197,FI,FI,Dated plan,6,6
 P197,FI,FI,Undated plan,44,44
 P199,NO,NO4,Confirmed,70,70
 P199,NO,NO4,Undated plan,215,215
-P200,NO,,Undated plan,20,20
+P200,NO,NO4,Undated plan,20,20
 P205,SE,SE1,Dated plan,45,45
 P205,SE,SE1,Undated plan,155,155
 P206,SE,SE2,Undated plan,95.5,100

@@ -420,7 +420,7 @@
   {
     "project_id": "P021",
     "country": "NO",
-    "bidding_zone": "NO5",
+    "bidding_zone": "NO3",
     "project_name": "Lefdal Mine Data Centers",
     "developer": "Lefdal Mine Data Centers",
     "municipality": "Stad",
@@ -1168,7 +1168,7 @@
   {
     "project_id": "P181",
     "country": "NO",
-    "bidding_zone": "NO5",
+    "bidding_zone": "NO3",
     "project_name": "Lefdal Mine LMD2 Sunnfjord",
     "developer": "Lefdal Mine Data Centers",
     "municipality": "Sunnfjord",
@@ -2466,7 +2466,7 @@
   {
     "project_id": "P200",
     "country": "NO",
-    "bidding_zone": "",
+    "bidding_zone": "NO4",
     "project_name": "Bitzero Røyrvik / Storhaugen",
     "developer": "Bitzero / Exanorth",
     "municipality": "Røyrvik",
