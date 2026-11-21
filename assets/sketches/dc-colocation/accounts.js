@@ -23,7 +23,12 @@ const colocationTerms = Object.freeze({
   reletThreshold: 0.02,
   reletAfterHours: 7 * 24,
   recentVacancyHours: 21 * 24,
-  departureHistoryHours: 90 * 24
+  departureHistoryHours: 90 * 24,
+  // Joe Solid's power lunch: one tenant takes the whole hall at a higher rent
+  anchorRentFactor: 1.2,
+  anchorGraceHours: 14 * 24,
+  anchorBaseLeaveChance: 0.01,
+  anchorThrottleLeaveFactor: 3
 });
 
 const leaseSizes = (() => {
@@ -73,6 +78,36 @@ class ColocationAccounts {
     this.reletThrottledHours = 0;
     this.lastDepartureHour = -Infinity;
     this.reliableHours = 0;
+    // A single tenant renting every rack (Epistemic Noise), or null
+    this.anchor = null;
+  }
+
+  get rentFactor() {
+    return this.anchor ? colocationTerms.anchorRentFactor : 1;
+  }
+
+  // All current customers are thrown out and one tenant takes every rack.
+  startAnchor(elapsed, name) {
+    this.vacancies.clear();
+    this.reliableHours = 0;
+    this.anchor = { since: elapsed, name };
+  }
+
+  // The tenant leaves: every rack is empty at once and is relet lease by lease.
+  endAnchor(elapsed, date) {
+    if (!this.anchor) return;
+    leaseSizes.forEach((_, index) => this.vacancies.set(index, elapsed));
+    this.departures.push({ elapsed, date, racks: colocationTerms.rackCount, hours: this.throttledHours, anchor: this.anchor.name });
+    this.anchor = null;
+    this.reliableHours = 0;
+    this.lastDepartureHour = elapsed;
+  }
+
+  // Chance that the tenant leaves this week: a small base chance, more with throttling last week.
+  anchorLeaveChance() {
+    const terms = colocationTerms;
+    const share = this.reletThrottledHours / terms.reletWindowHours;
+    return { share, chance: Math.min(0.9, terms.anchorBaseLeaveChance + terms.anchorThrottleLeaveFactor * share) };
   }
 
   book(kind, lines) {
@@ -85,7 +120,7 @@ class ColocationAccounts {
   recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost }) {
     const terms = colocationTerms;
     const unservedShare = load > 0 ? Math.min(1, Math.max(0, unserved / load)) : 0;
-    const capacityFee = budget.monthlyRentPerRack * this.rentedRacks / monthHours;
+    const capacityFee = budget.monthlyRentPerRack * this.rentFactor * this.rentedRacks / monthHours;
     const grossExport = exported * price;
     const exportRevenue = grossExport * paidExportShare(exportForecast, exportAllowance);
     this.export.volume += exported;
@@ -130,7 +165,7 @@ class ColocationAccounts {
     while (this.departures.length && elapsed - this.departures[0].elapsed >= terms.departureHistoryHours) {
       this.departures.shift();
     }
-    if (throttled && elapsed > terms.graceHours && rate >= terms.departureThreshold / sensitivity && elapsed - this.lastDepartureHour >= terms.departureCooldownHours) {
+    if (!this.anchor && throttled && elapsed > terms.graceHours && rate >= terms.departureThreshold / sensitivity && elapsed - this.lastDepartureHour >= terms.departureCooldownHours) {
       const lease = leaseSizes.findIndex((_, index) => !this.vacancies.has(index));
       if (lease >= 0) {
         this.vacancies.set(lease, elapsed);
