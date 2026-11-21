@@ -19,8 +19,9 @@ const colocationTerms = Object.freeze({
   throttleThresholdMW: 0.5,
   departureThreshold: 0.03,
   departureCooldownHours: 7 * 24,
-  reletThreshold: 0.005,
-  reletAfterHours: 30 * 24,
+  reletWindowHours: 7 * 24,
+  reletThreshold: 0.02,
+  reletAfterHours: 7 * 24,
   recentVacancyHours: 21 * 24,
   departureHistoryHours: 90 * 24
 });
@@ -66,8 +67,10 @@ class ColocationAccounts {
     this.export = { volume: 0, gross: 0, booked: 0 };
     this.vacancies = new Map();
     this.departures = [];
+    this.lastTenantChange = null;
     this.throttleHistory = new Uint8Array(colocationTerms.reliabilityWindowHours);
     this.throttledHours = 0;
+    this.reletThrottledHours = 0;
     this.lastDepartureHour = -Infinity;
     this.reliableHours = 0;
   }
@@ -117,8 +120,10 @@ class ColocationAccounts {
   updateOccupancy(throttled, elapsed, date, sensitivity = 1) {
     const terms = colocationTerms;
     const historyIndex = (elapsed - 1) % terms.reliabilityWindowHours;
+    const reletIndex = (historyIndex + terms.reliabilityWindowHours - terms.reletWindowHours) % terms.reliabilityWindowHours;
     const indicator = Number(throttled);
     this.throttledHours += indicator - this.throttleHistory[historyIndex];
+    this.reletThrottledHours += indicator - this.throttleHistory[reletIndex];
     this.throttleHistory[historyIndex] = indicator;
     const rate = this.throttledHours / terms.reliabilityWindowHours;
 
@@ -131,13 +136,16 @@ class ColocationAccounts {
         this.vacancies.set(lease, elapsed);
         this.departures.push({ elapsed, date, racks: leaseSizes[lease], hours: this.throttledHours });
         this.lastDepartureHour = elapsed;
+        this.lastTenantChange = { elapsed, joined: false };
       }
     }
 
-    this.reliableHours = this.vacancies.size && !throttled && rate <= terms.reletThreshold ? this.reliableHours + 1 : 0;
-    if (this.reliableHours >= terms.reletAfterHours) {
+    const reletRate = this.reletThrottledHours / terms.reletWindowHours;
+    this.reliableHours = this.vacancies.size && reletRate <= terms.reletThreshold ? this.reliableHours + 1 : 0;
+    if (!throttled && this.reliableHours >= terms.reletAfterHours) {
       this.vacancies.delete(this.vacancies.keys().next().value);
       this.reliableHours = 0;
+      this.lastTenantChange = { elapsed, joined: true };
     }
   }
 
