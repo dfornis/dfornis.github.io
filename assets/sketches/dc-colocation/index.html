@@ -127,7 +127,7 @@ body{margin:0;background:#f4f0e9}
 .legend{font-size:12px;color:#56636a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mood-bar{flex:1;height:10px;border-radius:999px;background:rgba(76,112,136,0.06);box-shadow:inset 0 0 0 1px rgba(76,112,136,0.19);display:flex;overflow:hidden}
 .mood-seg{height:100%;border-right:1.5px solid #f4f0e9;box-sizing:border-box;transition:width .5s ease,background-color .5s ease}
-.mood-w{font-weight:600;min-width:72px;text-align:right;color:#303d43}
+.mood-w{font-weight:600;min-width:72px;text-align:left;color:#303d43}
 .fnote{font-size:12px;color:#b8322a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:15px}
 .fval.hot{color:#b8322a}
 .fnote.ok{color:#56636a}
@@ -397,7 +397,48 @@ body{margin:0;background:#f4f0e9}
   .finance-facts .quarter-result .apop{left:auto;right:0}
   .apop{width:min(250px,80vw)}
 }
-.chips.mob1{display:none}
+.chips.mob1{display:flex}
+.ctlrow{grid-template-columns:minmax(0,1fr) !important}
+@media (min-width: 761px){
+  .ctlrow .moodbox{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);column-gap:24px;row-gap:6px;align-items:center}
+  .ctlrow .moodbox>.mood{grid-column:1;grid-row:1}
+  .ctlrow .moodbox>.legend{grid-column:1;grid-row:2;margin-top:0 !important}
+  .ctlrow .moodbox>.fury{grid-column:1}
+  .ctlrow .moodbox>.mstat{grid-column:2;grid-row:1 / span 2;align-self:stretch;display:flex;align-items:center;border-left:1px solid rgba(76,112,136,0.19);padding-left:20px;font-size:15px;line-height:1.4}
+  .ctlrow .mood .name{font-size:15px}
+  .ctlrow .mood-bar{height:9px}
+  .ctlrow .mood-w{font-size:17px}
+  .ctlrow .moodbox>.legend{font-size:13px}
+  svg.chart.wk{height:116px}
+}
+
+/* Compact phone layout: everything that matters fits on one iPhone screen */
+.mstat{font-size:12.5px;line-height:1.35;color:#303d43;min-height:17px}
+@media (max-width: 760px){
+  .wrap{padding-top:10px !important;gap:10px !important;padding-bottom:28px !important}
+  .hdr h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .hdr{grid-template-columns:minmax(0,1fr) auto auto !important;align-items:center;gap:0 12px !important}
+  .hdr .ctl1{grid-column:1;grid-row:1;gap:8px !important;flex-wrap:nowrap !important}
+  .hdr .mobile-match{grid-column:2;grid-row:1}
+  .hdr .who{grid-column:3;grid-row:1}
+  .who-p{width:38px !important;height:38px !important}
+  .clock-time{font-size:14px;white-space:nowrap}
+  .ff .fact{padding:3px 12px !important}
+  .ff .flab{font-size:11px}
+  .mmap{padding:8px 8px 14px}
+  .mmap div[style*="grid-template-columns: repeat(3"]{gap:8px !important}
+  .mmap svg[height="34"]{height:24px}
+  .mbox .adgrid:has(.pick){grid-template-columns:minmax(0,1fr);gap:8px}
+  .mbox .pick{padding:8px 10px;gap:10px}
+  .mbox .pick .pick-p{width:46px;height:46px}
+  .mbox .pick .in{font-size:12.5px;line-height:1.35}
+  .mbox:has(.pick){padding:16px;gap:10px}
+  .mbox:has(.pick) h2{margin:0}
+  .mbox:has(.pick)>p{margin:0;font-size:13px;line-height:1.4}
+  .mstat{font-size:12px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+  svg.chart.wk{height:62px}
+  svg.chart[height="28"]{height:22px}
+}
 @media (max-width: 760px){.chips.dsk1{display:none}.chips.mob1{display:flex}}
 </style>
 </head>
@@ -412,7 +453,7 @@ body{margin:0;background:#f4f0e9}
 <g id="p3bc"><rect width="36" height="15" rx="2" fill="#5f7968"/><path d="M9,0 L9,15 M18,0 L18,15 M27,0 L27,15" stroke="#f4f0e9" stroke-width="0.9"/></g>
 <g id="p3gs"><path d="M-0.4,-43.7 L8.2,-44.4 Q8.0,-36.9 8.2,-33.0 Q8.4,-29.0 8.1,-25.4 Q7.8,-21.9 7.9,-18.4 Q8.0,-14.9 8.0,-11.2 Q7.9,-7.4 8.0,-3.5 L8.0,0.4 L0.2,-0.4 Q-0.1,-6.9 0.1,-10.7 Q0.3,-14.6 0.2,-18.2 Q0.1,-21.8 -0.1,-25.6 Q-0.3,-29.4 -0.3,-33.2 Q-0.2,-37.0 -0.3,-40.3 Z" transform="translate(0.7,0.5)" fill="#b4a294" fill-opacity="0.85" stroke="#b4a294" stroke-opacity="0.35" stroke-width="0.8"/><path d="M4.9,-44.2 L8.1,-44.1 Q8.1,-36.9 8.2,-33.1 Q8.3,-29.2 8.1,-25.7 Q7.9,-22.3 8.0,-18.3 Q8.2,-14.4 8.1,-11.0 Q7.9,-7.6 8.1,-3.7 L8.2,0.2 L5.0,-0.2 Q5.2,-7.1 5.0,-10.9 Q4.9,-14.7 5.1,-18.3 Q5.2,-21.9 5.2,-25.6 Q5.3,-29.3 5.0,-32.8 Q4.8,-36.4 4.9,-40.3 Z" transform="translate(0.7,0.5)" fill="#6f5e50" fill-opacity="0.25" stroke="#6f5e50" stroke-opacity="0" stroke-width="0.8"/><path d="M-0.1,-44.0 L8.0,-43.9 Q7.8,-37.9 8.0,-34.6 Q8.2,-31.3 8.0,-28.2 Q7.9,-25.0 7.9,-21.8 Q7.9,-18.7 7.8,-15.7 Q7.7,-12.8 8.0,-9.6 Q8.3,-6.4 8.1,-3.2 L7.9,0.1 L0.0,-0.1 Q0.0,-6.2 -0.1,-9.3 Q-0.2,-12.5 -0.2,-15.7 Q-0.3,-19.0 -0.3,-22.2 Q-0.3,-25.3 0.0,-28.4 Q0.3,-31.5 0.3,-34.6 Q0.3,-37.8 0.1,-40.9 Z" fill="none" stroke="#3b3833" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="1"/><path d="M-1.3,-47.0 L9.6,-47.2 L9.6,-43.4 L-1.5,-43.5 Z" transform="translate(0,0)" fill="#59605b" fill-opacity="0.9" stroke="#59605b" stroke-opacity="0" stroke-width="0.8"/><path d="M-1.5,-47.0 L9.5,-47.0 L9.5,-43.5 L-1.6,-43.5 Z" fill="none" stroke="#3b3833" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="1"/><rect x="-2" y="-49.2" width="12" height="2.4" rx="1.2" fill="#ffffff" opacity="{{seasonOp.winter}}"/></g>
 <g id="p3nt"><path d="M-14.8,-0.4 Q-14.1,-7.2 -12.9,-10.7 L-11.7,-14.2 Q-10.8,-20.8 -10.7,-24.4 L-10.6,-27.9 Q-10.9,-36.0 -11.0,-39.9 L-11.0,-43.8 Q-11.9,-53.7 -12.4,-58.1 L-12.8,-62.4 Q-3.6,-61.4 0.2,-61.5 Q4.0,-61.6 8.0,-61.6 L12.0,-61.6 Q11.3,-52.5 11.4,-48.1 L11.6,-43.6 Q11.4,-36.1 10.8,-32.2 L10.1,-28.3 Q11.8,-20.8 11.6,-17.2 L11.4,-13.7 Q12.9,-7.7 14.2,-3.6 L15.4,0.5 Q7.3,0.4 3.5,-0.0 Q-0.4,-0.4 -3.8,-0.4 Q-7.1,-0.3 -10.9,-0.3 Z" transform="translate(0,0)" fill="#ebe5da" fill-opacity="1" stroke="#ebe5da" stroke-opacity="0.35" stroke-width="0.8"/><path d="M4.3,-0.3 Q5.3,-10.0 5.8,-15.0 L6.4,-20.0 Q5.6,-28.4 5.4,-32.0 Q5.3,-35.5 5.3,-39.9 L5.4,-44.2 Q6.3,-53.3 6.7,-57.7 L7.1,-62.1 L12.3,-62.1 Q12.2,-52.8 11.7,-48.6 L11.3,-44.3 Q10.5,-35.6 10.6,-31.8 L10.6,-28.0 Q11.2,-21.4 11.5,-17.5 L11.8,-13.6 Q13.4,-7.0 14.4,-3.4 L15.4,0.1 Z" transform="translate(0.7,0.5)" fill="#b9ae9c" fill-opacity="0.32" stroke="#b9ae9c" stroke-opacity="0" stroke-width="0.8"/><path d="M-12.3,-62.1 Q-3.8,-61.9 0.2,-61.8 Q4.2,-61.7 8.1,-61.8 L12.1,-61.9 L11.9,-56.1 Q3.9,-55.9 0.1,-55.9 Q-3.7,-55.9 -7.9,-56.0 L-12.1,-56.2 Z" transform="translate(0.7,0.5)" fill="#7a6a8c" fill-opacity="0.45" stroke="#7a6a8c" stroke-opacity="0" stroke-width="0.8"/><path d="M-14.9,0.1 Q-13.3,-6.6 -12.7,-10.3 L-12.1,-14.0 Q-10.9,-20.7 -10.8,-24.4 L-10.6,-28.1 Q-11.1,-35.6 -11.3,-39.8 L-11.5,-44.1 Q-11.4,-50.0 -11.9,-53.1 Q-12.4,-56.2 -12.4,-59.1 L-12.4,-62.1 Q-6.3,-61.9 -3.0,-61.9 Q0.3,-62.0 3.1,-62.0 Q5.9,-61.9 9.1,-62.0 L12.4,-62.1 Q11.9,-55.8 11.7,-52.8 Q11.6,-49.8 11.4,-47.0 L11.3,-44.1 Q10.6,-35.8 10.6,-32.0 L10.7,-28.1 Q11.1,-21.4 11.6,-17.8 L12.0,-14.1 Q13.2,-6.9 14.1,-3.4 L15.0,-0.0 Q8.7,0.1 5.9,0.0 Q3.1,-0.1 -0.1,0.2 Q-3.3,0.4 -6.0,0.3 Q-8.7,0.2 -11.8,0.1 Z" fill="none" stroke="#3b3833" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="1"/><rect x="-14" y="-64.5" width="28" height="3" rx="1.5" fill="#ffffff" opacity="{{seasonOp.winter}}"/></g>
-<pattern id="defhatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#d07a58" fill-opacity="0.07"/><line x1="0" y1="0" x2="0" y2="5" stroke="#d07a58" stroke-width="1.2" stroke-opacity="0.4"/></pattern>
+<pattern id="defhatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#b8322a" fill-opacity="0.12"/><line x1="0" y1="0" x2="0" y2="5" stroke="#b8322a" stroke-width="1.3" stroke-opacity="0.6"/></pattern>
 <linearGradient id="skyfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28343c" stop-opacity="0.34"/><stop offset="0.7" stop-color="#28343c" stop-opacity="0.04"/><stop offset="1" stop-color="#28343c" stop-opacity="0"/></linearGradient>
 <radialGradient id="skyfade2" cx="0.5" cy="0.45" r="0.5" gradientTransform="translate(0.5 0.45) scale(1 0.75) translate(-0.5 -0.45)"><stop offset="0" stop-color="#28343c" stop-opacity="0.34"/><stop offset="0.6" stop-color="#28343c" stop-opacity="0.16"/><stop offset="1" stop-color="#28343c" stop-opacity="0"/></radialGradient>
 <linearGradient id="hfade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.22" stop-color="#ffffff" stop-opacity="1"/><stop offset="0.78" stop-color="#ffffff" stop-opacity="1"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
@@ -431,7 +472,7 @@ body{margin:0;background:#f4f0e9}
 <button type="button" class="who" aria-label="Choose your character" onClick="{{openChars}}"><span class="who-t"><b>{{charNow.name}}</b><span>{{charNow.title}}</span></span><span class="who-p"><sc-if value="{{charNow.marta}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" role="img" aria-label="Märta Rosenqvist"><defs><clipPath id="pc-mrtaro"><circle cx="32" cy="32" r="32"/></clipPath></defs><g clip-path="url(#pc-mrtaro)"><rect width="64" height="64" fill="#cfe3d2"/><path d="M12,64 C14,50 22,46 32,46 C42,46 50,50 52,64 Z" fill="#f4f0e9"/><path d="M20,50 C26,56 38,56 44,50 L46,54 C38,60 26,60 18,54 Z" fill="#5f8a64"/><path d="M19,30 C17,14 30,10 36,12 C46,13 48,22 45,36 L43,26 C36,24 26,22 21,26 Z" fill="#e6c77a"/><ellipse cx="32" cy="30" rx="11" ry="13" fill="#f2d3bd"/><circle cx="21" cy="31" r="2.5" fill="#f2d3bd"/><circle cx="43" cy="31" r="2.5" fill="#f2d3bd"/><path d="M19,30 C18,40 20,44 22,44 L22,28 Z M45,30 C46,40 44,44 42,44 L42,28 Z" fill="#e6c77a"/><path d="M20,26 C27,20 37,20 44,25 C40,18 26,17 20,26 Z" fill="#e6c77a"/><rect x="23.5" y="27" width="8" height="6" rx="2.5" fill="none" stroke="#303d43" stroke-width="1.1"/><rect x="32.5" y="27" width="8" height="6" rx="2.5" fill="none" stroke="#303d43" stroke-width="1.1"/><path d="M31.5,29.5 L32.5,29.5" stroke="#303d43" stroke-width="1.1"/><circle cx="27.5" cy="30" r="1.3" fill="#303d43"/><circle cx="36.5" cy="30" r="1.3" fill="#303d43"/><circle cx="21.2" cy="35" r="1.1" fill="#ffffff" stroke="#d9d2c2" stroke-width="0.4"/><circle cx="42.8" cy="35" r="1.1" fill="#ffffff" stroke="#d9d2c2" stroke-width="0.4"/><path d="M28,37 C30,39 34,39 36,37" stroke="#b5655a" stroke-width="1.3" fill="none" stroke-linecap="round"/></g></svg></sc-if><sc-if value="{{charNow.sten}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" role="img" aria-label="Sten Hård"><defs><clipPath id="pc-stenhr"><circle cx="32" cy="32" r="32"/></clipPath></defs><g clip-path="url(#pc-stenhr)"><rect width="64" height="64" fill="#d6dbe0"/><path d="M10,64 C12,50 21,46 32,46 C43,46 52,50 54,64 Z" fill="#59605b"/><path d="M26,46 L32,54 L38,46 Z" fill="#e7e2d8"/><ellipse cx="32" cy="30" rx="11" ry="13" fill="#e9c4a6"/><circle cx="21" cy="31" r="2.5" fill="#e9c4a6"/><circle cx="43" cy="31" r="2.5" fill="#e9c4a6"/><path d="M21,24 C22,15 42,15 43,24 C40,20 24,20 21,24 Z" fill="#9aa0a3"/><path d="M21,32 C21,46 28,47 32,47 C36,47 43,46 43,32 C41,40 37,41 32,41 C27,41 23,40 21,32 Z" fill="#8a8f92"/><path d="M25,26.5 L30,27.5 M34,27.5 L39,26.5" stroke="#5d6366" stroke-width="1.6" stroke-linecap="round"/><circle cx="27.5" cy="30.5" r="1.3" fill="#303d43"/><circle cx="36.5" cy="30.5" r="1.3" fill="#303d43"/><path d="M28.5,38 L35.5,38" stroke="#5d4a40" stroke-width="1.4" stroke-linecap="round"/><rect x="24.5" y="17.5" width="6.5" height="3.8" rx="1.6" fill="none" stroke="#303d43" stroke-width="0.9"/><rect x="33" y="17.5" width="6.5" height="3.8" rx="1.6" fill="none" stroke="#303d43" stroke-width="0.9"/><path d="M31,19.3 L33,19.3" stroke="#303d43" stroke-width="0.9"/><path d="M42,55 L42,60 M44,55 L44,60" stroke="#c9c3b6" stroke-width="1.1" stroke-linecap="round"/></g></svg></sc-if><sc-if value="{{charNow.joe}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" role="img" aria-label="Joe Solid"><defs><clipPath id="pc-joesol"><circle cx="32" cy="32" r="32"/></clipPath></defs><g clip-path="url(#pc-joesol)"><rect width="64" height="64" fill="#e9dcc8"/><path d="M10,64 C12,50 21,46 32,46 C43,46 52,50 54,64 Z" fill="#ffffff"/><path d="M12,64 C13,52 20,48 26,47 L28,64 Z M52,64 C51,52 44,48 38,47 L36,64 Z" fill="#24435a"/><path d="M28,47 L32,52 L36,47" fill="none" stroke="#9aa2a6" stroke-width="1"/><ellipse cx="32" cy="30" rx="11" ry="13" fill="#f0c9a8"/><circle cx="21" cy="31" r="2.5" fill="#f0c9a8"/><circle cx="43" cy="31" r="2.5" fill="#f0c9a8"/><path d="M20,27 C19,15 30,11 38,13 C45,15 46,21 44,27 C40,20 30,18 24,22 C23,23 21,25 20,27 Z" fill="#6b4a2f"/><path d="M24,22 C30,16 40,17 44,24" stroke="#8a6440" stroke-width="1" fill="none"/><circle cx="27.5" cy="30" r="1.3" fill="#303d43"/><circle cx="36.5" cy="30" r="1.3" fill="#303d43"/><path d="M27.5,37 C30,39.4 34,39.4 36.5,37" stroke="#9b5a4a" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M31.2,52 L32.8,52 L33.3,64 L30.7,64 Z" fill="#7a1f2b"/></g></svg></sc-if><sc-if value="{{charNow.al}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" role="img" aria-label="Al Siliconi"><defs><clipPath id="pc-alsili"><circle cx="32" cy="32" r="32"/></clipPath></defs><g clip-path="url(#pc-alsili)"><rect width="64" height="64" fill="#d9d2ea"/><path d="M10,64 C12,50 21,46 32,46 C43,46 52,50 54,64 Z" fill="#8a9196"/><path d="M20,48 C24,57 40,57 44,48" stroke="#9fa6aa" stroke-width="2.2" fill="none"/><path d="M28,54 L27,62 M36,54 L37,62" stroke="#c9c3b6" stroke-width="1.2"/><path d="M24,47 L30,60 M40,47 L34,60" stroke="#4f7a96" stroke-width="1.4"/><rect x="28.5" y="58" width="7" height="6" rx="1" fill="#ffffff" stroke="#c9c3b6" stroke-width="0.5"/><ellipse cx="32" cy="30" rx="11" ry="13" fill="#e2b48e"/><circle cx="21" cy="31" r="2.5" fill="#e2b48e"/><circle cx="43" cy="31" r="2.5" fill="#e2b48e"/><path d="M20,28 C18,18 24,12 32,12 C40,12 46,17 44,28 C43,23 41,21 39,20 L37,23 L34,19 L31,22 L28,19 L25,22 C23,22 21,25 20,28 Z" fill="#4a3426"/><path d="M33,12.5 C32,9.5 34.5,8 36.5,9.5 C35,9.6 34.4,10.8 35,12.5 Z" fill="#4a3426"/><path d="M22,27.5 L42,27.5" stroke="#1d2427" stroke-width="1.2"/><rect x="22.5" y="27" width="8.5" height="5.5" rx="2.2" fill="#1d2427"/><rect x="33" y="27" width="8.5" height="5.5" rx="2.2" fill="#1d2427"/><path d="M24,28.5 L27,28.5 M34.5,28.5 L37.5,28.5" stroke="#6b7f8a" stroke-width="0.9" stroke-linecap="round"/><path d="M28,37 C30.5,39.2 34,39 36.5,36.5" stroke="#8e4f3e" stroke-width="1.4" fill="none" stroke-linecap="round"/></g></svg></sc-if><sc-if value="{{charNow.none}}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 64 64" role="img" aria-label="Pick a character"><defs><clipPath id="pc-pickac"><circle cx="32" cy="32" r="32"/></clipPath></defs><g clip-path="url(#pc-pickac)"><rect width="64" height="64" fill="#e3ded4"/><circle cx="32" cy="27" r="11" fill="#c9c3b6"/><path d="M12,64 C13,48 22,44 32,44 C42,44 51,48 52,64 Z" fill="#c9c3b6"/><text x="32" y="32" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#f4f0e9">?</text></g></svg></sc-if></span></button>
 <div class="ctl1" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px">
 <button type="button" class="play" aria-label="{{playLabel}}" onClick="{{togglePlay}}"><sc-if value="{{isPaused}}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></sc-if><sc-if value="{{isPlaying}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" style="display: block"><rect x="6.5" y="5" width="3.6" height="14" rx="1" fill="currentColor"/><rect x="13.9" y="5" width="3.6" height="14" rx="1" fill="currentColor"/></svg></sc-if></button>
-<button type="button" class="rst" aria-label="Reset: back to January 1, no ads, fines or protests" title="Reset" onClick="{{reset}}"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12a7 7 0 1 0 2.2-5.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4.5 3.5v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button type="button" class="rst" aria-label="Start over: pick a level and begin again on January 1" title="Start over" onClick="{{reset}}"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12a7 7 0 1 0 2.2-5.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4.5 3.5v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <span class="clock-time">{{hourDate}}, {{hourTime}}</span>
 </div>
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}"><div class="mobile-match">
@@ -691,26 +732,20 @@ body{margin:0;background:#f4f0e9}
 <sc-if value="{{mood.noRows}}" hint-placeholder-val="{{ false }}"><div class="mb-r"><span class="mb-l">{{mood.empty}}</span></div></sc-if>
 <sc-for list="{{mood.calmRows}}" as="r" hint-placeholder-count="0"><div class="mb-r calm"><i class="mb-sw" style="background: #8fb394"></i><span class="mb-l">{{r.label}}</span><span class="mb-v">{{r.v}}</span></div></sc-for>
 <div class="mb-f">Click the bar to open or close this list.</div></div></div>
-<span class="legend" title="{{mood.legend}}. {{mood.calmNote}}" style="margin-top: -4px">{{mood.legend}}. {{mood.calmNote}}</span>
+<div class="mstat" role="status">{{ticker.first}}</div><span class="legend" title="{{mood.legend}}. {{mood.calmNote}}" style="margin-top: -4px">{{mood.legend}}. {{mood.calmNote}}</span>
 <sc-if value="{{fury.show}}" hint-placeholder-val="{{ false }}"><div class="fury"><span>Climbing the fence</span><div class="fury-bar"><span style="width: {{fury.w}}%"></span></div></div>
 </sc-if>
 </div></sc-if>
-<div class="lcol"><div class="chips dsk1">
-<button type="button" class="chip" aria-expanded="{{ruleOpen}}" onClick="{{toggleRule}}"><span class="{{dotCls}}"></span>Policy: {{ruleText}}</button>
-<button type="button" class="chip" aria-expanded="{{optOpen}}" onClick="{{toggleOpt}}">Find mix</button>
-<sc-if value="{{ruleOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Policy"><sc-for list="{{matchingButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
-<sc-if value="{{showShare}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Required share"><sc-for list="{{shareButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
-<sc-if value="{{optOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Which plants"><sc-for list="{{setButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div><button type="button" class="run" disabled="{{cantRun}}" onClick="{{runOpt}}">{{runLabel}}</button><span style="font-size: 14px">{{optMsg}}</span></sc-if>
-</div>
-<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}"><div class="tick" role="status"><span class="tick-b"></span><div class="tick-w"><span class="tick-in" style="animation-duration: {{ticker.dur}}"><span>{{ticker.text}}</span><span aria-hidden="true">{{ticker.text}}</span></span></div></div></sc-if></div>
+
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px">
 
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column">
-<div class="wkbox"><svg class="chart wk" viewBox="0 0 360 160" width="100%" height="80" preserveAspectRatio="none" role="img" aria-label="Supply by source against datacenter use, one week. Select a point to preview it." onClick="{{onWindow}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><path d="{{chart.mid}}" stroke="rgba(76,112,136,0.19)" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="{{chart.night}}" fill="#28343c" fill-opacity="0.06"></path><path d="{{chart.paths.deficit}}" fill="{{deficitColor}}"></path><path d="{{chart.paths.nuclear}}" fill="#7a6a8c"></path><path d="{{chart.paths.onwind}}" fill="#4f7a96"></path><path d="{{chart.paths.offwind}}" fill="#24435a"></path><path d="{{chart.paths.solar}}" fill="#b18b5e"></path><path d="{{chart.paths.battery}}" fill="#5f7968"></path><path d="{{chart.paths.gas}}" fill="#8a7666"></path><path d="{{chart.paths.load}}" fill="none" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></path><path d="{{chart.ticks}}" stroke="#56636a" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></path><line x1="{{playX}}" x2="{{playX}}" y1="0" y2="160" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line></svg><sc-if value="{{backNow.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="backnow" onClick="{{backNow.go}}">{{backNow.label}}</button></sc-if></div><div style="position: relative; height: 20px; overflow: hidden"><sc-for list="{{days}}" as="dd" hint-placeholder-count="7"><span class="{{dd.cls}}" style="position: absolute; top: 3px; transform: translateX(-50%); {{dd.left}}">{{dd.label}}</span></sc-for></div><svg viewBox="0 0 360 14" width="100%" height="9" preserveAspectRatio="none" aria-hidden="true" style="display: block"><polygon transform="translate(0,14) scale(1,-1)" points="{{zoomPts}}" fill="#4c7088" fill-opacity="0.08"></polygon></svg>
+<div class="wkbox"><svg class="chart wk" viewBox="0 0 360 160" width="100%" height="80" preserveAspectRatio="none" role="img" aria-label="Supply by source against datacenter use, one week. Select a point to preview it." onClick="{{onWindow}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><path d="{{chart.mid}}" stroke="rgba(76,112,136,0.19)" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="{{chart.night}}" fill="#28343c" fill-opacity="0.06"></path><path d="{{chart.paths.imp}}" fill="#a97050" fill-opacity="0.5"></path><path d="{{chart.paths.deficit}}" fill="url(#defhatch)"></path><path d="{{chart.paths.nuclear}}" fill="#7a6a8c"></path><path d="{{chart.paths.onwind}}" fill="#4f7a96"></path><path d="{{chart.paths.offwind}}" fill="#24435a"></path><path d="{{chart.paths.solar}}" fill="#b18b5e"></path><path d="{{chart.paths.battery}}" fill="#5f7968"></path><path d="{{chart.paths.gas}}" fill="#8a7666"></path><path d="{{chart.paths.load}}" fill="none" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></path><path d="{{chart.ticks}}" stroke="#56636a" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></path><line x1="{{playX}}" x2="{{playX}}" y1="0" y2="160" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line></svg><sc-if value="{{backNow.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="backnow" onClick="{{backNow.go}}">{{backNow.label}}</button></sc-if></div><div style="position: relative; height: 20px; overflow: hidden"><sc-for list="{{days}}" as="dd" hint-placeholder-count="7"><span class="{{dd.cls}}" style="position: absolute; top: 3px; transform: translateX(-50%); {{dd.left}}">{{dd.label}}</span></sc-for></div><svg viewBox="0 0 360 14" width="100%" height="9" preserveAspectRatio="none" aria-hidden="true" style="display: block"><polygon transform="translate(0,14) scale(1,-1)" points="{{zoomPts}}" fill="#4c7088" fill-opacity="0.08"></polygon></svg>
 <svg class="chart" viewBox="0 0 360 30" width="100%" height="28" preserveAspectRatio="none" role="img" aria-label="The whole year. Select a point to preview it." onClick="{{onOverview}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><rect x="0.0" y="0" width="58.4" height="30" fill="#e3e9ee" fill-opacity="0.55"></rect><rect x="58.4" y="0" width="91.0" height="30" fill="#e6eedb" fill-opacity="0.55"></rect><rect x="149.3" y="0" width="91.0" height="30" fill="#f2ecd6" fill-opacity="0.55"></rect><rect x="240.3" y="0" width="90.0" height="30" fill="#f1e4d4" fill-opacity="0.55"></rect><rect x="330.3" y="0" width="30.7" height="30" fill="#e3e9ee" fill-opacity="0.55"></rect>
 <path d="{{overview}}" fill="#b5c9d6"></path>
+<path d="{{ovImp}}" fill="#a97050" fill-opacity="0.5"></path>
 <path d="{{ovLoad}}" fill="none" stroke="#303d43" stroke-width="1" stroke-opacity="0.7" vector-effect="non-scaling-stroke"></path>
 <rect x="{{winX}}" y="0.5" width="{{winW}}" height="29" fill="none" stroke="#4c7088" stroke-width="1.2" vector-effect="non-scaling-stroke"></rect>
 <line x1="{{ovX}}" x2="{{ovX}}" y1="0" y2="30" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line>
@@ -719,13 +754,7 @@ body{margin:0;background:#f4f0e9}
 </div>
 </sc-if>
 </div>
-<sc-if value="{{ready}}" hint-placeholder-val="{{ true }}"><div class="chips mob1">
-<button type="button" class="chip" aria-expanded="{{ruleOpen}}" onClick="{{toggleRule}}"><span class="{{dotCls}}"></span>Policy: {{ruleText}}</button>
-<button type="button" class="chip" aria-expanded="{{optOpen}}" onClick="{{toggleOpt}}">Find mix</button>
-<sc-if value="{{ruleOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Policy"><sc-for list="{{matchingButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
-<sc-if value="{{showShare}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Required share"><sc-for list="{{shareButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div></sc-if>
-<sc-if value="{{optOpen}}" hint-placeholder-val="{{ false }}"><div class="track" role="group" aria-label="Which plants"><sc-for list="{{setButtons}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}">{{b.label}}</button></sc-for></div><button type="button" class="run" disabled="{{cantRun}}" onClick="{{runOpt}}">{{runLabel}}</button><span style="font-size: 14px">{{optMsg}}</span></sc-if>
-</div></sc-if>
+
 
 <sc-if value="{{modal.open}}" hint-placeholder-val="{{ false }}"><div class="ov" role="dialog" aria-modal="true">
 <sc-if value="{{modal.ad}}" hint-placeholder-val="{{ false }}"><div class="mbox">
@@ -1388,12 +1417,13 @@ class Component extends DCLogic {
     const r = this.simYear(data, c, M);
     const n = r.load.length, days = Math.floor(n / 24);
     // Year overview: daily mean on-site supply against daily mean use.
-    const sup = [], use = [];
+    const sup = [], use = [], imp = [];
     let om = 0;
     for (let d = 0; d < days; d++) {
       let a = 0, b = 0;
-      for (let h = d * 24; h < d * 24 + 24; h++) { a += r.stack[h]; b += r.load[h]; }
-      sup.push(a / 24); use.push(b / 24); om = Math.max(om, a / 24, b / 24);
+      let g = 0;
+      for (let h = d * 24; h < d * 24 + 24; h++) { a += r.stack[h]; b += r.load[h]; g += r.imp[h]; }
+      sup.push(a / 24); use.push(b / 24); imp.push(g / 24); om = Math.max(om, a / 24, b / 24);
     }
     om = Math.max(om * 1.1, 330);
     const ox = (i) => ((i * 360) / (days - 1)).toFixed(1);
@@ -1401,9 +1431,13 @@ class Component extends DCLogic {
     let ov = 'M0,30';
     for (let i = 0; i < days; i++) ov += 'L' + ox(i) + ',' + oy(sup[i]);
     ov += 'L360,30Z';
+    let ovImp = 'M0,' + oy(sup[0]);
+    for (let i = 0; i < days; i++) ovImp += 'L' + ox(i) + ',' + oy(sup[i] + imp[i]);
+    for (let i = days - 1; i >= 0; i--) ovImp += 'L' + ox(i) + ',' + oy(sup[i]);
+    ovImp += 'Z';
     let ovLoad = 'M0,' + oy(use[0]);
     for (let i = 1; i < days; i++) ovLoad += 'L' + ox(i) + ',' + oy(use[i]);
-    this._d = { key: key, data: data, r: r, overview: ov, ovLoad: ovLoad };
+    this._d = { key: key, data: data, r: r, overview: ov, ovImp: ovImp, ovLoad: ovLoad };
     return this._d;
   }
 
@@ -1606,10 +1640,15 @@ class Component extends DCLogic {
     let load = 'M' + x(i0) + ',' + y(r.load[i0]);
     for (let j = 1; j < cnt; j++) load += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j]);
     paths.load = load;
-    let def = 'M' + x(i0) + ',' + y(r.load[i0]);
-    for (let j = 1; j < cnt; j++) def += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j]);
-    for (let j = cnt - 1; j >= 0; j--) def += 'L' + x(i0 + j) + ',' + y(r.load[i0 + j] - r.imp[i0 + j] - r.uns[i0 + j]);
-    paths.deficit = def + 'Z';
+    // Between local supply and use: first what the grid covers, then what nobody covers.
+    const band = (hi, lo) => {
+      let p = 'M' + x(i0) + ',' + y(hi(i0));
+      for (let j = 1; j < cnt; j++) p += 'L' + x(i0 + j) + ',' + y(hi(i0 + j));
+      for (let j = cnt - 1; j >= 0; j--) p += 'L' + x(i0 + j) + ',' + y(lo(i0 + j));
+      return p + 'Z';
+    };
+    paths.imp = band((h) => r.load[h] - r.uns[h], (h) => r.load[h] - r.uns[h] - r.imp[h]);
+    paths.deficit = band((h) => r.load[h], (h) => r.load[h] - r.uns[h]);
     let mid = '', ticks = '';
     for (let h = Math.ceil(startF); h <= startF + w - 1; h++) {
       if (h % 24 === 0) mid += 'M' + x(h) + ',0L' + x(h) + ',160';
@@ -2077,7 +2116,7 @@ class Component extends DCLogic {
       crowd: {}, fury: { show: false, w: '0' }, cook: { on: '0', sausage: '#b4572e', offer: false, vegan: false, lab: false, game: false, meat: true }, cookLab: () => {}, cookGame: () => {}, tw: { offer: false }, openTweet: () => {}, tweetNo: () => {}, tweets: [], openCook: () => {}, cookYes: () => {}, cookVegan: () => {}, cookNo: () => {}, windOp: { onwind: '0', offwind: '0' }, seasonOp: {}, seasonCol: {}, adTile: {}, adList: [],
       openAds: () => {}, refuel: { show: false, days: '10', tag: '', short: '', label: '', cls: 'rf', fill: '', tip: '', open: () => {}, deadline: '', booked: false, bookedDate: '', notBooked: true, opts: [], canStart: false, startNow: () => {}, cancel: () => {} }, gridOffer: { title: '', rows: [] }, flex: { offer: false, open: () => {}, buy: () => {}, no: () => {}, off: () => {} }, closeModal: () => {}, reopen: () => {}, restart: () => {}, toWho: () => {}, levels: [],
       modal: { open: false, ad: false, review: false, shutdown: false, who: false, cook: false, intro: false, tweet: false, reg: false, gap: '', regFine: '', regWarn: false, regFined: false, ok: false, bad: false, why: '', name: '', fine: '' },
-      reset: () => { this.stop(); this.accounts = new ColocationAccounts(); set({ previewHour: null, tenantNotice: null, resume: false, viewStart: null, mw: { onwind: 0, solar: 0, offwind: 0, nuclear: 0, battery: 0, gas: 0 }, grid: 'off', gridTier: null, gridPaid: 0, refuelAt: null, rfWarned: false, flexOn: false, flexPaid: 0, flexOffered: null, flexNo: null, flexT0: 0, leak: null, flexH: 0, moodOpen: false, seed: Math.floor(Math.random() * 1e9), hour: 12, frame: 0, gameT: 0, furyH: 0, campaign: null, extras: [], cookout: null, cookNo: null, tweet: null, tweetNo: null, posted: [], en: null, lunchNo: null, lunchNos: 0, regT: 0, regH: 0, regStrikes: 0, started: false, shutdown: false, modal: null, playing: false }); },
+      reset: () => { this.stop(); this.accounts = new ColocationAccounts(); set({ previewHour: null, tenantNotice: null, resume: false, viewStart: null, mw: { onwind: 0, solar: 0, offwind: 0, nuclear: 0, battery: 0, gas: 0 }, grid: 'off', gridTier: null, gridPaid: 0, refuelAt: null, rfWarned: false, flexOn: false, flexPaid: 0, flexOffered: null, flexNo: null, flexT0: 0, leak: null, flexH: 0, moodOpen: false, seed: Math.floor(Math.random() * 1e9), hour: 12, frame: 0, gameT: 0, furyH: 0, campaign: null, extras: [], cookout: null, cookNo: null, tweet: null, tweetNo: null, posted: [], en: null, lunchNo: null, lunchNos: 0, regT: 0, regH: 0, regStrikes: 0, started: false, shutdown: false, modal: { kind: 'intro' }, playing: false }); },
       charNow: (() => { const ch = this.charOf(s); return ch ? { name: ch.name, title: ch.title, has: true, none: false, marta: ch.key === 'marta', sten: ch.key === 'sten', joe: ch.key === 'joe', al: ch.key === 'al' } : { name: 'Who are you?', title: 'Pick a character', has: false, none: true, marta: false, sten: false, joe: false, al: false }; })(),
       openChars: () => { this.stop(); set({ modal: { kind: 'who' }, resume: !!s.playing, playing: false }); },
       charList: this.chars().map((ch) => ({ name: ch.name, title: ch.title, perk: ch.perk, quirk: ch.quirk, marta: ch.key === 'marta', sten: ch.key === 'sten', joe: ch.key === 'joe', al: ch.key === 'al', cls: s.char === ch.key ? 'adcard pick on' : 'adcard pick',
@@ -2101,7 +2140,7 @@ class Component extends DCLogic {
         const h = Math.round(st + ((e.clientX - b.left) / b.width) * (M.win - 1));
         set({ previewHour: Math.max(0, Math.min(n - 1, h)), viewStart: st });
       },
-      bat: { fh: '0', fy: '15' }, overview: '', ovLoad: '', winX: '0', winW: '0', ovX: '0', topLabel: '', zoomPts: '0,0 0,0 360,12 0,12',
+      bat: { fh: '0', fy: '15' }, overview: '', ovImp: '', ovLoad: '', winX: '0', winW: '0', ovX: '0', topLabel: '', zoomPts: '0,0 0,0 360,12 0,12',
       chart: { paths: {}, mid: 'M-5,0L-5,0', ticks: 'M-5,0L-5,0', night: 'M-5,0Z' }, playX: '0',
       days: [],
       sky: { nightOp: '0', moonCutX: '-50', moonCutY: '30', color: '#e9ece8', starOp: '0', sunOp: '0', sunX: '-50', sunY: '40', moonOp: '0', moonX: '-50', moonY: '30', moonCut: '#e9ece8' },
@@ -2414,7 +2453,7 @@ class Component extends DCLogic {
         else if (total < 10 && wUns < 0.5) msgs.push('Nobody is complaining. Suspicious.');
       }
       const text = msgs.join('   •   ');
-      out.ticker = { text: text, dur: Math.max(12, text.length * 0.16).toFixed(1) + 's' };
+      out.ticker = { text: text, first: msgs[0] || '', dur: Math.max(12, text.length * 0.16).toFixed(1) + 's' };
 
       // One campaign at a time: a new ad can be bought two months after the last one.
       const ads = this.ads();
@@ -2564,6 +2603,7 @@ class Component extends DCLogic {
     out.topLabel = '1,000 MW';
     out.overview = d.overview;
     out.ovLoad = d.ovLoad;
+    out.ovImp = d.ovImp;
     out.winX = ((startF * 360) / (n - 1)).toFixed(1);
     out.winW = (((M.win - 1) * 360) / (n - 1)).toFixed(1);
     {
