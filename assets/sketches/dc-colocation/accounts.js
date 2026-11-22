@@ -13,12 +13,12 @@ const colocationTerms = Object.freeze({
   discountRate: 0.06,
   annualOperationsPerITMW: 200000,
   exportShare: 0.2,
-  // 60 racks in the picture, each standing for 5 MW of the site's power (about 4.3 MW of IT).
-  // The hall is built in six modules of ten racks, 50 MW each. The owner paid for the first two.
-  rackCount: 60,
+  // 80 racks in the picture, each standing for 5 MW of the site's power (about 4.3 MW of IT).
+  // The hall is built in eight modules of ten racks, 50 MW each. The owner paid for the first three.
+  rackCount: 80,
   moduleRacks: 10,
-  modules: 6,
-  startModules: 2,
+  modules: 8,
+  startModules: 3,
   // New modules: the bank lends this share of the building cost, repaid as an annuity over 25 years.
   // The owner puts in the rest, and like the first two modules that money is not charged in the accounts.
   loanShare: 0.6,
@@ -29,9 +29,9 @@ const colocationTerms = Object.freeze({
   coverageMinHours: 14 * 24,
   buildHours: 7 * 24,
   minQueueToBuild: 8,
-  // Customers waiting for space. One more every six days while you run without throttling.
+  // Customers waiting for space. One more every five days while you run without throttling.
   queueStart: 8,
-  queueGrowthHours: 6 * 24,
+  queueGrowthHours: 5 * 24,
   queueMax: 30,
   queueLossPerDeparture: 2,
   // Empty racks fill from the waiting list, one customer every four days of reliable running.
@@ -45,7 +45,8 @@ const colocationTerms = Object.freeze({
   reletAfterHours: 7 * 24,
   recentVacancyHours: 21 * 24,
   departureHistoryHours: 90 * 24,
-  // Joe Solid's power lunch: one tenant takes the whole hall at a higher rent
+  // Klewert's power lunch: one tenant takes every rack built so far, at a higher rent. After a bad week
+  // it may give some of them back: half after a week with throttling, otherwise a quarter.
   anchorRentFactor: 1.1,
   anchorGraceHours: 14 * 24,
   anchorBaseLeaveChance: 0.01,
@@ -136,19 +137,18 @@ class ColocationAccounts {
     return this.builtModules * colocationTerms.moduleRacks;
   }
 
-  // A module is finished: customers on the waiting list move in at once, as far as the list goes.
-  // If one tenant rents the whole hall, it takes the new module too.
-  addModule() {
+  // A module is finished. If the power is there, customers on the waiting list move in at once, as far
+  // as the list goes. Otherwise its racks stand empty and fill one by one once you run without throttling.
+  addModule(powered) {
     this.builtModules += 1;
     this.stats.builds += 1;
-    const moved = [];
+    let moved = 0;
     leaseSizes.forEach((size, lease) => {
       if (leaseModule[lease] !== this.builtModules - 1) return;
-      if (this.anchor) return;
-      if (this.queue >= size) { this.queue -= size; moved.push(size); }
+      if (powered && this.queue >= size) { this.queue -= size; moved += size; }
       else this.open.add(lease);
     });
-    return moved.reduce((a, b) => a + b, 0);
+    return moved;
   }
 
   // What the bank sees: cash flow before loan payments over the last four weeks, scaled to four weeks,
@@ -162,33 +162,48 @@ class ColocationAccounts {
     for (let i = 0; i < hours; i++) cash += this.cashHistory[i];
     const window = terms.coverageWindowHours;
     cash *= window / hours;
-    const signed = this.anchor ? terms.moduleRacks : Math.min(Math.floor(this.queue), terms.moduleRacks);
-    const rent = signed * rentPerRackMonth * this.rentFactor * window / 730;
+    const signed = Math.min(Math.floor(this.queue), terms.moduleRacks);
+    const rent = signed * rentPerRackMonth * window / 730;
     const payments = (this.loans + 1) * loanPerYear * window / 8760;
     return { ready: true, ratio: (cash + rent) / payments, cash, rent, payments, signed };
   }
 
-  get rentFactor() {
-    return this.anchor ? colocationTerms.anchorRentFactor : 1;
+  // Racks the anchor tenant rents.
+  get anchorRacks() {
+    let n = 0;
+    if (this.anchor) for (const lease of this.anchor.leases) n += leaseSizes[lease];
+    return n;
   }
 
-  // All current customers are thrown out and one tenant takes every rack.
+  // Rented racks, counting the anchor tenant's racks at its higher rent.
+  get rentUnits() {
+    return this.rentedRacks + (colocationTerms.anchorRentFactor - 1) * this.anchorRacks;
+  }
+
+  // All current customers are thrown out and one tenant takes every rack built so far.
   startAnchor(elapsed, name) {
+    const leases = new Set();
+    leaseSizes.forEach((_, index) => { if (this.isBuilt(index)) leases.add(index); });
     this.vacancies.clear();
     this.open.clear();
     this.reliableHours = 0;
-    this.anchor = { since: elapsed, name };
+    this.anchor = { since: elapsed, name, leases };
   }
 
-  // The tenant leaves: every rack is empty at once and is relet lease by lease.
-  endAnchor(elapsed, date) {
-    if (!this.anchor) return;
-    leaseSizes.forEach((_, index) => { if (this.isBuilt(index)) this.vacancies.set(index, elapsed); });
-    this.departures.push({ elapsed, date, racks: this.builtRacks, hours: this.throttledHours, anchor: this.anchor.name });
+  // The anchor tenant gives back part of the hall: half after a week with throttling, otherwise a quarter.
+  // The racks it gives back fill from the waiting list like any others. With nothing left, it is gone.
+  shrinkAnchor(elapsed, date, throttled) {
+    if (!this.anchor) return { racks: 0, gone: true };
+    const held = [...this.anchor.leases].sort((a, b) => b - a);
+    const cut = held.slice(0, Math.max(1, Math.ceil(held.length * (throttled ? 0.5 : 0.25))));
+    let racks = 0;
+    for (const lease of cut) { this.anchor.leases.delete(lease); this.vacancies.set(lease, elapsed); racks += leaseSizes[lease]; }
+    this.departures.push({ elapsed, date, racks, hours: this.throttledHours, anchor: this.anchor.name });
     this.stats.departures += 1;
-    this.anchor = null;
-    this.reliableHours = 0;
     this.lastDepartureHour = elapsed;
+    const gone = this.anchor.leases.size === 0;
+    if (gone) this.anchor = null;
+    return { racks, gone };
   }
 
   // Chance that the tenant leaves this week: a small base chance, more with throttling last week.
@@ -210,7 +225,7 @@ class ColocationAccounts {
   recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost, loanCost = 0 }) {
     const terms = colocationTerms;
     const unservedShare = load > 0 ? Math.min(1, Math.max(0, unserved / load)) : 0;
-    const capacityFee = budget.monthlyRentPerRack * this.rentFactor * this.rentedRacks / monthHours;
+    const capacityFee = budget.monthlyRentPerRack * this.rentUnits / monthHours;
     const grossExport = exported * price;
     const exportRevenue = grossExport * paidExportShare(exportForecast, exportAllowance);
     this.export.volume += exported;
@@ -266,8 +281,8 @@ class ColocationAccounts {
     while (this.departures.length && elapsed - this.departures[0].elapsed >= terms.departureHistoryHours) {
       this.departures.shift();
     }
-    if (!this.anchor && throttled && elapsed > terms.graceHours && rate >= terms.departureThreshold / sensitivity && elapsed - this.lastDepartureHour >= terms.departureCooldownHours) {
-      const lease = leaseSizes.findIndex((_, index) => this.isBuilt(index) && !this.vacancies.has(index) && !this.open.has(index));
+    if (throttled && elapsed > terms.graceHours && rate >= terms.departureThreshold / sensitivity && elapsed - this.lastDepartureHour >= terms.departureCooldownHours) {
+      const lease = leaseSizes.findIndex((_, index) => this.isBuilt(index) && !this.vacancies.has(index) && !this.open.has(index) && !(this.anchor && this.anchor.leases.has(index)));
       if (lease >= 0) {
         this.vacancies.set(lease, elapsed);
         this.departures.push({ elapsed, date, racks: leaseSizes[lease], hours: this.throttledHours });
@@ -288,7 +303,7 @@ class ColocationAccounts {
     }
 
     // Empty racks fill from the waiting list: racks customers left first, then new ones.
-    const empty = this.anchor ? [] : [...this.vacancies.keys(), ...this.open];
+    const empty = [...this.vacancies.keys(), ...this.open];
     const next = empty.find((lease) => leaseSizes[lease] <= this.queue);
     this.reliableHours = next != null && reletRate <= terms.reletThreshold ? this.reliableHours + 1 : 0;
     if (!throttled && next != null && this.reliableHours >= terms.fillAfterHours) {
