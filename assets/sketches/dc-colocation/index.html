@@ -886,11 +886,11 @@ body{margin:0;background:#f4f0e9}
 </ul>
 <h3>How it works</h3>
 <ul>
-<li>Each hour the datacenter uses its own wind, solar and nuclear first, then the battery, gas and the grid. Without a grid connection it throttles.</li>
+<li>Each hour the datacenter uses its own wind, solar and nuclear first, then the battery, gas and the grid. Without a grid connection it throttles. The battery plans 48 hours ahead with a forecast that is taken as exact. It saves charge for the hours that gas and the grid connection cannot cover, and spends the rest in the most expensive hours.</li>
 <li>Surplus charges the battery and is then sold to the grid or curtailed.</li>
 <li><b>Use matched</b> is the share of the load covered in the same hour by the new wind, solar and nuclear, directly or via the battery.</li>
 <li><b>Grid connection needed</b> is the largest hourly flow to or from the grid.</li>
-<li>Nuclear runs at full output except during outages. Batteries hold 4 hours and start empty.</li>
+<li>Nuclear runs at full output except during outages. Batteries start empty.</li>
 <li>Existing hydro is not included since it is not additional.</li>
 </ul>
 <h3>Own assumptions</h3>
@@ -1364,6 +1364,47 @@ class Component extends DCLogic {
     const r = { load: [], gen: {}, dis: [], ch: [], soc: [], gas: [], imp: [], impW: [], exp: [], uns: [], curt: [], stack: [], clean: [] };
     M.clean.forEach((k) => { r.gen[k] = []; });
     const sum = { load: 0, clean: 0, gen: 0, ren: 0, nuc: 0, gas: 0, imp: 0, uns: 0, unsHours: 0, maxImp: 0, maxExp: 0, impCost: 0, expRev: 0, exp: 0 };
+    // The battery plans against a 48-hour forecast (taken as exact). Each hour it looks ahead to the next
+    // surplus that will refill it, at most 48 hours. It first keeps enough charge for the hours that gas and
+    // the grid connection cannot cover, so the datacenter throttles as little as possible. What is left goes
+    // to the most expensive hours. No optimisation: a rule recomputed every hour, about 48 steps each.
+    const Gf = new Float64Array(n);
+    for (let t = 0; t < n; t++) {
+      const off = t >= c.refuel && t < c.refuel + c.refuelLen;
+      let g = 0;
+      M.clean.forEach((k) => { g += c.mw[k] * (k === 'nuclear' ? (off ? 0 : nav[t]) : m[k][t]); });
+      Gf[t] = g;
+    }
+    const cover = c.mw.gas + (grid ? c.impCap : 0);
+    const refill = 0.05 * E;
+    const batPlan = (t, avail) => {
+      const need0 = Lf[t] - Gf[t];
+      const beyond0 = Math.min(P, Math.max(0, need0 - cover));
+      let reserve = 0;
+      const cand = [];
+      for (let j = t + 1; j < Math.min(n, t + 48); j++) {
+        const nd = Lf[j] - Gf[j];
+        if (nd <= 0) { if (-nd * eta >= refill) break; continue; }
+        const b = Math.min(P, Math.max(0, nd - cover));
+        reserve += b;
+        const room = Math.min(P, nd) - b;
+        if (room > 0) cand.push([m.price[j], room]);
+      }
+      const now = Math.min(beyond0, avail);
+      let left = avail - now - reserve;
+      const room0 = Math.min(P, need0) - beyond0;
+      if (left <= 0 || room0 <= 0) return now;
+      // Spread what is left over the most expensive hours, this hour included.
+      cand.push([m.price[t], room0, true]);
+      cand.sort((a, b) => b[0] - a[0]);
+      for (const [, room, me] of cand) {
+        const x = Math.min(room, left);
+        if (me) return now + x;
+        left -= x;
+        if (left <= 0) return now;
+      }
+      return now;
+    };
     for (let t = 0; t < n; t++) {
       const load = Lf[t];
       let G = 0;
@@ -1379,7 +1420,7 @@ class Component extends DCLogic {
         if (gch && night) { const cg = Math.max(0, Math.min(P - ch, (E - soc - socG) / eta)); socG += cg * eta; ch += cg; imp += cg; }
       } else {
         let need = load - G;
-        disC = Math.max(0, Math.min(need, P, soc * eta));
+        disC = E > 0 && soc > 0 ? Math.max(0, Math.min(need, P, soc * eta, batPlan(t, soc * eta))) : 0;
         soc -= disC / eta;
         need -= disC;
         // Grid energy bought at night is saved for the day.
