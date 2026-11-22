@@ -767,99 +767,157 @@ body{margin:0;background:#f4f0e9}
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const sub = (str, scope) => str.replace(HOLE, (_, p) => { const v = look(scope, p); return v == null ? '' : String(v); });
 
-  let handlers = [];
-  function attrs(el, scope) {
-    let out = '';
-    for (const a of el.attributes) {
-      const name = a.name;
-      if (name.startsWith('hint-')) continue;
-      const m = a.value.match(ONE);
-      if (m) {
-        const v = look(scope, m[1]);
-        if (/^on[A-Z]?[a-z]+$/i.test(name)) {
-          if (typeof v === 'function') { handlers.push(v); out += ' data-dc-' + name.slice(2).toLowerCase() + '="' + (handlers.length - 1) + '"'; }
-          continue;
-        }
-        if (name.startsWith('aria-')) { out += ' ' + name + '="' + esc(v == null ? '' : v) + '"'; continue; }
-        if (v === false || v == null) continue;
-        out += ' ' + name + '="' + (v === true ? '' : esc(v)) + '"';
-        continue;
+  // The page is built once from the template. After that, each paint only updates the parts
+  // that depend on the state: attributes and text with {{...}} holes, and sc-if / sc-for blocks.
+  const hasHole = (s) => s != null && s.indexOf('{{') >= 0;
+  const dynCache = new WeakMap();
+  function isDynamic(node) {
+    if (dynCache.has(node)) return dynCache.get(node);
+    let d = false;
+    if (node.nodeType === 3) d = hasHole(node.nodeValue);
+    else if (node.nodeType === 1) {
+      const tag = node.localName;
+      if (tag === 'sc-if' || tag === 'sc-for') d = true;
+      else {
+        for (const a of node.attributes) if (a.name.startsWith('hint-') || hasHole(a.value)) { d = true; break; }
+        if (!d) for (const ch of node.childNodes) if (isDynamic(ch)) { d = true; break; }
       }
-      out += ' ' + name + '="' + esc(sub(a.value, scope)) + '"';
     }
-    return out;
-  }
-  const VOID = new Set(['br', 'hr', 'img', 'input', 'link', 'meta', 'source', 'area', 'col', 'wbr']);
-  function kids(node, scope) {
-    let s = '';
-    for (const ch of node.childNodes) s += render(ch, scope);
-    return s;
-  }
-  function render(node, scope) {
-    if (node.nodeType === 3) return esc(sub(node.nodeValue, scope));
-    if (node.nodeType !== 1) return '';
-    const tag = node.localName;
-    if (tag === 'sc-if') {
-      const m = (node.getAttribute('value') || '').match(ONE);
-      return m && look(scope, m[1]) ? kids(node, scope) : '';
-    }
-    if (tag === 'sc-for') {
-      const m = (node.getAttribute('list') || '').match(ONE);
-      const list = (m && look(scope, m[1])) || [];
-      const as = node.getAttribute('as') || 'item';
-      let s = '';
-      for (let i = 0; i < list.length; i++) s += kids(node, Object.assign(Object.create(scope), { [as]: list[i] }));
-      return s;
-    }
-    const open = '<' + tag + attrs(node, scope) + '>';
-    if (VOID.has(tag)) return open;
-    return open + kids(node, scope) + '</' + tag + '>';
+    dynCache.set(node, d);
+    return d;
   }
 
-  function morph(a, b) {
-    if (a.nodeType !== b.nodeType || a.nodeName !== b.nodeName) { a.replaceWith(b); return; }
-    if (a.nodeType === 3) { if (a.nodeValue !== b.nodeValue) a.nodeValue = b.nodeValue; return; }
-    if (a.nodeType !== 1) return;
-    for (const at of [...a.attributes]) if (!b.hasAttribute(at.name)) a.removeAttribute(at.name);
-    for (const at of b.attributes) if (a.getAttribute(at.name) !== at.value) a.setAttribute(at.name, at.value);
-    const ak = a.childNodes, bk = [...b.childNodes];
-    let i = 0;
-    for (; i < bk.length; i++) {
-      if (i < ak.length) morph(ak[i], bk[i]);
-      else a.appendChild(bk[i]);
+  // Builds DOM for a list of template nodes. Returns the created top-level nodes and an update function.
+  function build(tnodes, scope) {
+    const nodes = [], ups = [];
+    for (const t of tnodes) buildNode(t, scope, nodes, ups);
+    return { nodes, update: (sc) => { for (let i = 0; i < ups.length; i++) ups[i](sc); } };
+  }
+
+  function buildNode(t, scope, out, ups) {
+    if (t.nodeType === 3) {
+      if (!hasHole(t.nodeValue)) { out.push(t.cloneNode(false)); return; }
+      const n = document.createTextNode('');
+      const src = t.nodeValue;
+      let last = null;
+      const up = (sc) => { const v = sub(src, sc); if (v !== last) { n.nodeValue = v; last = v; } };
+      up(scope); ups.push(up); out.push(n);
+      return;
     }
-    while (ak.length > bk.length) a.removeChild(a.lastChild);
+    if (t.nodeType !== 1) return;
+    const tag = t.localName;
+    // Blocks sit between two comment markers, so everything inside can be removed together,
+    // including nodes that nested blocks added later.
+    const clear = (from, to, inclusive) => {
+      const p = from.parentNode;
+      while (from.nextSibling && from.nextSibling !== to) p.removeChild(from.nextSibling);
+      if (inclusive) { p.removeChild(to); p.removeChild(from); }
+    };
+    if (tag === 'sc-if') {
+      const m = (t.getAttribute('value') || '').match(ONE);
+      const start = document.createComment('if'), end = document.createComment('/if');
+      const kidsT = [...t.childNodes];
+      let blk = null;
+      const on0 = !!(m && look(scope, m[1]));
+      out.push(start);
+      if (on0) { blk = build(kidsT, scope); for (const n of blk.nodes) out.push(n); }
+      out.push(end);
+      ups.push((sc) => {
+        const on = !!(m && look(sc, m[1]));
+        if (on && !blk) { blk = build(kidsT, sc); for (const n of blk.nodes) end.parentNode.insertBefore(n, end); }
+        else if (!on && blk) { clear(start, end, false); blk = null; }
+        else if (on) blk.update(sc);
+      });
+      return;
+    }
+    if (tag === 'sc-for') {
+      const m = (t.getAttribute('list') || '').match(ONE);
+      const as = t.getAttribute('as') || 'item';
+      const start = document.createComment('for'), end = document.createComment('/for');
+      const kidsT = [...t.childNodes];
+      const items = [];
+      const child = (sc, item) => Object.assign(Object.create(sc), { [as]: item });
+      const make = (sc, item) => {
+        const b = build(kidsT, child(sc, item));
+        b.s = document.createComment('i'); b.e = document.createComment('/i');
+        return b;
+      };
+      out.push(start);
+      for (const item of ((m && look(scope, m[1])) || [])) { const b = make(scope, item); items.push(b); out.push(b.s, ...b.nodes, b.e); }
+      out.push(end);
+      ups.push((sc) => {
+        const list = (m && look(sc, m[1])) || [];
+        for (let i = 0; i < list.length; i++) {
+          if (i < items.length) items[i].update(child(sc, list[i]));
+          else { const b = make(sc, list[i]); items.push(b); for (const n of [b.s, ...b.nodes, b.e]) end.parentNode.insertBefore(n, end); }
+        }
+        while (items.length > list.length) { const b = items.pop(); clear(b.s, b.e, true); }
+      });
+      return;
+    }
+    if (!isDynamic(t)) { out.push(t.cloneNode(true)); return; }
+    const el = t.cloneNode(false);
+    for (const a of [...t.attributes]) {
+      const name = a.name, val = a.value;
+      if (name.startsWith('hint-')) { el.removeAttribute(name); continue; }
+      if (!hasHole(val)) continue;
+      el.removeAttribute(name);
+      const m = val.match(ONE);
+      let last;
+      let up;
+      if (m && /^on[A-Z]?[a-z]+$/i.test(name)) {
+        const ev = name.slice(2).toLowerCase();
+        up = (sc) => {
+          const v = look(sc, m[1]);
+          const f = typeof v === 'function' ? v : null;
+          (el.__dc || (el.__dc = {}))[ev] = f;
+          if (!!f !== last) { if (f) el.setAttribute('data-dc-' + ev, ''); else el.removeAttribute('data-dc-' + ev); last = !!f; }
+        };
+      } else if (m && name.startsWith('aria-')) {
+        up = (sc) => { const v = look(sc, m[1]); const s = v == null ? '' : String(v); if (s !== last) { el.setAttribute(name, s); last = s; } };
+      } else if (m) {
+        const restart = name === 'data-tenant-hour';
+        up = (sc) => {
+          const v = look(sc, m[1]);
+          const s = (v === false || v == null) ? null : v === true ? '' : String(v);
+          if (s === last) return;
+          if (s == null) el.removeAttribute(name); else el.setAttribute(name, s);
+          if (restart && last !== undefined) { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
+          last = s;
+        };
+      } else {
+        up = (sc) => { const s = sub(val, sc); if (s !== last) { el.setAttribute(name, s); last = s; } };
+      }
+      up(scope); ups.push(up);
+    }
+    const inner = [];
+    for (const ch of t.childNodes) buildNode(ch, scope, inner, ups);
+    for (const n of inner) el.appendChild(n);
+    out.push(el);
   }
 
   window.DCLogic = class {
     constructor() { this.state = {}; }
     setState(p) { Object.assign(this.state, p); schedule(); }
   };
-  let comp, queued = false;
+  let comp, queued = false, page = null;
   function schedule() {
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => { queued = false; paint(); });
   }
-  const scratch = document.createElement('div');
   function paint() {
-    handlers = [];
     let vals = {};
     try { vals = comp.renderVals() || {}; } catch (e) { console.error(e); }
-    scratch.innerHTML = kids(tree, vals);
-    if (!root.firstChild) { while (scratch.firstChild) root.appendChild(scratch.firstChild); }
-    else {
-      const ak = root.childNodes, bk = [...scratch.childNodes];
-      for (let i = 0; i < bk.length; i++) { if (i < ak.length) morph(ak[i], bk[i]); else root.appendChild(bk[i]); }
-      while (ak.length > bk.length) root.removeChild(root.lastChild);
-    }
-    current = handlers;
+    if (!page) {
+      page = build([...tree.childNodes], vals);
+      for (const n of page.nodes) root.appendChild(n);
+    } else page.update(vals);
   }
-  let current = [];
   root.addEventListener('click', (e) => {
     const el = e.target.closest('[data-dc-click]');
     if (!el || !root.contains(el)) return;
-    const f = current[+el.getAttribute('data-dc-click')];
+    const f = el.__dc && el.__dc.click;
     if (f) f(e);
   });
   window.__dcStart = function (Component) {
