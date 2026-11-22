@@ -25,7 +25,7 @@ const colocationTerms = Object.freeze({
   recentVacancyHours: 21 * 24,
   departureHistoryHours: 90 * 24,
   // Joe Solid's power lunch: one tenant takes the whole hall at a higher rent
-  anchorRentFactor: 1.2,
+  anchorRentFactor: 1.1,
   anchorGraceHours: 14 * 24,
   anchorBaseLeaveChance: 0.01,
   anchorThrottleLeaveFactor: 3
