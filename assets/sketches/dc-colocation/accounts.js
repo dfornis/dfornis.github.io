@@ -1,6 +1,6 @@
 const colocationTerms = Object.freeze({
   pue: 1.15,
-  // The hall is treated as built and paid for by the owner: results are shown before its building cost.
+  // The hall's building cost is paid from the company's capital, outside these accounts: results are shown before it.
   // Set to true to charge the annuity on the building as a monthly cost.
   includeBuildingCost: false,
   // No customer leaves during the first four weeks of play.
@@ -13,17 +13,20 @@ const colocationTerms = Object.freeze({
   discountRate: 0.06,
   annualOperationsPerITMW: 200000,
   exportShare: 0.2,
-  // 40 racks in the picture, each standing for 10 MW of the site's power (about 8.7 MW of IT).
-  // The hall has two phases of 20 racks, 200 MW each. Phase 1 stands from the start.
-  rackCount: 40,
-  rackMW: 10,
-  moduleRacks: 10,
-  modules: 4,
+  // 20 racks in the picture, each standing for 25 MW of the site's power (about 22 MW of IT).
+  // The hall has five modules of four racks, 100 MW each. Two stand from the start, 200 MW.
+  // Three expansions of one module each take it to 500 MW.
+  rackCount: 20,
+  rackMW: 25,
+  moduleRacks: 4,
+  modules: 5,
   phaseModules: 2,
   // Racks rented when the year starts.
-  startRented: 12,
-  // The owner builds phase 2 when this year's result so far reaches this amount. It takes a week.
-  phase2Result: 30e6,
+  startRented: 5,
+  // The board approves the next module when you have made this much since the last expansion,
+  // and public anger is below the limit. Building takes a week.
+  expandProfit: 20e6,
+  expandAngerMax: 50,
   buildHours: 7 * 24,
   reliabilityWindowHours: 28 * 24,
   throttleThresholdMW: 0.5,
@@ -44,9 +47,9 @@ const colocationTerms = Object.freeze({
   anchorThrottleLeaveFactor: 3
 });
 
-// Four leases per 10 racks: 2 + 3 + 1 + 4 racks.
+// Three leases per module of four racks: 1 + 2 + 1 racks.
 const leaseSizes = (() => {
-  const sizes = [2, 3, 1, 4];
+  const sizes = [1, 2, 1];
   const leases = [];
   let remaining = colocationTerms.rackCount;
   while (remaining > 0) {
@@ -111,14 +114,18 @@ class ColocationAccounts {
     this.reliableHours = 0;
     // A single tenant replacing your customers (Epistemic Noise), or null
     this.anchor = null;
-    // This year's result so far, for phase 2.
+    // This year's result so far, and what it was when the last expansion started.
     this.result = 0;
+    this.resultAtExpansion = 0;
     // Racks rented over the year: [hour of play, racks], for the power the hall uses.
     this.rentLog = [];
     this.quarters = [];
     this.months = [];
     // What happened during the year, for the year-end review: hour of play and an icon.
     this.events = [];
+    // the power result since the last mark on the week chart: what customers pay for power and
+    // what you sell, minus what you pay for power you did not make yourself
+    this.flow = { power: 0, hours: 0 };
     this.stats = { load: 0, served: 0, clean: 0, gas: 0, imported: 0, throttledHours: 0, departures: 0, joined: 0, builds: 0, oneTime: 0, fines: 0, shutdowns: 0, cookouts: 0, tweets: 0, ads: 0, busted: 0, fullAt: null };
   }
 
@@ -130,8 +137,13 @@ class ColocationAccounts {
     return this.builtModules * colocationTerms.moduleRacks;
   }
 
-  get phase2() {
-    return this.builtModules > colocationTerms.phaseModules;
+  get fullSize() {
+    return this.builtModules >= colocationTerms.modules;
+  }
+
+  // Profit made since the last expansion started.
+  get sinceExpansion() {
+    return this.result - this.resultAtExpansion;
   }
 
   logEvent(elapsed, icon) {
@@ -186,12 +198,17 @@ class ColocationAccounts {
     return { share, chance: Math.min(0.9, terms.anchorBaseLeaveChance + terms.anchorThrottleLeaveFactor * share) };
   }
 
-  // Phase 2 is finished: its racks stand empty and fill with customers one by one.
-  addPhase() {
-    const before = this.builtModules;
-    this.builtModules = colocationTerms.modules;
+  // An expansion starts: the profit count starts over.
+  startExpansion() {
+    this.resultAtExpansion = this.result;
+  }
+
+  // A new module is finished: its racks stand empty and fill with customers one by one.
+  addModule() {
+    const k = this.builtModules;
+    this.builtModules += 1;
     this.stats.builds += 1;
-    leaseSizes.forEach((_, lease) => { if (leaseModule[lease] >= before) this.vacancies.set(lease, -Infinity); });
+    leaseSizes.forEach((_, lease) => { if (leaseModule[lease] === k) this.vacancies.set(lease, -Infinity); });
   }
 
   book(kind, lines) {
@@ -203,7 +220,7 @@ class ColocationAccounts {
     }
   }
 
-  recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost }) {
+  recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost, powerCost = 0 }) {
     const terms = colocationTerms;
     const unservedShare = load > 0 ? Math.min(1, Math.max(0, unserved / load)) : 0;
     const capacityFee = budget.monthlyRentPerRack * this.rentUnits / monthHours;
@@ -218,6 +235,8 @@ class ColocationAccounts {
       'Electricity billed to customers': (load - unserved) * terms.electricityPerMWh,
       'Grid power sold': exportRevenue
     });
+    this.flow.power += (load - unserved) * terms.electricityPerMWh + exportRevenue - powerCost;
+    this.flow.hours += 1;
     this.book('cost', {
       ...(terms.includeBuildingCost ? { 'Datacenter capital': budget.annualCapital / yearHours } : {}),
       'Datacenter operations': budget.annualOperations / yearHours,
@@ -316,7 +335,7 @@ class ColocationAccounts {
     return out;
   }
 
-  racks(elapsed, unservedShare, building = false) {
+  racks(elapsed, unservedShare, building = -1) {
     const rented = this.rentedRacks;
     const throttled = Math.min(rented, Math.ceil(rented * unservedShare));
     let affected = throttled;
@@ -324,7 +343,7 @@ class ColocationAccounts {
     let empty = 0;
     const cells = leaseSizes.flatMap((size, index) => {
       if (!this.isBuilt(index)) {
-        const cls = building ? 'rack building' : 'rack unbuilt';
+        const cls = leaseModule[index] === building ? 'rack building' : 'rack unbuilt';
         return Array.from({ length: size }, () => ({ cls, style: '' }));
       }
       const since = this.vacancies.get(index);
