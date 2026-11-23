@@ -123,9 +123,8 @@ class ColocationAccounts {
     this.months = [];
     // What happened during the year, for the year-end review: hour of play and an icon.
     this.events = [];
-    // the power result since the last mark on the week chart: what customers pay for power and
-    // what you sell, minus what you pay for power you did not make yourself
-    this.flow = { power: 0, hours: 0 };
+    // money that follows the power since the last marks on the week chart, with the hour each flow was largest
+    this.resetFlow();
     this.stats = { load: 0, served: 0, clean: 0, gas: 0, imported: 0, throttledHours: 0, departures: 0, joined: 0, builds: 0, oneTime: 0, fines: 0, shutdowns: 0, cookouts: 0, tweets: 0, ads: 0, busted: 0, fullAt: null };
   }
 
@@ -211,6 +210,17 @@ class ColocationAccounts {
     leaseSizes.forEach((_, lease) => { if (leaseModule[lease] === k) this.vacancies.set(lease, -Infinity); });
   }
 
+  resetFlow() {
+    this.flow = { hours: 0, sold: { v: 0, peak: 0, at: null }, bought: { v: 0, peak: 0, at: null }, gas: { v: 0, peak: 0, at: null }, nuclear: { v: 0, peak: 0, at: null } };
+  }
+
+  addFlow(key, amount, hour) {
+    const f = this.flow[key];
+    if (!f) return;
+    f.v += amount;
+    if (Math.abs(amount) > f.peak) { f.peak = Math.abs(amount); f.at = hour; }
+  }
+
   book(kind, lines) {
     if (kind === 'cost' && lines['One-time charges']) this.stats.oneTime += lines['One-time charges'];
     for (const [label, amount] of Object.entries(lines)) {
@@ -220,7 +230,7 @@ class ColocationAccounts {
     }
   }
 
-  recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost, powerCost = 0 }) {
+  recordHour({ month, monthHours, nextMonth, yearHours, date, elapsed, customerSensitivity, budget, load, unserved, exported, exportAllowance, exportForecast, price, cost, hourOfYear = null, flows = {} }) {
     const terms = colocationTerms;
     const unservedShare = load > 0 ? Math.min(1, Math.max(0, unserved / load)) : 0;
     const capacityFee = budget.monthlyRentPerRack * this.rentUnits / monthHours;
@@ -235,7 +245,8 @@ class ColocationAccounts {
       'Electricity billed to customers': (load - unserved) * terms.electricityPerMWh,
       'Grid power sold': exportRevenue
     });
-    this.flow.power += (load - unserved) * terms.electricityPerMWh + exportRevenue - powerCost;
+    this.addFlow('sold', exportRevenue, hourOfYear);
+    for (const [k, v] of Object.entries(flows)) this.addFlow(k, v, hourOfYear);
     this.flow.hours += 1;
     this.book('cost', {
       ...(terms.includeBuildingCost ? { 'Datacenter capital': budget.annualCapital / yearHours } : {}),
