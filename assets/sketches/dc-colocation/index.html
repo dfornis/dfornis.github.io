@@ -607,7 +607,9 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 .mi-ren::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M3 13.5 C2.5 6.5 7.5 3 14 2 C13.5 8.5 10 13.5 3 13.5 Z' fill='%236f9a5b'/><path d='M3.5 13 L10 6.5' stroke='%23fbf9f5' stroke-width='1.2' stroke-linecap='round'/></svg>")}
 .mi-fossil::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 1.8 C8 1.8 3.6 7.4 3.6 10.1 A4.4 4.4 0 0 0 12.4 10.1 C12.4 7.4 8 1.8 8 1.8 Z' fill='%23e9ece8' stroke='%2356636a' stroke-width='1.3'/><path d='M2.6 13.6 L13.4 2.8' stroke='%23b8322a' stroke-width='1.7' stroke-linecap='round'/></svg>")}
 .mi-any::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M8 1.5 C10.2 4.6 12.6 6.6 12.6 10 A4.6 4.6 0 0 1 3.4 10 C3.4 7.6 4.8 6.1 6 4.6 C6.4 6.4 7.3 7.1 8 7.2 C8.6 5.4 8.3 3.6 8 1.5 Z' fill='%23c98a4a'/></svg>")}
-.lvls{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.lvls{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.mp i.mbolt{width:11px;height:11px;border-radius:0;margin-right:2px;vertical-align:-1px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M9.5 1 L3.5 9 L7.5 9 L6 15 L12.5 6.5 L8.5 6.5 Z' fill='%23e2b763' stroke='%23303d43' stroke-width='1' stroke-linejoin='round'/></svg>") center/contain no-repeat}
+.mp small:empty{display:none}
 </style>
 </head>
 <body>
@@ -863,7 +865,7 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 
 <sc-if value="{{ready}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column">
-<div class="wkbox"><svg class="chart wk" viewBox="0 0 360 160" width="100%" height="80" preserveAspectRatio="none" role="img" aria-label="Supply by source against datacenter use, one week. Select a point to preview it." onClick="{{onWindow}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><path d="{{chart.mid}}" stroke="rgba(76,112,136,0.19)" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="{{chart.night}}" fill="#28343c" fill-opacity="0.06"></path><path d="{{chart.paths.imp}}" fill="#a97050" fill-opacity="0.5"></path><path d="{{chart.paths.deficit}}" fill="url(#defhatch)"></path><path d="{{chart.paths.nuclear}}" fill="#7a6a8c"></path><path d="{{chart.paths.onwind}}" fill="#4f7a96"></path><path d="{{chart.paths.offwind}}" fill="#24435a"></path><path d="{{chart.paths.solar}}" fill="#b18b5e"></path><path d="{{chart.paths.battery}}" fill="#5f7968"></path><path d="{{chart.paths.gas}}" fill="#8a7666"></path><path d="{{chart.paths.nom}}" fill="none" stroke="#303d43" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.7" vector-effect="non-scaling-stroke"></path><path d="{{chart.paths.load}}" fill="none" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></path><path d="{{chart.ticks}}" stroke="#56636a" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></path><line x1="{{playX}}" x2="{{playX}}" y1="0" y2="160" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line></svg><sc-if value="{{pop}}" hint-placeholder-val="{{ false }}"><sc-for list="{{pop.items}}" as="pi" hint-placeholder-count="2"><div class="mpop" style="{{pi.style}}" aria-hidden="true"><span class="{{pi.cls}}"><i style="{{pi.dot}}"></i><small>{{pi.label}}</small> {{pi.val}}</span></div></sc-for></sc-if><sc-if value="{{backNow.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="backnow" onClick="{{backNow.go}}">{{backNow.label}}</button></sc-if></div><div style="position: relative; height: 20px; overflow: hidden"><sc-for list="{{days}}" as="dd" hint-placeholder-count="7"><span class="{{dd.cls}}" style="position: absolute; top: 3px; transform: translateX(-50%); {{dd.left}}">{{dd.label}}</span></sc-for></div><svg viewBox="0 0 360 14" width="100%" height="9" preserveAspectRatio="none" aria-hidden="true" style="display: block"><polygon transform="translate(0,14) scale(1,-1)" points="{{zoomPts}}" fill="#4c7088" fill-opacity="0.08"></polygon></svg>
+<div class="wkbox"><svg class="chart wk" viewBox="0 0 360 160" width="100%" height="80" preserveAspectRatio="none" role="img" aria-label="Supply by source against datacenter use, one week. Select a point to preview it." onClick="{{onWindow}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><path d="{{chart.mid}}" stroke="rgba(76,112,136,0.19)" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="{{chart.night}}" fill="#28343c" fill-opacity="0.06"></path><path d="{{chart.paths.imp}}" fill="#a97050" fill-opacity="0.5"></path><path d="{{chart.paths.deficit}}" fill="url(#defhatch)"></path><path d="{{chart.paths.nuclear}}" fill="#7a6a8c"></path><path d="{{chart.paths.onwind}}" fill="#4f7a96"></path><path d="{{chart.paths.offwind}}" fill="#24435a"></path><path d="{{chart.paths.solar}}" fill="#b18b5e"></path><path d="{{chart.paths.battery}}" fill="#5f7968"></path><path d="{{chart.paths.gas}}" fill="#8a7666"></path><path d="{{chart.paths.nom}}" fill="none" stroke="#303d43" stroke-width="1" stroke-dasharray="3 3" stroke-opacity="0.7" vector-effect="non-scaling-stroke"></path><path d="{{chart.paths.load}}" fill="none" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></path><path d="{{chart.ticks}}" stroke="#56636a" stroke-opacity="0.5" stroke-width="1" vector-effect="non-scaling-stroke"></path><line x1="{{playX}}" x2="{{playX}}" y1="0" y2="160" stroke="#303d43" stroke-width="1.5" vector-effect="non-scaling-stroke"></line></svg><sc-if value="{{pop}}" hint-placeholder-val="{{ false }}"><sc-for list="{{pop.items}}" as="pi" hint-placeholder-count="2"><div class="mpop" style="{{pi.style}}" aria-hidden="true"><span class="{{pi.cls}}"><i class="{{pi.icls}}" style="{{pi.dot}}"></i><small>{{pi.label}}</small> {{pi.val}}</span></div></sc-for></sc-if><sc-if value="{{backNow.show}}" hint-placeholder-val="{{ false }}"><button type="button" class="backnow" onClick="{{backNow.go}}">{{backNow.label}}</button></sc-if></div><div style="position: relative; height: 20px; overflow: hidden"><sc-for list="{{days}}" as="dd" hint-placeholder-count="7"><span class="{{dd.cls}}" style="position: absolute; top: 3px; transform: translateX(-50%); {{dd.left}}">{{dd.label}}</span></sc-for></div><svg viewBox="0 0 360 14" width="100%" height="9" preserveAspectRatio="none" aria-hidden="true" style="display: block"><polygon transform="translate(0,14) scale(1,-1)" points="{{zoomPts}}" fill="#4c7088" fill-opacity="0.08"></polygon></svg>
 <svg class="chart" viewBox="0 0 360 30" width="100%" height="28" preserveAspectRatio="none" role="img" aria-label="The whole year. Select a point to preview it." onClick="{{onOverview}}" style="background: rgba(76,112,136,0.06); border-radius: 6px"><rect x="0.0" y="0" width="58.4" height="30" fill="#e3e9ee" fill-opacity="0.55"></rect><rect x="58.4" y="0" width="91.0" height="30" fill="#e6eedb" fill-opacity="0.55"></rect><rect x="149.3" y="0" width="91.0" height="30" fill="#f2ecd6" fill-opacity="0.55"></rect><rect x="240.3" y="0" width="90.0" height="30" fill="#f1e4d4" fill-opacity="0.55"></rect><rect x="330.3" y="0" width="30.7" height="30" fill="#e3e9ee" fill-opacity="0.55"></rect>
 <path d="{{overview}}" fill="#b5c9d6"></path>
 <path d="{{ovImp}}" fill="#a97050" fill-opacity="0.5"></path>
@@ -896,8 +898,8 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 <h2>Power a datacenter</h2>
 <p>You run a colocation datacenter in central Sweden. The hall is 200 MW and partly rented. New customers move in while you deliver without throttling, and each one needs more power. The board can approve three expansions of the hall, 100 MW at a time, up to 500 MW. Customers pay for reserved capacity and the power you deliver. A round is one year.</p>
 <p>Balance fickle public opinion with the need to keep your customers happy. The local population is sensitive to rising electricity prices and does not want its view spoiled by wind parks. Solar parks upset farmers, and gas plants emit CO2, angering environmentalists.</p>
-<p class="mi mi-fossil"><b>The policy:</b> your own wind, solar and nuclear must cover at least 80 % of the datacenter’s use, counted hour by hour. If you fall below it while connected to the grid, the regulator fines you.</p>
-<div style="display: flex; justify-content: flex-end"><button type="button" class="buy lvl" style="height: 36px; padding: 0 16px" onClick="{{startRules}}">Choose who you are</button></div>
+<p><b>Choose a level.</b> All levels ask for 80 % hourly matching. They differ in which of your plants count.</p>
+<div class="lvls"><sc-for list="{{levels}}" as="l" hint-placeholder-count="3"><button type="button" class="adcard pick lvl" onClick="{{l.pick}}"><span class="in"><b>{{l.name}}</b><i class="{{l.icls}}">{{l.rule}}</i><span>{{l.text}}</span></span></button></sc-for></div>
 </div></sc-if>
 <sc-if value="{{modal.reg}}" hint-placeholder-val="{{ false }}"><div class="mbox">
 <div class="big">📋</div><h2>The regulator has checked your numbers</h2>
@@ -960,6 +962,7 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 <sc-if value="{{modal.refuel}}" hint-placeholder-val="{{ false }}"><div class="mbox">
 <div class="big">🔧</div><h2>Refuelling the reactor modules</h2>
 <p>Your nuclear power is {{refuel.modules}} small modular reactors of 50 MW each. Once a year each module stops for new fuel and maintenance, for {{refuel.days}} days. The modules take turns, so only one is off at a time: about {{refuel.share}} % of your nuclear power.</p>
+<sc-if value="{{refuel.building}}" hint-placeholder-val="{{ false }}"><p>{{refuel.buildTxt}}</p></sc-if>
 <sc-if value="{{refuel.rfIn}}" hint-placeholder-val="{{ false }}"><p>One module is refuelling now, {{refuel.leftTxt}} days left.</p></sc-if>
 <sc-if value="{{refuel.notIn}}" hint-placeholder-val="{{ true }}"><p>The next module stops on <b>{{refuel.nextDate}}</b>.</p></sc-if>
 <p>With few modules, each stop takes a large share of your nuclear power, so keep something else ready: battery, wind, solar, gas or the grid. With many modules, each stop matters less.</p>
@@ -1030,13 +1033,13 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 <ul>
 <li>Wind, solar and datacenter load: hourly profiles from my PyPSA model of the Nordic power system, weather year 2023. The load is scaled to the racks rented, at most 500 MW. Planned Nordic datacenters are listed in the <a href="https://dfornis.github.io/projects/datacenter-tracker/" target="_blank" rel="noopener">datacenter tracker</a>.</li>
 <li>Electricity prices: SE3 day-ahead prices for 2023 from <a href="https://www.energy-charts.info" target="_blank" rel="noopener">Energy-Charts</a>, 52 EUR/MWh on average.</li>
-<li>Costs: Svenska kraftnät, <a href="https://www.svk.se/49da32/siteassets/om-oss/rapporter/langsiktig-marknadsanalys-2026/langsiktig-marknadsanalys-2026.pdf" target="_blank" rel="noopener">Långsiktig marknadsanalys 2026</a>. 2025 values in 2024 prices, annualised at 6 % real interest. Batteries come in 2, 4 or 8 hours of storage, with the report's cost for each. Nuclear costs 5.5 EUR/MWh to run and gas about 143 EUR/MWh, including CO2 at 104 EUR/t.</li>
+<li>Costs: Svenska kraftnät, <a href="https://www.svk.se/49da32/siteassets/om-oss/rapporter/langsiktig-marknadsanalys-2026/langsiktig-marknadsanalys-2026.pdf" target="_blank" rel="noopener">Långsiktig marknadsanalys 2026</a>. 2025 values in 2024 prices, annualised at 6 % real interest. Batteries come in 2, 4 or 8 hours of storage, with the report's cost for each. For nuclear we assume 8,000 EUR/kW to build instead of the report's 6,500, because small modular reactors are likely to cost more. Nuclear costs 5.5 EUR/MWh to run and gas about 143 EUR/MWh, including CO2 at 104 EUR/t.</li>
 </ul>
 <h3>How it works</h3>
 <ul>
 <li>Each hour the datacenter uses its own wind, solar and nuclear first, then the battery, gas and the grid. Without a grid connection it throttles. The battery plans 48 hours ahead with a forecast that is taken as exact. It saves charge for the hours that gas and the grid connection cannot cover, and spends the rest in the most expensive hours.</li>
 <li>Surplus charges the battery and is then sold to the grid or curtailed.</li>
-<li><b>Use matched</b> is the share of the load covered in the same hour by the new wind, solar and nuclear, directly or via the battery. The policy asks for at least 80 %.</li>
+<li><b>Use matched</b> is the share of the load covered in the same hour by the new wind, solar and nuclear, directly or via the battery. The policy asks for at least 80 %. The level sets what counts: all your plants including gas, fossil-free (wind, solar and nuclear), or renewable (wind and solar).</li>
 <li><b>Grid connection needed</b> is the largest hourly flow to or from the grid.</li>
 <li>Nuclear runs at full output except during outages. Batteries start empty.</li>
 <li>Existing hydro is not included since it is not additional.</li>
@@ -1052,13 +1055,13 @@ button.bb-empty:focus-visible{outline:2px solid #4c7088;outline-offset:2px}
 <h3>Colocation accounts</h3>
 <ul>
 <li>The hall has five modules of 100 MW, drawn as four racks each. Two modules stand from the start. Each rack stands for 25 MW of site power, about 22 MW of IT capacity at a PUE of 1.15, a game assumption. The year starts with 5 of 8 racks rented. The game rents out the IT capacity at €100 per reserved kW per month informed by <a href="https://links.sgx.com/FileOpen/FY%202025-26%20Results.ashx?App=Announcement&amp;FileID=888503" target="_blank" rel="noopener">wholesale rents in Vienna</a>. Customers also pay €90 per delivered MWh, close to the model’s cost of grid power, including tax and network fees. Throttling reduces the electricity bill and earns customers a proportional rent credit. <a href="https://ecodatacenter.tech/hubfs/Annual%20Report%202025_EcoDC%20Holding%20AB_ENG.pdf" target="_blank" rel="noopener">EcoDataCenter’s 2025 annual report</a> describes its fixed capacity and variable electricity charges.</li>
-<li>While the game runs, small marks rise from the week chart at most every five seconds. They show money that follows the power since the last marks: power sold to the grid (+), power bought including its network fee per MWh (−), and gas and nuclear fuel (−). Each mark appears where the playhead stands, on its own band, and stays at that hour. Your own wind, solar and battery cost the same whether they run or not, so they get no marks. The amounts cover more hours at higher speeds.</li>
+<li>While the game runs, small marks rise from the week chart at most every five seconds. They show money that follows the power since the last marks: power sold to the grid (+) and bought from it, including its network fee per MWh (−), both marked with a lightning bolt, and gas and nuclear fuel (−). Each mark appears where the playhead stands, on its own band, and stays at that hour. Your own wind, solar and battery cost the same whether they run or not, so they get no marks. The amounts cover more hours at higher speeds.</li>
 <li>The building cost of the hall is paid from the company’s capital and kept out of these accounts, so they show results before the building cost. The board approves the next module when you have made €20m since the last expansion and public anger is below 50. Building takes a week. For scale: a 300 MW hall costs US$13.92m per IT MW to build in <a href="https://reports.turnerandtownsend.com/data-centre-construction-cost-index-2026/cost-trends?overlay=EMEA" target="_blank" rel="noopener">Turner &amp; Townsend’s Stockholm benchmark</a>. At US$1.13 per euro, with a 25-year annuity at 6%, this would come to about €251m a year, which the accounts leave out. Operating the hall costs €200,000 per IT MW per year excluding electricity, a game assumption for a large campus informed by <a href="https://assets.kpmg.com/content/dam/kpmgsites/sg/pdf/2026/05/benchmarking-capex-and-opex-in-the-global-data-centre-market.pdf.coredownload.inline.pdf" target="_blank" rel="noopener">KPMG’s operating cost benchmarks</a> for smaller European facilities.</li>
 <li>No customer leaves during the first four weeks of play. After that, a customer can leave during a shortage if more than 0.5 MW went unserved in at least 3% of the hours in the preceding four weeks. Under Al the limit is 1.5%. At most one customer leaves per week. Customers lease 1–4 racks each. A new customer moves into the next empty lease after 12 days in a row without throttling. Throttling restarts the count. Vacancies reduce rent. The power the hall uses follows the racks rented: 25 MW per rack, shaped by the fixed weather-year profile. The week chart shows this installed power as a dashed line.</li>
 <li>The accounts record each hour as it is played. The grid connection fee and the load-shifting software are spread over the year like the plants. Fines, ads and cookouts are charged in the month they happen. The month tiles show what the month is expected to land on: every hour of that month in the weather year, with the current mix, occupancy and prices, plus one-time charges already made. The quarterly result adds up what was actually earned, hour by hour. Open the quarterly result to see the last closed quarter.</li>
 </ul>
 <h3>Game</h3>
-<p>Made up: anger, protesters, ads, fines, the Consumer Agency, the regulator, cookouts, posts on X, the pace at which customers move in, the rule for expanding, the year-end comments and reactor outages. Nuclear is built as small modular reactors of 50 MW. Each module trips with a 1 in 4,000 chance per hour and stays down 2–10 days. Each module also stops for refuelling 10 days a year (8 with Sten), one module at a time, spread over the year.</p>
+<p>Made up: anger, protesters, ads, fines, the Consumer Agency, the regulator, cookouts, posts on X, the pace at which customers move in, the rule for expanding, the year-end comments and reactor outages. Nuclear is built as small modular reactors of 50 MW. Each module trips with a 1 in 4,000 chance per hour and stays down 2–10 days. Each module also stops for refuelling 10 days a year (8 with Sten), one module at a time, spread over the year. Before you open you can build as many modules as you like. After that, a new module takes two weeks to build.</p>
 </div></sc-if>
 </div>
 </div>
@@ -1383,7 +1386,8 @@ class Component extends DCLogic {
       // Costs for plants built now (2025 values) from Svenska kraftnät, Långsiktig marknadsanalys 2026
       // (2024 price level): overnight cost, interest during construction over the build time, annuity
       // at 6 % real over the economic life, plus fixed O&M. EUR per MW and year.
-      cap: { onwind: 143600, offwind: 388800, solar: 74500, nuclear: 591800, battery: ({ 2: 132500, 4: 218800, 8: 393600 })[(this.state && this.state.batH) || 4], gas: 62900 },
+      // Nuclear: 8,000 EUR/kW instead of the report's 6,500 (own assumption: small reactors are likely to cost more).
+      cap: { onwind: 143600, offwind: 388800, solar: 74500, nuclear: 706400, battery: ({ 2: 132500, 4: 218800, 8: 393600 })[(this.state && this.state.batH) || 4], gas: 62900 },
       // Running costs, EUR/MWh: nuclear O&M 3.8 plus fuel 1.7. Gas turbine: gas 37.4 EUR/MWh and
       // CO2 103.5 EUR/t (2025, between LMA's 2023 and 2030 values), efficiency 41.5 %, O&M 2.5.
       gas: { co2: 0.487, srmc: 142.9 },
@@ -1568,7 +1572,7 @@ class Component extends DCLogic {
     }
     const r = { load: [], gen: {}, dis: [], ch: [], soc: [], gas: [], imp: [], impW: [], exp: [], uns: [], curt: [], stack: [], clean: [] };
     M.clean.forEach((k) => { r.gen[k] = []; });
-    const sum = { load: 0, clean: 0, gen: 0, ren: 0, nuc: 0, gas: 0, imp: 0, uns: 0, unsHours: 0, maxImp: 0, maxExp: 0, impCost: 0, expRev: 0, exp: 0 };
+    const sum = { load: 0, clean: 0, cleanRen: 0, cleanAll: 0, gen: 0, ren: 0, nuc: 0, gas: 0, imp: 0, uns: 0, unsHours: 0, maxImp: 0, maxExp: 0, impCost: 0, expRev: 0, exp: 0 };
     // The battery plans against a 48-hour forecast (taken as exact). Each hour it looks ahead to the next
     // surplus that will refill it, at most 48 hours. It first keeps enough charge for the hours that gas and
     // the grid connection cannot cover, so the datacenter throttles as little as possible. What is left goes
@@ -1643,6 +1647,8 @@ class Component extends DCLogic {
       r.load.push(load); r.dis.push(dis); r.ch.push(ch); r.soc.push(E > 0 ? (soc + socG) / E : 0); r.gas.push(gas);
       r.imp.push(imp); r.exp.push(exp); r.uns.push(uns); r.curt.push(curt); r.stack.push(G + dis + gas); r.clean.push(cl);
       sum.load += load; sum.clean += cl; sum.gas += gas; sum.gen += G;
+      // The same hour counted for the other levels: wind and solar only (battery included), or with your own gas too.
+      { const rd = Math.min(G - r.gen.nuclear[t], load); sum.cleanRen += rd + Math.min(disC, Math.max(0, load - rd)); sum.cleanAll += Math.min(load, cl + gas); }
       sum.nuc += r.gen.nuclear[t]; sum.ren += G - r.gen.nuclear[t];
       if (uns > 0.5) sum.unsHours += 1;
       sum.impCost += imp * m.price[t];
@@ -1957,6 +1963,11 @@ class Component extends DCLogic {
     return Math.min(v, c.mw[k]);
   }
 
+  // Nuclear capacity ordered after opening and still being built, MW.
+  nucPend(s) {
+    return (s.nucBuild || []).reduce((a, b) => a + b.mw, 0);
+  }
+
   extrasNow(s) {
     const t = s.gameT || 0;
     return (s.extras || []).filter((e) => e.until > t);
@@ -2061,7 +2072,7 @@ class Component extends DCLogic {
   policyGap(c, d) {
     if (c.matching === 'none' || c.grid !== 'on') return 0;
     const sm = d.r.sum;
-    const shown = c.matching === 'annual' ? this.annualMatched(sm, c) : sm.clean / sm.load;
+    const shown = c.matching === 'annual' ? this.annualMatched(sm, c) : this.hourlyMatched(sm, c);
     return Math.max(0, c.share - shown * 100);
   }
 
@@ -2069,6 +2080,12 @@ class Component extends DCLogic {
   // gas included, fossil-free (wind, solar, nuclear) or renewable (wind, solar).
   annualMatched(sm, c) {
     const made = c.counts === 'ren' ? sm.ren : c.counts === 'any' ? sm.gen + sm.gas : sm.gen;
+    return sm.load > 0 ? made / sm.load : 0;
+  }
+
+  // Own power used in the same hour against use. What counts depends on the level.
+  hourlyMatched(sm, c) {
+    const made = c.counts === 'ren' ? sm.cleanRen : c.counts === 'any' ? sm.cleanAll : sm.clean;
     return sm.load > 0 ? made / sm.load : 0;
   }
 
@@ -2235,6 +2252,14 @@ class Component extends DCLogic {
           up.hallNotice = note;
           setTimeout(() => { if (this.state.hallNotice === note) this.setState({ hallNotice: null }); }, 2400);
         }
+        if (s.nucBuild && s.nucBuild.some((b) => gameT >= b.at)) {
+          const done = s.nucBuild.filter((b) => gameT >= b.at), rest = s.nucBuild.filter((b) => gameT < b.at);
+          const mw = Object.assign({}, up.mw || s.mw);
+          mw.nuclear = (mw.nuclear || 0) + done.reduce((a, b) => a + b.mw, 0);
+          const h = (this._mwHist = this._mwHist || {}); (h.nuclear = h.nuclear || [[-Infinity, s.mw.nuclear]]).push([gameT, mw.nuclear]);
+          Object.assign(up, { mw, nucBuild: rest });
+          this.accounts.logEvent(gameT, '⚛️');
+        }
         if (s.gridPending && gameT >= s.gridPending.at) {
           Object.assign(up, { gridTier: s.gridPending.key, grid: 'on', gridPending: null });
           this.accounts.logEvent(gameT, '🔌');
@@ -2253,7 +2278,7 @@ class Component extends DCLogic {
           // The offer comes after six weeks of trouble: below the hourly policy, or throttling.
           // Never in the first two months, and two months after you say no.
           const wl = this.weekSum(d.r.cum.load, hour), wu = this.weekSum(d.r.cum.uns, hour) / wl;
-          const below = c.matching === 'hourly' && d.r.sum.clean / d.r.sum.load * 100 < c.share - 0.5;
+          const below = c.matching === 'hourly' && this.hourlyMatched(d.r.sum, c) * 100 < c.share - 0.5;
           up.flexH = below || wu > 0.02 ? (s.flexH || 0) + adv : Math.max(0, (s.flexH || 0) - adv);
           if (!s.flexPaid && s.flexOffered == null && gameT >= 672 && up.flexH >= 336 && gameT - (s.flexNo == null ? -1e9 : s.flexNo) >= 1008) up.flexOffered = gameT;
         }
@@ -2589,6 +2614,12 @@ class Component extends DCLogic {
       pick: () => { const p = {}; p[key] = o.key; set(p); }
     }));
     const setMw = (k, v) => {
+      // After opening, a new reactor module takes two weeks to build. Before opening it is there at once.
+      if (k === 'nuclear' && s.started) {
+        const pend = (s.nucBuild || []).slice(), ordered = c.mw.nuclear + this.nucPend(s);
+        if (v > ordered + 1e-9) { const add = Math.min(M.t.nuclear.max, v) - ordered; if (add > 0) set({ nucBuild: pend.concat([{ mw: add, at: (s.gameT || 0) + 336 }]) }); return; }
+        if (v < ordered - 1e-9 && pend.length) { const last = pend[pend.length - 1], cut = ordered - v; if (cut >= last.mw - 1e-9) pend.pop(); else pend[pend.length - 1] = { mw: last.mw - cut, at: last.at }; set({ nucBuild: pend }); return; }
+      }
       const u = M.t[k]; const x = Object.assign({}, c.mw); x[k] = Math.max(this.mwFloor(k, s, c), Math.min(u.max, v));
       if (s.started) { const h = (this._mwHist = this._mwHist || {}); (h[k] = h[k] || [[-Infinity, c.mw[k]]]).push([s.gameT || 0, x[k]]); }
       set({ mw: x });
@@ -2598,10 +2629,12 @@ class Component extends DCLogic {
 
     const tiles = {};
     Object.keys(M.t).forEach((k) => {
-      const u = M.t[k], mw = c.mw[k];
+      const u = M.t[k], mw = c.mw[k] + (k === 'nuclear' ? this.nucPend(s) : 0);
       const cnt = mw > 0 ? Math.min(slots[k], Math.max(1, Math.ceil(mw / unitMw[k] - 0.001))) : 0;
+      const cntBuilt = c.mw[k] > 0 ? Math.min(slots[k], Math.max(1, Math.ceil(c.mw[k] / unitMw[k] - 0.001))) : 0;
       const vis = {};
-      for (let i = 1; i <= slots[k]; i++) vis['s' + i] = i <= cnt ? '1' : '0';
+      // modules still being built are drawn faint
+      for (let i = 1; i <= slots[k]; i++) vis['s' + i] = i <= cntBuilt ? '1' : i <= cnt ? '0.35' : '0';
       const mslots = { onwind: 3, solar: 2, offwind: 3, nuclear: 2, battery: 4, gas: 3 }[k];
       const mcnt = mw > 0 ? Math.min(mslots, Math.max(1, Math.ceil((mw / unitMw[k]) * mslots / slots[k] - 0.001))) : 0;
       const mvis = {};
@@ -2668,7 +2701,7 @@ class Component extends DCLogic {
       crowd: {}, fury: { show: false, w: '0' }, cook: { on: '0', sausage: '#b4572e', offer: false, vegan: false, lab: false, game: false, meat: true }, cookLab: () => {}, cookGame: () => {}, tw: { offer: false }, openTweet: () => {}, tweetNo: () => {}, tweets: [], openCook: () => {}, cookYes: () => {}, cookVegan: () => {}, cookNo: () => {}, windOp: { onwind: '0', offwind: '0' }, seasonOp: {}, seasonCol: {}, adTile: {}, adList: [],
       openAds: () => {}, refuel: { show: false, days: '10', tag: '', short: '', label: '', cls: 'rf', fill: '', tip: '', open: () => {}, deadline: '', booked: false, bookedDate: '', notBooked: true, opts: [], canStart: false, startNow: () => {}, cancel: () => {} }, gridOffer: { title: '', rows: [] }, flex: { offer: false, open: () => {}, buy: () => {}, no: () => {}, off: () => {} }, closeModal: () => {}, reopen: () => {}, restart: () => {}, toWho: () => {}, levels: [],
       modal: { open: false, ad: false, review: false, shutdown: false, who: false, cook: false, intro: false, tweet: false, reg: false, gap: '', regFine: '', regWarn: false, regFined: false, ok: false, bad: false, why: '', name: '', fine: '' },
-      reset: () => { this.stop(); this._mwHist = {}; this._popAt = 0; this.accounts = new ColocationAccounts(); set({ previewHour: null, tenantNotice: null, moneyPop: null, resume: false, viewStart: null, mw: { onwind: 0, solar: 0, offwind: 0, nuclear: 0, battery: 0, gas: 0 }, grid: 'off', gridTier: null, gridPaid: 0, refuelAt: null, rfWarned: false, flexOn: false, flexPaid: 0, flexOffered: null, flexNo: null, flexT0: 0, leak: null, flexH: 0, moodOpen: false, seed: Math.floor(Math.random() * 1e9), hour: 12, frame: 0, gameT: 0, furyH: 0, campaign: null, extras: [], cookout: null, cookNo: null, tweet: null, tweetNo: null, posted: [], en: null, lunchNo: null, lunchNos: 0, regT: 0, regH: 0, regStrikes: 0, started: false, shutdown: false, hall: null, hallNotice: null, gridPending: null, yearDone: false, modal: { kind: 'intro' }, playing: false }); },
+      reset: () => { this.stop(); this._mwHist = {}; this._popAt = 0; this.accounts = new ColocationAccounts(); set({ previewHour: null, tenantNotice: null, moneyPop: null, nucBuild: [], resume: false, viewStart: null, mw: { onwind: 0, solar: 0, offwind: 0, nuclear: 0, battery: 0, gas: 0 }, grid: 'off', gridTier: null, gridPaid: 0, refuelAt: null, rfWarned: false, flexOn: false, flexPaid: 0, flexOffered: null, flexNo: null, flexT0: 0, leak: null, flexH: 0, moodOpen: false, seed: Math.floor(Math.random() * 1e9), hour: 12, frame: 0, gameT: 0, furyH: 0, campaign: null, extras: [], cookout: null, cookNo: null, tweet: null, tweetNo: null, posted: [], en: null, lunchNo: null, lunchNos: 0, regT: 0, regH: 0, regStrikes: 0, started: false, shutdown: false, hall: null, hallNotice: null, gridPending: null, yearDone: false, modal: { kind: 'intro' }, playing: false }); },
       charNow: (() => { const ch = this.charOf(s); return ch ? { name: ch.name, title: ch.title, has: true, none: false, marta: ch.key === 'marta', sten: ch.key === 'sten', joe: ch.key === 'joe', al: ch.key === 'al' } : { name: 'Who are you?', title: 'Pick a character', has: false, none: true, marta: false, sten: false, joe: false, al: false }; })(),
       openChars: () => { this.stop(); set({ modal: { kind: 'who' }, resume: !!s.playing, playing: false }); },
       charList: this.chars().map((ch) => ({ name: ch.name, title: ch.title, perk: ch.perk, quirk: ch.quirk, marta: ch.key === 'marta', sten: ch.key === 'sten', joe: ch.key === 'joe', al: ch.key === 'al', cls: s.char === ch.key ? 'adcard pick on' : 'adcard pick',
@@ -2776,8 +2809,25 @@ class Component extends DCLogic {
         tip: rfIn ? 'One module is refuelling, ' + left + ' days left' : 'Next module refuels on ' + nextDate + ', in ' + days + ' days',
         open: () => { this.stop(); set({ modal: { kind: 'refuel' }, resume: !!s.playing, playing: false }); },
         modules: String(nMod), share: String(share), nextDate: nextDate, rfIn: rfIn, notIn: !rfIn, leftTxt: String(left),
-        deadline: '', booked: false, bookedDate: '', notBooked: false, opts: [], canStart: false, startNow: () => {}, cancel: () => {}
+        deadline: '', booked: false, bookedDate: '', notBooked: false, opts: [], canStart: false, startNow: () => {}, cancel: () => {}, building: false, buildTxt: ''
       };
+    }
+
+    {
+      // Reactor modules being built: shown on the tile instead of the refuelling countdown.
+      const nb = s.nucBuild || [];
+      if (nb.length) {
+        const nx = Math.min(...nb.map((b) => b.at));
+        const dd = Math.max(1, Math.ceil((nx - (s.gameT || 0)) / 24));
+        const pend = this.nucPend(s);
+        if (c.mw.nuclear <= 0) tiles.nuclear.now = 'Building';
+        Object.assign(out.refuel, {
+          show: true, tag: '🏗️ ' + dd + ' d', short: dd + ' d', cls: 'rf book',
+          fill: 'width: ' + Math.max(0, Math.min(100, (1 - (nx - (s.gameT || 0)) / 336) * 100)).toFixed(1) + '%',
+          tip: 'Building ' + this.fmt(pend) + ' MW. The next module is ready in ' + dd + ' days',
+          building: true, buildTxt: 'You are building ' + this.fmt(pend) + ' MW more. The next module is ready in ' + dd + ' days.'
+        });
+      }
     }
 
     {
@@ -2815,7 +2865,7 @@ class Component extends DCLogic {
           : { now: f3(served) + ' MW', cls: 'val', led: '#a9cdb0', op: '1' };
     }
 
-    const hourlyShare = r.sum.clean / r.sum.load;
+    const hourlyShare = this.hourlyMatched(r.sum, c);
     const annualShare = this.annualMatched(r.sum, c);
     const isAnnual = c.matching === 'annual';
     const hasPolicy = c.matching !== 'none';
@@ -2824,7 +2874,7 @@ class Component extends DCLogic {
     const matchPercent = this.fmt((hasPolicy ? Math.min(matched, 9.99) : matched) * 100);
     const matchStatus = hasPolicy ? (below ? 'Below' : 'Met') : 'No policy';
     const matchingMode = isAnnual ? 'Annual' : 'Hourly';
-    const icls = 'mi mi-' + (isAnnual ? c.counts : 'fossil');
+    const icls = 'mi mi-' + c.counts;
     out.matchingStat = {
       icls: icls,
       label: isAnnual ? 'Use matched over the year' : 'Use matched each hour',
@@ -3066,7 +3116,7 @@ class Component extends DCLogic {
         else if (r.sum.ren > 0) msgs.push(total >= 65 ? 'You are running your datacenter cheaply on renewables, but people are pissed off about it.' : 'Running on wind and sun. So far people put up with it.');
         if (c.matching !== 'none') {
           const shown = c.matching === 'annual' ? annualShare : hourlyShare;
-          const name = (c.matching === 'annual' ? 'Annual ' + ({ any: '', ren: 'renewable ', fossil: 'fossil-free ' }[c.counts] || '') : 'Hourly fossil-free ') + c.share + ' % policy';
+          const name = (c.matching === 'annual' ? 'Annual ' : 'Hourly ') + ({ any: '', ren: 'renewable ', fossil: 'fossil-free ' }[c.counts] || '') + c.share + ' % policy';
           msgs.push(shown >= c.share / 100 - 0.0005 ? name + ' met.' : name + ' not met, ' + this.fmt(Math.floor(shown * 1000) / 10, 1) + ' % matched.');
         }
         if (s.campaign && !s.campaign.reviewed) msgs.push('Your ad “' + (this.ads().find((x) => x.key === s.campaign.key) || {}).name + '” is running. The Consumer Agency is taking a look.');
@@ -3222,11 +3272,9 @@ class Component extends DCLogic {
     out.toWho = () => set({ modal: { kind: 'who' } });
     out.startRules = () => set({ matching: 'hourly', counts: 'fossil', share: 80, level: '80 % hourly', modal: { kind: 'who' } });
     out.levels = [
-      { name: 'Very easy', rule: 'Annual matching, gas counts', text: 'Over the year, your own plants, gas included, must produce as much electricity as the datacenter uses.', matching: 'annual', counts: 'any', share: 100 },
-      { name: 'Easy', rule: 'Annual fossil-free matching', text: 'Over the year, your own wind, solar and nuclear must produce as much electricity as the datacenter uses.', matching: 'annual', counts: 'fossil', share: 100 },
-      { name: 'Medium', rule: 'Annual renewable matching', text: 'Over the year, your own wind and solar must produce as much electricity as the datacenter uses. Nuclear does not count.', matching: 'annual', counts: 'ren', share: 100 },
-      { name: 'Hard', rule: '80 % hourly fossil-free matching', text: 'Your own wind, solar and nuclear must cover at least 80 % of the year’s use, counted hour by hour.', matching: 'hourly', counts: 'fossil', share: 80 },
-      { name: 'Very hard', rule: '100 % hourly fossil-free matching', text: 'Every single hour, all use must be covered by your own wind, solar and nuclear.', matching: 'hourly', counts: 'fossil', share: 100 }
+      { name: 'Easy', rule: '80 % hourly, all your plants', text: 'Your own plants, gas included, must cover at least 80 % of the year’s use, counted hour by hour.', matching: 'hourly', counts: 'any', share: 80 },
+      { name: 'Medium', rule: '80 % hourly, fossil-free', text: 'Your own wind, solar and nuclear must cover at least 80 % of the year’s use, counted hour by hour.', matching: 'hourly', counts: 'fossil', share: 80 },
+      { name: 'Hard', rule: '80 % hourly, renewable', text: 'Your own wind and solar must cover at least 80 % of the year’s use, counted hour by hour. Nuclear does not count.', matching: 'hourly', counts: 'ren', share: 80 }
     ].map((l) => Object.assign(l, { icls: 'mi mi-' + l.counts, pick: () => set({ matching: l.matching, counts: l.counts, share: l.share, level: l.name, modal: { kind: 'who' } }) }));
     out.modal.cook = !!md && md.kind === 'cook';
     out.modal.fine = md?.kind === 'review' && md.fine ? (md.fine / 1e6).toLocaleString('en-US', { maximumFractionDigits: 1 }) : '';
@@ -3271,7 +3319,7 @@ class Component extends DCLogic {
         gas: (h) => r.gen.nuclear[h] + r.gen.onwind[h] + r.gen.offwind[h] + r.gen.solar[h] + r.dis[h] + r.gas[h] / 2,
         nuclear: (h) => r.gen.nuclear[h] / 2
       };
-      const dot = { sold: '#a97050', bought: '#a97050', gas: '#8a7666', nuclear: '#7a6a8c' };
+      const dot = { sold: '', bought: '', gas: 'background: #8a7666', nuclear: 'background: #7a6a8c' };
       // marks stay at their hour; a mark whose week has scrolled away is dropped
       const placed = p.items.filter((it) => xh(it.at) >= 0 && xh(it.at) <= 360).map((it, i) => ({ it, i,
         x: Math.min(93, Math.max(7, xh(it.at) / 3.6)), y: Math.min(76, Math.max(16, yv(mid[it.k](it.at)) / 1.6)) }));
@@ -3280,7 +3328,7 @@ class Component extends DCLogic {
       placed.forEach((q, j) => { if (j && q.x - placed[j - 1].x < 12 && Math.abs(q.y - placed[j - 1].y) < 22) q.y = Math.max(12, placed[j - 1].y - 24); });
       out.pop = { items: placed.map(({ it, i, x, y }) => ({
         style: 'left: ' + x.toFixed(1) + '%; top: ' + y.toFixed(1) + '%; animation-delay: ' + (i * 0.25).toFixed(2) + 's',
-        cls: it.v < 0 ? 'mp loss' : 'mp', label: it.label, val: (it.v < 0 ? '−' : '+') + fmt(it.v), dot: 'background: ' + dot[it.k] })) };
+        cls: it.v < 0 ? 'mp loss' : 'mp', label: it.k === 'sold' || it.k === 'bought' ? '' : it.label, val: (it.v < 0 ? '−' : '+') + fmt(it.v), dot: dot[it.k], icls: it.k === 'sold' || it.k === 'bought' ? 'mbolt' : '' })) };
     }
     out.topLabel = '1,000 MW';
     out.overview = d.overview;
