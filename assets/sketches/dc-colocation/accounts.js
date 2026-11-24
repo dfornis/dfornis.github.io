@@ -35,7 +35,7 @@ const colocationTerms = Object.freeze({
   reletWindowHours: 7 * 24,
   reletThreshold: 0.02,
   // A new customer moves into an empty rack after this many hours without throttling.
-  fillAfterHours: 12 * 24,
+  fillAfterHours: 6 * 24,
   recentVacancyHours: 21 * 24,
   newRackHours: 48,
   departureHistoryHours: 90 * 24,
